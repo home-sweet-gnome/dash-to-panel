@@ -1,0 +1,8 @@
+{
+"extension-id": "zorin-taskbar",
+"uuid": "zorin-taskbar@zorinos.com",
+"name": "Zorin Taskbar",
+"description": "The official taskbar for Zorin OS.",
+"shell-version": [ "3.18" ],
+"url": "https://github.com/ZorinOS/zorin-taskbar"
+}
