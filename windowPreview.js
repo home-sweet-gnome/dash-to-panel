@@ -63,19 +63,19 @@ const thumbnailPreviewMenu = new Lang.Class({
         this.actor.hide();
 
         // Chain our visibility and lifecycle to that of the source
-        source.actor.connect('notify::mapped', Lang.bind(this, function () {
-            if (!source.actor.mapped)
+        this._mappedId = this._source.actor.connect('notify::mapped', Lang.bind(this, function () {
+            if (!this._source.actor.mapped)
                 this.close();
         }));
-        source.actor.connect('destroy', Lang.bind(this, this.destroy));
+        this._destroyId = this._source.actor.connect('destroy', Lang.bind(this, this.destroy));
 
         Main.uiGroup.add_actor(this.actor);
 
-        source.actor.connect('enter-event', Lang.bind(this, this._onEnter));
-        source.actor.connect('leave-event', Lang.bind(this, this._onLeave));
+        this._enterSourceId = this._source.actor.connect('enter-event', Lang.bind(this, this._onEnter));
+        this._leaveSourceId = this._source.actor.connect('leave-event', Lang.bind(this, this._onLeave));
 
-        this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter));
-        this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave));
+        this._enterMenuId = this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter));
+        this._leaveMenuId = this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave));
 
         // Change the initialized side where required.
         this._arrowSide = side;
@@ -144,6 +144,26 @@ const thumbnailPreviewMenu = new Lang.Class({
         }
     },
 
+    destroy: function () {
+        if (this._mappedId)
+            this._source.actor.disconnect(this._mappedId);
+
+        if (this._destroyId)
+            this._source.actor.disconnect(this._destroyId);
+
+        if (this._enterSourceId)
+            this._source.actor.disconnect(this._enterSourceId);
+        if (this._leaveSourceId)
+            this._source.actor.disconnect(this._leaveSourceId);
+
+        if (this._enterMenuId)
+            this.actor.disconnect(this._enterMenuId);
+        if (this._leaveMenuId)
+            this.actor.disconnect(this._leaveMenuId);
+
+        this.parent();
+    },
+
     close: function(animate) {
         if (this.isOpen)
             this.emit('open-state-changed', false);
@@ -155,7 +175,7 @@ const thumbnailPreviewMenu = new Lang.Class({
                 this.emit('menu-closed');
             }));
         }
-        
+
         this.isOpen = false;
     }
 
@@ -417,6 +437,7 @@ const thumbnailPreviewList = new Lang.Class({
             this._stateChangedId = 0;
         }
 
+        this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
         this._stateChangedId = this.app.connect('windows-changed',
                                                 Lang.bind(this,
                                                           this._queueRedisplay));
@@ -504,6 +525,11 @@ const thumbnailPreviewList = new Lang.Class({
 
         return Clutter.EVENT_STOP;
 
+    },
+
+    _onDestroy: function() {
+        this.app.disconnect(this._stateChangedId);
+        this._stateChangedId = 0;
     },
 
     _createPreviewItem: function(window) {
