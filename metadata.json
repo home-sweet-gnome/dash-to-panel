@@ -1,8 +1,9 @@
 {
-"extension-id": "zorin-taskbar",
-"uuid": "zorin-taskbar@zorinos.com",
-"name": "Zorin Taskbar",
-"description": "The official taskbar for Zorin OS.",
-"shell-version": [ "3.18" ],
-"url": "https://github.com/ZorinOS/zorin-taskbar"
+"extension-id": "onebar",
+"uuid": "onebar@jderose9.github.com",
+"name": "OneBar",
+"description": "Win7 style taskbar",
+"shell-version": [ "3.20", "3.22" ],
+"url": "https://github.com/jderose9/onebar",
+"gettext-domain": "onebar"
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="gnome-shell-extensions">
+  <enum id='org.gnome.shell.extensions.onebar.clickAction'>
+    <value value='0' nick='skip'/>
+    <value value='1' nick='minimize'/>
+    <value value='2' nick='launch'/>
+    <value value='3' nick='cycle-windows'/>
+    <value value='4' nick='quit'/>
+  </enum>
+  <!-- this is mean to Match StSide. LEFT and RIGHT actual position in reversed in
+       rtl languages -->
+  <enum id='org.gnome.shell.extensions.onebar.position'>
+    <value value='0' nick='BOTTOM'/>
+    <value value='1' nick='TOP'/>
+  </enum>
+  <schema path="/org/gnome/shell/extensions/onebar/" id="org.gnome.shell.extensions.onebar">
+    <key name="panel-position" enum="org.gnome.shell.extensions.onebar.position">
+      <default>'BOTTOM'</default>
+      <summary>Panel position</summary>
+      <description>Panel is shown on the Bottom or Top of the screen.</description>
+    </key>
+    <key type="i" name="panel-size">
+      <default>48</default>
+      <summary>Panel size</summary>
+      <description>Set the size of the panel.</description>
+    </key>
+    <key type="b" name="show-show-apps-button">
+      <default>true</default>
+      <summary>Show applications button</summary>
+      <description>Show appplications button in the dash</description>
+    </key>
+    <key type="b" name="show-apps-at-top">
+      <default>false</default>
+      <summary>Show application button at top</summary>
+      <description>Show appplication button at top of the dash</description>
+    </key>
+    <key type="b" name="animate-show-apps">
+      <default>true</default>
+      <summary>Animate Show Applications from the desktop</summary>
+      <description>Animate Show Applications from the desktop</description>
+    </key>
+    <key type="b" name="customize-click">
+      <default>true</default>
+      <summary>Customize click behaviour</summary>
+      <description>Customize action on various mouse events</description>
+    </key>
+    <key type="b" name="minimize-shift">
+      <default>true</default>
+      <summary>Minimize on shift+click</summary>
+    </key>
+    <key type="b" name="activate-single-window">
+      <default>true</default>
+      <summary>Activate only one window</summary>
+    </key>
+    <key name="click-action" enum="org.gnome.shell.extensions.onebar.clickAction">
+      <default>'cycle-windows'</default>
+      <summary>Action when clicking on a running app</summary>
+      <description>Set the action that is executed when clicking on the icon of a running application</description>
+    </key>
+    <key name="shift-click-action" enum="org.gnome.shell.extensions.onebar.clickAction">
+      <default>'minimize'</default>
+      <summary>Action when shit+clicking on a running app</summary>
+      <description>Set the action that is executed when shift+clicking on the icon of a running application</description>
+    </key>
+    <key name="middle-click-action" enum="org.gnome.shell.extensions.onebar.clickAction">
+      <default>'launch'</default>
+      <summary>Action when clicking on a running app</summary>
+      <description>Set the action that is executed when middle-clicking on the icon of a running application</description>
+    </key>
+    <key name="shift-middle-click-action" enum="org.gnome.shell.extensions.onebar.clickAction">
+      <default>'launch'</default>
+      <summary>Action when clicking on a running app</summary>
+      <description>Set the action that is executed when shift+middle-clicking on the icon of a running application</description>
+    </key>
+  </schema>
+</schemalist>

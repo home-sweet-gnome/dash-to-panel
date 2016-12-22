@@ -59,3 +59,7 @@
 #thumbnailPreviewList .preview-window-title {
 	padding-top: 1em;
 }
+
+.popup-menu.panel-menu {
+    margin-bottom: 0;
+}
