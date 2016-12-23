@@ -775,6 +775,8 @@
                             <property name="round_digits">0</property>
                             <property name="digits">0</property>
                             <property name="value_pos">right</property>
+                            <signal name="format-value" handler="tray_size_scale_format_value_cb" swapped="no"/>
+                            <signal name="value-changed" handler="tray_size_scale_value_changed_cb" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -803,7 +805,9 @@
                             <property name="adjustment">leftbox_size_adjustment</property>
                             <property name="round_digits">0</property>
                             <property name="digits">0</property>
-                            <property name="value_pos">right</property>
+                            <property name="value_pos">right</property>                            
+                            <signal name="format-value" handler="leftbox_size_scale_format_value_cb" swapped="no"/>
+                            <signal name="value-changed" handler="leftbox_size_scale_value_changed_cb" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>

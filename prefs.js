@@ -248,6 +248,38 @@ const Settings = new Lang.Class({
                 this._panel_size_timeout = 0;
                 return GLib.SOURCE_REMOVE;
             }));
+        },
+
+        tray_size_scale_format_value_cb: function(scale, value) {
+            return value+ ' px';
+        },
+
+        tray_size_scale_value_changed_cb: function(scale) {
+            // Avoid settings the size consinuosly
+            if (this._panel_size_timeout > 0)
+                Mainloop.source_remove(this._panel_size_timeout);
+
+            this._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+                this._settings.set_int('tray-size', scale.get_value());
+                this._panel_size_timeout = 0;
+                return GLib.SOURCE_REMOVE;
+            }));
+        },
+
+        leftbox_size_scale_format_value_cb: function(scale, value) {
+            return value+ ' px';
+        },
+
+        leftbox_size_scale_value_changed_cb: function(scale) {
+            // Avoid settings the size consinuosly
+            if (this._panel_size_timeout > 0)
+                Mainloop.source_remove(this._panel_size_timeout);
+
+            this._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+                this._settings.set_int('leftbox-size', scale.get_value());
+                this._panel_size_timeout = 0;
+                return GLib.SOURCE_REMOVE;
+            }));
         }
     }
 });
