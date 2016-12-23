@@ -222,7 +222,8 @@ const baseIconSizes = [ 16, 22, 24, 32, 48, 64, 96, 128 ];
 const taskbar = new Lang.Class({
     Name: 'taskbar.taskbar',
 
-    _init : function() {
+    _init : function(settings) {
+        this._dtpSettings = settings;
         this._maxHeight = -1;
         this.iconSize = 32;
         this._availableIconSizes = baseIconSizes;
@@ -1011,7 +1012,7 @@ const taskbar = new Lang.Class({
         // status (due to the _syncShowAppsButtonToggled function below) and it
         // has already performed the desired action.
 
-        let animate = true;
+        let animate = this._dtpSettings.get_boolean('animate-show-apps');
         let selector = Main.overview.viewSelector;
 
         if (selector._showAppsButton.checked !== this.showAppsButton.checked) {

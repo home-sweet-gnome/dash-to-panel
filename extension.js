@@ -61,7 +61,7 @@ function enable() {
 
     panelConnectId = panel.actor.connect('allocate', allocate);
     container.remove_child(appMenu.container);
-    taskbar = new Taskbar.taskbar();
+    taskbar = new Taskbar.taskbar(settings);
     Main.overview.dashIconSize = taskbar.iconSize;
 
     container.insert_child_at_index( taskbar.actor, 2 );
