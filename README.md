@@ -32,6 +32,7 @@ to install the extension in your home directory. A Shell reload is required <cod
 - allow disabling "open apps view" animation
 - hide "open apps view" button
 - allow moving running apps indicator to above icons
+- configure icon spacing
 
 
 ## Bug Reporting
