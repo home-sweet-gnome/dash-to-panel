@@ -1,10 +1,9 @@
 /*
- * Taskbar: A taskbar extension for the Gnome panel.
- * Copyright (C) 2016 Zorin OS
+ * This file is part of the Dash-To-Panel extension for Gnome 3
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -17,7 +16,8 @@
  *
  *
  * Credits:
- * This file is based on code from the Dash to Dock extension by micheleg.
+ * This file is based on code from the Taskbar extension by Zorin OS
+ * and code from the Dash to Dock extension by micheleg.
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
