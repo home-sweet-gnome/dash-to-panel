@@ -159,16 +159,29 @@ const taskbarActor = new Lang.Class({
     },
 
     _allocate: function(actor, box, flags) {
+        
+        this._isHorizontal = true;
+        this._isAppAtLeft = true;
         let contentBox = box;
+        let availWidth = contentBox.x2 - contentBox.x1;
+        let availHeight = contentBox.y2 - contentBox.y1;
 
-        let [appIcons] = actor.get_children();
+        let [appIcons, showAppsButton] = actor.get_children();
+        let [showAppsMinHeight, showAppsNatHeight] = showAppsButton.get_preferred_height(availWidth);
+        let [showAppsMinWidth, showAppsNatWidth] = showAppsButton.get_preferred_width(availHeight);
 
         let childBox = new Clutter.ActorBox();
-            childBox.x1 = contentBox.x1;
-            childBox.y1 = contentBox.y1;
-            childBox.x2 = contentBox.x2;
-            childBox.y2 = contentBox.y2;
-            appIcons.allocate(childBox, flags);
+        childBox.x1 = contentBox.x1 + showAppsNatWidth;
+        childBox.y1 = contentBox.y1;
+        childBox.x2 = contentBox.x2;
+        childBox.y2 = contentBox.y2;
+        appIcons.allocate(childBox, flags);
+
+        childBox.y1 = contentBox.y1;
+        childBox.x1 = contentBox.x1;
+        childBox.x2 = contentBox.x1 + showAppsNatWidth;
+        childBox.y2 = contentBox.y1 + showAppsNatHeight;
+        showAppsButton.allocate(childBox, flags);
     },
 
     _getPreferredWidth: function(actor, forHeight, alloc) {
@@ -243,6 +256,20 @@ const taskbar = new Lang.Class({
         this._container.add_actor(this._scrollView);
         this._scrollView.add_actor(this._box);
 
+        this._showAppsIcon = new Dash.ShowAppsIcon();
+        this._showAppsIcon.showLabel = ItemShowLabel;
+        this.showAppsButton = this._showAppsIcon.toggleButton;
+        this._showAppsIcon.actor = this.showAppsButton;
+             
+        this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
+
+        this._showAppsIcon.childScale = 1;
+        this._showAppsIcon.childOpacity = 255;
+        this._showAppsIcon.icon.setIconSize(this.iconSize);
+        this._hookUpLabel(this._showAppsIcon);
+
+        this._container.add_actor(this._showAppsIcon);
+
         let rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
         this.actor = new St.Bin({ child: this._container,
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
@@ -305,6 +332,12 @@ const taskbar = new Lang.Class({
                 Main.overview,
                 'item-drag-cancelled',
                 Lang.bind(this, this._onDragCancelled)
+            ],
+            [
+                // Ensure the ShowAppsButton status is kept in sync
+                Main.overview.viewSelector._showAppsButton,
+                'notify::checked',
+                Lang.bind(this, this._syncShowAppsButtonToggled)
             ]
         );
 
@@ -591,6 +624,8 @@ const taskbar = new Lang.Class({
                    actor.child._delegate.icon &&
                    !actor.animatingOut;
         });
+
+        iconChildren.push(this._showAppsIcon);
 
         if (this._maxHeight == -1)
             return;
@@ -967,6 +1002,119 @@ const taskbar = new Lang.Class({
             }));
 
         return true;
+    },
+
+    _onShowAppsButtonToggled: function() {
+        // Sync the status of the default appButtons. Only if the two statuses are
+        // different, that means the user interacted with the extension provided
+        // application button, cutomize the behaviour. Otherwise the shell has changed the
+        // status (due to the _syncShowAppsButtonToggled function below) and it
+        // has already performed the desired action.
+
+        let animate = true;
+        let selector = Main.overview.viewSelector;
+
+        if (selector._showAppsButton.checked !== this.showAppsButton.checked) {
+            // find visible view
+            let visibleView;
+            Main.overview.viewSelector.appDisplay._views.every(function(v, index) {
+                if (v.view.actor.visible) {
+                    visibleView = index;
+                    return false;
+                }
+                else
+                    return true;
+            });
+
+            if (this.showAppsButton.checked) {
+                // force spring animation triggering.By default the animation only
+                // runs if we are already inside the overview.
+                if (!Main.overview._shown) {
+                    this.forcedOverview = true;
+                    if (animate) {
+                        let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
+                        let grid = view._grid;
+
+                        // Animate in the the appview, hide the appGrid to avoiud flashing
+                        // Go to the appView before entering the overview, skipping the workspaces.
+                        // Do this manually avoiding opacity in transitions so that the setting of the opacity
+                        // to 0 doesn't get overwritten.
+                        Main.overview.viewSelector._activePage.opacity = 0;
+                        Main.overview.viewSelector._activePage.hide();
+                        Main.overview.viewSelector._activePage = Main.overview.viewSelector._appsPage;
+                        Main.overview.viewSelector._activePage.show();
+                        grid.actor.opacity = 0;
+
+                        // The animation has to be trigered manually because the AppDisplay.animate
+                        // method is waiting for an allocation not happening, as we skip the workspace view
+                        // and the appgrid could already be allocated from previous shown.
+                        // It has to be triggered after the overview is shown as wrong coordinates are obtained
+                        // otherwise.
+                        let overviewShownId = Main.overview.connect('shown', Lang.bind(this, function() {
+                            Main.overview.disconnect(overviewShownId);
+                            Meta.later_add(Meta.LaterType.BEFORE_REDRAW, Lang.bind(this, function() {
+                                grid.actor.opacity = 255;
+                                grid.animateSpring(IconGrid.AnimationDirection.IN, this.showAppsButton);
+                            }));
+                        }));
+                    }
+                }
+
+                // Finally show the overview
+                selector._showAppsButton.checked = true;
+                Main.overview.show();
+            }
+            else {
+                if (this.forcedOverview) {
+                    // force exiting overview if needed
+
+                    if (animate) {
+                        // Manually trigger springout animation without activating the
+                        // workspaceView to avoid the zoomout animation. Hide the appPage
+                        // onComplete to avoid ugly flashing of original icons.
+                        let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
+                        let grid = view._grid;
+                        view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
+                            Main.overview.viewSelector._appsPage.hide();
+                            Main.overview.hide();
+                            selector._showAppsButton.checked = false;
+                            this.forcedOverview = false;
+                        }));
+                    }
+                    else {
+                        Main.overview.hide();
+                        this.forcedOverview = false;
+                    }
+                }
+                else {
+                    selector._showAppsButton.checked = false;
+                    this.forcedOverview = false;
+                }
+            }
+        }
+
+        // whenever the button is unactivated even if not by the user still reset the
+        // forcedOverview flag
+        if (this.showAppsButton.checked == false)
+            this.forcedOverview = false;
+    },
+    
+    _syncShowAppsButtonToggled: function() {
+        let status = Main.overview.viewSelector._showAppsButton.checked;
+        if (this.showAppsButton.checked !== status)
+            this.showAppsButton.checked = status;
+    },
+    
+    showShowAppsButton: function() {
+        this.showAppsButton.visible = true;
+        this.showAppsButton.set_width(-1);
+        this.showAppsButton.set_height(-1);
+    },
+
+    hideShowAppsButton: function() {
+        this.showAppsButton.hide();
+        this.showAppsButton.set_width(0);
+        this.showAppsButton.set_height(0);
     }
 
 });
@@ -1029,6 +1177,8 @@ const taskbarAppIcon = new Lang.Class({
                 this._onMenuPoppedDown();
         }));
         this._menuManagerWindowPreview.addMenu(this._windowPreview);
+        
+        this.forcedOverview = false;
     },
 
     shouldShowTooltip: function() {
