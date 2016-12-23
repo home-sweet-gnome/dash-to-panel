@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-12-22 18:05-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: prefs.js:127
+msgid "Customize middle-click behavior"
+msgstr ""
+
+#: prefs.js:134
+msgid "Reset to defaults"
+msgstr ""
+
+#: Settings.ui.h:1
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr ""
+
+#: Settings.ui.h:2
+msgid "Shift+Click action"
+msgstr ""
+
+#: Settings.ui.h:3
+msgid "Raise window"
+msgstr ""
+
+#: Settings.ui.h:4
+msgid "Minimize window"
+msgstr ""
+
+#: Settings.ui.h:5
+msgid "Launch new instance"
+msgstr ""
+
+#: Settings.ui.h:6
+msgid "Cycle through windows"
+msgstr ""
+
+#: Settings.ui.h:7
+msgid "Quit"
+msgstr ""
+
+#: Settings.ui.h:8
+msgid "Behavior for Middle-Click."
+msgstr ""
+
+#: Settings.ui.h:9
+msgid "Middle-Click action"
+msgstr ""
+
+#: Settings.ui.h:10
+msgid "Behavior for Shift+Middle-Click."
+msgstr ""
+
+#: Settings.ui.h:11
+msgid "Shift+Middle-Click action"
+msgstr ""
+
+#: Settings.ui.h:12
+msgid "Position on screen"
+msgstr ""
+
+#: Settings.ui.h:13
+msgid "Bottom"
+msgstr ""
+
+#: Settings.ui.h:14
+msgid "Top"
+msgstr ""
+
+#: Settings.ui.h:15
+msgid "Panel Size"
+msgstr ""
+
+#: Settings.ui.h:16
+msgid "Position and size"
+msgstr ""
+
+#: Settings.ui.h:17
+msgid ""
+"If disabled, these settings are acccessible from gnome-tweak-tool or the "
+"extension website."
+msgstr ""
+
+#: Settings.ui.h:18
+msgid "Show <i>Applications</i> icon"
+msgstr ""
+
+#: Settings.ui.h:19
+msgid "Move the applications button at the beginning of the panel."
+msgstr ""
+
+#: Settings.ui.h:20
+msgid "Animate <i>Show Applications</i>."
+msgstr ""
+
+#: Settings.ui.h:21
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr ""
+
+#: Settings.ui.h:22
+msgid "Click action"
+msgstr ""
+
+#: Settings.ui.h:23
+msgid "Minimize"
+msgstr ""
+
+#: Settings.ui.h:24
+msgid "Behavior"
+msgstr ""

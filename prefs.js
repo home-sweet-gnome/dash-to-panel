@@ -37,6 +37,7 @@ const Convenience = Me.imports.convenience;
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
+const DEFAULT_FONT_SIZES = [ 96, 64, 48, 32, 24, 16, 0 ];
 
 const Settings = new Lang.Class({
     Name: 'TaskBar.Settings',
@@ -107,14 +108,6 @@ const Settings = new Lang.Class({
         this._settings.bind('show-show-apps-button',
                             this._builder.get_object('show_applications_button_switch'),
                             'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-        this._settings.bind('show-apps-at-top',
-                            this._builder.get_object('application_button_first_button'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-        this._settings.bind('show-show-apps-button',
-                            this._builder.get_object('application_button_first_button'),
-                            'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
         this._settings.bind('animate-show-apps',
                             this._builder.get_object('application_button_animation_button'),
@@ -196,6 +189,33 @@ const Settings = new Lang.Class({
             dialog.show_all();
 
         }));
+
+        // Appearance panel
+
+        let sizeScales = [
+            {objectName: 'tray_size_scale', valueName: 'tray-size'},
+            {objectName: 'leftbox_size_scale', valueName: 'leftbox-size'}
+        ];
+        
+        for(var idx in sizeScales) {
+            let size_scale = this._builder.get_object(sizeScales[idx].objectName);
+            size_scale.set_range(DEFAULT_FONT_SIZES[DEFAULT_FONT_SIZES.length-1], DEFAULT_FONT_SIZES[0]);
+            size_scale.set_value(this._settings.get_int(sizeScales[idx].valueName));
+            DEFAULT_FONT_SIZES.slice(1, -1).forEach(function(val) {
+                size_scale.add_mark(val, Gtk.PositionType.TOP, val.toString());
+            });
+
+            // Corrent for rtl languages
+            if (this._rtl) {
+                // Flip value position: this is not done automatically
+                size_scale.set_value_pos(Gtk.PositionType.LEFT);
+                // I suppose due to a bug, having a more than one mark and one above a value of 100
+                // makes the rendering of the marks wrong in rtl. This doesn't happen setting the scale as not flippable
+                // and then manually inverting it
+                size_scale.set_flippable(false);
+                size_scale.set_inverted(true);
+            }
+        }
 
     },
 
