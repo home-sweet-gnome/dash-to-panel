@@ -15,6 +15,24 @@ make install
 </pre>
 to install the extension in your home directory. A Shell reload is required <code>Alt+F2 r Enter</code> and the extension has to be enabled  with *gnome-tweak-tool* or with *dconf*.
 
+## Features
+- Embed dash-to-dock in gnome top bar
+- Move main panel (top bar) to bottom of screen
+- Resize main panel
+
+## TODO
+- disable built-in dash
+- allow tray items to be reordered
+- reorder "activities" and open apps view" buttons when both visible
+- resize of tray icons and font
+- resize of extension icons added to left box (gno-menu for instance) to match dash icon size
+- replace activities (overview) button text with an icon
+- assign middle click behavior
+- assign left click behavior when multiple windows of same app is open
+- allow disabling "open apps view" animation
+- hide "open apps view" button
+
+
 ## Bug Reporting
 
 Bugs should be reported to the Github bug tracker [https://github.com/jderose9/dash-to-panel/issues](https://github.com/jderose9/dash-to-panel/issues).
