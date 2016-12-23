@@ -1,5 +1,5 @@
 # Dash to Panel
-Screenshot forthcoming.
+![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/screenshot.png)
 
 ## An icon-only taskbar for the GNOME Shell
 An icon-only taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel (top bar) to behave as an icon-only task manager similar to that found in KDE Plasma and Windows 7+.
