@@ -180,7 +180,7 @@ const taskbarActor = new Lang.Class({
         childBox.y1 = contentBox.y1;
         childBox.x1 = contentBox.x1;
         childBox.x2 = contentBox.x1 + showAppsNatWidth;
-        childBox.y2 = contentBox.y1 + showAppsNatHeight;
+        childBox.y2 = contentBox.y2;
         showAppsButton.allocate(childBox, flags);
     },
 

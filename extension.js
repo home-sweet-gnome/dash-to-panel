@@ -152,8 +152,8 @@ function disable() {
 }
 
 function setPanelStyle() {
-    size = settings.get_int('panel-size');
-    position = settings.get_enum('panel-position');
+    let size = settings.get_int('panel-size');
+    let position = settings.get_enum('panel-position');
 
     panel.actor.set_height(size);
 
