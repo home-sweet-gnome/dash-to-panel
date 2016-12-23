@@ -1,6 +1,6 @@
 # Basic Makefile
 
-UUID = onebar@jderose9.github.com
+UUID = dash-to-panel@jderose9.github.com
 BASE_MODULES = extension.js stylesheet.css metadata.json COPYING README.md
 EXTRA_MODULES = convenience.js taskbar.js secondaryMenu.js windowPreview.js prefs.js Settings.ui
 #EXTRA_MEDIA = logo.svg
@@ -11,7 +11,7 @@ ifeq ($(strip $(DESTDIR)),)
 else
 	INSTALLBASE = $(DESTDIR)/usr/share/gnome-shell/extensions
 endif
-INSTALLNAME = onebar@jderose9.github.com
+INSTALLNAME = dash-to-panel@jderose9.github.com
 
 # The command line passed variable VERSION is used to set the version string
 # in the metadata and in the generated zip-file. If no VERSION is passed, the
@@ -31,21 +31,21 @@ clean:
 
 extension: ./schemas/gschemas.compiled $(MSGSRC:.po=.mo)
 
-./schemas/gschemas.compiled: ./schemas/org.gnome.shell.extensions.onebar.gschema.xml
+./schemas/gschemas.compiled: ./schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml
 	glib-compile-schemas ./schemas/
 
-potfile: ./po/onebar.pot
+potfile: ./po/dash-to-panel.pot
 
 mergepo: potfile
 	for l in $(MSGSRC); do \
-		msgmerge -U $$l ./po/onebar.pot; \
+		msgmerge -U $$l ./po/dash-to-panel.pot; \
 	done;
 
-./po/onebar.pot: $(TOLOCALIZE) Settings.ui
+./po/dash-to-panel.pot: $(TOLOCALIZE) Settings.ui
 	mkdir -p po
-	xgettext -k_ -kN_ -o po/onebar.pot --package-name "OneBar" $(TOLOCALIZE)
+	xgettext -k_ -kN_ -o po/dash-to-panel.pot --package-name "Dash To Panel" $(TOLOCALIZE)
 	intltool-extract --type=gettext/glade Settings.ui
-	xgettext -k_ -kN_ --join-existing -o po/onebar.pot Settings.ui.h
+	xgettext -k_ -kN_ --join-existing -o po/dash-to-panel.pot Settings.ui.h
 
 ./po/%.mo: ./po/%.po
 	msgfmt -c $< -o $@
@@ -79,6 +79,6 @@ _build: all
 		lf=_build/locale/`basename $$l .mo`; \
 		mkdir -p $$lf; \
 		mkdir -p $$lf/LC_MESSAGES; \
-		cp $$l $$lf/LC_MESSAGES/onebar.mo; \
+		cp $$l $$lf/LC_MESSAGES/dash-to-panel.mo; \
 	done;
 	sed -i 's/"version": -1/"version": "$(VERSION)"/'  _build/metadata.json;

@@ -50,7 +50,7 @@ function init() {
 }
 
 function enable() {
-    settings = Convenience.getSettings('org.gnome.shell.extensions.onebar');  
+    settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');  
     panel = Main.panel;
     container = panel._leftBox;
     appMenu = panel.statusArea['appMenu'];

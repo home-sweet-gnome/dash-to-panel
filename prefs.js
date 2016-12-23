@@ -28,7 +28,7 @@ const Gdk = imports.gi.Gdk;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 
-const Gettext = imports.gettext.domain('onebar');
+const Gettext = imports.gettext.domain('dash-to-panel');
 const _ = Gettext.gettext;
 const N_ = function(e) { return e };
 
@@ -42,7 +42,7 @@ const Settings = new Lang.Class({
     Name: 'TaskBar.Settings',
 
     _init: function() {
-        this._settings = Convenience.getSettings('org.gnome.shell.extensions.onebar');
+        this._settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
 
         this._rtl = (Gtk.Widget.get_default_direction() == Gtk.TextDirection.RTL);
 
