@@ -31,6 +31,7 @@ to install the extension in your home directory. A Shell reload is required <cod
 - assign left click behavior when multiple windows of same app is open
 - allow disabling "open apps view" animation
 - hide "open apps view" button
+- allow moving running apps indicator to above icons
 
 
 ## Bug Reporting
