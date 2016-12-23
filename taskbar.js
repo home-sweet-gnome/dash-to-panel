@@ -271,6 +271,16 @@ const taskbar = new Lang.Class({
 
         this._container.add_actor(this._showAppsIcon);
 
+        if (!this._dtpSettings.get_boolean('show-show-apps-button'))
+            this.hideShowAppsButton();
+
+        this._dtpSettings.connect('changed::show-show-apps-button', Lang.bind(this, function() {
+            if (this._dtpSettings.get_boolean('show-show-apps-button'))
+                this.showShowAppsButton();
+            else
+                this.hideShowAppsButton();
+        }));
+
         let rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
         this.actor = new St.Bin({ child: this._container,
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
@@ -341,7 +351,6 @@ const taskbar = new Lang.Class({
                 Lang.bind(this, this._syncShowAppsButtonToggled)
             ]
         );
-
     },
 
     destroy: function() {
@@ -1075,7 +1084,7 @@ const taskbar = new Lang.Class({
                         // onComplete to avoid ugly flashing of original icons.
                         let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
                         let grid = view._grid;
-                        view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
+                        view.animate(IconGrihideShowAppsButtond.AnimationDirection.OUT, Lang.bind(this, function() {
                             Main.overview.viewSelector._appsPage.hide();
                             Main.overview.hide();
                             selector._showAppsButton.checked = false;
