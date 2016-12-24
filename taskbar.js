@@ -57,6 +57,15 @@ let LABEL_GAP = 5;
 let RUNNING_INDICATOR_SIZE = 3;
 let HFADE_WIDTH = 48;
 
+const clickAction = {
+    SKIP: 0,
+    MINIMIZE: 1,
+    LAUNCH: 2,
+    CYCLE_WINDOWS: 3,
+    CYCLE_WINDOWS_MIN: 4,
+    QUIT: 5
+};
+
 function getPosition() {
     return Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
 }
@@ -476,7 +485,7 @@ const taskbar = new Lang.Class({
     },
 
     _createAppItem: function(app) {
-        let appIcon = new taskbarAppIcon(app,
+        let appIcon = new taskbarAppIcon(this._dtpSettings, app,
                                              { setSizeManually: true,
                                                showLabel: false });
         if (appIcon._draggable) {
@@ -1151,8 +1160,10 @@ const taskbarAppIcon = new Lang.Class({
     Name: 'taskbar.AppIcon',
     Extends: AppDisplay.AppIcon,
 
-    _init: function(app, iconParams, onActivateOverride) {
-
+    _init: function(settings, app, iconParams, onActivateOverride) {
+        
+        // a prefix is required to avoid conflicting with the parent class variable
+        this._dtpSettings = settings;
         this._nWindows = 0;
 
         this.parent(app, iconParams, onActivateOverride);
@@ -1330,36 +1341,103 @@ const taskbarAppIcon = new Lang.Class({
 
         let event = Clutter.get_current_event();
         let modifiers = event ? event.get_state() : 0;
-        let openNewWindow = modifiers & Clutter.ModifierType.CONTROL_MASK &&
-                            this.app.state == Shell.AppState.RUNNING ||
-                            button && button == 2;
         let focusedApp = tracker.focus_app;
 
-        if (this.app.state == Shell.AppState.STOPPED || openNewWindow)
-            this.animateLaunch();
+        // Only consider SHIFT and CONTROL as modifiers (exclude SUPER, CAPS-LOCK, etc.)
+        modifiers = modifiers & (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK);
 
-        if (button && button == 1 && this.app.state == Shell.AppState.RUNNING) {
-
-            if (modifiers & Clutter.ModifierType.CONTROL_MASK){
+        // We don't change the CTRL-click behaviour: in such case we just chain
+        // up the parent method and return.
+        if (modifiers & Clutter.ModifierType.CONTROL_MASK) {
                 // Keep default behaviour: launch new window
                 // By calling the parent method I make it compatible
                 // with other extensions tweaking ctrl + click
+                this.parent(button);
+                return;
+        }
+
+        // We check what type of click we have and if the modifier SHIFT is
+        // being used. We then define what buttonAction should be for this
+        // event.
+        let buttonAction = 0;
+        if (button && button == 2 ) {
+            if (modifiers & Clutter.ModifierType.SHIFT_MASK)
+                buttonAction = this._dtpSettings.get_enum('shift-middle-click-action');
+            else
+                buttonAction = this._dtpSettings.get_enum('middle-click-action');
+        }
+        else if (button && button == 1) {
+            if (modifiers & Clutter.ModifierType.SHIFT_MASK)
+                buttonAction = this._dtpSettings.get_enum('shift-click-action');
+            else
+                buttonAction = this._dtpSettings.get_enum('click-action');
+        }
+
+        // We customize the action only when the application is already running
+        if (this.app.state == Shell.AppState.RUNNING) {
+            switch (buttonAction) {
+            case clickAction.SKIP:
+                activateAllWindows(this.app);
+                break;
+
+            case clickAction.LAUNCH:
                 this.animateLaunch();
                 this.app.open_new_window(-1);
-                return;
+                break;
 
-            } else if (this.app == focusedApp && !Main.overview._shown){
-                minimizeWindow(this.app, true);
-            } else {
-                // If click minimizes all, then one expects all windows to be reshown
-                activateAllWindows(this.app);
+            case clickAction.MINIMIZE:
+                // In overview just activate the app, unless the acion is explicitely
+                // requested with a keyboard modifier
+                if (!Main.overview._shown || modifiers){
+                    // If we have button=2 or a modifier, allow minimization even if
+                    // the app is not focused
+                    if (this.app == focusedApp || button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK) {
+                        // minimize all windows on double click and always in the case of primary click without
+                        // additional modifiers
+                        let click_count = 0;
+                        if (Clutter.EventType.CLUTTER_BUTTON_PRESS)
+                            click_count = event.get_click_count();
+                        let all_windows = (button == 1 && ! modifiers) || click_count > 1;
+                        minimizeWindow(this.app, all_windows);
+                    }
+                    else
+                        activateAllWindows(this.app);
+                }
+                else
+                    this.app.activate();
+                break;
+
+            case clickAction.CYCLE_WINDOWS:
+                if (!Main.overview._shown){
+                    if (this.app == focusedApp)
+                        activateNextWindow(this.app, false);
+                    else {
+                        activateFirstWindow(this.app);
+                    }
+                }
+                else
+                    this.app.activate();
+                break;
+            case clickAction.CYCLE_WINDOWS_MIN:
+                if (!Main.overview._shown){
+                    if (this.app == focusedApp)
+                        activateNextWindow(this.app, true);
+                    else {
+                        activateFirstWindow(this.app);
+                    }
+                }
+                else
+                    this.app.activate();
+                break;
+
+            case clickAction.QUIT:
+                closeAllWindows(this.app);
+                break;
             }
-        } else {
-         // Default behaviour
-         if (openNewWindow)
+        }
+        else {
+            this.animateLaunch();
             this.app.open_new_window(-1);
-         else
-            this.app.activate();
         }
 
         Main.overview.hide();
@@ -1451,6 +1529,44 @@ function activateAllWindows(app){
             activatedWindows++;
         }
     }
+}
+
+function activateFirstWindow(app){
+
+    let windows = getAppInterestingWindows(app).sort(function(windowA, windowB) {
+        return windowA.get_stable_sequence() > windowB.get_stable_sequence();
+    });
+
+    Main.activateWindow(windows[0]);
+}
+
+/*
+ * Activate the next running window for the current application
+ */
+function activateNextWindow(app, shouldMinimize){
+
+    let windows = getAppInterestingWindows(app).sort(function(windowA, windowB) {
+        return windowA.get_stable_sequence() > windowB.get_stable_sequence();
+    });
+
+    let focused_window = global.display.focus_window;
+
+    for (let i = 0 ; i < windows.length; i++){
+        if(windows[i] == focused_window) {
+            if(i < windows.length - 1)
+                Main.activateWindow(windows[i + 1]);
+            else
+                shouldMinimize ? minimizeWindow(app, true) : Main.activateWindow(windows[0]); 
+
+            break;
+        }
+    }
+}
+
+function closeAllWindows(app) {
+    let windows = getAppInterestingWindows(app);
+    for (let i = 0; i < windows.length; i++)
+        windows[i].delete(global.get_current_time());
 }
 
 function getAppInterestingWindows(app) {

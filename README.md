@@ -26,8 +26,6 @@ to install the extension in your home directory. A Shell reload is required <cod
 - allow tray items to be reordered
 - reorder "activities" and open apps view" buttons when both visible
 - replace activities (overview) button text with an icon
-- assign middle click behavior
-- assign left click behavior when multiple windows of same app is open
 - allow moving running apps indicator to above icons
 - configure icon spacing
 - allow moving overview hotspot to bottom left
