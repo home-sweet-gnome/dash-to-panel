@@ -29,6 +29,8 @@ to install the extension in your home directory. A Shell reload is required <cod
 - allow moving running apps indicator to above icons
 - configure icon spacing
 - allow moving overview hotspot to bottom left
+- allow moving notifications popup
+- add desktop button
 
 
 ## Bug Reporting
