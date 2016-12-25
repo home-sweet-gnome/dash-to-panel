@@ -23,14 +23,13 @@ to install the extension in your home directory. A Shell reload is required <cod
 
 ## TODO
 - disable built-in dash
-- allow tray items to be reordered
 - reorder "activities" and open apps view" buttons when both visible
 - replace activities (overview) button text with an icon
 - allow moving running apps indicator to above icons
-- configure icon spacing
+- configure dash icon spacing and tray item spacing
 - allow moving overview hotspot to bottom left
 - allow moving notifications popup
-- add desktop button
+- add "show desktop" button
 
 
 ## Bug Reporting
@@ -45,3 +44,4 @@ version 2 or later. See the COPYING file for details.
 Much of the code in this extension comes from [Dash-to-Dock](https://micheleg.github.io/dash-to-dock/index.html).
 This extension leverages the work for [ZorinOS Taskbar](https://github.com/ZorinOS/zorin-taskbar) used in [ZorinOS](https://zorinos.com/) to allow the dash from [Dash-to-Dock](https://micheleg.github.io/dash-to-dock/index.html) to be embedded in the Gnome main panel.
 Code to set anchor position taken from [Thoma5/gnome-shell-extension-bottompanel](https://github.com/Thoma5/gnome-shell-extension-bottompanel)
+Pattern for moving panel contents based on [Frippery Move Clock](http://frippery.org/extensions/) by R M Yorston

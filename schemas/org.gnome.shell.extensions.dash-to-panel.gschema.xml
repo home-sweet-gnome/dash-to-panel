@@ -25,6 +25,11 @@
       <summary>Panel size</summary>
       <description>Set the size of the panel.</description>
     </key>
+    <key type="s" name="location-clock">
+      <default>"STATUSRIGHT"</default>
+      <summary>Location of the clock</summary>
+      <description>Set the location of the clock on the taskbar</description>
+    </key>
     <key type="b" name="show-show-apps-button">
       <default>true</default>
       <summary>Show applications button</summary>

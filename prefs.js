@@ -84,6 +84,11 @@ const Settings = new Lang.Class({
 
         }
 
+        this._builder.get_object('location_clock_combo').set_active_id(this._settings.get_string('location-clock'));
+        this._builder.get_object('location_clock_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('location-clock', widget.get_active_id());
+        }));
+
         // size options
         let panel_size_scale = this._builder.get_object('panel_size_scale');
         panel_size_scale.set_range(DEFAULT_PANEL_SIZES[DEFAULT_PANEL_SIZES.length-1], DEFAULT_PANEL_SIZES[0]);

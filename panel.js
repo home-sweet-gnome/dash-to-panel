@@ -21,6 +21,9 @@
  * Code to re-anchor the panel was taken from Thoma5 BottomPanel:
  * https://github.com/Thoma5/gnome-shell-extension-bottompanel
  * 
+ * Pattern for moving clock based on Frippery Move Clock by R M Yorston
+ * http://frippery.org/extensions/
+ * 
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
@@ -74,6 +77,7 @@ const taskbarPanel = new Lang.Class({
         this._oldRightBoxStyle = this.panel._rightBox.get_style();
         this._setTraySize(this._dtpSettings.get_int('tray-size'));
         this._setLeftBoxSize(this._dtpSettings.get_int('tray-size'));
+        this._setClockLocation(this._dtpSettings.get_string('location-clock'));
         
         this.panel.actor.add_style_class_name("popup-menu");
 
@@ -106,6 +110,13 @@ const taskbarPanel = new Lang.Class({
                 Lang.bind(this, function() {
                     Main.overview.dashIconSize = this.taskbar.iconSize;
                 })
+            ],
+            [
+                this.panel._rightBox,
+                'actor-added',
+                Lang.bind(this, function() {
+                    this._setClockLocation(this._dtpSettings.get_string('location-clock'));
+                })
             ]
         );
 
@@ -135,6 +146,7 @@ const taskbarPanel = new Lang.Class({
         Main.overview._panelGhost.set_height(this._oldPanelHeight);
         this._setTraySize(0);
         this._setLeftBoxSize(0);
+        this._setClockLocation("NATURAL");
         this.panel.actor.remove_style_class_name("popup-menu");
 
         this.appMenu = null;
@@ -162,6 +174,10 @@ const taskbarPanel = new Lang.Class({
 
         this._dtpSettings.connect('changed::leftbox-size', Lang.bind(this, function() {
             this._setLeftBoxSize(this._dtpSettings.get_int('leftbox-size'));
+        }));
+
+        this._dtpSettings.connect('changed::location-clock', Lang.bind(this, function() {
+            this._setClockLocation(this._dtpSettings.get_string('location-clock'));
         }));
     },
 
@@ -246,5 +262,41 @@ const taskbarPanel = new Lang.Class({
 
     _setLeftBoxSize: function(size) {
         size ? this.panel._leftBox.set_style("font-size: " + size + "px;" + (this._oldLeftBoxStyle || "")) : this.panel._leftBox.set_style(this._oldLeftBoxStyle);
+    },
+
+    _setClockLocation: function(loc) {
+        let centerBox = this.panel._centerBox;
+        let rightBox = this.panel._rightBox;
+        let dateMenu = this.panel.statusArea['dateMenu'];
+        let statusMenu = this.panel.statusArea['aggregateMenu'];
+
+        if(loc == "NATURAL") {
+            // only move the clock back if it's in the right box
+            if ( rightBox.get_children().indexOf(dateMenu.container) != -1 ) {
+                rightBox.remove_actor(dateMenu.container);
+                centerBox.add_actor(dateMenu.container);
+            }
+        } else {
+            // if clock is in left box, remove it and add to right
+            if ( centerBox.get_children().indexOf(dateMenu.container) != -1 ) {
+                centerBox.remove_actor(dateMenu.container);
+                rightBox.insert_child_at_index(dateMenu.container, 0);
+            }
+
+            // then, move to its new location
+            switch(loc) {
+                case "STATUSLEFT":
+                    if(statusMenu)
+                        rightBox.set_child_below_sibling(dateMenu.container, statusMenu.container);
+                    break;
+                case "STATUSRIGHT":
+                    if(statusMenu)
+                        rightBox.set_child_above_sibling(dateMenu.container, statusMenu.container);
+                    break;
+                default:
+                    break;
+            }
+
+        }
     }
 });
