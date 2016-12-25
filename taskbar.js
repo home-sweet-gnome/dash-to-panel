@@ -283,13 +283,6 @@ const taskbar = new Lang.Class({
         if (!this._dtpSettings.get_boolean('show-show-apps-button'))
             this.hideShowAppsButton();
 
-        this._dtpSettings.connect('changed::show-show-apps-button', Lang.bind(this, function() {
-            if (this._dtpSettings.get_boolean('show-show-apps-button'))
-                this.showShowAppsButton();
-            else
-                this.hideShowAppsButton();
-        }));
-
         let rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
         this.actor = new St.Bin({ child: this._container,
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
@@ -360,10 +353,21 @@ const taskbar = new Lang.Class({
                 Lang.bind(this, this._syncShowAppsButtonToggled)
             ]
         );
+
+        this._bindSettingsChanges();
     },
 
     destroy: function() {
         this._signalsHandler.destroy();
+    },
+
+    _bindSettingsChanges: function () {
+        this._dtpSettings.connect('changed::show-show-apps-button', Lang.bind(this, function() {
+            if (this._dtpSettings.get_boolean('show-show-apps-button'))
+                this.showShowAppsButton();
+            else
+                this.hideShowAppsButton();
+        }));
     },
 
     _onScrollEvent: function(actor, event) {
