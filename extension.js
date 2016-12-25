@@ -49,6 +49,9 @@ let HeightNotifyListener = null;
 
 let oldPanelHeight;
 let myPanelGhost;
+let oldLeftBoxStyle;
+let oldCenterBoxStyle;
+let oldRightBoxStyle;
 
 function init() {
 }
@@ -82,8 +85,13 @@ function enable() {
     MonitorsChangedListener = global.screen.connect("monitors-changed", setPanelStyle);
     HeightNotifyListener = PanelBox.connect("notify::height", setPanelStyle);
     setPanelStyle();
+
+    oldLeftBoxStyle = panel._leftBox.get_style();
+    oldCenterBoxStyle = panel._centerBox.get_style();
+    oldRightBoxStyle = panel._rightBox.get_style();
     setTraySize(settings.get_int('tray-size'));
     setLeftBoxSize(settings.get_int('tray-size'));
+    
     Main.panel.actor.add_style_class_name("popup-menu");
 
     // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
@@ -174,12 +182,12 @@ function setPanelStyle() {
 }
 
 function setTraySize(size) {
-    size ? panel._centerBox.set_style("font-size: " + size + "px;") : panel._centerBox.set_style("");
-    size ? panel._rightBox.set_style("font-size: " + size + "px;") : panel._rightBox.set_style("");    
+    size ? panel._centerBox.set_style("font-size: " + size + "px;" + (oldCenterBoxStyle || "")) : panel._centerBox.set_style(oldCenterBoxStyle);
+    size ? panel._rightBox.set_style("font-size: " + size + "px;" + (oldRightBoxStyle || "")) : panel._rightBox.set_style(oldRightBoxStyle);    
 }
 
 function setLeftBoxSize(size) {
-    size ? panel._leftBox.set_style("font-size: " + size + "px;") : panel._leftBox.set_style("");
+    size ? panel._leftBox.set_style("font-size: " + size + "px;" + (oldLeftBoxStyle || "")) : panel._leftBox.set_style(oldLeftBoxStyle);
 }
 
 function bindSettingsChanges() {
