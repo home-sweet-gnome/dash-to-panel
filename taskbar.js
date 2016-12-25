@@ -1097,7 +1097,7 @@ const taskbar = new Lang.Class({
                         // onComplete to avoid ugly flashing of original icons.
                         let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
                         let grid = view._grid;
-                        view.animate(IconGrihideShowAppsButtond.AnimationDirection.OUT, Lang.bind(this, function() {
+                        view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
                             Main.overview.viewSelector._appsPage.hide();
                             Main.overview.hide();
                             selector._showAppsButton.checked = false;

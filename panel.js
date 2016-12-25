@@ -1,3 +1,28 @@
+/*
+ * This file is part of the Dash-To-Panel extension for Gnome 3
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Credits:
+ * This file is based on code from the Taskbar extension by Zorin OS
+ * and code from the Dash to Dock extension by micheleg.
+ * 
+ * Code to re-anchor the panel was taken from Thoma5 BottomPanel:
+ * https://github.com/Thoma5/gnome-shell-extension-bottompanel
+ * 
+ * Some code was also adapted from the upstream Gnome Shell source code.
+ */
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Clutter = imports.gi.Clutter;
@@ -47,8 +72,8 @@ const taskbarPanel = new Lang.Class({
         this._oldLeftBoxStyle = this.panel._leftBox.get_style();
         this._oldCenterBoxStyle = this.panel._centerBox.get_style();
         this._oldRightBoxStyle = this.panel._rightBox.get_style();
-        this._setTraySize(this._dtpSettingsget_int('tray-size'));
-        this._setLeftBoxSize(this._dtpSettingsget_int('tray-size'));
+        this._setTraySize(this._dtpSettings.get_int('tray-size'));
+        this._setLeftBoxSize(this._dtpSettings.get_int('tray-size'));
         
         this.panel.actor.add_style_class_name("popup-menu");
 
@@ -90,7 +115,7 @@ const taskbarPanel = new Lang.Class({
     disable: function () {
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
-        this.container.add_child(this.appMenu.this.container);
+        this.container.add_child(this.appMenu.container);
         this.taskbar.destroy();
         this.panel.actor.disconnect(this._panelConnectId);
 
@@ -106,8 +131,8 @@ const taskbarPanel = new Lang.Class({
         }
         this.panel.actor.set_height(this._oldPanelHeight);
         this.panelBox.set_anchor_point(0, 0);
-        Main.overview._overview.remove_child(this._panelGhost);
-        Main.overview._panelGhost.set_height(this._oldpanelHeight);
+        Main.overview._overview.remove_child(this._myPanelGhost);
+        Main.overview._panelGhost.set_height(this._oldPanelHeight);
         this._setTraySize(0);
         this._setLeftBoxSize(0);
         this.panel.actor.remove_style_class_name("popup-menu");
@@ -123,11 +148,11 @@ const taskbarPanel = new Lang.Class({
     },
 
     _bindSettingsChanges: function() {
-        this._dtpSettings.connect('changed::this.panel-position', Lang.bind(this, function() {
+        this._dtpSettings.connect('changed::panel-position', Lang.bind(this, function() {
             this._setPanelStyle();
         }));
 
-        this._dtpSettings.connect('changed::this.panel-size', Lang.bind(this, function() {
+        this._dtpSettings.connect('changed::panel-size', Lang.bind(this, function() {
             this._setPanelStyle();
         }));
 

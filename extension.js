@@ -15,26 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *
- * Credits:
- * This file is based on code from the Taskbar extension by Zorin OS
- * and code from the Dash to Dock extension by micheleg.
- * 
- * Code to re-anchor the panel was taken from Thoma5 BottomPanel:
- * https://github.com/Thoma5/gnome-shell-extension-bottompanel
- * 
- * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Clutter = imports.gi.Clutter;
 const Convenience = Me.imports.convenience;
 const Panel = Me.imports.panel;
-const Lang = imports.lang;
-const Main = imports.ui.main;
-const PanelBox = Main.layoutManager.panelBox;
-const St = imports.gi.St;
 
 let panel;
 let settings;
@@ -49,6 +35,7 @@ function enable() {
 }
 
 function disable() {
+    panel.disable();
     settings.run_dispose();
     settings = null;
     panel = null;
