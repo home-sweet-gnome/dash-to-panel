@@ -73,12 +73,12 @@
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <items>
-                          <item translatable="yes">Raise window</item>
-                          <item translatable="yes">Minimize window</item>
-                          <item translatable="yes">Launch new instance</item>
-                          <item translatable="yes">Cycle through windows</item>
-                          <item translatable="yes">Cycle windows + minimize</item>
-                          <item translatable="yes">Quit</item>
+                          <item id="RAISE" translatable="yes">Raise window</item>
+                          <item id="MINIMIZE" translatable="yes">Minimize window</item>
+                          <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                          <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                          <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                          <item id="QUIT" translatable="yes">Quit</item>
                         </items>
                       </object>
                       <packing>
@@ -143,12 +143,12 @@
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <items>
-                          <item translatable="yes">Raise window</item>
-                          <item translatable="yes">Minimize window</item>
-                          <item translatable="yes">Launch new instance</item>
-                          <item translatable="yes">Cycle windows</item>
-                          <item translatable="yes">Cycle windows + minimize</item>
-                          <item translatable="yes">Quit</item>
+                          <item id="RAISE" translatable="yes">Raise window</item>
+                          <item id="MINIMIZE" translatable="yes">Minimize window</item>
+                          <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                          <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                          <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                          <item id="QUIT" translatable="yes">Quit</item>
                         </items>
                       </object>
                       <packing>
@@ -213,12 +213,12 @@
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <items>
-                          <item translatable="yes">Raise window</item>
-                          <item translatable="yes">Minimize window</item>
-                          <item translatable="yes">Launch new instance</item>
-                          <item translatable="yes">Cycle through windows</item>
-                          <item translatable="yes">Cycle windows + minimize</item>
-                          <item translatable="yes">Quit</item>
+                          <item id="RAISE" translatable="yes">Raise window</item>
+                          <item id="MINIMIZE" translatable="yes">Minimize window</item>
+                          <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                          <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                          <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                          <item id="QUIT" translatable="yes">Quit</item>
                         </items>
                       </object>
                       <packing>
@@ -734,11 +734,11 @@
                                 <property name="can_focus">False</property>
                                 <property name="valign">center</property>
                                 <items>
-                                  <item translatable="yes">Raise window</item>
-                                  <item translatable="yes">Minimize</item>
-                                  <item translatable="yes">Launch new instance</item>
-                                  <item translatable="yes">Cycle through windows</item>
-                                  <item translatable="yes">Cycle windows + minimize</item>
+                                  <item id="RAISE" translatable="yes">Raise window</item>
+                                  <item id="MINIMIZE" translatable="yes">Minimize window</item>
+                                  <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                                  <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                                  <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
                                 </items>
                               </object>
                               <packing>

@@ -72,13 +72,13 @@ const Settings = new Lang.Class({
         // Position and size panel
 
         // Position option
-        let position = this._settings.get_enum('panel-position');
+        let position = this._settings.get_string('panel-position');
 
         switch (position) {
-            case 0:
+            case 'BOTTOM':
                 this._builder.get_object('position_bottom_button').set_active(true);
                 break;
-            case 1:
+            case 'TOP':
                 this._builder.get_object('position_top_button').set_active(true);
                 break;
 
@@ -123,20 +123,20 @@ const Settings = new Lang.Class({
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
-        this._builder.get_object('click_action_combo').set_active(this._settings.get_enum('click-action'));
+        this._builder.get_object('click_action_combo').set_active_id(this._settings.get_string('click-action'));
         this._builder.get_object('click_action_combo').connect('changed', Lang.bind (this, function(widget) {
-            this._settings.set_enum('click-action', widget.get_active());
+            this._settings.set_string('click-action', widget.get_active_id());
         }));
 
         this._builder.get_object('shift_click_action_combo').connect('changed', Lang.bind (this, function(widget) {
-            this._settings.set_enum('shift-click-action', widget.get_active());
+            this._settings.set_string('shift-click-action', widget.get_active_id());
         }));
 
         this._builder.get_object('middle_click_action_combo').connect('changed', Lang.bind (this, function(widget) {
-            this._settings.set_enum('middle-click-action', widget.get_active());
+            this._settings.set_string('middle-click-action', widget.get_active_id());
         }));
         this._builder.get_object('shift_middle_click_action_combo').connect('changed', Lang.bind (this, function(widget) {
-            this._settings.set_enum('shift-middle-click-action', widget.get_active());
+            this._settings.set_string('shift-middle-click-action', widget.get_active_id());
         }));
 
         // Create dialog for middle-click options
@@ -154,11 +154,11 @@ const Settings = new Lang.Class({
             let box = this._builder.get_object('box_middle_click_options');
             dialog.get_content_area().add(box);
 
-            this._builder.get_object('shift_click_action_combo').set_active(this._settings.get_enum('shift-click-action'));
+            this._builder.get_object('shift_click_action_combo').set_active_id(this._settings.get_string('shift-click-action'));
 
-            this._builder.get_object('middle_click_action_combo').set_active(this._settings.get_enum('middle-click-action'));
+            this._builder.get_object('middle_click_action_combo').set_active_id(this._settings.get_string('middle-click-action'));
 
-            this._builder.get_object('shift_middle_click_action_combo').set_active(this._settings.get_enum('shift-middle-click-action'));
+            this._builder.get_object('shift_middle_click_action_combo').set_active_id(this._settings.get_string('shift-middle-click-action'));
 
             this._settings.bind('shift-click-action',
                                 this._builder.get_object('shift_click_action_combo'),
@@ -180,9 +180,9 @@ const Settings = new Lang.Class({
                     keys.forEach(function(val) {
                         this._settings.set_value(val, this._settings.get_default_value(val));
                     }, this);
-                    this._builder.get_object('shift_click_action_combo').set_active(this._settings.get_enum('shift-click-action'));
-                    this._builder.get_object('middle_click_action_combo').set_active(this._settings.get_enum('middle-click-action'));
-                    this._builder.get_object('shift_middle_click_action_combo').set_active(this._settings.get_enum('shift-middle-click-action'));
+                    this._builder.get_object('shift_click_action_combo').set_active_id(this._settings.get_string('shift-click-action'));
+                    this._builder.get_object('middle_click_action_combo').set_active_id(this._settings.get_string('middle-click-action'));
+                    this._builder.get_object('shift_middle_click_action_combo').set_active_id(this._settings.get_string('shift-middle-click-action'));
                 } else {
                     // remove the settings box so it doesn't get destroyed;
                     dialog.get_content_area().remove(box);
@@ -231,12 +231,12 @@ const Settings = new Lang.Class({
         
         position_bottom_button_toggled_cb: function(button) {
             if (button.get_active())
-                this._settings.set_enum('panel-position', 0);
+                this._settings.set_string('panel-position', "BOTTOM");
         },
 		
 		position_top_button_toggled_cb: function(button) {
             if (button.get_active())
-                this._settings.set_enum('panel-position', 1);
+                this._settings.set_string('panel-position', "TOP");
         },
 
         panel_size_scale_format_value_cb: function(scale, value) {

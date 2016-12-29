@@ -245,13 +245,14 @@ const taskbarPanel = new Lang.Class({
 
     _setPanelStyle: function() {
         let size = this._dtpSettings.get_int('panel-size');
-        let position = this._dtpSettings.get_enum('panel-position');
+        let position = this._dtpSettings.get_string('panel-position');
+        let isTop = position == "TOP";
 
         this.panel.actor.set_height(size);
 
-        Main.overview._panelGhost.set_height(position ? size : 0);
-        this._myPanelGhost.set_height(position ? 0 : size);
-        position ? this.panelBox.set_anchor_point(0, 0) :
+        Main.overview._panelGhost.set_height(isTop ? size : 0);
+        this._myPanelGhost.set_height(isTop ? 0 : size);
+        isTop ? this.panelBox.set_anchor_point(0, 0) :
             this.panelBox.set_anchor_point(0,(-1)*(Main.layoutManager.primaryMonitor.height-this.panelBox.height));
     },
 

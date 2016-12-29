@@ -57,15 +57,6 @@ let LABEL_GAP = 5;
 let RUNNING_INDICATOR_SIZE = 3;
 let HFADE_WIDTH = 48;
 
-const clickAction = {
-    SKIP: 0,
-    MINIMIZE: 1,
-    LAUNCH: 2,
-    CYCLE_WINDOWS: 3,
-    CYCLE_WINDOWS_MIN: 4,
-    QUIT: 5
-};
-
 function getPosition() {
     return Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
 }
@@ -1366,30 +1357,30 @@ const taskbarAppIcon = new Lang.Class({
         let buttonAction = 0;
         if (button && button == 2 ) {
             if (modifiers & Clutter.ModifierType.SHIFT_MASK)
-                buttonAction = this._dtpSettings.get_enum('shift-middle-click-action');
+                buttonAction = this._dtpSettings.get_string('shift-middle-click-action');
             else
-                buttonAction = this._dtpSettings.get_enum('middle-click-action');
+                buttonAction = this._dtpSettings.get_string('middle-click-action');
         }
         else if (button && button == 1) {
             if (modifiers & Clutter.ModifierType.SHIFT_MASK)
-                buttonAction = this._dtpSettings.get_enum('shift-click-action');
+                buttonAction = this._dtpSettings.get_string('shift-click-action');
             else
-                buttonAction = this._dtpSettings.get_enum('click-action');
+                buttonAction = this._dtpSettings.get_string('click-action');
         }
 
         // We customize the action only when the application is already running
         if (this.app.state == Shell.AppState.RUNNING) {
             switch (buttonAction) {
-            case clickAction.SKIP:
+            case "RAISE":
                 activateAllWindows(this.app);
                 break;
 
-            case clickAction.LAUNCH:
+            case "LAUNCH":
                 this.animateLaunch();
                 this.app.open_new_window(-1);
                 break;
 
-            case clickAction.MINIMIZE:
+            case "MINIMIZE":
                 // In overview just activate the app, unless the acion is explicitely
                 // requested with a keyboard modifier
                 if (!Main.overview._shown || modifiers){
@@ -1411,7 +1402,7 @@ const taskbarAppIcon = new Lang.Class({
                     this.app.activate();
                 break;
 
-            case clickAction.CYCLE_WINDOWS:
+            case "CYCLE":
                 if (!Main.overview._shown){
                     if (this.app == focusedApp)
                         activateNextWindow(this.app, false);
@@ -1422,7 +1413,7 @@ const taskbarAppIcon = new Lang.Class({
                 else
                     this.app.activate();
                 break;
-            case clickAction.CYCLE_WINDOWS_MIN:
+            case "CYCLE-MIN":
                 if (!Main.overview._shown){
                     if (this.app == focusedApp)
                         activateNextWindow(this.app, true);
@@ -1434,7 +1425,7 @@ const taskbarAppIcon = new Lang.Class({
                     this.app.activate();
                 break;
 
-            case clickAction.QUIT:
+            case "QUIT":
                 closeAllWindows(this.app);
                 break;
             }
