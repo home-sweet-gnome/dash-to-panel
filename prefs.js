@@ -108,6 +108,19 @@ const Settings = new Lang.Class({
             panel_size_scale.set_inverted(true);
         }
 
+        // Dots Position option
+        let dotPosition = this._settings.get_string('dot-position');
+
+        switch (dotPosition) {
+            case 'BOTTOM':
+                this._builder.get_object('dots_bottom_button').set_active(true);
+                break;
+            case 'TOP':
+                this._builder.get_object('dots_top_button').set_active(true);
+                break;
+
+        }
+
         // Behavior panel
 
         this._settings.bind('show-show-apps-button',
@@ -237,6 +250,16 @@ const Settings = new Lang.Class({
 		position_top_button_toggled_cb: function(button) {
             if (button.get_active())
                 this._settings.set_string('panel-position', "TOP");
+        },        
+
+        dots_bottom_button_toggled_cb: function(button) {
+            if (button.get_active())
+                this._settings.set_string('dot-position', "BOTTOM");
+        },
+		
+		dots_top_button_toggled_cb: function(button) {
+            if (button.get_active())
+                this._settings.set_string('dot-position', "TOP");
         },
 
         panel_size_scale_format_value_cb: function(scale, value) {

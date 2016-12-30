@@ -19,6 +19,10 @@
     <value value='0' nick='BOTTOM'/>
     <value value='1' nick='TOP'/>
   </enum>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.dotPosition'>
+    <value value='0' nick='BOTTOM'/>
+    <value value='1' nick='TOP'/>
+  </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
     <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.panelPosition">
       <default>'BOTTOM'</default>
@@ -29,6 +33,11 @@
       <default>48</default>
       <summary>Panel size</summary>
       <description>Set the size of the panel.</description>
+    </key>
+    <key name="dot-position" enum="org.gnome.shell.extensions.dash-to-panel.dotPosition">
+      <default>'BOTTOM'</default>
+      <summary>Dot position</summary>
+      <description>Running indicators are shown on the Bottom or Top of the screen.</description>
     </key>
     <key name="location-clock" enum="org.gnome.shell.extensions.dash-to-panel.statusAreaPosition">
       <default>'STATUSRIGHT'</default>

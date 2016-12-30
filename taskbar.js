@@ -1180,6 +1180,8 @@ const taskbarAppIcon = new Lang.Class({
 
         this._dots = null;
 
+        this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._showDots));
+
         this._showDots();
 
         // Creating a new menu manager for window previews as adding it to the
@@ -1440,6 +1442,11 @@ const taskbarAppIcon = new Lang.Class({
 
     _updateCounterClass: function() {
 
+        if(this._dtpSettings.get_string('dot-position') == "TOP")
+            this._dot.set_y_align(Clutter.ActorAlign.START);
+        else
+            this._dot.set_y_align(Clutter.ActorAlign.END);
+
         let maxN = 4;
         this._nWindows = Math.min(getAppInterestingWindows(this.app).length, maxN);
 
@@ -1472,7 +1479,7 @@ const taskbarAppIcon = new Lang.Class({
 
         Clutter.cairo_set_source_color(cr, bodyColor);
 
-        cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, height- padding- 2*radius);
+        cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, this._dtpSettings.get_string('dot-position') == "TOP" ? 0 : (height- padding- 2*radius));
         for (let i = 0; i < n; i++) {
             cr.newSubPath();
             cr.arc((2*i+1)*radius + i*spacing, radius, radius, 0, 2*Math.PI);
