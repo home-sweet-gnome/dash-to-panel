@@ -15,21 +15,16 @@ make install
 </pre>
 to install the extension in your home directory. A Shell reload is required <code>Alt+F2 r Enter</code> and the extension has to be enabled  with *gnome-tweak-tool* or with *dconf*.
 
-## Features
-- Embed dash-to-dock in gnome top bar
-- Move main panel (top bar) to bottom of screen
-- Resize main panel
-- Resize right tray content and left-side content buttons (activities button, applications menu, gno-menu, etc)
 
 ## TODO
-- disable built-in dash
-- reorder "activities" and open apps view" buttons when both visible
+- configure tray item spacing
+- add "show desktop" button
 - replace activities (overview) button text with an icon
-- allow moving running apps indicator to above icons
-- configure dash icon spacing and tray item spacing
+- reorder "activities" and open apps view" buttons when both visible
 - allow moving overview hotspot to bottom left
 - allow moving notifications popup
-- add "show desktop" button
+- disable built-in dash
+
 
 
 ## Bug Reporting

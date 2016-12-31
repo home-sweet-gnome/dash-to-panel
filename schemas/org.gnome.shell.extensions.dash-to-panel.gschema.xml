@@ -74,7 +74,7 @@
     </key>
     <key name="shift-click-action" enum="org.gnome.shell.extensions.dash-to-panel.clickAction">
       <default>'MINIMIZE'</default>
-      <summary>Action when shit+clicking on a running app</summary>
+      <summary>Action when shift+clicking on a running app</summary>
       <description>Set the action that is executed when shift+clicking on the icon of a running application</description>
     </key>
     <key name="middle-click-action" enum="org.gnome.shell.extensions.dash-to-panel.clickAction">
@@ -96,6 +96,11 @@
       <default>0</default>
       <summary>Left content size</summary>
       <description>Set the size of the leftBox items. (0 for default)</description>
+  </key>
+  <key type="i" name="appicon-margin">
+      <default>8</default>
+      <summary>App icon margin</summary>
+      <description>Set the margin for application icons in the embedded dash.</description>
   </key>
   </schema>
 </schemalist>

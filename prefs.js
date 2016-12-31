@@ -38,6 +38,7 @@ const Convenience = Me.imports.convenience;
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
 const DEFAULT_FONT_SIZES = [ 96, 64, 48, 32, 24, 16, 0 ];
+const DEFAULT_MARGIN_SIZES = [ 32, 24, 16, 12, 10, 8, 6, 4, 2, 0 ];
 
 const Settings = new Lang.Class({
     Name: 'TaskBar.Settings',
@@ -55,6 +56,9 @@ const Settings = new Lang.Class({
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
+        this._tray_size_timeout = 0;
+        this._leftbox_size_timeout = 0;
+        this._appicon_margin_timeout = 0;
 
         this._bindSettings();
 
@@ -211,15 +215,17 @@ const Settings = new Lang.Class({
         // Appearance panel
 
         let sizeScales = [
-            {objectName: 'tray_size_scale', valueName: 'tray-size'},
-            {objectName: 'leftbox_size_scale', valueName: 'leftbox-size'}
+            {objectName: 'tray_size_scale', valueName: 'tray-size', range: DEFAULT_FONT_SIZES },
+            {objectName: 'leftbox_size_scale', valueName: 'leftbox-size', range: DEFAULT_FONT_SIZES },
+            {objectName: 'appicon_margin_scale', valueName: 'appicon-margin', range: DEFAULT_MARGIN_SIZES },
         ];
         
         for(var idx in sizeScales) {
             let size_scale = this._builder.get_object(sizeScales[idx].objectName);
-            size_scale.set_range(DEFAULT_FONT_SIZES[DEFAULT_FONT_SIZES.length-1], DEFAULT_FONT_SIZES[0]);
+            let range = sizeScales[idx].range;
+            size_scale.set_range(range[range.length-1], range[0]);
             size_scale.set_value(this._settings.get_int(sizeScales[idx].valueName));
-            DEFAULT_FONT_SIZES.slice(1, -1).forEach(function(val) {
+            range.slice(1, -1).forEach(function(val) {
                 size_scale.add_mark(val, Gtk.PositionType.TOP, val.toString());
             });
 
@@ -284,12 +290,12 @@ const Settings = new Lang.Class({
 
         tray_size_scale_value_changed_cb: function(scale) {
             // Avoid settings the size consinuosly
-            if (this._panel_size_timeout > 0)
-                Mainloop.source_remove(this._panel_size_timeout);
+            if (this._tray_size_timeout > 0)
+                Mainloop.source_remove(this._tray_size_timeout);
 
-            this._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._tray_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
                 this._settings.set_int('tray-size', scale.get_value());
-                this._panel_size_timeout = 0;
+                this._tray_size_timeout = 0;
                 return GLib.SOURCE_REMOVE;
             }));
         },
@@ -300,12 +306,28 @@ const Settings = new Lang.Class({
 
         leftbox_size_scale_value_changed_cb: function(scale) {
             // Avoid settings the size consinuosly
-            if (this._panel_size_timeout > 0)
-                Mainloop.source_remove(this._panel_size_timeout);
+            if (this._leftbox_size_timeout > 0)
+                Mainloop.source_remove(this._leftbox_size_timeout);
 
-            this._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._leftbox_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
                 this._settings.set_int('leftbox-size', scale.get_value());
-                this._panel_size_timeout = 0;
+                this._leftbox_size_timeout = 0;
+                return GLib.SOURCE_REMOVE;
+            }));
+        },
+
+        appicon_margin_scale_format_value_cb: function(scale, value) {
+            return value+ ' px';
+        },
+
+        appicon_margin_scale_value_changed_cb: function(scale) {
+            // Avoid settings the size consinuosly
+            if (this._appicon_margin_timeout > 0)
+                Mainloop.source_remove(this._appicon_margin_timeout);
+
+            this._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+                this._settings.set_int('appicon-margin', scale.get_value());
+                this._appicon_margin_timeout = 0;
                 return GLib.SOURCE_REMOVE;
             }));
         }

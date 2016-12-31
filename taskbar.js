@@ -483,6 +483,7 @@ const taskbar = new Lang.Class({
         let appIcon = new taskbarAppIcon(this._dtpSettings, app,
                                              { setSizeManually: true,
                                                showLabel: false });
+
         if (appIcon._draggable) {
             appIcon._draggable.connect('drag-begin',
                                        Lang.bind(this, function() {
@@ -534,7 +535,7 @@ const taskbar = new Lang.Class({
                     appIcon._menu._boxPointer.yOffset = -y_shift;
                 }
         }));
-
+        
         // Override default AppIcon label_actor, now the
         // accessible_name is set at DashItemContainer.setLabelText
         appIcon.actor.label_actor = null;
@@ -1181,8 +1182,10 @@ const taskbarAppIcon = new Lang.Class({
         this._dots = null;
 
         this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._showDots));
-
         this._showDots();
+
+        this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setMargin));
+        this._setMargin();        
 
         // Creating a new menu manager for window previews as adding it to the
         // using the secondary menu's menu manager (which uses the "ignoreRelease"
@@ -1260,6 +1263,12 @@ const taskbarAppIcon = new Lang.Class({
         this._iconContainer.add_child(this._dots);
         this._updateCounterClass();
 
+    },
+
+    _setMargin: function() {
+        let margin = this._dtpSettings.get_int('appicon-margin');
+        if(margin)
+            this.actor.set_style('margin: 0 ' + margin + 'px;');
     },
 
     _updateRunningStyle: function() {
