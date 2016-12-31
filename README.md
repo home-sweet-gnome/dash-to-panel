@@ -18,6 +18,7 @@ to install the extension in your home directory. A Shell reload is required <cod
 
 ## TODO
 - configure tray item spacing
+- isolate workspaces
 - add "show desktop" button
 - replace activities (overview) button text with an icon
 - reorder "activities" and open apps view" buttons when both visible
