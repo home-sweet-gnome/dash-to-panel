@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Credits:
- * This file is based on code from the Taskbar extension by Zorin OS
- * and code from the Dash to Dock extension by micheleg.
+ * This file is based on code from the Dash to Dock extension by micheleg
+ * and code from the Taskbar extension by Zorin OS
  * 
  * Code to re-anchor the panel was taken from Thoma5 BottomPanel:
  * https://github.com/Thoma5/gnome-shell-extension-bottompanel

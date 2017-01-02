@@ -16,8 +16,8 @@
  *
  *
  * Credits:
- * This file is based on code from the Taskbar extension by Zorin OS
- * and code from the Dash to Dock extension by micheleg.
+ * This file is based on code from the Dash to Dock extension by micheleg
+ * and code from the Taskbar extension by Zorin OS
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
