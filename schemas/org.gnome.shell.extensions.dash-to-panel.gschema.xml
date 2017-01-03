@@ -40,7 +40,7 @@
       <description>Running indicators are shown on the Bottom or Top of the screen.</description>
     </key>
     <key name="location-clock" enum="org.gnome.shell.extensions.dash-to-panel.statusAreaPosition">
-      <default>'STATUSRIGHT'</default>
+      <default>'STATUSLEFT'</default>
       <summary>Location of the clock</summary>
       <description>Set the location of the clock on the taskbar</description>
     </key>
@@ -99,18 +99,33 @@
     </key>
     <key type="i" name="tray-size">
       <default>0</default>
-      <summary>Tray content size</summary>
-      <description>Set the size of the tray items. (0 for default)</description>
+      <summary>Tray font size</summary>
+      <description>Set the size of the tray font. (0 for default)</description>
     </key>
     <key type="i" name="leftbox-size">
         <default>0</default>
-        <summary>Left content size</summary>
-        <description>Set the size of the leftBox items. (0 for default)</description>
+        <summary>Leftbox font size</summary>
+        <description>Set the size of the leftBox font. (0 for default)</description>
     </key>
     <key type="i" name="appicon-margin">
         <default>8</default>
         <summary>App icon margin</summary>
         <description>Set the margin for application icons in the embedded dash.</description>
+    </key>
+      <key type="i" name="tray-padding">
+        <default>6</default>
+        <summary>Tray padding</summary>
+        <description>Set the size of the tray padding. (-1 for default)</description>
+    </key>
+    <key type="i" name="leftbox-padding">
+        <default>6</default>
+        <summary>Leftbox padding</summary>
+        <description>Set the size of the leftBox padding. (-1 for default)</description>
+    </key>
+    <key type="i" name="status-icon-padding">
+        <default>6</default>
+        <summary>Status icon padding</summary>
+        <description>Set the size of the aggregate (status) menu icon padding. (-1 for default)</description>
     </key>
   </schema>
 </schemalist>

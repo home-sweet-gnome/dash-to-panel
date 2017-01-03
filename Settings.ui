@@ -1007,7 +1007,7 @@
                           <object class="GtkLabel" id="tray_size_label">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Tray Content Size
+                            <property name="label" translatable="yes">Tray Font Size
 (0 = theme default)</property>
                             <property name="xalign">0</property>
                           </object>
@@ -1038,7 +1038,7 @@
                           <object class="GtkLabel" id="leftbox_size_label">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Left Content Size
+                            <property name="label" translatable="yes">Left Font Size
 (0 = theme default)</property>
                             <property name="xalign">0</property>
                           </object>

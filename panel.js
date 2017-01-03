@@ -31,6 +31,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Clutter = imports.gi.Clutter;
 const Convenience = Me.imports.convenience;
 const TaskBar = Me.imports.taskbar;
+const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
 const Main = imports.ui.main;
 const St = imports.gi.St;
@@ -40,12 +41,13 @@ const taskbarPanel = new Lang.Class({
 
     _init: function(settings) {
         this._dtpSettings = settings;
+        this.panelStyle = new PanelStyle.taskbarPanelStyle(settings);
     },
 
     enable : function() {
         this.panel = Main.panel;
         this.container = this.panel._leftBox;
-        this.appMenu = this.panel.statusArea['appMenu'];
+        this.appMenu = this.panel.statusArea.appMenu;
         this.panelBox = Main.layoutManager.panelBox;
 
         this._panelConnectId = this.panel.actor.connect('allocate', Lang.bind(this, function(actor,box,flags){this._allocate(actor,box,flags);}));
@@ -122,9 +124,13 @@ const taskbarPanel = new Lang.Class({
         );
 
         this._bindSettingsChanges();
+
+        this.panelStyle.enable(this.panel);
     },
 
     disable: function () {
+        this.panelStyle.disable();
+
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
         this.container.add_child(this.appMenu.container);
@@ -263,9 +269,9 @@ const taskbarPanel = new Lang.Class({
     },
 
     _setActivitiesButtonVisible: function(isVisible) {
-        if(this.panel.statusArea['activities'])
-            isVisible ? this.panel.statusArea['activities'].actor.show() :
-                this.panel.statusArea['activities'].actor.hide();
+        if(this.panel.statusArea.activities)
+            isVisible ? this.panel.statusArea.activities.actor.show() :
+                this.panel.statusArea.activities.actor.hide();
     },
 
     _setTraySize: function(size) {
@@ -280,8 +286,8 @@ const taskbarPanel = new Lang.Class({
     _setClockLocation: function(loc) {
         let centerBox = this.panel._centerBox;
         let rightBox = this.panel._rightBox;
-        let dateMenu = this.panel.statusArea['dateMenu'];
-        let statusMenu = this.panel.statusArea['aggregateMenu'];
+        let dateMenu = this.panel.statusArea.dateMenu;
+        let statusMenu = this.panel.statusArea.aggregateMenu;
 
         if(loc == "NATURAL") {
             // only move the clock back if it's in the right box

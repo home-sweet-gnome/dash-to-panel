@@ -2,7 +2,7 @@
 
 UUID = dash-to-panel@jderose9.github.com
 BASE_MODULES = extension.js stylesheet.css metadata.json COPYING README.md
-EXTRA_MODULES = convenience.js panel.js overview.js taskbar.js secondaryMenu.js windowPreview.js prefs.js Settings.ui
+EXTRA_MODULES = convenience.js panel.js panelStyle.js overview.js taskbar.js secondaryMenu.js windowPreview.js prefs.js Settings.ui
 #EXTRA_MEDIA = logo.svg
 TOLOCALIZE =  prefs.js
 MSGSRC = $(wildcard po/*.po)
