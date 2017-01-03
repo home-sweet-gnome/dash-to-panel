@@ -1,8 +1,8 @@
 # Dash to Panel
 ![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/screenshot.png)
 
-## An icon-only taskbar for the GNOME Shell
-An icon-only taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel (top bar) to behave as an icon-only task manager similar to that found in KDE Plasma and Windows 7+.
+## An icon taskbar for the GNOME Shell
+An icon taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel (top bar) to behave as an icon-only task manager similar to that found in KDE Plasma and Windows 7+.
 
 ## Installation from source
 
@@ -14,18 +14,6 @@ or download the branch from github. A simple Makefile is included. Then run
 make install
 </pre>
 to install the extension in your home directory. A Shell reload is required <code>Alt+F2 r Enter</code> and the extension has to be enabled  with *gnome-tweak-tool* or with *dconf*.
-
-
-## TODO
-- configure tray item spacing
-- isolate workspaces
-- add "show desktop" button
-- replace activities (overview) button text with an icon
-- reorder "activities" and open apps view" buttons when both visible
-- allow moving overview hotspot to bottom left
-- allow moving notifications popup
-- disable built-in dash
-
 
 
 ## Bug Reporting

@@ -709,6 +709,14 @@ const taskbar = new Lang.Class({
         let favorites = AppFavorites.getAppFavorites().getFavoriteMap();
 
         let running = this._appSystem.get_running().sort(this.sortAppsCompareFunction);
+        if (this._dtpSettings.get_boolean('isolate-workspaces')) {
+            // When using isolation, we filter out apps that have no windows in
+            // the current workspace
+            let settings = this._dtpSettings;
+            running = running.filter(function(_app) {
+                return getInterestingWindows(_app, settings).length != 0;
+            });
+        }
 
         let children = this._box.get_children().filter(function(actor) {
                 return actor.child &&
@@ -1192,7 +1200,7 @@ const taskbarAppIcon = new Lang.Class({
         // function) caused the extension to crash.
         this._menuManagerWindowPreview = new PopupMenu.PopupMenuManager(this);
 
-        this._windowPreview = new WindowPreview.thumbnailPreviewMenu(this);
+        this._windowPreview = new WindowPreview.thumbnailPreviewMenu(this, this._dtpSettings);
         this._windowPreview.connect('open-state-changed', Lang.bind(this, function (menu, isPoppedUp) {
             if (!isPoppedUp)
                 this._onMenuPoppedDown();
@@ -1203,7 +1211,7 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     shouldShowTooltip: function() {
-        let windows = getAppInterestingWindows(this.app);
+        let windows = getInterestingWindows(this.app, this._dtpSettings);
         if (windows.length > 0) {
             return false;
         } else {
@@ -1272,6 +1280,16 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     _updateRunningStyle: function() {
+        // When using workspace isolation, we need to hide the dots of apps with
+        // no windows in the current workspace
+        if (this._dtpSettings.get_boolean('isolate-workspaces')) {
+            if (this.app.state != Shell.AppState.STOPPED
+                && getInterestingWindows(this.app, this._dtpSettings).length != 0)
+                this._dot.show();
+            else
+                this._dot.hide();
+        }
+
         this._updateCounterClass();
     },
 
@@ -1281,9 +1299,9 @@ const taskbarAppIcon = new Lang.Class({
         this._draggable.fakeRelease();
 
         if (!this._menu) {
-            this._menu = new SecondaryMenu.taskbarSecondaryMenu(this);
+            this._menu = new SecondaryMenu.taskbarSecondaryMenu(this, this._dtpSettings);
             this._menu.connect('activate-window', Lang.bind(this, function (menu, window) {
-                this.activateWindow(window);
+                this.activateWindow(window, this._dtpSettings);
             }));
             this._menu.connect('open-state-changed', Lang.bind(this, function (menu, isPoppedUp) {
                 if (!isPoppedUp)
@@ -1379,11 +1397,16 @@ const taskbarAppIcon = new Lang.Class({
                 buttonAction = this._dtpSettings.get_string('click-action');
         }
 
+        // We check if the app is running, and that the # of windows is > 0 in
+        // case we use workspace isolation,
+        let appIsRunning = this.app.state == Shell.AppState.RUNNING
+            && getInterestingWindows(this.app, this._dtpSettings).length > 0
+
         // We customize the action only when the application is already running
-        if (this.app.state == Shell.AppState.RUNNING) {
+        if (appIsRunning) {
             switch (buttonAction) {
             case "RAISE":
-                activateAllWindows(this.app);
+                activateAllWindows(this.app, this._dtpSettings);
                 break;
 
             case "LAUNCH":
@@ -1404,10 +1427,10 @@ const taskbarAppIcon = new Lang.Class({
                         if (Clutter.EventType.CLUTTER_BUTTON_PRESS)
                             click_count = event.get_click_count();
                         let all_windows = (button == 1 && ! modifiers) || click_count > 1;
-                        minimizeWindow(this.app, all_windows);
+                        minimizeWindow(this.app, all_windows, this._dtpSettings);
                     }
                     else
-                        activateAllWindows(this.app);
+                        activateAllWindows(this.app, this._dtpSettings);
                 }
                 else
                     this.app.activate();
@@ -1416,9 +1439,9 @@ const taskbarAppIcon = new Lang.Class({
             case "CYCLE":
                 if (!Main.overview._shown){
                     if (this.app == focusedApp)
-                        activateNextWindow(this.app, false);
+                        activateNextWindow(this.app, false, this._dtpSettings);
                     else {
-                        activateFirstWindow(this.app);
+                        activateFirstWindow(this.app, this._dtpSettings);
                     }
                 }
                 else
@@ -1427,9 +1450,9 @@ const taskbarAppIcon = new Lang.Class({
             case "CYCLE-MIN":
                 if (!Main.overview._shown){
                     if (this.app == focusedApp)
-                        activateNextWindow(this.app, true);
+                        activateNextWindow(this.app, true, this._dtpSettings);
                     else {
-                        activateFirstWindow(this.app);
+                        activateFirstWindow(this.app, this._dtpSettings);
                     }
                 }
                 else
@@ -1437,7 +1460,7 @@ const taskbarAppIcon = new Lang.Class({
                 break;
 
             case "QUIT":
-                closeAllWindows(this.app);
+                closeAllWindows(this.app, this._dtpSettings);
                 break;
             }
         }
@@ -1457,7 +1480,7 @@ const taskbarAppIcon = new Lang.Class({
             this._dot.set_y_align(Clutter.ActorAlign.END);
 
         let maxN = 4;
-        this._nWindows = Math.min(getAppInterestingWindows(this.app).length, maxN);
+        this._nWindows = Math.min(getInterestingWindows(this.app, this._dtpSettings).length, maxN);
 
         for (let i = 1; i <= maxN; i++){
             let className = 'running'+i;
@@ -1500,9 +1523,9 @@ const taskbarAppIcon = new Lang.Class({
 
 });
 
-function minimizeWindow(app, param){
+function minimizeWindow(app, param, settings){
     // Param true make all app windows minimize
-    let windows = getAppInterestingWindows(app);
+    let windows = getInterestingWindows(app, settings);
     let current_workspace = global.screen.get_active_workspace();
     for (let i = 0; i < windows.length; i++) {
         let w = windows[i];
@@ -1520,11 +1543,11 @@ function minimizeWindow(app, param){
  * By default only non minimized windows are activated.
  * This activates all windows in the current workspace.
  */
-function activateAllWindows(app){
+function activateAllWindows(app, settings){
 
     // First activate first window so workspace is switched if needed,
     // then activate all other app windows in the current workspace.
-    let windows = getAppInterestingWindows(app);
+    let windows = getInterestingWindows(app, settings);
     let w = windows[0];
     Main.activateWindow(w);
     let activeWorkspace = global.screen.get_active_workspace_index();
@@ -1542,9 +1565,9 @@ function activateAllWindows(app){
     }
 }
 
-function activateFirstWindow(app){
+function activateFirstWindow(app, settings){
 
-    let windows = getAppInterestingWindows(app).sort(function(windowA, windowB) {
+    let windows = getInterestingWindows(app, settings).sort(function(windowA, windowB) {
         return windowA.get_stable_sequence() > windowB.get_stable_sequence();
     });
 
@@ -1554,9 +1577,9 @@ function activateFirstWindow(app){
 /*
  * Activate the next running window for the current application
  */
-function activateNextWindow(app, shouldMinimize){
+function activateNextWindow(app, shouldMinimize, settings){
 
-    let windows = getAppInterestingWindows(app).sort(function(windowA, windowB) {
+    let windows = getInterestingWindows(app, settings).sort(function(windowA, windowB) {
         return windowA.get_stable_sequence() > windowB.get_stable_sequence();
     });
 
@@ -1567,22 +1590,20 @@ function activateNextWindow(app, shouldMinimize){
             if(i < windows.length - 1)
                 Main.activateWindow(windows[i + 1]);
             else
-                shouldMinimize ? minimizeWindow(app, true) : Main.activateWindow(windows[0]); 
+                shouldMinimize ? minimizeWindow(app, true, settings) : Main.activateWindow(windows[0]); 
 
             break;
         }
     }
 }
 
-function closeAllWindows(app) {
-    let windows = getAppInterestingWindows(app);
+function closeAllWindows(app, settings) {
+    let windows = getInterestingWindows(app, settings);
     for (let i = 0; i < windows.length; i++)
         windows[i].delete(global.get_current_time());
 }
 
-function getAppInterestingWindows(app) {
-    // Filter out unnecessary windows, for instance
-    // nautilus desktop window.
+function getAppInterestingWindows(app, settings) {
     let windows = app.get_windows().filter(function(w) {
         return !w.skip_taskbar;
     });
@@ -1590,6 +1611,22 @@ function getAppInterestingWindows(app) {
     return windows;
 }
 
+// Filter out unnecessary windows, for instance
+// nautilus desktop window.
+function getInterestingWindows(app, settings) {
+    let windows = app.get_windows().filter(function(w) {
+        return !w.skip_taskbar;
+    });
+
+    // When using workspace isolation, we filter out windows
+    // that are not in the current workspace
+    if (settings.get_boolean('isolate-workspaces'))
+        windows = windows.filter(function(w) {
+            return w.get_workspace().index() == global.screen.get_active_workspace_index();
+        });
+
+    return windows;
+}
 
 /*
  * This is a copy of the same function in utils.js, but also adjust horizontal scrolling

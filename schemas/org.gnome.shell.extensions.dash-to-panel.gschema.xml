@@ -54,6 +54,11 @@
       <summary>Animate Show Applications from the desktop</summary>
       <description>Animate Show Applications from the desktop</description>
     </key>
+    <key type="b" name="isolate-workspaces">
+      <default>false</default>
+      <summary>Provide workspace isolation</summary>
+      <description>Dash shows only windows from the currentworkspace</description>
+    </key>
     <key type="b" name="customize-click">
       <default>true</default>
       <summary>Customize click behaviour</summary>
@@ -91,16 +96,16 @@
       <default>0</default>
       <summary>Tray content size</summary>
       <description>Set the size of the tray items. (0 for default)</description>
-  </key>
-  <key type="i" name="leftbox-size">
-      <default>0</default>
-      <summary>Left content size</summary>
-      <description>Set the size of the leftBox items. (0 for default)</description>
-  </key>
-  <key type="i" name="appicon-margin">
-      <default>8</default>
-      <summary>App icon margin</summary>
-      <description>Set the margin for application icons in the embedded dash.</description>
-  </key>
+    </key>
+    <key type="i" name="leftbox-size">
+        <default>0</default>
+        <summary>Left content size</summary>
+        <description>Set the size of the leftBox items. (0 for default)</description>
+    </key>
+    <key type="i" name="appicon-margin">
+        <default>8</default>
+        <summary>App icon margin</summary>
+        <description>Set the margin for application icons in the embedded dash.</description>
+    </key>
   </schema>
 </schemalist>

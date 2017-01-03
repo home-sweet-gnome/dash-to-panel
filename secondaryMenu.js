@@ -40,7 +40,9 @@ const taskbarSecondaryMenu = new Lang.Class({
     Name: 'taskbarSecondaryMenu',
     Extends: AppDisplay.AppIconMenu,
 
-    _init: function(source) {
+    _init: function(source, settings) {
+
+        this._dtpSettings = settings;
 
         let side = Taskbar.getPosition();
 
@@ -65,7 +67,7 @@ const taskbarSecondaryMenu = new Lang.Class({
 
         // quit menu
         let app = this._source.app;
-        let count = Taskbar.getAppInterestingWindows(app).length;
+        let count = Taskbar.getInterestingWindows(app, this._dtpSettings).length;
         if ( count > 0) {
             this._appendSeparator();
             let quitFromTaskbarMenuText = "";

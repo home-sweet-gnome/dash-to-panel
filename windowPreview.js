@@ -44,7 +44,9 @@ const thumbnailPreviewMenu = new Lang.Class({
     Name: 'thumbnailPreviewMenu',
     Extends: PopupMenu.PopupMenu,
 
-    _init: function(source) {
+    _init: function(source, settings) {
+
+        this._dtpSettings = settings;
 
         let side = Taskbar.getPosition();
 
@@ -82,7 +84,7 @@ const thumbnailPreviewMenu = new Lang.Class({
         this._boxPointer._arrowSide = side;
         this._boxPointer._userArrowSide = side;
 
-        this._previewBox = new thumbnailPreviewList(this._app, THUMBNAIL_HEIGHT);
+        this._previewBox = new thumbnailPreviewList(this._app, this._dtpSettings);
         this.addMenuItem(this._previewBox);
     },
 
@@ -97,7 +99,7 @@ const thumbnailPreviewMenu = new Lang.Class({
     },
 
     popup: function() {
-        let windows = Taskbar.getAppInterestingWindows(this._app);
+        let windows = Taskbar.getInterestingWindows(this._app, this._dtpSettings);
         if (windows.length > 0) {
             this._redisplay();
             this.open();
@@ -408,7 +410,9 @@ const thumbnailPreviewList = new Lang.Class({
     Name: 'thumbnailPreviewList',
     Extends: PopupMenu.PopupMenuSection,
 
-    _init: function(app) {
+    _init: function(app, settings) {
+        this._dtpSettings = settings;
+
   	    this.parent();
 
         this._ensurePreviewVisibilityTimeoutId = 0;
@@ -561,7 +565,7 @@ const thumbnailPreviewList = new Lang.Class({
     },
 
     _redisplay: function () {
-        let windows = Taskbar.getAppInterestingWindows(this.app).sort(this.sortWindowsCompareFunction);
+        let windows = Taskbar.getInterestingWindows(this.app, this._dtpSettings).sort(this.sortWindowsCompareFunction);
         let children = this.box.get_children().filter(function(actor) {
                 return actor._delegate.window && actor._delegate.preview;
             });

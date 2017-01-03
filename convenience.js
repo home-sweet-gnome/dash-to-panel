@@ -166,3 +166,29 @@ const GlobalSignalsHandler = new Lang.Class({
        item[0].disconnect(item[1]);
     }
 });
+
+/**
+ * Manage function injection: both instances and prototype can be overridden
+ * and restored
+ */
+const InjectionsHandler = new Lang.Class({
+    Name: 'Taskbar.InjectionsHandler',
+    Extends: BasicHandler,
+
+    _create: function(item) {
+        let object = item[0];
+        let name = item[1];
+        let injectedFunction = item[2];
+        let original = object[name];
+
+        object[name] = injectedFunction;
+        return [object, name, injectedFunction, original];
+    },
+
+    _remove: function(item) {
+        let object = item[0];
+        let name = item[1];
+        let original = item[3];
+        object[name] = original;
+    }
+});

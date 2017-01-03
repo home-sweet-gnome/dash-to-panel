@@ -139,6 +139,10 @@ const Settings = new Lang.Class({
                             this._builder.get_object('application_button_animation_button'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('isolate-workspaces',
+                            this._builder.get_object('isolate_workspaces_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
 
         this._builder.get_object('click_action_combo').set_active_id(this._settings.get_string('click-action'));
         this._builder.get_object('click_action_combo').connect('changed', Lang.bind (this, function(widget) {

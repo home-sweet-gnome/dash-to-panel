@@ -21,8 +21,10 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 const Panel = Me.imports.panel;
+const Overview = Me.imports.overview;
 
 let panel;
+let overview;
 let settings;
 
 function init() {
@@ -32,12 +34,16 @@ function enable() {
     settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');  
     panel = new Panel.taskbarPanel(settings);
     panel.enable();
+    overview = new Overview.taskbarOverview(settings);
+    overview.enable(panel.taskbar);
 }
 
 function disable() {
+    overview.disable();
     panel.disable();
     settings.run_dispose();
     settings = null;
+    overview = null;
     panel = null;
 }
 
