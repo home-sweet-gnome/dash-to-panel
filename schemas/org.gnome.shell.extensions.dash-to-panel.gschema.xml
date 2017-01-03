@@ -54,10 +54,15 @@
       <summary>Animate Show Applications from the desktop</summary>
       <description>Animate Show Applications from the desktop</description>
     </key>
+    <key type="b" name="show-activities-button">
+      <default>false</default>
+      <summary>Show activities button</summary>
+      <description>Show activities button on the left hand side of the taskbar</description>
+    </key>
     <key type="b" name="isolate-workspaces">
       <default>false</default>
       <summary>Provide workspace isolation</summary>
-      <description>Dash shows only windows from the currentworkspace</description>
+      <description>Dash shows only windows from the current workspace</description>
     </key>
     <key type="b" name="customize-click">
       <default>true</default>

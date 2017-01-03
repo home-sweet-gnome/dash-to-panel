@@ -15,6 +15,7 @@ make install
 </pre>
 to install the extension in your home directory. A Shell reload is required <code>Alt+F2 r Enter</code> and the extension has to be enabled  with *gnome-tweak-tool* or with *dconf*.
 
+**I recommend to set Top Bar > Show Applications Menu off in Gnome Tweak Tool.** This will cause the applications menu for native gnome apps (which normally appears in the top bar) to be presented in the top left of the window.
 
 ## Bug Reporting
 

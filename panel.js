@@ -75,6 +75,7 @@ const taskbarPanel = new Lang.Class({
         this._oldLeftBoxStyle = this.panel._leftBox.get_style();
         this._oldCenterBoxStyle = this.panel._centerBox.get_style();
         this._oldRightBoxStyle = this.panel._rightBox.get_style();
+        this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
         this._setTraySize(this._dtpSettings.get_int('tray-size'));
         this._setLeftBoxSize(this._dtpSettings.get_int('tray-size'));
         this._setClockLocation(this._dtpSettings.get_string('location-clock'));
@@ -144,6 +145,7 @@ const taskbarPanel = new Lang.Class({
         this.panelBox.set_anchor_point(0, 0);
         Main.overview._overview.remove_child(this._myPanelGhost);
         Main.overview._panelGhost.set_height(this._oldPanelHeight);
+        this._setActivitiesButtonVisible(true);
         this._setTraySize(0);
         this._setLeftBoxSize(0);
         this._setClockLocation("NATURAL");
@@ -166,6 +168,10 @@ const taskbarPanel = new Lang.Class({
 
         this._dtpSettings.connect('changed::panel-size', Lang.bind(this, function() {
             this._setPanelStyle();
+        }));
+
+        this._dtpSettings.connect('changed::show-activities-button', Lang.bind(this, function() {
+            this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
         }));
 
         this._dtpSettings.connect('changed::tray-size', Lang.bind(this, function() {
@@ -254,6 +260,12 @@ const taskbarPanel = new Lang.Class({
         this._myPanelGhost.set_height(isTop ? 0 : size);
         isTop ? this.panelBox.set_anchor_point(0, 0) :
             this.panelBox.set_anchor_point(0,(-1)*(Main.layoutManager.primaryMonitor.height-this.panelBox.height));
+    },
+
+    _setActivitiesButtonVisible: function(isVisible) {
+        if(this.panel.statusArea['activities'])
+            isVisible ? this.panel.statusArea['activities'].actor.show() :
+                this.panel.statusArea['activities'].actor.hide();
     },
 
     _setTraySize: function(size) {
