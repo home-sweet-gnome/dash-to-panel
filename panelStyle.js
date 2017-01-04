@@ -43,7 +43,7 @@ const taskbarPanelStyle = new Lang.Class({
 
         this._applyStyles();
 
-        //this._bindSettingsChanges();
+        this._bindSettingsChanges();
     },
 
     disable: function () {
@@ -51,23 +51,26 @@ const taskbarPanelStyle = new Lang.Class({
     },
 
     _bindSettingsChanges: function() {
-        /* whenever the settings get changed, re-layout everything. */
-        [
-            "leftbox-padding",
+        let configKeys = [
+            "tray-size",
+            "leftbox-size",
             "tray-padding",
-            "status-icon-padding"
-        ].forEach(function(configName) { // fix foreach
-            settings.connect('changed::' + configName, Lang.bind(this, function () {
+            "leftbox-padding",
+            "status-icon-padding",
+        ];
+        
+        for(let i in configKeys) {
+            this._dtpSettings.connect('changed::' + configKeys[i], Lang.bind(this, function () {
                 this._removeStyles();
                 this._applyStyles();
             }));
-        });
+        }
     },
 
     _applyStyles: function() {
         this._rightBoxOperations = [];
         
-        let trayPadding = -1; //this._dtpSettings.get_int('tray-padding');
+        let trayPadding = this._dtpSettings.get_int('tray-padding');
         if(trayPadding >= 0) {
             let trayPaddingStyleLine = '-natural-hpadding: %dpx'.format(trayPadding);
             if (trayPadding < 6) {
@@ -77,34 +80,34 @@ const taskbarPanelStyle = new Lang.Class({
             operation.compareFn = function (actor) {
                 return (actor.has_style_class_name && actor.has_style_class_name('panel-button'));
             };
-            operation.applyFn = Lang.bind(this, function (actor) {
-                this._overrideStyle(actor, trayPaddingStyleLine);
+            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+                this._overrideStyle(actor, trayPaddingStyleLine, operationIdx);
             });
             this._rightBoxOperations.push(operation);
         }
 
-        let statusIconPadding = -1; //this._dtpSettings.get_int('status-icon-padding');
+        let statusIconPadding = this._dtpSettings.get_int('status-icon-padding');
         if(statusIconPadding >= 0) {
             let statusIconPaddingStyleLine = 'padding-left: %dpx; padding-right: %dpx'.format(statusIconPadding, statusIconPadding)
             let operation = {};
             operation.compareFn = function (actor) {
                 return (actor.has_style_class_name && actor.has_style_class_name('system-status-icon'));
             };
-            operation.applyFn = Lang.bind(this, function (actor) {
-                this._overrideStyle(actor, statusIconPaddingStyleLine);
+            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+                this._overrideStyle(actor, statusIconPaddingStyleLine, operationIdx);
             });
             this._rightBoxOperations.push(operation);
         }
 
-        let trayContentSize = 0;
+        let trayContentSize = this._dtpSettings.get_int('tray-size');
         if(trayContentSize > 0) {
             let trayIconSizeStyleLine = 'icon-size: %dpx'.format(trayContentSize)
             let operation = {};
             operation.compareFn = function (actor) {
                 return (actor.constructor && actor.constructor.name == 'St_Icon');
             };
-            operation.applyFn = Lang.bind(this, function (actor) {
-                this._overrideStyle(actor, trayIconSizeStyleLine);
+            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+                this._overrideStyle(actor, trayIconSizeStyleLine, operationIdx);
             });
             this._rightBoxOperations.push(operation);
 
@@ -113,8 +116,8 @@ const taskbarPanelStyle = new Lang.Class({
             operation.compareFn = function (actor) {
                 return (actor.constructor && actor.constructor.name == 'St_Label');
             };
-            operation.applyFn = Lang.bind(this, function (actor) {
-                this._overrideStyle(actor, trayContentSizeStyleLine);
+            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+                this._overrideStyle(actor, trayContentSizeStyleLine, operationIdx);
             });
             this._rightBoxOperations.push(operation);
         }
@@ -124,7 +127,7 @@ const taskbarPanelStyle = new Lang.Class({
 
         this._leftBoxOperations = [];
 
-        let leftboxPadding = -1; //this._dtpSettings.get_int('leftbox-padding');
+        let leftboxPadding = this._dtpSettings.get_int('leftbox-padding');
         if(leftboxPadding >= 0) {
             let leftboxPaddingStyleLine = '-natural-hpadding: %dpx'.format(leftboxPadding);
             if (leftboxPadding < 6) {
@@ -134,21 +137,21 @@ const taskbarPanelStyle = new Lang.Class({
             operation.compareFn = function (actor) {
                 return (actor.has_style_class_name && actor.has_style_class_name('panel-button'));
             };
-            operation.applyFn = Lang.bind(this, function (actor) {
-                this._overrideStyle(actor, leftboxPaddingStyleLine);
+            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+                this._overrideStyle(actor, leftboxPaddingStyleLine, operationIdx);
             });
             this._leftBoxOperations.push(operation);
         }
 
-        let leftboxContentSize = 0;
+        let leftboxContentSize = this._dtpSettings.get_int('leftbox-size');
         if(leftboxContentSize > 0) {
             let leftboxIconSizeStyleLine = 'icon-size: %dpx'.format(leftboxContentSize)
             let operation = {};
             operation.compareFn = function (actor) {
                 return (actor.constructor && actor.constructor.name == 'St_Icon');
             };
-            operation.applyFn = Lang.bind(this, function (actor) {
-                this._overrideStyle(actor, leftboxIconSizeStyleLine);
+            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+                this._overrideStyle(actor, leftboxIconSizeStyleLine, operationIdx);
             });
             this._leftBoxOperations.push(operation);
 
@@ -157,29 +160,14 @@ const taskbarPanelStyle = new Lang.Class({
             operation.compareFn = function (actor) {
                 return (actor.constructor && actor.constructor.name == 'St_Label');
             };
-            operation.applyFn = Lang.bind(this, function (actor) {
-                this._overrideStyle(actor, leftboxContentSizeStyleLine);
+            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+                this._overrideStyle(actor, leftboxContentSizeStyleLine, operationIdx);
             });
             this._leftBoxOperations.push(operation);
         }
 
-        let hideDropDownArrows = true;
-        if(hideDropDownArrows) {
-            let operation = {};
-            operation.compareFn = function (actor) {
-                return (actor.has_style_class_name && actor.has_style_class_name('popup-menu-arrow'));
-            };
-            operation.applyFn = Lang.bind(this, function (actor) {
-                actor.hide();
-            });
-            operation.restoreFn = Lang.bind(this, function (actor) {
-                actor.show();
-            });
-            this._rightBoxOperations.push(operation);
-            this._leftBoxOperations.push(operation);
-        }
 
-        // recurse actors
+        /*recurse actors */
         if(this._rightBoxOperations.length) {
             let children = this.panel._rightBox.get_children();
             for(let i in children)
@@ -254,7 +242,7 @@ const taskbarPanelStyle = new Lang.Class({
                 if(restore)
                     o.restoreFn ? o.restoreFn(actor) : this._restoreOriginalStyle(actor);
                 else
-                    o.applyFn(actor);
+                    o.applyFn(actor, i);
         }
 
         if(actor.get_children) {
@@ -265,24 +253,27 @@ const taskbarPanelStyle = new Lang.Class({
         }
     },
     
-    _overrideStyle: function(actor, styleLine) {
-        if (actor._original_inline_style_ === undefined) {
-            actor._original_inline_style_ = actor.get_style();
+    _overrideStyle: function(actor, styleLine, operationIdx) {
+        if (actor._dtp_original_inline_style === undefined) {
+            actor._dtp_original_inline_style = actor.get_style();
         }
 
-        actor.set_style(styleLine + '; ' + (actor._original_inline_style_ || ''));
-        actor._dtp_line_style = styleLine;
+        if(actor._dtp_style_overrides === undefined) {
+            actor._dtp_style_overrides = {};
+        }
+
+        actor._dtp_style_overrides[operationIdx] = styleLine;
+        let newStyleLine = '';
+        for(let i in actor._dtp_style_overrides)
+            newStyleLine += actor._dtp_style_overrides[i] + '; ';
+        actor.set_style(newStyleLine + (actor._dtp_original_inline_style || ''));
      },
 
     _restoreOriginalStyle: function(actor) {
-        if (actor._dtpPanelStyleSignalID) {
-            actor.disconnect(actor._dtpPanelStyleSignalID);
-            delete actor._dtpPanelStyleSignalID;
-        }
-        if (actor._original_inline_style_ !== undefined) {
-            actor.set_style(actor._original_inline_style_);
-            delete actor._original_inline_style_;
-            delete actor._dtp_line_style;
+        if (actor._dtp_original_inline_style !== undefined) {
+            actor.set_style(actor._dtp_original_inline_style);
+            delete actor._dtp_original_inline_style;
+            delete actor._dtp_style_overrides;
         }
     }
     

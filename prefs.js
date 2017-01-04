@@ -38,7 +38,8 @@ const Convenience = Me.imports.convenience;
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
 const DEFAULT_FONT_SIZES = [ 96, 64, 48, 32, 24, 16, 0 ];
-const DEFAULT_MARGIN_SIZES = [ 32, 24, 16, 12, 10, 8, 6, 4, 2, 0 ];
+const DEFAULT_MARGIN_SIZES = [ 32, 24, 16, 12, 8, 4, 0 ];
+const DEFAULT_PADDING_SIZES = [ 32, 24, 16, 12, 8, 4, 0, -1 ];
 
 const Settings = new Lang.Class({
     Name: 'TaskBar.Settings',
@@ -59,6 +60,9 @@ const Settings = new Lang.Class({
         this._tray_size_timeout = 0;
         this._leftbox_size_timeout = 0;
         this._appicon_margin_timeout = 0;
+        this._tray_padding_timeout = 0;
+        this._statusicon_padding_timeout = 0;
+        this._leftbox_padding_timeout = 0;
 
         this._bindSettings();
 
@@ -226,6 +230,9 @@ const Settings = new Lang.Class({
             {objectName: 'tray_size_scale', valueName: 'tray-size', range: DEFAULT_FONT_SIZES },
             {objectName: 'leftbox_size_scale', valueName: 'leftbox-size', range: DEFAULT_FONT_SIZES },
             {objectName: 'appicon_margin_scale', valueName: 'appicon-margin', range: DEFAULT_MARGIN_SIZES },
+            {objectName: 'tray_padding_scale', valueName: 'tray-padding', range: DEFAULT_PADDING_SIZES },
+            {objectName: 'leftbox_padding_scale', valueName: 'leftbox-padding', range: DEFAULT_PADDING_SIZES },
+            {objectName: 'statusicon_padding_scale', valueName: 'status-icon-padding', range: DEFAULT_PADDING_SIZES }
         ];
         
         for(var idx in sizeScales) {
@@ -336,6 +343,54 @@ const Settings = new Lang.Class({
             this._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
                 this._settings.set_int('appicon-margin', scale.get_value());
                 this._appicon_margin_timeout = 0;
+                return GLib.SOURCE_REMOVE;
+            }));
+        },
+
+        tray_padding_scale_format_value_cb: function(scale, value) {
+            return value+ ' px';
+        },
+
+        tray_padding_scale_value_changed_cb: function(scale) {
+            // Avoid settings the size consinuosly
+            if (this._tray_padding_timeout > 0)
+                Mainloop.source_remove(this._tray_padding_timeout);
+
+            this._tray_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+                this._settings.set_int('tray-padding', scale.get_value());
+                this._tray_padding_timeout = 0;
+                return GLib.SOURCE_REMOVE;
+            }));
+        },
+
+        statusicon_padding_scale_format_value_cb: function(scale, value) {
+            return value+ ' px';
+        },
+
+        statusicon_padding_scale_value_changed_cb: function(scale) {
+            // Avoid settings the size consinuosly
+            if (this._statusicon_padding_timeout > 0)
+                Mainloop.source_remove(this._statusicon_padding_timeout);
+
+            this._statusicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+                this._settings.set_int('status-icon-padding', scale.get_value());
+                this._statusicon_padding_timeout = 0;
+                return GLib.SOURCE_REMOVE;
+            }));
+        },
+
+        leftbox_padding_scale_format_value_cb: function(scale, value) {
+            return value+ ' px';
+        },
+
+        leftbox_padding_scale_value_changed_cb: function(scale) {
+            // Avoid settings the size consinuosly
+            if (this._leftbox_padding_timeout > 0)
+                Mainloop.source_remove(this._leftbox_padding_timeout);
+
+            this._leftbox_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+                this._settings.set_int('leftbox-padding', scale.get_value());
+                this._leftbox_padding_timeout = 0;
                 return GLib.SOURCE_REMOVE;
             }));
         }

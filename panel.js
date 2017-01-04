@@ -78,8 +78,6 @@ const taskbarPanel = new Lang.Class({
         this._oldCenterBoxStyle = this.panel._centerBox.get_style();
         this._oldRightBoxStyle = this.panel._rightBox.get_style();
         this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
-        this._setTraySize(this._dtpSettings.get_int('tray-size'));
-        this._setLeftBoxSize(this._dtpSettings.get_int('tray-size'));
         this._setClockLocation(this._dtpSettings.get_string('location-clock'));
         
         this.panel.actor.add_style_class_name("popup-menu");
@@ -152,8 +150,6 @@ const taskbarPanel = new Lang.Class({
         Main.overview._overview.remove_child(this._myPanelGhost);
         Main.overview._panelGhost.set_height(this._oldPanelHeight);
         this._setActivitiesButtonVisible(true);
-        this._setTraySize(0);
-        this._setLeftBoxSize(0);
         this._setClockLocation("NATURAL");
         this.panel.actor.remove_style_class_name("popup-menu");
 
@@ -178,14 +174,6 @@ const taskbarPanel = new Lang.Class({
 
         this._dtpSettings.connect('changed::show-activities-button', Lang.bind(this, function() {
             this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
-        }));
-
-        this._dtpSettings.connect('changed::tray-size', Lang.bind(this, function() {
-            this._setTraySize(this._dtpSettings.get_int('tray-size'));
-        }));
-
-        this._dtpSettings.connect('changed::leftbox-size', Lang.bind(this, function() {
-            this._setLeftBoxSize(this._dtpSettings.get_int('leftbox-size'));
         }));
 
         this._dtpSettings.connect('changed::location-clock', Lang.bind(this, function() {
@@ -272,15 +260,6 @@ const taskbarPanel = new Lang.Class({
         if(this.panel.statusArea.activities)
             isVisible ? this.panel.statusArea.activities.actor.show() :
                 this.panel.statusArea.activities.actor.hide();
-    },
-
-    _setTraySize: function(size) {
-        size ? this.panel._centerBox.set_style("font-size: " + size + "px;" + (this._oldCenterBoxStyle || "")) : this.panel._centerBox.set_style(this._oldCenterBoxStyle);
-        size ? this.panel._rightBox.set_style("font-size: " + size + "px;" + (this._oldRightBoxStyle || "")) : this.panel._rightBox.set_style(this._oldRightBoxStyle);    
-    },
-
-    _setLeftBoxSize: function(size) {
-        size ? this.panel._leftBox.set_style("font-size: " + size + "px;" + (this._oldLeftBoxStyle || "")) : this.panel._leftBox.set_style(this._oldLeftBoxStyle);
     },
 
     _setClockLocation: function(loc) {

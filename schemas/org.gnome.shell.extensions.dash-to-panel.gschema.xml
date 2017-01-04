@@ -114,12 +114,12 @@
     </key>
       <key type="i" name="tray-padding">
         <default>6</default>
-        <summary>Tray padding</summary>
+        <summary>Tray item padding</summary>
         <description>Set the size of the tray padding. (-1 for default)</description>
     </key>
     <key type="i" name="leftbox-padding">
         <default>6</default>
-        <summary>Leftbox padding</summary>
+        <summary>Leftbox item padding</summary>
         <description>Set the size of the leftBox padding. (-1 for default)</description>
     </key>
     <key type="i" name="status-icon-padding">
