@@ -111,7 +111,7 @@ const thumbnailPreviewMenu = new Lang.Class({
         this.shouldOpen = true;
         this.shouldClose = false;
 
-        Mainloop.timeout_add(Taskbar.DASH_ITEM_HOVER_TIMEOUT, Lang.bind(this, this.hoverOpen));
+        this.hoverOpen();
     },
 
     _onMenuLeave: function () {
@@ -124,7 +124,7 @@ const thumbnailPreviewMenu = new Lang.Class({
         this.shouldOpen = true;
         this.shouldClose = false;
 
-        Mainloop.timeout_add(Taskbar.DASH_ITEM_HOVER_TIMEOUT, Lang.bind(this, this.hoverOpen));
+        this.hoverOpen();
     },
 
     _onLeave: function () {
