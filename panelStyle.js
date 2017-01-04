@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Credits:
- * The code for recursing child actors and assigning inline styles
- * is based on code from the StatusAreaHorizontalSpacing extension
+ * Ideas for recursing child actors and assigning inline styles
+ * are based on code from the StatusAreaHorizontalSpacing extension
  * https://bitbucket.org/mathematicalcoffee/status-area-horizontal-spacing-gnome-shell-extension
  * mathematical.coffee@gmail.com
  */
@@ -78,7 +78,6 @@ const taskbarPanelStyle = new Lang.Class({
                 return (actor.has_style_class_name && actor.has_style_class_name('panel-button'));
             };
             operation.applyFn = Lang.bind(this, function (actor) {
-                global.log('applying ' + trayPaddingStyleLine + ' to ' + actor.get_style_class_name());
                 this._overrideStyle(actor, trayPaddingStyleLine);
             });
             this._rightBoxOperations.push(operation);
@@ -93,6 +92,29 @@ const taskbarPanelStyle = new Lang.Class({
             };
             operation.applyFn = Lang.bind(this, function (actor) {
                 this._overrideStyle(actor, statusIconPaddingStyleLine);
+            });
+            this._rightBoxOperations.push(operation);
+        }
+
+        let trayContentSize = 0;
+        if(trayContentSize > 0) {
+            let trayIconSizeStyleLine = 'icon-size: %dpx'.format(trayContentSize)
+            let operation = {};
+            operation.compareFn = function (actor) {
+                return (actor.constructor && actor.constructor.name == 'St_Icon');
+            };
+            operation.applyFn = Lang.bind(this, function (actor) {
+                this._overrideStyle(actor, trayIconSizeStyleLine);
+            });
+            this._rightBoxOperations.push(operation);
+
+            let trayContentSizeStyleLine = 'font-size: %dpx'.format(trayContentSize)
+            operation = {};
+            operation.compareFn = function (actor) {
+                return (actor.constructor && actor.constructor.name == 'St_Label');
+            };
+            operation.applyFn = Lang.bind(this, function (actor) {
+                this._overrideStyle(actor, trayContentSizeStyleLine);
             });
             this._rightBoxOperations.push(operation);
         }
@@ -118,6 +140,46 @@ const taskbarPanelStyle = new Lang.Class({
             this._leftBoxOperations.push(operation);
         }
 
+        let leftboxContentSize = 0;
+        if(leftboxContentSize > 0) {
+            let leftboxIconSizeStyleLine = 'icon-size: %dpx'.format(leftboxContentSize)
+            let operation = {};
+            operation.compareFn = function (actor) {
+                return (actor.constructor && actor.constructor.name == 'St_Icon');
+            };
+            operation.applyFn = Lang.bind(this, function (actor) {
+                this._overrideStyle(actor, leftboxIconSizeStyleLine);
+            });
+            this._leftBoxOperations.push(operation);
+
+            let leftboxContentSizeStyleLine = 'font-size: %dpx'.format(leftboxContentSize)
+            operation = {};
+            operation.compareFn = function (actor) {
+                return (actor.constructor && actor.constructor.name == 'St_Label');
+            };
+            operation.applyFn = Lang.bind(this, function (actor) {
+                this._overrideStyle(actor, leftboxContentSizeStyleLine);
+            });
+            this._leftBoxOperations.push(operation);
+        }
+
+        let hideDropDownArrows = true;
+        if(hideDropDownArrows) {
+            let operation = {};
+            operation.compareFn = function (actor) {
+                return (actor.has_style_class_name && actor.has_style_class_name('popup-menu-arrow'));
+            };
+            operation.applyFn = Lang.bind(this, function (actor) {
+                actor.hide();
+            });
+            operation.restoreFn = Lang.bind(this, function (actor) {
+                actor.show();
+            });
+            this._rightBoxOperations.push(operation);
+            this._leftBoxOperations.push(operation);
+        }
+
+        // recurse actors
         if(this._rightBoxOperations.length) {
             let children = this.panel._rightBox.get_children();
             for(let i in children)
@@ -140,19 +202,19 @@ const taskbarPanelStyle = new Lang.Class({
         this._rightBoxActorAddedID = this.panel._rightBox.connect('actor-added',
             Lang.bind(this, function (container, actor) {
                 if(this._rightBoxOperations.length)
-                    this._recursiveApply(child, this._rightBoxOperations);
+                    this._recursiveApply(actor, this._rightBoxOperations);
             })
         );
         this._centerBoxActorAddedID = this.panel._centerBox.connect('actor-added',
             Lang.bind(this, function (container, actor) {
                 if(this._centerBoxOperations.length)
-                    this._recursiveApply(child, this._centerBoxOperations);
+                    this._recursiveApply(actor, this._centerBoxOperations);
             })
         );
         this._leftBoxActorAddedID = this.panel._leftBox.connect('actor-added',
             Lang.bind(this, function (container, actor) {
                 if(this._leftBoxOperations.length)
-                    this._recursiveApply(child, this._leftBoxOperations);
+                    this._recursiveApply(actor, this._leftBoxOperations);
             })
         );
     },
@@ -210,27 +272,7 @@ const taskbarPanelStyle = new Lang.Class({
 
         actor.set_style(styleLine + '; ' + (actor._original_inline_style_ || ''));
         actor._dtp_line_style = styleLine;
- 
-        /* listen for the style being set externally so we can re-apply our style */
-        // TODO: somehow throttle the number of calls to this - add a timeout with
-        // a flag?
-        if (!actor._dtpPanelStyleSignalID) {
-            actor._dtpPanelStyleSignalID =
-                actor.connect('style-changed', Lang.bind(this, function () {
-                    let currStyle = actor.get_style();
-                    if (currStyle && !currStyle.match(actor._dtp_line_style)) {
-                        // re-save the style (if it has in fact changed)
-                        actor._original_inline_style_ = currStyle;
-                        // have to do this or else the overrideStyle call will trigger
-                        // another call of this, firing an endless series of these signals.
-                        // TODO: a ._style_pending which prevents it rather than disconnect/connect?
-                        actor.disconnect(actor._dtpPanelStyleSignalID);
-                        delete actor._dtpPanelStyleSignalID;
-                        this._overrideStyle(actor, styleLine);
-                    }
-                }));
-        }
-    },
+     },
 
     _restoreOriginalStyle: function(actor) {
         if (actor._dtpPanelStyleSignalID) {
