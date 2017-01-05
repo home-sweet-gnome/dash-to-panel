@@ -113,17 +113,17 @@
         <description>Set the margin for application icons in the embedded dash.</description>
     </key>
       <key type="i" name="tray-padding">
-        <default>6</default>
+        <default>-1</default>
         <summary>Tray item padding</summary>
         <description>Set the size of the tray padding. (-1 for default)</description>
     </key>
     <key type="i" name="leftbox-padding">
-        <default>6</default>
+        <default>-1</default>
         <summary>Leftbox item padding</summary>
         <description>Set the size of the leftBox padding. (-1 for default)</description>
     </key>
     <key type="i" name="status-icon-padding">
-        <default>6</default>
+        <default>-1</default>
         <summary>Status icon padding</summary>
         <description>Set the size of the aggregate (status) menu icon padding. (-1 for default)</description>
     </key>

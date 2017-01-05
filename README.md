@@ -2,18 +2,20 @@
 ![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/screenshot.png)
 
 ## An icon taskbar for the GNOME Shell
-An icon taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel (top bar) to behave as an icon-only task manager similar to that found in KDE Plasma and Windows 7+.
+An icon taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.
 
 ## Features
-- Move the Application Dash from the Overview into the top bar. This allows a Win7/Plasma style de-duped favorites + launcher bar without a separate application dock.
-- Running indicator includes window count and can be positioned at top or bottom of panel.
-- Preview of open windows when hovering over their icons
-- Set Panel position (top/bottom) and height
+- Move the Application Dash from the Overview into the main panel (top bar)
+- Set main panel position (top or bottom) and height
+- Running indicator includes window count and can be positioned at top or bottom of panel
+- Preview of open windows when hovering over icons of running applications
 - Configure clock location
 - Remove "Show Apps" icon from dash
 - Hide Activities button from panel
 - Isolate running apps in workspaces
+- Assign click behaviors (launch new window, cycle open windows, minimize, etc)
 - Assign font & icon sizes and margins for dash icons, status icons and panel elements
+
 
 ## Installation from source
 
@@ -26,7 +28,7 @@ make install
 </pre>
 to install the extension in your home directory. A Shell reload is required <code>Alt+F2 r Enter</code> and the extension has to be enabled  with *gnome-tweak-tool* or with *dconf*.
 
-**I recommend setting Top Bar > Show Applications Menu off in Gnome Tweak Tool.** This will cause the applications menu for native gnome apps (which normally appears in the top bar) to be presented in the top left of the window.
+**I recommend setting Top Bar > Show Applications Menu off in Gnome Tweak Tool.** This will cause the applications menu for native gnome apps (which normally appears in the top bar) to be presented in the top left of the window. It is also recommended to turn Windows > Titlebar Buttons > Minimize & Maximize on.
 
 ## Bug Reporting
 
