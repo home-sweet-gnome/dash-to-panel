@@ -68,3 +68,7 @@
 .popup-menu.panel-menu {
     margin-bottom: 0;
 }
+
+#panel #panelLeft, #panel #panelCenter {
+	spacing: 0px; 
+}
