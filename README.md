@@ -30,6 +30,12 @@ to install the extension in your home directory. A Shell reload is required <cod
 
 **I recommend setting Top Bar > Show Applications Menu off in Gnome Tweak Tool.** This will cause the applications menu for native gnome apps (which normally appears in the top bar) to be presented in the top left of the window. It is also recommended to turn Windows > Titlebar Buttons > Minimize & Maximize on.
 
+## Compatibility
+
+This extension has been tested with Gnome 3.18+.
+
+This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other extensions which operate on the top bar should be compatible. For instance, to add intellihide behavior to the panel, try [Hide Top Bar](https://extensions.gnome.org/extension/545/hide-top-bar/). Or, to set the panel opacity, try [Dynamic Panel Transparency](https://extensions.gnome.org/extension/1011/dynamic-panel-transparency/). If you'd like to add a traditional application menu, check out [Gno-Menu](https://extensions.gnome.org/extension/608/gnomenu/).
+
 ## Bug Reporting
 
 Bugs should be reported to the Github bug tracker [https://github.com/jderose9/dash-to-panel/issues](https://github.com/jderose9/dash-to-panel/issues).
