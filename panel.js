@@ -50,6 +50,28 @@ const taskbarPanel = new Lang.Class({
         this.appMenu = this.panel.statusArea.appMenu;
         this.panelBox = Main.layoutManager.panelBox;
 
+        // The main panel's connection to the "allocate" signal is competing with this extension
+        // trying to move the centerBox over to the right, creating a never-ending cycle.
+        // Since we don't have the ID to disconnect that handler, wrap the allocate() function 
+        // it calls instead. If the call didn't originate from this file, ignore it.
+        this.panel._leftBox.oldLeftBoxAllocate = this.panel._leftBox.allocate;
+        this.panel._leftBox.allocate = Lang.bind(this.panel._leftBox, function(box, flags, isFromDashToPanel) {
+            if(isFromDashToPanel === true) 
+                this.oldLeftBoxAllocate(box, flags);
+        });
+
+        this.panel._centerBox.oldCenterBoxAllocate = this.panel._centerBox.allocate;
+        this.panel._centerBox.allocate = Lang.bind(this.panel._centerBox, function(box, flags, isFromDashToPanel) {
+            if(isFromDashToPanel === true) 
+                this.oldCenterBoxAllocate(box, flags);
+        });
+
+        this.panel._rightBox.oldRightBoxAllocate = this.panel._rightBox.allocate;
+        this.panel._rightBox.allocate = Lang.bind(this.panel._rightBox, function(box, flags, isFromDashToPanel) {
+            if(isFromDashToPanel === true) 
+                this.oldRightBoxAllocate(box, flags);
+        });
+
         this._panelConnectId = this.panel.actor.connect('allocate', Lang.bind(this, function(actor,box,flags){this._allocate(actor,box,flags);}));
         this.container.remove_child(this.appMenu.container);
         this.taskbar = new TaskBar.taskbar(this._dtpSettings);
@@ -127,6 +149,15 @@ const taskbarPanel = new Lang.Class({
     },
 
     disable: function () {
+        this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
+        delete this.panel._leftBox.oldLeftBoxAllocate;
+
+        this.panel._centerBox.allocate = this.panel._centerBox.oldCenterBoxAllocate;
+        delete this.panel._centerBox.oldCenterBoxAllocate;
+        
+        this.panel._rightBox.allocate = this.panel._rightBox.oldRightBoxAllocate;
+        delete this.panel._rightBox.oldRightBoxAllocate;
+
         this.panelStyle.disable();
 
         this._signalsHandler.destroy();
@@ -202,7 +233,7 @@ const taskbarPanel = new Lang.Class({
             childBox.x1 = 0;
             childBox.x2 = sideWidth;
         }
-        this.panel._leftBox.allocate(childBox, flags);
+        this.panel._leftBox.allocate(childBox, flags, true);
 
         childBox.y1 = 0;
         childBox.y2 = allocHeight;
@@ -213,7 +244,7 @@ const taskbarPanel = new Lang.Class({
             childBox.x1 = allocWidth - centerNaturalWidth - rightNaturalWidth;
             childBox.x2 = childBox.x1 + centerNaturalWidth;
         }
-        this.panel._centerBox.allocate(childBox, flags);
+        this.panel._centerBox.allocate(childBox, flags, true);
 
         childBox.y1 = 0;
         childBox.y2 = allocHeight;
@@ -224,7 +255,7 @@ const taskbarPanel = new Lang.Class({
             childBox.x1 = allocWidth - rightNaturalWidth;
             childBox.x2 = allocWidth;
         }
-        this.panel._rightBox.allocate(childBox, flags);
+        this.panel._rightBox.allocate(childBox, flags, true);
 
         let [cornerMinWidth, cornerWidth] = this.panel._leftCorner.actor.get_preferred_width(-1);
         let [cornerMinHeight, cornerHeight] = this.panel._leftCorner.actor.get_preferred_width(-1);
