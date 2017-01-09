@@ -37,15 +37,14 @@ const Workspace = imports.ui.workspace;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Taskbar = Me.imports.taskbar;
 
-let THUMBNAIL_WIDTH = 350;
-let THUMBNAIL_HEIGHT = 200;
+let DEFAULT_THUMBNAIL_WIDTH = 350;
+let DEFAULT_THUMBNAIL_HEIGHT = 200;
 
 const thumbnailPreviewMenu = new Lang.Class({
     Name: 'thumbnailPreviewMenu',
     Extends: PopupMenu.PopupMenu,
 
     _init: function(source, settings) {
-
         this._dtpSettings = settings;
 
         let side = Taskbar.getPosition();
@@ -190,6 +189,13 @@ const thumbnailPreview = new Lang.Class({
     _init: function(window) {
         this.window = window;
 
+        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        if(!scaleFactor)
+            scaleFactor = 1;
+        
+        this._thumbnailWidth = DEFAULT_THUMBNAIL_WIDTH*scaleFactor;
+        this._thumbnailHeight = DEFAULT_THUMBNAIL_HEIGHT*scaleFactor;
+
         this.parent({reactive: true});
         this._workId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._onResize));
         this._closeButtonId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._repositionCloseButton));
@@ -207,7 +213,7 @@ const thumbnailPreview = new Lang.Class({
                                              vertical: true });
 
         this._previewBin = new St.Bin();
-        this._previewBin.set_size(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
+        this._previewBin.set_size(this._thumbnailWidth, this._thumbnailHeight);
 
         this._closeButton = new St.Button({ style_class: 'window-close',
                                             accessible_name: "Close window" });
@@ -221,7 +227,7 @@ const thumbnailPreview = new Lang.Class({
         this._title = new St.Label({ text: window.title });
         this._titleBin = new St.Bin({ child: this._title,
                                     x_align: St.Align.MIDDLE,
-                                    width: THUMBNAIL_WIDTH
+                                    width: this._thumbnailWidth
                                   });
         this._titleBin.add_style_class_name("preview-window-title");
 
@@ -231,8 +237,8 @@ const thumbnailPreview = new Lang.Class({
 
         this._windowBin = new St.Bin({ child: this.overlayGroup,
                                     x_align: St.Align.MIDDLE,
-                                    width: THUMBNAIL_WIDTH,
-                                    height: THUMBNAIL_HEIGHT
+                                    width: this._thumbnailWidth,
+                                    height: this._thumbnailHeight
                                   });
 
         this._windowBox.add_child(this._windowBin);
@@ -311,7 +317,7 @@ const thumbnailPreview = new Lang.Class({
         if (mutterWindow) {
             let windowTexture = mutterWindow.get_texture();
             let [width, height] = windowTexture.get_size();
-            this.scale = Math.min(1.0, THUMBNAIL_WIDTH / width, THUMBNAIL_HEIGHT / height);
+            this.scale = Math.min(1.0, this._thumbnailWidth / width, this._thumbnailHeight / height);
             thumbnail = new Clutter.Clone ({ source: windowTexture,
                                              reactive: true,
                                              width: width * this.scale,
@@ -334,7 +340,7 @@ const thumbnailPreview = new Lang.Class({
 
     _onResize: function() {
         let [width, height] = this.preview.get_source().get_size();
-        this.scale = Math.min(1.0, THUMBNAIL_WIDTH / width, THUMBNAIL_HEIGHT / height);
+        this.scale = Math.min(1.0, this._thumbnailWidth / width, this._thumbnailHeight / height);
         this.preview.set_size(width * this.scale, height * this.scale);
 
         this._queueRepositionCloseButton();
@@ -349,8 +355,8 @@ const thumbnailPreview = new Lang.Class({
         let cloneWidth = Math.floor(rect.width) * this.scale;
         let cloneHeight = Math.floor(rect.height) * this.scale;
 
-        let cloneX = (THUMBNAIL_WIDTH - cloneWidth) / 2 ;
-        let cloneY = (THUMBNAIL_HEIGHT - cloneHeight) / 2;
+        let cloneX = (this._thumbnailWidth - cloneWidth) / 2 ;
+        let cloneY = (this._thumbnailHeight - cloneHeight) / 2;
 
         let buttonX;
         if (Clutter.get_default_text_direction() == Clutter.TextDirection.RTL) {
@@ -358,7 +364,7 @@ const thumbnailPreview = new Lang.Class({
             buttonX = Math.max(buttonX, 0);
         } else {
             buttonX = cloneX + (cloneWidth - (this._closeButton.width / 2));
-            buttonX = Math.min(buttonX, THUMBNAIL_WIDTH - this._closeButton.width);
+            buttonX = Math.min(buttonX, this._thumbnailWidth - this._closeButton.width);
         }
 
         let buttonY = cloneY - (this._closeButton.height / 2);

@@ -50,6 +50,26 @@ const taskbarPanel = new Lang.Class({
         this.appMenu = this.panel.statusArea.appMenu;
         this.panelBox = Main.layoutManager.panelBox;
 
+        this._oldPanelHeight = this.panel.actor.get_height();
+
+        // The overview uses the this.panel height as a margin by way of a "ghost" transparent Clone
+        // This pushes everything down, which isn't desired when the this.panel is moved to the bottom
+        // I'm adding a 2nd ghost this.panel and will resize the top or bottom ghost depending on the this.panel position
+        this._myPanelGhost = new St.Bin({ 
+            child: new Clutter.Clone({ source: Main.overview._panelGhost.get_child(0) }), 
+            reactive: false,
+            opacity: 0 
+        });
+        Main.overview._overview.add_actor(this._myPanelGhost);
+        
+        this._setPanelPosition();
+        this._MonitorsChangedListener = global.screen.connect("monitors-changed", Lang.bind(this, function(){
+            this._setPanelPosition();
+        }));
+        this._HeightNotifyListener = this.panelBox.connect("notify::height", Lang.bind(this, function(){
+            this._setPanelPosition();
+        }));
+
         // The main panel's connection to the "allocate" signal is competing with this extension
         // trying to move the centerBox over to the right, creating a never-ending cycle.
         // Since we don't have the ID to disconnect that handler, wrap the allocate() function 
@@ -79,23 +99,6 @@ const taskbarPanel = new Lang.Class({
 
         this.container.insert_child_at_index( this.taskbar.actor, 2 );
         
-        this._oldPanelHeight = this.panel.actor.get_height();
-
-        // The overview uses the this.panel height as a margin by way of a "ghost" transparent Clone
-        // This pushes everything down, which isn't desired when the this.panel is moved to the bottom
-        // I'm adding a 2nd ghost this.panel and will resize the top or bottom ghost depending on the this.panel position
-        this._myPanelGhost = new St.Bin({ 
-            child: new Clutter.Clone({ source: Main.overview._panelGhost.get_child(0) }), 
-            reactive: false,
-            opacity: 0 
-        });
-        Main.overview._overview.add_actor(this._myPanelGhost);
-        
-        // this.panel styling
-        this._MonitorsChangedListener = global.screen.connect("monitors-changed", Lang.bind(this, function(){this._setPanelStyle();}));
-        this._HeightNotifyListener = this.panelBox.connect("notify::height", Lang.bind(this, function(){this._setPanelStyle();}));
-        this._setPanelStyle();
-
         this._oldLeftBoxStyle = this.panel._leftBox.get_style();
         this._oldCenterBoxStyle = this.panel._centerBox.get_style();
         this._oldRightBoxStyle = this.panel._rightBox.get_style();
@@ -196,11 +199,11 @@ const taskbarPanel = new Lang.Class({
 
     _bindSettingsChanges: function() {
         this._dtpSettings.connect('changed::panel-position', Lang.bind(this, function() {
-            this._setPanelStyle();
+            this._setPanelPosition();
         }));
 
         this._dtpSettings.connect('changed::panel-size', Lang.bind(this, function() {
-            this._setPanelStyle();
+            this._setPanelPosition();
         }));
 
         this._dtpSettings.connect('changed::show-activities-button', Lang.bind(this, function() {
@@ -274,12 +277,16 @@ const taskbarPanel = new Lang.Class({
         this.panel._rightCorner.actor.allocate(childBox, flags);
     },
 
-    _setPanelStyle: function() {
+    _setPanelPosition: function() {
+        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         let size = this._dtpSettings.get_int('panel-size');
-        let position = this._dtpSettings.get_string('panel-position');
-        let isTop = position == "TOP";
+        if(scaleFactor)
+            size = size*scaleFactor;
 
         this.panel.actor.set_height(size);
+
+        let position = this._dtpSettings.get_string('panel-position');
+        let isTop = position == "TOP";
 
         Main.overview._panelGhost.set_height(isTop ? size : 0);
         this._myPanelGhost.set_height(isTop ? 0 : size);
