@@ -224,7 +224,7 @@ const taskbar = new Lang.Class({
 
     _init : function(settings) {
         this._dtpSettings = settings;
-        this._maxHeight = -1;
+        this._maxWidth = -1;
         this.iconSize = 32;
         this._availableIconSizes = baseIconSizes;
         this._shownInitially = false;
@@ -286,9 +286,10 @@ const taskbar = new Lang.Class({
 
         this.actor.connect('notify::width', Lang.bind(this,
             function() {
-                if (this._maxHeight != this.actor.width)
+                if (this._maxWidth < this.actor.width) {
+                    this._maxWidth = this.actor.width;
                     this._queueRedisplay();
-                this._maxHeight = this.actor.width;
+                }
             }));
 
         // Update minimization animation target position on allocation of the
@@ -642,7 +643,7 @@ const taskbar = new Lang.Class({
 
         iconChildren.push(this._showAppsIcon);
 
-        if (this._maxHeight == -1)
+        if (this._maxWidth == -1)
             return;
 
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
