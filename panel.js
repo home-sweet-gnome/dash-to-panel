@@ -105,7 +105,6 @@ const taskbarPanel = new Lang.Class({
         this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
         this._setClockLocation(this._dtpSettings.get_string('location-clock'));
         
-        this.panel.actor.add_style_class_name("popup-menu");
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
@@ -185,7 +184,6 @@ const taskbarPanel = new Lang.Class({
         Main.overview._panelGhost.set_height(this._oldPanelHeight);
         this._setActivitiesButtonVisible(true);
         this._setClockLocation("NATURAL");
-        this.panel.actor.remove_style_class_name("popup-menu");
 
         this.appMenu = null;
         this.container = null;
