@@ -21,47 +21,47 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-#taskbarScrollview .dash-item-container > StWidget {
+#dashtopanelScrollview .dash-item-container > StWidget {
 	padding: 0;
 	margin: 0 8px;
 }
 
-#taskbarScrollview .app-well-app .overview-icon {
+#dashtopanelScrollview .app-well-app .overview-icon {
 	border-radius: 0;
 	padding: 8px;
 	border: none;
 }
 
-#taskbarScrollview .app-well-app-running-dot {
+#dashtopanelScrollview .app-well-app-running-dot {
 	margin-bottom: 0;
 }
 
-#thumbnailPreviewScrollview,
-#taskbarScrollview {
+#dashtopanelThumbnailScrollview,
+#dashtopanelScrollview {
 	-st-hfade-offset: 48px;
 }
 
-.taskbarSecondaryMenu {
+.dashtopanelSecondaryMenu {
 	max-width: 400px;
 }
 
-#thumbnailPreviewList {
+#dashtopanelThumbnailList {
 	spacing: 0em;
 	padding: 0 1em;
 }
 
-#thumbnailPreviewList .popup-menu-item {
+#dashtopanelThumbnailList .popup-menu-item {
 	padding: 1em;
 	border-radius: 5px;
 	spacing: 0;
 }
 
-#thumbnailPreviewList .window-box {
+#dashtopanelThumbnailList .window-box {
 	padding: 0;
 	spacing: 0;
 }
 
-#thumbnailPreviewList .preview-window-title {
+#dashtopanelThumbnailList .preview-window-title {
 	padding-top: 1em;
 }
 

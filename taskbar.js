@@ -138,7 +138,7 @@ function extendDashItemContainer(dashItemContainer) {
  */
 
 const taskbarActor = new Lang.Class({
-    Name: 'taskbarActor',
+    Name: 'DashToPanel.TaskbarActor',
 
     _init: function() {
         this._rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
@@ -147,7 +147,7 @@ const taskbarActor = new Lang.Class({
 
         let layout = new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL });
 
-        this.actor = new Shell.GenericContainer({ name: 'taskbar',
+        this.actor = new Shell.GenericContainer({ name: 'dashtopanelTaskbar',
                       layout_manager: layout,
                       clip_to_allocation: true });
         this.actor.connect('get-preferred-width', Lang.bind(this, this._getPreferredWidth));
@@ -220,7 +220,7 @@ const taskbarActor = new Lang.Class({
 const baseIconSizes = [ 16, 22, 24, 32, 48, 64, 96, 128 ];
 
 const taskbar = new Lang.Class({
-    Name: 'taskbar.taskbar',
+    Name: 'DashToPanel.Taskbar',
 
     _init : function(settings) {
         this._dtpSettings = settings;
@@ -242,7 +242,7 @@ const taskbar = new Lang.Class({
 
         this._containerObject = new taskbarActor();
         this._container = this._containerObject.actor;
-        this._scrollView = new St.ScrollView({ name: 'taskbarScrollview',
+        this._scrollView = new St.ScrollView({ name: 'dashtopanelScrollview',
                                                hscrollbar_policy: Gtk.PolicyType.NEVER,
                                                vscrollbar_policy: Gtk.PolicyType.NEVER,
                                                enable_mouse_scrolling: true });
@@ -1162,7 +1162,7 @@ Signals.addSignalMethods(taskbar.prototype);
 let tracker = Shell.WindowTracker.get_default();
 
 const taskbarAppIcon = new Lang.Class({
-    Name: 'taskbar.AppIcon',
+    Name: 'DashToPanel.TaskbarAppIcon',
     Extends: AppDisplay.AppIcon,
 
     _init: function(settings, app, iconParams, onActivateOverride) {
@@ -1322,7 +1322,7 @@ const taskbarAppIcon = new Lang.Class({
         this._windowPreview.close();
 
         this.actor.set_hover(true);
-        this._menu.actor.add_style_class_name('taskbarSecondaryMenu');
+        this._menu.actor.add_style_class_name('dashtopanelSecondaryMenu');
         this._menu.popup();
         this._menuManager.ignoreRelease();
         this.emit('sync-tooltip');

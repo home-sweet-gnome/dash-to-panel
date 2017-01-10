@@ -37,7 +37,7 @@ const Taskbar = Me.imports.taskbar;
  */
 
 const taskbarSecondaryMenu = new Lang.Class({
-    Name: 'taskbarSecondaryMenu',
+    Name: 'DashToPanel.SecondaryMenu',
     Extends: AppDisplay.AppIconMenu,
 
     _init: function(source, settings) {

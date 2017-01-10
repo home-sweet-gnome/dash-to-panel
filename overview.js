@@ -26,8 +26,8 @@ const Lang = imports.lang;
 const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
 
-const taskbarOverview = new Lang.Class({
-    Name: 'TaskBar.Overview',
+const dtpOverview = new Lang.Class({
+    Name: 'DashToPanel.Overview',
 
     _init: function(settings) {
         this._dtpSettings = settings;

@@ -29,10 +29,10 @@ const Mainloop = imports.mainloop;
 const St = imports.gi.St;
 const Shell = imports.gi.Shell;
 
-const TaskBar = Me.imports.taskbar;
+const Taskbar = Me.imports.taskbar;
 
-const taskbarPanelStyle = new Lang.Class({
-    Name: 'TaskBar.PanelStyle',
+const dtpPanelStyle = new Lang.Class({
+    Name: 'DashToPanel.PanelStyle',
 
     _init: function(settings) {
         this._dtpSettings = settings;

@@ -32,9 +32,9 @@ function init() {
 
 function enable() {
     settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');  
-    panel = new Panel.taskbarPanel(settings);
+    panel = new Panel.dtpPanel(settings);
     panel.enable();
-    overview = new Overview.taskbarOverview(settings);
+    overview = new Overview.dtpOverview(settings);
     overview.enable(panel.taskbar);
 }
 

@@ -42,7 +42,7 @@ const DEFAULT_MARGIN_SIZES = [ 32, 24, 16, 12, 8, 4, 0 ];
 const DEFAULT_PADDING_SIZES = [ 32, 24, 16, 12, 8, 4, 0, -1 ];
 
 const Settings = new Lang.Class({
-    Name: 'TaskBar.Settings',
+    Name: 'DashToPanel.Settings',
 
     _init: function() {
         this._settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');

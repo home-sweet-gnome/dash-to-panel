@@ -41,7 +41,7 @@ let DEFAULT_THUMBNAIL_WIDTH = 350;
 let DEFAULT_THUMBNAIL_HEIGHT = 200;
 
 const thumbnailPreviewMenu = new Lang.Class({
-    Name: 'thumbnailPreviewMenu',
+    Name: 'DashToPanel.ThumbnailPreviewMenu',
     Extends: PopupMenu.PopupMenu,
 
     _init: function(source, settings) {
@@ -183,7 +183,7 @@ const thumbnailPreviewMenu = new Lang.Class({
 });
 
 const thumbnailPreview = new Lang.Class({
-    Name: 'thumbnailPreview',
+    Name: 'DashToPanel.ThumbnailPreview',
     Extends: PopupMenu.PopupBaseMenuItem,
 
     _init: function(window) {
@@ -413,7 +413,7 @@ const thumbnailPreview = new Lang.Class({
 });
 
 const thumbnailPreviewList = new Lang.Class({
-    Name: 'thumbnailPreviewList',
+    Name: 'DashToPanel.ThumbnailPreviewList',
     Extends: PopupMenu.PopupMenuSection,
 
     _init: function(app, settings) {
@@ -423,7 +423,7 @@ const thumbnailPreviewList = new Lang.Class({
 
         this._ensurePreviewVisibilityTimeoutId = 0;
 
-        this.actor = new St.ScrollView({ name: 'thumbnailPreviewScrollview',
+        this.actor = new St.ScrollView({ name: 'dashtopanelThumbnailScrollview',
                                                hscrollbar_policy: Gtk.PolicyType.NEVER,
                                                vscrollbar_policy: Gtk.PolicyType.NEVER,
                                                enable_mouse_scrolling: true });
@@ -431,7 +431,7 @@ const thumbnailPreviewList = new Lang.Class({
         this.actor.connect('scroll-event', Lang.bind(this, this._onScrollEvent ));
 
         this.box.set_vertical(false);
-        this.box.set_name("thumbnailPreviewList");
+        this.box.set_name("dashtopanelThumbnailList");
         this.actor.add_actor(this.box);
         this.actor._delegate = this;
 

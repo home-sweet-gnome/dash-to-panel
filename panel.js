@@ -30,18 +30,18 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Clutter = imports.gi.Clutter;
 const Convenience = Me.imports.convenience;
-const TaskBar = Me.imports.taskbar;
+const Taskbar = Me.imports.taskbar;
 const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
 const Main = imports.ui.main;
 const St = imports.gi.St;
 
-const taskbarPanel = new Lang.Class({
-    Name: 'TaskBar.Panel',
+const dtpPanel = new Lang.Class({
+    Name: 'DashToPanel.Panel',
 
     _init: function(settings) {
         this._dtpSettings = settings;
-        this.panelStyle = new PanelStyle.taskbarPanelStyle(settings);
+        this.panelStyle = new PanelStyle.dtpPanelStyle(settings);
     },
 
     enable : function() {
@@ -94,7 +94,7 @@ const taskbarPanel = new Lang.Class({
 
         this._panelConnectId = this.panel.actor.connect('allocate', Lang.bind(this, function(actor,box,flags){this._allocate(actor,box,flags);}));
         this.container.remove_child(this.appMenu.container);
-        this.taskbar = new TaskBar.taskbar(this._dtpSettings);
+        this.taskbar = new Taskbar.taskbar(this._dtpSettings);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
         this.container.insert_child_at_index( this.taskbar.actor, 2 );
@@ -105,6 +105,7 @@ const taskbarPanel = new Lang.Class({
         this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
         this._setClockLocation(this._dtpSettings.get_string('location-clock'));
         
+        this.panel.actor.add_style_class_name('dashtopanelMainPanel');
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
@@ -170,6 +171,8 @@ const taskbarPanel = new Lang.Class({
 
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
+
+        this.panel.actor.remove_style_class_name('dashtopanelMainPanel');
 
         // remove this.panel styling
         if(this._HeightNotifyListener !== null) {

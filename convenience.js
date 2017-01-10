@@ -93,7 +93,7 @@ function getSettings(schema) {
 // simplify global signals and function injections handling
 // abstract class
 const BasicHandler = new Lang.Class({
-    Name: 'Taskbar.BasicHandler',
+    Name: 'DashToPanel.BasicHandler',
 
     _init: function(){
         this._storage = new Object();
@@ -149,7 +149,7 @@ const BasicHandler = new Lang.Class({
 
 // Manage global signals
 const GlobalSignalsHandler = new Lang.Class({
-    Name: 'Taskbar.GlobalSignalsHandler',
+    Name: 'DashToPanel.GlobalSignalsHandler',
     Extends: BasicHandler,
 
     _create: function(item) {
@@ -172,7 +172,7 @@ const GlobalSignalsHandler = new Lang.Class({
  * and restored
  */
 const InjectionsHandler = new Lang.Class({
-    Name: 'Taskbar.InjectionsHandler',
+    Name: 'DashToPanel.InjectionsHandler',
     Extends: BasicHandler,
 
     _create: function(item) {
