@@ -134,7 +134,7 @@ const thumbnailPreviewMenu = new Lang.Class({
     },
 
     hoverOpen: function () {
-        if (this.shouldOpen && !this.isOpen) {
+        if (this.shouldOpen && !this.isOpen && this._dtpSettings.get_boolean("show-window-previews")) {
             this.popup();
         }
     },

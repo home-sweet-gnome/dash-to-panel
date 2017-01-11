@@ -59,6 +59,11 @@
       <summary>Show activities button</summary>
       <description>Show activities button on the left hand side of the taskbar</description>
     </key>
+    <key type="b" name="show-window-previews">
+      <default>true</default>
+      <summary>Show window preview</summary>
+      <description>Show preview of running window on hover of app icon</description>
+    </key>
     <key type="b" name="isolate-workspaces">
       <default>false</default>
       <summary>Provide workspace isolation</summary>

@@ -1212,8 +1212,8 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     shouldShowTooltip: function() {
-        let windows = getInterestingWindows(this.app, this._dtpSettings);
-        if (windows.length > 0) {
+        if (this._dtpSettings.get_boolean("show-window-previews") && 
+            getInterestingWindows(this.app, this._dtpSettings).length > 0) {
             return false;
         } else {
             return this.actor.hover && (!this._menu || !this._menu.isOpen) && (!this._windowPreview || !this._windowPreview.isOpen);
