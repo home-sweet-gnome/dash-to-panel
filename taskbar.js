@@ -1333,6 +1333,7 @@ const taskbarAppIcon = new Lang.Class({
     _onFocusAppChanged: function() {
         if(tracker.focus_app == this.app) {
             this._dot.opacity = 255;
+            this.actor.add_style_class_name('focused');
             Tweener.addTween(this._dot,
                              { width: this._iconContainer.get_width(),
                                height: RUNNING_INDICATOR_SIZE,
@@ -1346,6 +1347,7 @@ const taskbarAppIcon = new Lang.Class({
                               });
         } else {
             this._dot.opacity = 255;
+            this.actor.remove_style_class_name('focused');
             Tweener.addTween(this._dot,
                              { width: 0,
                                height: RUNNING_INDICATOR_SIZE,
