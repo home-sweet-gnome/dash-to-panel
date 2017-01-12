@@ -521,6 +521,23 @@ const taskbar = new Lang.Class({
             }
         }));
 
+        appIcon.windowPreview.connect('menu-closed', Lang.bind(this, function(menu) {
+            let appIcons = this._getAppIcons();
+            // enter-event doesn't fire on an app icon when the popup menu from a previously
+            // hovered app icon is still open, so when a preview menu closes we need to
+            // see if a new app icon is hovered and open its preview menu now.
+            // also, for some reason actor doesn't report being hovered by get_hover()
+            // if the hover started when a popup was opened. So, look for the actor by mouse position.
+            let [x, y,] = global.get_pointer();
+            let hoveredActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
+            appIcons.forEach(function (appIcon) {
+                if(appIcon.actor == hoveredActor && appIcon.windowPreview && appIcon.windowPreview != menu) 
+                    appIcon.windowPreview._onEnter();
+            });
+            return GLib.SOURCE_REMOVE;
+
+        }));
+
         appIcon.actor.connect('clicked',
             Lang.bind(this, function(actor) {
                 ensureActorVisibleInScrollView(this._scrollView, actor);
@@ -1201,12 +1218,12 @@ const taskbarAppIcon = new Lang.Class({
         // function) caused the extension to crash.
         this._menuManagerWindowPreview = new PopupMenu.PopupMenuManager(this);
 
-        this._windowPreview = new WindowPreview.thumbnailPreviewMenu(this, this._dtpSettings);
-        this._windowPreview.connect('open-state-changed', Lang.bind(this, function (menu, isPoppedUp) {
+        this.windowPreview = new WindowPreview.thumbnailPreviewMenu(this, this._dtpSettings);
+        this.windowPreview.connect('open-state-changed', Lang.bind(this, function (menu, isPoppedUp) {
             if (!isPoppedUp)
                 this._onMenuPoppedDown();
         }));
-        this._menuManagerWindowPreview.addMenu(this._windowPreview);
+        this._menuManagerWindowPreview.addMenu(this.windowPreview);
         
         this.forcedOverview = false;
     },
@@ -1216,7 +1233,7 @@ const taskbarAppIcon = new Lang.Class({
             getInterestingWindows(this.app, this._dtpSettings).length > 0) {
             return false;
         } else {
-            return this.actor.hover && (!this._menu || !this._menu.isOpen) && (!this._windowPreview || !this._windowPreview.isOpen);
+            return this.actor.hover && (!this._menu || !this._menu.isOpen) && (!this.windowPreview || !this.windowPreview.isOpen);
         }
     },
 
@@ -1318,8 +1335,8 @@ const taskbarAppIcon = new Lang.Class({
 
         this.emit('menu-state-changed', true);
 
-        this._windowPreview.shouldOpen = false;
-        this._windowPreview.close();
+        this.windowPreview.shouldOpen = false;
+        this.windowPreview.close();
 
         this.actor.set_hover(true);
         this._menu.actor.add_style_class_name('dashtopanelSecondaryMenu');
@@ -1361,8 +1378,8 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     activate: function(button) {
-        this._windowPreview.shouldOpen = false;
-        this._windowPreview.requestCloseMenu();
+        this.windowPreview.shouldOpen = false;
+        this.windowPreview.requestCloseMenu();
 
         let event = Clutter.get_current_event();
         let modifiers = event ? event.get_state() : 0;
