@@ -530,10 +530,19 @@ const taskbar = new Lang.Class({
             // if the hover started when a popup was opened. So, look for the actor by mouse position.
             let [x, y,] = global.get_pointer();
             let hoveredActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
+            let appIconToOpen;
             appIcons.forEach(function (appIcon) {
-                if(appIcon.actor == hoveredActor && appIcon.windowPreview && appIcon.windowPreview != menu) 
-                    appIcon.windowPreview._onEnter();
+                if(appIcon.actor == hoveredActor) {
+                    appIconToOpen = appIcon;
+                } else if(appIcon.windowPreview) {
+                    appIcon.windowPreview.close();
+                }
             });
+
+            if(appIconToOpen) {
+                if(appIconToOpen.windowPreview && appIconToOpen.windowPreview != menu) 
+                    appIconToOpen.windowPreview._onEnter();
+            }
             return GLib.SOURCE_REMOVE;
 
         }));
