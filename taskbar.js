@@ -534,12 +534,13 @@ const taskbar = new Lang.Class({
             appIcons.forEach(function (appIcon) {
                 if(appIcon.actor == hoveredActor) {
                     appIconToOpen = appIcon;
-                } else if(appIcon.windowPreview) {
+                } else if(appIcon.windowPreview && appIcon.windowPreview.isOpen) {
                     appIcon.windowPreview.close();
                 }
             });
 
             if(appIconToOpen) {
+                appIconToOpen.actor.sync_hover();
                 if(appIconToOpen.windowPreview && appIconToOpen.windowPreview != menu) 
                     appIconToOpen.windowPreview._onEnter();
             }
