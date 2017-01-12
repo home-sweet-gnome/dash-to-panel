@@ -259,7 +259,10 @@ const Settings = new Lang.Class({
                 size_scale.set_inverted(true);
             }
         }
+        
+        // About Panel
 
+        this._builder.get_object('extension_version').set_label(Me.metadata.version.toString());
     },
 
     /**
