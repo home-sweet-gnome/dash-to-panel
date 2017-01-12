@@ -291,8 +291,27 @@ const dtpPanel = new Lang.Class({
 
         Main.overview._panelGhost.set_height(isTop ? size : 0);
         this._myPanelGhost.set_height(isTop ? 0 : size);
-        isTop ? this.panelBox.set_anchor_point(0, 0) :
+        
+
+        if(isTop) {
+            this.panelBox.set_anchor_point(0, 0);
+            
+            // styles for theming
+            if(this.panel.actor.has_style_class_name('dashtopanelBottom'))
+                this.panel.actor.remove_style_class_name('dashtopanelBottom');
+
+            if(!this.panel.actor.has_style_class_name('dashtopanelTop'))
+                this.panel.actor.add_style_class_name('dashtopanelTop');
+        } else {
             this.panelBox.set_anchor_point(0,(-1)*(Main.layoutManager.primaryMonitor.height-this.panelBox.height));
+
+            // styles for theming
+            if(this.panel.actor.has_style_class_name('dashtopanelTop'))
+                this.panel.actor.remove_style_class_name('dashtopanelTop');
+
+            if(!this.panel.actor.has_style_class_name('dashtopanelBottom'))
+                this.panel.actor.add_style_class_name('dashtopanelBottom');
+        }
     },
 
     _setActivitiesButtonVisible: function(isVisible) {
