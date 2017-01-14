@@ -94,7 +94,6 @@ const dtpPanel = new Lang.Class({
 
         this._panelConnectId = this.panel.actor.connect('allocate', Lang.bind(this, function(actor,box,flags){this._allocate(actor,box,flags);}));
         this.container.remove_child(this.appMenu.container);
-        this.panel._rightBox.insert_child_at_index(this.appMenu.container, 0);
         this.taskbar = new Taskbar.taskbar(this._dtpSettings);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
@@ -167,8 +166,7 @@ const dtpPanel = new Lang.Class({
 
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
-        this._setAppmenuVisible(true);
-        this.panel._rightBox.remove_child(this.appMenu.container);
+        this._setAppmenuVisible(false);
         this.container.add_child(this.appMenu.container);
         this.taskbar.destroy();
         this.panel.actor.disconnect(this._panelConnectId);
@@ -329,9 +327,12 @@ const dtpPanel = new Lang.Class({
     },
     
     _setAppmenuVisible: function(isVisible) {
-        if(this.appMenu)
-            isVisible ? this.appMenu.actor.show() :
-                this.appMenu.actor.hide();
+        let centerBox = this.panel._centerBox;
+        if (isVisible && centerBox.get_children().indexOf(this.appMenu.container) == -1) {
+            centerBox.insert_child_at_index(this.appMenu.container, 0)
+        } else if (!isVisible && centerBox.get_children().indexOf(this.appMenu.container) != -1) {
+            centerBox.remove_child(this.appMenu.container);
+        }
     },
 
     _setClockLocation: function(loc) {
