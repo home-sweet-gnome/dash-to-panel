@@ -59,6 +59,11 @@
       <summary>Show activities button</summary>
       <description>Show activities button on the left hand side of the taskbar</description>
     </key>
+    <key type="b" name="show-appmenu">
+      <default>false</default>
+      <summary>Show appMenu</summary>
+      <description>Show appMenu on the right hand side of the panel</description>
+    </key>
     <key type="b" name="show-window-previews">
       <default>true</default>
       <summary>Show window preview</summary>
