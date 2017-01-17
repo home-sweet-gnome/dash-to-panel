@@ -1276,7 +1276,7 @@ const taskbarAppIcon = new Lang.Class({
 
     _setMargin: function() {
         let margin = this._dtpSettings.get_int('appicon-margin');
-        if(margin)
+        if(margin != null)
             this.actor.set_style('margin: 0 ' + margin + 'px;');
     },
 
