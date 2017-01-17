@@ -103,6 +103,7 @@ const dtpPanel = new Lang.Class({
         this._oldCenterBoxStyle = this.panel._centerBox.get_style();
         this._oldRightBoxStyle = this.panel._rightBox.get_style();
         this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
+        this._setAppmenuVisible(this._dtpSettings.get_boolean('show-appmenu'));
         this._setClockLocation(this._dtpSettings.get_string('location-clock'));
         
         this.panel.actor.add_style_class_name('dashtopanelMainPanel');
@@ -165,6 +166,7 @@ const dtpPanel = new Lang.Class({
 
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
+        this._setAppmenuVisible(false);
         this.container.add_child(this.appMenu.container);
         this.taskbar.destroy();
         this.panel.actor.disconnect(this._panelConnectId);
@@ -209,6 +211,10 @@ const dtpPanel = new Lang.Class({
 
         this._dtpSettings.connect('changed::show-activities-button', Lang.bind(this, function() {
             this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
+        }));
+        
+        this._dtpSettings.connect('changed::show-appmenu', Lang.bind(this, function() {
+            this._setAppmenuVisible(this._dtpSettings.get_boolean('show-appmenu'));
         }));
 
         this._dtpSettings.connect('changed::location-clock', Lang.bind(this, function() {
@@ -318,6 +324,15 @@ const dtpPanel = new Lang.Class({
         if(this.panel.statusArea.activities)
             isVisible ? this.panel.statusArea.activities.actor.show() :
                 this.panel.statusArea.activities.actor.hide();
+    },
+    
+    _setAppmenuVisible: function(isVisible) {
+        let centerBox = this.panel._centerBox;
+        if (isVisible && centerBox.get_children().indexOf(this.appMenu.container) == -1) {
+            centerBox.insert_child_at_index(this.appMenu.container, 0)
+        } else if (!isVisible && centerBox.get_children().indexOf(this.appMenu.container) != -1) {
+            centerBox.remove_child(this.appMenu.container);
+        }
     },
 
     _setClockLocation: function(loc) {

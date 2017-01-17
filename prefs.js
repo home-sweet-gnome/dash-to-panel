@@ -147,6 +147,10 @@ const Settings = new Lang.Class({
                             this._builder.get_object('show_activities_button_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-appmenu',
+                            this._builder.get_object('show_appmenu_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
         this._settings.bind('show-window-previews',
                             this._builder.get_object('show_window_previews_switch'),
                             'active',
