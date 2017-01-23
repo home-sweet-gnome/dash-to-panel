@@ -4,6 +4,8 @@
 ## An icon taskbar for the GNOME Shell
 An icon taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.
 
+The easiest way to install Dash-to-Panel is from [Gnome Shell Extensions](https://extensions.gnome.org/extension/1160/dash-to-panel/).
+
 ## Features
 - Move the Application Dash from the Overview into the main panel (top bar)
 - Set main panel position (top or bottom) and height
@@ -19,8 +21,9 @@ An icon taskbar for the Gnome Shell. This extension moves the dash into the gnom
 
 ## Installation from source
 
-The extension can be installed directly from source, either for the convenience of using git or to test the latest development version. Clone the desired branch with git
+The extension can be installed directly from source, either for the convenience of using git or to test the latest development version. Please be aware that if you install the extension from git, Gnome will no longer notify you of future updates available from extensions.gnome.org.
 
+Clone the desired branch with git
 <pre>git clone https://github.com/jderose9/dash-to-panel.git</pre>
 or download the branch from github. A simple Makefile is included. Then run
 <pre>make
