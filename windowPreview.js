@@ -130,7 +130,7 @@ const thumbnailPreviewMenu = new Lang.Class({
         this.shouldClose = true;
         this.shouldOpen = false;
 
-        Mainloop.timeout_add(0, Lang.bind(this, this.hoverClose));
+        Mainloop.timeout_add(100, Lang.bind(this, this.hoverClose));
     },
 
     hoverOpen: function () {
@@ -173,7 +173,7 @@ const thumbnailPreviewMenu = new Lang.Class({
 
         if (this._boxPointer.actor.visible) {
             this._boxPointer.hide(animate, Lang.bind(this, function() {
-                this.emit('menu-closed');
+                this.emit('menu-closed', this);
             }));
         }
 
