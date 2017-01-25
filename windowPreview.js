@@ -130,7 +130,7 @@ const thumbnailPreviewMenu = new Lang.Class({
         this.shouldClose = true;
         this.shouldOpen = false;
 
-        Mainloop.timeout_add(100, Lang.bind(this, this.hoverClose));
+        Mainloop.timeout_add(this._dtpSettings.get_int('leave-timeout'), Lang.bind(this, this.hoverClose));
     },
 
     hoverOpen: function () {
