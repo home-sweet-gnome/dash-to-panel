@@ -26,8 +26,12 @@ const Lang = imports.lang;
 const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
 
+const Meta = imports.gi.Meta;
+
 const dtpOverview = new Lang.Class({
     Name: 'DashToPanel.Overview',
+
+    _numHotkeys: 10,
 
     _init: function(settings) {
         this._dtpSettings = settings;
@@ -51,6 +55,7 @@ const dtpOverview = new Lang.Class({
         Main.overview._controls.dash.actor.set_width(1);
 
         this._optionalWorkspaceIsolation();
+        this._optionalHotKeys();
         this._bindSettingsChanges();
     },
 
@@ -62,6 +67,9 @@ const dtpOverview = new Lang.Class({
 
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
+
+        // Remove key bindings
+        this._disableHotKeys();
     },
 
     _bindSettingsChanges: function() {
@@ -129,5 +137,74 @@ const dtpOverview = new Lang.Class({
                 return Main.activateWindow(windows[0]);
             return this.open_new_window(-1);
         }
-    }
+    },
+
+    // Hotkeys
+    _activateApp: function(appIndex) {
+        let children = this.taskbar._box.get_children().filter(function(actor) {
+                return actor.child &&
+                       actor.child._delegate &&
+                       actor.child._delegate.app;
+        });
+
+        // Apps currently in the taskbar
+        let apps = children.map(function(actor) {
+                return actor.child._delegate;
+            });
+
+        // Activate with button = 1, i.e. same as left click
+        let button = 1;
+        if (appIndex < apps.length)
+            apps[appIndex].activate(button);
+    },
+
+    _optionalHotKeys: function() {
+        this._hotKeysEnabled = false;
+        if (this._dtpSettings.get_boolean('hot-keys'))
+            this._enableHotKeys();
+
+        this._signalsHandler.add([
+            this._dtpSettings,
+            'changed::hot-keys',
+            Lang.bind(this, function() {
+                    if (this._dtpSettings.get_boolean('hot-keys'))
+                        Lang.bind(this, this._enableHotKeys)();
+                    else
+                        Lang.bind(this, this._disableHotKeys)();
+            })
+        ]);
+    },
+    _enableHotKeys: function() {
+        if (this._hotKeysEnabled)
+            return;
+
+        // Setup keyboard bindings for taskbar elements
+        let keys = ['app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-',  // Regular numbers
+                    'app-hotkey-kp-', 'app-shift-hotkey-kp-', 'app-ctrl-hotkey-kp-']; // Key-pad numbers
+        keys.forEach( function(key) {
+            for (let i = 0; i < this._numHotkeys; i++) {
+                let appNum = i;
+                Main.wm.addKeybinding(key + (i + 1), this._dtpSettings,
+                                      Meta.KeyBindingFlags.NONE,
+                                      Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW,
+                                      Lang.bind(this, function() {this._activateApp(appNum);}));
+            }
+        }, this);
+
+        this._hotKeysEnabled = true;
+    },
+
+    _disableHotKeys: function() {
+        if (!this._hotKeysEnabled)
+            return;
+
+        let keys = ['app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-',  // Regular numbers
+                    'app-hotkey-kp-', 'app-shift-hotkey-kp-', 'app-ctrl-hotkey-kp-']; // Key-pad numbers
+        keys.forEach( function(key) {
+            for (let i = 0; i < this._numHotkeys; i++)
+                Main.wm.removeKeybinding(key + (i + 1));
+        }, this);
+
+        this._hotKeysEnabled = false;
+     }
 });
