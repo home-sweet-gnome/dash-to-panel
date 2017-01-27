@@ -232,6 +232,11 @@ const Settings = new Lang.Class({
 
         }));
 
+        this._settings.bind('hot-keys',
+                            this._builder.get_object('hot_keys_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         // setup dialog for advanced options
         this._builder.get_object('button_advanced_options').connect('clicked', Lang.bind(this, function() {
 

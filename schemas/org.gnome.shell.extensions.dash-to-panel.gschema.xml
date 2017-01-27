@@ -142,5 +142,430 @@
         <summary>Status icon padding</summary>
         <description>Set the size of the aggregate (status) menu icon padding. (-1 for default)</description>
     </key>
+    <key type="b" name="hot-keys">
+      <default>false</default>
+      <summary>Super Hot-Keys</summary>
+      <description>Launch and switch between dash items using Super+(0-9)</description>
+    </key>
+    <key name="app-ctrl-hotkey-1" type="as">
+      <default><![CDATA[['<Ctrl><Super>1']]]></default>
+      <summary>Keybinding to launch 1st dash app</summary>
+      <description>
+        Keybinding to launch 1st app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-2" type="as">
+      <default><![CDATA[['<Ctrl><Super>2']]]></default>
+      <summary>Keybinding to launch 2nd dash app</summary>
+      <description>
+        Keybinding to launch 2nd app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-3" type="as">
+      <default><![CDATA[['<Ctrl><Super>3']]]></default>
+      <summary>Keybinding to launch 3rd dash app</summary>
+      <description>
+        Keybinding to launch 3rd app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-4" type="as">
+      <default><![CDATA[['<Ctrl><Super>4']]]></default>
+      <summary>Keybinding to launch 4th dash app</summary>
+      <description>
+        Keybinding to launch 4th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-5" type="as">
+      <default><![CDATA[['<Ctrl><Super>5']]]></default>
+      <summary>Keybinding to launch 5th dash app</summary>
+      <description>
+        Keybinding to launch 5th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-6" type="as">
+      <default><![CDATA[['<Ctrl><Super>6']]]></default>
+      <summary>Keybinding to launch 6th dash app</summary>
+      <description>
+        Keybinding to launch 6th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-7" type="as">
+      <default><![CDATA[['<Ctrl><Super>7']]]></default>
+      <summary>Keybinding to launch 7th dash app</summary>
+      <description>
+        Keybinding to launch 7th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-8" type="as">
+      <default><![CDATA[['<Ctrl><Super>8']]]></default>
+      <summary>Keybinding to launch 8th dash app</summary>
+      <description>
+        Keybinding to launch 8th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-9" type="as">
+      <default><![CDATA[['<Ctrl><Super>9']]]></default>
+      <summary>Keybinding to launch 9th dash app</summary>
+      <description>
+        Keybinding to launch 9th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-10" type="as">
+      <default><![CDATA[['<Ctrl><Super>0']]]></default>
+      <summary>Keybinding to launch 10th dash app</summary>
+      <description>
+        Keybinding to launch 10th app.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-1" type="as">
+      <default><![CDATA[['<Shift><Super>1']]]></default>
+      <summary>Keybinding to trigger 1st dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 1st app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-2" type="as">
+      <default><![CDATA[['<Shift><Super>2']]]></default>
+      <summary>Keybinding to trigger 2nd dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 2nd app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-3" type="as">
+      <default><![CDATA[['<Shift><Super>3']]]></default>
+      <summary>Keybinding to trigger 3rd dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 3rd app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-4" type="as">
+      <default><![CDATA[['<Shift><Super>4']]]></default>
+      <summary>Keybinding to trigger 4th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 4th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-5" type="as">
+      <default><![CDATA[['<Shift><Super>5']]]></default>
+      <summary>Keybinding to trigger 5th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 5th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-6" type="as">
+      <default><![CDATA[['<Shift><Super>6']]]></default>
+      <summary>Keybinding to trigger 6th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 6th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-7" type="as">
+      <default><![CDATA[['<Shift><Super>7']]]></default>
+      <summary>Keybinding to trigger 7th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 7th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-8" type="as">
+      <default><![CDATA[['<Shift><Super>8']]]></default>
+      <summary>Keybinding to trigger 8th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 8th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-9" type="as">
+      <default><![CDATA[['<Shift><Super>9']]]></default>
+      <summary>Keybinding to trigger 9th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 9th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-10" type="as">
+      <default><![CDATA[['<Shift><Super>0']]]></default>
+      <summary>Keybinding to trigger 10th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 10th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-hotkey-1" type="as">
+      <default><![CDATA[['<Super>1']]]></default>
+      <summary>Keybinding to trigger 1st dash app</summary>
+      <description>
+        Keybinding to either show or launch the 1st application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-2" type="as">
+      <default><![CDATA[['<Super>2']]]></default>
+      <summary>Keybinding to trigger 2nd dash app</summary>
+      <description>
+        Keybinding to either show or launch the 2nd application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-3" type="as">
+      <default><![CDATA[['<Super>3']]]></default>
+      <summary>Keybinding to trigger 3rd dash app</summary>
+      <description>
+        Keybinding to either show or launch the 3rd application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-4" type="as">
+      <default><![CDATA[['<Super>4']]]></default>
+      <summary>Keybinding to trigger 4th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 4th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-5" type="as">
+      <default><![CDATA[['<Super>5']]]></default>
+      <summary>Keybinding to trigger 5th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 5th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-6" type="as">
+      <default><![CDATA[['<Super>6']]]></default>
+      <summary>Keybinding to trigger 6th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 6th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-7" type="as">
+      <default><![CDATA[['<Super>7']]]></default>
+      <summary>Keybinding to trigger 7th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 7th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-8" type="as">
+      <default><![CDATA[['<Super>8']]]></default>
+      <summary>Keybinding to trigger 8th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 8th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-9" type="as">
+      <default><![CDATA[['<Super>9']]]></default>
+      <summary>Keybinding to trigger 9th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 9th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-10" type="as">
+      <default><![CDATA[['<Super>0']]]></default>
+      <summary>Keybinding to trigger 10th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 10th application in the dash.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-kp-1" type="as">
+      <default><![CDATA[['<Ctrl><Super>KP_1']]]></default>
+      <summary>Keybinding to launch 1st dash app</summary>
+      <description>
+        Keybinding to launch 1st app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-kp-2" type="as">
+      <default><![CDATA[['<Ctrl><Super>KP_2']]]></default>
+      <summary>Keybinding to launch 2nd dash app</summary>
+      <description>
+        Keybinding to launch 2nd app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-kp-3" type="as">
+      <default><![CDATA[['<Ctrl><Super>KP_3']]]></default>
+      <summary>Keybinding to launch 3rd dash app</summary>
+      <description>
+        Keybinding to launch 3rd app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-kp-4" type="as">
+      <default><![CDATA[['<Ctrl><Super>KP_4']]]></default>
+      <summary>Keybinding to launch 4th dash app</summary>
+      <description>
+        Keybinding to launch 4th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-kp-5" type="as">
+      <default><![CDATA[['<Ctrl><Super>KP_5']]]></default>
+      <summary>Keybinding to launch 5th dash app</summary>
+      <description>
+        Keybinding to launch 5th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-kp-6" type="as">
+      <default><![CDATA[['<Ctrl><Super>KP_6']]]></default>
+      <summary>Keybinding to launch 6th dash app</summary>
+      <description>
+        Keybinding to launch 6th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-kp-7" type="as">
+      <default><![CDATA[['<Ctrl><Super>KP_7']]]></default>
+      <summary>Keybinding to launch 7th dash app</summary>
+      <description>
+        Keybinding to launch 7th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-kp-8" type="as">
+      <default><![CDATA[['<Ctrl><Super>KP_8']]]></default>
+      <summary>Keybinding to launch 8th dash app</summary>
+      <description>
+        Keybinding to launch 8th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-kp-9" type="as">
+      <default><![CDATA[['<Ctrl><Super>KP_9']]]></default>
+      <summary>Keybinding to launch 9th dash app</summary>
+      <description>
+        Keybinding to launch 9th app.
+      </description>
+    </key>
+    <key name="app-ctrl-hotkey-kp-10" type="as">
+      <default><![CDATA[['<Ctrl><Super>KP_0']]]></default>
+      <summary>Keybinding to launch 10th dash app</summary>
+      <description>
+        Keybinding to launch 10th app.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-kp-1" type="as">
+      <default><![CDATA[['<Shift><Super>KP_1']]]></default>
+      <summary>Keybinding to trigger 1st dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 1st app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-kp-2" type="as">
+      <default><![CDATA[['<Shift><Super>KP_2']]]></default>
+      <summary>Keybinding to trigger 2nd dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 2nd app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-kp-3" type="as">
+      <default><![CDATA[['<Shift><Super>KP_3']]]></default>
+      <summary>Keybinding to trigger 3rd dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 3rd app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-kp-4" type="as">
+      <default><![CDATA[['<Shift><Super>KP_4']]]></default>
+      <summary>Keybinding to trigger 4th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 4th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-kp-5" type="as">
+      <default><![CDATA[['<Shift><Super>KP_5']]]></default>
+      <summary>Keybinding to trigger 5th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 5th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-kp-6" type="as">
+      <default><![CDATA[['<Shift><Super>KP_6']]]></default>
+      <summary>Keybinding to trigger 6th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 6th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-kp-7" type="as">
+      <default><![CDATA[['<Shift><Super>KP_7']]]></default>
+      <summary>Keybinding to trigger 7th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 7th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-kp-8" type="as">
+      <default><![CDATA[['<Shift><Super>KP_8']]]></default>
+      <summary>Keybinding to trigger 8th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 8th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-kp-9" type="as">
+      <default><![CDATA[['<Shift><Super>KP_9']]]></default>
+      <summary>Keybinding to trigger 9th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 9th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-shift-hotkey-kp-10" type="as">
+      <default><![CDATA[['<Shift><Super>KP_0']]]></default>
+      <summary>Keybinding to trigger 10th dash app with shift behavior</summary>
+      <description>
+        Keybinding to trigger 10th app with shift behavior.
+      </description>
+    </key>
+    <key name="app-hotkey-kp-1" type="as">
+      <default><![CDATA[['<Super>KP_1']]]></default>
+      <summary>Keybinding to trigger 1st dash app</summary>
+      <description>
+        Keybinding to either show or launch the 1st application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-kp-2" type="as">
+      <default><![CDATA[['<Super>KP_2']]]></default>
+      <summary>Keybinding to trigger 2nd dash app</summary>
+      <description>
+        Keybinding to either show or launch the 2nd application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-kp-3" type="as">
+      <default><![CDATA[['<Super>KP_3']]]></default>
+      <summary>Keybinding to trigger 3rd dash app</summary>
+      <description>
+        Keybinding to either show or launch the 3rd application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-kp-4" type="as">
+      <default><![CDATA[['<Super>KP_4']]]></default>
+      <summary>Keybinding to trigger 4th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 4th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-kp-5" type="as">
+      <default><![CDATA[['<Super>KP_5']]]></default>
+      <summary>Keybinding to trigger 5th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 5th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-kp-6" type="as">
+      <default><![CDATA[['<Super>KP_6']]]></default>
+      <summary>Keybinding to trigger 6th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 6th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-kp-7" type="as">
+      <default><![CDATA[['<Super>KP_7']]]></default>
+      <summary>Keybinding to trigger 7th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 7th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-kp-8" type="as">
+      <default><![CDATA[['<Super>KP_8']]]></default>
+      <summary>Keybinding to trigger 8th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 8th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-kp-9" type="as">
+      <default><![CDATA[['<Super>KP_9']]]></default>
+      <summary>Keybinding to trigger 9th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 9th application in the dash.
+      </description>
+    </key>
+    <key name="app-hotkey-kp-10" type="as">
+      <default><![CDATA[['<Super>KP_0']]]></default>
+      <summary>Keybinding to trigger 10th dash app</summary>
+      <description>
+        Keybinding to either show or launch the 10th application in the dash.
+      </description>
+    </key>
   </schema>
 </schemalist>
