@@ -69,6 +69,11 @@
       <summary>Show window preview</summary>
       <description>Show preview of running window on hover of app icon</description>
     </key>
+    <key type="i" name="show-window-previews-timeout">
+      <default>100</default>
+      <summary>Icon enter display time</summary>
+      <description>Amount of time after entering icon to wait before displaying window preview if icon is not clicked or mouse has not left.</description>
+    </key>
     <key type="b" name="isolate-workspaces">
       <default>false</default>
       <summary>Provide workspace isolation</summary>
