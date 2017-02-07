@@ -305,7 +305,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">If set too low, the window preview of running applications may seem to close too quickly when trying to enter the popup. If set too high, the taskbar may feel slow to highlight applications.</property>
+                        <property name="label" translatable="yes">If set too low, the window preview of running applications may seem to close too quickly when trying to enter the popup. If set too high, the preview may linger too long when moving to an adjacent icon.</property>
                         <property name="wrap">True</property>
                         <property name="max_width_chars">40</property>
                         <property name="xalign">0</property>

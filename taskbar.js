@@ -1368,7 +1368,6 @@ const taskbarAppIcon = new Lang.Class({
 
         this.emit('menu-state-changed', true);
 
-        this.windowPreview.shouldOpen = false;
         this.windowPreview.close();
 
         this.actor.set_hover(true);
@@ -1413,7 +1412,6 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     activate: function(button) {
-        this.windowPreview.shouldOpen = false;
         this.windowPreview.requestCloseMenu();
 
         let event = Clutter.get_current_event();
