@@ -155,6 +155,20 @@ const Settings = new Lang.Class({
                             this._builder.get_object('show_window_previews_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-window-previews',
+                            this._builder.get_object('preview_timeout_spinbutton'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-window-previews',
+                            this._builder.get_object('preview_timeout_label'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
+        this._builder.get_object('preview_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('show-window-previews-timeout', widget.get_value());
+        }));
+       
         this._settings.bind('isolate-workspaces',
                             this._builder.get_object('isolate_workspaces_switch'),
                             'active',
@@ -254,7 +268,7 @@ const Settings = new Lang.Class({
 
             this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
 
-            this._builder.get_object('leave_timeout_spinbutton').connect('changed', Lang.bind (this, function(widget) {
+            this._builder.get_object('leave_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
                 this._settings.set_int('leave-timeout', widget.get_value());
             }));
 

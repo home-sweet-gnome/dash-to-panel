@@ -56,8 +56,6 @@ const thumbnailPreviewMenu = new Lang.Class({
 
         this._source = source;
         this._app = this._source.app;
-        this.shouldOpen = true;
-        this.shouldClose = false;
 
         this.actor.add_style_class_name('app-well-menu');
         this.actor.set_style("max-width: " + (Main.layoutManager.primaryMonitor.width - 22) + "px;");
@@ -107,42 +105,62 @@ const thumbnailPreviewMenu = new Lang.Class({
     },
 
     _onMenuEnter: function () {
-        this.shouldOpen = true;
-        this.shouldClose = false;
+        this.cancelClose();
+
+        // This grab is usually called when the menu is opened. However, there seems to be a bug in the 
+        // underlying gnome-shell that causes the window contents to freeze if the grab and ungrab occur
+        // in quick succession (for example, clicking the icon as the preview window is opening)
+        // So, instead I'll issue the grab when the preview menu is actually entered.
+        this._source.menuManagerWindowPreview._grabHelper.grab({ actor: this.actor, focus: this.sourceActor, 
+                                                                onUngrab: Lang.bind(this, this.requestCloseMenu) });
 
         this.hoverOpen();
     },
 
     _onMenuLeave: function () {
-        this.shouldOpen = false;
-        this.shouldClose = true;
-        Mainloop.timeout_add(Taskbar.DASH_ITEM_HOVER_TIMEOUT, Lang.bind(this, this.hoverClose));
+        this.cancelOpen();
+        this.cancelClose();
+
+        this._hoverCloseTimeoutId = Mainloop.timeout_add(Taskbar.DASH_ITEM_HOVER_TIMEOUT, Lang.bind(this, this.hoverClose));
     },
 
     _onEnter: function () {
-        this.shouldOpen = true;
-        this.shouldClose = false;
+        this.cancelOpen();
+        this.cancelClose();
 
-        this.hoverOpen();
+        this._hoverOpenTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('show-window-previews-timeout'), Lang.bind(this, this.hoverOpen));
     },
 
     _onLeave: function () {
-        this.shouldClose = true;
-        this.shouldOpen = false;
+        this.cancelOpen();
+        this.cancelClose();
 
-        Mainloop.timeout_add(this._dtpSettings.get_int('leave-timeout'), Lang.bind(this, this.hoverClose));
+        this._hoverCloseTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('leave-timeout'), Lang.bind(this, this.hoverClose));
+    },
+
+    cancelOpen: function () {
+        if(this._hoverOpenTimeoutId) {
+            Mainloop.source_remove(this._hoverOpenTimeoutId);
+            this._hoverOpenTimeoutId = null;
+        }
+    },
+
+    cancelClose: function () {
+        if(this._hoverCloseTimeoutId) {
+            Mainloop.source_remove(this._hoverCloseTimeoutId);
+            this._hoverCloseTimeoutId = null;
+        }
     },
 
     hoverOpen: function () {
-        if (this.shouldOpen && !this.isOpen && this._dtpSettings.get_boolean("show-window-previews")) {
+        this._hoverOpenTimeoutId = null;
+        if (!this.isOpen && this._dtpSettings.get_boolean("show-window-previews"))
             this.popup();
-        }
     },
 
     hoverClose: function () {
-        if (this.shouldClose) {
-            this.close(~0);
-        }
+        this._hoverCloseTimeoutId = null;
+        this.close(~0);
     },
 
     destroy: function () {
@@ -166,6 +184,8 @@ const thumbnailPreviewMenu = new Lang.Class({
     },
 
     close: function(animate) {
+        this.cancelOpen();
+        
         if (this.isOpen)
             this.emit('open-state-changed', false);
         if (this._activeMenuItem)

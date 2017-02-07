@@ -305,7 +305,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">If set too low, the window preview of running applications may seem to close too quickly when trying to enter the popup. If set too high, the taskbar may feel slow to highlight applications.</property>
+                        <property name="label" translatable="yes">If set too low, the window preview of running applications may seem to close too quickly when trying to enter the popup. If set too high, the preview may linger too long when moving to an adjacent icon.</property>
                         <property name="wrap">True</property>
                         <property name="max_width_chars">40</property>
                         <property name="xalign">0</property>
@@ -363,6 +363,11 @@
     <property name="upper">1</property>
     <property name="step_increment">0.01</property>
     <property name="page_increment">0.10000000000000001</property>
+  </object>
+  <object class="GtkAdjustment" id="preview_timeout_adjustment">
+    <property name="upper">9999</property>
+    <property name="step_increment">25</property>
+    <property name="page_increment">100</property>
   </object>
   <object class="GtkAdjustment" id="statusicon_padding_adjustment">
     <property name="lower">0.33000000000000002</property>
@@ -806,14 +811,17 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="margin_left">12</property>
                             <property name="margin_top">3</property>
                             <property name="xalign">0</property>
                             <property name="yalign">0.5</property>
                             <property name="draw_indicator">True</property>
                             <child>
                               <object class="GtkLabel" id="label3">
+                                <property name="name">4</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="margin_left">4</property>
                                 <property name="label" translatable="yes">Animate &lt;i&gt;Show Applications&lt;/i&gt;.</property>
                                 <property name="use_markup">True</property>
                               </object>
@@ -955,6 +963,35 @@
                           <packing>
                             <property name="left_attach">0</property>
                             <property name="top_attach">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="preview_timeout_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="width_chars">4</property>
+                            <property name="text" translatable="yes">0</property>
+                            <property name="adjustment">preview_timeout_adjustment</property>
+                            <property name="numeric">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="preview_timeout_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_left">12</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Time (ms) before showing (100 is default)</property>
+                            <property name="use_markup">True</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">1</property>
                           </packing>
                         </child>
                       </object>

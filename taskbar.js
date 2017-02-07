@@ -1226,14 +1226,37 @@ const taskbarAppIcon = new Lang.Class({
         // Creating a new menu manager for window previews as adding it to the
         // using the secondary menu's menu manager (which uses the "ignoreRelease"
         // function) caused the extension to crash.
-        this._menuManagerWindowPreview = new PopupMenu.PopupMenuManager(this);
+        this.menuManagerWindowPreview = new PopupMenu.PopupMenuManager(this);
 
-        this.windowPreview = new WindowPreview.thumbnailPreviewMenu(this, this._dtpSettings);
+        this.windowPreview = new WindowPreview.thumbnailPreviewMenu(this, this._dtpSettings, this.menuManagerWindowPreview);
+
         this.windowPreview.connect('open-state-changed', Lang.bind(this, function (menu, isPoppedUp) {
             if (!isPoppedUp)
                 this._onMenuPoppedDown();
         }));
-        this._menuManagerWindowPreview.addMenu(this.windowPreview);
+        this.menuManagerWindowPreview.addMenu(this.windowPreview);
+
+        // grabHelper.grab() is usually called when the menu is opened. However, there seems to be a bug in the 
+        // underlying gnome-shell that causes all window contents to freeze if the grab and ungrab occur
+        // in quick succession (for example, clicking the icon as the preview window is opening)
+        // So, instead I'll issue the grab when the preview menu is actually entered.
+        // Alternatively, I was able to solve this by waiting a 100ms timeout to ensure the menu was
+        // still open, but this waiting until the menu is entered seems a bit safer if it doesn't cause other issues
+        let windowPreviewMenuData = this.menuManagerWindowPreview._menus[this.menuManagerWindowPreview._findMenu(this.windowPreview)];
+        this.windowPreview.disconnect(windowPreviewMenuData.openStateChangeId);
+        windowPreviewMenuData.openStateChangeId = this.windowPreview.connect('open-state-changed', Lang.bind(this.menuManagerWindowPreview, function(menu, open) {
+            if (open) {
+                if (this.activeMenu)
+                    this.activeMenu.close(BoxPointer.PopupAnimation.FADE);
+
+                // Mainloop.timeout_add(100, Lang.bind(this, function() {
+                //     if(menu.isOpen)
+                //         this._grabHelper.grab({ actor: menu.actor, focus: menu.sourceActor, onUngrab: Lang.bind(this, this._closeMenu, menu) });
+                // }));
+            } else {
+                this._grabHelper.ungrab({ actor: menu.actor });
+            }
+        }));
         
         this.forcedOverview = false;
     },
@@ -1345,7 +1368,6 @@ const taskbarAppIcon = new Lang.Class({
 
         this.emit('menu-state-changed', true);
 
-        this.windowPreview.shouldOpen = false;
         this.windowPreview.close();
 
         this.actor.set_hover(true);
@@ -1390,7 +1412,6 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     activate: function(button) {
-        this.windowPreview.shouldOpen = false;
         this.windowPreview.requestCloseMenu();
 
         let event = Clutter.get_current_event();
