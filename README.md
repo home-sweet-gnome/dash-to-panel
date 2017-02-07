@@ -11,9 +11,10 @@ The easiest way to install Dash-to-Panel is from [Gnome Shell Extensions](https:
 - Set main panel position (top or bottom) and height
 - Running indicator includes window count and can be positioned at top or bottom of panel
 - Preview of open windows when hovering over icons of running applications
+- Launch applications using numbers 0-9 as hotkeys.
 - Configure clock location
 - Remove "Show Apps" icon from dash
-- Hide Activities button from panel
+- Hide Activities and App Menu buttons from panel
 - Isolate running apps in workspaces
 - Assign click behaviors (launch new window, cycle open windows, minimize, etc)
 - Assign font & icon sizes and margins for dash icons, status icons and panel elements
@@ -37,7 +38,17 @@ to install the extension in your home directory. A Shell reload is required <cod
 
 This extension has been tested with Gnome 3.18+.
 
-This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other extensions which operate on the top bar should be compatible. For instance, to add intellihide behavior to the panel, try [Hide Top Bar](https://extensions.gnome.org/extension/545/hide-top-bar/). Or, to set the panel opacity, try [Dynamic Panel Transparency](https://extensions.gnome.org/extension/1011/dynamic-panel-transparency/). If you'd like to add a traditional application menu, check out [Gno-Menu](https://extensions.gnome.org/extension/608/gnomenu/).
+This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other extensions which operate on the top bar should be compatible.
+
+## FAQ
+
+How do I add transparency to the panel? [Dynamic Panel Transparency](https://extensions.gnome.org/extension/1011/dynamic-panel-transparency/)
+
+How do I change workspaces by scrolling the mouse wheel in the empty space? [Top Panel Workspace Scroll](https://extensions.gnome.org/extension/701/top-panel-workspace-scroll/)
+
+How do I add a traditional start menu? [Gno-Menu](https://extensions.gnome.org/extension/608/gnomenu/)
+
+Why can't I put the panel vertically on the left or right of the display? Gnome-shell and it's numerous extensions add widgets to the panel. These widgets have been designed using padding and absolute positioning assuming a horizontal layout. At this point in time, I don't think it is possible to allow for a vertical layout and still maintain any sort of reasonable compatibility with many of the other features of Gnome.
 
 ## Bug Reporting
 
@@ -53,3 +64,5 @@ This extension leverages the work for [ZorinOS Taskbar](https://github.com/Zorin
 Code to set anchor position taken from [Thoma5/gnome-shell-extension-bottompanel](https://github.com/Thoma5/gnome-shell-extension-bottompanel).
 Pattern for moving panel contents based on [Frippery Move Clock](http://frippery.org/extensions/) by R M Yorston.
 Ideas for recursing child actors and assigning inline styles are based on code from the extension [StatusAreaHorizontalSpacing](https://bitbucket.org/mathematicalcoffee/status-area-horizontal-spacing-gnome-shell-extension).
+
+Also, thanks to @robrobinbin and @franglais125 for contributing via pull requests.
