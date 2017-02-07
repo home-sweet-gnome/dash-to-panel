@@ -156,9 +156,13 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
         this._settings.bind('show-window-previews',
-                this._builder.get_object('preview_timeout_spinbutton'),
-                'sensitive',
-                Gio.SettingsBindFlags.DEFAULT);
+                            this._builder.get_object('preview_timeout_spinbutton'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-window-previews',
+                            this._builder.get_object('preview_timeout_label'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
 
         this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
         this._builder.get_object('preview_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {

@@ -141,7 +141,6 @@ const thumbnailPreviewMenu = new Lang.Class({
     cancelOpen: function () {
         if(this._hoverOpenTimeoutId) {
             Mainloop.source_remove(this._hoverOpenTimeoutId);
-            log("cancelled open");
             this._hoverOpenTimeoutId = null;
         }
     },
@@ -149,7 +148,6 @@ const thumbnailPreviewMenu = new Lang.Class({
     cancelClose: function () {
         if(this._hoverCloseTimeoutId) {
             Mainloop.source_remove(this._hoverCloseTimeoutId);
-            log("cancelled close");
             this._hoverCloseTimeoutId = null;
         }
     },
