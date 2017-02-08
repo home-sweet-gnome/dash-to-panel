@@ -371,12 +371,6 @@ const taskbar = new Lang.Class({
         [ok, event_x, event_y] = actor.transform_stage_point(stage_x, stage_y);
         [actor_w, actor_h] = actor.get_size();
 
-        // If the scroll event is within a 1px margin from
-        // the relevant edge of the actor, let the event propagate.
-        if ((this._position == St.Side.TOP && event_y <= 1) ||
-            (this._position == St.Side.BOTTOM && event_y >= actor_h - 2))
-            return Clutter.EVENT_PROPAGATE;
-
         // reset timeout to avid conflicts with the mousehover event
         if (this._ensureAppIconVisibilityTimeoutId>0) {
             Mainloop.source_remove(this._ensureAppIconVisibilityTimeoutId);
