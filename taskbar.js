@@ -1245,7 +1245,6 @@ const taskbarAppIcon = new Lang.Class({
                 Mainloop.timeout_add(200, Lang.bind(this, function() {
                     if(menu.isOpen) {
                         this._grabHelper.grab({ actor: menu.actor, focus: menu.sourceActor, onUngrab: Lang.bind(this, this._closeMenu, menu) });
-                        log(this._grabHelper.grabStack.length);
                     }
                 }));
             } else {
