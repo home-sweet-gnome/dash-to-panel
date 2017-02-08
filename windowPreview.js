@@ -107,13 +107,6 @@ const thumbnailPreviewMenu = new Lang.Class({
     _onMenuEnter: function () {
         this.cancelClose();
 
-        // This grab is usually called when the menu is opened. However, there seems to be a bug in the 
-        // underlying gnome-shell that causes the window contents to freeze if the grab and ungrab occur
-        // in quick succession (for example, clicking the icon as the preview window is opening)
-        // So, instead I'll issue the grab when the preview menu is actually entered.
-        this._source.menuManagerWindowPreview._grabHelper.grab({ actor: this.actor, focus: this.sourceActor, 
-                                                                onUngrab: Lang.bind(this, this.requestCloseMenu) });
-
         this.hoverOpen();
     },
 

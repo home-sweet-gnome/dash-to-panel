@@ -1233,9 +1233,7 @@ const taskbarAppIcon = new Lang.Class({
         // grabHelper.grab() is usually called when the menu is opened. However, there seems to be a bug in the 
         // underlying gnome-shell that causes all window contents to freeze if the grab and ungrab occur
         // in quick succession (for example, clicking the icon as the preview window is opening)
-        // So, instead I'll issue the grab when the preview menu is actually entered.
-        // Alternatively, I was able to solve this by waiting a 100ms timeout to ensure the menu was
-        // still open, but this waiting until the menu is entered seems a bit safer if it doesn't cause other issues
+        // So, instead wait a few ms and verify that the window is still open before grabbing
         let windowPreviewMenuData = this.menuManagerWindowPreview._menus[this.menuManagerWindowPreview._findMenu(this.windowPreview)];
         this.windowPreview.disconnect(windowPreviewMenuData.openStateChangeId);
         windowPreviewMenuData.openStateChangeId = this.windowPreview.connect('open-state-changed', Lang.bind(this.menuManagerWindowPreview, function(menu, open) {
@@ -1243,10 +1241,13 @@ const taskbarAppIcon = new Lang.Class({
                 if (this.activeMenu)
                     this.activeMenu.close(BoxPointer.PopupAnimation.FADE);
 
-                // Mainloop.timeout_add(100, Lang.bind(this, function() {
-                //     if(menu.isOpen)
-                //         this._grabHelper.grab({ actor: menu.actor, focus: menu.sourceActor, onUngrab: Lang.bind(this, this._closeMenu, menu) });
-                // }));
+                // hack to make sure the preview menu wasn't immediately closed before grabbing focus
+                Mainloop.timeout_add(200, Lang.bind(this, function() {
+                    if(menu.isOpen) {
+                        this._grabHelper.grab({ actor: menu.actor, focus: menu.sourceActor, onUngrab: Lang.bind(this, this._closeMenu, menu) });
+                        log(this._grabHelper.grabStack.length);
+                    }
+                }));
             } else {
                 this._grabHelper.ungrab({ actor: menu.actor });
             }
