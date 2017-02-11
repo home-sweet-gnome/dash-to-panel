@@ -70,6 +70,11 @@ const dtpPanel = new Lang.Class({
             this._setPanelPosition();
         }));
 
+        // this is to catch changes to the window scale factor
+        this._ScaleFactorListener = St.ThemeContext.get_for_stage(global.stage).connect("changed", Lang.bind(this, function () { 
+            this._setPanelPosition();
+        }));
+
         // The main panel's connection to the "allocate" signal is competing with this extension
         // trying to move the centerBox over to the right, creating a never-ending cycle.
         // Since we don't have the ID to disconnect that handler, wrap the allocate() function 
@@ -182,6 +187,9 @@ const dtpPanel = new Lang.Class({
         }
         if(this._MonitorsChangedListener !== null) {
             global.screen.disconnect(this._MonitorsChangedListener);
+        }
+        if(this._ScaleFactorListener !== null) {
+            St.ThemeContext.get_for_stage(global.stage).disconnect(this._ScaleFactorListener);
         }
         this.panel.actor.set_height(this._oldPanelHeight);
         this.panelBox.set_anchor_point(0, 0);
