@@ -147,6 +147,26 @@
         <summary>Status icon padding</summary>
         <description>Set the size of the aggregate (status) menu icon padding. (-1 for default)</description>
     </key>
+    <key type="s" name="shortcut-text">
+      <default>"&lt;Super&gt;q"</default>
+      <summary>Keybinding to show the dock and the number overlay.</summary>
+      <description>Behavior depends on hotkeys-show-dock and hotkeys-overlay.</description>
+    </key>
+    <key type="as" name="shortcut">
+      <default><![CDATA[['<Super>q']]]></default>
+      <summary>Keybinding to show the dock and the number overlay.</summary>
+      <description>Behavior depends on hotkeys-show-dock and hotkeys-overlay.</description>
+    </key>
+    <key type="d" name="shortcut-timeout">
+      <default>2</default>
+      <summary>Timeout to hide the dock, in seconds</summary>
+      <description>Sets the time duration before the dock is hidden again.</description>
+    </key>
+    <key type="b" name="hotkeys-overlay">
+      <default>true</default>
+      <summary>Show the dock when using the hotkeys</summary>
+      <description>The dock will be quickly shown so that the number-overlay is visible and app activation is easier</description>
+    </key>
     <key type="b" name="hot-keys">
       <default>false</default>
       <summary>Super Hot-Keys</summary>

@@ -865,6 +865,9 @@ const taskbar = new Lang.Class({
 
         // This is required for icon reordering when the scrollview is used.
         this._updateAppIconsGeometry();
+
+        // This will update the size, and the corresponding number for each icon
+        this._updateNumberOverlay();
     },
 
     // Reset the displayed apps icon to mantain the correct order
@@ -884,6 +887,34 @@ const taskbar = new Lang.Class({
         this._shownInitially = false;
         this._redisplay();
 
+    },
+
+    _updateNumberOverlay: function() {
+        let appIcons = this._getAppIcons();
+        let counter = 1;
+        appIcons.forEach(function(icon) {
+            if (counter < 10){
+                icon.setNumberOverlay(counter);
+                counter++;
+            }
+            else if (counter == 10) {
+                icon.setNumberOverlay(0);
+                counter++;
+            }
+            else {
+                // No overlay after 10
+                icon.setNumberOverlay(-1);
+            }
+            icon.updateNumberOverlay();
+        });
+
+    },
+
+    toggleNumberOverlay: function(activate) {
+        let appIcons = this._getAppIcons();
+        appIcons.forEach(function(icon) {
+            icon.toggleNumberOverlay(activate);
+        });
     },
 
     _clearDragPlaceholder: function() {
@@ -1250,6 +1281,8 @@ const taskbarAppIcon = new Lang.Class({
         }));
         
         this.forcedOverview = false;
+
+        this._numberOverlay();
     },
 
     shouldShowTooltip: function() {
@@ -1561,6 +1594,49 @@ const taskbarAppIcon = new Lang.Class({
 
         cr.fill();
         cr.$dispose();
+    },
+
+    _numberOverlay: function() {
+        // Add label for a Hot-Key visual aid
+        this._numberOverlayLabel = new St.Label();
+        this._numberOverlayBin = new St.Bin({
+            child: this._numberOverlayLabel,
+            x_align: St.Align.START, y_align: St.Align.START,
+            x_expand: true, y_expand: true
+        });
+        this._numberOverlayStyle = 'background-color: rgba(0,0,0,0.8);'
+        this._numberOverlayOrder = -1;
+        this._numberOverlayBin.hide();
+
+        this._iconContainer.add_child(this._numberOverlayBin);
+
+    },
+
+    updateNumberOverlay: function() {
+        // Set the font size to something smaller than the whole icon so it is
+        // still visible. The border radius is large to make the shape circular
+        let [minWidth, natWidth] = this._iconContainer.get_preferred_width(-1);
+        let font_size =  Math.round(Math.max(12, 0.3*natWidth));
+        let size = Math.round(font_size*1.2);
+        this._numberOverlayLabel.set_style(
+            this._numberOverlayStyle +
+           'font-size: ' + font_size + 'px;' +
+           'text-align: center;' +
+           'border-radius: ' + this.icon.iconSize + 'px;' +
+           'width: ' + size + 'px; height: ' + size +'px;'
+        );
+    },
+
+    setNumberOverlay: function(number) {
+        this._numberOverlayOrder = number;
+        this._numberOverlayLabel.set_text(number.toString());
+    },
+
+    toggleNumberOverlay: function(activate) {
+        if (activate && this._numberOverlayOrder > -1)
+           this._numberOverlayBin.show();
+        else
+           this._numberOverlayBin.hide();
     }
 
 });
