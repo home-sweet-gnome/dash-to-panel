@@ -128,6 +128,14 @@ const thumbnailPreviewMenu = new Lang.Class({
         this.cancelOpen();
         this.cancelClose();
 
+        // grabHelper.grab() is usually called when the menu is opened. However, there seems to be a bug in the 
+        // underlying gnome-shell that causes all window contents to freeze if the grab and ungrab occur
+        // in quick succession in timeouts from the Mainloop (for example, clicking the icon as the preview window is opening)
+        // So, instead wait until the mouse is leaving the icon (and might be moving toward the open window) to trigger the grab
+        if(this.isOpen)
+            this._source.menuManagerWindowPreview._grabHelper.grab({ actor: this.actor, focus: this.sourceActor, 
+                                                                    onUngrab: Lang.bind(this, this.requestCloseMenu) });
+
         this._hoverCloseTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('leave-timeout'), Lang.bind(this, this.hoverClose));
     },
 
