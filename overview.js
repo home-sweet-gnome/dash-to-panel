@@ -186,6 +186,10 @@ const dtpOverview = new Lang.Class({
 
     _checkHotkeyPrefix: function() {
         let hotkeyPrefix = this._dtpSettings.get_string('hotkey-prefix-text');
+        if (hotkeyPrefix == 'Super')
+           hotkeyPrefix = '<Super>';
+        else if (hotkeyPrefix == 'SuperAlt')
+           hotkeyPrefix = '<Super><Alt>';
         let [key, mods] = Gtk.accelerator_parse(hotkeyPrefix);
 
         for (let i = 1; i <= this._numHotkeys; i++) {

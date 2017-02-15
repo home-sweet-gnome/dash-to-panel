@@ -13,6 +13,10 @@
     <value value='1' nick='STATUSLEFT'/>
     <value value='2' nick='STATUSRIGHT'/>
   </enum>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix'>
+    <value value='0' nick='Super'/>
+    <value value='1' nick='SuperAlt'/>
+  </enum>
   <!-- this is mean to Match StSide. LEFT and RIGHT actual position in reversed in
        rtl languages -->
   <enum id='org.gnome.shell.extensions.dash-to-panel.panelPosition'>
@@ -177,10 +181,10 @@
       <summary>Super Hot-Keys</summary>
       <description>Launch and switch between dash items using Super+(0-9)</description>
     </key>
-    <key type="s" name="hotkey-prefix-text">
-      <default>"&lt;Super&gt;"</default>
-      <summary>Keybinding to show the dock and the number overlay.</summary>
-      <description>Behavior depends on hotkeys-show-dock and hotkeys-overlay.</description>
+    <key name="hotkey-prefix-text" enum="org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix">
+      <default>'Super'</default>
+      <summary>Prefix to use for hotkeys</summary>
+      <description>You can choose between Super or SuperAlt as the prefix for hotkeys.</description>
     </key>
     <key name="app-ctrl-hotkey-1" type="as">
       <default><![CDATA[['<Ctrl><Super>1']]]></default>

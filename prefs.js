@@ -273,8 +273,15 @@ const Settings = new Lang.Class({
             this._builder.get_object('overlay_switch').set_active(this._settings.get_boolean('hotkeys-overlay'));
 
             this._settings.bind('hotkey-prefix-text',
-                                this._builder.get_object('hotkey_prefix_entry'),
+                                this._builder.get_object('hotkey_prefix_combo'),
                                 'text',
+                                Gio.SettingsBindFlags.DEFAULT);
+
+            this._builder.get_object('hotkey_prefix_combo').set_active_id(this._settings.get_string('hotkey-prefix-text'));
+
+            this._settings.bind('hotkey-prefix-text',
+                                this._builder.get_object('hotkey_prefix_combo'),
+                                'active-id',
                                 Gio.SettingsBindFlags.DEFAULT);
 
             this._settings.bind('hotkeys-overlay',

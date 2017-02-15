@@ -48,13 +48,19 @@
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
                     <child>
-                      <object class="GtkEntry" id="hotkey_prefix_entry">
-                        <property name="width-chars">12</property>
+                      <object class="GtkComboBoxText" id="hotkey_prefix_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="valign">center</property>
+                        <items>
+                          <item id="Super" translatable="yes">Super</item>
+                          <item id="SuperAlt" translatable="yes">Super + Alt</item>
+                        </items>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="top_attach">0</property>
+                        <property name="height">2</property>
                       </packing>
                     </child>
                     <child>
@@ -76,7 +82,7 @@
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="max-width-chars">40</property>
-                        <property name="label" translatable="yes">Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;</property>
+                        <property name="label" translatable="yes">Hotkeys will either be Super+Number or Super+Alt+Num</property>
                         <property name="wrap">True</property>
                         <style>
                           <class name="dim-label"/>
