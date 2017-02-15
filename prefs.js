@@ -258,7 +258,7 @@ const Settings = new Lang.Class({
         // Create dialog for number overlay options
         this._builder.get_object('overlay_button').connect('clicked', Lang.bind(this, function() {
 
-            let dialog = new Gtk.Dialog({ title: _('Show dock and application numbers'),
+            let dialog = new Gtk.Dialog({ title: _('Application numbers'),
                                           transient_for: this.widget.get_toplevel(),
                                           use_header_bar: true,
                                           modal: true });
@@ -272,23 +272,28 @@ const Settings = new Lang.Class({
 
             this._builder.get_object('overlay_switch').set_active(this._settings.get_boolean('hotkeys-overlay'));
 
-            this._settings.bind('shortcut-text',
-                                this._builder.get_object('shortcut_entry'),
-                                'text',
-                                Gio.SettingsBindFlags.DEFAULT);
             this._settings.bind('hotkeys-overlay',
                                 this._builder.get_object('overlay_switch'),
                                 'active',
                                 Gio.SettingsBindFlags.DEFAULT);
-            this._settings.bind('shortcut-timeout',
+            this._settings.bind('overlay-timeout',
                                 this._builder.get_object('timeout_spinbutton'),
                                 'value',
+                                Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('hotkeys-overlay',
+                                this._builder.get_object('timeout_spinbutton'),
+                                'sensitive',
+                                Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('shortcut-text',
+                                this._builder.get_object('shortcut_entry'),
+                                'text',
                                 Gio.SettingsBindFlags.DEFAULT);
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings for the relevant keys
-                    let keys = ['shortcut-text', 'hotkeys-overlay', 'shortcut-timeout'];
+                    let keys = ['shortcut-text', 'hotkeys-overlay', 'overlay-timeout'];
                     keys.forEach(function(val) {
                         this._settings.set_value(val, this._settings.get_default_value(val));
                     }, this);

@@ -218,8 +218,7 @@ const dtpOverview = new Lang.Class({
     _optionalNumberOverlay: function() {
         this._shortcutIsSet = false;
         // Enable extra shortcut
-        if (this._dtpSettings.get_boolean('hot-keys') &&
-            this._dtpSettings.get_boolean('hotkeys-overlay'))
+        if (this._dtpSettings.get_boolean('hot-keys'))
             this._enableExtraShortcut();
 
         this._signalsHandler.add([
@@ -233,13 +232,12 @@ const dtpOverview = new Lang.Class({
         ], [
             this._dtpSettings,
             'changed::shortcut-text',
-            Lang.bind(this, this._setShortcut)
+            Lang.bind(this, this._checkHotkeysOptions)
         ]);
     },
 
     _checkHotkeysOptions: function() {
-        if (this._dtpSettings.get_boolean('hot-keys') &&
-            this._dtpSettings.get_boolean('hotkeys-overlay'))
+        if (this._dtpSettings.get_boolean('hot-keys'))
             this._enableExtraShortcut();
         else
             this._disableExtraShortcut();
@@ -252,7 +250,10 @@ const dtpOverview = new Lang.Class({
             Main.wm.addKeybinding('shortcut', this._dtpSettings,
                                   Meta.KeyBindingFlags.NONE,
                                   Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW,
-                                  Lang.bind(this, this._showOverlay));
+                                  Lang.bind(this, function() {
+                                      this._overlayFromShortcut = true;
+                                      this._showOverlay();
+                                  }));
             this._shortcutIsSet = true;
         }
     },
@@ -280,7 +281,7 @@ const dtpOverview = new Lang.Class({
     },
 
     _showOverlay: function() {
-        if (this._dtpSettings.get_boolean('hotkeys-overlay'))
+        if (this._dtpSettings.get_boolean('hotkeys-overlay') || this._overlayFromShortcut)
             this.taskbar.toggleNumberOverlay(true);
 
         // Restart the counting if the shortcut is pressed again
@@ -289,8 +290,13 @@ const dtpOverview = new Lang.Class({
             this._numberOverlayTimeoutId = 0;
         }
 
+        let timeout = this._dtpSettings.get_int('overlay-timeout');
+        if (this._overlayFromShortcut) {
+            timeout = this._dtpSettings.get_int('shortcut-timeout');
+            this._overlayFromShortcut = false;
+        }
+
         // Hide the overlay/dock after the timeout
-        let timeout = this._dtpSettings.get_double('shortcut-timeout') * 1000;
         this._numberOverlayTimeoutId = Mainloop.timeout_add(timeout, Lang.bind(this, function() {
                 this._numberOverlayTimeoutId = 0;
                 this.taskbar.toggleNumberOverlay(false);
