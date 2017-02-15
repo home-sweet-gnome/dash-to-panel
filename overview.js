@@ -26,6 +26,7 @@ const Lang = imports.lang;
 const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
 const Gtk = imports.gi.Gtk;
+const Gdk = imports.gi.Gdk;
 const Mainloop = imports.mainloop;
 
 const Meta = imports.gi.Meta;
@@ -176,11 +177,49 @@ const dtpOverview = new Lang.Class({
                     else
                         Lang.bind(this, this._disableHotKeys)();
             })
+        ],[
+            this._dtpSettings,
+            'changed::hotkey-prefix-text',
+            Lang.bind(this, this._checkHotkeyPrefix)
         ]);
     },
+
+    _checkHotkeyPrefix: function() {
+        let hotkeyPrefix = this._dtpSettings.get_string('hotkey-prefix-text');
+        let [key, mods] = Gtk.accelerator_parse(hotkeyPrefix);
+
+        for (let i = 1; i <= this._numHotkeys; i++) {
+            let number = i;
+            if (number == 10)
+                number = 0;
+            key = Gdk.keyval_from_name(number.toString());
+            if (Gtk.accelerator_valid(key, mods)) {
+                let shortcut = Gtk.accelerator_name(key, mods);
+
+                // Setup shortcut strings
+                let keys = ['app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-',  // Regular numbers
+                            'app-hotkey-kp-', 'app-shift-hotkey-kp-', 'app-ctrl-hotkey-kp-']; // Key-pad numbers
+                keys.forEach( function(key) {
+                    this._dtpSettings.set_strv(key + i, [shortcut]);
+                }, this);
+            }
+            else {
+                // Reset default settings for the relevant keys if the
+                // accelerators are invalid
+                let keys = ['app-hotkey-' + i, 'app-shift-hotkey-' + i, 'app-ctrl-hotkey-' + i,  // Regular numbers
+                            'app-hotkey-kp-' + i, 'app-shift-hotkey-kp-' + i, 'app-ctrl-hotkey-kp-' + i]; // Key-pad numbers
+                keys.forEach(function(val) {
+                    this._dtpSettings.set_value(val, this._dtpSettings.get_default_value(val));
+                }, this);
+            }
+        }
+    },
+
     _enableHotKeys: function() {
         if (this._hotKeysEnabled)
             return;
+
+        this._checkHotkeyPrefix();
 
         // Setup keyboard bindings for taskbar elements
         let keys = ['app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-',  // Regular numbers

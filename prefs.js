@@ -258,7 +258,7 @@ const Settings = new Lang.Class({
         // Create dialog for number overlay options
         this._builder.get_object('overlay_button').connect('clicked', Lang.bind(this, function() {
 
-            let dialog = new Gtk.Dialog({ title: _('Application numbers'),
+            let dialog = new Gtk.Dialog({ title: _('Advanced hotkeys options'),
                                           transient_for: this.widget.get_toplevel(),
                                           use_header_bar: true,
                                           modal: true });
@@ -271,6 +271,11 @@ const Settings = new Lang.Class({
             dialog.get_content_area().add(box);
 
             this._builder.get_object('overlay_switch').set_active(this._settings.get_boolean('hotkeys-overlay'));
+
+            this._settings.bind('hotkey-prefix-text',
+                                this._builder.get_object('hotkey_prefix_entry'),
+                                'text',
+                                Gio.SettingsBindFlags.DEFAULT);
 
             this._settings.bind('hotkeys-overlay',
                                 this._builder.get_object('overlay_switch'),
@@ -293,7 +298,7 @@ const Settings = new Lang.Class({
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings for the relevant keys
-                    let keys = ['shortcut-text', 'hotkeys-overlay', 'overlay-timeout'];
+                    let keys = ['hotkey-prefix-text', 'shortcut-text', 'hotkeys-overlay', 'overlay-timeout'];
                     keys.forEach(function(val) {
                         this._settings.set_value(val, this._settings.get_default_value(val));
                     }, this);
