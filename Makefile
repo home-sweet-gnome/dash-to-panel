@@ -3,7 +3,7 @@
 UUID = dash-to-panel@jderose9.github.com
 BASE_MODULES = extension.js stylesheet.css metadata.json COPYING README.md
 EXTRA_MODULES = convenience.js panel.js panelStyle.js overview.js taskbar.js secondaryMenu.js windowPreview.js prefs.js Settings.ui
-#EXTRA_MEDIA = logo.svg
+EXTRA_IMAGES = focused_multi_bg.svg focused_single_bg.svg focused_multi_running.svg unfocused_multi_running.svg
 TOLOCALIZE =  prefs.js
 MSGSRC = $(wildcard po/*.po)
 ifeq ($(strip $(DESTDIR)),)
@@ -69,8 +69,8 @@ _build: all
 	-rm -fR ./_build
 	mkdir -p _build
 	cp $(BASE_MODULES) $(EXTRA_MODULES) _build
-	#mkdir -p _build/media
-	#cd media ; cp $(EXTRA_MEDIA) ../_build/media/
+	mkdir -p _build/img
+	cd img ; cp $(EXTRA_IMAGES) ../_build/img/
 	mkdir -p _build/schemas
 	cp schemas/*.xml _build/schemas/
 	cp schemas/gschemas.compiled _build/schemas/

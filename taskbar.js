@@ -1404,9 +1404,25 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     _onFocusAppChanged: function() {
+        if(this._nWindows > 1)
+            this._dot.set_style("background-image: url('" +
+                Me.path + 
+                "/img/" +
+                (tracker.focus_app == this.app ? "focused" : "unfocused") + 
+                "_multi_running.svg'); background-size: 48px 3px;");
+        else
+            this._dot.set_style("");
+                    
         if(tracker.focus_app == this.app) {
             this._dot.opacity = 255;
             this.actor.add_style_class_name('focused');
+
+            this.actor.set_style("background-image: url('" +
+                Me.path + 
+                "/img/focused_" + 
+                (this._nWindows > 1 ? "multi" : "single") + 
+                "_bg.svg'); background-position: 0 0; background-size: 48px 45px;");
+
             Tweener.addTween(this._dot,
                              { width: this._iconContainer.get_width(),
                                height: RUNNING_INDICATOR_SIZE,
@@ -1417,10 +1433,12 @@ const taskbarAppIcon = new Lang.Class({
                               { opacity: 0,
                                 time: DASH_ANIMATION_TIME,
                                 transition: 'easeInOutCubic',
-                              });
+                               });
         } else {
             this._dot.opacity = 255;
             this.actor.remove_style_class_name('focused');
+            this.actor.set_style("");
+
             Tweener.addTween(this._dot,
                              { width: 0,
                                height: RUNNING_INDICATOR_SIZE,
