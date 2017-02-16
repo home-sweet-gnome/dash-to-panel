@@ -250,6 +250,77 @@ const Settings = new Lang.Class({
                             this._builder.get_object('hot_keys_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('hot-keys',
+                            this._builder.get_object('overlay_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        // Create dialog for number overlay options
+        this._builder.get_object('overlay_button').connect('clicked', Lang.bind(this, function() {
+
+            let dialog = new Gtk.Dialog({ title: _('Advanced hotkeys options'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('box_overlay_shortcut');
+            dialog.get_content_area().add(box);
+
+            this._builder.get_object('overlay_switch').set_active(this._settings.get_boolean('hotkeys-overlay'));
+
+            this._settings.bind('hotkey-prefix-text',
+                                this._builder.get_object('hotkey_prefix_combo'),
+                                'text',
+                                Gio.SettingsBindFlags.DEFAULT);
+
+            this._builder.get_object('hotkey_prefix_combo').set_active_id(this._settings.get_string('hotkey-prefix-text'));
+
+            this._settings.bind('hotkey-prefix-text',
+                                this._builder.get_object('hotkey_prefix_combo'),
+                                'active-id',
+                                Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('hotkeys-overlay',
+                                this._builder.get_object('overlay_switch'),
+                                'active',
+                                Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('overlay-timeout',
+                                this._builder.get_object('timeout_spinbutton'),
+                                'value',
+                                Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('hotkeys-overlay',
+                                this._builder.get_object('timeout_spinbutton'),
+                                'sensitive',
+                                Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('shortcut-text',
+                                this._builder.get_object('shortcut_entry'),
+                                'text',
+                                Gio.SettingsBindFlags.DEFAULT);
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings for the relevant keys
+                    let keys = ['hotkey-prefix-text', 'shortcut-text', 'hotkeys-overlay', 'overlay-timeout'];
+                    keys.forEach(function(val) {
+                        this._settings.set_value(val, this._settings.get_default_value(val));
+                    }, this);
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
+
 
         // setup dialog for advanced options
         this._builder.get_object('button_advanced_options').connect('clicked', Lang.bind(this, function() {
