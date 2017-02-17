@@ -1218,7 +1218,7 @@ const taskbarAppIcon = new Lang.Class({
     Extends: AppDisplay.AppIcon,
 
     _init: function(settings, app, iconParams, onActivateOverride) {
-        
+
         // a prefix is required to avoid conflicting with the parent class variable
         this._dtpSettings = settings;
         this._nWindows = 0;
@@ -1239,7 +1239,7 @@ const taskbarAppIcon = new Lang.Class({
                                                 Lang.bind(this, this.onWindowsChanged));
         this._focuseAppChangeId = tracker.connect('notify::focus-app',
                                                 Lang.bind(this, this._onFocusAppChanged));
-
+        
         this._dots = null;
 
         this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._showDots));
@@ -1279,7 +1279,7 @@ const taskbarAppIcon = new Lang.Class({
                 this._grabHelper.ungrab({ actor: menu.actor });
             }
         }));
-        
+
         this.forcedOverview = false;
 
         this._numberOverlay();
@@ -1340,7 +1340,7 @@ const taskbarAppIcon = new Lang.Class({
         this._dots = new St.DrawingArea({x_expand: true, y_expand: true});
         this._dots.connect('repaint', Lang.bind(this,
             function() {
-                    this._drawCircles(this._dots);
+                    //this._drawCircles(this._dots);
                     this._onFocusAppChanged();
             }));
         this._iconContainer.add_child(this._dots);
@@ -1404,52 +1404,73 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     _onFocusAppChanged: function() {
+        let containerWidth = this._iconContainer.get_width();
+
         if(this._nWindows > 1)
             this._dot.set_style("background-image: url('" +
                 Me.path + 
                 "/img/" +
                 (tracker.focus_app == this.app ? "focused" : "unfocused") + 
-                "_multi_running.svg'); background-size: 48px 3px;");
+                "_multi_running.svg'); background-size: " + 
+                containerWidth + "px " + 
+                RUNNING_INDICATOR_SIZE + "px;");
         else
-            this._dot.set_style("");
+            this._dot.set_style(null);
                     
         if(tracker.focus_app == this.app) {
             this._dot.opacity = 255;
             this.actor.add_style_class_name('focused');
+            this._dots.opacity=0;
 
-            this.actor.set_style("background-image: url('" +
-                Me.path + 
-                "/img/focused_" + 
+            let highlightStyle = "background-image: url('" +
+                Me.path + "/img/focused_" + 
                 (this._nWindows > 1 ? "multi" : "single") + 
-                "_bg.svg'); background-position: 0 0; background-size: 48px 45px;");
+                "_bg.svg'); background-position: 0 0; background-size: " + 
+                containerWidth + "px " + 
+                (containerWidth - RUNNING_INDICATOR_SIZE) + "px;"
 
-            Tweener.addTween(this._dot,
-                             { width: this._iconContainer.get_width(),
-                               height: RUNNING_INDICATOR_SIZE,
-                               time: DASH_ANIMATION_TIME,
-                               transition: 'easeInOutCubic',
-                             });
-             Tweener.addTween(this._dots,
-                              { opacity: 0,
+            if(this.actor.get_style() != highlightStyle)
+                Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(highlightStyle); }));
+
+            if(this._dot.get_width() != containerWidth && this._tweeningToWidth !== containerWidth) {
+                this._tweeningToWidth = containerWidth;
+                Tweener.addTween(this._dot,
+                                { width: containerWidth,
+                                height: RUNNING_INDICATOR_SIZE,
                                 time: DASH_ANIMATION_TIME,
                                 transition: 'easeInOutCubic',
-                               });
+                                onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
+                                });
+                Tweener.addTween(this._dots,
+                                { opacity: 0,
+                                    time: DASH_ANIMATION_TIME,
+                                    transition: 'easeInOutCubic',
+                                });
+            }
         } else {
             this._dot.opacity = 255;
             this.actor.remove_style_class_name('focused');
-            this.actor.set_style("");
 
-            Tweener.addTween(this._dot,
-                             { width: 0,
-                               height: RUNNING_INDICATOR_SIZE,
-                               time: DASH_ANIMATION_TIME,
-                               transition: 'easeInOutCubic',
-                             });
-             Tweener.addTween(this._dots,
-                              { opacity: 255,
+            if(this.actor.get_style())
+                Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(null) }));
+
+            let newWidth = this._nWindows > 0 ? containerWidth : 0;
+            if(this._dot.get_width() != newWidth && this._tweeningToWidth !== newWidth) {
+                this._tweeningToWidth = newWidth;
+                Tweener.addTween(this._dot,
+                                { width: newWidth,
+                                height: RUNNING_INDICATOR_SIZE,
                                 time: DASH_ANIMATION_TIME,
                                 transition: 'easeInOutCubic',
-                              });
+                                onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
+                                });
+                                this._dots.opacity = 0;
+                Tweener.addTween(this._dots,
+                                { opacity: 255,
+                                    time: DASH_ANIMATION_TIME,
+                                    transition: 'easeInOutCubic',
+                                });
+            }
         }
     },
 
@@ -1583,8 +1604,10 @@ const taskbarAppIcon = new Lang.Class({
                 this.actor.add_style_class_name(className);
         }
 
-        if (this._dots)
-            this._dots.queue_repaint();
+        // i think this is redundant
+        // if (this._dots) {
+        //     this._dots.queue_repaint();
+        // }
     },
 
     _drawCircles: function(area) {
