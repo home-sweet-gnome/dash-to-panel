@@ -662,7 +662,7 @@
     <property name="margin_top">6</property>
     <property name="margin_bottom">6</property>
     <child>
-      <object class="GtkBox" id="position_and_size">
+      <object class="GtkBox" id="position_and_style">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="margin_left">24</property>
@@ -1007,7 +1007,7 @@
       <object class="GtkLabel" id="position">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Position and size</property>
+        <property name="label" translatable="yes">Position and Style</property>
       </object>
       <packing>
         <property name="tab_fill">False</property>
@@ -1020,7 +1020,6 @@
         <property name="margin_left">24</property>
         <property name="margin_right">24</property>
         <property name="margin_top">24</property>
-        <property name="margin_bottom">24</property>
         <property name="orientation">vertical</property>
         <property name="spacing">24</property>
         <child>
@@ -1473,10 +1472,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Enable Super+(0-9) as shortcuts to activate apps. It can also be used together with Shift and Ctrl.</property>
                             <property name="use_markup">True</property>
                             <property name="wrap">True</property>
+                            <property name="xalign">0</property>
                             <style>
                               <class name="dim-label"/>
                             </style>
@@ -1491,8 +1490,8 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
-                            <property name="xalign">0</property>
                             <property name="label" translatable="yes">Use hotkeys to activate apps</property>
+                            <property name="xalign">0</property>
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
@@ -1560,20 +1559,6 @@
             <property name="position">2</property>
           </packing>
         </child>
-        <child>
-          <object class="GtkButton" id="button_advanced_options">
-            <property name="label" translatable="yes">Advanced Options</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="halign">start</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">3</property>
-          </packing>
-        </child>
       </object>
       <packing>
         <property name="position">1</property>
@@ -1591,7 +1576,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkBox" id="appearance">
+      <object class="GtkBox" id="fine-tune">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="margin_left">24</property>
@@ -1912,16 +1897,30 @@
             <property name="position">2</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkButton" id="button_advanced_options">
+            <property name="label" translatable="yes">Advanced Options</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="halign">start</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
       </object>
       <packing>
         <property name="position">2</property>
       </packing>
     </child>
     <child type="tab">
-      <object class="GtkLabel" id="appearance_label">
+      <object class="GtkLabel" id="finetune_label">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Appearance</property>
+        <property name="label" translatable="yes">Fine-Tune</property>
       </object>
       <packing>
         <property name="position">2</property>
