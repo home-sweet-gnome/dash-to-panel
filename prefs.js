@@ -41,6 +41,38 @@ const DEFAULT_FONT_SIZES = [ 96, 64, 48, 32, 24, 16, 0 ];
 const DEFAULT_MARGIN_SIZES = [ 32, 24, 16, 12, 8, 4, 0 ];
 const DEFAULT_PADDING_SIZES = [ 32, 24, 16, 12, 8, 4, 0, -1 ];
 
+/**
+ * This function was copied from the activities-config extension
+ * https://github.com/nls1729/acme-code/tree/master/activities-config
+ * by Norman L. Smith.
+ */
+function cssHexString(css) {
+    let rrggbb = '#';
+    let start;
+    for (let loop = 0; loop < 3; loop++) {
+        let end = 0;
+        let xx = '';
+        for (let loop = 0; loop < 2; loop++) {
+            while (true) {
+                let x = css.slice(end, end + 1);
+                if ((x == '(') || (x == ',') || (x == ')'))
+                    break;
+                end++;
+            }
+            if (loop == 0) {
+                end++;
+                start = end;
+            }
+        }
+        xx = parseInt(css.slice(start, end)).toString(16);
+        if (xx.length == 1)
+            xx = '0' + xx;
+        rrggbb += xx;
+        css = css.slice(end);
+    }
+    return rrggbb;
+}
+
 const Settings = new Lang.Class({
     Name: 'DashToPanel.Settings',
 
@@ -140,6 +172,15 @@ const Settings = new Lang.Class({
             this._settings.set_string('dot-style-unfocused', widget.get_active_id());
         }));
 
+            log("doo doo always");
+        this._builder.get_object('dot_color_colorbutton').connect('notify::color', Lang.bind(this, function(button) {
+            log("doo doo");
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            let hexString = cssHexString(css);
+            this._settings.set_string('dot-color', hexString);
+        }));
+
         this._builder.get_object('dot_style_options_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Running Indicator Options'),
@@ -166,13 +207,6 @@ const Settings = new Lang.Class({
             let rgba = new Gdk.RGBA();
             rgba.parse(this._settings.get_string('dot-color'));
             this._builder.get_object('dot_color_colorbutton').set_rgba(rgba);
-
-            this._builder.get_object('dot_color_colorbutton').connect('notify::color', Lang.bind(this, function(button) {
-                let rgba = button.get_rgba();
-                let css = rgba.to_string();
-                let hexString = cssHexString(css);
-                this._settings.set_string('dot-color', hexString);
-            }));
 
             this._settings.bind('focus-highlight',
                     this._builder.get_object('focus_highlight_switch'),

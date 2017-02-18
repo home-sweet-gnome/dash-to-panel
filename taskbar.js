@@ -56,6 +56,11 @@ let DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 let LABEL_GAP = 5;
 let HFADE_WIDTH = 48;
 
+let DOT_STYLE = {
+    DOTS: "DOTS",
+    LINE: "LINE"
+}
+
 function getPosition() {
     return Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
 }
@@ -1246,17 +1251,16 @@ const taskbarAppIcon = new Lang.Class({
         this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._showDots));
         this._showDots();
 
-        this._dtpSettings.connect('changed::dot-size', Lang.bind(this, function() {
-            this._updateCounterClass();
-            this._dots.queue_repaint();
-            this._onFocusAppChanged(true);
-        }));    
+        this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-override', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color', Lang.bind(this, this._settingsChangeRefresh));
 
-        this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, function() {
-            this._onFocusAppChanged();
-        })); 
+        this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._onFocusAppChanged));
+        this._dtpSettings.connect('changed::dot-stacked', Lang.bind(this, this._onFocusAppChanged));
 
-        this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setStyle));
+        this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setIconStyle));
         
         // Creating a new menu manager for window previews as adding it to the
         // using the secondary menu's menu manager (which uses the "ignoreRelease"
@@ -1350,7 +1354,8 @@ const taskbarAppIcon = new Lang.Class({
         this._dots = new St.DrawingArea({x_expand: true, y_expand: true});
         this._dots.connect('repaint', Lang.bind(this,
             function() {
-                    //this._drawCircles(this._dots);
+                    if(this._dtpSettings.get_string("dot-style-focused") == DOT_STYLE.DOTS || this._dtpSettings.get_string("dot-style-unfocused") == DOT_STYLE.DOTS)
+                        this._drawCircles(this._dots);
                     this._onFocusAppChanged();
             }));
         this._iconContainer.add_child(this._dots);
@@ -1358,7 +1363,13 @@ const taskbarAppIcon = new Lang.Class({
 
     },
 
-    _setStyle: function() {
+    _settingsChangeRefresh: function() {
+        this._updateCounterClass();
+        this._dots.queue_repaint();
+        this._onFocusAppChanged(true);
+    },
+
+    _setIconStyle: function() {
         let margin = this._dtpSettings.get_int('appicon-margin');
         let inlineStyle = 'margin: 0 ' + margin + 'px;';
 
@@ -1366,10 +1377,10 @@ const taskbarAppIcon = new Lang.Class({
             let containerWidth = this._iconContainer.get_width();
             inlineStyle += "background-image: url('" +
                 Me.path + "/img/focused_" + 
-                (this._nWindows > 1 ? "multi" : "single") + 
+                ((this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked')) ? "multi" : "single") + 
                 "_bg.svg'); background-position: 0 0; background-size: " + 
                 containerWidth + "px " + 
-                (containerWidth - this._dtpSettings.get_int('dot-size')) + "px;"
+                (containerWidth - (this._dtpSettings.get_string('dot-style-focused') == DOT_STYLE.LINE ? this._dtpSettings.get_int('dot-size') : 0)) + "px;"
         }
 
         // graphical glitches if i dont set this on a timeout
@@ -1428,61 +1439,66 @@ const taskbarAppIcon = new Lang.Class({
 
     _onFocusAppChanged: function(force) {
         let containerWidth = this._iconContainer.get_width();
+        
+        this._dot.opacity = 255;
 
-        if(this._nWindows > 1)
-            this._dot.set_style("background-image: url('" +
+        let dotStyle = "";
+        
+        if(this._dtpSettings.get_boolean('dot-color-override'))
+            dotStyle += "background-color: " + this._dtpSettings.get_string('dot-color') + "; ";
+
+        if(this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked'))
+            dotStyle += "background-image: url('" +
                 Me.path + 
                 "/img/" +
                 (tracker.focus_app == this.app ? "focused" : "unfocused") + 
                 "_multi_running.svg'); background-size: " + 
                 containerWidth + "px " + 
-                this._dtpSettings.get_int('dot-size') + "px;");
-        else
-            this._dot.set_style(null);
+                this._dtpSettings.get_int('dot-size') + "px;";
 
-        this._setStyle();
+        this._dot.set_style(dotStyle.length ? dotStyle : null)
+        
+       
+        this._setIconStyle();
+
+        let newDotWidth = 0;
+        let newDotsOpacity = 0;
                     
         if(tracker.focus_app == this.app) {
-            this._dot.opacity = 255;
             this.actor.add_style_class_name('focused');
-            this._dots.opacity=0;
 
-            if((this._dot.get_width() != containerWidth && this._tweeningToWidth !== containerWidth) || force) {
-                this._tweeningToWidth = containerWidth;
-                Tweener.addTween(this._dot,
-                                { width: containerWidth,
-                                height: this._dtpSettings.get_int('dot-size'),
-                                time: DASH_ANIMATION_TIME,
-                                transition: 'easeInOutCubic',
-                                onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
-                                });
-                Tweener.addTween(this._dots,
-                                { opacity: 0,
-                                    time: DASH_ANIMATION_TIME,
-                                    transition: 'easeInOutCubic',
-                                });
-            }
+            if(this._dtpSettings.get_string('dot-style-focused') == DOT_STYLE.LINE)
+                newDotWidth = this._nWindows > 0 ? containerWidth : 0;
+            else
+                newDotsOpacity = 255;
         } else {
-            this._dot.opacity = 255;
             this.actor.remove_style_class_name('focused');
 
-            let newWidth = this._nWindows > 0 ? containerWidth : 0;
-            if((this._dot.get_width() != newWidth && this._tweeningToWidth !== newWidth) || force) {
-                this._tweeningToWidth = newWidth;
-                Tweener.addTween(this._dot,
-                                { width: newWidth,
-                                height: this._dtpSettings.get_int('dot-size'),
+            if(this._dtpSettings.get_string('dot-style-unfocused') == DOT_STYLE.LINE)
+                newDotWidth = this._nWindows > 0 ? containerWidth : 0;
+            else
+                newDotsOpacity = 255;
+        }
+
+        if((this._dot.get_width() != newDotWidth && this._tweeningToWidth !== newDotWidth) || force) {
+            this._tweeningToWidth = newDotWidth;
+            Tweener.addTween(this._dot,
+                            { width: newDotWidth,
+                            height: this._dtpSettings.get_int('dot-size'),
+                            time: DASH_ANIMATION_TIME,
+                            transition: 'easeInOutCubic',
+                            onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
+                        });
+        }
+
+        if((this._dot.get_opacity() != newDotsOpacity && this._tweeningToOpacity !== newDotsOpacity) || force) {
+            this._tweeningToOpacity = newDotsOpacity;
+            Tweener.addTween(this._dots,
+                            { opacity: newDotsOpacity,
                                 time: DASH_ANIMATION_TIME,
                                 transition: 'easeInOutCubic',
-                                onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
-                                });
-                                this._dots.opacity = 0;
-                Tweener.addTween(this._dots,
-                                { opacity: 255,
-                                    time: DASH_ANIMATION_TIME,
-                                    transition: 'easeInOutCubic',
-                                });
-            }
+                                onComplete: Lang.bind(this, function() { this._tweeningToOpacity = null })
+                            });
         }
     },
 
@@ -1625,10 +1641,15 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     _drawCircles: function(area) {
-        // Re-use the style - background color, and border width and color -
-        // of the default dot
-        let themeNode = this._dot.get_theme_node();
-        let bodyColor = themeNode.get_background_color();
+        let bodyColor;
+        if(this._dtpSettings.get_boolean('dot-color-override')) {
+            bodyColor = Clutter.color_from_string(this._dtpSettings.get_string('dot-color'))[1];
+        } else {
+            // Re-use the style - background color, and border width and color -
+            // of the default dot
+            let themeNode = this._dot.get_theme_node();
+            bodyColor = themeNode.get_background_color();
+        }
 
         let [width, height] = area.get_surface_size();
         let cr = area.get_context();
