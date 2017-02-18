@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="gnome-shell-extensions">
+  <enum id='org.gnome.shell.extensions.dash-to-panel.dotStyle'>
+    <value value='0' nick='LINE'/>
+    <value value='1' nick='DOTS'/>
+  </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.clickAction'>
     <value value='0' nick='SKIP'/>
     <value value='1' nick='MINIMIZE'/>
@@ -13,7 +17,7 @@
     <value value='1' nick='STATUSLEFT'/>
     <value value='2' nick='STATUSRIGHT'/>
   </enum>
-  <enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix'>
+<enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix'>
     <value value='0' nick='Super'/>
     <value value='1' nick='SuperAlt'/>
   </enum>
@@ -42,6 +46,41 @@
       <default>'BOTTOM'</default>
       <summary>Dot position</summary>
       <description>Running indicators are shown on the Bottom or Top of the screen.</description>
+    </key>
+    <key name="dot-style-focused" enum="org.gnome.shell.extensions.dash-to-panel.dotStyle">
+      <default>'LINE'</default>
+      <summary>Style of the running indicator (focused)</summary>
+      <description>Style of the running indicator for the icon for the currently focused application</description>
+    </key>
+    <key name="dot-style-unfocused" enum="org.gnome.shell.extensions.dash-to-panel.dotStyle">
+      <default>'LINE'</default>
+      <summary>Style of the running indicator (unfocused)</summary>
+      <description>Style of the running indicator for the icon for applications which are not currently focused</description>
+    </key>
+    <key type="b" name="dot-color-override">
+      <default>false</default>
+      <summary>Running indicator color override</summary>
+      <description>Whether to override the theme background color for .app-well-running-dot</description>
+    </key>
+    <key type="s" name="dot-color">
+      <default>"#5294e2"</default>
+      <summary>Dash background color.</summary>
+      <description>Customize the background color of the dash.</description>
+    </key>
+    <key type="i" name="dot-size">
+      <default>3</default>
+      <summary>Running indicator height</summary>
+      <description>Height of the running indicator line/diameter of window indicator dots</description>
+    </key>
+    <key type="b" name="focus-highlight">
+      <default>true</default>
+      <summary>Highlight icon of focused application</summary>
+      <description>Whether to highlight the background of the currently focused application's icon</description>
+    </key>
+    <key type="b" name="dot-stacked">
+      <default>true</default>
+      <summary>Stacked appearance for indicator</summary>
+      <description>Whether to give a stacked appearance to indicator and highlight of applications with multiple windows open</description>
     </key>
     <key name="location-clock" enum="org.gnome.shell.extensions.dash-to-panel.statusAreaPosition">
       <default>'STATUSLEFT'</default>
@@ -150,6 +189,14 @@
         <default>-1</default>
         <summary>Status icon padding</summary>
         <description>Set the size of the aggregate (status) menu icon padding. (-1 for default)</description>
+    </key>
+    <key type="b" name="animate-app-switch">
+      <default>true</default>
+      <summary>Animate running indicator when open/closing/switching applications</summary>
+    </key>
+    <key type="b" name="animate-window-launch">
+      <default>true</default>
+      <summary>Animate when new window launched</summary>
     </key>
     <key type="s" name="shortcut-text">
       <default>"&lt;Super&gt;q"</default>

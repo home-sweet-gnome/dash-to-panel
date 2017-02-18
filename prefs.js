@@ -57,6 +57,7 @@ const Settings = new Lang.Class({
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
+        this._dot_height_timeout = 0;
         this._tray_size_timeout = 0;
         this._leftbox_size_timeout = 0;
         this._appicon_margin_timeout = 0;
@@ -129,7 +130,17 @@ const Settings = new Lang.Class({
 
         }
 
-        this._builder.get_object('dots_style_options_button').connect('clicked', Lang.bind(this, function() {
+        this._builder.get_object('dot_style_focused_combo').set_active_id(this._settings.get_string('dot-style-focused'));
+        this._builder.get_object('dot_style_focused_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('dot-style-focused', widget.get_active_id());
+        }));
+
+        this._builder.get_object('dot_style_unfocused_combo').set_active_id(this._settings.get_string('dot-style-unfocused'));
+        this._builder.get_object('dot_style_unfocused_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('dot-style-unfocused', widget.get_active_id());
+        }));
+
+        this._builder.get_object('dot_style_options_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Running Indicator Options'),
                                           transient_for: this.widget.get_toplevel(),
@@ -143,17 +154,56 @@ const Settings = new Lang.Class({
             let box = this._builder.get_object('box_dots_options');
             dialog.get_content_area().add(box);
 
-            // this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
+            this._settings.bind('dot-color-override',
+                            this._builder.get_object('dot_color_override_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('dot-color-override',
+                            this._builder.get_object('dot_color_colorbutton'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
 
-            // this._builder.get_object('leave_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
-            //     this._settings.set_int('leave-timeout', widget.get_value());
-            // }));
+            let rgba = new Gdk.RGBA();
+            rgba.parse(this._settings.get_string('dot-color'));
+            this._builder.get_object('dot_color_colorbutton').set_rgba(rgba);
+
+            this._builder.get_object('dot_color_colorbutton').connect('notify::color', Lang.bind(this, function(button) {
+                let rgba = button.get_rgba();
+                let css = rgba.to_string();
+                let hexString = cssHexString(css);
+                this._settings.set_string('dot-color', hexString);
+            }));
+
+            this._settings.bind('focus-highlight',
+                    this._builder.get_object('focus_highlight_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('dot-stacked',
+                    this._builder.get_object('dot_stacked_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
+
+            this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));
+            this._builder.get_object('dot_size_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('dot-size', widget.get_value());
+            }));
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
-                    // this._settings.set_int('leave-timeout', 100);
-                    // this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
+                    this._settings.set_value('dot-color-override', this._settings.get_default_value('dot-color-override'));
+
+                    this._settings.set_value('dot-color', this._settings.get_default_value('dot-color'));
+                    let rgba = new Gdk.RGBA();
+                    rgba.parse(this._settings.get_string('dot-color'));
+                    this._builder.get_object('dot_color_colorbutton').set_rgba(rgba);
+
+                    this._settings.set_value('dot-size', this._settings.get_default_value('dot-size'));
+                    this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));
+                   
+                    this._settings.set_value('focus-highlight', this._settings.get_default_value('focus-highlight'));
+                    this._settings.set_value('dot-stacked', this._settings.get_default_value('dot-stacked'));
+
                 } else {
                     // remove the settings box so it doesn't get destroyed;
                     dialog.get_content_area().remove(box);
@@ -383,7 +433,7 @@ const Settings = new Lang.Class({
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
-                    this._settings.set_int('leave-timeout', 100);
+                    this._settings.set_value('leave-timeout', this._settings.get_default_value('leave-timeout'));
                     this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
                 } else {
                     // remove the settings box so it doesn't get destroyed;
@@ -428,6 +478,16 @@ const Settings = new Lang.Class({
                 size_scale.set_inverted(true);
             }
         }
+
+        this._settings.bind('animate-app-switch',
+                    this._builder.get_object('animate_app_switch_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('animate-window-launch',
+                    this._builder.get_object('animate_window_launch_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
         
         // About Panel
 

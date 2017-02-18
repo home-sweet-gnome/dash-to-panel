@@ -252,11 +252,10 @@
     <property name="step_increment">1</property>
     <property name="page_increment">5</property>
   </object>
-  <object class="GtkAdjustment" id="dots_height_adjustment">
-    <property name="lower">0.33000000000000002</property>
-    <property name="upper">1</property>
-    <property name="step_increment">0.01</property>
-    <property name="page_increment">0.10000000000000001</property>
+  <object class="GtkAdjustment" id="dot_size_adjustment">
+    <property name="upper">99</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
   </object>
   <object class="GtkBox" id="box_dots_options">
     <property name="visible">True</property>
@@ -280,12 +279,12 @@
             <property name="can_focus">False</property>
             <property name="selection_mode">none</property>
             <child>
-              <object class="GtkListBoxRow" id="listboxrow_dots_color">
+              <object class="GtkListBoxRow" id="listboxrow_dot_color">
                 <property name="width_request">100</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
-                  <object class="GtkGrid" id="grid_dots_color">
+                  <object class="GtkGrid" id="grid_dot_color">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">12</property>
@@ -294,7 +293,7 @@
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
                     <child>
-                      <object class="GtkLabel" id="dots_color_label">
+                      <object class="GtkLabel" id="dot_color_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
@@ -307,12 +306,12 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox" id="dots_color_box">
+                      <object class="GtkBox" id="dot_color_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkColorButton" id="dots_color_colorbutton">
+                          <object class="GtkColorButton" id="dot_color_colorbutton">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
@@ -324,7 +323,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkSwitch" id="dots_color_override_switch">
+                          <object class="GtkSwitch" id="dot_color_override_switch">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="halign">end</property>
@@ -347,12 +346,12 @@
               </object>
             </child>
             <child>
-              <object class="GtkListBoxRow" id="listboxrow_dots_height">
+              <object class="GtkListBoxRow" id="listboxrow_dot_size">
                 <property name="width_request">100</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
-                  <object class="GtkGrid" id="grid_dots_height">
+                  <object class="GtkGrid" id="grid_dot_size">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">12</property>
@@ -361,11 +360,11 @@
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
                     <child>
-                      <object class="GtkLabel" id="dots_height_label">
+                      <object class="GtkLabel" id="dot_size_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Height - Override Theme</property>
+                        <property name="label" translatable="yes">Height (px)</property>
                         <property name="xalign">0</property>
                       </object>
                       <packing>
@@ -374,32 +373,16 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="dots_height_override_switch">
+                      <object class="GtkSpinButton" id="dot_size_spinbutton">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="halign">end</property>
-                        <property name="valign">center</property>
+                        <property name="text" translatable="yes">0</property>
+                        <property name="adjustment">dot_size_adjustment</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="top_attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkScale" id="dots_height_scale">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="valign">baseline</property>
-                        <property name="hexpand">True</property>
-                        <property name="adjustment">dots_height_adjustment</property>
-                        <property name="round_digits">0</property>
-                        <property name="digits">0</property>
-                        <property name="value_pos">right</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">2</property>
                       </packing>
                     </child>
                   </object>
@@ -450,12 +433,12 @@
               </object>
             </child>
             <child>
-              <object class="GtkListBoxRow" id="listboxrow_dots_stacked">
+              <object class="GtkListBoxRow" id="listboxrow_dot_stacked">
                 <property name="width_request">100</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
-                  <object class="GtkGrid" id="grid_dots_stacked">
+                  <object class="GtkGrid" id="grid_dot_stacked">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_left">12</property>
@@ -464,7 +447,7 @@
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
                     <child>
-                      <object class="GtkLabel" id="dots_stacked_label">
+                      <object class="GtkLabel" id="dot_stacked_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
@@ -477,7 +460,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="dots_stacked_switch">
+                      <object class="GtkSwitch" id="dot_stacked_switch">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="halign">end</property>
@@ -1221,12 +1204,12 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkListBoxRow" id="dots_style_focused_listboxrow">
+                  <object class="GtkListBoxRow" id="dot_style_focused_listboxrow">
                     <property name="width_request">100</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <child>
-                      <object class="GtkBox" id="dots_style_focuse_box">
+                      <object class="GtkBox" id="dot_style_focuse_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
@@ -1235,7 +1218,7 @@
                         <property name="margin_bottom">12</property>
                         <property name="spacing">32</property>
                         <child>
-                          <object class="GtkLabel" id="dots_style_label">
+                          <object class="GtkLabel" id="dot_style_label">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
@@ -1249,18 +1232,18 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="dots_style_focused_box">
+                          <object class="GtkBox" id="dot_style_focused_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
-                              <object class="GtkButton" id="dots_style_options_button">
+                              <object class="GtkButton" id="dot_style_options_button">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="valign">center</property>
                                 <child>
-                                  <object class="GtkImage" id="dots_style_image">
+                                  <object class="GtkImage" id="dot_style_image">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="icon_name">emblem-system-symbolic</property>
@@ -1277,7 +1260,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBoxText" id="dots_style_focused_combo">
+                              <object class="GtkComboBoxText" id="dot_style_focused_combo">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">end</property>
@@ -1305,12 +1288,12 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkListBoxRow" id="dots_style_unfocused_listboxrow">
+                  <object class="GtkListBoxRow" id="dot_style_unfocused_listboxrow">
                     <property name="width_request">100</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <child>
-                      <object class="GtkBox" id="dots_style_unfocused_box">
+                      <object class="GtkBox" id="dot_style_unfocused_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
@@ -1319,7 +1302,7 @@
                         <property name="margin_bottom">12</property>
                         <property name="spacing">32</property>
                         <child>
-                          <object class="GtkLabel" id="dots_style_unfocused_label">
+                          <object class="GtkLabel" id="dot_style_unfocused_label">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
@@ -1333,7 +1316,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBoxText" id="dots_style_unfocused_combo">
+                          <object class="GtkComboBoxText" id="dot_style_unfocused_combo">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="halign">end</property>
