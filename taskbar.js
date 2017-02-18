@@ -1524,7 +1524,8 @@ const taskbarAppIcon = new Lang.Class({
                 break;
 
             case "LAUNCH":
-                this.animateLaunch();
+                if(this._dtpSettings.get_boolean('animate-window-launch'))
+                    this.animateLaunch();
                 this.app.open_new_window(-1);
                 break;
 
@@ -1579,7 +1580,8 @@ const taskbarAppIcon = new Lang.Class({
             }
         }
         else {
-            this.animateLaunch();
+            if(this._dtpSettings.get_boolean('animate-window-launch'))
+                this.animateLaunch();
             this.app.open_new_window(-1);
         }
 
