@@ -1252,8 +1252,11 @@ const taskbarAppIcon = new Lang.Class({
             this._onFocusAppChanged(true);
         }));    
 
-        this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setMargin));
-        this._setMargin();  
+        this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, function() {
+            this._onFocusAppChanged();
+        })); 
+
+        this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setStyle));
         
         // Creating a new menu manager for window previews as adding it to the
         // using the secondary menu's menu manager (which uses the "ignoreRelease"
@@ -1355,10 +1358,23 @@ const taskbarAppIcon = new Lang.Class({
 
     },
 
-    _setMargin: function() {
+    _setStyle: function() {
         let margin = this._dtpSettings.get_int('appicon-margin');
-        if(margin != null)
-            this.actor.set_style('margin: 0 ' + margin + 'px;');
+        let inlineStyle = 'margin: 0 ' + margin + 'px;';
+
+        if(this._dtpSettings.get_boolean('focus-highlight') && tracker.focus_app == this.app) {
+            let containerWidth = this._iconContainer.get_width();
+            inlineStyle += "background-image: url('" +
+                Me.path + "/img/focused_" + 
+                (this._nWindows > 1 ? "multi" : "single") + 
+                "_bg.svg'); background-position: 0 0; background-size: " + 
+                containerWidth + "px " + 
+                (containerWidth - this._dtpSettings.get_int('dot-size')) + "px;"
+        }
+
+        // graphical glitches if i dont set this on a timeout
+        if(this.actor.get_style() != inlineStyle)
+            Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(inlineStyle); }));
     },
 
     _updateRunningStyle: function() {
@@ -1423,21 +1439,13 @@ const taskbarAppIcon = new Lang.Class({
                 this._dtpSettings.get_int('dot-size') + "px;");
         else
             this._dot.set_style(null);
+
+        this._setStyle();
                     
         if(tracker.focus_app == this.app) {
             this._dot.opacity = 255;
             this.actor.add_style_class_name('focused');
             this._dots.opacity=0;
-
-            let highlightStyle = "background-image: url('" +
-                Me.path + "/img/focused_" + 
-                (this._nWindows > 1 ? "multi" : "single") + 
-                "_bg.svg'); background-position: 0 0; background-size: " + 
-                containerWidth + "px " + 
-                (containerWidth - this._dtpSettings.get_int('dot-size')) + "px;"
-
-            if(this.actor.get_style() != highlightStyle)
-                Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(highlightStyle); }));
 
             if((this._dot.get_width() != containerWidth && this._tweeningToWidth !== containerWidth) || force) {
                 this._tweeningToWidth = containerWidth;
@@ -1457,9 +1465,6 @@ const taskbarAppIcon = new Lang.Class({
         } else {
             this._dot.opacity = 255;
             this.actor.remove_style_class_name('focused');
-
-            if(this.actor.get_style())
-                Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(null) }));
 
             let newWidth = this._nWindows > 0 ? containerWidth : 0;
             if((this._dot.get_width() != newWidth && this._tweeningToWidth !== newWidth) || force) {
