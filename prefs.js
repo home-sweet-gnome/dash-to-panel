@@ -77,7 +77,7 @@ const Settings = new Lang.Class({
     },
 
     _bindSettings: function() {
-        // Position and size panel
+        // Position and style panel
 
         // Position option
         let position = this._settings.get_string('panel-position');
@@ -128,6 +128,43 @@ const Settings = new Lang.Class({
                 break;
 
         }
+
+        this._builder.get_object('dots_style_options_button').connect('clicked', Lang.bind(this, function() {
+
+            let dialog = new Gtk.Dialog({ title: _('Running Indicator Options'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('box_dots_options');
+            dialog.get_content_area().add(box);
+
+            // this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
+
+            // this._builder.get_object('leave_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+            //     this._settings.set_int('leave-timeout', widget.get_value());
+            // }));
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    // this._settings.set_int('leave-timeout', 100);
+                    // this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
 
         // Behavior panel
 
@@ -360,7 +397,7 @@ const Settings = new Lang.Class({
 
         }));
 
-        // Appearance panel
+        // Fine-tune panel
 
         let sizeScales = [
             {objectName: 'tray_size_scale', valueName: 'tray-size', range: DEFAULT_FONT_SIZES },
