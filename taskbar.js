@@ -54,7 +54,6 @@ let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;
 let DASH_ITEM_LABEL_HIDE_TIME = Dash.DASH_ITEM_LABEL_HIDE_TIME;
 let DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 let LABEL_GAP = 5;
-let RUNNING_INDICATOR_SIZE = 1;
 let HFADE_WIDTH = 48;
 
 function getPosition() {
@@ -360,6 +359,8 @@ const taskbar = new Lang.Class({
             else
                 this.hideShowAppsButton();
         }));
+
+        this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._redisplay));
     },
 
     _onScrollEvent: function(actor, event) {
@@ -674,7 +675,7 @@ const taskbar = new Lang.Class({
 
         // Getting the panel height and making sure that the icon padding is at
         // least the size of the app running indicator on both the top and bottom.
-        let availSize = Main.panel.actor.get_height() - (RUNNING_INDICATOR_SIZE * 2);
+        let availSize = Main.panel.actor.get_height() - (this._dtpSettings.get_int('dot-size') * 2);
 
         let newIconSize = this._availableIconSizes[0];
         for (let i = 0; i < iconSizes.length ; i++) {
@@ -1245,9 +1246,15 @@ const taskbarAppIcon = new Lang.Class({
         this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._showDots));
         this._showDots();
 
-        this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setMargin));
-        this._setMargin();        
+        this._dtpSettings.connect('changed::dot-size', Lang.bind(this, function() {
+            this._updateCounterClass();
+            this._dots.queue_repaint();
+            this._onFocusAppChanged(true);
+        }));    
 
+        this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setMargin));
+        this._setMargin();  
+        
         // Creating a new menu manager for window previews as adding it to the
         // using the secondary menu's menu manager (which uses the "ignoreRelease"
         // function) caused the extension to crash.
@@ -1403,7 +1410,7 @@ const taskbarAppIcon = new Lang.Class({
         return false;
     },
 
-    _onFocusAppChanged: function() {
+    _onFocusAppChanged: function(force) {
         let containerWidth = this._iconContainer.get_width();
 
         if(this._nWindows > 1)
@@ -1413,7 +1420,7 @@ const taskbarAppIcon = new Lang.Class({
                 (tracker.focus_app == this.app ? "focused" : "unfocused") + 
                 "_multi_running.svg'); background-size: " + 
                 containerWidth + "px " + 
-                RUNNING_INDICATOR_SIZE + "px;");
+                this._dtpSettings.get_int('dot-size') + "px;");
         else
             this._dot.set_style(null);
                     
@@ -1427,16 +1434,16 @@ const taskbarAppIcon = new Lang.Class({
                 (this._nWindows > 1 ? "multi" : "single") + 
                 "_bg.svg'); background-position: 0 0; background-size: " + 
                 containerWidth + "px " + 
-                (containerWidth - RUNNING_INDICATOR_SIZE) + "px;"
+                (containerWidth - this._dtpSettings.get_int('dot-size')) + "px;"
 
             if(this.actor.get_style() != highlightStyle)
                 Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(highlightStyle); }));
 
-            if(this._dot.get_width() != containerWidth && this._tweeningToWidth !== containerWidth) {
+            if((this._dot.get_width() != containerWidth && this._tweeningToWidth !== containerWidth) || force) {
                 this._tweeningToWidth = containerWidth;
                 Tweener.addTween(this._dot,
                                 { width: containerWidth,
-                                height: RUNNING_INDICATOR_SIZE,
+                                height: this._dtpSettings.get_int('dot-size'),
                                 time: DASH_ANIMATION_TIME,
                                 transition: 'easeInOutCubic',
                                 onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
@@ -1455,11 +1462,11 @@ const taskbarAppIcon = new Lang.Class({
                 Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(null) }));
 
             let newWidth = this._nWindows > 0 ? containerWidth : 0;
-            if(this._dot.get_width() != newWidth && this._tweeningToWidth !== newWidth) {
+            if((this._dot.get_width() != newWidth && this._tweeningToWidth !== newWidth) || force) {
                 this._tweeningToWidth = newWidth;
                 Tweener.addTween(this._dot,
                                 { width: newWidth,
-                                height: RUNNING_INDICATOR_SIZE,
+                                height: this._dtpSettings.get_int('dot-size'),
                                 time: DASH_ANIMATION_TIME,
                                 transition: 'easeInOutCubic',
                                 onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
@@ -1622,7 +1629,7 @@ const taskbarAppIcon = new Lang.Class({
         let cr = area.get_context();
 
         // Draw the required numbers of dots
-        let radius = RUNNING_INDICATOR_SIZE/2;
+        let radius = this._dtpSettings.get_int('dot-size')/2;
         let padding = 0; // distance from the margin
         let spacing = width/22; // separation between the dots
         let n = this._nWindows;
