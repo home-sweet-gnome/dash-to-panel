@@ -1376,7 +1376,7 @@ const taskbarAppIcon = new Lang.Class({
         let margin = this._dtpSettings.get_int('appicon-margin');
         let inlineStyle = 'margin: 0 ' + margin + 'px;';
 
-        if(this._dtpSettings.get_boolean('focus-highlight') && tracker.focus_app == this.app) {
+        if(this._dtpSettings.get_boolean('focus-highlight') && tracker.focus_app == this.app && !this.isThemeProvidingIndicator()) {
             let containerWidth = this._iconContainer.get_width();
             inlineStyle += "background-image: url('" +
                 Me.path + "/img/focused_" + 
@@ -1450,7 +1450,7 @@ const taskbarAppIcon = new Lang.Class({
         if(this._dtpSettings.get_boolean('dot-color-override'))
             dotStyle += "background-color: " + this._dtpSettings.get_string('dot-color-' + (this._nWindows > 0 ? this._nWindows : 1)) + "; ";
 
-        if(this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked'))
+        if(this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked')&& !this.isThemeProvidingIndicator())
             dotStyle += "background-image: url('" +
                 Me.path + 
                 "/img/" +
@@ -1516,6 +1516,14 @@ const taskbarAppIcon = new Lang.Class({
                 this._tweeningToOpacity = null;
             }
         }
+    },
+
+    isThemeProvidingIndicator: function () {
+        // This is an attempt to determine if the theme is providing their shown
+        // running indicator by way of a border image on the icon, for example in
+        // the theme Ciliora
+        return (this.icon.actor.get_stage() && 
+                this.icon.actor.get_theme_node().get_border_image());
     },
 
     activate: function(button) {
