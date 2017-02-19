@@ -40,6 +40,7 @@ const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
 const DEFAULT_FONT_SIZES = [ 96, 64, 48, 32, 24, 16, 0 ];
 const DEFAULT_MARGIN_SIZES = [ 32, 24, 16, 12, 8, 4, 0 ];
 const DEFAULT_PADDING_SIZES = [ 32, 24, 16, 12, 8, 4, 0, -1 ];
+const MAX_WINDOW_INDICATOR = 4;
 
 /**
  * This function was copied from the activities-config extension
@@ -172,14 +173,15 @@ const Settings = new Lang.Class({
             this._settings.set_string('dot-style-unfocused', widget.get_active_id());
         }));
 
-            log("doo doo always");
-        this._builder.get_object('dot_color_colorbutton').connect('notify::color', Lang.bind(this, function(button) {
-            log("doo doo");
-            let rgba = button.get_rgba();
-            let css = rgba.to_string();
-            let hexString = cssHexString(css);
-            this._settings.set_string('dot-color', hexString);
-        }));
+        for (let i = 1; i <= MAX_WINDOW_INDICATOR; i++) {
+            let idx = i;
+            this._builder.get_object('dot_color_' + idx + '_colorbutton').connect('notify::color', Lang.bind(this, function(button) {
+                let rgba = button.get_rgba();
+                let css = rgba.to_string();
+                let hexString = cssHexString(css);
+                this._settings.set_string('dot-color-' + idx, hexString);
+            }));
+        }
 
         this._builder.get_object('dot_style_options_button').connect('clicked', Lang.bind(this, function() {
 
@@ -199,14 +201,22 @@ const Settings = new Lang.Class({
                             this._builder.get_object('dot_color_override_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
-            this._settings.bind('dot-color-override',
-                            this._builder.get_object('dot_color_colorbutton'),
-                            'sensitive',
-                            Gio.SettingsBindFlags.DEFAULT);
+            
+            for (let i = 1; i <= MAX_WINDOW_INDICATOR; i++) {
+                this._settings.bind('dot-color-override',
+                                this._builder.get_object('dot_color_' + i + '_colorbutton'),
+                                'sensitive',
+                                Gio.SettingsBindFlags.DEFAULT);
 
-            let rgba = new Gdk.RGBA();
-            rgba.parse(this._settings.get_string('dot-color'));
-            this._builder.get_object('dot_color_colorbutton').set_rgba(rgba);
+                this._settings.bind('dot-color-override',
+                                this._builder.get_object('dot_color_' + i + '_label'),
+                                'sensitive',
+                                Gio.SettingsBindFlags.DEFAULT);
+
+                let rgba = new Gdk.RGBA();
+                rgba.parse(this._settings.get_string('dot-color-' + i));
+                this._builder.get_object('dot_color_' + i + '_colorbutton').set_rgba(rgba);
+            }
 
             this._settings.bind('focus-highlight',
                     this._builder.get_object('focus_highlight_switch'),
@@ -227,10 +237,12 @@ const Settings = new Lang.Class({
                     // restore default settings
                     this._settings.set_value('dot-color-override', this._settings.get_default_value('dot-color-override'));
 
-                    this._settings.set_value('dot-color', this._settings.get_default_value('dot-color'));
-                    let rgba = new Gdk.RGBA();
-                    rgba.parse(this._settings.get_string('dot-color'));
-                    this._builder.get_object('dot_color_colorbutton').set_rgba(rgba);
+                    for (let i = 1; i <= MAX_WINDOW_INDICATOR; i++) {
+                        this._settings.set_value('dot-color-' + i, this._settings.get_default_value('dot-color-' + i));
+                        let rgba = new Gdk.RGBA();
+                        rgba.parse(this._settings.get_string('dot-color-' + i));
+                        this._builder.get_object('dot_color_' + i + '_colorbutton').set_rgba(rgba);
+                    }
 
                     this._settings.set_value('dot-size', this._settings.get_default_value('dot-size'));
                     this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));

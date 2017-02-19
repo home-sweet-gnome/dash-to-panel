@@ -62,10 +62,25 @@
       <summary>Running indicator color override</summary>
       <description>Whether to override the theme background color for .app-well-running-dot</description>
     </key>
-    <key type="s" name="dot-color">
+    <key type="s" name="dot-color-1">
       <default>"#5294e2"</default>
-      <summary>Dash background color.</summary>
-      <description>Customize the background color of the dash.</description>
+      <summary>Color of running indicator (1 window)</summary>
+      <description>Customize the color of the running indicator when one window is running for that application</description>
+    </key>
+    <key type="s" name="dot-color-2">
+      <default>"#5294e2"</default>
+      <summary>Color of running indicator (2 windows)</summary>
+      <description>Customize the color of the running indicator when two windows are running for that application</description>
+    </key>
+    <key type="s" name="dot-color-3">
+      <default>"#5294e2"</default>
+      <summary>Color of running indicator (3 windows)</summary>
+      <description>Customize the color of the running indicator when three windows are running for that application</description>
+    </key>
+    <key type="s" name="dot-color-4">
+      <default>"#5294e2"</default>
+      <summary>Color of running indicator (4+ windows)</summary>
+      <description>Customize the color of the running indicator when four or more windows are running for that application</description>
     </key>
     <key type="i" name="dot-size">
       <default>3</default>

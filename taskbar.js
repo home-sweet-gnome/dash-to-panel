@@ -1255,7 +1255,10 @@ const taskbarAppIcon = new Lang.Class({
         this._dtpSettings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::dot-color-override', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-1', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-2', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-3', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-4', Lang.bind(this, this._settingsChangeRefresh));
 
         this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._onFocusAppChanged));
         this._dtpSettings.connect('changed::dot-stacked', Lang.bind(this, this._onFocusAppChanged));
@@ -1445,7 +1448,7 @@ const taskbarAppIcon = new Lang.Class({
         let dotStyle = "";
         
         if(this._dtpSettings.get_boolean('dot-color-override'))
-            dotStyle += "background-color: " + this._dtpSettings.get_string('dot-color') + "; ";
+            dotStyle += "background-color: " + this._dtpSettings.get_string('dot-color-' + (this._nWindows > 0 ? this._nWindows : 1)) + "; ";
 
         if(this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked'))
             dotStyle += "background-image: url('" +
@@ -1651,7 +1654,7 @@ const taskbarAppIcon = new Lang.Class({
     _drawCircles: function(area) {
         let bodyColor;
         if(this._dtpSettings.get_boolean('dot-color-override')) {
-            bodyColor = Clutter.color_from_string(this._dtpSettings.get_string('dot-color'))[1];
+            bodyColor = Clutter.color_from_string(this._dtpSettings.get_string('dot-color-' + (this._nWindows > 0 ? this._nWindows : 1)))[1];
         } else {
             // Re-use the style - background color, and border width and color -
             // of the default dot
