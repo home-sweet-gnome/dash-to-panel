@@ -1455,7 +1455,7 @@ const taskbarAppIcon = new Lang.Class({
                 "_multi_running.svg'); background-size: " + 
                 containerWidth + "px " + 
                 this._dtpSettings.get_int('dot-size') + "px;";
-
+       
         this._dot.set_style(dotStyle.length ? dotStyle : null)
         
        
@@ -1482,23 +1482,36 @@ const taskbarAppIcon = new Lang.Class({
 
         if((this._dot.get_width() != newDotWidth && this._tweeningToWidth !== newDotWidth) || force) {
             this._tweeningToWidth = newDotWidth;
-            Tweener.addTween(this._dot,
-                            { width: newDotWidth,
-                            height: this._dtpSettings.get_int('dot-size'),
-                            time: DASH_ANIMATION_TIME,
-                            transition: 'easeInOutCubic',
-                            onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
-                        });
+
+            if(this._dtpSettings.get_boolean('animate-app-switch')) {
+                Tweener.addTween(this._dot,
+                                { width: newDotWidth,
+                                height: this._dtpSettings.get_int('dot-size'),
+                                time: DASH_ANIMATION_TIME,
+                                transition: 'easeInOutCubic',
+                                onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
+                            });
+            } else {
+                this._dot.set_width(newDotWidth);
+                this._dot.set_height(this._dtpSettings.get_int('dot-size'));
+                this._tweeningToWidth = null;
+            }
         }
 
         if((this._dot.get_opacity() != newDotsOpacity && this._tweeningToOpacity !== newDotsOpacity) || force) {
             this._tweeningToOpacity = newDotsOpacity;
-            Tweener.addTween(this._dots,
-                            { opacity: newDotsOpacity,
-                                time: DASH_ANIMATION_TIME,
-                                transition: 'easeInOutCubic',
-                                onComplete: Lang.bind(this, function() { this._tweeningToOpacity = null })
-                            });
+
+            if(this._dtpSettings.get_boolean('animate-app-switch')) {
+                Tweener.addTween(this._dots,
+                                { opacity: newDotsOpacity,
+                                    time: DASH_ANIMATION_TIME,
+                                    transition: 'easeInOutCubic',
+                                    onComplete: Lang.bind(this, function() { this._tweeningToOpacity = null })
+                                });
+            } else {
+                this._dots.opacity = newDotsOpacity;
+                this._tweeningToOpacity = null;
+            }
         }
     },
 
@@ -1633,11 +1646,6 @@ const taskbarAppIcon = new Lang.Class({
             else
                 this.actor.add_style_class_name(className);
         }
-
-        // i think this is redundant
-        // if (this._dots) {
-        //     this._dots.queue_repaint();
-        // }
     },
 
     _drawCircles: function(area) {
