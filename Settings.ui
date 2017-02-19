@@ -340,7 +340,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Stacked appearance for multiple windows</property>
+                        <property name="label" translatable="yes">Stacked appearance for multiple windows
+(Affects Line style indicator only)</property>
                         <property name="xalign">0</property>
                       </object>
                       <packing>
