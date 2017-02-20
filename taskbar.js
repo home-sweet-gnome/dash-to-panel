@@ -1246,11 +1246,12 @@ const taskbarAppIcon = new Lang.Class({
         this._focuseAppChangeId = tracker.connect('notify::focus-app',
                                                 Lang.bind(this, this._onFocusAppChanged));
         
-        this._dots = null;
+        this._focusedDots = null;
+        this._unfocusedDots = null;
 
-        this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._showDots));
         this._showDots();
 
+        this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh));
@@ -1259,9 +1260,8 @@ const taskbarAppIcon = new Lang.Class({
         this._dtpSettings.connect('changed::dot-color-2', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::dot-color-3', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::dot-color-4', Lang.bind(this, this._settingsChangeRefresh));
-
-        this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._onFocusAppChanged));
-        this._dtpSettings.connect('changed::dot-stacked', Lang.bind(this, this._onFocusAppChanged));
+        this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-stacked', Lang.bind(this, this._settingsChangeRefresh));
 
         this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setIconStyle));
         
@@ -1349,26 +1349,37 @@ const taskbarAppIcon = new Lang.Class({
 
     _showDots: function() {
         // Just update style if dots already exist
-        if (this._dots) {
+        if (this._focusedDots && this._unfocusedDots) {
             this._updateCounterClass();
             return;
         }
 
-        this._dots = new St.DrawingArea({x_expand: true, y_expand: true});
-        this._dots.connect('repaint', Lang.bind(this,
-            function() {
-                    if(this._dtpSettings.get_string("dot-style-focused") == DOT_STYLE.DOTS || this._dtpSettings.get_string("dot-style-unfocused") == DOT_STYLE.DOTS)
-                        this._drawCircles(this._dots);
-                    this._onFocusAppChanged();
-            }));
-        this._iconContainer.add_child(this._dots);
-        this._updateCounterClass();
+        this._focusedDots = new St.DrawingArea({y_expand: true});
+        this._unfocusedDots = new St.DrawingArea({y_expand: true});
+        
+        this._focusedDots.connect('repaint', Lang.bind(this, function() {
+            this._drawRunningIndicator(this._focusedDots, this._dtpSettings.get_string('dot-style-focused'));
+            this._onFocusAppChanged();
+        }));
+        
+        this._unfocusedDots.connect('repaint', Lang.bind(this, function() {
+            this._drawRunningIndicator(this._unfocusedDots, this._dtpSettings.get_string('dot-style-unfocused'));
+            this._onFocusAppChanged();
+        }));
 
+            
+        this._iconContainer.add_child(this._focusedDots);
+        this._iconContainer.add_child(this._unfocusedDots);
+
+        this._updateCounterClass();
+        this._focusedDots.queue_repaint();
+        this._unfocusedDots.queue_repaint();
     },
 
     _settingsChangeRefresh: function() {
         this._updateCounterClass();
-        this._dots.queue_repaint();
+        this._focusedDots.queue_repaint();
+        this._unfocusedDots.queue_repaint();
         this._onFocusAppChanged(true);
     },
 
@@ -1381,9 +1392,11 @@ const taskbarAppIcon = new Lang.Class({
             inlineStyle += "background-image: url('" +
                 Me.path + "/img/focused_" + 
                 ((this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked')) ? "multi" : "single") + 
-                "_bg.svg'); background-position: 0 0; background-size: " + 
+                "_bg.svg'); background-position: 0 " +
+                ((this._dtpSettings.get_string('dot-style-focused') == DOT_STYLE.LINE && this._dtpSettings.get_string('dot-position') == "TOP") ? this._dtpSettings.get_int('dot-size') : 0) +
+                "px; background-size: " + 
                 containerWidth + "px " + 
-                (containerWidth - (this._dtpSettings.get_string('dot-style-focused') == DOT_STYLE.LINE ? this._dtpSettings.get_int('dot-size') : 0)) + "px;"
+                (containerWidth - ((this._dtpSettings.get_string('dot-style-focused') == DOT_STYLE.LINE && this._dtpSettings.get_string('dot-position') == "BOTTOM") ? this._dtpSettings.get_int('dot-size') : 0)) + "px;"
         }
 
         // graphical glitches if i dont set this on a timeout
@@ -1442,80 +1455,87 @@ const taskbarAppIcon = new Lang.Class({
 
     _onFocusAppChanged: function(force) {
         let containerWidth = this._iconContainer.get_width();
-        
-        this._dot.opacity = 255;
+        let isFocused = (tracker.focus_app == this.app);
 
-        let dotStyle = "";
+        // let dotStyle = "";
         
-        if(this._dtpSettings.get_boolean('dot-color-override'))
-            dotStyle += "background-color: " + this._dtpSettings.get_string('dot-color-' + (this._nWindows > 0 ? this._nWindows : 1)) + "; ";
+        // if(this._dtpSettings.get_boolean('dot-color-override'))
+        //     dotStyle += "background-color: " + this._dtpSettings.get_string('dot-color-' + (this._nWindows > 0 ? this._nWindows : 1)) + "; ";
 
-        if(this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked')&& !this.isThemeProvidingIndicator())
-            dotStyle += "background-image: url('" +
-                Me.path + 
-                "/img/" +
-                (tracker.focus_app == this.app ? "focused" : "unfocused") + 
-                "_multi_running.svg'); background-size: " + 
-                containerWidth + "px " + 
-                this._dtpSettings.get_int('dot-size') + "px;";
+        // if(this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked')&& !this.isThemeProvidingIndicator())
+        //     dotStyle += "background-image: url('" +
+        //         Me.path + 
+        //         "/img/" +
+        //         (tracker.focus_app == this.app ? "focused" : "unfocused") + 
+        //         "_multi_running.svg'); background-size: " + 
+        //         containerWidth + "px " + 
+        //         this._dtpSettings.get_int('dot-size') + "px;";
        
-        this._dot.set_style(dotStyle.length ? dotStyle : null)
+        // this._dot.set_style(dotStyle.length ? dotStyle : null)
         
        
         this._setIconStyle();
 
-        let newDotWidth = 0;
-        let newDotsOpacity = 0;
-                    
-        if(tracker.focus_app == this.app) {
-            this.actor.add_style_class_name('focused');
+        let newFocusedDotsWidth = 0;
+        let newFocusedDotsOpacity = 0;
+        let newUnfocusedDotsWidth = 0;
+        let newUnfocusedDotsOpacity = 0;
 
-            if(this._dtpSettings.get_string('dot-style-focused') == DOT_STYLE.LINE)
-                newDotWidth = this._nWindows > 0 ? containerWidth : 0;
-            else
-                newDotsOpacity = 255;
-        } else {
+        
+        if(isFocused) 
+            this.actor.add_style_class_name('focused');
+        else
             this.actor.remove_style_class_name('focused');
 
-            if(this._dtpSettings.get_string('dot-style-unfocused') == DOT_STYLE.LINE)
-                newDotWidth = this._nWindows > 0 ? containerWidth : 0;
-            else
-                newDotsOpacity = 255;
+        if(this._dtpSettings.get_string('dot-style-focused') == DOT_STYLE.LINE) {
+            newFocusedDotsWidth = (isFocused && this._nWindows > 0) ? containerWidth : 0;
+            newFocusedDotsOpacity = 255;
+        } else {
+            newFocusedDotsWidth = containerWidth;
+            newFocusedDotsOpacity = (isFocused && this._nWindows > 0) ? 255 : 0;
         }
 
-        if((this._dot.get_width() != newDotWidth && this._tweeningToWidth !== newDotWidth) || force) {
-            this._tweeningToWidth = newDotWidth;
-
-            if(this._dtpSettings.get_boolean('animate-app-switch')) {
-                Tweener.addTween(this._dot,
-                                { width: newDotWidth,
-                                height: this._dtpSettings.get_int('dot-size'),
-                                time: DASH_ANIMATION_TIME,
-                                transition: 'easeInOutCubic',
-                                onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
-                            });
-            } else {
-                this._dot.set_width(newDotWidth);
-                this._dot.set_height(this._dtpSettings.get_int('dot-size'));
-                this._tweeningToWidth = null;
-            }
+        if(this._dtpSettings.get_string('dot-style-unfocused') == DOT_STYLE.LINE) {
+            newUnfocusedDotsWidth = (!isFocused && this._nWindows > 0) ? containerWidth : 0;
+            newUnfocusedDotsOpacity = 255;
+        } else {
+            newUnfocusedDotsWidth = containerWidth;
+            newUnfocusedDotsOpacity = (!isFocused && this._nWindows > 0) ? 255 : 0;
         }
 
-        if((this._dot.get_opacity() != newDotsOpacity && this._tweeningToOpacity !== newDotsOpacity) || force) {
-            this._tweeningToOpacity = newDotsOpacity;
+        // if(this._dtpSettings.get_boolean('animate-app-switch')) {
 
-            if(this._dtpSettings.get_boolean('animate-app-switch')) {
-                Tweener.addTween(this._dots,
-                                { opacity: newDotsOpacity,
-                                    time: DASH_ANIMATION_TIME,
-                                    transition: 'easeInOutCubic',
-                                    onComplete: Lang.bind(this, function() { this._tweeningToOpacity = null })
-                                });
-            } else {
-                this._dots.opacity = newDotsOpacity;
-                this._tweeningToOpacity = null;
-            }
-        }
+        //     this._focusedDots.opacity = newFocusedDotsOpacity;
+        //     if((this._focusedDots.get_width() != newFocusedDotsWidth && this._tweeningToWidth !== newFocusedDotsWidth) || force) {
+        //         this._tweeningToWidth = newFocusedDotsWidth;
+        //             Tweener.addTween(this._focusedDots,
+        //                             { width: newFocusedDotsWidth,
+        //                             opacity: newFocusedDotsOpacity,
+        //                             time: DASH_ANIMATION_TIME,
+        //                             transition: 'easeInOutCubic',
+        //                             onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
+        //                         });
+        //     }
+
+        //     this._unfocusedDots.set_width(newUnfocusedDotsWidth);
+        //     if((this._unfocusedDots.get_opacity() != newUnfocusedDotsOpacity && this._tweeningToOpacity !== newUnfocusedDotsOpacity) || force) {
+        //         this._tweeningToOpacity = newUnfocusedDotsOpacity;
+
+        //             Tweener.addTween(this._unfocusedDots,
+        //                             { width: newUnfocusedDotsWidth,
+        //                                 opacity: newUnfocusedDotsOpacity,
+        //                                 time: DASH_ANIMATION_TIME,
+        //                                 transition: 'easeInOutCubic',
+        //                                 onComplete: Lang.bind(this, function() { this._tweeningToOpacity = null })
+        //                             });
+        //     }
+        // } else {
+            this._focusedDots.opacity = newFocusedDotsOpacity;
+            this._unfocusedDots.opacity = newUnfocusedDotsOpacity;
+            this._focusedDots.width = newFocusedDotsWidth;
+            this._unfocusedDots.width = newUnfocusedDotsWidth;
+        // }
+    
     },
 
     isThemeProvidingIndicator: function () {
@@ -1659,7 +1679,7 @@ const taskbarAppIcon = new Lang.Class({
         }
     },
 
-    _drawCircles: function(area) {
+    _drawRunningIndicator: function(area, type) {
         let bodyColor;
         if(this._dtpSettings.get_boolean('dot-color-override')) {
             bodyColor = Clutter.color_from_string(this._dtpSettings.get_string('dot-color-' + (this._nWindows > 0 ? this._nWindows : 1)))[1];
@@ -1672,19 +1692,26 @@ const taskbarAppIcon = new Lang.Class({
 
         let [width, height] = area.get_surface_size();
         let cr = area.get_context();
-
-        // Draw the required numbers of dots
-        let radius = this._dtpSettings.get_int('dot-size')/2;
-        let padding = 0; // distance from the margin
-        let spacing = width/22; // separation between the dots
         let n = this._nWindows;
-
+        let size = this._dtpSettings.get_int('dot-size');
+        let padding = 0; // distance from the margin
+        let yOffset = this._dtpSettings.get_string('dot-position') == "TOP" ? 0 : (height - padding -  size);
         Clutter.cairo_set_source_color(cr, bodyColor);
-
-        cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, this._dtpSettings.get_string('dot-position') == "TOP" ? 0 : (height- padding- 2*radius));
-        for (let i = 0; i < n; i++) {
+        
+        if(type == DOT_STYLE.DOTS) {
+            // Draw the required numbers of dots
+            let radius = this._dtpSettings.get_int('dot-size')/2;
+            let spacing = width/22; // separation between the dots
+        
+            cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, yOffset);
+            for (let i = 0; i < n; i++) {
+                cr.newSubPath();
+                cr.arc((2*i+1)*radius + i*spacing, radius, radius, 0, 2*Math.PI);
+            }
+        } else {
+            cr.translate(0, yOffset);
             cr.newSubPath();
-            cr.arc((2*i+1)*radius + i*spacing, radius, radius, 0, 2*Math.PI);
+            cr.rectangle(0, 0, width, size);
         }
 
         cr.fill();
