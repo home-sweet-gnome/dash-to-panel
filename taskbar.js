@@ -61,9 +61,14 @@ let DOT_STYLE = {
     SQUARES: "SQUARES",
     DASHES: "DASHES",
     SEGMENTED: "SEGMENTED",
-    DOTTED: "DOTTED",
+    CILIORA: "CILIORA",
     METRO: "METRO",
     SOLID: "SOLID"
+}
+
+let DOT_POSITION = {
+    TOP: "TOP",
+    BOTTOM: "BOTTOM"
 }
 
 function getPosition() {
@@ -1266,7 +1271,6 @@ const taskbarAppIcon = new Lang.Class({
         this._dtpSettings.connect('changed::dot-color-3', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::dot-color-4', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-stacked', Lang.bind(this, this._settingsChangeRefresh));
 
         this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setIconStyle));
         
@@ -1392,14 +1396,19 @@ const taskbarAppIcon = new Lang.Class({
 
         if(this._dtpSettings.get_boolean('focus-highlight') && tracker.focus_app == this.app && !this._isThemeProvidingIndicator()) {
             let containerWidth = this._iconContainer.get_width();
+            let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
+            let isWide = this._isWideDotStyle(focusedDotStyle);
+            let pos = this._dtpSettings.get_string('dot-position');
+            let size = this._dtpSettings.get_int('dot-size');
+
             inlineStyle += "background-image: url('" +
-                Me.path + "/img/focused_" + 
-                ((this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked')) ? "multi" : "single") + 
-                "_bg.svg'); background-position: 0 " +
-                ((this._isWideDotStyle(this._dtpSettings.get_string('dot-style-focused')) && this._dtpSettings.get_string('dot-position') == "TOP") ? this._dtpSettings.get_int('dot-size') : 0) +
+                Me.path + "/img/highlight_" + 
+                ((this._nWindows > 1 && focusedDotStyle == DOT_STYLE.METRO) ? "stacked_" : "") + 
+                "bg.svg'); background-position: 0 " +
+                ((isWide && pos == DOT_POSITION.TOP) ? size : 0) +
                 "px; background-size: " + 
                 containerWidth + "px " + 
-                (containerWidth - ((this._isWideDotStyle(this._dtpSettings.get_string('dot-style-focused')) && this._dtpSettings.get_string('dot-position') == "BOTTOM") ? this._dtpSettings.get_int('dot-size') : this._dtpSettings.get_int('dot-size'))) + "px;"
+                (containerWidth - ((isWide && pos == DOT_POSITION.BOTTOM) ? size : 0)) + "px;";
         }
 
         // graphical glitches if i dont set this on a timeout
@@ -1519,7 +1528,7 @@ const taskbarAppIcon = new Lang.Class({
 
     _isWideDotStyle: function(dotStyle) {
         return dotStyle == DOT_STYLE.SEGMENTED || 
-            dotStyle == DOT_STYLE.DOTTED || 
+            dotStyle == DOT_STYLE.CILIORA || 
             dotStyle == DOT_STYLE.METRO || 
             dotStyle == DOT_STYLE.SOLID;
     },
@@ -1675,7 +1684,7 @@ const taskbarAppIcon = new Lang.Class({
         let n = this._nWindows;
         let size = this._dtpSettings.get_int('dot-size');
         let padding = 0; // distance from the margin
-        let yOffset = this._dtpSettings.get_string('dot-position') == "TOP" ? 0 : (height - padding -  size);
+        let yOffset = this._dtpSettings.get_string('dot-position') == DOT_POSITION.TOP ? 0 : (height - padding -  size);
         
         if(type == DOT_STYLE.DOTS) {
             // Draw the required numbers of dots
@@ -1725,7 +1734,7 @@ const taskbarAppIcon = new Lang.Class({
                 cr.rectangle(i*dashLength + i*spacing, 0, dashLength, size);
             }
             cr.fill();
-        } else if (type == DOT_STYLE.DOTTED) {
+        } else if (type == DOT_STYLE.CILIORA) {
             let spacing = size; // separation between the dots
             let lineLength = width - (size*(n-1)) - (spacing*(n-1));
         

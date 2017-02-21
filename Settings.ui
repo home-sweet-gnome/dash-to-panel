@@ -1352,9 +1352,9 @@
                                   <item id="SQUARES" translatable="yes">Squares</item>
                                   <item id="DASHES" translatable="yes">Dashes</item>
                                   <item id="SEGMENTED" translatable="yes">Segmented</item>
-                                  <item id="DOTTED" translatable="yes">Dotted</item>
-                                  <item id="METRO" translatable="yes">Metro</item>
                                   <item id="SOLID" translatable="yes">Solid</item>
+                                  <item id="CILIORA" translatable="yes">Ciliora</item>
+                                  <item id="METRO" translatable="yes">Metro</item>
                                 </items>
                               </object>
                               <packing>
@@ -1413,9 +1413,9 @@
                                   <item id="SQUARES" translatable="yes">Squares</item>
                                   <item id="DASHES" translatable="yes">Dashes</item>
                                   <item id="SEGMENTED" translatable="yes">Segmented</item>
-                                  <item id="DOTTED" translatable="yes">Dotted</item>
-                                  <item id="METRO" translatable="yes">Metro</item>
                                   <item id="SOLID" translatable="yes">Solid</item>
+                                  <item id="CILIORA" translatable="yes">Ciliora</item>
+                                  <item id="METRO" translatable="yes">Metro</item>
                             </items>
                           </object>
                           <packing>

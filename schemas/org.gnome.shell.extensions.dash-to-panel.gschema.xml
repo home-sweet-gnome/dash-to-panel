@@ -5,9 +5,9 @@
     <value value='1' nick='SQUARES'/>
     <value value='2' nick='DASHES'/>
     <value value='3' nick='SEGMENTED'/>
-    <value value='4' nick='DOTTED'/>
-    <value value='5' nick='METRO'/>
-    <value value='6' nick='SOLID'/>
+    <value value='4' nick='SOLID'/>
+    <value value='5' nick='CILIORA'/>
+    <value value='6' nick='METRO'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.clickAction'>
     <value value='0' nick='SKIP'/>
@@ -96,11 +96,6 @@
       <default>true</default>
       <summary>Highlight icon of focused application</summary>
       <description>Whether to highlight the background of the currently focused application's icon</description>
-    </key>
-    <key type="b" name="dot-stacked">
-      <default>true</default>
-      <summary>Stacked appearance for indicator</summary>
-      <description>Whether to give a stacked appearance to indicator and highlight of applications with multiple windows open</description>
     </key>
     <key name="location-clock" enum="org.gnome.shell.extensions.dash-to-panel.statusAreaPosition">
       <default>'STATUSLEFT'</default>

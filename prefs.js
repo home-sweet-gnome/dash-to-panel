@@ -222,10 +222,6 @@ const Settings = new Lang.Class({
                     this._builder.get_object('focus_highlight_switch'),
                     'active',
                     Gio.SettingsBindFlags.DEFAULT);
-            this._settings.bind('dot-stacked',
-                    this._builder.get_object('dot_stacked_switch'),
-                    'active',
-                    Gio.SettingsBindFlags.DEFAULT);
 
             this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));
             this._builder.get_object('dot_size_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
@@ -248,7 +244,6 @@ const Settings = new Lang.Class({
                     this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));
                    
                     this._settings.set_value('focus-highlight', this._settings.get_default_value('focus-highlight'));
-                    this._settings.set_value('dot-stacked', this._settings.get_default_value('dot-stacked'));
 
                 } else {
                     // remove the settings box so it doesn't get destroyed;
