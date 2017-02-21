@@ -1348,8 +1348,13 @@
                                 <property name="halign">end</property>
                                 <property name="valign">center</property>
                                 <items>
-                                  <item id="LINE" translatable="yes">Line</item>
                                   <item id="DOTS" translatable="yes">Dots</item>
+                                  <item id="SQUARES" translatable="yes">Squares</item>
+                                  <item id="DASHES" translatable="yes">Dashes</item>
+                                  <item id="SEGMENTED" translatable="yes">Segmented</item>
+                                  <item id="DOTTED" translatable="yes">Dotted</item>
+                                  <item id="METRO" translatable="yes">Metro</item>
+                                  <item id="SOLID" translatable="yes">Solid</item>
                                 </items>
                               </object>
                               <packing>
@@ -1404,8 +1409,13 @@
                             <property name="halign">end</property>
                             <property name="valign">center</property>
                             <items>
-                              <item id="LINE" translatable="yes">Line</item>
-                              <item id="DOTS" translatable="yes">Dots</item>
+                                  <item id="DOTS" translatable="yes">Dots</item>
+                                  <item id="SQUARES" translatable="yes">Squares</item>
+                                  <item id="DASHES" translatable="yes">Dashes</item>
+                                  <item id="SEGMENTED" translatable="yes">Segmented</item>
+                                  <item id="DOTTED" translatable="yes">Dotted</item>
+                                  <item id="METRO" translatable="yes">Metro</item>
+                                  <item id="SOLID" translatable="yes">Solid</item>
                             </items>
                           </object>
                           <packing>

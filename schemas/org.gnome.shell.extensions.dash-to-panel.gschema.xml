@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="gnome-shell-extensions">
   <enum id='org.gnome.shell.extensions.dash-to-panel.dotStyle'>
-    <value value='0' nick='LINE'/>
-    <value value='1' nick='DOTS'/>
+    <value value='0' nick='DOTS'/>
+    <value value='1' nick='SQUARES'/>
+    <value value='2' nick='DASHES'/>
+    <value value='3' nick='SEGMENTED'/>
+    <value value='4' nick='DOTTED'/>
+    <value value='5' nick='METRO'/>
+    <value value='6' nick='SOLID'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.clickAction'>
     <value value='0' nick='SKIP'/>
@@ -17,7 +22,7 @@
     <value value='1' nick='STATUSLEFT'/>
     <value value='2' nick='STATUSRIGHT'/>
   </enum>
-<enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix'>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix'>
     <value value='0' nick='Super'/>
     <value value='1' nick='SuperAlt'/>
   </enum>
@@ -48,12 +53,12 @@
       <description>Running indicators are shown on the Bottom or Top of the screen.</description>
     </key>
     <key name="dot-style-focused" enum="org.gnome.shell.extensions.dash-to-panel.dotStyle">
-      <default>'LINE'</default>
+      <default>'METRO'</default>
       <summary>Style of the running indicator (focused)</summary>
       <description>Style of the running indicator for the icon for the currently focused application</description>
     </key>
     <key name="dot-style-unfocused" enum="org.gnome.shell.extensions.dash-to-panel.dotStyle">
-      <default>'LINE'</default>
+      <default>'DOTS'</default>
       <summary>Style of the running indicator (unfocused)</summary>
       <description>Style of the running indicator for the icon for applications which are not currently focused</description>
     </key>

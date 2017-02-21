@@ -58,7 +58,12 @@ let HFADE_WIDTH = 48;
 
 let DOT_STYLE = {
     DOTS: "DOTS",
-    LINE: "LINE"
+    SQUARES: "SQUARES",
+    DASHES: "DASHES",
+    SEGMENTED: "SEGMENTED",
+    DOTTED: "DOTTED",
+    METRO: "METRO",
+    SOLID: "SOLID"
 }
 
 function getPosition() {
@@ -1321,7 +1326,7 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     onWindowsChanged: function() {
-        this._updateRunningStyle();
+        this._updateCounterClass();
         this.updateIconGeometry();
     },
 
@@ -1354,16 +1359,16 @@ const taskbarAppIcon = new Lang.Class({
             return;
         }
 
-        this._focusedDots = new St.DrawingArea({y_expand: true});
-        this._unfocusedDots = new St.DrawingArea({y_expand: true});
+        this._focusedDots = new St.DrawingArea({width: 1 /* need to set some initial width so the area will be painted */, y_expand: true});
+        this._unfocusedDots = new St.DrawingArea({width: 1 /* need to set some initial width so the area will be painted */, y_expand: true});
         
         this._focusedDots.connect('repaint', Lang.bind(this, function() {
-            this._drawRunningIndicator(this._focusedDots, this._dtpSettings.get_string('dot-style-focused'));
+            this._drawRunningIndicator(this._focusedDots, this._dtpSettings.get_string('dot-style-focused'), true);
             this._onFocusAppChanged();
         }));
         
         this._unfocusedDots.connect('repaint', Lang.bind(this, function() {
-            this._drawRunningIndicator(this._unfocusedDots, this._dtpSettings.get_string('dot-style-unfocused'));
+            this._drawRunningIndicator(this._unfocusedDots, this._dtpSettings.get_string('dot-style-unfocused'), false);
             this._onFocusAppChanged();
         }));
 
@@ -1372,8 +1377,6 @@ const taskbarAppIcon = new Lang.Class({
         this._iconContainer.add_child(this._unfocusedDots);
 
         this._updateCounterClass();
-        this._focusedDots.queue_repaint();
-        this._unfocusedDots.queue_repaint();
     },
 
     _settingsChangeRefresh: function() {
@@ -1387,35 +1390,21 @@ const taskbarAppIcon = new Lang.Class({
         let margin = this._dtpSettings.get_int('appicon-margin');
         let inlineStyle = 'margin: 0 ' + margin + 'px;';
 
-        if(this._dtpSettings.get_boolean('focus-highlight') && tracker.focus_app == this.app && !this.isThemeProvidingIndicator()) {
+        if(this._dtpSettings.get_boolean('focus-highlight') && tracker.focus_app == this.app && !this._isThemeProvidingIndicator()) {
             let containerWidth = this._iconContainer.get_width();
             inlineStyle += "background-image: url('" +
                 Me.path + "/img/focused_" + 
                 ((this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked')) ? "multi" : "single") + 
                 "_bg.svg'); background-position: 0 " +
-                ((this._dtpSettings.get_string('dot-style-focused') == DOT_STYLE.LINE && this._dtpSettings.get_string('dot-position') == "TOP") ? this._dtpSettings.get_int('dot-size') : 0) +
+                ((this._isWideDotStyle(this._dtpSettings.get_string('dot-style-focused')) && this._dtpSettings.get_string('dot-position') == "TOP") ? this._dtpSettings.get_int('dot-size') : 0) +
                 "px; background-size: " + 
                 containerWidth + "px " + 
-                (containerWidth - ((this._dtpSettings.get_string('dot-style-focused') == DOT_STYLE.LINE && this._dtpSettings.get_string('dot-position') == "BOTTOM") ? this._dtpSettings.get_int('dot-size') : 0)) + "px;"
+                (containerWidth - ((this._isWideDotStyle(this._dtpSettings.get_string('dot-style-focused')) && this._dtpSettings.get_string('dot-position') == "BOTTOM") ? this._dtpSettings.get_int('dot-size') : this._dtpSettings.get_int('dot-size'))) + "px;"
         }
 
         // graphical glitches if i dont set this on a timeout
         if(this.actor.get_style() != inlineStyle)
             Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(inlineStyle); }));
-    },
-
-    _updateRunningStyle: function() {
-        // When using workspace isolation, we need to hide the dots of apps with
-        // no windows in the current workspace
-        if (this._dtpSettings.get_boolean('isolate-workspaces')) {
-            if (this.app.state != Shell.AppState.STOPPED
-                && getInterestingWindows(this.app, this._dtpSettings).length != 0)
-                this._dot.show();
-            else
-                this._dot.hide();
-        }
-
-        this._updateCounterClass();
     },
 
     popupMenu: function() {
@@ -1456,24 +1445,11 @@ const taskbarAppIcon = new Lang.Class({
     _onFocusAppChanged: function(force) {
         let containerWidth = this._iconContainer.get_width();
         let isFocused = (tracker.focus_app == this.app);
+        let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
+        let unfocusedDotStyle = this._dtpSettings.get_string('dot-style-unfocused');
+        let focusedIsWide = this._isWideDotStyle(focusedDotStyle);
+        let unfocusedIsWide = this._isWideDotStyle(unfocusedDotStyle);
 
-        // let dotStyle = "";
-        
-        // if(this._dtpSettings.get_boolean('dot-color-override'))
-        //     dotStyle += "background-color: " + this._dtpSettings.get_string('dot-color-' + (this._nWindows > 0 ? this._nWindows : 1)) + "; ";
-
-        // if(this._nWindows > 1 && this._dtpSettings.get_boolean('dot-stacked')&& !this.isThemeProvidingIndicator())
-        //     dotStyle += "background-image: url('" +
-        //         Me.path + 
-        //         "/img/" +
-        //         (tracker.focus_app == this.app ? "focused" : "unfocused") + 
-        //         "_multi_running.svg'); background-size: " + 
-        //         containerWidth + "px " + 
-        //         this._dtpSettings.get_int('dot-size') + "px;";
-       
-        // this._dot.set_style(dotStyle.length ? dotStyle : null)
-        
-       
         this._setIconStyle();
 
         let newFocusedDotsWidth = 0;
@@ -1487,7 +1463,7 @@ const taskbarAppIcon = new Lang.Class({
         else
             this.actor.remove_style_class_name('focused');
 
-        if(this._dtpSettings.get_string('dot-style-focused') == DOT_STYLE.LINE) {
+        if(focusedIsWide) {
             newFocusedDotsWidth = (isFocused && this._nWindows > 0) ? containerWidth : 0;
             newFocusedDotsOpacity = 255;
         } else {
@@ -1495,7 +1471,7 @@ const taskbarAppIcon = new Lang.Class({
             newFocusedDotsOpacity = (isFocused && this._nWindows > 0) ? 255 : 0;
         }
 
-        if(this._dtpSettings.get_string('dot-style-unfocused') == DOT_STYLE.LINE) {
+        if(focusedIsWide) {
             newUnfocusedDotsWidth = (!isFocused && this._nWindows > 0) ? containerWidth : 0;
             newUnfocusedDotsOpacity = 255;
         } else {
@@ -1503,42 +1479,52 @@ const taskbarAppIcon = new Lang.Class({
             newUnfocusedDotsOpacity = (!isFocused && this._nWindows > 0) ? 255 : 0;
         }
 
-        // if(this._dtpSettings.get_boolean('animate-app-switch')) {
-
-        //     this._focusedDots.opacity = newFocusedDotsOpacity;
-        //     if((this._focusedDots.get_width() != newFocusedDotsWidth && this._tweeningToWidth !== newFocusedDotsWidth) || force) {
-        //         this._tweeningToWidth = newFocusedDotsWidth;
-        //             Tweener.addTween(this._focusedDots,
-        //                             { width: newFocusedDotsWidth,
-        //                             opacity: newFocusedDotsOpacity,
-        //                             time: DASH_ANIMATION_TIME,
-        //                             transition: 'easeInOutCubic',
-        //                             onComplete: Lang.bind(this, function() { this._tweeningToWidth = null })
-        //                         });
-        //     }
-
-        //     this._unfocusedDots.set_width(newUnfocusedDotsWidth);
-        //     if((this._unfocusedDots.get_opacity() != newUnfocusedDotsOpacity && this._tweeningToOpacity !== newUnfocusedDotsOpacity) || force) {
-        //         this._tweeningToOpacity = newUnfocusedDotsOpacity;
-
-        //             Tweener.addTween(this._unfocusedDots,
-        //                             { width: newUnfocusedDotsWidth,
-        //                                 opacity: newUnfocusedDotsOpacity,
-        //                                 time: DASH_ANIMATION_TIME,
-        //                                 transition: 'easeInOutCubic',
-        //                                 onComplete: Lang.bind(this, function() { this._tweeningToOpacity = null })
-        //                             });
-        //     }
-        // } else {
+        // Only animate if...
+        // animation is enabled in settings
+        // AND (going from a wide style to a narrow style indicator or vice-versa
+        // OR going from an open app to a closed app or vice versa)
+        if(this._dtpSettings.get_boolean('animate-app-switch') && (
+                focusedIsWide != unfocusedIsWide || 
+                (focusedIsWide && (this._focusedDots.width != newUnfocusedDotsWidth || this._unfocusedDots.width != newFocusedDotsWidth)) || 
+                (!focusedIsWide && (this._focusedDots.opacity != newUnfocusedDotsOpacity || this._unfocusedDots.opacity != newFocusedDotsOpacity))
+            )) {
+            this._animateDotDisplay(this._focusedDots, newFocusedDotsWidth, newFocusedDotsOpacity);
+            this._animateDotDisplay(this._unfocusedDots, newUnfocusedDotsWidth, newUnfocusedDotsOpacity);
+        } else {
             this._focusedDots.opacity = newFocusedDotsOpacity;
             this._unfocusedDots.opacity = newUnfocusedDotsOpacity;
             this._focusedDots.width = newFocusedDotsWidth;
             this._unfocusedDots.width = newUnfocusedDotsWidth;
-        // }
-    
+        }
     },
 
-    isThemeProvidingIndicator: function () {
+    _animateDotDisplay: function (dots, newWidth, newOpacity, force) {
+        if( (dots.width != newWidth && dots._tweeningToWidth !== newWidth) || 
+            (dots.opacity != newOpacity && dots._tweeningToOpacity !== newOpacity) || 
+            force) {
+                dots._tweeningToWidth = newWidth;
+                dots._tweeningToOpacity = newOpacity;
+                Tweener.addTween(dots,
+                                { width: newWidth,
+                                opacity: newOpacity,
+                                time: DASH_ANIMATION_TIME,
+                                transition: 'easeInOutCubic',
+                                onComplete: Lang.bind(this, function() { 
+                                    dots._tweeningToWidth = null;
+                                    dots._tweeningToOpacity = null;
+                                })
+                            });
+            }
+    },
+
+    _isWideDotStyle: function(dotStyle) {
+        return dotStyle == DOT_STYLE.SEGMENTED || 
+            dotStyle == DOT_STYLE.DOTTED || 
+            dotStyle == DOT_STYLE.METRO || 
+            dotStyle == DOT_STYLE.SOLID;
+    },
+
+    _isThemeProvidingIndicator: function () {
         // This is an attempt to determine if the theme is providing their shown
         // running indicator by way of a border image on the icon, for example in
         // the theme Ciliora
@@ -1661,12 +1647,6 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     _updateCounterClass: function() {
-
-        if(this._dtpSettings.get_string('dot-position') == "TOP")
-            this._dot.set_y_align(Clutter.ActorAlign.START);
-        else
-            this._dot.set_y_align(Clutter.ActorAlign.END);
-
         let maxN = 4;
         this._nWindows = Math.min(getInterestingWindows(this.app, this._dtpSettings).length, maxN);
 
@@ -1679,7 +1659,7 @@ const taskbarAppIcon = new Lang.Class({
         }
     },
 
-    _drawRunningIndicator: function(area, type) {
+    _drawRunningIndicator: function(area, type, isFocused) {
         let bodyColor;
         if(this._dtpSettings.get_boolean('dot-color-override')) {
             bodyColor = Clutter.color_from_string(this._dtpSettings.get_string('dot-color-' + (this._nWindows > 0 ? this._nWindows : 1)))[1];
@@ -1696,25 +1676,106 @@ const taskbarAppIcon = new Lang.Class({
         let size = this._dtpSettings.get_int('dot-size');
         let padding = 0; // distance from the margin
         let yOffset = this._dtpSettings.get_string('dot-position') == "TOP" ? 0 : (height - padding -  size);
-        Clutter.cairo_set_source_color(cr, bodyColor);
         
         if(type == DOT_STYLE.DOTS) {
             // Draw the required numbers of dots
-            let radius = this._dtpSettings.get_int('dot-size')/2;
-            let spacing = width/22; // separation between the dots
+            let radius = size/2;
+            let spacing = width/18; // separation between the dots
         
             cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, yOffset);
+
+            Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
                 cr.newSubPath();
                 cr.arc((2*i+1)*radius + i*spacing, radius, radius, 0, 2*Math.PI);
             }
-        } else {
+            cr.fill();
+        } else if(type == DOT_STYLE.SQUARES) {
+            let spacing = width/18; // separation between the dots
+        
+            cr.translate((width - n*size - (n-1)*spacing)/2, yOffset);
+
+            Clutter.cairo_set_source_color(cr, bodyColor);
+            for (let i = 0; i < n; i++) {
+                cr.newSubPath();
+                cr.rectangle(i*size + i*spacing, 0, size, size);
+            }
+            cr.fill();
+        } else if(type == DOT_STYLE.DASHES) {
+            let spacing = width/16; // separation between the dots
+            let dashLength = size*3;
+        
+            cr.translate((width - n*dashLength - (n-1)*spacing)/2, yOffset);
+
+            Clutter.cairo_set_source_color(cr, bodyColor);
+            for (let i = 0; i < n; i++) {
+                cr.newSubPath();
+                cr.rectangle(i*dashLength + i*spacing, 0, dashLength, size);
+            }
+            cr.fill();
+        } else if(type == DOT_STYLE.SEGMENTED) {
+            let spacing = width/18; // separation between the dots
+            let dashLength = (width - ((n-1)*spacing))/n;
+        
             cr.translate(0, yOffset);
+
+            Clutter.cairo_set_source_color(cr, bodyColor);
+            for (let i = 0; i < n; i++) {
+                cr.newSubPath();
+                cr.rectangle(i*dashLength + i*spacing, 0, dashLength, size);
+            }
+            cr.fill();
+        } else if (type == DOT_STYLE.DOTTED) {
+            let spacing = size; // separation between the dots
+            let lineLength = width - (size*(n-1)) - (spacing*(n-1));
+        
+            cr.translate(0, yOffset);
+
+            Clutter.cairo_set_source_color(cr, bodyColor);
+            cr.newSubPath();
+            cr.rectangle(0, 0, lineLength, size);
+            for (let i = 1; i < n; i++) {
+                cr.newSubPath();
+                cr.rectangle(lineLength + (i*spacing) + ((i-1)*size), 0, size, size);
+            }
+            cr.fill();
+        } else if (type == DOT_STYLE.METRO) {
+            if(n <= 1) {
+                cr.translate(0, yOffset);
+                Clutter.cairo_set_source_color(cr, bodyColor);
+                cr.newSubPath();
+                cr.rectangle(0, 0, width, size);
+                cr.fill();
+            } else {
+                let blackenedLength = (1/48)*width; // need to scale with the SVG for the stacked highlight
+                let darkenedLength = isFocused ? (2/48)*width : (10/48)*width;
+                let blackenedColor = bodyColor.shade(.3);
+                blackenedColor = new Clutter.Color({ red: blackenedColor.red, green: blackenedColor.green, blue: blackenedColor.blue, alpha: 100});
+                let darkenedColor = bodyColor.shade(.7);
+
+                cr.translate(0, yOffset);
+
+                Clutter.cairo_set_source_color(cr, bodyColor);
+                cr.newSubPath();
+                cr.rectangle(0, 0, width - darkenedLength - blackenedLength, size);
+                cr.fill();
+                Clutter.cairo_set_source_color(cr, blackenedColor);
+                cr.newSubPath();
+                cr.rectangle(width - darkenedLength - blackenedLength, 0, 1, size);
+                cr.fill();
+                Clutter.cairo_set_source_color(cr, darkenedColor);
+                cr.newSubPath();
+                cr.rectangle(width - darkenedLength, 0, darkenedLength, size);
+                cr.fill();
+            }
+        } else { // solid
+            cr.translate(0, yOffset);
+            Clutter.cairo_set_source_color(cr, bodyColor);
             cr.newSubPath();
             cr.rectangle(0, 0, width, size);
+            cr.fill();
         }
 
-        cr.fill();
         cr.$dispose();
     },
 
