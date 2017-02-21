@@ -690,7 +690,7 @@ const taskbar = new Lang.Class({
 
         // Getting the panel height and making sure that the icon padding is at
         // least the size of the app running indicator on both the top and bottom.
-        let availSize = Main.panel.actor.get_height() - (this._dtpSettings.get_int('dot-size') * 2);
+        let availSize = Main.panel.actor.get_height() - (this._dtpSettings.get_int('dot-size') * scaleFactor * 2);
 
         let newIconSize = this._availableIconSizes[0];
         for (let i = 0; i < iconSizes.length ; i++) {
@@ -1399,7 +1399,7 @@ const taskbarAppIcon = new Lang.Class({
             let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
             let isWide = this._isWideDotStyle(focusedDotStyle);
             let pos = this._dtpSettings.get_string('dot-position');
-            let size = this._dtpSettings.get_int('dot-size');
+            let size = this._getScaledDotSize();
 
             inlineStyle += "background-image: url('" +
                 Me.path + "/img/highlight_" + 
@@ -1682,7 +1682,7 @@ const taskbarAppIcon = new Lang.Class({
         let [width, height] = area.get_surface_size();
         let cr = area.get_context();
         let n = this._nWindows;
-        let size = this._dtpSettings.get_int('dot-size');
+        let size = this._getScaledDotSize();
         let padding = 0; // distance from the margin
         let yOffset = this._dtpSettings.get_string('dot-position') == DOT_POSITION.TOP ? 0 : (height - padding -  size);
         
@@ -1786,6 +1786,15 @@ const taskbarAppIcon = new Lang.Class({
         }
 
         cr.$dispose();
+    },
+
+    _getScaledDotSize: function() {
+        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        let size = this._dtpSettings.get_int('dot-size');
+        if(scaleFactor)
+            size = size*scaleFactor;
+
+        return size;
     },
 
     _numberOverlay: function() {
