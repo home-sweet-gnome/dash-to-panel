@@ -322,50 +322,6 @@
               </object>
             </child>
             <child>
-              <object class="GtkListBoxRow" id="listboxrow_dot_stacked">
-                <property name="width_request">100</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <child>
-                  <object class="GtkGrid" id="grid_dot_stacked">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
-                    <property name="margin_top">12</property>
-                    <property name="margin_bottom">12</property>
-                    <property name="column_spacing">32</property>
-                    <child>
-                      <object class="GtkLabel" id="dot_stacked_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Stacked appearance for multiple windows
-(Affects Line style indicator only)</property>
-                        <property name="xalign">0</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSwitch" id="dot_stacked_switch">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="halign">end</property>
-                        <property name="valign">center</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child>
               <object class="GtkListBoxRow" id="listboxrow_dot_size">
                 <property name="width_request">100</property>
                 <property name="visible">True</property>
@@ -1409,13 +1365,13 @@
                             <property name="halign">end</property>
                             <property name="valign">center</property>
                             <items>
-                                  <item id="DOTS" translatable="yes">Dots</item>
-                                  <item id="SQUARES" translatable="yes">Squares</item>
-                                  <item id="DASHES" translatable="yes">Dashes</item>
-                                  <item id="SEGMENTED" translatable="yes">Segmented</item>
-                                  <item id="SOLID" translatable="yes">Solid</item>
-                                  <item id="CILIORA" translatable="yes">Ciliora</item>
-                                  <item id="METRO" translatable="yes">Metro</item>
+                              <item id="DOTS" translatable="yes">Dots</item>
+                              <item id="SQUARES" translatable="yes">Squares</item>
+                              <item id="DASHES" translatable="yes">Dashes</item>
+                              <item id="SEGMENTED" translatable="yes">Segmented</item>
+                              <item id="SOLID" translatable="yes">Solid</item>
+                              <item id="CILIORA" translatable="yes">Ciliora</item>
+                              <item id="METRO" translatable="yes">Metro</item>
                             </items>
                           </object>
                           <packing>
