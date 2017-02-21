@@ -1680,6 +1680,8 @@ const taskbarAppIcon = new Lang.Class({
             // of the default dot
             let themeNode = this._dot.get_theme_node();
             bodyColor = themeNode.get_background_color();
+            if(bodyColor.alpha == 0) // theme didn't provide one, use a default
+                bodyColor = new Clutter.Color({ red: 82, green: 148, blue: 226, alpha: 255 });
         }
 
         let [width, height] = area.get_surface_size();
