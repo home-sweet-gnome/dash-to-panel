@@ -1399,16 +1399,19 @@ const taskbarAppIcon = new Lang.Class({
             let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
             let isWide = this._isWideDotStyle(focusedDotStyle);
             let pos = this._dtpSettings.get_string('dot-position');
-            let size = this._dtpSettings.get_int('dot-size');
+            let highlightMargin = isWide ? this._dtpSettings.get_int('dot-size') : 0;
+                        
+            if(focusedDotStyle == DOT_STYLE.CILIORA || focusedDotStyle == DOT_STYLE.SEGMENTED)
+                highlightMargin += 1;
 
             inlineStyle += "background-image: url('" +
                 Me.path + "/img/highlight_" + 
                 ((this._nWindows > 1 && focusedDotStyle == DOT_STYLE.METRO) ? "stacked_" : "") + 
                 "bg.svg'); background-position: 0 " +
-                ((isWide && pos == DOT_POSITION.TOP) ? size : 0) +
+                (pos == DOT_POSITION.TOP ? highlightMargin : 0) +
                 "px; background-size: " + 
                 containerWidth + "px " + 
-                (containerWidth - ((isWide && pos == DOT_POSITION.BOTTOM) ? size : 0)) + "px;";
+                (containerWidth - (pos == DOT_POSITION.BOTTOM ? highlightMargin : 0)) + "px;";
         }
 
         // graphical glitches if i dont set this on a timeout
@@ -1497,7 +1500,7 @@ const taskbarAppIcon = new Lang.Class({
                 (focusedIsWide && (this._focusedDots.width != newUnfocusedDotsWidth || this._unfocusedDots.width != newFocusedDotsWidth)) || 
                 (!focusedIsWide && (this._focusedDots.opacity != newUnfocusedDotsOpacity || this._unfocusedDots.opacity != newFocusedDotsOpacity))
             )) {
-            this._animateDotDisplay(this._focusedDots, newFocusedDotsWidth, newFocusedDotsOpacity);
+           this._animateDotDisplay(this._focusedDots, newFocusedDotsWidth, newFocusedDotsOpacity);
             this._animateDotDisplay(this._unfocusedDots, newUnfocusedDotsWidth, newUnfocusedDotsOpacity);
         } else {
             this._focusedDots.opacity = newFocusedDotsOpacity;
@@ -1534,7 +1537,7 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     _isThemeProvidingIndicator: function () {
-        // This is an attempt to determine if the theme is providing their shown
+        // This is an attempt to determine if the theme is providing their own
         // running indicator by way of a border image on the icon, for example in
         // the theme Ciliora
         return (this.icon.actor.get_stage() && 
@@ -1689,7 +1692,7 @@ const taskbarAppIcon = new Lang.Class({
         if(type == DOT_STYLE.DOTS) {
             // Draw the required numbers of dots
             let radius = size/2;
-            let spacing = width/18; // separation between the dots
+            let spacing = Math.ceil(width/18); // separation between the dots
         
             cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, yOffset);
 
@@ -1700,9 +1703,9 @@ const taskbarAppIcon = new Lang.Class({
             }
             cr.fill();
         } else if(type == DOT_STYLE.SQUARES) {
-            let spacing = width/18; // separation between the dots
+            let spacing = Math.ceil(width/18); // separation between the dots
         
-            cr.translate((width - n*size - (n-1)*spacing)/2, yOffset);
+            cr.translate(Math.floor((width - n*size - (n-1)*spacing)/2), yOffset);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
@@ -1711,10 +1714,10 @@ const taskbarAppIcon = new Lang.Class({
             }
             cr.fill();
         } else if(type == DOT_STYLE.DASHES) {
-            let spacing = width/16; // separation between the dots
-            let dashLength = size*3;
+            let spacing = Math.ceil(width/18); // separation between the dots
+            let dashLength = Math.floor(width/4) - spacing;
         
-            cr.translate((width - n*dashLength - (n-1)*spacing)/2, yOffset);
+            cr.translate(Math.floor((width - n*dashLength - (n-1)*spacing)/2), yOffset);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
@@ -1723,8 +1726,8 @@ const taskbarAppIcon = new Lang.Class({
             }
             cr.fill();
         } else if(type == DOT_STYLE.SEGMENTED) {
-            let spacing = width/18; // separation between the dots
-            let dashLength = (width - ((n-1)*spacing))/n;
+            let spacing = Math.ceil(width/18); // separation between the dots
+            let dashLength = Math.ceil((width - ((n-1)*spacing))/n);
         
             cr.translate(0, yOffset);
 
@@ -1759,7 +1762,6 @@ const taskbarAppIcon = new Lang.Class({
                 let blackenedLength = (1/48)*width; // need to scale with the SVG for the stacked highlight
                 let darkenedLength = isFocused ? (2/48)*width : (10/48)*width;
                 let blackenedColor = bodyColor.shade(.3);
-                blackenedColor = new Clutter.Color({ red: blackenedColor.red, green: blackenedColor.green, blue: blackenedColor.blue, alpha: 100});
                 let darkenedColor = bodyColor.shade(.7);
 
                 cr.translate(0, yOffset);
