@@ -87,6 +87,31 @@
       <summary>Color of running indicator (4+ windows)</summary>
       <description>Customize the color of the running indicator when four or more windows are running for that application</description>
     </key>
+    <key type="b" name="dot-color-unfocused-different">
+      <default>false</default>
+      <summary>Unfocused color is different than focused</summary>
+      <description>Whether to apply a 2nd color scheme to the indicator when the app is not focused</description>
+    </key>
+    <key type="s" name="dot-color-unfocused-1">
+      <default>"#5294e2"</default>
+      <summary>Color of unfocused running indicator (1 window)</summary>
+      <description>Customize the color of the unfocused running indicator when one window is running for that application</description>
+    </key>
+    <key type="s" name="dot-color-unfocused-2">
+      <default>"#5294e2"</default>
+      <summary>Color of unfocused running indicator (2 windows)</summary>
+      <description>Customize the color of the unfocused running indicator when two windows are running for that application</description>
+    </key>
+    <key type="s" name="dot-color-unfocused-3">
+      <default>"#5294e2"</default>
+      <summary>Color of unfocused running indicator (3 windows)</summary>
+      <description>Customize the color of the unfocused running indicator when three windows are running for that application</description>
+    </key>
+    <key type="s" name="dot-color-unfocused-4">
+      <default>"#5294e2"</default>
+      <summary>Color of unfocused running indicator (4+ windows)</summary>
+      <description>Customize the color of the unfocused running indicator when four or more windows are running for that application</description>
+    </key>
     <key type="i" name="dot-size">
       <default>3</default>
       <summary>Running indicator height</summary>

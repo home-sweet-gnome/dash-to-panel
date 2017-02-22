@@ -147,6 +147,24 @@ function ItemShowLabel()  {
 
 function extendDashItemContainer(dashItemContainer) {
     dashItemContainer.showLabel = ItemShowLabel;
+
+    // override show so we know when an animation is occurring to suppress indicator animations
+    dashItemContainer.show = Lang.bind(dashItemContainer, function(animate) {
+        if (this.child == null)
+            return;
+
+        let time = animate ? DASH_ANIMATION_TIME : 0;
+        this.animatingIn = true;
+        Tweener.addTween(this,
+                         { childScale: 1.0,
+                           childOpacity: 255,
+                           time: time,
+                           transition: 'easeOutQuad',
+                           onComplete: Lang.bind(this, function() {
+                                this.animatingIn = false;
+                           })
+                         });
+    });
 };
 
 /* This class is a fork of the upstream DashActor class (ui.dash.js)
@@ -519,7 +537,9 @@ const taskbar = new Lang.Class({
         let item = new Dash.DashItemContainer();
 
         extendDashItemContainer(item);
+
         item.setChild(appIcon.actor);
+        appIcon._dashItemContainer = item;
 
         appIcon.actor.connect('notify::hover', Lang.bind(this, function() {
             if (appIcon.actor.hover){
@@ -1275,6 +1295,11 @@ const taskbarAppIcon = new Lang.Class({
         this._dtpSettings.connect('changed::dot-color-2', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::dot-color-3', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::dot-color-4', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-unfocused-different', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-unfocused-1', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-unfocused-2', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-unfocused-3', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh));
 
         this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setIconStyle));
@@ -1368,17 +1393,27 @@ const taskbarAppIcon = new Lang.Class({
             return;
         }
 
-        this._focusedDots = new St.DrawingArea({width: 1 /* need to set some initial width so the area will be painted */, y_expand: true});
-        this._unfocusedDots = new St.DrawingArea({width: 1 /* need to set some initial width so the area will be painted */, y_expand: true});
+        this._focusedDots = new St.DrawingArea({width:1, y_expand: true});
+        this._unfocusedDots = new St.DrawingArea({width:1, y_expand: true});
         
         this._focusedDots.connect('repaint', Lang.bind(this, function() {
+            if(this._dashItemContainer.animatingIn || this._dashItemContainer.animatingOut) {
+                // don't draw and trigger more animations if the icon is in the middle of
+                // being added to the panel
+                return;
+            }
             this._drawRunningIndicator(this._focusedDots, this._dtpSettings.get_string('dot-style-focused'), true);
-            this._onFocusAppChanged();
+            this._displayProperIndicator();
         }));
         
         this._unfocusedDots.connect('repaint', Lang.bind(this, function() {
+            if(this._dashItemContainer.animatingIn || this._dashItemContainer.animatingOut) {
+                // don't draw and trigger more animations if the icon is in the middle of
+                // being added to the panel
+                return;
+            }
             this._drawRunningIndicator(this._unfocusedDots, this._dtpSettings.get_string('dot-style-unfocused'), false);
-            this._onFocusAppChanged();
+            this._displayProperIndicator();
         }));
 
             
@@ -1392,7 +1427,7 @@ const taskbarAppIcon = new Lang.Class({
         this._updateCounterClass();
         this._focusedDots.queue_repaint();
         this._unfocusedDots.queue_repaint();
-        this._onFocusAppChanged(true);
+        this._displayProperIndicator(true);
     },
 
     _setIconStyle: function() {
@@ -1459,7 +1494,11 @@ const taskbarAppIcon = new Lang.Class({
         return false;
     },
 
-    _onFocusAppChanged: function(force) {
+    _onFocusAppChanged: function(windowTracker) {
+        this._displayProperIndicator();
+    },
+
+    _displayProperIndicator: function (force) {
         let containerWidth = this._iconContainer.get_width();
         let isFocused = (tracker.focus_app == this.app);
         let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
@@ -1488,7 +1527,7 @@ const taskbarAppIcon = new Lang.Class({
             newFocusedDotsOpacity = (isFocused && this._nWindows > 0) ? 255 : 0;
         }
 
-        if(focusedIsWide) {
+        if(unfocusedIsWide) {
             newUnfocusedDotsWidth = (!isFocused && this._nWindows > 0) ? containerWidth : 0;
             newUnfocusedDotsOpacity = 255;
         } else {
@@ -1500,14 +1539,13 @@ const taskbarAppIcon = new Lang.Class({
         // animation is enabled in settings
         // AND (going from a wide style to a narrow style indicator or vice-versa
         // OR going from an open app to a closed app or vice versa)
-        if(this._dtpSettings.get_boolean('animate-app-switch') && (
-                focusedIsWide != unfocusedIsWide || 
-                (focusedIsWide && (this._focusedDots.width != newUnfocusedDotsWidth || this._unfocusedDots.width != newFocusedDotsWidth)) || 
-                (!focusedIsWide && (this._focusedDots.opacity != newUnfocusedDotsOpacity || this._unfocusedDots.opacity != newFocusedDotsOpacity))
-            )) {
-           this._animateDotDisplay(this._focusedDots, newFocusedDotsWidth, newFocusedDotsOpacity);
-            this._animateDotDisplay(this._unfocusedDots, newUnfocusedDotsWidth, newUnfocusedDotsOpacity);
-        } else {
+        if(this._dtpSettings.get_boolean('animate-app-switch') &&
+            ((focusedIsWide != unfocusedIsWide) ||
+            (this._focusedDots.width != newUnfocusedDotsWidth || this._unfocusedDots.width != newFocusedDotsWidth))) {
+            this._animateDotDisplay(this._focusedDots, newFocusedDotsWidth, this._unfocusedDots, newUnfocusedDotsOpacity, force);
+            this._animateDotDisplay(this._unfocusedDots, newUnfocusedDotsWidth, this._focusedDots, newFocusedDotsOpacity, force);
+        }
+        else {
             this._focusedDots.opacity = newFocusedDotsOpacity;
             this._unfocusedDots.opacity = newUnfocusedDotsOpacity;
             this._focusedDots.width = newFocusedDotsWidth;
@@ -1515,20 +1553,22 @@ const taskbarAppIcon = new Lang.Class({
         }
     },
 
-    _animateDotDisplay: function (dots, newWidth, newOpacity, force) {
-        if( (dots.width != newWidth && dots._tweeningToWidth !== newWidth) || 
-            (dots.opacity != newOpacity && dots._tweeningToOpacity !== newOpacity) || 
-            force) {
+    _animateDotDisplay: function (dots, newWidth, otherDots, newOtherOpacity, force) {
+        if((dots.width != newWidth && dots._tweeningToWidth !== newWidth) || force) {
+            log('tweening ' + this._dashItemContainer._labelText + " " + dots.width + " " + newWidth + " " + force);
                 dots._tweeningToWidth = newWidth;
-                dots._tweeningToOpacity = newOpacity;
                 Tweener.addTween(dots,
                                 { width: newWidth,
-                                opacity: newOpacity,
                                 time: DASH_ANIMATION_TIME,
                                 transition: 'easeInOutCubic',
+                                onStart: Lang.bind(this, function() { 
+                                    if(newOtherOpacity == 0)
+                                        otherDots.opacity = newOtherOpacity;
+                                }),
                                 onComplete: Lang.bind(this, function() { 
+                                    if(newOtherOpacity > 0)
+                                        otherDots.opacity = newOtherOpacity;
                                     dots._tweeningToWidth = null;
-                                    dots._tweeningToOpacity = null;
                                 })
                             });
             }
@@ -1680,7 +1720,10 @@ const taskbarAppIcon = new Lang.Class({
     _drawRunningIndicator: function(area, type, isFocused) {
         let bodyColor;
         if(this._dtpSettings.get_boolean('dot-color-override')) {
-            bodyColor = Clutter.color_from_string(this._dtpSettings.get_string('dot-color-' + (this._nWindows > 0 ? this._nWindows : 1)))[1];
+            let dotColorSettingPrefix = 'dot-color-';
+            if(!isFocused && this._dtpSettings.get_boolean('dot-color-unfocused-different'))
+                dotColorSettingPrefix = 'dot-color-unfocused-';
+            bodyColor = Clutter.color_from_string(this._dtpSettings.get_string(dotColorSettingPrefix + (this._nWindows > 0 ? this._nWindows : 1)))[1];
         } else {
             // Re-use the style - background color, and border width and color -
             // of the default dot

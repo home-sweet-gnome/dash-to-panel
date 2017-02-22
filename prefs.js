@@ -181,7 +181,32 @@ const Settings = new Lang.Class({
                 let hexString = cssHexString(css);
                 this._settings.set_string('dot-color-' + idx, hexString);
             }));
+
+            this._builder.get_object('dot_color_unfocused_' + idx + '_colorbutton').connect('notify::color', Lang.bind(this, function(button) {
+                let rgba = button.get_rgba();
+                let css = rgba.to_string();
+                let hexString = cssHexString(css);
+                this._settings.set_string('dot-color-unfocused-' + idx, hexString);
+            }));
         }
+
+        this._builder.get_object('dot_color_apply_all_button').connect('clicked', Lang.bind(this, function() {
+            for (let i = 2; i <= MAX_WINDOW_INDICATOR; i++) {
+                        this._settings.set_value('dot-color-' + i, this._settings.get_value('dot-color-1'));
+                        let rgba = new Gdk.RGBA();
+                        rgba.parse(this._settings.get_string('dot-color-' + i));
+                        this._builder.get_object('dot_color_' + i + '_colorbutton').set_rgba(rgba);
+            }
+        }));
+
+         this._builder.get_object('dot_color_unfocused_apply_all_button').connect('clicked', Lang.bind(this, function() {
+            for (let i = 2; i <= MAX_WINDOW_INDICATOR; i++) {
+                        this._settings.set_value('dot-color-unfocused-' + i, this._settings.get_value('dot-color-unfocused-1'));
+                        let rgba = new Gdk.RGBA();
+                        rgba.parse(this._settings.get_string('dot-color-unfocused-' + i));
+                        this._builder.get_object('dot_color_unfocused_' + i + '_colorbutton').set_rgba(rgba);
+            }
+        }));
 
         this._builder.get_object('dot_style_options_button').connect('clicked', Lang.bind(this, function() {
 
@@ -201,21 +226,35 @@ const Settings = new Lang.Class({
                             this._builder.get_object('dot_color_override_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('dot-color-unfocused-different',
+                            this._builder.get_object('dot_color_unfocused_different_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('dot-color-override',
+                                this._builder.get_object('grid_dot_color'),
+                                'sensitive',
+                                Gio.SettingsBindFlags.DEFAULT);
+            
+            this._settings.bind('dot-color-override',
+                                this._builder.get_object('dot_color_unfocused_box'),
+                                'sensitive',
+                                Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('dot-color-unfocused-different',
+                                this._builder.get_object('grid_dot_color_unfocused'),
+                                'sensitive',
+                                Gio.SettingsBindFlags.DEFAULT);
             
             for (let i = 1; i <= MAX_WINDOW_INDICATOR; i++) {
-                this._settings.bind('dot-color-override',
-                                this._builder.get_object('dot_color_' + i + '_colorbutton'),
-                                'sensitive',
-                                Gio.SettingsBindFlags.DEFAULT);
-
-                this._settings.bind('dot-color-override',
-                                this._builder.get_object('dot_color_' + i + '_label'),
-                                'sensitive',
-                                Gio.SettingsBindFlags.DEFAULT);
-
                 let rgba = new Gdk.RGBA();
                 rgba.parse(this._settings.get_string('dot-color-' + i));
                 this._builder.get_object('dot_color_' + i + '_colorbutton').set_rgba(rgba);
+
+                rgba = new Gdk.RGBA();
+                rgba.parse(this._settings.get_string('dot-color-unfocused-' + i));
+                this._builder.get_object('dot_color_unfocused_' + i + '_colorbutton').set_rgba(rgba);
             }
 
             this._settings.bind('focus-highlight',
@@ -232,12 +271,18 @@ const Settings = new Lang.Class({
                 if (id == 1) {
                     // restore default settings
                     this._settings.set_value('dot-color-override', this._settings.get_default_value('dot-color-override'));
+                    this._settings.set_value('dot-color-unfocused-different', this._settings.get_default_value('dot-color-unfocused-different'));
 
                     for (let i = 1; i <= MAX_WINDOW_INDICATOR; i++) {
                         this._settings.set_value('dot-color-' + i, this._settings.get_default_value('dot-color-' + i));
                         let rgba = new Gdk.RGBA();
                         rgba.parse(this._settings.get_string('dot-color-' + i));
                         this._builder.get_object('dot_color_' + i + '_colorbutton').set_rgba(rgba);
+
+                        this._settings.set_value('dot-color-unfocused-' + i, this._settings.get_default_value('dot-color-unfocused-' + i));
+                        rgba = new Gdk.RGBA();
+                        rgba.parse(this._settings.get_string('dot-color-unfocused-' + i));
+                        this._builder.get_object('dot_color_unfocused_' + i + '_colorbutton').set_rgba(rgba);
                     }
 
                     this._settings.set_value('dot-size', this._settings.get_default_value('dot-size'));
