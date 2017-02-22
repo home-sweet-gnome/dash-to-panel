@@ -71,6 +71,11 @@ let DOT_POSITION = {
     BOTTOM: "BOTTOM"
 }
 
+let recentlyClickedAppLoopId = 0;
+let recentlyClickedApp = null;
+let recentlyClickedAppWindows = null;
+let recentlyClickedAppIndex = 0;
+
 function getPosition() {
     return Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
 }
@@ -1624,7 +1629,7 @@ const taskbarAppIcon = new Lang.Class({
             case "CYCLE":
                 if (!Main.overview._shown){
                     if (this.app == focusedApp)
-                        activateNextWindow(this.app, false, this._dtpSettings);
+                        cycleThroughWindows(this.app, this._dtpSettings, false, false);
                     else {
                         activateFirstWindow(this.app, this._dtpSettings);
                     }
@@ -1634,8 +1639,9 @@ const taskbarAppIcon = new Lang.Class({
                 break;
             case "CYCLE-MIN":
                 if (!Main.overview._shown){
-                    if (this.app == focusedApp)
-                        activateNextWindow(this.app, true, this._dtpSettings);
+                    if (this.app == focusedApp || 
+                        (recentlyClickedApp == this.app && recentlyClickedAppWindows[recentlyClickedAppIndex % recentlyClickedAppWindows.length] == "MINIMIZE"))
+                        cycleThroughWindows(this.app, this._dtpSettings, false, true);
                     else {
                         activateFirstWindow(this.app, this._dtpSettings);
                     }
@@ -1881,34 +1887,57 @@ function activateAllWindows(app, settings){
 
 function activateFirstWindow(app, settings){
 
-    let windows = getInterestingWindows(app, settings).sort(function(windowA, windowB) {
-        return windowA.get_stable_sequence() > windowB.get_stable_sequence();
-    });
-
+    let windows = getInterestingWindows(app, settings);
     Main.activateWindow(windows[0]);
 }
 
-/*
- * Activate the next running window for the current application
- */
-function activateNextWindow(app, shouldMinimize, settings){
+function cycleThroughWindows(app, settings, reversed, shouldMinimize) {
+    // Store for a little amount of time last clicked app and its windows
+    // since the order changes upon window interaction
+    let MEMORY_TIME=3000;
 
-    let windows = getInterestingWindows(app, settings).sort(function(windowA, windowB) {
-        return windowA.get_stable_sequence() > windowB.get_stable_sequence();
-    });
+    let app_windows = getInterestingWindows(app, settings);
 
-    let focused_window = global.display.focus_window;
+    if(shouldMinimize)
+        app_windows.push("MINIMIZE");
 
-    for (let i = 0 ; i < windows.length; i++){
-        if(windows[i] == focused_window) {
-            if(i < windows.length - 1)
-                Main.activateWindow(windows[i + 1]);
-            else
-                shouldMinimize ? minimizeWindow(app, true, settings) : Main.activateWindow(windows[0]); 
+    if (recentlyClickedAppLoopId > 0)
+        Mainloop.source_remove(recentlyClickedAppLoopId);
+    recentlyClickedAppLoopId = Mainloop.timeout_add(MEMORY_TIME, resetRecentlyClickedApp);
 
-            break;
-        }
+    // If there isn't already a list of windows for the current app,
+    // or the stored list is outdated, use the current windows list.
+    if (!recentlyClickedApp ||
+        recentlyClickedApp.get_id() != app.get_id() ||
+        recentlyClickedAppWindows.length != app_windows.length) {
+        recentlyClickedApp = app;
+        recentlyClickedAppWindows = app_windows;
+        recentlyClickedAppIndex = 0;
     }
+
+    if (reversed) {
+        recentlyClickedAppIndex--;
+        if (recentlyClickedAppIndex < 0) recentlyClickedAppIndex = recentlyClickedAppWindows.length - 1;
+    } else {
+        recentlyClickedAppIndex++;
+    }
+    let index = recentlyClickedAppIndex % recentlyClickedAppWindows.length;
+    
+    if(recentlyClickedAppWindows[index] === "MINIMIZE")
+        minimizeWindow(app, true, settings);
+    else
+        Main.activateWindow(recentlyClickedAppWindows[index]);
+}
+
+function resetRecentlyClickedApp() {
+    if (recentlyClickedAppLoopId > 0)
+        Mainloop.source_remove(recentlyClickedAppLoopId);
+    recentlyClickedAppLoopId=0;
+    recentlyClickedApp =null;
+    recentlyClickedAppWindows = null;
+    recentlyClickedAppIndex = 0;
+
+    return false;
 }
 
 function closeAllWindows(app, settings) {
