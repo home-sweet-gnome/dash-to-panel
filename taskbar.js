@@ -1232,6 +1232,20 @@ const taskbar = new Lang.Class({
         this.showAppsButton.hide();
         this.showAppsButton.set_width(0);
         this.showAppsButton.set_height(0);
+    },
+
+    popupFocusedAppSecondaryMenu: function() {
+        let appIcons = this._getAppIcons();
+        for(let i in appIcons) {
+            if(appIcons[i].app == tracker.focus_app) {
+                let appIcon = appIcons[i];
+                if(appIcon._menu && appIcon._menu.isOpen)
+                    appIcon._menu.close();
+                else
+                    appIcons[i].popupMenu();
+                break;
+            }
+        }
     }
 
 });
@@ -1555,7 +1569,6 @@ const taskbarAppIcon = new Lang.Class({
 
     _animateDotDisplay: function (dots, newWidth, otherDots, newOtherOpacity, force) {
         if((dots.width != newWidth && dots._tweeningToWidth !== newWidth) || force) {
-            log('tweening ' + this._dashItemContainer._labelText + " " + dots.width + " " + newWidth + " " + force);
                 dots._tweeningToWidth = newWidth;
                 Tweener.addTween(dots,
                                 { width: newWidth,

@@ -23,6 +23,13 @@ const Convenience = Me.imports.convenience;
 const Panel = Me.imports.panel;
 const Overview = Me.imports.overview;
 
+const Main = imports.ui.main;
+const Meta = imports.gi.Meta;
+const Gio = imports.gi.Gio;
+const Lang = imports.lang;
+const Shell = imports.gi.Shell;
+const WindowManager = imports.ui.windowManager;
+
 let panel;
 let overview;
 let settings;
@@ -36,6 +43,20 @@ function enable() {
     panel.enable();
     overview = new Overview.dtpOverview(settings);
     overview.enable(panel.taskbar);
+    
+    Main.wm.removeKeybinding('open-application-menu');
+    Main.wm.addKeybinding('open-application-menu',
+        new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
+        Meta.KeyBindingFlags.NONE,
+        Shell.ActionMode.NORMAL |
+        Shell.ActionMode.POPUP,
+        Lang.bind(this, function() {
+            if(settings.get_boolean('show-appmenu'))
+                oldToggleAppMenu();
+            else
+                panel.taskbar.popupFocusedAppSecondaryMenu();
+        })
+    );
 }
 
 function disable() {
@@ -45,6 +66,12 @@ function disable() {
     settings = null;
     overview = null;
     panel = null;
+    
+    Main.wm.removeKeybinding('open-application-menu');
+    Main.wm.addKeybinding('open-application-menu',
+                           new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
+                           Meta.KeyBindingFlags.NONE,
+                           Shell.ActionMode.NORMAL |
+                           Shell.ActionMode.POPUP,
+                           Lang.bind(Main.wm, this._toggleAppMenu));
 }
-
-
