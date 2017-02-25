@@ -133,8 +133,8 @@ _redisplay: function() {
             let appMenu = this._source.app.menu;
             if(appMenu) {
                 this._appendSeparator();
-                this._remoteMenu = new RemoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
-                let appMenuItems = this._remoteMenu._getMenuItems();
+                let remoteMenu = new RemoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
+                let appMenuItems = remoteMenu._getMenuItems();
                 for(let appMenuIdx in appMenuItems){
                     let menuItem = appMenuItems[appMenuIdx];
                     let labelText = menuItem.actor.label_actor.text;
@@ -170,7 +170,17 @@ _redisplay: function() {
                     }));
 
                     menuItem.actor.get_parent().remove_child(menuItem.actor);
-                    this.addMenuItem(menuItem);
+                    if(menuItem instanceof PopupMenu.PopupSubMenuMenuItem) {
+                        let newSubMenuMenuItem = new PopupMenu.PopupSubMenuMenuItem(labelText);
+                        let appSubMenuItems = menuItem.menu._getMenuItems();
+                        for(let appSubMenuIdx in appSubMenuItems){
+                            let subMenuItem = appSubMenuItems[appSubMenuIdx];
+                            subMenuItem.actor.get_parent().remove_child(subMenuItem.actor);
+                            newSubMenuMenuItem.menu.addMenuItem(subMenuItem);
+                        }
+                        this.addMenuItem(newSubMenuMenuItem);
+                    } else 
+                        this.addMenuItem(menuItem);
 
                 }
             }
