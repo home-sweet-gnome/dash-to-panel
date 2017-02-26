@@ -8,24 +8,34 @@ The easiest way to install Dash-to-Panel is from [Gnome Shell Extensions](https:
 
 ## Features
 
-- Running indicator includes window count and can be customized in size, colors and style:
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/metro.png)
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/ciliora.png)
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/dashes.png)
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/squares-segmented.png)
-- Hover over application icon to see live window previews
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/windowpreview.png)
-- Launch applications using numbers 0-9 as hotkeys.
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/numlaunch.png)
-- Set main panel position (top or bottom) and height
-- Configure clock location
-- Remove "Show Apps" icon from dash
-- Hide Activities and App Menu buttons from panel
-- Isolate running apps in workspaces
-- Assign click behaviors (launch new window, cycle open windows, minimize, etc)
-- Assign font & icon sizes and margins for dash icons, status icons and panel elements
-- AppMenu for native Gnome apps is integrated into right-click secondary menu
+#### Live previews on hover
 
+![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/windowpreview.png)
+
+#### Customizable running indicators
+
+![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/metro.png)
+
+![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/ciliora.png)
+
+![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/dashes.png)
+
+![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/squares-segmented.png)
+
+#### Launch by number
+
+![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/numlaunch.png)
+
+#### ... and more!
+
+* Set main panel position (top or bottom) and height
+* Configure clock location
+* Remove "Show Apps" icon from dash
+* Hide Activities and App Menu buttons from panel
+* Isolate running apps in workspaces
+* Assign click behaviors (launch new window, cycle open windows, minimize, etc)
+* Assign font & icon sizes and margins for dash icons, status icons and panel elements
+* AppMenu for native Gnome apps is integrated into right-click secondary menu
 
 ## Installation from source
 
@@ -59,7 +69,7 @@ How do I add transparency to the panel? [Dynamic Panel Transparency](https://ext
 
 How do I change workspaces by scrolling the mouse wheel in the empty space? [Top Panel Workspace Scroll](https://extensions.gnome.org/extension/701/top-panel-workspace-scroll/)
 
-How do I display Minimize & Maximize buttons? In the Tweak Tool application, turn on Windows > Titlebar Buttons > Minimize & Maximize.
+How do I display Minimize & Maximize buttons? In the Tweak Tool application, turn on `Windows > Titlebar Buttons > Minimize & Maximize`.
 
 Why can't I put the panel vertically on the left or right of the display? Gnome-shell and it's numerous extensions add widgets to the panel. These widgets have been designed using padding and absolute positioning assuming a horizontal layout. At this point in time, I don't think it is possible to allow for a vertical layout and still maintain any sort of reasonable compatibility with many of the other features of Gnome.
 
