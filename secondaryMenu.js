@@ -69,6 +69,66 @@ const taskbarSecondaryMenu = new Lang.Class({
 _redisplay: function() {
         this.removeAll();
 
+        let appMenu = this._source.app.menu;
+        if(appMenu) {
+            let remoteMenu = new RemoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
+            let appMenuItems = remoteMenu._getMenuItems();
+            let isItemsAdded = false;
+            for(let appMenuIdx in appMenuItems){
+                let menuItem = appMenuItems[appMenuIdx];
+                let labelText = menuItem.actor.label_actor.text;
+                if(labelText == _("New Window") || labelText == _("Quit"))
+                    continue;
+                
+                if(menuItem instanceof PopupMenu.PopupSeparatorMenuItem)
+                    continue;
+
+                isItemsAdded = true;
+
+                // this ends up getting called multiple times, and bombing due to the signal id's being invalid
+                // on a 2nd pass. disconnect the base handler and attach our own that wraps the id's in if statements
+                menuItem.disconnect(menuItem._popupMenuDestroyId)
+                menuItem._popupMenuDestroyId = menuItem.connect('destroy', Lang.bind(this, function(menuItem) {
+                    if(menuItem._popupMenuDestroyId) {
+                        menuItem.disconnect(menuItem._popupMenuDestroyId);
+                        menuItem._popupMenuDestroyId = 0;
+                    }
+                    if(menuItem._activateId) {
+                        menuItem.disconnect(menuItem._activateId);
+                        menuItem._activateId = 0;
+                    }
+                    if(menuItem._activeChangeId) {
+                        menuItem.disconnect(menuItem._activeChangeId);
+                        menuItem._activeChangeId = 0;
+                    }
+                    if(menuItem._sensitiveChangeId) {
+                        menuItem.disconnect(menuItem._sensitiveChangeId);
+                        menuItem._sensitiveChangeId = 0;
+                    }
+                    this.disconnect(menuItem._parentSensitiveChangeId);
+                    if (menuItem == this._activeMenuItem)
+                        this._activeMenuItem = null;
+                }));
+
+                menuItem.actor.get_parent().remove_child(menuItem.actor);
+                if(menuItem instanceof PopupMenu.PopupSubMenuMenuItem) {
+                    let newSubMenuMenuItem = new PopupMenu.PopupSubMenuMenuItem(labelText);
+                    let appSubMenuItems = menuItem.menu._getMenuItems();
+                    for(let appSubMenuIdx in appSubMenuItems){
+                        let subMenuItem = appSubMenuItems[appSubMenuIdx];
+                        subMenuItem.actor.get_parent().remove_child(subMenuItem.actor);
+                        newSubMenuMenuItem.menu.addMenuItem(subMenuItem);
+                    }
+                    this.addMenuItem(newSubMenuMenuItem);
+                } else 
+                    this.addMenuItem(menuItem);
+
+            }
+            
+            if(isItemsAdded)
+                this._appendSeparator();
+        }
+
         let windows = this._source.app.get_windows().filter(function(w) {
             return !w.skip_taskbar;
         });
@@ -128,61 +188,6 @@ _redisplay: function() {
                     this._source.app.launch_action(action, event.get_time(), -1);
                     this.emit('activate-window', null);
                 }));
-            }
-
-            let appMenu = this._source.app.menu;
-            if(appMenu) {
-                this._appendSeparator();
-                let remoteMenu = new RemoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
-                let appMenuItems = remoteMenu._getMenuItems();
-                for(let appMenuIdx in appMenuItems){
-                    let menuItem = appMenuItems[appMenuIdx];
-                    let labelText = menuItem.actor.label_actor.text;
-                    if(labelText == _("New Window") || labelText == _("Help") || labelText == _("About") || labelText == _("Quit"))
-                        continue;
-                    
-                    if(menuItem instanceof PopupMenu.PopupSeparatorMenuItem)
-                        continue;
-
-                    // this ends up getting called multiple times, and bombing due to the signal id's being invalid
-                    // on a 2nd pass. disconnect the base handler and attach our own that wraps the id's in if statements
-                    menuItem.disconnect(menuItem._popupMenuDestroyId)
-                    menuItem._popupMenuDestroyId = menuItem.connect('destroy', Lang.bind(this, function(menuItem) {
-                        if(menuItem._popupMenuDestroyId) {
-                            menuItem.disconnect(menuItem._popupMenuDestroyId);
-                            menuItem._popupMenuDestroyId = 0;
-                        }
-                        if(menuItem._activateId) {
-                            menuItem.disconnect(menuItem._activateId);
-                            menuItem._activateId = 0;
-                        }
-                        if(menuItem._activeChangeId) {
-                            menuItem.disconnect(menuItem._activeChangeId);
-                            menuItem._activeChangeId = 0;
-                        }
-                        if(menuItem._sensitiveChangeId) {
-                            menuItem.disconnect(menuItem._sensitiveChangeId);
-                            menuItem._sensitiveChangeId = 0;
-                        }
-                        this.disconnect(menuItem._parentSensitiveChangeId);
-                        if (menuItem == this._activeMenuItem)
-                            this._activeMenuItem = null;
-                    }));
-
-                    menuItem.actor.get_parent().remove_child(menuItem.actor);
-                    if(menuItem instanceof PopupMenu.PopupSubMenuMenuItem) {
-                        let newSubMenuMenuItem = new PopupMenu.PopupSubMenuMenuItem(labelText);
-                        let appSubMenuItems = menuItem.menu._getMenuItems();
-                        for(let appSubMenuIdx in appSubMenuItems){
-                            let subMenuItem = appSubMenuItems[appSubMenuIdx];
-                            subMenuItem.actor.get_parent().remove_child(subMenuItem.actor);
-                            newSubMenuMenuItem.menu.addMenuItem(subMenuItem);
-                        }
-                        this.addMenuItem(newSubMenuMenuItem);
-                    } else 
-                        this.addMenuItem(menuItem);
-
-                }
             }
 
             let canFavorite = global.settings.is_writable('favorite-apps');
