@@ -52,7 +52,7 @@ function enable() {
         Shell.ActionMode.POPUP,
         Lang.bind(this, function() {
             if(settings.get_boolean('show-appmenu'))
-                oldToggleAppMenu();
+                Main.wm._toggleAppMenu();
             else
                 panel.taskbar.popupFocusedAppSecondaryMenu();
         })
@@ -73,5 +73,5 @@ function disable() {
                            Meta.KeyBindingFlags.NONE,
                            Shell.ActionMode.NORMAL |
                            Shell.ActionMode.POPUP,
-                           Lang.bind(Main.wm, this._toggleAppMenu));
+                           Lang.bind(Main.wm, Main.wm._toggleAppMenu));
 }
