@@ -198,23 +198,27 @@ const dtpOverview = new Lang.Class({
             let number = i;
             if (number == 10)
                 number = 0;
-            let key = Gdk.keyval_from_name(number.toString());
+            let key    = Gdk.keyval_from_name(number.toString());
+            let key_kp = Gdk.keyval_from_name('KP_' + number.toString());
             if (Gtk.accelerator_valid(key, mods)) {
-                let shortcut = Gtk.accelerator_name(key, mods);
+                let shortcut    = Gtk.accelerator_name(key, mods);
+                let shortcut_kp = Gtk.accelerator_name(key_kp, mods);
 
                 // Setup shortcut strings
                 this._dtpSettings.set_strv('app-hotkey-'    + i, [shortcut]);
-                this._dtpSettings.set_strv('app-hotkey-kp-' + i, [shortcut]);
+                this._dtpSettings.set_strv('app-hotkey-kp-' + i, [shortcut_kp]);
 
                 // With <Shift>
-                shortcut = Gtk.accelerator_name(key, shift_mods);
+                shortcut    = Gtk.accelerator_name(key, shift_mods);
+                shortcut_kp = Gtk.accelerator_name(key_kp, shift_mods);
                 this._dtpSettings.set_strv('app-shift-hotkey-'    + i, [shortcut]);
-                this._dtpSettings.set_strv('app-shift-hotkey-kp-' + i, [shortcut]);
+                this._dtpSettings.set_strv('app-shift-hotkey-kp-' + i, [shortcut_kp]);
 
                 // With <Control>
-                shortcut = Gtk.accelerator_name(key, ctrl_mods);
+                shortcut    = Gtk.accelerator_name(key, ctrl_mods);
+                shortcut_kp = Gtk.accelerator_name(key_kp, ctrl_mods);
                 this._dtpSettings.set_strv('app-ctrl-hotkey-'    + i, [shortcut]);
-                this._dtpSettings.set_strv('app-ctrl-hotkey-kp-' + i, [shortcut]);
+                this._dtpSettings.set_strv('app-ctrl-hotkey-kp-' + i, [shortcut_kp]);
             }
             else {
                 // Reset default settings for the relevant keys if the
