@@ -190,22 +190,31 @@ const dtpOverview = new Lang.Class({
            hotkeyPrefix = '<Super>';
         else if (hotkeyPrefix == 'SuperAlt')
            hotkeyPrefix = '<Super><Alt>';
-        let [key, mods] = Gtk.accelerator_parse(hotkeyPrefix);
+        let [, mods]       = Gtk.accelerator_parse(hotkeyPrefix);
+        let [, shift_mods] = Gtk.accelerator_parse('<Shift>' + hotkeyPrefix);
+        let [, ctrl_mods]  = Gtk.accelerator_parse('<Ctrl>'  + hotkeyPrefix);
 
         for (let i = 1; i <= this._numHotkeys; i++) {
             let number = i;
             if (number == 10)
                 number = 0;
-            key = Gdk.keyval_from_name(number.toString());
+            let key = Gdk.keyval_from_name(number.toString());
             if (Gtk.accelerator_valid(key, mods)) {
                 let shortcut = Gtk.accelerator_name(key, mods);
 
                 // Setup shortcut strings
-                let keys = ['app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-',  // Regular numbers
-                            'app-hotkey-kp-', 'app-shift-hotkey-kp-', 'app-ctrl-hotkey-kp-']; // Key-pad numbers
-                keys.forEach( function(key) {
-                    this._dtpSettings.set_strv(key + i, [shortcut]);
-                }, this);
+                this._dtpSettings.set_strv('app-hotkey-'    + i, [shortcut]);
+                this._dtpSettings.set_strv('app-hotkey-kp-' + i, [shortcut]);
+
+                // With <Shift>
+                shortcut = Gtk.accelerator_name(key, shift_mods);
+                this._dtpSettings.set_strv('app-shift-hotkey-'    + i, [shortcut]);
+                this._dtpSettings.set_strv('app-shift-hotkey-kp-' + i, [shortcut]);
+
+                // With <Control>
+                shortcut = Gtk.accelerator_name(key, ctrl_mods);
+                this._dtpSettings.set_strv('app-ctrl-hotkey-'    + i, [shortcut]);
+                this._dtpSettings.set_strv('app-ctrl-hotkey-kp-' + i, [shortcut]);
             }
             else {
                 // Reset default settings for the relevant keys if the
