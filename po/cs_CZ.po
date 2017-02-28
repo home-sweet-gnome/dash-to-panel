@@ -1,0 +1,266 @@
+# Dash to panel.
+# Copyright (C) 2017
+# This file is distributed under the same license as the dast-to-panel gnome-shell extension.
+# Milan Zink <zeten30@gmail.com>, 2017
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-13 14:04-0300\n"
+"PO-Revision-Date: 2017-02-28 10:32+0100\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"Last-Translator: Milan Zink <zeten30@gmail.com>\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Language: cs_CZ\n"
+
+#: prefs.js:196
+msgid "Customize middle-click behavior"
+msgstr "Akce prostředního tlačítko myši"
+
+#: prefs.js:203 prefs.js:264
+msgid "Reset to defaults"
+msgstr "Nastavit výchozí hodnoty"
+
+#: prefs.js:257 Settings.ui.h:37
+msgid "Advanced Options"
+msgstr "Pokročilá nastavení"
+
+#: Settings.ui.h:1
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr ""
+"Pokud je nastavena minimalizace, pak budou minimalizováno všechna okna "
+"aplikace."
+
+#: Settings.ui.h:2
+msgid "Shift+Click action"
+msgstr "Akce při Shift+Click"
+
+#: Settings.ui.h:3
+msgid "Raise window"
+msgstr "Okno do popředí"
+
+#: Settings.ui.h:4
+msgid "Minimize window"
+msgstr "Minimalizovat okno"
+
+#: Settings.ui.h:5
+msgid "Launch new instance"
+msgstr "Spustit novou instanci aplikace"
+
+#: Settings.ui.h:6
+msgid "Cycle through windows"
+msgstr "Procházet okna"
+
+#: Settings.ui.h:7
+msgid "Cycle windows + minimize"
+msgstr "Procházet okna a minimalizovat"
+
+#: Settings.ui.h:8
+msgid "Quit"
+msgstr "Ukončit"
+
+#: Settings.ui.h:9
+msgid "Behavior for Middle-Click."
+msgstr "Chování při stisku prostředního tlačítka."
+
+#: Settings.ui.h:10
+msgid "Middle-Click action"
+msgstr "Prostřední tlačítko myši"
+
+#: Settings.ui.h:11
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Shift + prostřední tlačítko myši"
+
+#: Settings.ui.h:12
+msgid "Shift+Middle-Click action"
+msgstr "Akce při Shift + prostřední tlačítko myši"
+
+#: Settings.ui.h:13
+msgid "Preview timeout on icon leave (ms)"
+msgstr "Náhled okna zmizí po (ms)"
+
+#: Settings.ui.h:14
+msgid ""
+"If set too low, the window preview of running applications may seem to close "
+"too quickly when trying to enter the popup. If set too high, the preview may "
+"linger too long when moving to an adjacent icon."
+msgstr ""
+"Náhled aplikací může mizet velmi rychle při velmi nízkých hodnotách. Při "
+"velkých hodnotách může naopak zůstávat i po najetí na jinou ikonu aplikace. "
+
+#: Settings.ui.h:15
+msgid "Panel screen position"
+msgstr "Pozice panelu na obrazovce"
+
+#: Settings.ui.h:16
+msgid "Bottom"
+msgstr "Dole"
+
+#: Settings.ui.h:17
+msgid "Top"
+msgstr "Nahoře"
+
+#: Settings.ui.h:18
+msgid "Panel Size"
+msgstr "Velikost panelu"
+
+#: Settings.ui.h:19
+msgid "Running indicator (dots) position"
+msgstr "Umístění indikace bežící aplikace"
+
+#: Settings.ui.h:20
+msgid "Clock location"
+msgstr "Umístění hodin"
+
+#: Settings.ui.h:21
+msgid "Natural"
+msgstr "Výchozí"
+
+#: Settings.ui.h:22
+msgid "Left of status menu"
+msgstr "Vlevo"
+
+#: Settings.ui.h:23
+msgid "Right of status menu"
+msgstr "Vpravo"
+
+#: Settings.ui.h:24
+msgid "Position and size"
+msgstr "Pozice a velikost"
+
+#: Settings.ui.h:25
+msgid "Show <i>Applications</i> icon"
+msgstr "Zobrazit ikony <i>Aplikací</i> "
+
+#: Settings.ui.h:26
+msgid "Animate <i>Show Applications</i>."
+msgstr "Animovat <i>zobrazení aplikací</i>."
+
+#: Settings.ui.h:27
+msgid "Show Activities Button"
+msgstr "Zobrazit tlačítko aktivit"
+
+#: Settings.ui.h:28
+msgid "Show AppMenu"
+msgstr "Zobrazit menu aplikací"
+
+#: Settings.ui.h:29
+msgid "Show window previews on hover"
+msgstr "Zobrazit náhled okna při najetí myší"
+
+#: Settings.ui.h:30
+msgid "0"
+msgstr "0"
+
+#: Settings.ui.h:31
+msgid "Time (ms) before showing (100 is default)"
+msgstr "Čas (ms) před zobrazením (100 - výchozí) "
+
+#: Settings.ui.h:32
+msgid "Isolate Workspaces"
+msgstr "Rozlišovat pracovní plochy"
+
+#: Settings.ui.h:33
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr "Chování při kliknutí na ikonu běžící aplikace."
+
+#: Settings.ui.h:34
+msgid "Click action"
+msgstr "Akce při kliknutí"
+
+#: Settings.ui.h:35
+msgid ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used together "
+"with Shift and Ctrl."
+msgstr ""
+"Povolit klávesové zkratky Super+(0-9) pro spouštění aplikací. Lze použít v "
+"kombinaci se Shift a Ctrl."
+
+#: Settings.ui.h:36
+msgid "Use hotkeys to activate apps"
+msgstr "Použít klávesové zkratky pro spuštění aplikací"
+
+#: Settings.ui.h:38
+msgid "Behavior"
+msgstr "Chování"
+
+#: Settings.ui.h:39
+msgid ""
+"App Icon Margin\n"
+"(default is 8)"
+msgstr ""
+"Mezera mezi ikonami\n"
+"(výchozí - 8)"
+
+#: Settings.ui.h:41
+msgid ""
+"Tray Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Velikost fontu systémové oblasti\n"
+"(0 = výchozí)"
+
+#: Settings.ui.h:43
+msgid ""
+"LeftBox Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Velikost fontu levého boxu\n"
+"(0 = výchozí)"
+
+#: Settings.ui.h:45
+msgid ""
+"Tray Item Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Mezery v systémové oblasti\n"
+"(-1 = výchozí)"
+
+#: Settings.ui.h:47
+msgid ""
+"Status Icon Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Mezery v oblasti oznámení\n"
+"(-1 = výchozí)"
+
+#: Settings.ui.h:49
+msgid ""
+"LeftBox Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Mezery v levém boxu\n"
+"(-1 = výchozí)"
+
+#: Settings.ui.h:51
+msgid "Appearance"
+msgstr "Vzhled"
+
+#: Settings.ui.h:52
+msgid "version: "
+msgstr "verze:"
+
+#: Settings.ui.h:53
+msgid "Github"
+msgstr "Github"
+
+#: Settings.ui.h:54
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\">GNU "
+"General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">Tento program je nabízen bez jakýchkoli záruk.\n"
+"<a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\">GNU General "
+"Public License, version 2 nebo novější</a></span>"
+
+#: Settings.ui.h:56
+msgid "About"
+msgstr "O aplikaci"
