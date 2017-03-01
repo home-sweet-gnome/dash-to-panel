@@ -166,9 +166,9 @@ const dtpPanel = new Lang.Class({
                 // and ultimately dropping dragged item onto
                 if(Main.overview.shouldToggleByCornerOrButton())
                     Main.overview.show();
-
-                return DND.DragMotionResult.CONTINUE;
             }
+            
+            return DND.DragMotionResult.CONTINUE;
         });
     },
 
