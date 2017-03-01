@@ -158,7 +158,7 @@ const dtpPanel = new Lang.Class({
             ]
         );
 
-        this._showDesktopButton = new St.Bin({ style_class: 'panel-button showdesktop-button',
+        this._showDesktopButton = new St.Bin({ style_class: 'showdesktop-button',
                           reactive: true,
                           can_focus: true,
                           x_fill: true,
