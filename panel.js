@@ -35,6 +35,9 @@ const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
 const Main = imports.ui.main;
 const St = imports.gi.St;
+const GLib = imports.gi.GLib;
+const DND = imports.ui.dnd;
+const Mainloop = imports.mainloop;
 
 const dtpPanel = new Lang.Class({
     Name: 'DashToPanel.Panel',
@@ -155,6 +158,18 @@ const dtpPanel = new Lang.Class({
         this._bindSettingsChanges();
 
         this.panelStyle.enable(this.panel);
+        
+        this.panel.handleDragOver = Lang.bind(this.panel, function(source, actor, x, y, time) {
+            if (source == Main.xdndHandler) {
+                
+                // open overview so they can choose a window for focusing
+                // and ultimately dropping dragged item onto
+                if(Main.overview.shouldToggleByCornerOrButton())
+                    Main.overview.show();
+
+                return DND.DragMotionResult.CONTINUE;
+            }
+        });
     },
 
     disable: function () {

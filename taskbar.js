@@ -979,6 +979,9 @@ const taskbar = new Lang.Class({
     },
 
     handleDragOver : function(source, actor, x, y, time) {
+        if (source == Main.xdndHandler)
+            return DND.DragMotionResult.CONTINUE;
+        
         let app = Dash.getAppFromSource(source);
 
         // Don't allow favoriting of transient apps
