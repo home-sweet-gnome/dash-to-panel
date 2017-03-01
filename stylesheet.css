@@ -72,3 +72,15 @@
 #panel #panelLeft, #panel #panelCenter {
 	spacing: 0px; 
 }
+
+.showdesktop-button {
+	width: 4px;
+	border: 1px solid rgba(200, 200, 200, .2);
+	border-top-width: 0;
+	border-right-width: 0;
+	border-bottom-width: 0;
+}
+
+.showdesktop-button-hovered {
+	background-color: rgba(200, 200, 200, .4);
+}

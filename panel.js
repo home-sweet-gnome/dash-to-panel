@@ -34,10 +34,13 @@ const Taskbar = Me.imports.taskbar;
 const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
 const Main = imports.ui.main;
+const Mainloop = imports.mainloop;
 const St = imports.gi.St;
 const GLib = imports.gi.GLib;
 const DND = imports.ui.dnd;
-const Mainloop = imports.mainloop;
+const Shell = imports.gi.Shell;
+
+let tracker = Shell.WindowTracker.get_default();
 
 const dtpPanel = new Lang.Class({
     Name: 'DashToPanel.Panel',
@@ -155,6 +158,25 @@ const dtpPanel = new Lang.Class({
             ]
         );
 
+        this._showDesktopButton = new St.Bin({ style_class: 'panel-button showdesktop-button',
+                          reactive: true,
+                          can_focus: true,
+                          x_fill: true,
+                          y_fill: true,
+                          track_hover: true });
+
+        this._showDesktopButton.connect('button-press-event', Lang.bind(this, this._onShowDesktopButtonPress));
+
+        this._showDesktopButton.connect('enter-event', Lang.bind(this, function(){
+            this._showDesktopButton.add_style_class_name('showdesktop-button-hovered');
+        }));
+        
+        this._showDesktopButton.connect('leave-event', Lang.bind(this, function(){
+            this._showDesktopButton.remove_style_class_name('showdesktop-button-hovered');
+        }));
+
+        this.panel._rightBox.insert_child_at_index(this._showDesktopButton, this.panel._rightBox.get_children().length);
+
         this._bindSettingsChanges();
 
         this.panelStyle.enable(this.panel);
@@ -212,6 +234,10 @@ const dtpPanel = new Lang.Class({
         Main.overview._panelGhost.set_height(this._oldPanelHeight);
         this._setActivitiesButtonVisible(true);
         this._setClockLocation("NATURAL");
+
+        this.panel.actor.remove_child(this._showDesktopButton);
+        this._showDesktopButton.destroy();
+        this._showDesktopButton = null;
 
         this.appMenu = null;
         this.container = null;
@@ -391,6 +417,41 @@ const dtpPanel = new Lang.Class({
                     break;
             }
 
+        }
+    },
+
+    _onShowDesktopButtonPress: function() {
+        if(this._focusAppChangeId){
+            tracker.disconnect(this._focusAppChangeId);
+            this._focusAppChangeId = null;
+        }
+
+        if(this._restoreWindowList && this._restoreWindowList.length) {
+            let current_workspace = global.screen.get_active_workspace();
+            let windows = current_workspace.list_windows();
+            this._restoreWindowList.forEach(function(w) {
+                if(windows.indexOf(w) > -1)
+                    Main.activateWindow(w);
+            });
+            this._restoreWindowList = null;
+        } else {
+            let current_workspace = global.screen.get_active_workspace();
+            let windows = current_workspace.list_windows().filter(function (w) {
+                return w.showing_on_its_workspace();
+            });
+            windows = global.display.sort_windows_by_stacking(windows);
+
+            windows.forEach(function(w) {
+                w.minimize();
+            });
+
+            this._restoreWindowList = windows;
+
+            Mainloop.timeout_add(0, Lang.bind(this, function () {
+                this._focusAppChangeId = tracker.connect('notify::focus-app', Lang.bind(this, function () {
+                    this._restoreWindowList = null;
+                }));
+            }));
         }
     }
 });
