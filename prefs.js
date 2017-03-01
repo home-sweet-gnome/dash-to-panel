@@ -320,6 +320,10 @@ const Settings = new Lang.Class({
                             this._builder.get_object('show_activities_button_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-showdesktop-button',
+                            this._builder.get_object('show_showdesktop_button_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
         this._settings.bind('show-appmenu',
                             this._builder.get_object('show_appmenu_switch'),
                             'active',

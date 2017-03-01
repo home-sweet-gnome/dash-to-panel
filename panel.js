@@ -116,6 +116,7 @@ const dtpPanel = new Lang.Class({
         this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
         this._setAppmenuVisible(this._dtpSettings.get_boolean('show-appmenu'));
         this._setClockLocation(this._dtpSettings.get_string('location-clock'));
+        this._displayShowDesktopButton(this._dtpSettings.get_boolean('show-showdesktop-button'));
         
         this.panel.actor.add_style_class_name('dashtopanelMainPanel');
 
@@ -157,25 +158,6 @@ const dtpPanel = new Lang.Class({
                 })
             ]
         );
-
-        this._showDesktopButton = new St.Bin({ style_class: 'showdesktop-button',
-                          reactive: true,
-                          can_focus: true,
-                          x_fill: true,
-                          y_fill: true,
-                          track_hover: true });
-
-        this._showDesktopButton.connect('button-press-event', Lang.bind(this, this._onShowDesktopButtonPress));
-
-        this._showDesktopButton.connect('enter-event', Lang.bind(this, function(){
-            this._showDesktopButton.add_style_class_name('showdesktop-button-hovered');
-        }));
-        
-        this._showDesktopButton.connect('leave-event', Lang.bind(this, function(){
-            this._showDesktopButton.remove_style_class_name('showdesktop-button-hovered');
-        }));
-
-        this.panel._rightBox.insert_child_at_index(this._showDesktopButton, this.panel._rightBox.get_children().length);
 
         this._bindSettingsChanges();
 
@@ -234,10 +216,7 @@ const dtpPanel = new Lang.Class({
         Main.overview._panelGhost.set_height(this._oldPanelHeight);
         this._setActivitiesButtonVisible(true);
         this._setClockLocation("NATURAL");
-
-        this.panel.actor.remove_child(this._showDesktopButton);
-        this._showDesktopButton.destroy();
-        this._showDesktopButton = null;
+        this._displayShowDesktopButton(false);
 
         this.appMenu = null;
         this.container = null;
@@ -268,6 +247,10 @@ const dtpPanel = new Lang.Class({
 
         this._dtpSettings.connect('changed::location-clock', Lang.bind(this, function() {
             this._setClockLocation(this._dtpSettings.get_string('location-clock'));
+        }));
+
+        this._dtpSettings.connect('changed::show-showdesktop-button', Lang.bind(this, function() {
+            this._displayShowDesktopButton(this._dtpSettings.get_boolean('show-showdesktop-button'));
         }));
     },
 
@@ -417,6 +400,39 @@ const dtpPanel = new Lang.Class({
                     break;
             }
 
+        }
+    },
+
+    _displayShowDesktopButton: function (isVisible) {
+        if(isVisible) {
+            if(this._showDesktopButton)
+                return;
+
+            this._showDesktopButton = new St.Bin({ style_class: 'showdesktop-button',
+                            reactive: true,
+                            can_focus: true,
+                            x_fill: true,
+                            y_fill: true,
+                            track_hover: true });
+
+            this._showDesktopButton.connect('button-press-event', Lang.bind(this, this._onShowDesktopButtonPress));
+
+            this._showDesktopButton.connect('enter-event', Lang.bind(this, function(){
+                this._showDesktopButton.add_style_class_name('showdesktop-button-hovered');
+            }));
+            
+            this._showDesktopButton.connect('leave-event', Lang.bind(this, function(){
+                this._showDesktopButton.remove_style_class_name('showdesktop-button-hovered');
+            }));
+
+            this.panel._rightBox.insert_child_at_index(this._showDesktopButton, this.panel._rightBox.get_children().length);
+        } else {
+            if(!this._showDesktopButton)
+                return;
+
+            this.panel._rightBox.remove_child(this._showDesktopButton);
+            this._showDesktopButton.destroy();
+            this._showDesktopButton = null;
         }
     },
 

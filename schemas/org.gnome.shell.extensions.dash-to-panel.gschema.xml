@@ -142,6 +142,11 @@
       <summary>Show activities button</summary>
       <description>Show activities button on the left hand side of the taskbar</description>
     </key>
+    <key type="b" name="show-showdesktop-button">
+      <default>true</default>
+      <summary>Show desktop button</summary>
+      <description>Show button on right side of bar that minimizes/restores all visible windows on current workspace</description>
+    </key>
     <key type="b" name="show-appmenu">
       <default>false</default>
       <summary>Show appMenu</summary>
