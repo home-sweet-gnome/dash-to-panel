@@ -39,6 +39,7 @@ const St = imports.gi.St;
 const GLib = imports.gi.GLib;
 const DND = imports.ui.dnd;
 const Shell = imports.gi.Shell;
+const PopupMenu = imports.ui.popupMenu;
 
 let tracker = Shell.WindowTracker.get_default();
 
@@ -55,6 +56,9 @@ const dtpPanel = new Lang.Class({
         this.container = this.panel._leftBox;
         this.appMenu = this.panel.statusArea.appMenu;
         this.panelBox = Main.layoutManager.panelBox;
+        
+        this._oldPopupOpen = PopupMenu.PopupMenu.prototype.open;
+        PopupMenu.PopupMenu.prototype.open = newPopupOpen;
 
         this._oldPanelHeight = this.panel.actor.get_height();
 
@@ -180,6 +184,8 @@ const dtpPanel = new Lang.Class({
     },
 
     disable: function () {
+        PopupMenu.PopupMenu.prototype.open = this._oldPopupOpen;
+
         this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
         delete this.panel._leftBox.oldLeftBoxAllocate;
 
@@ -478,3 +484,35 @@ const dtpPanel = new Lang.Class({
         }
     }
 });
+
+
+function newPopupOpen(animate) {
+    if (this.isOpen)
+        return;
+
+    if (this.isEmpty())
+        return;
+
+    this.isOpen = true;
+    
+    let side = this._boxPointer._arrowSide;
+    let panelPosition = Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
+
+    if(side != panelPosition) {
+        let actor = this.sourceActor;
+        while(actor) {
+            if(actor == Main.panel.actor) {
+                this._boxPointer._arrowSide = panelPosition;
+                break;
+            }
+            actor = actor.get_parent();
+        }
+    } 
+    
+    this._boxPointer.setPosition(this.sourceActor, this._arrowAlignment);
+    this._boxPointer.show(animate);
+
+    this.actor.raise_top();
+
+    this.emit('open-state-changed', true);
+};
