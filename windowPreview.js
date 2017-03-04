@@ -36,6 +36,8 @@ const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Taskbar = Me.imports.taskbar;
+const Convenience = Me.imports.convenience;
+const AppIcons = Me.imports.appIcons;
 
 let DEFAULT_THUMBNAIL_WIDTH = 350;
 let DEFAULT_THUMBNAIL_HEIGHT = 200;
@@ -96,7 +98,7 @@ const thumbnailPreviewMenu = new Lang.Class({
     },
 
     popup: function() {
-        let windows = Taskbar.getInterestingWindows(this._app, this._dtpSettings);
+        let windows = AppIcons.getInterestingWindows(this._app, this._dtpSettings);
         if (windows.length > 0) {
             this._redisplay();
             this.open();
@@ -592,7 +594,7 @@ const thumbnailPreviewList = new Lang.Class({
     },
 
     _redisplay: function () {
-        let windows = Taskbar.getInterestingWindows(this.app, this._dtpSettings).sort(this.sortWindowsCompareFunction);
+        let windows = AppIcons.getInterestingWindows(this.app, this._dtpSettings).sort(this.sortWindowsCompareFunction);
         let children = this.box.get_children().filter(function(actor) {
                 return actor._delegate.window && actor._delegate.preview;
             });

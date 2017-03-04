@@ -31,6 +31,8 @@ const RemoteMenu = imports.ui.remoteMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Shell = imports.gi.Shell;
 const AppFavorites = imports.ui.appFavorites;
+const Convenience = Me.imports.convenience;
+const AppIcons = Me.imports.appIcons;
 
 /**
  * Extend AppIconMenu
@@ -235,7 +237,7 @@ _redisplay: function() {
 
         // quit menu
         let app = this._source.app;
-        let count = Taskbar.getInterestingWindows(app, this._dtpSettings).length;
+        let count = AppIcons.getInterestingWindows(app, this._dtpSettings).length;
         if ( count > 0) {
             this._appendSeparator();
             let quitFromTaskbarMenuText = "";
