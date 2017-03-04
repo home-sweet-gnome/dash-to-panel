@@ -127,6 +127,9 @@ const dtpPanel = new Lang.Class({
 
         // sync hover after a popupmenu is closed
         this.taskbar.connect('menu-closed', Lang.bind(this, function(){this.container.sync_hover();}));
+        
+        if(this.taskbar._showAppsIcon)
+            this.taskbar._showAppsIcon._dtpPanel = this;
 
         this._signalsHandler = new Convenience.GlobalSignalsHandler();
         this._signalsHandler.add(
@@ -450,6 +453,8 @@ const dtpPanel = new Lang.Class({
                     Main.activateWindow(w);
             });
             this._restoreWindowList = null;
+
+            Main.overview.hide();
         } else {
             let current_workspace = global.screen.get_active_workspace();
             let windows = current_workspace.list_windows().filter(function (w) {
@@ -460,7 +465,7 @@ const dtpPanel = new Lang.Class({
             windows.forEach(function(w) {
                 w.minimize();
             });
-
+            
             this._restoreWindowList = windows;
 
             Mainloop.timeout_add(0, Lang.bind(this, function () {
@@ -468,6 +473,8 @@ const dtpPanel = new Lang.Class({
                     this._restoreWindowList = null;
                 }));
             }));
+
+            Main.overview.hide();
         }
     }
 });

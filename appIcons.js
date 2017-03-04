@@ -1210,10 +1210,15 @@ const MyShowAppsIconMenu = new Lang.Class({
     _redisplay: function() {
         this.removeAll();
 
-        let item = this._appendMenuItem('Dash to Panel ' + _('Settings'));
-
-        item.connect('activate', function () {
+        let settingsMenuItem = this._appendMenuItem('Dash to Panel ' + _('Settings'));
+        settingsMenuItem.connect('activate', function () {
             Util.spawn(["gnome-shell-extension-prefs", Me.metadata.uuid]);
         });
+
+        if(this._source._dtpPanel) {
+            this._appendSeparator();
+            let item = this._appendMenuItem(this._source._dtpPanel._restoreWindowList ? _('Restore Windows') : _('Show Desktop'));
+            item.connect('activate', Lang.bind(this._source._dtpPanel, this._source._dtpPanel._onShowDesktopButtonPress));
+        }
     }
 });

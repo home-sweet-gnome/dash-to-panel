@@ -31,6 +31,7 @@ The easiest way to install Dash-to-Panel is from [Gnome Shell Extensions](https:
 * Set main panel position (top or bottom) and height
 * Configure clock location
 * Remove "Show Apps" icon from dash
+* Add "Show Desktop" button to panel
 * Hide Activities and App Menu buttons from panel
 * Isolate running apps in workspaces
 * Assign click behaviors (launch new window, cycle open windows, minimize, etc)
@@ -91,4 +92,4 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 Thanks to the following people for contributing via pull requests:
 - @franglais125 for launching apps by number (w/ overlay)
 - @robrobinbin for configuring appMenu on/off in the panel
-- @frnogueira for translations
+- @frnogueira, @zeten30 for translations
