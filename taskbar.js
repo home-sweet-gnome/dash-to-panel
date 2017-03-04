@@ -46,7 +46,6 @@ const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
-const SecondaryMenu = Me.imports.secondaryMenu;
 const WindowPreview = Me.imports.windowPreview;
 const AppIcons = Me.imports.appIcons;
 
@@ -218,9 +217,8 @@ const taskbar = new Lang.Class({
         this._scrollView.add_actor(this._box);
 
         this._showAppsIcon = new Dash.ShowAppsIcon();
-        this._showAppsIcon.showLabel = AppIcons.ItemShowLabel;
+        AppIcons.extendShowAppsIcon(this._showAppsIcon, this._dtpSettings);
         this.showAppsButton = this._showAppsIcon.toggleButton;
-        this._showAppsIcon.actor = this.showAppsButton;
              
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
 
@@ -228,6 +226,11 @@ const taskbar = new Lang.Class({
         this._showAppsIcon.childOpacity = 255;
         this._showAppsIcon.icon.setIconSize(this.iconSize);
         this._hookUpLabel(this._showAppsIcon);
+
+        let appsIcon = this._showAppsIcon;
+        appsIcon.connect('menu-state-changed', Lang.bind(this, function(appsIcon, opened) {
+            this._itemMenuStateChanged(appsIcon, opened);
+        }));
 
         this._container.add_actor(this._showAppsIcon);
 
@@ -399,6 +402,7 @@ const taskbar = new Lang.Class({
     _endDrag: function() {
         this._clearDragPlaceholder();
         this._clearEmptyDropTarget();
+        this._showAppsIcon.setDragApp(null);
         DND.removeDragMonitor(this._dragMonitor);
     },
 
@@ -407,8 +411,15 @@ const taskbar = new Lang.Class({
         if (app == null)
             return DND.DragMotionResult.CONTINUE;
 
-        if (!this._box.contains(dragEvent.targetActor))
+         let showAppsHovered = this._showAppsIcon.contains(dragEvent.targetActor);
+
+        if (!this._box.contains(dragEvent.targetActor) || showAppsHovered)
             this._clearDragPlaceholder();
+
+        if (showAppsHovered)
+            this._showAppsIcon.setDragApp(app);
+        else
+            this._showAppsIcon.setDragApp(null);
 
         return DND.DragMotionResult.CONTINUE;
     },
