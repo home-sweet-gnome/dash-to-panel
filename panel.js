@@ -453,7 +453,7 @@ const dtpPanel = new Lang.Class({
         } else {
             let current_workspace = global.screen.get_active_workspace();
             let windows = current_workspace.list_windows().filter(function (w) {
-                return w.showing_on_its_workspace();
+                return w.showing_on_its_workspace() && !w.skip_taskbar;
             });
             windows = global.display.sort_windows_by_stacking(windows);
 
