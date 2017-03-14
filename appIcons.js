@@ -718,6 +718,14 @@ const taskbarAppIcon = new Lang.Class({
            this._numberOverlayBin.show();
         else
            this._numberOverlayBin.hide();
+    },
+
+    handleDragOver: function(source, actor, x, y, time) {
+        if (source == Main.xdndHandler) {
+            this.windowPreview.close();
+        }
+            
+        return DND.DragMotionResult.CONTINUE;
     }
 
 });
