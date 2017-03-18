@@ -115,8 +115,13 @@ const taskbarAppIcon = new Lang.Class({
 
         this._stateChangedId = this.app.connect('windows-changed',
                                                 Lang.bind(this, this.onWindowsChanged));
-        this._focuseAppChangeId = tracker.connect('notify::focus-app',
+        this._focusAppChangedId = tracker.connect('notify::focus-app',
                                                 Lang.bind(this, this._onFocusAppChanged));
+        this._overviewWindowDragEndId = Main.overview.connect('window-drag-end',
+                                                Lang.bind(this, this._onOverviewWindowDragEnd));
+
+        this._switchWorkspaceId = global.window_manager.connect('switch-workspace',
+                                                Lang.bind(this, this._onSwitchWorkspace));
         
         this._focusedDots = null;
         this._unfocusedDots = null;
@@ -192,8 +197,14 @@ const taskbarAppIcon = new Lang.Class({
 
         // Disconect global signals
         // stateChangedId is already handled by parent)
-        if(this._focusAppId>0)
-            tracker.disconnect(this._focusAppId);
+        if(this._focusAppChangedId)
+            tracker.disconnect(this._focusAppChangedId);
+
+        if(this._overviewWindowDragEndId)
+            Main.overview.disconnect(this._overviewWindowDragEndId);
+        
+        if(this._switchWorkspaceId)
+            global.window_manager.disconnect(this._switchWorkspaceId);
     },
 
     onWindowsChanged: function() {
@@ -333,6 +344,20 @@ const taskbarAppIcon = new Lang.Class({
 
     _onFocusAppChanged: function(windowTracker) {
         this._displayProperIndicator();
+    },
+
+    _onOverviewWindowDragEnd: function(windowTracker) {
+         Mainloop.timeout_add(0, Lang.bind(this, function () {
+             this._displayProperIndicator();
+             return GLib.SOURCE_REMOVE;
+         }));
+    },
+
+    _onSwitchWorkspace: function(windowTracker) {
+        Mainloop.timeout_add(0, Lang.bind(this, function () {
+             this._displayProperIndicator();
+             return GLib.SOURCE_REMOVE;
+         }));
     },
 
     _displayProperIndicator: function (force) {
