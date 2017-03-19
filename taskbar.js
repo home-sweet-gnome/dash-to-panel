@@ -1085,10 +1085,9 @@ const taskbar = new Lang.Class({
                 // runs if we are already inside the overview.
                 if (!Main.overview._shown) {
                     this.forcedOverview = true;
+                    let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
+                    let grid = view._grid;
                     if (animate) {
-                        let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
-                        let grid = view._grid;
-
                         // Animate in the the appview, hide the appGrid to avoiud flashing
                         // Go to the appView before entering the overview, skipping the workspaces.
                         // Do this manually avoiding opacity in transitions so that the setting of the opacity
@@ -1111,6 +1110,11 @@ const taskbar = new Lang.Class({
                                 grid.animateSpring(IconGrid.AnimationDirection.IN, this.showAppsButton);
                             }));
                         }));
+                    } else {
+                        Main.overview.viewSelector._activePage = Main.overview.viewSelector._appsPage;
+                        Main.overview.viewSelector._activePage.show();
+                        grid.actor.opacity = 255;
+
                     }
                 }
 
