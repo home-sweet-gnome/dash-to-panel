@@ -29,6 +29,7 @@
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Clutter = imports.gi.Clutter;
+const Gtk = imports.gi.Gtk;
 const Convenience = Me.imports.convenience;
 const Taskbar = Me.imports.taskbar;
 const PanelStyle = Me.imports.panelStyle;
@@ -40,6 +41,7 @@ const GLib = imports.gi.GLib;
 const DND = imports.ui.dnd;
 const Shell = imports.gi.Shell;
 const PopupMenu = imports.ui.popupMenu;
+const Tweener = imports.ui.tweener;
 
 let tracker = Shell.WindowTracker.get_default();
 
@@ -59,6 +61,9 @@ const dtpPanel = new Lang.Class({
         
         this._oldPopupOpen = PopupMenu.PopupMenu.prototype.open;
         PopupMenu.PopupMenu.prototype.open = newPopupOpen;
+
+        this._oldPopupSubMenuOpen = PopupMenu.PopupSubMenu.prototype.open;
+        PopupMenu.PopupSubMenu.prototype.open = newPopupSubMenuOpen;
 
         this._oldPanelHeight = this.panel.actor.get_height();
 
@@ -185,6 +190,7 @@ const dtpPanel = new Lang.Class({
 
     disable: function () {
         PopupMenu.PopupMenu.prototype.open = this._oldPopupOpen;
+        PopupMenu.PopupSubMenu.prototype.open = this._oldPopupSubMenuOpen;
 
         this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
         delete this.panel._leftBox.oldLeftBoxAllocate;
@@ -515,4 +521,76 @@ function newPopupOpen(animate) {
     this.actor.raise_top();
 
     this.emit('open-state-changed', true);
-};
+}
+
+
+// there seems to be a rounding bug in the shell calculating the submenu size
+// when the panel is at the bottom. When the height is too high to fit on the screen
+// then the menu does not display at all. There's quiet a few factors involved in 
+// calculating the correct height so this is a lousy hack to max it at 50% of the screen 
+// height which should cover most real-world scenarios
+function newPopupSubMenuOpen(animate) {
+    if (this.isOpen)
+        return;
+
+    if (this.isEmpty())
+        return;
+
+
+    this.isOpen = true;
+    this.emit('open-state-changed', true);
+
+    let workArea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.primaryIndex);
+    let subMenuMaxHeight = Math.floor(workArea.height / 2);
+    let panelPosition = Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
+    let isBottomPanelMenu = this._getTopMenu().actor.has_style_class_name('panel-menu') && panelPosition == St.Side.BOTTOM;
+    
+    if(isBottomPanelMenu) {
+        this.actor.style = 'max-height: ' + subMenuMaxHeight + 'px;'
+    }
+
+    this.actor.show();
+
+    let needsScrollbar = this._needsScrollbar() || (isBottomPanelMenu && this.actor.height >= subMenuMaxHeight);
+
+    // St.ScrollView always requests space horizontally for a possible vertical
+    // scrollbar if in AUTOMATIC mode. Doing better would require implementation
+    // of width-for-height in St.BoxLayout and St.ScrollView. This looks bad
+    // when we *don't* need it, so turn off the scrollbar when that's true.
+    // Dynamic changes in whether we need it aren't handled properly.
+    this.actor.vscrollbar_policy =
+        needsScrollbar ? Gtk.PolicyType.AUTOMATIC : Gtk.PolicyType.NEVER;
+
+    if (needsScrollbar)
+        this.actor.add_style_pseudo_class('scrolled');
+    else
+        this.actor.remove_style_pseudo_class('scrolled');
+
+    // It looks funny if we animate with a scrollbar (at what point is
+    // the scrollbar added?) so just skip that case
+    if (animate && needsScrollbar)
+        animate = false;
+
+    let targetAngle = this.actor.text_direction == Clutter.TextDirection.RTL ? -90 : 90;
+
+    if (animate) {
+        let [minHeight, naturalHeight] = this.actor.get_preferred_height(-1);
+        this.actor.height = 0;
+        this.actor._arrowRotation = this._arrow.rotation_angle_z;
+        Tweener.addTween(this.actor,
+                            { _arrowRotation: targetAngle,
+                            height: naturalHeight,
+                            time: 0.25,
+                            onUpdateScope: this,
+                            onUpdate: function() {
+                                this._arrow.rotation_angle_z = this.actor._arrowRotation;
+                            },
+                            onCompleteScope: this,
+                            onComplete: function() {
+                                this.actor.set_height(-1);
+                            }
+                            });
+    } else {
+        this._arrow.rotation_angle_z = targetAngle;
+    }
+}
