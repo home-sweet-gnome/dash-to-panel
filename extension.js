@@ -33,6 +33,7 @@ const WindowManager = imports.ui.windowManager;
 let panel;
 let overview;
 let settings;
+let oldDash;
 
 function init() {
 }
@@ -57,12 +58,20 @@ function enable() {
                 panel.taskbar.popupFocusedAppSecondaryMenu();
         })
     );
+
+    // Pretend I'm the dash: meant to make appgrd swarm animation come from the
+    // right position of the appShowButton.
+    oldDash  = Main.overview._dash;
+    Main.overview._dash = panel.taskbar;
 }
 
 function disable() {
     overview.disable();
     panel.disable();
     settings.run_dispose();
+    Main.overview._dash = oldDash;
+
+    oldDash=null;
     settings = null;
     overview = null;
     panel = null;
