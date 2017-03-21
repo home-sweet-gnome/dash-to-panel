@@ -42,6 +42,8 @@ const DND = imports.ui.dnd;
 const Shell = imports.gi.Shell;
 const PopupMenu = imports.ui.popupMenu;
 const Tweener = imports.ui.tweener;
+const IconGrid = imports.ui.iconGrid;
+const ViewSelector = imports.ui.viewSelector;
 
 let tracker = Shell.WindowTracker.get_default();
 
@@ -64,6 +66,11 @@ const dtpPanel = new Lang.Class({
 
         this._oldPopupSubMenuOpen = PopupMenu.PopupSubMenu.prototype.open;
         PopupMenu.PopupSubMenu.prototype.open = newPopupSubMenuOpen;
+
+        this._oldViewSelectorAnimateIn = Main.overview.viewSelector._animateIn;
+        Main.overview.viewSelector._animateIn = Lang.bind(this, newViewSelectorAnimateIn);
+        this._oldViewSelectorAnimateOut = Main.overview.viewSelector._animateOut;
+        Main.overview.viewSelector._animateOut = Lang.bind(this, newViewSelectorAnimateOut);
 
         this._oldPanelHeight = this.panel.actor.get_height();
 
@@ -191,6 +198,9 @@ const dtpPanel = new Lang.Class({
     disable: function () {
         PopupMenu.PopupMenu.prototype.open = this._oldPopupOpen;
         PopupMenu.PopupSubMenu.prototype.open = this._oldPopupSubMenuOpen;
+
+        Main.overview.viewSelector._animateIn = this._oldViewSelectorAnimateIn;
+        Main.overview.viewSelector._animateOut = this._oldViewSelectorAnimateOut;
 
         this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
         delete this.panel._leftBox.oldLeftBoxAllocate;
@@ -592,5 +602,47 @@ function newPopupSubMenuOpen(animate) {
                             });
     } else {
         this._arrow.rotation_angle_z = targetAngle;
+    }
+}
+
+function newViewSelectorAnimateIn(oldPage) {
+    if (oldPage)
+        oldPage.hide();
+
+    let vs = Main.overview.viewSelector;
+
+    vs.emit('page-empty');
+
+    vs._activePage.show();
+
+    if (vs._activePage == vs._appsPage && oldPage == vs._workspacesPage) {
+        // Restore opacity, in case we animated via _fadePageOut
+        vs._activePage.opacity = 255;
+        let animate = this._dtpSettings.get_boolean('animate-show-apps');
+        if(animate)
+            vs.appDisplay.animate(IconGrid.AnimationDirection.IN);
+    } else {
+        vs._fadePageIn();
+    }
+}
+
+function newViewSelectorAnimateOut(page) {
+    let oldPage = page;
+
+    let vs = Main.overview.viewSelector;
+
+    if (page == vs._appsPage &&
+        vs._activePage == vs._workspacesPage &&
+        !Main.overview.animationInProgress) {
+        let animate = this._dtpSettings.get_boolean('animate-show-apps');
+        if(animate)
+            vs.appDisplay.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this,
+                function() {
+                    vs._animateIn(oldPage)
+            }));
+        else
+            vs._animateIn(oldPage)
+    } else {
+        vs._fadePageOut(page);
     }
 }
