@@ -185,6 +185,8 @@ const dtpOverview = new Lang.Class({
     },
 
     _checkHotkeyPrefix: function() {
+        this._dtpSettings.delay();
+        
         let hotkeyPrefix = this._dtpSettings.get_string('hotkey-prefix-text');
         if (hotkeyPrefix == 'Super')
            hotkeyPrefix = '<Super>';
@@ -230,6 +232,8 @@ const dtpOverview = new Lang.Class({
                 }, this);
             }
         }
+
+        this._dtpSettings.apply();
     },
 
     _enableHotKeys: function() {
