@@ -1243,7 +1243,7 @@ const MyShowAppsIconMenu = new Lang.Class({
     _redisplay: function() {
         this.removeAll();
 
-        let settingsMenuItem = this._appendMenuItem('Dash to Panel ' + _('Settings'));
+        let settingsMenuItem = this._appendMenuItem(_('Dash to Panel Settings'));
         settingsMenuItem.connect('activate', function () {
             Util.spawn(["gnome-shell-extension-prefs", Me.metadata.uuid]);
         });
