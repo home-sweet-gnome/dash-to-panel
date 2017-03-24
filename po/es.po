@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-20 20:16-0400\n"
+"POT-Creation-Date: 2017-03-24 08:24+0100\n"
 "PO-Revision-Date: 2017-02-17 12:11+0100\n"
 "Last-Translator: Fran Glais <franglais125@gmail.com>\n"
 "Language-Team: \n"
@@ -37,39 +37,32 @@ msgstr "Opciones avanzadas de atajo de teclado"
 msgid "Advanced Options"
 msgstr "Opciones avanzadas"
 
-#: appIcons.js:925 appIcons.js:1005
+#: appIcons.js:917
+#, fuzzy
+msgid "Show Details"
+msgstr "Mostrar el Escritorio"
+
+#: appIcons.js:934
 msgid "New Window"
 msgstr "Ventana nueva"
 
-#: appIcons.js:925 appIcons.js:1088 appIcons.js:1090 Settings.ui.h:8
+#: appIcons.js:934 appIcons.js:994 appIcons.js:996 Settings.ui.h:8
 msgid "Quit"
 msgstr "Salir"
 
-#: appIcons.js:1019
-msgid "Launch using Dedicated Graphics Card"
-msgstr "Ejecutar usando la tarjeta de gráficos"
-
-#: appIcons.js:1046
-msgid "Remove from Favorites"
-msgstr "Quitar de favoritos"
-
-#: appIcons.js:1052
-msgid "Add to Favorites"
-msgstr "Añadir a los favoritos"
-
-#: appIcons.js:1090
+#: appIcons.js:996
 msgid "Windows"
 msgstr "Ventanas"
 
-#: appIcons.js:1249
+#: appIcons.js:1155
 msgid "Dash to Panel Settings"
 msgstr "Opciones de Dash to Panel"
 
-#: appIcons.js:1256
+#: appIcons.js:1162
 msgid "Restore Windows"
 msgstr "Restaurar ventanas"
 
-#: appIcons.js:1256
+#: appIcons.js:1162
 msgid "Show Desktop"
 msgstr "Mostrar el Escritorio"
 
@@ -172,8 +165,8 @@ msgid ""
 "linger too long when moving to an adjacent icon."
 msgstr ""
 "Si el valor es muy chico, la ventana de vista rápida parecerá cerrarse muy "
-"rápidamente al intentar usar el menú. Si el valor es muy grande, la vista rápida "
-"no desaparecerá al ir a un ícono adyacente."
+"rápidamente al intentar usar el menú. Si el valor es muy grande, la vista "
+"rápida no desaparecerá al ir a un ícono adyacente."
 
 #: Settings.ui.h:25
 msgid "Super"
@@ -439,3 +432,12 @@ msgstr ""
 #: Settings.ui.h:88
 msgid "About"
 msgstr "Acerca de"
+
+#~ msgid "Launch using Dedicated Graphics Card"
+#~ msgstr "Ejecutar usando la tarjeta de gráficos"
+
+#~ msgid "Remove from Favorites"
+#~ msgstr "Quitar de favoritos"
+
+#~ msgid "Add to Favorites"
+#~ msgstr "Añadir a los favoritos"
