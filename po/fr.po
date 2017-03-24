@@ -1,130 +1,126 @@
-# Dash to panel.
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# F�bio Nogueira <fnogueira@gnome.org>, 2017 
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 08:24+0100\n"
-"PO-Revision-Date: 2017-02-13 14:48-0300\n"
-"Last-Translator: Fábio Nogueira <fnogueira@gnome.org>\n"
+"PO-Revision-Date: 2017-03-24 10:45+0100\n"
+"Last-Translator: Laurent Tréguier <laurent@treguier.org>\n"
 "Language-Team: \n"
-"Language: pt_BR\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: prefs.js:213
-#, fuzzy
 msgid "Running Indicator Options"
-msgstr "Posição do indicador de execução (pontos)"
+msgstr "Options de l'indicateur d'activité"
 
 #: prefs.js:220 prefs.js:380 prefs.js:445 prefs.js:512
 msgid "Reset to defaults"
-msgstr "Restaurar o padrão"
+msgstr "Restaurer par défaut"
 
 #: prefs.js:373
 msgid "Customize middle-click behavior"
-msgstr "Personalizar o comportamento do clique-do-meio"
+msgstr "Modifier le comportement du clic"
 
 #: prefs.js:438
-#, fuzzy
 msgid "Advanced hotkeys options"
-msgstr "Opções avançadas"
+msgstr "Options avancées des racourcis"
 
 #: prefs.js:505 Settings.ui.h:82
 msgid "Advanced Options"
-msgstr "Opções avançadas"
+msgstr "Options avancées"
 
 #: appIcons.js:917
 msgid "Show Details"
-msgstr ""
+msgstr "Afficher les détails"
 
 #: appIcons.js:934
-#, fuzzy
 msgid "New Window"
-msgstr "Elevar a janela"
+msgstr "Nouvelle fenêtre"
 
 #: appIcons.js:934 appIcons.js:994 appIcons.js:996 Settings.ui.h:8
 msgid "Quit"
-msgstr "Sair"
+msgstr "Quitter"
 
 #: appIcons.js:996
 msgid "Windows"
-msgstr ""
+msgstr "Fenêtres"
 
 #: appIcons.js:1155
 msgid "Dash to Panel Settings"
-msgstr ""
+msgstr "Paramètres de Dash to Panel"
 
 #: appIcons.js:1162
-#, fuzzy
 msgid "Restore Windows"
-msgstr "Elevar a janela"
+msgstr "Restaurer les fenêtres"
 
 #: appIcons.js:1162
 msgid "Show Desktop"
-msgstr ""
+msgstr "Afficher le bureau"
 
 #: Settings.ui.h:1
 msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
 msgstr ""
-"Quando definido para minimizar, clicando duas vezes minimiza todas as "
-"janelas da aplicação."
+"Quand minimiser est sélectionné, double cliquer minimise toutes les fenêtres "
+"de l'application."
 
 #: Settings.ui.h:2
 msgid "Shift+Click action"
-msgstr "Ação do Shift+clique"
+msgstr "Action de Shift+Clic"
 
 #: Settings.ui.h:3
 msgid "Raise window"
-msgstr "Elevar a janela"
+msgstr "Faire apparaître la fenêtre"
 
 #: Settings.ui.h:4
 msgid "Minimize window"
-msgstr "Minimizar a janela"
+msgstr "Minimiser la fenêtre"
 
 #: Settings.ui.h:5
 msgid "Launch new instance"
-msgstr "Carregar nova instância"
+msgstr "Lancer une nouvelle fenêtre"
 
 #: Settings.ui.h:6
 msgid "Cycle through windows"
-msgstr "Percorrer as janelas"
+msgstr "Cycler sur les fenêtres"
 
 #: Settings.ui.h:7
 msgid "Cycle windows + minimize"
-msgstr "Ciclo de janelas + minimizar"
+msgstr "Cycler sur les fenêtres + minimiser"
 
 #: Settings.ui.h:9
 msgid "Behavior for Middle-Click."
-msgstr "Comportamento do clique-do-meio."
+msgstr "Comportement pour le Clic-milieu"
 
 #: Settings.ui.h:10
 msgid "Middle-Click action"
-msgstr "Ação do clique-do-meio"
+msgstr "Action du Clic-milieu"
 
 #: Settings.ui.h:11
 msgid "Behavior for Shift+Middle-Click."
-msgstr "Comportamento para o Shift+Clique-do-meio."
+msgstr "Comportement pour Shift+Clic-milieu."
 
 #: Settings.ui.h:12
 msgid "Shift+Middle-Click action"
-msgstr "Ação do Shift+Clique-do-meio"
+msgstr "Action de Shift+Clic-milieu"
 
 #: Settings.ui.h:13
 msgid "Highlight focused application"
-msgstr ""
+msgstr "Mettre en surbrillance l'application active"
 
 #: Settings.ui.h:14
 msgid "Height (px)"
-msgstr ""
+msgstr "Hauteur (px)"
 
 #: Settings.ui.h:15
 msgid "0"
@@ -132,27 +128,27 @@ msgstr "0"
 
 #: Settings.ui.h:16
 msgid "Color - Override Theme"
-msgstr ""
+msgstr "Couleur - Surcharger le thème"
 
 #: Settings.ui.h:17
 msgid "1 window open"
-msgstr ""
+msgstr "1 fenêtre ouverte"
 
 #: Settings.ui.h:18
 msgid "Apply to all"
-msgstr ""
+msgstr "Appliquer à tout"
 
 #: Settings.ui.h:19
 msgid "2 windows open"
-msgstr ""
+msgstr "2 fenêtres ouvertes"
 
 #: Settings.ui.h:20
 msgid "3 windows open"
-msgstr ""
+msgstr "3 fenêtres ouvertes"
 
 #: Settings.ui.h:21
 msgid "4+ windows open"
-msgstr ""
+msgstr "4 fenêtres ouvertes et plus"
 
 #: Settings.ui.h:22
 msgid "Use different for unfocused"
@@ -160,7 +156,7 @@ msgstr ""
 
 #: Settings.ui.h:23
 msgid "Preview timeout on icon leave (ms)"
-msgstr "Tempo limite de pré-visualização sobre o ícone sair (ms)"
+msgstr "Délai de l'aperçu lorsqu'on quitte l'icône (ms)"
 
 #: Settings.ui.h:24
 msgid ""
@@ -168,259 +164,254 @@ msgid ""
 "too quickly when trying to enter the popup. If set too high, the preview may "
 "linger too long when moving to an adjacent icon."
 msgstr ""
-"Se definido como muito baixo, a pré-visualização da janela de aplicativos em "
-"execução pode fechar muito rapidamente ao tentar inserir o pop-up. Se "
-"definido como muito alto, a visualização pode demorar muito tempo ao mover-"
-"se para um ícone adjacente."
+"Si fixé trop bas, l'aperçu des fenêtres des applications actives peut "
+"sembler se fermer trop vite quand on essaie de cliquer sur l'aperçu. Si fixé "
+"trop haut, l'aperçu peut rester trop longtemps quand on passe à une icône "
+"adjacente."
 
 #: Settings.ui.h:25
 msgid "Super"
-msgstr ""
+msgstr "Super"
 
 #: Settings.ui.h:26
 msgid "Super + Alt"
-msgstr ""
+msgstr "Super + alt"
 
 #: Settings.ui.h:27
 msgid "Hotkeys prefix"
-msgstr ""
+msgstr "Préfixe des raccourcis"
 
 #: Settings.ui.h:28
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
-msgstr ""
+msgstr "Les raccourcis seront soit Super+Numéro soit Super+Alt+Numéro"
 
 #: Settings.ui.h:29
 msgid "Number overlay"
-msgstr ""
+msgstr "Nombres en superposition"
 
 #: Settings.ui.h:30
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
 msgstr ""
+"Afficher temporairement les numéros des applications par dessus les icônes "
+"lors de l'utilisation des raccourcis."
 
 #: Settings.ui.h:31
 msgid "Hide timeout (ms)"
-msgstr ""
+msgstr "Délai avant de cacher (ms)"
 
 #: Settings.ui.h:32
 msgid "Shortcut to show the overlay for 2 seconds"
-msgstr ""
+msgstr "Raccourci pour afficher la superposition pendant 2 secondes"
 
 #: Settings.ui.h:33
 msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
-msgstr ""
+msgstr "Syntaxe: <Shift>, <Ctrl>, <Alt>, <Super>"
 
 #: Settings.ui.h:34
 msgid "Panel screen position"
-msgstr "Posição da tela do painel"
+msgstr "Position du panneau sur l'écran"
 
 #: Settings.ui.h:35
 msgid "Bottom"
-msgstr "Embaixo"
+msgstr "En bas"
 
 #: Settings.ui.h:36
 msgid "Top"
-msgstr "Topo"
+msgstr "En haut"
 
 #: Settings.ui.h:37
-#, fuzzy
 msgid ""
 "Panel Size\n"
 "(default is 48)"
 msgstr ""
-"Margem do ícone do Aplicativo\n"
-"(O padrão é 8)"
+"Taille du panneau\n"
+"(la valeur par défaut est 48)"
 
 #: Settings.ui.h:39
 msgid ""
 "App Icon Margin\n"
 "(default is 8)"
 msgstr ""
-"Margem do ícone do Aplicativo\n"
-"(O padrão é 8)"
+"Marge de l'icône d'application\n"
+"(la valeur par défaut est 8)"
 
 #: Settings.ui.h:41
-#, fuzzy
 msgid "Running indicator position"
-msgstr "Posição do indicador de execução (pontos)"
+msgstr "Position de l'indicateur d'activité"
 
 #: Settings.ui.h:42
-#, fuzzy
 msgid "Running indicator style (Focused app)"
-msgstr "Posição do indicador de execução (pontos)"
+msgstr "Style de l'indicateur d'activité (Application active)"
 
 #: Settings.ui.h:43
 msgid "Dots"
-msgstr ""
+msgstr "Points"
 
 #: Settings.ui.h:44
 msgid "Squares"
-msgstr ""
+msgstr "Carrés"
 
 #: Settings.ui.h:45
 msgid "Dashes"
-msgstr ""
+msgstr "Traits"
 
 #: Settings.ui.h:46
 msgid "Segmented"
-msgstr ""
+msgstr "Segmenté"
 
 #: Settings.ui.h:47
 msgid "Solid"
-msgstr ""
+msgstr "Solide"
 
 #: Settings.ui.h:48
 msgid "Ciliora"
-msgstr ""
+msgstr "Ciliora"
 
 #: Settings.ui.h:49
 msgid "Metro"
-msgstr ""
+msgstr "Metro"
 
 #: Settings.ui.h:50
-#, fuzzy
 msgid "Running indicator style (Unfocused apps)"
-msgstr "Posição do indicador de execução (pontos)"
+msgstr "Style de l'indicateur d'activité (Applications inactives)"
 
 #: Settings.ui.h:51
 msgid "Clock location"
-msgstr "Local do relógio"
+msgstr "Position de l'horloge"
 
 #: Settings.ui.h:52
 msgid "Natural"
-msgstr "Natural"
+msgstr "Naturelle"
 
 #: Settings.ui.h:53
 msgid "Left of status menu"
-msgstr "Esquerda do menu de status"
+msgstr "À gauche du menu de status"
 
 #: Settings.ui.h:54
 msgid "Right of status menu"
-msgstr "Direita do menu de status"
+msgstr "À droite du menu de status"
 
 #: Settings.ui.h:55
-#, fuzzy
 msgid "Position and Style"
-msgstr "Posição e tamanho"
+msgstr "Position et style"
 
 #: Settings.ui.h:56
 msgid "Show <i>Applications</i> icon"
-msgstr "Mostrar ícone <i>Aplicativos</i>"
+msgstr "Afficher l'icône <i>Applications</i>"
 
 #: Settings.ui.h:57
 msgid "Animate <i>Show Applications</i>."
-msgstr "<i>Mostrar aplicativos</i> animado."
+msgstr "Animer <i>Afficher les applications</i>"
 
 #: Settings.ui.h:58
 msgid "Show Activities Button"
-msgstr "Mostrar botão de atividades"
+msgstr "Afficher le bouton des activités"
 
 #: Settings.ui.h:59
-#, fuzzy
 msgid "Show Desktop Button"
-msgstr "Mostrar botão de atividades"
+msgstr "Afficher le bouton d'affichage du bureau"
 
 #: Settings.ui.h:60
 msgid "Show AppMenu"
-msgstr "Mostrar Menu de aplicativos"
+msgstr "Afficher le menu de l'application"
 
 #: Settings.ui.h:61
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
 msgstr ""
+"Barre supérieure > Afficher le menu de l'application doit être activé dans "
+"l'outil de personalisation"
 
 #: Settings.ui.h:62
 msgid "Show window previews on hover"
-msgstr "Mostrar pré-visulização da janela ao pairar"
+msgstr "Afficher les aperçus des fenêtres lors du survol"
 
 #: Settings.ui.h:63
 msgid "Time (ms) before showing (100 is default)"
-msgstr "Tempo (ms) antes de exibir (100 é o padrão)"
+msgstr "Temps (ms) avant d'afficher (100 par défaut)"
 
 #: Settings.ui.h:64
 msgid "Isolate Workspaces"
-msgstr "Isolar Espaços de trabalho"
+msgstr "Isoler les espaces de travail"
 
 #: Settings.ui.h:65
 msgid "Behaviour when clicking on the icon of a running application."
-msgstr "Comportamento ao clicar sobre o ícone de um aplicativo em execução."
+msgstr "Comportement lors du clic sur l'icône d'une application lancée."
 
 #: Settings.ui.h:66
 msgid "Click action"
-msgstr "Ação do clique"
+msgstr "Action du clic"
 
 #: Settings.ui.h:67
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
 msgstr ""
-"Habilita o Super+(0-9) como atalho para os aplicativos. Isto pode ser usado "
-"junto com Shift e Ctrl."
+"Activer Super+(0-9) comme raccourcis pour lancer les applications. Shift et "
+"Ctrl peuvent aussi être utilisés."
 
 #: Settings.ui.h:68
 msgid "Use hotkeys to activate apps"
-msgstr "Utilziar teclas de atalho para ativar os aplicativos"
+msgstr "Utiliser des raccourcis pour lancer les applications"
 
 #: Settings.ui.h:69
 msgid "Behavior"
-msgstr "Comportamento"
+msgstr "Comportement"
 
 #: Settings.ui.h:70
 msgid ""
 "Tray Font Size\n"
 "(0 = theme default)"
 msgstr ""
-"Tamanho da fonte da bandeja\n"
-"(0 = padrão do tema)"
+"Taille de la police\n"
+"(0 = par défaut)"
 
 #: Settings.ui.h:72
 msgid ""
 "LeftBox Font Size\n"
 "(0 = theme default)"
 msgstr ""
-"Tamanho da fonte da caixa da esquerda\n"
-"(0 = padrão do tema)"
+"Taille de la police de la zone de gauche\n"
+"(0 = par défaut)"
 
 #: Settings.ui.h:74
 msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
-msgstr ""
-"Preenchimento do ítem da bandeja\n"
-"(-1 = padrão do tema)"
+msgstr "Taille des éléments de la barre d'état"
 
 #: Settings.ui.h:76
 msgid ""
 "Status Icon Padding\n"
 "(-1 = theme default)"
 msgstr ""
-"Preenchimento do ícone de status\n"
-"(-1 = padrão do tema)"
+"Marge des icônes de status\n"
+"(-1 = valeur par défaut du thème)"
 
 #: Settings.ui.h:78
 msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
 msgstr ""
-"Preenchimento da caixa da esquerda\n"
-"(-1 = padrão do tema)"
+"Marge de la zone de gauche\n"
+"(-1 = valeur par défaut du thème)"
 
 #: Settings.ui.h:80
-#, fuzzy
 msgid "Animate switching applications"
-msgstr "<i>Mostrar aplicativos</i> animado."
+msgstr "Animer le changement d'application"
 
 #: Settings.ui.h:81
 msgid "Animate launching new windows"
-msgstr ""
+msgstr "Animer le lancement de nouvelles fenêtres"
 
 #: Settings.ui.h:83
 msgid "Fine-Tune"
-msgstr ""
+msgstr "Réglages fins"
 
 #: Settings.ui.h:84
 msgid "version: "
-msgstr "versão: "
+msgstr "version: "
 
 #: Settings.ui.h:85
 msgid "Github"
@@ -432,17 +423,11 @@ msgid ""
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">GNU General Public License, version 2 or later</a> for details.</span>"
 msgstr ""
-"<span size=\"small\">Este programa vem com ABSOLUTAMENTE NENHUMA GARANTIA.\n"
-"Veja a <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
-"\">Licença Pública Geral GNU, versão 2 ou posterior</a> para maiores "
-"detalhes.</span>"
+"<span size=\"small\">Ce programme est fourni sans aucune garantie.\n"
+"Pour plus de détails, visitez <a href=\"https://www.gnu.org/licenses/old-"
+"licenses/gpl-2.0.html\">Licence publique générale GNU, version 2 ou "
+"ultérieure</a></span>"
 
 #: Settings.ui.h:88
 msgid "About"
-msgstr "Sobre"
-
-#~ msgid "Panel Size"
-#~ msgstr "Tamanho do painel"
-
-#~ msgid "Appearance"
-#~ msgstr "Aparência"
+msgstr "À propos"
