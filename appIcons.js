@@ -909,13 +909,25 @@ const taskbarSecondaryMenu = new Lang.Class({
     },
 
     _redisplay: function() {
-        this.removeAll();
+        this.parent();
 
+        // Remove "Show Details" menu item
+        let existingMenuItems = this._getMenuItems();
+        for(let idx in existingMenuItems) {
+            if(existingMenuItems[idx].actor.label_actor.text == _("Show Details")) {
+                this.box.remove_child(existingMenuItems[idx].actor);
+                if(existingMenuItems[idx-1] instanceof PopupMenu.PopupSeparatorMenuItem)
+                    this.box.remove_child(existingMenuItems[idx-1].actor);
+                break;
+            }
+        }
+
+        // prepend items from the appMenu (for native gnome apps)
         let appMenu = this._source.app.menu;
         if(appMenu) {
             let remoteMenu = new RemoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
             let appMenuItems = remoteMenu._getMenuItems();
-            let isItemsAdded = false;
+            let itemPosition = 0;
             for(let appMenuIdx in appMenuItems){
                 let menuItem = appMenuItems[appMenuIdx];
                 let labelText = menuItem.actor.label_actor.text;
@@ -924,8 +936,6 @@ const taskbarSecondaryMenu = new Lang.Class({
                 
                 if(menuItem instanceof PopupMenu.PopupSeparatorMenuItem)
                     continue;
-
-                isItemsAdded = true;
 
                 // this ends up getting called multiple times, and bombing due to the signal id's being invalid
                 // on a 2nd pass. disconnect the base handler and attach our own that wraps the id's in if statements
@@ -961,118 +971,17 @@ const taskbarSecondaryMenu = new Lang.Class({
                         subMenuItem.actor.get_parent().remove_child(subMenuItem.actor);
                         newSubMenuMenuItem.menu.addMenuItem(subMenuItem);
                     }
-                    this.addMenuItem(newSubMenuMenuItem);
+                    this.addMenuItem(newSubMenuMenuItem, itemPosition);
                 } else 
-                    this.addMenuItem(menuItem);
+                    this.addMenuItem(menuItem, itemPosition);
 
+                itemPosition++;
             }
             
-            if(isItemsAdded)
-                this._appendSeparator();
-        }
-
-        let windows = this._source.app.get_windows().filter(function(w) {
-            return !w.skip_taskbar;
-        });
-
-        // Display the app windows menu items and the separator between windows
-        // of the current desktop and other windows.
-        let activeWorkspace = global.screen.get_active_workspace();
-        let separatorShown = windows.length > 0 && windows[0].get_workspace() != activeWorkspace;
-
-        for (let i = 0; i < windows.length; i++) {
-            let window = windows[i];
-            if (!separatorShown && window.get_workspace() != activeWorkspace) {
-                this._appendSeparator();
-                separatorShown = true;
+            if(itemPosition > 0) {
+                let separator = new PopupMenu.PopupSeparatorMenuItem();
+                this.addMenuItem(separator, itemPosition);
             }
-            let item = this._appendMenuItem(window.title);
-            item.connect('activate', Lang.bind(this, function() {
-                this.emit('activate-window', window);
-            }));
-        }
-
-        if (!this._source.app.is_window_backed()) {
-            this._appendSeparator();
-
-            let appInfo = this._source.app.get_app_info();
-            let actions = appInfo.list_actions();
-            if (this._source.app.can_open_new_window() &&
-                actions.indexOf('new-window') == -1) {
-                this._newWindowMenuItem = this._appendMenuItem(_("New Window"));
-                this._newWindowMenuItem.connect('activate', Lang.bind(this, function() {
-                    if (this._source.app.state == Shell.AppState.STOPPED)
-                        this._source.animateLaunch();
-
-                    this._source.app.open_new_window(-1);
-                    this.emit('activate-window', null);
-                }));
-                this._appendSeparator();
-            }
-
-            if (PopupMenu.discreteGpuAvailable &&
-                this._source.app.state == Shell.AppState.STOPPED &&
-                actions.indexOf('activate-discrete-gpu') == -1) {
-                this._onDiscreteGpuMenuItem = this._appendMenuItem(_("Launch using Dedicated Graphics Card"));
-                this._onDiscreteGpuMenuItem.connect('activate', Lang.bind(this, function() {
-                    if (this._source.app.state == Shell.AppState.STOPPED)
-                        this._source.animateLaunch();
-
-                    this._source.app.launch(0, -1, true);
-                    this.emit('activate-window', null);
-                }));
-            }
-
-            for (let i = 0; i < actions.length; i++) {
-                let action = actions[i];
-                let item = this._appendMenuItem(appInfo.get_action_name(action));
-                item.connect('activate', Lang.bind(this, function(emitter, event) {
-                    this._source.app.launch_action(action, event.get_time(), -1);
-                    this.emit('activate-window', null);
-                }));
-            }
-
-            let canFavorite = global.settings.is_writable('favorite-apps');
-
-            if (canFavorite) {
-                this._appendSeparator();
-
-                let isFavorite = AppFavorites.getAppFavorites().isFavorite(this._source.app.get_id());
-
-                if (isFavorite) {
-                    let item = this._appendMenuItem(_("Remove from Favorites"));
-                    item.connect('activate', Lang.bind(this, function() {
-                        let favs = AppFavorites.getAppFavorites();
-                        favs.removeFavorite(this._source.app.get_id());
-                    }));
-                } else {
-                    let item = this._appendMenuItem(_("Add to Favorites"));
-                    item.connect('activate', Lang.bind(this, function() {
-                        let favs = AppFavorites.getAppFavorites();
-                        favs.addFavorite(this._source.app.get_id());
-                    }));
-                }
-            }
-
-            // if (Shell.AppSystem.get_default().lookup_app('org.gnome.Software.desktop')) {
-            //     this._appendSeparator();
-            //     let item = this._appendMenuItem(_("Show Details"));
-            //     item.connect('activate', Lang.bind(this, function() {
-            //         let id = this._source.app.get_id();
-            //         let args = GLib.Variant.new('(ss)', [id, '']);
-            //         Gio.DBus.get(Gio.BusType.SESSION, null,
-            //             function(o, res) {
-            //                 let bus = Gio.DBus.get_finish(res);
-            //                 bus.call('org.gnome.Software',
-            //                          '/org/gnome/Software',
-            //                          'org.gtk.Actions', 'Activate',
-            //                          GLib.Variant.new('(sava{sv})',
-            //                                           ['details', [args], null]),
-            //                          null, 0, -1, null, null);
-            //                 Main.overview.hide();
-            //             });
-            //     }));
-            // }
         }
 
         // quit menu
