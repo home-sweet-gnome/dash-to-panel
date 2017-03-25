@@ -149,7 +149,7 @@
     </key>
     <key type="b" name="show-appmenu">
       <default>false</default>
-      <summary>Show appMenu</summary>
+      <summary>Show appMenu button</summary>
       <description>Show appMenu on the right hand side of the panel</description>
     </key>
     <key type="b" name="show-window-previews">
@@ -242,6 +242,14 @@
     <key type="b" name="animate-window-launch">
       <default>true</default>
       <summary>Animate when new window launched</summary>
+    </key>
+    <key type="b" name="secondarymenu-contains-appmenu">
+      <default>true</default>
+      <summary>Integrate items from the gnome appmenu into the right click menu</summary>
+    </key>
+    <key type="b" name="secondarymenu-contains-showdetails">
+      <default>false</default>
+      <summary>Display Show Details to open Gnome Software from right click menu</summary>
     </key>
     <key type="s" name="shortcut-text">
       <default>"&lt;Super&gt;q"</default>

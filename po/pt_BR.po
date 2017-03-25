@@ -1,7 +1,7 @@
 # Dash to panel.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FÃbio Nogueira <fnogueira@gnome.org>, 2017 
+# Fï¿½bio Nogueira <fnogueira@gnome.org>, 2017 
 #
 msgid ""
 msgstr ""
@@ -146,11 +146,11 @@ msgid "Animate <i>Show Applications</i>."
 msgstr "<i>Mostrar aplicativos</i> animado."
 
 #: Settings.ui.h:27
-msgid "Show Activities Button"
+msgid "Show <i>Activities</i> button"
 msgstr "Mostrar botÃ£o de atividades"
 
 #: Settings.ui.h:28
-msgid "Show AppMenu"
+msgid "Show <i>AppMenu</i> button"
 msgstr "Mostrar Menu de aplicativos"
 
 #: Settings.ui.h:29

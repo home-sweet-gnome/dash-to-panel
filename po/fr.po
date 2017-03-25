@@ -306,15 +306,15 @@ msgid "Animate <i>Show Applications</i>."
 msgstr "Animer <i>Afficher les applications</i>"
 
 #: Settings.ui.h:58
-msgid "Show Activities Button"
+msgid "Show <i>Activities</i> button"
 msgstr "Afficher le bouton des activités"
 
 #: Settings.ui.h:59
-msgid "Show Desktop Button"
+msgid "Show <i>Desktop</i> button"
 msgstr "Afficher le bouton d'affichage du bureau"
 
 #: Settings.ui.h:60
-msgid "Show AppMenu"
+msgid "Show <i>AppMenu</i> button"
 msgstr "Afficher le menu de l'application"
 
 #: Settings.ui.h:61

@@ -497,7 +497,48 @@ const Settings = new Lang.Class({
             dialog.show_all();
 
         }));
+        
+        // setup dialog for secondary menu options
+        this._builder.get_object('secondarymenu_options_button').connect('clicked', Lang.bind(this, function() {
 
+            let dialog = new Gtk.Dialog({ title: _('Secondary Menu Options'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('box_secondarymenu_options');
+            dialog.get_content_area().add(box);
+
+            this._settings.bind('secondarymenu-contains-appmenu',
+                    this._builder.get_object('secondarymenu_appmenu_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('secondarymenu-contains-showdetails',
+                    this._builder.get_object('secondarymenu_showdetails_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('secondarymenu-contains-appmenu', this._settings.get_default_value('secondarymenu-contains-appmenu'));
+                    this._settings.set_value('secondarymenu-contains-showdetails', this._settings.get_default_value('secondarymenu-contains-showdetails'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
 
         // setup dialog for advanced options
         this._builder.get_object('button_advanced_options').connect('clicked', Lang.bind(this, function() {

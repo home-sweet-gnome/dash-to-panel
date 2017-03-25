@@ -144,11 +144,11 @@ msgid "Animate <i>Show Applications</i>."
 msgstr "Animovat <i>zobrazení aplikací</i>."
 
 #: Settings.ui.h:27
-msgid "Show Activities Button"
+msgid "Show <i>Activities</i> button"
 msgstr "Zobrazit tlačítko aktivit"
 
 #: Settings.ui.h:28
-msgid "Show AppMenu"
+msgid "Show <i>AppMenu</i> button"
 msgstr "Zobrazit menu aplikací"
 
 #: Settings.ui.h:29
