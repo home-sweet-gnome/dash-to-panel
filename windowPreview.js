@@ -85,10 +85,18 @@ const thumbnailPreviewMenu = new Lang.Class({
 
         this._previewBox = new thumbnailPreviewList(this._app, this._dtpSettings);
         this.addMenuItem(this._previewBox);
+
+        this._peekMode = false;
+        this._peekModeEnterTimeoutId = 0;
+        this._ENTER_PEEK_MODE_TIMEOUT = 500;
+        this._peekedWindow = null;
+        this._peekModeSavedWorkspaces = null;
     },
 
     requestCloseMenu: function() {
     	// The "~0" argument makes the animation display.
+        if(this._previewBox._peekMode)
+            this._previewBox._disablePeekMode();
         this.close(~0);
     },
 
@@ -108,20 +116,32 @@ const thumbnailPreviewMenu = new Lang.Class({
 
     _onMenuEnter: function () {
         this.cancelClose();
+        //log("onMenuEnter preview menu");
 
         this.hoverOpen();
     },
 
-    _onMenuLeave: function () {
+    _onMenuLeave: function (actor, event) {
         this.cancelOpen();
         this.cancelClose();
+        log("onMenuLeave preview menu");
 
         this._hoverCloseTimeoutId = Mainloop.timeout_add(Taskbar.DASH_ITEM_HOVER_TIMEOUT, Lang.bind(this, this.hoverClose));
+
+        if(actor != event.get_source())
+            return;
+        if(this._peekMode)
+            this._disablePeekMode();
+        if(this._peekModeEnterTimeoutId) {
+            Mainloop.source_remove(this._peekModeEnterTimeoutId);
+            this._peekModeEnterTimeoutId = null;
+        }
     },
 
     _onEnter: function () {
         this.cancelOpen();
         this.cancelClose();
+        //log("onEnter preview menu");
 
         this._hoverOpenTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('show-window-previews-timeout'), Lang.bind(this, this.hoverOpen));
     },
@@ -129,6 +149,7 @@ const thumbnailPreviewMenu = new Lang.Class({
     _onLeave: function () {
         this.cancelOpen();
         this.cancelClose();
+        //log("onLeave preview menu");
 
         // grabHelper.grab() is usually called when the menu is opened. However, there seems to be a bug in the 
         // underlying gnome-shell that causes all window contents to freeze if the grab and ungrab occur
@@ -200,9 +221,62 @@ const thumbnailPreviewMenu = new Lang.Class({
             }));
         }
 
-        this.isOpen = false;
-    }
+        if(this._peekMode)
+            this._disablePeekMode();
 
+        this.isOpen = false;
+    },
+
+    _disablePeekMode: function() {
+        //TODO: Restore windows' old state
+        this._peekedWindow.get_compositor_private().hide();
+        this._peekedWindow = null;
+
+        this._peekModeSavedWorkspaces.forEach(function(workspace) {
+            workspace.forEach(function(window) {
+                window.get_compositor_private().show();
+            });
+        });
+        this._peekModeSavedWorkspaces = null;
+
+        this._peekMode = false;
+        log("Disabled peek mode");
+    },
+
+    _setPeekedWindow: function(newPeekedWindow) {
+        //Hide currently peeked window and show the new one
+        if(this._peekedWindow)
+            this._peekedWindow.get_compositor_private().hide();
+        this._peekedWindow = newPeekedWindow;
+        this._peekedWindow.get_compositor_private().show();
+    },
+
+    _enterPeekMode: function(thumbnail) {
+        this._peekMode = true;
+        if(this._peekModeEnterTimeoutId) {
+            Mainloop.source_remove(this._peekModeEnterTimeoutId);
+            this._peekModeEnterTimeoutId = null;
+        }
+        log("Entered peek mode", thumbnail);
+        //TODO: Save the state and Hide all windows
+	    this._peekModeSavedWorkspaces = [];
+        
+        for ( let wks=0; wks<global.screen.n_workspaces; ++wks ) {
+            // construct a list with all windows
+            let metaWorkspace = global.screen.get_workspace_by_index(wks);
+            let windows = metaWorkspace.list_windows(); 
+            this._peekModeSavedWorkspaces.push([]);
+            windows.forEach(Lang.bind(this, function(w) {
+                let actor = w.get_compositor_private();
+                if(!w.is_hidden()) {
+                    actor.hide();
+                    this._peekModeSavedWorkspaces[wks].push(w);
+                }
+            }));
+        }
+        
+        this._setPeekedWindow(thumbnail.window);
+    }
 });
 
 const thumbnailPreview = new Lang.Class({
@@ -280,10 +354,20 @@ const thumbnailPreview = new Lang.Class({
                                   Lang.bind(this, this._onEnter));
         this.actor.connect('key-focus-out',
                                   Lang.bind(this, this._onLeave));
+        this.actor.connect('motion-event',
+                                  Lang.bind(this, this._onMotionEvent));
     },
 
     _onEnter: function() {
         this._showCloseButton();
+        log("Enter thumbnail preview", this.window.title);
+        let topMenu = this._getTopMenu();
+        if(topMenu._peekMode) {
+            //TODO: Hide the old peeked window and show the window in preview
+            topMenu._setPeekedWindow(this.window);
+            log("Peek mode window changed");
+        }
+
         return Clutter.EVENT_PROPAGATE;
     },
 
@@ -291,6 +375,8 @@ const thumbnailPreview = new Lang.Class({
         if (!this._previewBin.has_pointer &&
             !this._closeButton.has_pointer)
             this._hideCloseButton();
+
+        log("Leave thumbnail preview", this.window.title);
 
         return Clutter.EVENT_PROPAGATE;
     },
@@ -430,8 +516,33 @@ const thumbnailPreview = new Lang.Class({
     },
 
     activate: function() {
+        let topMenu = this._getTopMenu();
+        
+        if(topMenu._peekMode) {
+            topMenu._disablePeekMode();
+        }
+        else if(topMenu._peekModeEnterTimeoutId) {
+            Mainloop.source_remove(topMenu._peekModeEnterTimeoutId);
+            topMenu._peekModeEnterTimeoutId = null;
+        }
+
         Main.activateWindow(this.window);
-        this._getTopMenu().close(~0);
+
+        topMenu.close(~0);
+    },
+
+    _onMotionEvent: function() {
+        //If in normal mode, then set new timeout for entering peek mode after removing the old one
+        let topMenu = this._getTopMenu();
+        if(!topMenu._peekMode) {
+            log("Motion event, topMenu:", topMenu);
+            //Remove old timeout and set a new one
+            if(topMenu._peekModeEnterTimeoutId)
+                Mainloop.source_remove(topMenu._peekModeEnterTimeoutId);
+            topMenu._peekModeEnterTimeoutId = Mainloop.timeout_add(topMenu._ENTER_PEEK_MODE_TIMEOUT, Lang.bind(this, function() {
+                topMenu._enterPeekMode(this);
+            }));
+        }
     }
 });
 
@@ -695,5 +806,4 @@ const thumbnailPreviewList = new Lang.Class({
     sortWindowsCompareFunction: function(windowA, windowB) {
         return windowA.get_stable_sequence() > windowB.get_stable_sequence();
     }
-
 });
