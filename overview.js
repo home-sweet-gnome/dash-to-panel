@@ -186,7 +186,7 @@ const dtpOverview = new Lang.Class({
 
     _checkHotkeyPrefix: function() {
         this._dtpSettings.delay();
-        
+
         let hotkeyPrefix = this._dtpSettings.get_string('hotkey-prefix-text');
         if (hotkeyPrefix == 'Super')
            hotkeyPrefix = '<Super>';
@@ -239,8 +239,6 @@ const dtpOverview = new Lang.Class({
     _enableHotKeys: function() {
         if (this._hotKeysEnabled)
             return;
-
-        this._checkHotkeyPrefix();
 
         // Setup keyboard bindings for taskbar elements
         let keys = ['app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-',  // Regular numbers
