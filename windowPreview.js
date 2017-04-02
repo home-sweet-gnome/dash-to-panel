@@ -95,12 +95,12 @@ const thumbnailPreviewMenu = new Lang.Class({
         this._peekedWindow = null;
         this._peekModeSavedWorkspaces = null;
         this._peekModeSavedOrder = null;
+        this._trackOpenWindowsId = null;
+        this._trackClosedWindowsIds = null;
     },
 
     requestCloseMenu: function() {
     	// The "~0" argument makes the animation display.
-        if(this._previewBox._peekMode)
-            this._previewBox._disablePeekMode();
         this.close(~0);
     },
 
@@ -125,26 +125,12 @@ const thumbnailPreviewMenu = new Lang.Class({
         this.hoverOpen();
     },
 
-    _onMenuLeave: function (actor, event) {
+    _onMenuLeave: function () {
         this.cancelOpen();
         this.cancelClose();
         //log("onMenuLeave preview menu; source", event.get_source(), "actor", actor);
 
         this._hoverCloseTimeoutId = Mainloop.timeout_add(Taskbar.DASH_ITEM_HOVER_TIMEOUT, Lang.bind(this, this.hoverClose));
-
-        if(event.get_source() != actor && event.get_source() != this._previewBox.actor)
-            return;
-        if(this._peekMode) {
-            if(this._peekModeDisableTimeoutId){
-                Mainloop.source_remove(this._peekModeDisableTimeoutId);
-                this._peekModeDisableTimeoutId = null;
-            }
-            this._peekModeDisableTimeoutId = Mainloop.timeout_add(this._DISABLE_PEEK_MODE_TIMEOUT, Lang.bind(this, this._disablePeekMode));
-        }
-        if(this._peekModeEnterTimeoutId) {
-            Mainloop.source_remove(this._peekModeEnterTimeoutId);
-            this._peekModeEnterTimeoutId = null;
-        }
     },
 
     _onEnter: function () {
@@ -246,29 +232,43 @@ const thumbnailPreviewMenu = new Lang.Class({
             let peekedWindowActor = this._peekedWindow.get_compositor_private();
             let originalIndex = this._peekModeSavedOrder.indexOf(peekedWindowActor);
 
-            if(this._peekedWindow.minimized)
-                peekedWindowActor.hide();
-            global.window_group.set_child_at_index(peekedWindowActor, originalIndex);
+            if(peekedWindowActor) {
+                if(this._peekedWindow.minimized)
+                    peekedWindowActor.hide();
+                global.window_group.set_child_at_index(peekedWindowActor, originalIndex);
 
-            Tweener.addTween(peekedWindowActor, {
-                opacity: 0,
-                time: Taskbar.DASH_ANIMATION_TIME,
-                transition: 'easeOutQuad'
-            });
+    		    Tweener.addTween(peekedWindowActor, {
+        			opacity: 0,
+        			time: Taskbar.DASH_ANIMATION_TIME,
+        			transition: 'easeOutQuad'
+    		    });
+            }
             this._peekedWindow = null;
         }
         this._peekModeSavedOrder = null;
 
         this._peekModeSavedWorkspaces.forEach(function(workspace) {
             workspace.forEach(function(window) {
-                Tweener.addTween(window.get_compositor_private(), {
-                    opacity: 255,
-                    time: Taskbar.DASH_ANIMATION_TIME,
-                    transition: 'easeOutQuad'
-                });
+        		if(window && window.get_compositor_private())
+        			Tweener.addTween(window.get_compositor_private(), {
+        			    opacity: 255,
+        			    time: Taskbar.DASH_ANIMATION_TIME,
+        			    transition: 'easeOutQuad'
+                    });
             });
         });
         this._peekModeSavedWorkspaces = null;
+
+        this._trackClosedWindowsIds.forEach(function(pairWindowSignalId) {
+            if(pairWindowSignalId)
+                pairWindowSignalId[0].disconnect(pairWindowSignalId[1]);
+        });
+        this._trackClosedWindowsIds = null;
+
+        if(this._trackOpenWindowsId) {
+            global.display.disconnect(this._trackOpenWindowsId);
+            this._trackOpenWindowsId = null;
+        }
 
         this._peekMode = false;
         log("DISABLED PEEK MODE");
@@ -278,6 +278,7 @@ const thumbnailPreviewMenu = new Lang.Class({
         //Hide currently peeked window and show the new one
         if(this._peekedWindow) {
             let peekedWindowActor = this._peekedWindow.get_compositor_private();
+            log("Set peeked window | OLD peekedWindowActor", peekedWindowActor);
             let originalIndex = this._peekModeSavedOrder.indexOf(peekedWindowActor);
 
             if(this._peekedWindow.minimized)
@@ -292,9 +293,10 @@ const thumbnailPreviewMenu = new Lang.Class({
 
         this._peekedWindow = newPeekedWindow;
         let peekedWindowActor = this._peekedWindow.get_compositor_private();
+        log("Set peeked window | NEW peekedWindowActor", peekedWindowActor);
         if(this._peekedWindow.minimized)
             peekedWindowActor.show();
-        
+
         global.window_group.set_child_above_sibling(peekedWindowActor, null);
         Tweener.addTween(peekedWindowActor, {
             opacity: 255,
@@ -315,17 +317,15 @@ const thumbnailPreviewMenu = new Lang.Class({
 
         //Debug logs
         log("ENTERED PEEK MODE", thumbnail);
-        /*log("window group children", global.window_group.get_children());
+        log("window group children", global.window_group.get_children());
         global.window_group.get_children().forEach(function(child) {
-            log(child instanceof Meta.WindowActor);
-            log(child instanceof Meta.BackgroundGroup);
     	    if(child instanceof Meta.BackgroundGroup)
                 log("Background group");
     	    else
                 log(child.meta_window.title, child, child.meta_window.get_compositor_private());
     		log("");
         });
-        */
+        
 
         //Save the visible windows in each workspace and lower their opacity
 	    this._peekModeSavedWorkspaces = [];
@@ -337,8 +337,7 @@ const thumbnailPreviewMenu = new Lang.Class({
             this._peekModeSavedWorkspaces.push([]);
             windows.forEach(Lang.bind(this, function(window) {
                 let actor = window.get_compositor_private();
-                if(window.showing_on_its_workspace() && !window.skip_taskbar) {
-                    //actor.hide();
+                if(window.showing_on_its_workspace()) {
                     Tweener.addTween(actor, {
                         opacity: 40,
                         time: Taskbar.DASH_ANIMATION_TIME,
@@ -355,8 +354,37 @@ const thumbnailPreviewMenu = new Lang.Class({
         //first come the minimized windows, then the unminimized
         this._peekModeSavedOrder = global.window_group.get_children().slice();
 
+        //Track closed windows - pairs (window, signal Id), null for backgrounds
+        this._trackClosedWindowsIds = this._peekModeSavedOrder.map(Lang.bind(this, function(windowActor) {
+            if(!(windowActor instanceof Meta.BackgroundGroup))
+                return [windowActor.meta_window, 
+                        windowActor.meta_window.connect('unmanaged', Lang.bind(this, this._peekModeWindowClosed))];
+           else 
+                return null;
+        }));
+
+        //Track newly opened windows
+        if(this._trackOpenWindowsId)
+            global.display.disconnect(this._trackOpenWindowsId);
+        this._trackOpenWindowsId = global.display.connect('window-created', Lang.bind(this, this._peekModeWindowOpened));
+
         //Having lowered opacity of all the windows, show the peeked window
         this._setPeekedWindow(thumbnail.window);
+    },
+
+    _peekModeWindowClosed: function(window) {
+        log("WINDOW CLOSED", window.title);
+        log("Window group", global.window_group.get_children());
+        //TODO: Implement this window
+        if(this._peekMode && window == this._peekedWindow)
+            this._disablePeekMode();
+    },
+
+    _peekModeWindowOpened: function(display, window) {
+        log("WINDOW OPENED", window.title);
+        log("Window group", global.window_group.get_children());  
+        //Assuming that the new window is on the top
+        this._disablePeekMode();
     }
 });
 
@@ -442,9 +470,17 @@ const thumbnailPreview = new Lang.Class({
     _onEnter: function(actor, event) {
         this._showCloseButton();
         log("Enter thumbnail preview", this.window.title);
-        log("Source", event ? event.get_source() : "Event undefined", "Actor", actor);
+        log("\tSource", event ? event.get_source() : "Event undefined", "Actor", actor);
         log("");
+
+        /*
+        let source = event ? event.get_source() : null;
+        if(!event || (source != actor && source != this._closeButton && !(source instanceof Clutter.Clone)))
+            return Clutter.EVENT_PROPAGATE;
+        */
+
         let topMenu = this._getTopMenu();
+
         if(topMenu._peekMode) {
             if(topMenu._peekModeDisableTimeoutId) {
                 Mainloop.source_remove(topMenu._peekModeDisableTimeoutId);
@@ -453,7 +489,7 @@ const thumbnailPreview = new Lang.Class({
             //TODO: Hide the old peeked window and show the window in preview
             topMenu._setPeekedWindow(this.window);
             //log("Peek mode window changed");
-        } else {
+        } else if(!this.animatingOut) {
             //log("Motion event (enter), topMenu:", topMenu);
             //Remove old timeout and set a new one
             if(topMenu._peekModeEnterTimeoutId)
@@ -474,17 +510,32 @@ const thumbnailPreview = new Lang.Class({
             this._hideCloseButton();
 
         log("Leave thumbnail preview", this.window.title);
-        log("Source", event ? event.get_source() : "Event undefined", "Actor", actor);
+        log("\tSource", event ? event.get_source() : "Event undefined", "Actor", actor);
         log("");
 
+        /*
+        let source = event ? event.get_source() : null;
+        if(!event || (source != actor && source != this._closeButton && !(source instanceof Clutter.Clone)))
+            return Clutter.EVENT_PROPAGATE;
+        */
+
         let topMenu = this._getTopMenu();
-        if(!topMenu._peekMode) {
-            if(topMenu._peekModeEnterTimeoutId) {
-                Mainloop.source_remove(topMenu._peekModeEnterTimeoutId);
-                //log("Removed timeout", topMenu._peekModeEnterTimeoutId);
-                topMenu._peekModeEnterTimeoutId = null;
+
+        //Kod z thumbnail menu
+        if(topMenu._peekMode) {
+            if(topMenu._peekModeDisableTimeoutId){
+                Mainloop.source_remove(topMenu._peekModeDisableTimeoutId);
+                topMenu._peekModeDisableTimeoutId = null;
             }
+            topMenu._peekModeDisableTimeoutId = Mainloop.timeout_add(topMenu._DISABLE_PEEK_MODE_TIMEOUT, function() {
+                topMenu._disablePeekMode()
+            });
         }
+        if(topMenu._peekModeEnterTimeoutId) {
+            Mainloop.source_remove(topMenu._peekModeEnterTimeoutId);
+            topMenu._peekModeEnterTimeoutId = null;
+        }
+
         return Clutter.EVENT_PROPAGATE;
     },
 
@@ -590,6 +641,15 @@ const thumbnailPreview = new Lang.Class({
     },
 
     _closeWindow: function() {
+        log("Close window");
+        let topMenu = this._getTopMenu();
+        if(topMenu._peekMode && this.window == topMenu._peekedWindow)
+            topMenu._disablePeekMode();
+        else if(topMenu._peekModeEnterTimeoutId) {
+            Mainloop.source_remove(topMenu._peekModeEnterTimeoutId);
+            topMenu._peekModeEnterTimeoutId = null;
+        }
+        
         this.window.delete(global.get_current_time());
     },
 
@@ -641,7 +701,7 @@ const thumbnailPreview = new Lang.Class({
     _onMotionEvent: function() {
         //If in normal mode, then set new timeout for entering peek mode after removing the old one
         let topMenu = this._getTopMenu();
-        if(!topMenu._peekMode) {
+        if(!topMenu._peekMode && !this.animatingOut) {
             //log("Motion event, topMenu:", topMenu);
             //Remove old timeout and set a new one
             if(topMenu._peekModeEnterTimeoutId)
@@ -693,9 +753,6 @@ const thumbnailPreviewList = new Lang.Class({
         this._stateChangedId = this.app.connect('windows-changed',
                                                 Lang.bind(this,
                                                           this._queueRedisplay));
-
-        this.actor.connect('leave-event', Lang.bind(this, this._onLeaveEvent));
-        this.actor.connect('enter-event', Lang.bind(this, this._onEnterEvent));
     },
 
     _needsScrollbar: function() {
@@ -916,13 +973,5 @@ const thumbnailPreviewList = new Lang.Class({
 
     sortWindowsCompareFunction: function(windowA, windowB) {
         return windowA.get_stable_sequence() > windowB.get_stable_sequence();
-    },
-
-    _onLeaveEvent: function(actor, event) {
-        //log("onLeave Scroll View, source", event.get_source(), "actor", actor);
-    },
-
-    _onEnterEvent: function(actor, event) {
-        //log("onEnter Scroll View, source", event.get_source(), "actor", actor);
     }
 });
