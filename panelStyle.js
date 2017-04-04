@@ -173,21 +173,18 @@ const dtpPanelStyle = new Lang.Class({
 
 
         /*recurse actors */
-        this._restoreOriginalStyle(this.panel._rightBox);
         if(this._rightBoxOperations.length) {
             let children = this.panel._rightBox.get_children();
             for(let i in children)
                 this._recursiveApply(children[i], this._rightBoxOperations);
         }
 
-        this._restoreOriginalStyle(this.panel._centerBox);
         if(this._centerBoxOperations.length) {
             let children = this.panel._centerBox.get_children();
             for(let i in children)
                 this._recursiveApply(children[i], this._centerBoxOperations);
         }
 
-        this._restoreOriginalStyle(this.panel._leftBox);
         if(this._leftBoxOperations.length) {
             let children = this.panel._leftBox.get_children();
             for(let i in children)
@@ -224,18 +221,21 @@ const dtpPanelStyle = new Lang.Class({
         if (this._leftBoxActorAddedID) 
             this.panel._leftBox.disconnect(this._leftBoxActorAddedID);
 
+        this._restoreOriginalStyle(this.panel._rightBox);
         if(this._rightBoxOperations.length) {
             let children = this.panel._rightBox.get_children();
             for(let i in children)
                 this._recursiveApply(children[i], this._rightBoxOperations, true);
         }
 
+        this._restoreOriginalStyle(this.panel._centerBox);
         if(this._centerBoxOperations.length) {
             let children = this.panel._centerBox.get_children();
             for(let i in children)
                 this._recursiveApply(children[i], this._centerBoxOperations, true);
         }
 
+        this._restoreOriginalStyle(this.panel._leftBox);
         if(this._leftBoxOperations.length) {
             let children = this.panel._leftBox.get_children();
             for(let i in children)
