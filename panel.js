@@ -36,6 +36,7 @@ const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
+const Layout = imports.ui.layout;
 const St = imports.gi.St;
 const GLib = imports.gi.GLib;
 const DND = imports.ui.dnd;
@@ -71,6 +72,10 @@ const dtpPanel = new Lang.Class({
         Main.overview.viewSelector._animateIn = Lang.bind(this, newViewSelectorAnimateIn);
         this._oldViewSelectorAnimateOut = Main.overview.viewSelector._animateOut;
         Main.overview.viewSelector._animateOut = Lang.bind(this, newViewSelectorAnimateOut);
+
+        this._oldUpdateHotCorners = Main.layoutManager._updateHotCorners;
+        Main.layoutManager._updateHotCorners = Lang.bind(Main.layoutManager, newUpdateHotCorners);
+        Main.layoutManager._updateHotCorners();
 
         this._oldPanelHeight = this.panel.actor.get_height();
 
@@ -199,6 +204,9 @@ const dtpPanel = new Lang.Class({
         PopupMenu.PopupMenu.prototype.open = this._oldPopupOpen;
         PopupMenu.PopupSubMenu.prototype.open = this._oldPopupSubMenuOpen;
 
+        Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
+        Main.layoutManager._updateHotCorners();
+
         Main.overview.viewSelector._animateIn = this._oldViewSelectorAnimateIn;
         Main.overview.viewSelector._animateOut = this._oldViewSelectorAnimateOut;
 
@@ -210,7 +218,7 @@ const dtpPanel = new Lang.Class({
         
         this.panel._rightBox.allocate = this.panel._rightBox.oldRightBoxAllocate;
         delete this.panel._rightBox.oldRightBoxAllocate;
-
+        
         this.panelStyle.disable();
 
         this._signalsHandler.destroy();
@@ -354,7 +362,6 @@ const dtpPanel = new Lang.Class({
 
         Main.overview._panelGhost.set_height(isTop ? size : 0);
         this._myPanelGhost.set_height(isTop ? 0 : size);
-        
 
         if(isTop) {
             this.panelBox.set_anchor_point(0, 0);
@@ -375,6 +382,8 @@ const dtpPanel = new Lang.Class({
             if(!this.panel.actor.has_style_class_name('dashtopanelBottom'))
                 this.panel.actor.add_style_class_name('dashtopanelBottom');
         }
+
+        Main.layoutManager._updateHotCorners();
     },
 
     _setActivitiesButtonVisible: function(isVisible) {
@@ -645,4 +654,68 @@ function newViewSelectorAnimateOut(page) {
     } else {
         vs._fadePageOut(page);
     }
+}
+
+function newUpdateHotCorners() {
+    // destroy old hot corners
+    this.hotCorners.forEach(function(corner) {
+        if (corner)
+            corner.destroy();
+    });
+    this.hotCorners = [];
+
+    let size = this.panelBox.height;
+    let panelPosition = Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
+
+    // build new hot corners
+    for (let i = 0; i < this.monitors.length; i++) {
+        let monitor = this.monitors[i];
+        let cornerX = this._rtl ? monitor.x + monitor.width : monitor.x;
+        let cornerY = monitor.y;
+
+        let haveTopLeftCorner = true;
+        
+        // If the panel is on the bottom, don't add a topleft hot corner unless it is actually
+        // a top left panel. Otherwise, it stops the mouse as you are dragging across
+        // In the future, maybe we will automatically move the hotcorner to the bottom
+        // when the panel is positioned at the bottom
+        if (i != this.primaryIndex || panelPosition == St.Side.BOTTOM) {
+            // Check if we have a top left (right for RTL) corner.
+            // I.e. if there is no monitor directly above or to the left(right)
+            let besideX = this._rtl ? monitor.x + 1 : cornerX - 1;
+            let besideY = cornerY;
+            let aboveX = cornerX;
+            let aboveY = cornerY - 1;
+
+            for (let j = 0; j < this.monitors.length; j++) {
+                if (i == j)
+                    continue;
+                let otherMonitor = this.monitors[j];
+                if (besideX >= otherMonitor.x &&
+                    besideX < otherMonitor.x + otherMonitor.width &&
+                    besideY >= otherMonitor.y &&
+                    besideY < otherMonitor.y + otherMonitor.height) {
+                    haveTopLeftCorner = false;
+                    break;
+                }
+                if (aboveX >= otherMonitor.x &&
+                    aboveX < otherMonitor.x + otherMonitor.width &&
+                    aboveY >= otherMonitor.y &&
+                    aboveY < otherMonitor.y + otherMonitor.height) {
+                    haveTopLeftCorner = false;
+                    break;
+                }
+            }
+        }
+
+        if (haveTopLeftCorner) {
+            let corner = new Layout.HotCorner(this, monitor, cornerX, cornerY);
+            corner.setBarrierSize(size);
+            this.hotCorners.push(corner);
+        } else {
+            this.hotCorners.push(null);
+        }
+    }
+
+    this.emit('hot-corners-changed');
 }
