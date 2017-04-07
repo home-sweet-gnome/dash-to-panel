@@ -340,6 +340,18 @@ const Settings = new Lang.Class({
                             this._builder.get_object('preview_timeout_label'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('peek-mode',
+                            this._builder.get_object('peek_mode_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-window-previews',
+                            this._builder.get_object('peek_mode_switch'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-window-previews',
+                            this._builder.get_object('peek_mode_label'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
 
         this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
         this._builder.get_object('preview_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
@@ -520,11 +532,19 @@ const Settings = new Lang.Class({
                 this._settings.set_int('leave-timeout', widget.get_value());
             }));
 
+            this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
+
+            this._builder.get_object('enter_peek_mode_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('enter-peek-mode-timeout', widget.get_value());
+            }));
+
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
                     this._settings.set_value('leave-timeout', this._settings.get_default_value('leave-timeout'));
                     this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
+                    this._settings.set_value('enter-peek-mode-timeout', this._settings.get_default_value('enter-peek-mode-timeout'));
+                    this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
                 } else {
                     // remove the settings box so it doesn't get destroyed;
                     dialog.get_content_area().remove(box);
