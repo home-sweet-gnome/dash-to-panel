@@ -305,7 +305,9 @@ const thumbnailPreviewMenu = new Lang.Class({
         }
 
         this._peekModeSavedWorkspaces.forEach(Lang.bind(this, function(workspace) {
-            workspace.forEach(Lang.bind(this, function(window) {
+            workspace.forEach(Lang.bind(this, function(pairWindowOpacity) {
+                let window = pairWindowOpacity[0];
+                let initialOpacity = pairWindowOpacity[1];
                 let windowActor = window.get_compositor_private();
         		if(window && windowActor) {
                     if(!window.located_on_workspace(this._peekModeOriginalWorkspace))
@@ -315,12 +317,12 @@ const thumbnailPreviewMenu = new Lang.Class({
                             transition: 'easeOutQuad',
                             onComplete: Lang.bind(windowActor, function() {
                                 windowActor.hide();
-                                windowActor.opacity = 255;
+                                windowActor.opacity = initialOpacity;
                             })
                         });
                     else
                         Tweener.addTween(windowActor, {
-                            opacity: 255,
+                            opacity: initialOpacity,
                             time: Taskbar.DASH_ANIMATION_TIME,
                             transition: 'easeOutQuad'
                         });
@@ -351,6 +353,9 @@ const thumbnailPreviewMenu = new Lang.Class({
         if(this._peekedWindow == newPeekedWindow)
             return;
         
+        //We don't need to bother with animating the workspace out and then in if the old peeked workspace is the same as the new one
+        let needToChangeWorkspace = !newPeekedWindow.located_on_workspace(this._peekModeCurrentWorkspace);
+
         //Hide currently peeked window and show the new one
         if(this._peekedWindow) {
             let peekedWindowActor = this._peekedWindow.get_compositor_private();
@@ -361,13 +366,13 @@ const thumbnailPreviewMenu = new Lang.Class({
             //then hide() all windows exclusive to the different workspace 
             //and show() all windows exclusive to the original workspace (that weren't minimized)
             let locatedOnOriginalWorkspace = this._peekedWindow.located_on_workspace(this._peekModeOriginalWorkspace);
-            if(!locatedOnOriginalWorkspace) {
+            if(!locatedOnOriginalWorkspace && needToChangeWorkspace) {
                 let differentWorkspace = this._peekedWindow.get_workspace();
                 this._emulateSwitchingWorkspaces(differentWorkspace, this._peekModeOriginalWorkspace);
             }
 
             global.window_group.set_child_at_index(peekedWindowActor, originalIndex);
-            if(this._peekedWindow.minimized || !locatedOnOriginalWorkspace)
+            if(this._peekedWindow.minimized || (!locatedOnOriginalWorkspace && needToChangeWorkspace))
                 Tweener.addTween(peekedWindowActor, {
                     opacity: 0,
                     time: Taskbar.DASH_ANIMATION_TIME,
@@ -394,7 +399,8 @@ const thumbnailPreviewMenu = new Lang.Class({
         //and show() all windows exclusive to the different workspace (that weren't minimized)
         log("Is on active workspace?", this._peekedWindow.located_on_workspace(this._peekModeOriginalWorkspace));
         //If the window is not located on one workspace, then there's no need to check if it's show on all
-        if(!this._peekedWindow.located_on_workspace(this._peekModeOriginalWorkspace)) {
+        let locatedOnOriginalWorkspace = this._peekedWindow.located_on_workspace(this._peekModeOriginalWorkspace);
+        if(!locatedOnOriginalWorkspace && needToChangeWorkspace) {
             let differentWorkspace = this._peekedWindow.get_workspace();
             this._emulateSwitchingWorkspaces(this._peekModeOriginalWorkspace, differentWorkspace);
         }
@@ -445,7 +451,7 @@ const thumbnailPreviewMenu = new Lang.Class({
         //Save the visible windows in each workspace and lower their opacity
 	    this._peekModeSavedWorkspaces = [];
         this._peekModeOriginalWorkspace = global.screen.get_active_workspace();
-	this._peekModeCurrentWorkspace = this._peekModeOriginalWorkspace;
+	    this._peekModeCurrentWorkspace = this._peekModeOriginalWorkspace;
         
         for ( let wks=0; wks<global.screen.n_workspaces; ++wks ) {
             // construct a list with all windows
@@ -455,12 +461,13 @@ const thumbnailPreviewMenu = new Lang.Class({
             windows.forEach(Lang.bind(this, function(window) {
                 let actor = window.get_compositor_private();
                 if(window.showing_on_its_workspace()) {
+                    let initialOpacity = actor.opacity;
                     Tweener.addTween(actor, {
                         opacity: 40,
                         time: Taskbar.DASH_ANIMATION_TIME,
                         transition: 'easeOutQuad'
                     });
-                    this._peekModeSavedWorkspaces[wks].push(window);
+                    this._peekModeSavedWorkspaces[wks].push([window, initialOpacity]);
                 }
             }));
         }
