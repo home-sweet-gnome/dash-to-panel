@@ -1,138 +1,138 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Hungarian translation for dash-to-panel.
+# Copyright (C) 2017 Free Software Foundation, Inc.
+# This file is distributed under the same license as the dash-to-panel package.
 #
+# Balázs Úr <urbalazs@gmail.com>, 2017.
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: GitHub\n"
+"Report-Msgid-Bugs-To: https://github.com/jderose9/dash-to-panel/issues\n"
 "POT-Creation-Date: 2017-03-25 11:55+0100\n"
-"PO-Revision-Date: 2017-03-25 18:04+0100\n"
-"Last-Translator: Laurent Tréguier <laurent@treguier.org>\n"
-"Language-Team: \n"
-"Language: fr_FR\n"
+"PO-Revision-Date: 2017-04-05 19:36+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"Language-Team: Hungarian <openscope@googlegroups.com>\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: prefs.js:213
 msgid "Running Indicator Options"
-msgstr "Options de l'indicateur d'activité"
+msgstr "Futásjelző beállításai"
 
 #: prefs.js:220 prefs.js:380 prefs.js:445 prefs.js:511 prefs.js:553
 msgid "Reset to defaults"
-msgstr "Restaurer par défaut"
+msgstr "Visszaállítás az alapértékekre"
 
 #: prefs.js:373
 msgid "Customize middle-click behavior"
-msgstr "Modifier le comportement du clic"
+msgstr "Középső kattintás viselkedésének személyre szabása"
 
 #: prefs.js:438
 msgid "Advanced hotkeys options"
-msgstr "Options avancées des racourcis"
+msgstr "Speciális gyorsbillentyű-beállítások"
 
 #: prefs.js:504
 msgid "Secondary Menu Options"
-msgstr "Options du menu secondaire"
+msgstr "Másodlagos menü beállítások"
 
 #: prefs.js:546 Settings.ui.h:85
 msgid "Advanced Options"
-msgstr "Options avancées"
+msgstr "Speciális beállítások"
 
 #: appIcons.js:918
 msgid "Show Details"
-msgstr "Afficher les détails"
+msgstr "Részletek megjelenítése"
 
 #: appIcons.js:937
 msgid "New Window"
-msgstr "Nouvelle fenêtre"
+msgstr "Új ablak"
 
 #: appIcons.js:937 appIcons.js:998 appIcons.js:1000 Settings.ui.h:8
 msgid "Quit"
-msgstr "Quitter"
+msgstr "Kilépés"
 
 #: appIcons.js:1000
 msgid "Windows"
-msgstr "Fenêtres"
+msgstr "Ablakok"
 
 #: appIcons.js:1159
 msgid "Dash to Panel Settings"
-msgstr "Paramètres de Dash to Panel"
+msgstr "„Dashből panel” beállításai"
 
 #: appIcons.js:1166
 msgid "Restore Windows"
-msgstr "Restaurer les fenêtres"
+msgstr "Ablakok visszaállítása"
 
 #: appIcons.js:1166
 msgid "Show Desktop"
-msgstr "Afficher le bureau"
+msgstr "Asztal megjelenítése"
 
 #: Settings.ui.h:1
 msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
 msgstr ""
-"Quand minimiser est sélectionné, double cliquer minimise toutes les fenêtres "
-"de l'application."
+"Ha minimalizálásra van állítva, akkor a dupla kattintás az alkalmazás összes "
+"ablakát minimalizálja."
 
 #: Settings.ui.h:2
 msgid "Shift+Click action"
-msgstr "Action de Shift+Clic"
+msgstr "Shift + kattintás művelet"
 
 #: Settings.ui.h:3
 msgid "Raise window"
-msgstr "Faire apparaître la fenêtre"
+msgstr "Ablak előre hozása"
 
 #: Settings.ui.h:4
 msgid "Minimize window"
-msgstr "Minimiser la fenêtre"
+msgstr "Ablak minimalizálása"
 
 #: Settings.ui.h:5
 msgid "Launch new instance"
-msgstr "Lancer une nouvelle fenêtre"
+msgstr "Új példány indítása"
 
 #: Settings.ui.h:6
 msgid "Cycle through windows"
-msgstr "Cycler sur les fenêtres"
+msgstr "Ablakok körbeléptetése"
 
 #: Settings.ui.h:7
 msgid "Cycle windows + minimize"
-msgstr "Cycler sur les fenêtres + minimiser"
+msgstr "Ablakok körbeléptetése + minimalizálás"
 
 #: Settings.ui.h:9
 msgid "Behavior for Middle-Click."
-msgstr "Comportement pour le Clic-milieu"
+msgstr "A középső kattintás viselkedése."
 
 #: Settings.ui.h:10
 msgid "Middle-Click action"
-msgstr "Action du Clic-milieu"
+msgstr "Középső kattintás művelet"
 
 #: Settings.ui.h:11
 msgid "Behavior for Shift+Middle-Click."
-msgstr "Comportement pour Shift+Clic-milieu."
+msgstr "A Shift + középső kattintás viselkedése."
 
 #: Settings.ui.h:12
 msgid "Shift+Middle-Click action"
-msgstr "Action de Shift+Clic-milieu"
+msgstr "Shift + középső kattintás művelet"
 
 #: Settings.ui.h:13
 msgid "Integrate <i>AppMenu</i> items"
-msgstr "Intégrer les actions du <i>Menu d'application</i>"
+msgstr "<i>Alkalmazásmenü</i> elemeinek integrálása"
 
 #: Settings.ui.h:14
 msgid "<i>Show Details</i> menu item"
-msgstr "Action <i>Afficher les détails</i>"
+msgstr "<i>Részletek megjelenítése</i> menüpont"
 
 #: Settings.ui.h:15
 msgid "Highlight focused application"
-msgstr "Mettre en surbrillance l'application active"
+msgstr "Kijelölt alkalmazás kiemelése"
 
 #: Settings.ui.h:16
 msgid "Height (px)"
-msgstr "Hauteur (px)"
+msgstr "Magasság (képpont)"
 
 #: Settings.ui.h:17
 msgid "0"
@@ -140,35 +140,35 @@ msgstr "0"
 
 #: Settings.ui.h:18
 msgid "Color - Override Theme"
-msgstr "Couleur - Surcharger le thème"
+msgstr "Szín - téma felülbírálása"
 
 #: Settings.ui.h:19
 msgid "1 window open"
-msgstr "1 fenêtre ouverte"
+msgstr "1 nyitott ablak"
 
 #: Settings.ui.h:20
 msgid "Apply to all"
-msgstr "Appliquer à tout"
+msgstr "Alkalmazás az összesre"
 
 #: Settings.ui.h:21
 msgid "2 windows open"
-msgstr "2 fenêtres ouvertes"
+msgstr "2 nyitott ablak"
 
 #: Settings.ui.h:22
 msgid "3 windows open"
-msgstr "3 fenêtres ouvertes"
+msgstr "3 nyitott ablak"
 
 #: Settings.ui.h:23
 msgid "4+ windows open"
-msgstr "4 fenêtres ouvertes et plus"
+msgstr "4+ nyitott ablak"
 
 #: Settings.ui.h:24
 msgid "Use different for unfocused"
-msgstr "Style différent pour les applications inactives"
+msgstr "Eltérő használata a nem kijelölthöz"
 
 #: Settings.ui.h:25
 msgid "Preview timeout on icon leave (ms)"
-msgstr "Délai de l'aperçu lorsqu'on quitte l'icône (ms)"
+msgstr "Előnézeti időkorlát ikon elhagyásakor (ms)"
 
 #: Settings.ui.h:26
 msgid ""
@@ -176,106 +176,107 @@ msgid ""
 "too quickly when trying to enter the popup. If set too high, the preview may "
 "linger too long when moving to an adjacent icon."
 msgstr ""
-"Si fixé trop bas, l'aperçu des fenêtres des applications actives peut "
-"sembler se fermer trop vite quand on essaie de cliquer sur l'aperçu. Si fixé "
-"trop haut, l'aperçu peut rester trop longtemps quand on passe à une icône "
-"adjacente."
+"Ha túl alacsonyra van állítva, akkor úgy tűnhet, hogy a futó alkalmazások "
+"előnézeti ablaka túl gyorsan záródik be, amikor megpróbál belépni a felugró "
+"ablak. Ha túl magasra van állítva, akkor úgy tűnhet, hogy az előnézet túl "
+"sokáig várakozik, amikor egy szomszédos ikonhoz mozog."
 
 #: Settings.ui.h:27
 msgid "Super"
-msgstr "Super"
+msgstr "Szuper"
 
 #: Settings.ui.h:28
 msgid "Super + Alt"
-msgstr "Super + alt"
+msgstr "Szuper + Alt"
 
 #: Settings.ui.h:29
 msgid "Hotkeys prefix"
-msgstr "Préfixe des raccourcis"
+msgstr "Gyorsbillentyű-előtag"
 
 #: Settings.ui.h:30
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
-msgstr "Les raccourcis seront soit Super+Numéro soit Super+Alt+Numéro"
+msgstr ""
+"A gyorsbillentyűk vagy Szuper + szám, vagy Szuper + Alt + szám lehetnek"
 
 #: Settings.ui.h:31
 msgid "Number overlay"
-msgstr "Nombres en superposition"
+msgstr "Szám rátét"
 
 #: Settings.ui.h:32
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
 msgstr ""
-"Afficher temporairement les numéros des applications par dessus les icônes "
-"lors de l'utilisation des raccourcis."
+"Az alkalmazás számainak átmeneti megjelenítése az ikonok fölött a "
+"gyorsbillentyűk használatakor."
 
 #: Settings.ui.h:33
 msgid "Hide timeout (ms)"
-msgstr "Délai avant de cacher (ms)"
+msgstr "Elrejtési időkorlát (ms)"
 
 #: Settings.ui.h:34
 msgid "Shortcut to show the overlay for 2 seconds"
-msgstr "Raccourci pour afficher la superposition pendant 2 secondes"
+msgstr "Gyorsbillentyű a rátét megjelenítéséhez 2 másodpercre"
 
 #: Settings.ui.h:35
 msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
-msgstr "Syntaxe: <Shift>, <Ctrl>, <Alt>, <Super>"
+msgstr "Szintaxis: <Shift>, <Ctrl>, <Alt>, <Super>"
 
 #: Settings.ui.h:36
 msgid "Panel screen position"
-msgstr "Position du panneau sur l'écran"
+msgstr "Panel képernyő-pozíciója"
 
 #: Settings.ui.h:37
 msgid "Bottom"
-msgstr "En bas"
+msgstr "Lent"
 
 #: Settings.ui.h:38
 msgid "Top"
-msgstr "En haut"
+msgstr "Fent"
 
 #: Settings.ui.h:39
 msgid ""
 "Panel Size\n"
 "(default is 48)"
 msgstr ""
-"Taille du panneau\n"
-"(la valeur par défaut est 48)"
+"Panelméret\n"
+"(alapérték: 48)"
 
 #: Settings.ui.h:41
 msgid ""
 "App Icon Margin\n"
 "(default is 8)"
 msgstr ""
-"Marge de l'icône d'application\n"
-"(la valeur par défaut est 8)"
+"Alkalmazásikon margó\n"
+"(alapérték: 8)"
 
 #: Settings.ui.h:43
 msgid "Running indicator position"
-msgstr "Position de l'indicateur d'activité"
+msgstr "Futásjelző pozíciója"
 
 #: Settings.ui.h:44
 msgid "Running indicator style (Focused app)"
-msgstr "Style de l'indicateur d'activité (Application active)"
+msgstr "Futásjelző stílusa (kijelölt alkalmazás)"
 
 #: Settings.ui.h:45
 msgid "Dots"
-msgstr "Points"
+msgstr "Pontok"
 
 #: Settings.ui.h:46
 msgid "Squares"
-msgstr "Carrés"
+msgstr "Négyzetek"
 
 #: Settings.ui.h:47
 msgid "Dashes"
-msgstr "Traits"
+msgstr "Szaggatott vonalak"
 
 #: Settings.ui.h:48
 msgid "Segmented"
-msgstr "Segmenté"
+msgstr "Darabolt"
 
 #: Settings.ui.h:49
 msgid "Solid"
-msgstr "Solide"
+msgstr "Tömör"
 
 #: Settings.ui.h:50
 msgid "Ciliora"
@@ -287,147 +288,149 @@ msgstr "Metro"
 
 #: Settings.ui.h:52
 msgid "Running indicator style (Unfocused apps)"
-msgstr "Style de l'indicateur d'activité (Applications inactives)"
+msgstr "Futásjelző stílusa (nem kijelölt alkalmazások)"
 
 #: Settings.ui.h:53
 msgid "Clock location"
-msgstr "Position de l'horloge"
+msgstr "Óra helye"
 
 #: Settings.ui.h:54
 msgid "Natural"
-msgstr "Naturelle"
+msgstr "Természetes"
 
 #: Settings.ui.h:55
 msgid "Left of status menu"
-msgstr "À gauche du menu de status"
+msgstr "Állapotmenü bal oldalán"
 
 #: Settings.ui.h:56
 msgid "Right of status menu"
-msgstr "À droite du menu de status"
+msgstr "Állapotmenü jobb oldalán"
 
 #: Settings.ui.h:57
 msgid "Position and Style"
-msgstr "Position et style"
+msgstr "Pozíció és stílus"
 
 #: Settings.ui.h:58
 msgid "Show <i>Applications</i> icon"
-msgstr "Afficher l'icône <i>Applications</i>"
+msgstr "<i>Alkalmazások</i> ikon megjelenítése"
 
 #: Settings.ui.h:59
 msgid "Animate <i>Show Applications</i>."
-msgstr "Animer <i>Afficher les applications</i>"
+msgstr "<i>Alkalmazások megjelenítése</i> animálása."
 
 #: Settings.ui.h:60
 msgid "Show <i>Activities</i> button"
-msgstr "Afficher le bouton des activités"
+msgstr "<i>Tevékenységek</i> gomb megjelenítése"
 
 #: Settings.ui.h:61
 msgid "Show <i>Desktop</i> button"
-msgstr "Afficher le bouton d'affichage du bureau"
+msgstr "<i>Asztal</i> gomb megjelenítése"
 
 #: Settings.ui.h:62
 msgid "Show <i>AppMenu</i> button"
-msgstr "Afficher le menu de l'application"
+msgstr "<i>Alkalmazásmenü</i> gomb megjelenítése"
 
 #: Settings.ui.h:63
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
 msgstr ""
-"Barre supérieure > Afficher le menu de l'application doit être activé dans "
-"l'outil de personalisation"
+"A felső sáv > Alkalmazásmenü megjelenítésének engedélyezve kell mennie a "
+"finomhangoló eszközben"
 
 #: Settings.ui.h:64
 msgid "Show window previews on hover"
-msgstr "Afficher les aperçus des fenêtres lors du survol"
+msgstr "Ablakelőnézetek megjelenítése rámutatáskor"
 
 #: Settings.ui.h:65
 msgid "Time (ms) before showing (100 is default)"
-msgstr "Temps (ms) avant d'afficher (100 par défaut)"
+msgstr "Megjelenítés előtti idő (ms, alapérték: 100)"
 
 #: Settings.ui.h:66
 msgid "Isolate Workspaces"
-msgstr "Isoler les espaces de travail"
+msgstr "Munkaterületek elkülönítése"
 
 #: Settings.ui.h:67
 msgid "Behaviour when clicking on the icon of a running application."
-msgstr "Comportement lors du clic sur l'icône d'une application lancée."
+msgstr "Viselkedés egy futó alkalmazás ikonjára való kattintáskor."
 
 #: Settings.ui.h:68
 msgid "Click action"
-msgstr "Action du clic"
+msgstr "Kattintás művelet"
 
 #: Settings.ui.h:69
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
 msgstr ""
-"Activer Super+(0-9) comme raccourcis pour lancer les applications. Shift et "
-"Ctrl peuvent aussi être utilisés."
+"Szuper + (0-9) engedélyezése gyorsbillentyűként az alkalmazások "
+"aktiválásához. Használható a Shift és a Ctrl billentyűkkel együtt is."
 
 #: Settings.ui.h:70
 msgid "Use hotkeys to activate apps"
-msgstr "Utiliser des raccourcis pour lancer les applications"
+msgstr "Gyorsbillentyűk használata az alkalmazások aktiválásához"
 
 #: Settings.ui.h:71
 msgid "Behavior"
-msgstr "Comportement"
+msgstr "Viselkedés"
 
 #: Settings.ui.h:72
 msgid ""
 "Tray Font Size\n"
 "(0 = theme default)"
 msgstr ""
-"Taille de la police\n"
-"(0 = par défaut)"
+"Tálca betűmérete\n"
+"(0 = téma alapértéke)"
 
 #: Settings.ui.h:74
 msgid ""
 "LeftBox Font Size\n"
 "(0 = theme default)"
 msgstr ""
-"Taille de la police de la zone de gauche\n"
-"(0 = par défaut)"
+"Bal doboz betűmérete\n"
+"(0 = téma alapértéke)"
 
 #: Settings.ui.h:76
 msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
-msgstr "Taille des éléments de la barre d'état"
+msgstr ""
+"Tálcaelem kitöltése\n"
+"(-1 = téma alapértéke)"
 
 #: Settings.ui.h:78
 msgid ""
 "Status Icon Padding\n"
 "(-1 = theme default)"
 msgstr ""
-"Marge des icônes de status\n"
-"(-1 = valeur par défaut du thème)"
+"Állapotikon kitöltése\n"
+"(-1 = téma alapértéke)"
 
 #: Settings.ui.h:80
 msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
 msgstr ""
-"Marge de la zone de gauche\n"
-"(-1 = valeur par défaut du thème)"
+"Bal doboz kitöltése\n"
+"(-1 = téma alapértéke)"
 
 #: Settings.ui.h:82
 msgid "Animate switching applications"
-msgstr "Animer le changement d'application"
+msgstr "Alkalmazásváltások animálása"
 
 #: Settings.ui.h:83
 msgid "Animate launching new windows"
-msgstr "Animer le lancement de nouvelles fenêtres"
+msgstr "Új ablakok indításának animálása"
 
 #: Settings.ui.h:84
 msgid "App icon secondary (right-click) menu"
-msgstr "Menu secondaire (clic droit) de l'icône"
+msgstr "Alkalmazásikon másodlagos (jobb kattintásos) menüje"
 
 #: Settings.ui.h:86
 msgid "Fine-Tune"
-msgstr "Réglages fins"
+msgstr "Finomhangolás"
 
 #: Settings.ui.h:87
 msgid "version: "
-msgstr "version: "
+msgstr "verzió: "
 
 #: Settings.ui.h:88
 msgid "Github"
@@ -439,11 +442,12 @@ msgid ""
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">GNU General Public License, version 2 or later</a> for details.</span>"
 msgstr ""
-"<span size=\"small\">Ce programme est fourni sans aucune garantie.\n"
-"Pour plus de détails, visitez <a href=\"https://www.gnu.org/licenses/old-"
-"licenses/gpl-2.0.html\">Licence publique générale GNU, version 2 ou "
-"ultérieure</a></span>"
+"<span size=\"small\">Ehhez a programhoz SEMMILYEN GARANCIA NEM JÁR.\n"
+"Nézze meg a <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html "
+"\">GNU General Public License 2. vagy későbbi verzióját</a> a részletekért.<"
+"/span>"
 
 #: Settings.ui.h:91
 msgid "About"
-msgstr "À propos"
+msgstr "Névjegy"
+

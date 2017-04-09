@@ -912,75 +912,79 @@ const taskbarSecondaryMenu = new Lang.Class({
         this.parent();
 
         // Remove "Show Details" menu item
-        let existingMenuItems = this._getMenuItems();
-        for(let idx in existingMenuItems) {
-            if(existingMenuItems[idx].actor.label_actor.text == _("Show Details")) {
-                this.box.remove_child(existingMenuItems[idx].actor);
-                if(existingMenuItems[idx-1] instanceof PopupMenu.PopupSeparatorMenuItem)
-                    this.box.remove_child(existingMenuItems[idx-1].actor);
-                break;
+        if(!this._dtpSettings.get_boolean('secondarymenu-contains-showdetails')) {
+            let existingMenuItems = this._getMenuItems();
+            for(let idx in existingMenuItems) {
+                if(existingMenuItems[idx].actor.label_actor.text == _("Show Details")) {
+                    this.box.remove_child(existingMenuItems[idx].actor);
+                    if(existingMenuItems[idx-1] instanceof PopupMenu.PopupSeparatorMenuItem)
+                        this.box.remove_child(existingMenuItems[idx-1].actor);
+                    break;
+                }
             }
         }
 
         // prepend items from the appMenu (for native gnome apps)
-        let appMenu = this._source.app.menu;
-        if(appMenu) {
-            let remoteMenu = new RemoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
-            let appMenuItems = remoteMenu._getMenuItems();
-            let itemPosition = 0;
-            for(let appMenuIdx in appMenuItems){
-                let menuItem = appMenuItems[appMenuIdx];
-                let labelText = menuItem.actor.label_actor.text;
-                if(labelText == _("New Window") || labelText == _("Quit"))
-                    continue;
+        if(this._dtpSettings.get_boolean('secondarymenu-contains-appmenu')) {
+            let appMenu = this._source.app.menu;
+            if(appMenu) {
+                let remoteMenu = new RemoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
+                let appMenuItems = remoteMenu._getMenuItems();
+                let itemPosition = 0;
+                for(let appMenuIdx in appMenuItems){
+                    let menuItem = appMenuItems[appMenuIdx];
+                    let labelText = menuItem.actor.label_actor.text;
+                    if(labelText == _("New Window") || labelText == _("Quit"))
+                        continue;
+                    
+                    if(menuItem instanceof PopupMenu.PopupSeparatorMenuItem)
+                        continue;
+
+                    // this ends up getting called multiple times, and bombing due to the signal id's being invalid
+                    // on a 2nd pass. disconnect the base handler and attach our own that wraps the id's in if statements
+                    menuItem.disconnect(menuItem._popupMenuDestroyId)
+                    menuItem._popupMenuDestroyId = menuItem.connect('destroy', Lang.bind(this, function(menuItem) {
+                        if(menuItem._popupMenuDestroyId) {
+                            menuItem.disconnect(menuItem._popupMenuDestroyId);
+                            menuItem._popupMenuDestroyId = 0;
+                        }
+                        if(menuItem._activateId) {
+                            menuItem.disconnect(menuItem._activateId);
+                            menuItem._activateId = 0;
+                        }
+                        if(menuItem._activeChangeId) {
+                            menuItem.disconnect(menuItem._activeChangeId);
+                            menuItem._activeChangeId = 0;
+                        }
+                        if(menuItem._sensitiveChangeId) {
+                            menuItem.disconnect(menuItem._sensitiveChangeId);
+                            menuItem._sensitiveChangeId = 0;
+                        }
+                        this.disconnect(menuItem._parentSensitiveChangeId);
+                        if (menuItem == this._activeMenuItem)
+                            this._activeMenuItem = null;
+                    }));
+
+                    menuItem.actor.get_parent().remove_child(menuItem.actor);
+                    if(menuItem instanceof PopupMenu.PopupSubMenuMenuItem) {
+                        let newSubMenuMenuItem = new PopupMenu.PopupSubMenuMenuItem(labelText);
+                        let appSubMenuItems = menuItem.menu._getMenuItems();
+                        for(let appSubMenuIdx in appSubMenuItems){
+                            let subMenuItem = appSubMenuItems[appSubMenuIdx];
+                            subMenuItem.actor.get_parent().remove_child(subMenuItem.actor);
+                            newSubMenuMenuItem.menu.addMenuItem(subMenuItem);
+                        }
+                        this.addMenuItem(newSubMenuMenuItem, itemPosition);
+                    } else 
+                        this.addMenuItem(menuItem, itemPosition);
+
+                    itemPosition++;
+                }
                 
-                if(menuItem instanceof PopupMenu.PopupSeparatorMenuItem)
-                    continue;
-
-                // this ends up getting called multiple times, and bombing due to the signal id's being invalid
-                // on a 2nd pass. disconnect the base handler and attach our own that wraps the id's in if statements
-                menuItem.disconnect(menuItem._popupMenuDestroyId)
-                menuItem._popupMenuDestroyId = menuItem.connect('destroy', Lang.bind(this, function(menuItem) {
-                    if(menuItem._popupMenuDestroyId) {
-                        menuItem.disconnect(menuItem._popupMenuDestroyId);
-                        menuItem._popupMenuDestroyId = 0;
-                    }
-                    if(menuItem._activateId) {
-                        menuItem.disconnect(menuItem._activateId);
-                        menuItem._activateId = 0;
-                    }
-                    if(menuItem._activeChangeId) {
-                        menuItem.disconnect(menuItem._activeChangeId);
-                        menuItem._activeChangeId = 0;
-                    }
-                    if(menuItem._sensitiveChangeId) {
-                        menuItem.disconnect(menuItem._sensitiveChangeId);
-                        menuItem._sensitiveChangeId = 0;
-                    }
-                    this.disconnect(menuItem._parentSensitiveChangeId);
-                    if (menuItem == this._activeMenuItem)
-                        this._activeMenuItem = null;
-                }));
-
-                menuItem.actor.get_parent().remove_child(menuItem.actor);
-                if(menuItem instanceof PopupMenu.PopupSubMenuMenuItem) {
-                    let newSubMenuMenuItem = new PopupMenu.PopupSubMenuMenuItem(labelText);
-                    let appSubMenuItems = menuItem.menu._getMenuItems();
-                    for(let appSubMenuIdx in appSubMenuItems){
-                        let subMenuItem = appSubMenuItems[appSubMenuIdx];
-                        subMenuItem.actor.get_parent().remove_child(subMenuItem.actor);
-                        newSubMenuMenuItem.menu.addMenuItem(subMenuItem);
-                    }
-                    this.addMenuItem(newSubMenuMenuItem, itemPosition);
-                } else 
-                    this.addMenuItem(menuItem, itemPosition);
-
-                itemPosition++;
-            }
-            
-            if(itemPosition > 0) {
-                let separator = new PopupMenu.PopupSeparatorMenuItem();
-                this.addMenuItem(separator, itemPosition);
+                if(itemPosition > 0) {
+                    let separator = new PopupMenu.PopupSeparatorMenuItem();
+                    this.addMenuItem(separator, itemPosition);
+                }
             }
         }
 

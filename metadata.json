@@ -3,7 +3,7 @@
 "uuid": "dash-to-panel@jderose9.github.com",
 "name": "Dash to Panel",
 "description": "An icon taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.\n\nFor a more traditional experience, you may also want to use Tweak Tool to enable Windows > Titlebar Buttons > Minimize & Maximize.",
-"shell-version": [ "3.18", "3.20", "3.22" ],
+"shell-version": [ "3.18", "3.20", "3.22", "3.24" ],
 "url": "https://github.com/jderose9/dash-to-panel",
 "gettext-domain": "dash-to-panel",
 "version": -1

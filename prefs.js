@@ -74,6 +74,59 @@ function cssHexString(css) {
     return rrggbb;
 }
 
+function checkHotkeyPrefix(settings) {
+    settings.delay();
+
+    let hotkeyPrefix = settings.get_string('hotkey-prefix-text');
+    if (hotkeyPrefix == 'Super')
+       hotkeyPrefix = '<Super>';
+    else if (hotkeyPrefix == 'SuperAlt')
+       hotkeyPrefix = '<Super><Alt>';
+    let [, mods]       = Gtk.accelerator_parse(hotkeyPrefix);
+    let [, shift_mods] = Gtk.accelerator_parse('<Shift>' + hotkeyPrefix);
+    let [, ctrl_mods]  = Gtk.accelerator_parse('<Ctrl>'  + hotkeyPrefix);
+
+    let numHotkeys = 10;
+    for (let i = 1; i <= numHotkeys; i++) {
+        let number = i;
+        if (number == 10)
+            number = 0;
+        let key    = Gdk.keyval_from_name(number.toString());
+        let key_kp = Gdk.keyval_from_name('KP_' + number.toString());
+        if (Gtk.accelerator_valid(key, mods)) {
+            let shortcut    = Gtk.accelerator_name(key, mods);
+            let shortcut_kp = Gtk.accelerator_name(key_kp, mods);
+
+            // Setup shortcut strings
+            settings.set_strv('app-hotkey-'    + i, [shortcut]);
+            settings.set_strv('app-hotkey-kp-' + i, [shortcut_kp]);
+
+            // With <Shift>
+            shortcut    = Gtk.accelerator_name(key, shift_mods);
+            shortcut_kp = Gtk.accelerator_name(key_kp, shift_mods);
+            settings.set_strv('app-shift-hotkey-'    + i, [shortcut]);
+            settings.set_strv('app-shift-hotkey-kp-' + i, [shortcut_kp]);
+
+            // With <Control>
+            shortcut    = Gtk.accelerator_name(key, ctrl_mods);
+            shortcut_kp = Gtk.accelerator_name(key_kp, ctrl_mods);
+            settings.set_strv('app-ctrl-hotkey-'    + i, [shortcut]);
+            settings.set_strv('app-ctrl-hotkey-kp-' + i, [shortcut_kp]);
+        }
+        else {
+            // Reset default settings for the relevant keys if the
+            // accelerators are invalid
+            let keys = ['app-hotkey-' + i, 'app-shift-hotkey-' + i, 'app-ctrl-hotkey-' + i,  // Regular numbers
+                        'app-hotkey-kp-' + i, 'app-shift-hotkey-kp-' + i, 'app-ctrl-hotkey-kp-' + i]; // Key-pad numbers
+            keys.forEach(function(val) {
+                settings.set_value(val, settings.get_default_value(val));
+            }, this);
+        }
+    }
+
+    settings.apply();
+}
+
 const Settings = new Lang.Class({
     Name: 'DashToPanel.Settings',
 
@@ -466,6 +519,8 @@ const Settings = new Lang.Class({
                                 'text',
                                 Gio.SettingsBindFlags.DEFAULT);
 
+            this._settings.connect('changed::hotkey-prefix-text', Lang.bind(this, function() {checkHotkeyPrefix(this._settings);}));
+
             this._builder.get_object('hotkey_prefix_combo').set_active_id(this._settings.get_string('hotkey-prefix-text'));
 
             this._settings.bind('hotkey-prefix-text',
@@ -509,7 +564,48 @@ const Settings = new Lang.Class({
             dialog.show_all();
 
         }));
+        
+        // setup dialog for secondary menu options
+        this._builder.get_object('secondarymenu_options_button').connect('clicked', Lang.bind(this, function() {
 
+            let dialog = new Gtk.Dialog({ title: _('Secondary Menu Options'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('box_secondarymenu_options');
+            dialog.get_content_area().add(box);
+
+            this._settings.bind('secondarymenu-contains-appmenu',
+                    this._builder.get_object('secondarymenu_appmenu_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('secondarymenu-contains-showdetails',
+                    this._builder.get_object('secondarymenu_showdetails_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('secondarymenu-contains-appmenu', this._settings.get_default_value('secondarymenu-contains-appmenu'));
+                    this._settings.set_value('secondarymenu-contains-showdetails', this._settings.get_default_value('secondarymenu-contains-showdetails'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
 
         // setup dialog for advanced options
         this._builder.get_object('button_advanced_options').connect('clicked', Lang.bind(this, function() {

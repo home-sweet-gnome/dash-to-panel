@@ -1,0 +1,419 @@
+# Kazakh translation for dash-to-panel
+# Copyright (c) 2017 dash-to-panel authors.
+# This file is distributed under the same license as the dash-to-panel package.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dash-to-panel master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-07 05:52-0400\n"
+"PO-Revision-Date: 2017-04-07 15:59+0500\n"
+"Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
+"Language: kk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.8.11\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
+
+#: appIcons.js:918
+msgid "Show Details"
+msgstr "Ақпаратын көрсету"
+
+#: appIcons.js:937
+msgid "New Window"
+msgstr "Жаңа терезе"
+
+#: appIcons.js:937 appIcons.js:998 appIcons.js:1000 Settings.ui.h:8
+msgid "Quit"
+msgstr "Шығу"
+
+#: appIcons.js:1000
+msgid "Windows"
+msgstr "Терезелер"
+
+#: Settings.ui.h:1
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr ""
+"Қайыруға орнатылған кезде, қос шерту нәтижесінде қолданбаның барлық "
+"терезелерін қайырады."
+
+#: Settings.ui.h:2
+msgid "Shift+Click action"
+msgstr "Shift+Click әрекеті"
+
+#: Settings.ui.h:3
+msgid "Raise window"
+msgstr "Терезені көтеру"
+
+#: Settings.ui.h:4
+msgid "Minimize window"
+msgstr "Терезені минималды қылу"
+
+#: Settings.ui.h:5
+msgid "Launch new instance"
+msgstr "Жаңа экземплярды жөнелту"
+
+#: Settings.ui.h:6
+msgid "Cycle through windows"
+msgstr "Терезелер арасында циклмен ауысу"
+
+#: Settings.ui.h:7
+msgid "Cycle windows + minimize"
+msgstr "Терезелер арасында циклмен ауысу + қайыру"
+
+#: Settings.ui.h:9
+msgid "Behavior for Middle-Click."
+msgstr "Орта батырманың мінез-құлығы."
+
+#: Settings.ui.h:10
+msgid "Middle-Click action"
+msgstr "Орта батырма әрекеті"
+
+#: Settings.ui.h:11
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Shift+Орта батырманың мінез-құлығы."
+
+#: Settings.ui.h:12
+msgid "Shift+Middle-Click action"
+msgstr "Shift+Орта батырма әрекеті"
+
+#: Settings.ui.h:13
+msgid "Integrate <i>AppMenu</i> items"
+msgstr "<i>Қолданбалар мәзірі</i> нәрселерін интеграциялау"
+
+#: Settings.ui.h:14
+msgid "<i>Show Details</i> menu item"
+msgstr "<i>Ақпаратын көрсету</i> мәзір элементі"
+
+#: Settings.ui.h:15
+msgid "Highlight focused application"
+msgstr "Фокустағы қолданбаларды түспен ерекшелеу"
+
+#: Settings.ui.h:16
+msgid "Height (px)"
+msgstr "Биіктігі (пикс)"
+
+#: Settings.ui.h:17
+msgid "0"
+msgstr "0"
+
+#: Settings.ui.h:18
+msgid "Color - Override Theme"
+msgstr "Түс - теманы үстінен басу"
+
+#: Settings.ui.h:19
+msgid "1 window open"
+msgstr "1 терезе ашық"
+
+#: Settings.ui.h:20
+msgid "Apply to all"
+msgstr "Барлығы үшін іске асыру"
+
+#: Settings.ui.h:21
+msgid "2 windows open"
+msgstr "2 терезе ашық"
+
+#: Settings.ui.h:22
+msgid "3 windows open"
+msgstr "3 терезе ашық"
+
+#: Settings.ui.h:23
+msgid "4+ windows open"
+msgstr "4+ терезе ашық"
+
+#: Settings.ui.h:24
+msgid "Use different for unfocused"
+msgstr "Фокустағы емес үшін басқаны қолдану"
+
+#: Settings.ui.h:25
+msgid "Preview timeout on icon leave (ms)"
+msgstr "Таңбашадан кеткен кезде кіші көріністі көрсету уақыты (мс)"
+
+#: Settings.ui.h:26
+msgid ""
+"If set too low, the window preview of running applications may seem to close "
+"too quickly when trying to enter the popup. If set too high, the preview may "
+"linger too long when moving to an adjacent icon."
+msgstr ""
+"Мәні тым аз болса, кіші көрініске өту талабын жасау кезінде орындалып тұрған "
+"қолданбаның кіші көрінісі тым жылдам жабылуы мүмкін. Мәні тым үлкен болса, "
+"көрші таңбашаға ауысу кезінде ағымдағы кіші көрініс ұзақ уақыт бойы "
+"көрсетілуі мүмкін."
+
+#: Settings.ui.h:27
+msgid "Super"
+msgstr "Super"
+
+#: Settings.ui.h:28
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+#: Settings.ui.h:29
+msgid "Hotkeys prefix"
+msgstr "Ыстық пернелер префиксі"
+
+#: Settings.ui.h:30
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr "Ыстық пернелер Super+Сан or Super+Alt+Сан болады"
+
+#: Settings.ui.h:31
+msgid "Number overlay"
+msgstr "Цифрлық оверлей"
+
+#: Settings.ui.h:32
+msgid ""
+"Temporarily show the application numbers over the icons when using the "
+"hotkeys."
+msgstr ""
+"Ыстық пернелерді көрсету кезінде таңбашалардың үстінен өткізгенде қолданба "
+"нөмірлерін уақытша көрсету."
+
+#: Settings.ui.h:33
+msgid "Hide timeout (ms)"
+msgstr "Жасыру кідірісі (мс)"
+
+#: Settings.ui.h:34
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr "Оверлейді 2 секундқа көрсету үшін пернетақта жарлығы"
+
+#: Settings.ui.h:35
+msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+msgstr "Синтаксисі: <Shift>, <Ctrl>, <Alt>, <Super>"
+
+#: Settings.ui.h:36
+msgid "Panel screen position"
+msgstr "Панельдің экрандағы орны"
+
+#: Settings.ui.h:37
+msgid "Bottom"
+msgstr "Төмен"
+
+#: Settings.ui.h:38
+msgid "Top"
+msgstr "Жоғары"
+
+#: Settings.ui.h:39
+msgid ""
+"Panel Size\n"
+"(default is 48)"
+msgstr ""
+"Панель өлшемі\n"
+"(бастапқы мәні 48)"
+
+#: Settings.ui.h:41
+msgid ""
+"App Icon Margin\n"
+"(default is 8)"
+msgstr ""
+"Қолданба таңбашасының шет өрісі\n"
+"(бастапқы мәні 8)"
+
+#: Settings.ui.h:43
+msgid "Running indicator position"
+msgstr "Орындалып тұрған индикатордың орны"
+
+#: Settings.ui.h:44
+msgid "Running indicator style (Focused app)"
+msgstr "Орындалып тұрған индикатордың стилі (фокустегі қолданба)"
+
+#: Settings.ui.h:45
+msgid "Dots"
+msgstr "Нүктелер"
+
+#: Settings.ui.h:46
+msgid "Squares"
+msgstr "Шаршылар"
+
+#: Settings.ui.h:47
+msgid "Dashes"
+msgstr "Штрихтер"
+
+#: Settings.ui.h:48
+msgid "Segmented"
+msgstr "Сегменттелген"
+
+#: Settings.ui.h:49
+msgid "Solid"
+msgstr "Бүтін"
+
+#: Settings.ui.h:50
+msgid "Ciliora"
+msgstr "Ciliora"
+
+#: Settings.ui.h:51
+msgid "Metro"
+msgstr "Metro"
+
+#: Settings.ui.h:52
+msgid "Running indicator style (Unfocused apps)"
+msgstr "Орындалып тұрған индикатордың стилі (фокустегі емес қолданба)"
+
+#: Settings.ui.h:53
+msgid "Clock location"
+msgstr "Сағаттың орналасуы"
+
+#: Settings.ui.h:54
+msgid "Natural"
+msgstr "Табиғи"
+
+#: Settings.ui.h:55
+msgid "Left of status menu"
+msgstr "Қалып-күй мәзірінің сол жағы"
+
+#: Settings.ui.h:56
+msgid "Right of status menu"
+msgstr "Қалып-күй мәзірінің оң жағы"
+
+#: Settings.ui.h:57
+msgid "Position and Style"
+msgstr "Орны және стилі"
+
+#: Settings.ui.h:58
+msgid "Show <i>Applications</i> icon"
+msgstr "<i>Қолданбалар</i> таңбашасын көрсету"
+
+#: Settings.ui.h:59
+msgid "Animate <i>Show Applications</i>."
+msgstr "<i>Қолданбаларды көрсету</i> анимациясын іске қосу"
+
+#: Settings.ui.h:60
+msgid "Show <i>Activities</i> button"
+msgstr "<i>Көрініс</i> таңбашасын көрсету"
+
+#: Settings.ui.h:61
+msgid "Show <i>Desktop</i> button"
+msgstr "<i>Жұмыс үстелі</i> таңбашасын көрсету"
+
+#: Settings.ui.h:62
+msgid "Show <i>AppMenu</i> button"
+msgstr "<i>Қолданбалар мәзірі</i> таңбашасын көрсету"
+
+#: Settings.ui.h:63
+msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
+msgstr ""
+"Кеңейтілген баптаулар (Tweak) сайманында Үстіндегі панель >Қолданбалар "
+"мәзірін көрсету іске қосылған болуы тиіс"
+
+#: Settings.ui.h:64
+msgid "Show window previews on hover"
+msgstr "Үстінен өткізгенде, терезе құрамасының кіші көрінісін көрсету"
+
+#: Settings.ui.h:65
+msgid "Time (ms) before showing (100 is default)"
+msgstr "Көрсету алдындағы уақыт (мс) (бастапқы шамасы 100)"
+
+#: Settings.ui.h:66
+msgid "Isolate Workspaces"
+msgstr "Жұмыс орындарын оқшаулау"
+
+#: Settings.ui.h:67
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr "Орындалып тұрған қолданбаның таңбашасына шерту кезіндегі мінез-құлығы."
+
+#: Settings.ui.h:68
+msgid "Click action"
+msgstr "Шерту әрекеті"
+
+#: Settings.ui.h:69
+msgid ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
+"together with Shift and Ctrl."
+msgstr ""
+"Super+(0-9) қолданбаларды белсендіру үшін жарлықтар ретінде іске қосу. "
+"Сонымен қатар, ол Shift пен Ctrl пернелерімен бірге қолданылуы мүмкін."
+
+#: Settings.ui.h:70
+msgid "Use hotkeys to activate apps"
+msgstr "Қолданбаларды белсендіру үшін ыстық пернелерді қолдану"
+
+#: Settings.ui.h:71
+msgid "Behavior"
+msgstr "Мінез-құлығы"
+
+#: Settings.ui.h:72
+msgid ""
+"Tray Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Трей қарібінің өлшемі\n"
+"(0 = теманың бастапқы өлшемі)"
+
+#: Settings.ui.h:74
+msgid ""
+"LeftBox Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Сол жақ аймағының қаріп өлшемі\n"
+"(0 = теманың бастапқы өлшемі)"
+
+#: Settings.ui.h:76
+msgid ""
+"Tray Item Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Трейдегі нәрсенің шегінісі\n"
+"(-1 = теманың бастапқы өлшемі)"
+
+#: Settings.ui.h:78
+msgid ""
+"Status Icon Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Қалып-күй таңбашасының шегінісі\n"
+"(-1 = теманың бастапқы өлшемі)"
+
+#: Settings.ui.h:80
+msgid ""
+"LeftBox Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Сол жақ аймағының шегінісі\n"
+"(-1 = теманың бастапқы өлшемі)"
+
+#: Settings.ui.h:82
+msgid "Animate switching applications"
+msgstr "Қолданбаларды ауыстыру анимациясын іске қосу"
+
+#: Settings.ui.h:83
+msgid "Animate launching new windows"
+msgstr "Қолданбаларды жөнелту анимациясын іске қосу"
+
+#: Settings.ui.h:84
+msgid "App icon secondary (right-click) menu"
+msgstr "Қолданба таңбашысының қосалқы (оң жақпен шерту) мәзірі"
+
+#: Settings.ui.h:85
+msgid "Advanced Options"
+msgstr "Кеңейтілген баптаулар"
+
+#: Settings.ui.h:86
+msgid "Fine-Tune"
+msgstr "Дәлдеп баптау"
+
+#: Settings.ui.h:87
+msgid "version: "
+msgstr "нұсқасы:"
+
+#: Settings.ui.h:88
+msgid "Github"
+msgstr "Github"
+
+#: Settings.ui.h:89
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">Бұл бағдарлама ЕШҚАНДАЙ КЕПІЛДЕМЕСІЗ таратылады.\n"
+"Көбірек білу үшін <a href=\"https://www.gnu.org/licenses/old-licenses/"
+"gpl-2.0.html\">GNU General Public License, нұсқасы 2 немесе кейінірек</a> "
+"қараңыз.</span>"
+
+#: Settings.ui.h:91
+msgid "About"
+msgstr "Осы туралы"

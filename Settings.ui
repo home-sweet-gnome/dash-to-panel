@@ -247,6 +247,123 @@
       </packing>
     </child>
   </object>
+  <object class="GtkBox" id="box_secondarymenu_options">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkFrame" id="frame_secondarymenu_options">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label_xalign">0</property>
+        <property name="shadow_type">in</property>
+        <child>
+          <object class="GtkListBox" id="listbox_secondarymenu_options">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="selection_mode">none</property>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_secondarymenu_appmenu">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_secondarymenu_appmenu">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">center</property>
+                    <property name="margin_left">12</property>
+                    <property name="margin_right">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkLabel" id="secondarymenu_appmenu_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Integrate &lt;i&gt;AppMenu&lt;/i&gt; items</property>
+                        <property name="use_markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="secondarymenu_appmenu_switch">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_secondarymenu_showdetails">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_secondarymenu_showdetails">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="valign">center</property>
+                    <property name="margin_left">12</property>
+                    <property name="margin_right">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkLabel" id="secondarymenu_showdetails_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">&lt;i&gt;Show Details&lt;/i&gt; menu item</property>
+                        <property name="use_markup">True</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="secondarymenu_showdetails_switch">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+  </object>
   <object class="GtkAdjustment" id="dot_border_width_adjustment">
     <property name="upper">10</property>
     <property name="step_increment">1</property>
@@ -1983,7 +2100,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Show Activities Button</property>
+                            <property name="label" translatable="yes">Show &lt;i&gt;Activities&lt;/i&gt; button</property>
                             <property name="use_markup">True</property>
                             <property name="xalign">0</property>
                           </object>
@@ -2027,7 +2144,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Show Desktop Button</property>
+                            <property name="label" translatable="yes">Show &lt;i&gt;Desktop&lt;/i&gt; button</property>
                             <property name="use_markup">True</property>
                             <property name="xalign">0</property>
                           </object>
@@ -2072,7 +2189,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Show AppMenu</property>
+                            <property name="label" translatable="yes">Show &lt;i&gt;AppMenu&lt;/i&gt; button</property>
                             <property name="use_markup">True</property>
                             <property name="xalign">0</property>
                           </object>
@@ -2526,8 +2643,8 @@
         <property name="can_focus">False</property>
         <property name="margin_left">24</property>
         <property name="margin_right">24</property>
-        <property name="margin_top">24</property>
-        <property name="margin_bottom">24</property>
+	<property name="margin_top">24</property>
+	<property name="margin_bottom">24</property>
         <property name="orientation">vertical</property>
         <property name="spacing">24</property>
         <child>
@@ -2848,6 +2965,80 @@
                 </child>
               </object>
             </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFrame" id="drillins_frame">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkListBox" id="listbox5">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="selection_mode">none</property>
+                <child>
+                  <object class="GtkListBoxRow" id="listboxrow6">
+                    <property name="width_request">100</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <child>
+                      <object class="GtkGrid" id="content_size_grid2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">12</property>
+                        <property name="margin_right">12</property>
+                        <property name="margin_top">12</property>
+                        <property name="margin_bottom">12</property>
+                        <property name="row_spacing">20</property>
+                        <property name="column_spacing">32</property>
+                        <child>
+                          <object class="GtkLabel" id="secondarymenu_options_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">App icon secondary (right-click) menu</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="secondarymenu_options_button">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="valign">center</property>
+                            <child>
+                              <object class="GtkImage" id="secondarymenu_options_button_image">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="icon_name">emblem-system-symbolic</property>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="circular"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">0</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
             <child type="label_item">
               <placeholder/>
             </child>
@@ -2855,7 +3046,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>
@@ -2869,7 +3060,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
       </object>
@@ -2881,6 +3072,7 @@
       <object class="GtkLabel" id="finetune_label">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="valign">center</property>
         <property name="label" translatable="yes">Fine-Tune</property>
       </object>
       <packing>
