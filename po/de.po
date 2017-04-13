@@ -1,0 +1,446 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-13 20:53+0200\n"
+"PO-Revision-Date: 2017-04-13 22:16+0200\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: Jonatan Hatakeyama Zeidler <jonatan_zeidler@gmx.de>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: prefs.js:266
+msgid "Running Indicator Options"
+msgstr "Optionen Aktiv-Markierungen"
+
+#: prefs.js:273 prefs.js:433 prefs.js:498 prefs.js:566 prefs.js:608
+msgid "Reset to defaults"
+msgstr "Zurücksetzen"
+
+#: prefs.js:426
+msgid "Customize middle-click behavior"
+msgstr "Mittelklick-Verhalten anpassen"
+
+#: prefs.js:491
+msgid "Advanced hotkeys options"
+msgstr "Erweiterte Schnelltastenoptionen"
+
+#: prefs.js:559
+msgid "Secondary Menu Options"
+msgstr "Rechtsklickmenü-Optionen"
+
+#: prefs.js:601 Settings.ui.h:85
+msgid "Advanced Options"
+msgstr "Erweiterte Optionen"
+
+#: appIcons.js:918
+msgid "Show Details"
+msgstr "Details anzeigen"
+
+#: appIcons.js:937
+msgid "New Window"
+msgstr "Neues Fenster"
+
+#: appIcons.js:937 appIcons.js:998 appIcons.js:1000 Settings.ui.h:8
+msgid "Quit"
+msgstr "Schließen"
+
+#: appIcons.js:1000
+msgid "Windows"
+msgstr "Fenster"
+
+#: appIcons.js:1159
+msgid "Dash to Panel Settings"
+msgstr "Erweiterungseinstellungen"
+
+#: appIcons.js:1166
+msgid "Restore Windows"
+msgstr "Fenster wiederherstellen"
+
+#: appIcons.js:1166
+msgid "Show Desktop"
+msgstr "Schreibtisch anzeigen"
+
+#: Settings.ui.h:1
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr ""
+"Falls Minimieren eingestellt ist, minimiert ein Doppelklick alle Fenster der "
+"Anwendung."
+
+#: Settings.ui.h:2
+msgid "Shift+Click action"
+msgstr "Aktion Umschalt+Klick"
+
+#: Settings.ui.h:3
+msgid "Raise window"
+msgstr "Fenster nach vorne holen"
+
+#: Settings.ui.h:4
+msgid "Minimize window"
+msgstr "Fenster minimieren"
+
+#: Settings.ui.h:5
+msgid "Launch new instance"
+msgstr "Neues Fenster öffnen"
+
+#: Settings.ui.h:6
+msgid "Cycle through windows"
+msgstr "Fenster durchwechseln"
+
+#: Settings.ui.h:7
+msgid "Cycle windows + minimize"
+msgstr "Fenster durchwechseln + minimieren"
+
+#: Settings.ui.h:9
+msgid "Behavior for Middle-Click."
+msgstr "Verhalten bei einem Mittelklick."
+
+#: Settings.ui.h:10
+msgid "Middle-Click action"
+msgstr "Aktion Mittelklick"
+
+#: Settings.ui.h:11
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Aktion bei Umschalt+Mittelklick"
+
+#: Settings.ui.h:12
+msgid "Shift+Middle-Click action"
+msgstr "Aktion Umschalt+Mittelklick"
+
+#: Settings.ui.h:13
+msgid "Integrate <i>AppMenu</i> items"
+msgstr "Integriere Einträge aus <i>Anwendungsmenü</i>"
+
+#: Settings.ui.h:14
+msgid "<i>Show Details</i> menu item"
+msgstr "<i>Details anzeigen</i>-Menüeintrag"
+
+#: Settings.ui.h:15
+msgid "Highlight focused application"
+msgstr "Fokussierte Anwendung hervorheben"
+
+#: Settings.ui.h:16
+msgid "Height (px)"
+msgstr "Höhe (px)"
+
+#: Settings.ui.h:17
+msgid "0"
+msgstr "0"
+
+#: Settings.ui.h:18
+msgid "Color - Override Theme"
+msgstr "Farbe - Thema überschreiben"
+
+#: Settings.ui.h:19
+msgid "1 window open"
+msgstr "1 Fenster offen"
+
+#: Settings.ui.h:20
+msgid "Apply to all"
+msgstr "Auf alle anwenden"
+
+#: Settings.ui.h:21
+msgid "2 windows open"
+msgstr "2 Fenster offen"
+
+#: Settings.ui.h:22
+msgid "3 windows open"
+msgstr "3 Fenster offen"
+
+#: Settings.ui.h:23
+msgid "4+ windows open"
+msgstr "4+ Fenster offen"
+
+#: Settings.ui.h:24
+msgid "Use different for unfocused"
+msgstr "Andere für nicht fokussierte"
+
+#: Settings.ui.h:25
+msgid "Preview timeout on icon leave (ms)"
+msgstr "Verzögerung beim Ausblenden von Fenstervorschau (ms)"
+
+#: Settings.ui.h:26
+msgid ""
+"If set too low, the window preview of running applications may seem to close "
+"too quickly when trying to enter the popup. If set too high, the preview may "
+"linger too long when moving to an adjacent icon."
+msgstr ""
+"Wenn zu niedrig eingestellt, scheint die Fenstervorschau zu schnell zu "
+"schließen, wenn man versucht, mit der Maus die Vorschau anzuklicken. Falls "
+"zu hoch eingestellt, dann scheint die Fenstervorschau zu hängen, wenn man "
+"zum nächsten Fenster wechselt."
+
+#: Settings.ui.h:27
+msgid "Super"
+msgstr "Super"
+
+#: Settings.ui.h:28
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+#: Settings.ui.h:29
+msgid "Hotkeys prefix"
+msgstr "Schnelltasten-Präfix"
+
+#: Settings.ui.h:30
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr "Schnelltasten sind entweder Super+Nummer oder Super+Alt+Nummer"
+
+#: Settings.ui.h:31
+msgid "Number overlay"
+msgstr "Nummern-Overlay"
+
+#: Settings.ui.h:32
+msgid ""
+"Temporarily show the application numbers over the icons when using the "
+"hotkeys."
+msgstr ""
+"Zeige Anwendungsnummern über Symbolen, während Schnelltasten gedrückt werden"
+
+#: Settings.ui.h:33
+msgid "Hide timeout (ms)"
+msgstr "Ausblendeverzögerung (ms)"
+
+#: Settings.ui.h:34
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr "Kürzel zum Anzeigen der Nummern für 2 Sekunden"
+
+#: Settings.ui.h:35
+msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+msgstr "Syntax: <Umschalt>, <Strg>, <Alt>, <Super>"
+
+#: Settings.ui.h:36
+msgid "Panel screen position"
+msgstr "Position der Leiste"
+
+#: Settings.ui.h:37
+msgid "Bottom"
+msgstr "Unten"
+
+#: Settings.ui.h:38
+msgid "Top"
+msgstr "Oben"
+
+#: Settings.ui.h:39
+msgid ""
+"Panel Size\n"
+"(default is 48)"
+msgstr ""
+"Leistengröße\n"
+"(48 ist Standard)"
+
+#: Settings.ui.h:41
+msgid ""
+"App Icon Margin\n"
+"(default is 8)"
+msgstr ""
+"Symbolabstand\n"
+"(8 ist Standard)"
+
+#: Settings.ui.h:43
+msgid "Running indicator position"
+msgstr "Position Aktiv-Markierung"
+
+#: Settings.ui.h:44
+msgid "Running indicator style (Focused app)"
+msgstr "Stil Aktiv-Markierung (fokussierte Anwendung)"
+
+#: Settings.ui.h:45
+msgid "Dots"
+msgstr "Punkte"
+
+#: Settings.ui.h:46
+msgid "Squares"
+msgstr "Quadrate"
+
+#: Settings.ui.h:47
+msgid "Dashes"
+msgstr "Striche"
+
+#: Settings.ui.h:48
+msgid "Segmented"
+msgstr "Unterteilt"
+
+#: Settings.ui.h:49
+msgid "Solid"
+msgstr "Fest"
+
+#: Settings.ui.h:50
+msgid "Ciliora"
+msgstr "Ciliora"
+
+#: Settings.ui.h:51
+msgid "Metro"
+msgstr "Metro"
+
+#: Settings.ui.h:52
+msgid "Running indicator style (Unfocused apps)"
+msgstr "Stil Aktiv-Markierung (nicht fokussierte Anwendung)"
+
+#: Settings.ui.h:53
+msgid "Clock location"
+msgstr "Position der Uhr"
+
+#: Settings.ui.h:54
+msgid "Natural"
+msgstr "Natürlich"
+
+#: Settings.ui.h:55
+msgid "Left of status menu"
+msgstr "Links vom Statusmenü"
+
+#: Settings.ui.h:56
+msgid "Right of status menu"
+msgstr "Rechts vom Statusmenü"
+
+#: Settings.ui.h:57
+msgid "Position and Style"
+msgstr "Position und Stil"
+
+#: Settings.ui.h:58
+msgid "Show <i>Applications</i> icon"
+msgstr "<i>Anwendungen</i>-Symbol anzeigen"
+
+#: Settings.ui.h:59
+msgid "Animate <i>Show Applications</i>."
+msgstr "Animation bei <i>Anwendungen einblenden</i>"
+
+#: Settings.ui.h:60
+msgid "Show <i>Activities</i> button"
+msgstr "<i>Aktivitäten</i>-Schaltfläche anzeigen"
+
+#: Settings.ui.h:61
+msgid "Show <i>Desktop</i> button"
+msgstr "<i>Schreibtisch</i>-Schaltfläche anzeigen"
+
+#: Settings.ui.h:62
+msgid "Show <i>AppMenu</i> button"
+msgstr "<i>Anwendungsmenü</i>-Schaltläche anzeigen"
+
+#: Settings.ui.h:63
+msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
+msgstr ""
+"<i>Obere Leiste > Anwendungsmenü anzeigen</i> muss aktiviert sein im "
+"Optimierungswerkzeug (Tweak Tool)"
+
+#: Settings.ui.h:64
+msgid "Show window previews on hover"
+msgstr "Fenstervorschau bei Berührung einblenden"
+
+#: Settings.ui.h:65
+msgid "Time (ms) before showing (100 is default)"
+msgstr "Verzögerung (ms) beim Einblenden (Standard ist 100)"
+
+#: Settings.ui.h:66
+msgid "Isolate Workspaces"
+msgstr "Arbeitsflächen isolieren"
+
+#: Settings.ui.h:67
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr "Verhalten beim Anklicken des Symbols einer laufenden Anwendung."
+
+#: Settings.ui.h:68
+msgid "Click action"
+msgstr "Klickaktion"
+
+#: Settings.ui.h:69
+msgid ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
+"together with Shift and Ctrl."
+msgstr ""
+"Super+(0-9) als Kürzel zum Aktivieren von Anwendungen nutzen. Kann auch mit "
+"Strg und Umschalttaste genutzt werden."
+
+#: Settings.ui.h:70
+msgid "Use hotkeys to activate apps"
+msgstr "Schnelltasten zum Aktivieren von Anwendungen nutzen"
+
+#: Settings.ui.h:71
+msgid "Behavior"
+msgstr "Verhalten"
+
+#: Settings.ui.h:72
+msgid ""
+"Tray Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Schriftgröße Benachrichtigungsbereich\n"
+"(0 = Themenstandard)"
+
+#: Settings.ui.h:74
+msgid ""
+"LeftBox Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Schriftgröße linker Teil\n"
+"(0 = Themenstandard)"
+
+#: Settings.ui.h:76
+msgid ""
+"Tray Item Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Symbolabstand Benachrichtigungsbereich\n"
+"(-1 = Themenstandard)"
+
+#: Settings.ui.h:78
+msgid ""
+"Status Icon Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Statussymbolabstand\n"
+"(-1 = Themenstandard)"
+
+#: Settings.ui.h:80
+msgid ""
+"LeftBox Padding\n"
+"(-1 = theme default)"
+msgstr "Elementabstand linker Teil"
+
+#: Settings.ui.h:82
+msgid "Animate switching applications"
+msgstr "Wechsel zwischen Anwendungen animieren"
+
+#: Settings.ui.h:83
+msgid "Animate launching new windows"
+msgstr "Öffnen von Anwendungen animieren"
+
+#: Settings.ui.h:84
+msgid "App icon secondary (right-click) menu"
+msgstr "Anwendungsrechtsklickmenü"
+
+#: Settings.ui.h:86
+msgid "Fine-Tune"
+msgstr "Feineinstellung"
+
+#: Settings.ui.h:87
+msgid "version: "
+msgstr "Version:"
+
+#: Settings.ui.h:88
+msgid "Github"
+msgstr "Github"
+
+#: Settings.ui.h:89
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">Für dieses Programm besteht KEINERLEI GARANTIE.\n"
+"Details unter <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0."
+"html\">GNU General Public License, version 2 or later</a></span>"
+
+#: Settings.ui.h:91
+msgid "About"
+msgstr "Info"
