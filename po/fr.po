@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-25 11:55+0100\n"
 "PO-Revision-Date: 2017-03-25 18:04+0100\n"
-"Last-Translator: Laurent Tréguier <laurent@treguier.org>\n"
+"Last-Translator: Nathan Graule <solarliner@gmail.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
@@ -24,15 +24,15 @@ msgstr "Options de l'indicateur d'activité"
 
 #: prefs.js:220 prefs.js:380 prefs.js:445 prefs.js:511 prefs.js:553
 msgid "Reset to defaults"
-msgstr "Restaurer par défaut"
+msgstr "Restaurer paramètres"
 
 #: prefs.js:373
 msgid "Customize middle-click behavior"
-msgstr "Modifier le comportement du clic"
+msgstr "Modifier l'action du clic de la molette"
 
 #: prefs.js:438
 msgid "Advanced hotkeys options"
-msgstr "Options avancées des racourcis"
+msgstr "Raccourcis avancés"
 
 #: prefs.js:504
 msgid "Secondary Menu Options"
@@ -60,7 +60,7 @@ msgstr "Fenêtres"
 
 #: appIcons.js:1159
 msgid "Dash to Panel Settings"
-msgstr "Paramètres de Dash to Panel"
+msgstr "Paramètres Dash to Panel"
 
 #: appIcons.js:1166
 msgid "Restore Windows"
@@ -75,24 +75,24 @@ msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
 msgstr ""
-"Quand minimiser est sélectionné, double cliquer minimise toutes les fenêtres "
+"Quand minimiser est sélectionné, un double-clic réduit toutes les fenêtres "
 "de l'application."
 
 #: Settings.ui.h:2
 msgid "Shift+Click action"
-msgstr "Action de Shift+Clic"
+msgstr "Action Maj+Clic"
 
 #: Settings.ui.h:3
 msgid "Raise window"
-msgstr "Faire apparaître la fenêtre"
+msgstr "Restaurer la fenêtre"
 
 #: Settings.ui.h:4
 msgid "Minimize window"
-msgstr "Minimiser la fenêtre"
+msgstr "Réduire la fenêtre"
 
 #: Settings.ui.h:5
 msgid "Launch new instance"
-msgstr "Lancer une nouvelle fenêtre"
+msgstr "Lancer une nouvelle instance"
 
 #: Settings.ui.h:6
 msgid "Cycle through windows"
@@ -100,35 +100,35 @@ msgstr "Cycler sur les fenêtres"
 
 #: Settings.ui.h:7
 msgid "Cycle windows + minimize"
-msgstr "Cycler sur les fenêtres + minimiser"
+msgstr "Cycler sur les fenêtres + réduire"
 
 #: Settings.ui.h:9
 msgid "Behavior for Middle-Click."
-msgstr "Comportement pour le Clic-milieu"
+msgstr "Comportement du clic molette"
 
 #: Settings.ui.h:10
 msgid "Middle-Click action"
-msgstr "Action du Clic-milieu"
+msgstr "Action clic molette"
 
 #: Settings.ui.h:11
 msgid "Behavior for Shift+Middle-Click."
-msgstr "Comportement pour Shift+Clic-milieu."
+msgstr "Comportement pour Maj+Clic molette."
 
 #: Settings.ui.h:12
 msgid "Shift+Middle-Click action"
-msgstr "Action de Shift+Clic-milieu"
+msgstr "Action de Maj+Clic molette"
 
 #: Settings.ui.h:13
 msgid "Integrate <i>AppMenu</i> items"
-msgstr "Intégrer les actions du <i>Menu d'application</i>"
+msgstr "Intégrer les actions du <i>Menu d'applications</i>"
 
 #: Settings.ui.h:14
 msgid "<i>Show Details</i> menu item"
-msgstr "Action <i>Afficher les détails</i>"
+msgstr "Menu <i>Afficher les détails</i>"
 
 #: Settings.ui.h:15
 msgid "Highlight focused application"
-msgstr "Mettre en surbrillance l'application active"
+msgstr "Surligner l'application active"
 
 #: Settings.ui.h:16
 msgid "Height (px)"
@@ -140,7 +140,7 @@ msgstr "0"
 
 #: Settings.ui.h:18
 msgid "Color - Override Theme"
-msgstr "Couleur - Surcharger le thème"
+msgstr "Couleur - Remplacer le thème"
 
 #: Settings.ui.h:19
 msgid "1 window open"
@@ -160,7 +160,7 @@ msgstr "3 fenêtres ouvertes"
 
 #: Settings.ui.h:23
 msgid "4+ windows open"
-msgstr "4 fenêtres ouvertes et plus"
+msgstr "4+ fenêtres ouvertes"
 
 #: Settings.ui.h:24
 msgid "Use different for unfocused"
@@ -176,8 +176,8 @@ msgid ""
 "too quickly when trying to enter the popup. If set too high, the preview may "
 "linger too long when moving to an adjacent icon."
 msgstr ""
-"Si fixé trop bas, l'aperçu des fenêtres des applications actives peut "
-"sembler se fermer trop vite quand on essaie de cliquer sur l'aperçu. Si fixé "
+"Si trop bas, l'aperçu des fenêtres des applications actives peut "
+"sembler se fermer trop vite quand on essaie de cliquer sur l'aperçu. Si "
 "trop haut, l'aperçu peut rester trop longtemps quand on passe à une icône "
 "adjacente."
 
@@ -187,11 +187,11 @@ msgstr "Super"
 
 #: Settings.ui.h:28
 msgid "Super + Alt"
-msgstr "Super + alt"
+msgstr "Super + Alt"
 
 #: Settings.ui.h:29
 msgid "Hotkeys prefix"
-msgstr "Préfixe des raccourcis"
+msgstr "Préfixe raccourcis"
 
 #: Settings.ui.h:30
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
@@ -199,7 +199,7 @@ msgstr "Les raccourcis seront soit Super+Numéro soit Super+Alt+Numéro"
 
 #: Settings.ui.h:31
 msgid "Number overlay"
-msgstr "Nombres en superposition"
+msgstr "Superposition des nombres"
 
 #: Settings.ui.h:32
 msgid ""
@@ -223,15 +223,15 @@ msgstr "Syntaxe: <Shift>, <Ctrl>, <Alt>, <Super>"
 
 #: Settings.ui.h:36
 msgid "Panel screen position"
-msgstr "Position du panneau sur l'écran"
+msgstr "Position du panneau"
 
 #: Settings.ui.h:37
 msgid "Bottom"
-msgstr "En bas"
+msgstr "Bas"
 
 #: Settings.ui.h:38
 msgid "Top"
-msgstr "En haut"
+msgstr "Haut"
 
 #: Settings.ui.h:39
 msgid ""
@@ -307,7 +307,7 @@ msgstr "À droite du menu de status"
 
 #: Settings.ui.h:57
 msgid "Position and Style"
-msgstr "Position et style"
+msgstr "Position & Style"
 
 #: Settings.ui.h:58
 msgid "Show <i>Applications</i> icon"
@@ -319,15 +319,15 @@ msgstr "Animer <i>Afficher les applications</i>"
 
 #: Settings.ui.h:60
 msgid "Show <i>Activities</i> button"
-msgstr "Afficher le bouton des activités"
+msgstr "Afficher le bouton <i>Activités</i>"
 
 #: Settings.ui.h:61
 msgid "Show <i>Desktop</i> button"
-msgstr "Afficher le bouton d'affichage du bureau"
+msgstr "Afficher le bouton <i>Affichage du Bureau</i>"
 
 #: Settings.ui.h:62
 msgid "Show <i>AppMenu</i> button"
-msgstr "Afficher le menu de l'application"
+msgstr "Afficher le bouton <i>Menu d'Applications</i>"
 
 #: Settings.ui.h:63
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
@@ -360,7 +360,7 @@ msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
 msgstr ""
-"Activer Super+(0-9) comme raccourcis pour lancer les applications. Shift et "
+"Activer Super+(0-9) comme raccourcis pour lancer les applications. Maj et "
 "Ctrl peuvent aussi être utilisés."
 
 #: Settings.ui.h:70
@@ -392,6 +392,7 @@ msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
 msgstr "Taille des éléments de la barre d'état"
+"(-1 = par défaut)"
 
 #: Settings.ui.h:78
 msgid ""
@@ -399,7 +400,7 @@ msgid ""
 "(-1 = theme default)"
 msgstr ""
 "Marge des icônes de status\n"
-"(-1 = valeur par défaut du thème)"
+"(-1 = par défaut)"
 
 #: Settings.ui.h:80
 msgid ""
@@ -407,7 +408,7 @@ msgid ""
 "(-1 = theme default)"
 msgstr ""
 "Marge de la zone de gauche\n"
-"(-1 = valeur par défaut du thème)"
+"(-1 = par défaut)"
 
 #: Settings.ui.h:82
 msgid "Animate switching applications"
@@ -419,11 +420,11 @@ msgstr "Animer le lancement de nouvelles fenêtres"
 
 #: Settings.ui.h:84
 msgid "App icon secondary (right-click) menu"
-msgstr "Menu secondaire (clic droit) de l'icône"
+msgstr "Menu secondaire de l'application (clic droit)"
 
 #: Settings.ui.h:86
 msgid "Fine-Tune"
-msgstr "Réglages fins"
+msgstr "Personnalisation"
 
 #: Settings.ui.h:87
 msgid "version: "
@@ -431,7 +432,7 @@ msgstr "version: "
 
 #: Settings.ui.h:88
 msgid "Github"
-msgstr "Github"
+msgstr "GitHub"
 
 #: Settings.ui.h:89
 msgid ""
@@ -439,10 +440,9 @@ msgid ""
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">GNU General Public License, version 2 or later</a> for details.</span>"
 msgstr ""
-"<span size=\"small\">Ce programme est fourni sans aucune garantie.\n"
-"Pour plus de détails, visitez <a href=\"https://www.gnu.org/licenses/old-"
-"licenses/gpl-2.0.html\">Licence publique générale GNU, version 2 ou "
-"ultérieure</a></span>"
+"<span size=\"small\">Ce programme est fourni SANS AUCUNE GARANTIE.\n"
+"Pour plus de détails, visitez la <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html\">Licence publique "
+"générale GNU, version 2 ou ultérieure</a></span>"
 
 #: Settings.ui.h:91
 msgid "About"
