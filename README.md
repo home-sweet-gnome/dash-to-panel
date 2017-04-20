@@ -92,4 +92,4 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 Thanks to the following people for contributing via pull requests:
 - @franglais125 for launching apps by number (w/ overlay)
 - @robrobinbin for configuring appMenu on/off in the panel
-- Translations: @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier (fr), @hosiet (zh\_CN)
+- Translations: @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier (fr), @elsieholmes (uk), @hosiet (zh\_CN)
