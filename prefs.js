@@ -139,7 +139,8 @@ const Settings = new Lang.Class({
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
         this._builder.add_from_file(Me.path + '/Settings.ui');
 
-        this.widget = this._builder.get_object('settings_notebook');
+        this.widget = new Gtk.ScrolledWindow();
+        this.widget.add_with_viewport(this._builder.get_object('settings_notebook');
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
