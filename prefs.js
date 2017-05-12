@@ -139,8 +139,9 @@ const Settings = new Lang.Class({
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
         this._builder.add_from_file(Me.path + '/Settings.ui');
 
-        this.widget = new Gtk.ScrolledWindow();
-        this.widget.add_with_viewport(this._builder.get_object('settings_notebook');
+        this.widget = this._builder.get_object('settings_scrolled_window');
+
+        this.viewport = this._builder.get_object('settings_viewport');
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
@@ -880,6 +881,15 @@ function init() {
 function buildPrefsWidget() {
     let settings = new Settings();
     let widget = settings.widget;
+
+    // I'd like the scrolled window to default to a size large enough to show all without scrolling, if it fits on the screen
+    // But, it doesn't seem possible, so I'm setting a minimum size if there seems to be enough screen real estate
+    let viewport = settings.viewport;
+    let viewportSize = viewport.size_request();
+    let screenHeight = widget.has_screen() ? widget.get_screen().get_height() : 0;
+    if(viewportSize.height < (screenHeight - (screenHeight * .2)))
+        widget.set_size_request(viewportSize.width, viewportSize.height + (viewportSize.height * .05));
+        
     widget.show_all();
     return widget;
 }

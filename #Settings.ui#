@@ -1572,6 +1572,8 @@
             <property name="can_focus">True</property>
             <property name="margin_left">6</property>
             <property name="margin_right">6</property>
+            <property name="margin_top">6</property>
+            <property name="margin_bottom">6</property>
             <child>
               <object class="GtkBox" id="position_and_style">
                 <property name="visible">True</property>
