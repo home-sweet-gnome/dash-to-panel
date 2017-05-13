@@ -74,6 +74,11 @@ How do I display Minimize & Maximize buttons? In the Tweak Tool application, tur
 
 Why can't I put the panel vertically on the left or right of the display? Gnome-shell and it's numerous extensions add widgets to the panel. These widgets have been designed using padding and absolute positioning assuming a horizontal layout. At this point in time, I don't think it is possible to allow for a vertical layout and still maintain any sort of reasonable compatibility with many of the other features of Gnome.
 
+## Themes
+While this extension works well with most popular Gnome Shell themes, the following themes are known to have explicitly added custom styles for this extension:
+- [Ciliora Tertia](https://github.com/zagortenay333/ciliora-tertia-shell) / [Ciliora Secunda](https://github.com/zagortenay333/ciliora-secunda-shell)
+- [Plano](https://github.com/lassekongo83/plano-theme)
+
 ## Bug Reporting
 
 Bugs should be reported to the Github bug tracker [https://github.com/jderose9/dash-to-panel/issues](https://github.com/jderose9/dash-to-panel/issues).
@@ -83,13 +88,17 @@ Dash to Panel Gnome Shell extension is distributed under the terms of the GNU Ge
 version 2 or later. See the COPYING file for details.
 
 ## Credits
+
 Much of the code in this extension comes from [Dash-to-Dock](https://micheleg.github.io/dash-to-dock/index.html).
-This extension leverages the work for [ZorinOS Taskbar](https://github.com/ZorinOS/zorin-taskbar) used in [ZorinOS](https://zorinos.com/) to allow the dash from [Dash-to-Dock](https://micheleg.github.io/dash-to-dock/index.html) to be embedded in the Gnome main panel.
+
+Additional credits: This extension leverages the work for [ZorinOS Taskbar](https://github.com/ZorinOS/zorin-taskbar) used in [ZorinOS](https://zorinos.com/) to allow the dash from [Dash-to-Dock](https://micheleg.github.io/dash-to-dock/index.html) to be embedded in the Gnome main panel.
 Code to set anchor position taken from [Thoma5/gnome-shell-extension-bottompanel](https://github.com/Thoma5/gnome-shell-extension-bottompanel).
 Pattern for moving panel contents based on [Frippery Move Clock](http://frippery.org/extensions/) by R M Yorston.
 Ideas for recursing child actors and assigning inline styles are based on code from the extension [StatusAreaHorizontalSpacing](https://bitbucket.org/mathematicalcoffee/status-area-horizontal-spacing-gnome-shell-extension).
 
 Thanks to the following people for contributing via pull requests:
 - @franglais125 for launching apps by number (w/ overlay)
+- @dziku1337 for peek mode in window previews
 - @robrobinbin for configuring appMenu on/off in the panel
-- Translations: @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier (fr), @elsieholmes (uk), @hosiet (zh\_CN)
+- Bug Fixes: @imrvelj, @Teslator, @bil-elmoussaoui
+- Translations: @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs (hu), @crayxt (kk)
