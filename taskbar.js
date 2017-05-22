@@ -69,24 +69,6 @@ function getPosition() {
 
 function extendDashItemContainer(dashItemContainer) {
     dashItemContainer.showLabel = AppIcons.ItemShowLabel;
-
-    // override show so we know when an animation is occurring to suppress indicator animations
-    dashItemContainer.show = Lang.bind(dashItemContainer, function(animate) {
-        if (this.child == null)
-            return;
-
-        let time = animate ? DASH_ANIMATION_TIME : 0;
-        this.animatingIn = true;
-        Tweener.addTween(this,
-                         { childScale: 1.0,
-                           childOpacity: 255,
-                           time: time,
-                           transition: 'easeOutQuad',
-                           onComplete: Lang.bind(this, function() {
-                                this.animatingIn = false;
-                           })
-                         });
-    });
 };
 
 /* This class is a fork of the upstream DashActor class (ui.dash.js)
