@@ -73,6 +73,10 @@ const dtpPanel = new Lang.Class({
         this._oldViewSelectorAnimateOut = Main.overview.viewSelector._animateOut;
         Main.overview.viewSelector._animateOut = Lang.bind(this, newViewSelectorAnimateOut);
 
+        this._oldUpdatePanelBarrier = Main.layoutManager._updatePanelBarrier;
+        Main.layoutManager._updatePanelBarrier = Lang.bind(Main.layoutManager, newUpdatePanelBarrier);
+        Main.layoutManager._updatePanelBarrier();
+
         this._oldUpdateHotCorners = Main.layoutManager._updateHotCorners;
         Main.layoutManager._updateHotCorners = Lang.bind(Main.layoutManager, newUpdateHotCorners);
         Main.layoutManager._updateHotCorners();
@@ -206,6 +210,9 @@ const dtpPanel = new Lang.Class({
 
         Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
         Main.layoutManager._updateHotCorners();
+
+        Main.layoutManager._updatePaneBarrier = this._oldUpdatePanelBarrier;
+        Main.layoutManager._updatePanelBarrier();
 
         Main.overview.viewSelector._animateIn = this._oldViewSelectorAnimateIn;
         Main.overview.viewSelector._animateOut = this._oldViewSelectorAnimateOut;
@@ -718,4 +725,11 @@ function newUpdateHotCorners() {
     }
 
     this.emit('hot-corners-changed');
+}
+
+function newUpdatePanelBarrier() {
+    if (this._rightPanelBarrier) {
+        this._rightPanelBarrier.destroy();
+        this._rightPanelBarrier = null;
+    }
 }
