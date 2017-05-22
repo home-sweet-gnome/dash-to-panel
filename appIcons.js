@@ -235,13 +235,19 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     _showDots: function() {
+        // Just update style if dots already exist
+        if (this._focusedDots && this._unfocusedDots) {
+            this._updateCounterClass();
+            return;
+        }
+
         this._focusedDots = new St.DrawingArea({width:1, y_expand: true});
         this._unfocusedDots = new St.DrawingArea({width:1, y_expand: true});
         
         this._focusedDots.connect('repaint', Lang.bind(this, function() {
-            if(this._dashItemContainer.animatingOut) {
+            if(this._dashItemContainer.animatingIn || this._dashItemContainer.animatingOut) {
                 // don't draw and trigger more animations if the icon is in the middle of
-                // being removed from the panel
+                // being added to the panel
                 return;
             }
             this._drawRunningIndicator(this._focusedDots, this._dtpSettings.get_string('dot-style-focused'), true);
@@ -249,9 +255,9 @@ const taskbarAppIcon = new Lang.Class({
         }));
         
         this._unfocusedDots.connect('repaint', Lang.bind(this, function() {
-            if(this._dashItemContainer.animatingOut) {
+            if(this._dashItemContainer.animatingIn || this._dashItemContainer.animatingOut) {
                 // don't draw and trigger more animations if the icon is in the middle of
-                // being removed from the panel
+                // being added to the panel
                 return;
             }
             this._drawRunningIndicator(this._unfocusedDots, this._dtpSettings.get_string('dot-style-unfocused'), false);
@@ -262,11 +268,13 @@ const taskbarAppIcon = new Lang.Class({
         this._iconContainer.add_child(this._focusedDots);
         this._iconContainer.add_child(this._unfocusedDots);
 
-        this._triggerRepaint();
+        this._updateCounterClass();
     },
 
     _settingsChangeRefresh: function() {
-        this._triggerRepaint();
+        this._updateCounterClass();
+        this._focusedDots.queue_repaint();
+        this._unfocusedDots.queue_repaint();
         this._displayProperIndicator(true);
     },
 
@@ -295,7 +303,7 @@ const taskbarAppIcon = new Lang.Class({
         }
 
         // graphical glitches if i dont set this on a timeout
-        //if(this.actor.get_style() != inlineStyle)
+        if(this.actor.get_style() != inlineStyle)
             Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(inlineStyle); }));
     },
 
@@ -335,21 +343,21 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     _onFocusAppChanged: function(windowTracker) {
-        this._triggerRepaint();
+        this._displayProperIndicator();
     },
 
     _onOverviewWindowDragEnd: function(windowTracker) {
-         this._triggerRepaint();
+         Mainloop.timeout_add(0, Lang.bind(this, function () {
+             this._displayProperIndicator();
+             return GLib.SOURCE_REMOVE;
+         }));
     },
 
     _onSwitchWorkspace: function(windowTracker) {
-        this._triggerRepaint();
-    },
-
-    _triggerRepaint: function() {
-        this._updateCounterClass();
-        this._focusedDots.queue_repaint();
-        this._unfocusedDots.queue_repaint();
+        Mainloop.timeout_add(0, Lang.bind(this, function () {
+             this._displayProperIndicator();
+             return GLib.SOURCE_REMOVE;
+         }));
     },
 
     _displayProperIndicator: function (force) {
