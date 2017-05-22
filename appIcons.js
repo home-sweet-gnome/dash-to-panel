@@ -245,7 +245,7 @@ const taskbarAppIcon = new Lang.Class({
         this._unfocusedDots = new St.DrawingArea({width:1, y_expand: true});
         
         this._focusedDots.connect('repaint', Lang.bind(this, function() {
-            if(this._dashItemContainer.animatingIn || this._dashItemContainer.animatingOut) {
+            if(this._dashItemContainer.animatingOut) {
                 // don't draw and trigger more animations if the icon is in the middle of
                 // being added to the panel
                 return;
@@ -255,7 +255,7 @@ const taskbarAppIcon = new Lang.Class({
         }));
         
         this._unfocusedDots.connect('repaint', Lang.bind(this, function() {
-            if(this._dashItemContainer.animatingIn || this._dashItemContainer.animatingOut) {
+            if(this._dashItemContainer.animatingOut) {
                 // don't draw and trigger more animations if the icon is in the middle of
                 // being added to the panel
                 return;
