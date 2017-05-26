@@ -74,6 +74,19 @@ function cssHexString(css) {
     return rrggbb;
 }
 
+function setShortcut(settings) {
+    let shortcut_text = settings.get_string('shortcut-text');
+    let [key, mods] = Gtk.accelerator_parse(shortcut_text);
+
+    if (Gtk.accelerator_valid(key, mods)) {
+        let shortcut = Gtk.accelerator_name(key, mods);
+        settings.set_strv('shortcut', [shortcut]);
+    }
+    else {
+        settings.set_strv('shortcut', []);
+    }
+}
+
 function checkHotkeyPrefix(settings) {
     settings.delay();
 
@@ -597,6 +610,7 @@ const Settings = new Lang.Class({
                                 this._builder.get_object('shortcut_entry'),
                                 'text',
                                 Gio.SettingsBindFlags.DEFAULT);
+            this._settings.connect('changed::shortcut-text', Lang.bind(this, function() {setShortcut(this._settings);}));
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
