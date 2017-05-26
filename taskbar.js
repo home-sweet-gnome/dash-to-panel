@@ -865,6 +865,9 @@ const taskbar = new Lang.Class({
             icon.updateNumberOverlay();
         });
 
+        if (this._dtpSettings.get_boolean('hot-keys') &&
+            this._dtpSettings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+            this.toggleNumberOverlay(true);
     },
 
     toggleNumberOverlay: function(activate) {

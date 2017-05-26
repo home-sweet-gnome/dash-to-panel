@@ -201,6 +201,9 @@ const dtpOverview = new Lang.Class({
         }, this);
 
         this._hotKeysEnabled = true;
+
+        if (this._dtpSettings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+            this.taskbar.toggleNumberOverlay(true);
     },
 
     _disableHotKeys: function() {
@@ -215,6 +218,8 @@ const dtpOverview = new Lang.Class({
         }, this);
 
         this._hotKeysEnabled = false;
+
+        this.taskbar.toggleNumberOverlay(false);
     },
 
     _optionalNumberOverlay: function() {
@@ -229,8 +234,13 @@ const dtpOverview = new Lang.Class({
             Lang.bind(this, this._checkHotkeysOptions)
         ], [
             this._dtpSettings,
-            'changed::hotkeys-overlay',
-            Lang.bind(this, this._checkHotkeysOptions)
+            'changed::hotkeys-overlay-combo',
+            Lang.bind(this, function() {
+                if (this._dtpSettings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+                    this.taskbar.toggleNumberOverlay(true);
+                else
+                    this.taskbar.toggleNumberOverlay(false);
+            })
         ]);
     },
 
@@ -262,14 +272,20 @@ const dtpOverview = new Lang.Class({
     },
 
     _showOverlay: function() {
-        if (this._dtpSettings.get_boolean('hotkeys-overlay') || this._overlayFromShortcut)
-            this.taskbar.toggleNumberOverlay(true);
-
         // Restart the counting if the shortcut is pressed again
         if (this._numberOverlayTimeoutId) {
             Mainloop.source_remove(this._numberOverlayTimeoutId);
             this._numberOverlayTimeoutId = 0;
         }
+
+        let hotkey_option = this._dtpSettings.get_string('hotkeys-overlay-combo');
+
+        // Set to true and exit if the overlay is always visible
+        if (hotkey_option === 'ALWAYS')
+            return;
+
+        if (hotkey_option === 'TEMPORARILY' || this._overlayFromShortcut)
+            this.taskbar.toggleNumberOverlay(true);
 
         let timeout = this._dtpSettings.get_int('overlay-timeout');
         if (this._overlayFromShortcut) {
