@@ -502,9 +502,9 @@ const thumbnailPreview = new Lang.Class({
                                   });
         this._titleBin.add_style_class_name("preview-window-title");
 
-        this.window.connect('notify::title', Lang.bind(this, function() {
-                            this._title.set_text(this.window.title);
-                            }));
+        this._windowTitleId = this.window.connect('notify::title', Lang.bind(this, function() {
+                                  this._title.set_text(this.window.title);
+                              }));
 
         this._windowBin = new St.Bin({ child: this.overlayGroup,
                                     x_align: St.Align.MIDDLE,
@@ -530,6 +530,23 @@ const thumbnailPreview = new Lang.Class({
                                   Lang.bind(this, this._onLeave));
         this.actor.connect('motion-event',
                                   Lang.bind(this, this._onMotionEvent));
+    },
+
+    _onDestroy: function() {
+        if (this._windowTitleId > 0) {
+            this.window.disconnect(this._windowTitleId);
+            this._windowTitleId = 0;
+        }
+
+        if (this.window &&
+            this.window.get_compositor_private() &&
+            this.window.get_compositor_private().meta_window &&
+            this._resizeId) {
+            this.window.get_compositor_private().meta_window.disconnect(this._resizeId);
+            this._resizeId = 0
+        }
+
+        this.parent();
     },
 
     _onEnter: function(actor, event) {
