@@ -220,7 +220,7 @@ const taskbarAppIcon = new Lang.Class({
         // resulting in an error when assigned to the a rect. This is a more like
         // a workaround to prevent flooding the system with errors.
         if (this.actor.get_stage() == null)
-            return
+            return;
 
         let rect = new Meta.Rectangle();
 
@@ -719,6 +719,11 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     updateNumberOverlay: function() {
+        // If (for unknown reason) the actor is not on the stage the reported size
+        // and position are random values. This is a more like a workaround to
+        // prevent flooding the system with errors.
+        if (this._iconContainer.get_stage() == null)
+            return;
         // Set the font size to something smaller than the whole icon so it is
         // still visible. The border radius is large to make the shape circular
         let [minWidth, natWidth] = this._iconContainer.get_preferred_width(-1);
