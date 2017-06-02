@@ -719,10 +719,14 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     updateNumberOverlay: function() {
+        // We apply an overall scale factor that might come from a HiDPI monitor.
+        // Clutter dimensions are in physical pixels, but CSS measures are in logical
+        // pixels, so make sure to consider the scale.
+        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         // Set the font size to something smaller than the whole icon so it is
         // still visible. The border radius is large to make the shape circular
         let [minWidth, natWidth] = this._iconContainer.get_preferred_width(-1);
-        let font_size =  Math.round(Math.max(12, 0.3*natWidth));
+        let font_size =  Math.round(Math.max(12, 0.3*natWidth) / scaleFactor);
         let size = Math.round(font_size*1.2);
         this._numberOverlayLabel.set_style(
             this._numberOverlayStyle +

@@ -201,6 +201,9 @@ const dtpOverview = new Lang.Class({
         }, this);
 
         this._hotKeysEnabled = true;
+
+        if (this._dtpSettings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+            this.taskbar.toggleNumberOverlay(true);
     },
 
     _disableHotKeys: function() {
@@ -215,6 +218,8 @@ const dtpOverview = new Lang.Class({
         }, this);
 
         this._hotKeysEnabled = false;
+
+        this.taskbar.toggleNumberOverlay(false);
     },
 
     _optionalNumberOverlay: function() {
@@ -229,12 +234,13 @@ const dtpOverview = new Lang.Class({
             Lang.bind(this, this._checkHotkeysOptions)
         ], [
             this._dtpSettings,
-            'changed::hotkeys-overlay',
-            Lang.bind(this, this._checkHotkeysOptions)
-        ], [
-            this._dtpSettings,
-            'changed::shortcut-text',
-            Lang.bind(this, this._checkHotkeysOptions)
+            'changed::hotkeys-overlay-combo',
+            Lang.bind(this, function() {
+                if (this._dtpSettings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+                    this.taskbar.toggleNumberOverlay(true);
+                else
+                    this.taskbar.toggleNumberOverlay(false);
+            })
         ]);
     },
 
@@ -246,9 +252,7 @@ const dtpOverview = new Lang.Class({
     },
 
     _enableExtraShortcut: function() {
-        let shortcut_is_valid = this._setShortcut();
-
-        if (shortcut_is_valid && !this._shortcutIsSet) {
+        if (!this._shortcutIsSet) {
             Main.wm.addKeybinding('shortcut', this._dtpSettings,
                                   Meta.KeyBindingFlags.NONE,
                                   Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW,
@@ -260,21 +264,6 @@ const dtpOverview = new Lang.Class({
         }
     },
 
-    _setShortcut: function() {
-        let shortcut_text = this._dtpSettings.get_string('shortcut-text');
-        let [key, mods] = Gtk.accelerator_parse(shortcut_text);
-
-        if (Gtk.accelerator_valid(key, mods)) {
-            let shortcut = Gtk.accelerator_name(key, mods);
-            this._dtpSettings.set_strv('shortcut', [shortcut]);
-            return true;
-        }
-        else {
-            this._dtpSettings.set_strv('shortcut', []);
-            return false;
-        }
-    },
-
     _disableExtraShortcut: function() {
         if (this._shortcutIsSet) {
             Main.wm.removeKeybinding('shortcut');
@@ -283,14 +272,20 @@ const dtpOverview = new Lang.Class({
     },
 
     _showOverlay: function() {
-        if (this._dtpSettings.get_boolean('hotkeys-overlay') || this._overlayFromShortcut)
-            this.taskbar.toggleNumberOverlay(true);
-
         // Restart the counting if the shortcut is pressed again
         if (this._numberOverlayTimeoutId) {
             Mainloop.source_remove(this._numberOverlayTimeoutId);
             this._numberOverlayTimeoutId = 0;
         }
+
+        let hotkey_option = this._dtpSettings.get_string('hotkeys-overlay-combo');
+
+        // Set to true and exit if the overlay is always visible
+        if (hotkey_option === 'ALWAYS')
+            return;
+
+        if (hotkey_option === 'TEMPORARILY' || this._overlayFromShortcut)
+            this.taskbar.toggleNumberOverlay(true);
 
         let timeout = this._dtpSettings.get_int('overlay-timeout');
         if (this._overlayFromShortcut) {

@@ -26,6 +26,11 @@
     <value value='0' nick='Super'/>
     <value value='1' nick='SuperAlt'/>
   </enum>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyOverlay'>
+    <value value='0' nick='NEVER'/>
+    <value value='1' nick='TEMPORARILY'/>
+    <value value='2' nick='ALWAYS'/>
+  </enum>
   <!-- this is mean to Match StSide. LEFT and RIGHT actual position in reversed in
        rtl languages -->
   <enum id='org.gnome.shell.extensions.dash-to-panel.panelPosition'>
@@ -286,10 +291,10 @@
       <summary>Timeout to hide the dock, in seconds</summary>
       <description>Sets the time duration before the dock is hidden again.</description>
     </key>
-    <key type="b" name="hotkeys-overlay">
-      <default>true</default>
-      <summary>Show the dock when using the hotkeys</summary>
-      <description>The dock will be quickly shown so that the number-overlay is visible and app activation is easier</description>
+    <key name="hotkeys-overlay-combo" enum="org.gnome.shell.extensions.dash-to-panel.hotkeyOverlay">
+      <default>'TEMPORARILY'</default>
+      <summary>Transitivity of the number overlay</summary>
+      <description>You can choose between NEVER, TEMPORARILY and ALWAYS.</description>
     </key>
     <key type="b" name="hot-keys">
       <default>false</default>
