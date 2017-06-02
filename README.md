@@ -97,8 +97,8 @@ Pattern for moving panel contents based on [Frippery Move Clock](http://frippery
 Ideas for recursing child actors and assigning inline styles are based on code from the extension [StatusAreaHorizontalSpacing](https://bitbucket.org/mathematicalcoffee/status-area-horizontal-spacing-gnome-shell-extension).
 
 Thanks to the following people for contributing via pull requests:
-- @franglais125 for launching apps by number (w/ overlay)
+- @franglais125 for launching apps by number (w/ overlay), bug fixes, and issue support
 - @dziku1337 for peek mode in window previews
 - @robrobinbin for configuring appMenu on/off in the panel
-- Bug Fixes: @imrvelj, @Teslator, @bil-elmoussaoui
+- Bug Fixes: @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann
 - Translations: @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs (hu), @crayxt (kk)
