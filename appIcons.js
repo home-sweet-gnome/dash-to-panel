@@ -710,7 +710,7 @@ const taskbarAppIcon = new Lang.Class({
             x_align: St.Align.START, y_align: St.Align.START,
             x_expand: true, y_expand: true
         });
-        this._numberOverlayStyle = 'background-color: rgba(0,0,0,0.8);'
+        this._numberOverlayLabel.add_style_class_name('number-overlay');
         this._numberOverlayOrder = -1;
         this._numberOverlayBin.hide();
 
@@ -729,9 +729,7 @@ const taskbarAppIcon = new Lang.Class({
         let font_size =  Math.round(Math.max(12, 0.3*natWidth) / scaleFactor);
         let size = Math.round(font_size*1.2);
         this._numberOverlayLabel.set_style(
-            this._numberOverlayStyle +
            'font-size: ' + font_size + 'px;' +
-           'text-align: center;' +
            'border-radius: ' + this.icon.iconSize + 'px;' +
            'width: ' + size + 'px; height: ' + size +'px;'
         );
