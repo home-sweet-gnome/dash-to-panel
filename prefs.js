@@ -74,6 +74,19 @@ function cssHexString(css) {
     return rrggbb;
 }
 
+function setShortcut(settings) {
+    let shortcut_text = settings.get_string('shortcut-text');
+    let [key, mods] = Gtk.accelerator_parse(shortcut_text);
+
+    if (Gtk.accelerator_valid(key, mods)) {
+        let shortcut = Gtk.accelerator_name(key, mods);
+        settings.set_strv('shortcut', [shortcut]);
+    }
+    else {
+        settings.set_strv('shortcut', []);
+    }
+}
+
 function checkHotkeyPrefix(settings) {
     settings.delay();
 
@@ -549,6 +562,10 @@ const Settings = new Lang.Class({
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._builder.get_object('overlay_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('hotkeys-overlay-combo', widget.get_active_id());
+        }));
+
         // Create dialog for number overlay options
         this._builder.get_object('overlay_button').connect('clicked', Lang.bind(this, function() {
 
@@ -564,8 +581,6 @@ const Settings = new Lang.Class({
             let box = this._builder.get_object('box_overlay_shortcut');
             dialog.get_content_area().add(box);
 
-            this._builder.get_object('overlay_switch').set_active(this._settings.get_boolean('hotkeys-overlay'));
-
             this._settings.bind('hotkey-prefix-text',
                                 this._builder.get_object('hotkey_prefix_combo'),
                                 'text',
@@ -580,28 +595,38 @@ const Settings = new Lang.Class({
                                 'active-id',
                                 Gio.SettingsBindFlags.DEFAULT);
 
-            this._settings.bind('hotkeys-overlay',
-                                this._builder.get_object('overlay_switch'),
-                                'active',
+            this._builder.get_object('overlay_combo').set_active_id(this._settings.get_string('hotkeys-overlay-combo'));
+
+            this._settings.bind('hotkeys-overlay-combo',
+                                this._builder.get_object('overlay_combo'),
+                                'active-id',
                                 Gio.SettingsBindFlags.DEFAULT);
+
             this._settings.bind('overlay-timeout',
                                 this._builder.get_object('timeout_spinbutton'),
                                 'value',
                                 Gio.SettingsBindFlags.DEFAULT);
-            this._settings.bind('hotkeys-overlay',
-                                this._builder.get_object('timeout_spinbutton'),
-                                'sensitive',
-                                Gio.SettingsBindFlags.DEFAULT);
+            if (this._settings.get_string('hotkeys-overlay-combo') !== 'TEMPORARILY') {
+                this._builder.get_object('timeout_spinbutton').set_sensitive(false);
+            }
+
+            this._settings.connect('changed::hotkeys-overlay-combo', Lang.bind(this, function() {
+                if (this._settings.get_string('hotkeys-overlay-combo') !== 'TEMPORARILY')
+                    this._builder.get_object('timeout_spinbutton').set_sensitive(false);
+                else
+                    this._builder.get_object('timeout_spinbutton').set_sensitive(true);
+            }));
 
             this._settings.bind('shortcut-text',
                                 this._builder.get_object('shortcut_entry'),
                                 'text',
                                 Gio.SettingsBindFlags.DEFAULT);
+            this._settings.connect('changed::shortcut-text', Lang.bind(this, function() {setShortcut(this._settings);}));
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings for the relevant keys
-                    let keys = ['hotkey-prefix-text', 'shortcut-text', 'hotkeys-overlay', 'overlay-timeout'];
+                    let keys = ['hotkey-prefix-text', 'shortcut-text', 'hotkeys-overlay-combo', 'overlay-timeout'];
                     keys.forEach(function(val) {
                         this._settings.set_value(val, this._settings.get_default_value(val));
                     }, this);
