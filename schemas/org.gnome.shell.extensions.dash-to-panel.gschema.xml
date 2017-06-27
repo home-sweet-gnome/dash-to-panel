@@ -162,6 +162,11 @@
       <summary>Show window preview</summary>
       <description>Show preview of running window on hover of app icon</description>
     </key>
+    <key type="b" name="show-favorites">
+      <default>true</default>
+      <summary>Show favorites apps</summary>
+      <description>Show or hide favorite appplications icons in the dash</description>
+    </key>
     <key type="i" name="show-window-previews-timeout">
       <default>100</default>
       <summary>Icon enter display time</summary>
