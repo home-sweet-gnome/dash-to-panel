@@ -407,6 +407,10 @@ const Settings = new Lang.Class({
                             this._builder.get_object('show_window_previews_button'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-favorites',
+                            this._builder.get_object('show_favorite_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
 
         this._builder.get_object('show_window_previews_button').connect('clicked', Lang.bind(this, function() {
 
