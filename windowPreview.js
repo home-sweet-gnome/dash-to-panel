@@ -750,6 +750,17 @@ const thumbnailPreview = new Lang.Class({
                 }));
             }
         }
+    },
+
+    _onButtonReleaseEvent: function(actor, event) {
+        this.actor.remove_style_pseudo_class ('active');
+        if (event.get_button() == 2) {
+            // Middle click
+            this._closeWindow();
+        } else {
+            this.activate(event);
+        }
+        return Clutter.EVENT_STOP;
     }
 });
 
