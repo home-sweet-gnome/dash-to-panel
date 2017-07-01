@@ -22,6 +22,7 @@
  */
 
 
+const BoxPointer = imports.ui.boxpointer;
 const Clutter = imports.gi.Clutter;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
@@ -30,9 +31,12 @@ const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
 const PopupMenu = imports.ui.popupMenu;
+const RemoteMenu = imports.ui.remoteMenu;
 const Signals = imports.signals;
+const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const Tweener = imports.ui.tweener;
+const WindowMenu = imports.ui.windowMenu;
 const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -530,6 +534,8 @@ const thumbnailPreview = new Lang.Class({
                                   Lang.bind(this, this._onLeave));
         this.actor.connect('motion-event',
                                   Lang.bind(this, this._onMotionEvent));
+
+        this._previewMenuPopupManager = new previewMenuPopupManager(window, this.actor);
     },
 
     _onEnter: function(actor, event) {
@@ -754,13 +760,31 @@ const thumbnailPreview = new Lang.Class({
 
     _onButtonReleaseEvent: function(actor, event) {
         this.actor.remove_style_pseudo_class ('active');
-        if (event.get_button() == 2) {
-            // Middle click
-            this._closeWindow();
-        } else {
-            this.activate(event);
+        switch (event.get_button()) {
+            case 1:
+                // Left click
+                this.activate(event);
+                break;
+            case 2:
+                // Middle click
+                this._closeWindow();
+                break;
+            case 3:
+                // Right click
+                this.showContextMenu(event);
+                break;
         }
         return Clutter.EVENT_STOP;
+    },
+
+    showContextMenu: function(event) {
+        let coords = event.get_coords();
+        this._previewMenuPopupManager.showWindowMenuForWindow({
+            x: coords[0],
+            y: coords[1],
+            width: 0,
+            height: 0
+        });
     }
 });
 
@@ -1023,5 +1047,69 @@ const thumbnailPreviewList = new Lang.Class({
 
     sortWindowsCompareFunction: function(windowA, windowB) {
         return windowA.get_stable_sequence() > windowB.get_stable_sequence();
+    }
+});
+
+const previewMenuPopup = new Lang.Class({
+    Name: 'previewMenuPopup',
+    Extends: WindowMenu.WindowMenu,
+
+    _init: function(window, sourceActor) {
+        this.parent(window, sourceActor);
+
+        let side = Taskbar.getPosition();
+        this._arrowSide = side;
+        this._boxPointer._arrowSide = side;
+        this._boxPointer._userArrowSide = side;
+    }
+
+    // Otherwise, just let the parent do its thing?
+});
+
+const previewMenuPopupManager = new Lang.Class({
+    Name: 'previewMenuPopupManagerTest',
+    
+    _init: function(window, source) {
+        this._manager = new PopupMenu.PopupMenuManager({ actor: Main.layoutManager.dummyCursor });
+
+        this._sourceActor = new St.Widget({ reactive: true, visible: false });
+        this._sourceActor.connect('button-press-event', Lang.bind(this,
+            function() {
+                this._manager.activeMenu.toggle();
+            }));
+        Main.uiGroup.add_actor(this._sourceActor);
+
+        this.window = window;
+    },
+
+    showWindowMenuForWindow: function(rect) {
+        let menu = new previewMenuPopup(this.window, this._sourceActor);
+        let window = this.window;
+
+        this._manager.addMenu(menu);
+
+        menu.connect('activate', function() {
+            window.check_alive(global.get_current_time());
+        });
+        let destroyId = window.connect('unmanaged',
+            function() {
+                menu.close();
+            });
+
+        this._sourceActor.set_size(Math.max(1, rect.width), Math.max(1, rect.height));
+        this._sourceActor.set_position(rect.x, rect.y);
+
+        this._sourceActor.show();
+
+        menu.open(BoxPointer.PopupAnimation.NONE);
+        menu.actor.navigate_focus(null, Gtk.DirectionType.TAB_FORWARD, false);
+        menu.connect('open-state-changed', Lang.bind(this, function(menu_, isOpen) {
+            if (isOpen)
+                return;
+
+            this._sourceActor.hide();
+            menu.destroy();
+            window.disconnect(destroyId);
+        }));
     }
 });
