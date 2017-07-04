@@ -307,6 +307,8 @@ const taskbar = new Lang.Class({
         }));
 
         this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._redisplay));
+
+        this._dtpSettings.connect('changed::show-favorites', Lang.bind(this, this._redisplay));
     },
 
     _onScrollEvent: function(actor, event) {
