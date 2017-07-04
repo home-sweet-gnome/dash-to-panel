@@ -710,13 +710,15 @@ const taskbar = new Lang.Class({
         let newApps = [];
 
         // Adding favorites
-        for (let id in favorites)
-            newApps.push(favorites[id]);
+        if (this._dtpSettings.get_boolean('show-favorites')) {
+            for (let id in favorites)
+                newApps.push(favorites[id]);
+        }
 
         // Adding running apps
         for (let i = 0; i < running.length; i++) {
             let app = running[i];
-            if (app.get_id() in favorites)
+            if (this._dtpSettings.get_boolean('show-favorites') && (app.get_id() in favorites))
                 continue;
             newApps.push(app);
         }
