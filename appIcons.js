@@ -228,10 +228,13 @@ const taskbarAppIcon = new Lang.Class({
             }
         ]);
 
+        this.windowPreview.enableWindowPreview();
     },
 
     disableWindowPreview: function() {
         this._signalsHandler.removeWithLabel('window-preview');
+        if (this.windowPreview)
+            this.windowPreview.disableWindowPreview();
     },
 
     shouldShowTooltip: function() {

@@ -73,12 +73,6 @@ const thumbnailPreviewMenu = new Lang.Class({
 
         Main.uiGroup.add_actor(this.actor);
 
-        this._enterSourceId = this._source.actor.connect('enter-event', Lang.bind(this, this._onEnter));
-        this._leaveSourceId = this._source.actor.connect('leave-event', Lang.bind(this, this._onLeave));
-
-        this._enterMenuId = this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter));
-        this._leaveMenuId = this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave));
-
         // Change the initialized side where required.
         this._arrowSide = side;
         this._boxPointer._arrowSide = side;
@@ -98,6 +92,35 @@ const thumbnailPreviewMenu = new Lang.Class({
         this._trackClosedWindowsIds = null;
         this._peekModeOriginalWorkspace = null;
         this._peekModeCurrentWorkspace = null;
+    },
+
+    enableWindowPreview: function() {
+        // Show window previews on mouse hover
+        this._enterSourceId = this._source.actor.connect('enter-event', Lang.bind(this, this._onEnter));
+        this._leaveSourceId = this._source.actor.connect('leave-event', Lang.bind(this, this._onLeave));
+
+        this._enterMenuId = this.actor.connect('enter-event', Lang.bind(this, this._onMenuEnter));
+        this._leaveMenuId = this.actor.connect('leave-event', Lang.bind(this, this._onMenuLeave));
+    },
+
+    disableWindowPreview: function() {
+        if (this._enterSourceId) {
+            this._source.actor.disconnect(this._enterSourceId);
+            this._enterSourceId = 0;
+        }
+        if (this._leaveSourceId) {
+            this._source.actor.disconnect(this._leaveSourceId);
+            this._leaveSourceId = 0;
+        }
+
+        if (this._enterMenuId) {
+            this.actor.disconnect(this._enterMenuId);
+            this._enterMenuId = 0;
+        }
+        if (this._leaveMenuId) {
+            this.actor.disconnect(this._leaveMenuId);
+            this._leaveMenuId = 0;
+        }
     },
 
     requestCloseMenu: function() {
