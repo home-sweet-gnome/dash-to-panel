@@ -211,7 +211,7 @@ const dtpPanel = new Lang.Class({
         Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
         Main.layoutManager._updateHotCorners();
 
-        Main.layoutManager._updatePaneBarrier = this._oldUpdatePanelBarrier;
+        Main.layoutManager._updatePanelBarrier = this._oldUpdatePanelBarrier;
         Main.layoutManager._updatePanelBarrier();
 
         Main.overview.viewSelector._animateIn = this._oldViewSelectorAnimateIn;
