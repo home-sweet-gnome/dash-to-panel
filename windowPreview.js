@@ -34,6 +34,7 @@ const Signals = imports.signals;
 const St = imports.gi.St;
 const Tweener = imports.ui.tweener;
 const Workspace = imports.ui.workspace;
+const Shell = imports.gi.Shell;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Taskbar = Me.imports.taskbar;
@@ -170,8 +171,13 @@ const thumbnailPreviewMenu = new Lang.Class({
 
     hoverOpen: function () {
         this._hoverOpenTimeoutId = null;
-        if (!this.isOpen && this._dtpSettings.get_boolean("show-window-previews"))
-            this.popup();
+        if (!this.isOpen && this._dtpSettings.get_boolean("show-window-previews")) {
+            this.popup();          
+            let focusedApp = Shell.WindowTracker.get_default().focus_app.get_name();
+            if (focusedApp === "Oracle VM VirtualBox") {
+                this.actor.grab_key_focus();
+            }
+        }
     },
 
     hoverClose: function () {
