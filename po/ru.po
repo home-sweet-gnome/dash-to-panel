@@ -1,0 +1,450 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2017
+# This file is distributed under the same license as the PACKAGE package.
+# Alex Gluck <alexgluck@bk.ru>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-25 11:55+0100\n"
+"PO-Revision-Date: 2017-08-01 16:26+0300\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.2\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Last-Translator: Alex Gluck <alexgluck@bk.ru>\n"
+"Language: ru\n"
+
+#: prefs.js:213
+msgid "Running Indicator Options"
+msgstr "Опции запущенных индикаторов"
+
+#: prefs.js:220 prefs.js:380 prefs.js:445 prefs.js:511 prefs.js:553
+msgid "Reset to defaults"
+msgstr "Сброс в значения по умолчанию"
+
+#: prefs.js:373
+msgid "Customize middle-click behavior"
+msgstr "Настройка клика средней кнопки"
+
+#: prefs.js:438
+msgid "Advanced hotkeys options"
+msgstr "Расширенные настройка горячих клавиш"
+
+#: prefs.js:504
+msgid "Secondary Menu Options"
+msgstr "Второе меню опций"
+
+#: prefs.js:546 Settings.ui.h:85
+msgid "Advanced Options"
+msgstr "Раширеные Опции"
+
+#: appIcons.js:918
+msgid "Show Details"
+msgstr "Показать детали"
+
+#: appIcons.js:937
+msgid "New Window"
+msgstr "Новое окно"
+
+#: appIcons.js:937 appIcons.js:998 appIcons.js:1000 Settings.ui.h:8
+msgid "Quit"
+msgstr "Выйти"
+
+#: appIcons.js:1000
+msgid "Windows"
+msgstr "Окна"
+
+#: appIcons.js:1159
+msgid "Dash to Panel Settings"
+msgstr "Dash to Panel Настройки"
+
+#: appIcons.js:1166
+msgid "Restore Windows"
+msgstr "Восстановить окна"
+
+#: appIcons.js:1166
+msgid "Show Desktop"
+msgstr "Показать рабочий стол"
+
+#: Settings.ui.h:1
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr ""
+"Когда установлено сворачивать\" , двойной клик сворачивает все окна "
+"приложений."
+
+#: Settings.ui.h:2
+msgid "Shift+Click action"
+msgstr "Действия для Shift+Клик"
+
+#: Settings.ui.h:3
+msgid "Raise window"
+msgstr "Восстановить окно"
+
+#: Settings.ui.h:4
+msgid "Minimize window"
+msgstr "Свернуть окно"
+
+#: Settings.ui.h:5
+msgid "Launch new instance"
+msgstr "Запустить ещё одну копию"
+
+#: Settings.ui.h:6
+msgid "Cycle through windows"
+msgstr "Активировать программу"
+
+#: Settings.ui.h:7
+msgid "Cycle windows + minimize"
+msgstr "Активировать программу + Свернуть"
+
+#: Settings.ui.h:9
+msgid "Behavior for Middle-Click."
+msgstr "Поведение для средней кнопки."
+
+#: Settings.ui.h:10
+msgid "Middle-Click action"
+msgstr "Действие на нажатие средней кнопки"
+
+#: Settings.ui.h:11
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Поведение для Shift+средняя_кнопка."
+
+#: Settings.ui.h:12
+msgid "Shift+Middle-Click action"
+msgstr "Действие на нажатие Shift+средняя_кнопка"
+
+#: Settings.ui.h:13
+msgid "Integrate <i>AppMenu</i> items"
+msgstr "Интегрировать <i>Меню Программы</i>"
+
+#: Settings.ui.h:14
+msgid "<i>Show Details</i> menu item"
+msgstr "Меню <i>Показать детали</i>"
+
+#: Settings.ui.h:15
+msgid "Highlight focused application"
+msgstr "Подсвечивать выделенную иконку"
+
+#: Settings.ui.h:16
+msgid "Height (px)"
+msgstr "Высота (в пикселях)"
+
+#: Settings.ui.h:17
+msgid "0"
+msgstr "0"
+
+#: Settings.ui.h:18
+msgid "Color - Override Theme"
+msgstr "Переназначить цвета темы"
+
+#: Settings.ui.h:19
+msgid "1 window open"
+msgstr "Когда одно окно открыто"
+
+#: Settings.ui.h:20
+msgid "Apply to all"
+msgstr "Применить ко всем"
+
+#: Settings.ui.h:21
+msgid "2 windows open"
+msgstr "Когда два окна открыто"
+
+#: Settings.ui.h:22
+msgid "3 windows open"
+msgstr "Когда три окна открыто"
+
+#: Settings.ui.h:23
+msgid "4+ windows open"
+msgstr "Когда четыре+ окна открыто"
+
+#: Settings.ui.h:24
+msgid "Use different for unfocused"
+msgstr "Использовать другой когда не в фокусе"
+
+#: Settings.ui.h:25
+msgid "Preview timeout on icon leave (ms)"
+msgstr "Задержка превью в (мс)"
+
+#: Settings.ui.h:26
+msgid ""
+"If set too low, the window preview of running applications may seem to close "
+"too quickly when trying to enter the popup. If set too high, the preview may "
+"linger too long when moving to an adjacent icon."
+msgstr ""
+"Если установлено слишком маленькое значение, превью может исчезать слишком "
+"быстро. Если установлено слишком большое значение, превью может долго не "
+"скрываться и перекрывать соседние области."
+
+#: Settings.ui.h:27
+msgid "Super"
+msgstr "Super"
+
+#: Settings.ui.h:28
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+#: Settings.ui.h:29
+msgid "Hotkeys prefix"
+msgstr "Префик горячих клавиш"
+
+#: Settings.ui.h:30
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr ""
+"Комбинация клавиши для программ на панели либо Super+Number, либо Super+Alt"
+"+Num"
+
+#: Settings.ui.h:31
+msgid "Number overlay"
+msgstr "Наложение цифр"
+
+#: Settings.ui.h:32
+msgid ""
+"Temporarily show the application numbers over the icons when using the "
+"hotkeys."
+msgstr ""
+"Временно показывать цифры на иконках программ при нажатии горячей клавиши."
+
+#: Settings.ui.h:33
+msgid "Hide timeout (ms)"
+msgstr "Задержка скрытия (в мс)"
+
+#: Settings.ui.h:34
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr "Показать оверлей на иконках на 2 секунды"
+
+#: Settings.ui.h:35
+msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+msgstr "Синтакс: <Shift>, <Ctrl>, <Alt>, <Super>"
+
+#: Settings.ui.h:36
+msgid "Panel screen position"
+msgstr "Позиция панели на экране"
+
+#: Settings.ui.h:37
+msgid "Bottom"
+msgstr "Внизу"
+
+#: Settings.ui.h:38
+msgid "Top"
+msgstr "Наверху"
+
+#: Settings.ui.h:39
+msgid ""
+"Panel Size\n"
+"(default is 48)"
+msgstr ""
+"Ширина панели\n"
+"(По умолчанию 48 пикселей)"
+
+#: Settings.ui.h:41
+msgid ""
+"App Icon Margin\n"
+"(default is 8)"
+msgstr ""
+"Отступ между значками программ\n"
+"(по умолчанию 8 пикселей)"
+
+#: Settings.ui.h:43
+msgid "Running indicator position"
+msgstr "Позиция индикаторов запущенных программ"
+
+#: Settings.ui.h:44
+msgid "Running indicator style (Focused app)"
+msgstr "Индикатор запущенной программы (когда в фокусе)"
+
+#: Settings.ui.h:45
+msgid "Dots"
+msgstr "Точки"
+
+#: Settings.ui.h:46
+msgid "Squares"
+msgstr "Квадраты"
+
+#: Settings.ui.h:47
+msgid "Dashes"
+msgstr "Линии"
+
+#: Settings.ui.h:48
+msgid "Segmented"
+msgstr "Сегменты"
+
+#: Settings.ui.h:49
+msgid "Solid"
+msgstr "Жирные линии"
+
+#: Settings.ui.h:50
+msgid "Ciliora"
+msgstr "Линии с точками"
+
+#: Settings.ui.h:51
+msgid "Metro"
+msgstr "Метро"
+
+#: Settings.ui.h:52
+msgid "Running indicator style (Unfocused apps)"
+msgstr "Индикатор запущенной программы (когда в не фокусе)"
+
+#: Settings.ui.h:53
+msgid "Clock location"
+msgstr "Позиция часов"
+
+#: Settings.ui.h:54
+msgid "Natural"
+msgstr "По умолчанию"
+
+#: Settings.ui.h:55
+msgid "Left of status menu"
+msgstr "Слева от статус меню"
+
+#: Settings.ui.h:56
+msgid "Right of status menu"
+msgstr "Справа от статус меню"
+
+#: Settings.ui.h:57
+msgid "Position and Style"
+msgstr "Позиция и стиль"
+
+#: Settings.ui.h:58
+msgid "Show <i>Applications</i> icon"
+msgstr "Показывать иконку <i>Программы</i>"
+
+#: Settings.ui.h:59
+msgid "Animate <i>Show Applications</i>."
+msgstr "Анимировать <i>Показ списка приложения</i>."
+
+#: Settings.ui.h:60
+msgid "Show <i>Activities</i> button"
+msgstr "Показать кнопку <i>Действия</i>"
+
+#: Settings.ui.h:61
+msgid "Show <i>Desktop</i> button"
+msgstr "Показывать кнопку <i>Рабочий стол</i>"
+
+#: Settings.ui.h:62
+msgid "Show <i>AppMenu</i> button"
+msgstr "Показывать кнопку <i>Меню программы</i>"
+
+#: Settings.ui.h:63
+msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
+msgstr ""
+"Верхняя панель > Показать меню приложения, должно быть включено в Tweak Tool"
+
+#: Settings.ui.h:64
+msgid "Show window previews on hover"
+msgstr "Показывать превью окон при наведении"
+
+#: Settings.ui.h:65
+msgid "Time (ms) before showing (100 is default)"
+msgstr "Задержка (в мс) перед показом (100 по умолчанию)"
+
+#: Settings.ui.h:66
+msgid "Isolate Workspaces"
+msgstr "Изолировать рабочие столы"
+
+#: Settings.ui.h:67
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr "Поведение при клике на иконке запущенной программы."
+
+#: Settings.ui.h:68
+msgid "Click action"
+msgstr "Действие при клике"
+
+#: Settings.ui.h:69
+msgid ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
+"together with Shift and Ctrl."
+msgstr ""
+"Использовать Super+(0-9) как горячие клавиши запуска программ. Здесь можно "
+"использовать Shift и Ctrl."
+
+#: Settings.ui.h:70
+msgid "Use hotkeys to activate apps"
+msgstr "Использовать горячие клавиши для запуска программ"
+
+#: Settings.ui.h:71
+msgid "Behavior"
+msgstr "Поведения"
+
+#: Settings.ui.h:72
+msgid ""
+"Tray Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Размер шрифта в трее\n"
+"(0 = значение из темы)"
+
+#: Settings.ui.h:74
+msgid ""
+"LeftBox Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Размер шрифта левой панели\n"
+"(0 = значение из темы)"
+
+#: Settings.ui.h:76
+msgid ""
+"Tray Item Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Отступ между иконками в трее\n"
+"(-1 = значение из темы)"
+
+#: Settings.ui.h:78
+msgid ""
+"Status Icon Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Иконки статуса\n"
+"(-1 = значение из темы)"
+
+#: Settings.ui.h:80
+msgid ""
+"LeftBox Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Отступ левой панели\n"
+"(0 = значение из темы)"
+
+#: Settings.ui.h:82
+msgid "Animate switching applications"
+msgstr "Анимировать переключение приложений"
+
+#: Settings.ui.h:83
+msgid "Animate launching new windows"
+msgstr "Анимировать запуск нового окна"
+
+#: Settings.ui.h:84
+msgid "App icon secondary (right-click) menu"
+msgstr "Меню программ по правой кнопке мыши"
+
+#: Settings.ui.h:86
+msgid "Fine-Tune"
+msgstr "Тонкая настройка"
+
+#: Settings.ui.h:87
+msgid "version: "
+msgstr "версия: "
+
+#: Settings.ui.h:88
+msgid "Github"
+msgstr "Github"
+
+#: Settings.ui.h:89
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">Эта программа поставляет без какой либо гарантии.\n"
+"Подробнее на <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU General Public License, version 2 or later</a></span>"
+
+#: Settings.ui.h:91
+msgid "About"
+msgstr "О программе"
