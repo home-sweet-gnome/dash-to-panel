@@ -288,6 +288,11 @@ const taskbar = new Lang.Class({
                 Main.overview.viewSelector._showAppsButton,
                 'notify::checked',
                 Lang.bind(this, this._syncShowAppsButtonToggled)
+            ],
+            [
+                this._dtpSettings,
+                'changed::show-window-previews',
+                Lang.bind(this, this._toggleWindowPreview)
             ]
         );
 
@@ -474,33 +479,6 @@ const taskbar = new Lang.Class({
             }
         }));
 
-        appIcon.windowPreview.connect('menu-closed', Lang.bind(this, function(menu) {
-            let appIcons = this._getAppIcons();
-            // enter-event doesn't fire on an app icon when the popup menu from a previously
-            // hovered app icon is still open, so when a preview menu closes we need to
-            // see if a new app icon is hovered and open its preview menu now.
-            // also, for some reason actor doesn't report being hovered by get_hover()
-            // if the hover started when a popup was opened. So, look for the actor by mouse position.
-            let [x, y,] = global.get_pointer();
-            let hoveredActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
-            let appIconToOpen;
-            appIcons.forEach(function (appIcon) {
-                if(appIcon.actor == hoveredActor) {
-                    appIconToOpen = appIcon;
-                } else if(appIcon.windowPreview && appIcon.windowPreview.isOpen) {
-                    appIcon.windowPreview.close();
-                }
-            });
-
-            if(appIconToOpen) {
-                appIconToOpen.actor.sync_hover();
-                if(appIconToOpen.windowPreview && appIconToOpen.windowPreview != menu) 
-                    appIconToOpen.windowPreview._onEnter();
-            }
-            return GLib.SOURCE_REMOVE;
-
-        }));
-
         appIcon.actor.connect('clicked',
             Lang.bind(this, function(actor) {
                 ensureActorVisibleInScrollView(this._scrollView, actor);
@@ -526,6 +504,27 @@ const taskbar = new Lang.Class({
         this._hookUpLabel(item, appIcon);
 
         return item;
+    },
+
+    _toggleWindowPreview: function() {
+        if (this._dtpSettings.get_boolean('show-window-previews'))
+            this._enableWindowPreview();
+        else
+            this._disableWindowPreview();
+    },
+
+    _enableWindowPreview: function() {
+        let appIcons = this._getAppIcons();
+        appIcons.forEach(function (appIcon) {
+            appIcon.enableWindowPreview(appIcons);
+        });
+    },
+
+    _disableWindowPreview: function() {
+        let appIcons = this._getAppIcons();
+        appIcons.forEach(function (appIcon) {
+            appIcon.disableWindowPreview();
+        });
     },
 
     // Return an array with the "proper" appIcons currently in the taskbar
@@ -829,6 +828,9 @@ const taskbar = new Lang.Class({
 
         // This will update the size, and the corresponding number for each icon
         this._updateNumberOverlay();
+
+        // Connect windows previews to hover events
+        this._toggleWindowPreview();
     },
 
     // Reset the displayed apps icon to mantain the correct order

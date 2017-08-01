@@ -145,7 +145,21 @@ const taskbarAppIcon = new Lang.Class({
         this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh));
 
         this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setIconStyle));
-        
+
+        this.windowPreview = null;
+
+        this.forcedOverview = false;
+
+        this._numberOverlay();
+
+        this._signalsHandler = new Convenience.GlobalSignalsHandler();
+    },
+
+    _createWindowPreview: function() {
+        // Abort if already activated
+        if (this.menuManagerWindowPreview)
+            return;
+
         // Creating a new menu manager for window previews as adding it to the
         // using the secondary menu's menu manager (which uses the "ignoreRelease"
         // function) caused the extension to crash.
@@ -177,10 +191,50 @@ const taskbarAppIcon = new Lang.Class({
                 this._grabHelper.ungrab({ actor: menu.actor });
             }
         }));
+    },
 
-        this.forcedOverview = false;
+    enableWindowPreview: function(appIcons) {
+        this._createWindowPreview();
 
-        this._numberOverlay();
+        // We first remove to ensure there are no duplicates
+        this._signalsHandler.removeWithLabel('window-preview');
+        this._signalsHandler.addWithLabel('window-preview', [
+            this.windowPreview,
+            'menu-closed',
+            function(menu) {
+            // enter-event doesn't fire on an app icon when the popup menu from a previously
+            // hovered app icon is still open, so when a preview menu closes we need to
+            // see if a new app icon is hovered and open its preview menu now.
+            // also, for some reason actor doesn't report being hovered by get_hover()
+            // if the hover started when a popup was opened. So, look for the actor by mouse position.
+            let [x, y,] = global.get_pointer();
+            let hoveredActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
+            let appIconToOpen;
+            appIcons.forEach(function (appIcon) {
+                if(appIcon.actor == hoveredActor) {
+                    appIconToOpen = appIcon;
+                } else if(appIcon.windowPreview && appIcon.windowPreview.isOpen) {
+                    appIcon.windowPreview.close();
+                }
+            });
+
+            if(appIconToOpen) {
+                appIconToOpen.actor.sync_hover();
+                if(appIconToOpen.windowPreview && appIconToOpen.windowPreview != menu)
+                    appIconToOpen.windowPreview._onEnter();
+            }
+            return GLib.SOURCE_REMOVE;
+
+            }
+        ]);
+
+        this.windowPreview.enableWindowPreview();
+    },
+
+    disableWindowPreview: function() {
+        this._signalsHandler.removeWithLabel('window-preview');
+        if (this.windowPreview)
+            this.windowPreview.disableWindowPreview();
     },
 
     shouldShowTooltip: function() {
@@ -331,7 +385,8 @@ const taskbarAppIcon = new Lang.Class({
 
         this.emit('menu-state-changed', true);
 
-        this.windowPreview.close();
+        if (this.windowPreview)
+            this.windowPreview.close();
 
         this.actor.set_hover(true);
         this._menu.actor.add_style_class_name('dashtopanelSecondaryMenu');
@@ -451,7 +506,8 @@ const taskbarAppIcon = new Lang.Class({
     },
 
     activate: function(button) {
-        this.windowPreview.requestCloseMenu();
+        if (this.windowPreview)
+            this.windowPreview.requestCloseMenu();
 
         let event = Clutter.get_current_event();
         let modifiers = event ? event.get_state() : 0;
