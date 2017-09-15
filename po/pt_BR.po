@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-16 22:54-0300\n"
-"PO-Revision-Date: 2017-04-16 23:36-0300\n"
+"PO-Revision-Date: 2017-09-15 11:03-0300\n"
 "Last-Translator: Fábio Nogueira <fnogueira@gnome.org>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.3\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: appIcons.js:918
@@ -119,18 +119,16 @@ msgid "Shift+Middle-Click action"
 msgstr "Ação do Shift+Clique-do-meio"
 
 #: Settings.ui.h:13
-#, fuzzy
-#| msgid "Show <i>AppMenu</i> button"
 msgid "Integrate <i>AppMenu</i> items"
-msgstr "Mostrar Menu de aplicativos"
+msgstr "Itens integrados ao <i>Menu de aplicativos</i>"
 
 #: Settings.ui.h:14
 msgid "<i>Show Details</i> menu item"
-msgstr ""
+msgstr "Item do menu <i>Exibir detalhes</i>"
 
 #: Settings.ui.h:15
 msgid "Highlight focused application"
-msgstr ""
+msgstr "Destaque para o aplicativo em foco"
 
 #: Settings.ui.h:16
 msgid "Height (px)"
@@ -142,7 +140,7 @@ msgstr "0"
 
 #: Settings.ui.h:18
 msgid "Color - Override Theme"
-msgstr ""
+msgstr "Cor - Tema de sobreposição"
 
 #: Settings.ui.h:19
 msgid "1 window open"
@@ -166,7 +164,7 @@ msgstr "4 ou + janelas abertas"
 
 #: Settings.ui.h:24
 msgid "Use different for unfocused"
-msgstr ""
+msgstr "Utilizar uma diferente para o que não está focado"
 
 #: Settings.ui.h:25
 msgid "Preview timeout on icon leave (ms)"
@@ -197,7 +195,7 @@ msgstr "Prefixo das teclas de atalho"
 
 #: Settings.ui.h:30
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
-msgstr ""
+msgstr "As teclas de atalho serão Super+Número ou Super+Alt+Número"
 
 #: Settings.ui.h:31
 msgid "Number overlay"
@@ -208,14 +206,16 @@ msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
 msgstr ""
+"Exibe temporariamente os números das aplicações sobre os ícones ao usar as "
+"teclas de atalho."
 
 #: Settings.ui.h:33
 msgid "Hide timeout (ms)"
-msgstr ""
+msgstr "Ocultar tempo limite (ms)"
 
 #: Settings.ui.h:34
 msgid "Shortcut to show the overlay for 2 seconds"
-msgstr ""
+msgstr "Atalho para exibir a sobreposição por 2 segundos"
 
 #: Settings.ui.h:35
 msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
@@ -319,7 +319,7 @@ msgstr "<i>Mostrar aplicativos</i> animado."
 
 #: Settings.ui.h:60
 msgid "Show <i>Activities</i> button"
-msgstr "Mostrar botão de atividades"
+msgstr "Mostrar botão <i>Atividades</i>"
 
 #: Settings.ui.h:61
 msgid "Show <i>Desktop</i> button"
@@ -327,11 +327,13 @@ msgstr "Mostrar botão <i>Área de trabalho</i>"
 
 #: Settings.ui.h:62
 msgid "Show <i>AppMenu</i> button"
-msgstr "Mostrar Menu de aplicativos"
+msgstr "Mostrar botão <i>Menu de aplicativos</i>"
 
 #: Settings.ui.h:63
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
 msgstr ""
+"Barra superior > Mostrar o Menu do aplicativos deve ser ativado na "
+"Ferramenta de ajustes do GNOME"
 
 #: Settings.ui.h:64
 msgid "Show window previews on hover"
@@ -415,11 +417,11 @@ msgstr "Animar alternações dos aplicativos"
 
 #: Settings.ui.h:83
 msgid "Animate launching new windows"
-msgstr ""
+msgstr "Carregamento animado de novas janelas"
 
 #: Settings.ui.h:84
 msgid "App icon secondary (right-click) menu"
-msgstr ""
+msgstr "Ícone do aplicativo do menu secundário (clique-direito)"
 
 #: Settings.ui.h:86
 msgid "Fine-Tune"
