@@ -225,6 +225,11 @@
       <summary>Window peeking mode opacity</summary>
       <description>All windows except for the peeked one have their opacity set to the same value.</description>
     </key>
+    <key type="b" name="preview-middle-click-close">
+      <default>false</default>
+      <summary>Middle click preview to close window</summary>
+      <description>Middle click on the window preview to close that window</description>
+    </key>
     <key type="i" name="tray-size">
       <default>0</default>
       <summary>Tray font size</summary>

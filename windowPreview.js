@@ -767,7 +767,9 @@ const thumbnailPreview = new Lang.Class({
                 break;
             case 2:
                 // Middle click
-                this._closeWindow();
+                if (this._getTopMenu()._dtpSettings.get_boolean('preview-middle-click-close')) {
+                    this._closeWindow();
+                }
                 break;
             case 3:
                 // Right click

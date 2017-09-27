@@ -439,6 +439,10 @@ const Settings = new Lang.Class({
                             this._builder.get_object('listboxrow_peek_mode_opacity'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('preview-middle-click-close',
+                            this._builder.get_object('preview_middle_click_close_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
 
             this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
 
@@ -463,6 +467,7 @@ const Settings = new Lang.Class({
                     this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
                     this._settings.set_value('peek-mode-opacity', this._settings.get_default_value('peek-mode-opacity'));
                     this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
+                    this._settings.set_value('preview-middle-click-close', this._settings.get_default_value('preview-middle-click-close'));
 
                 } else {
                     // remove the settings box so it doesn't get destroyed;
