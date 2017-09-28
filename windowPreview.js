@@ -38,7 +38,6 @@ const St = imports.gi.St;
 const Tweener = imports.ui.tweener;
 const WindowMenu = imports.ui.windowMenu;
 const Workspace = imports.ui.workspace;
-const Shell = imports.gi.Shell;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Taskbar = Me.imports.taskbar;
