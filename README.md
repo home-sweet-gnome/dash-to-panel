@@ -101,5 +101,6 @@ Thanks to the following people for contributing via pull requests:
 - @dziku1337 for peek mode in window previews
 - @robrobinbin for configuring appMenu on/off in the panel
 - @MartinPL for toggling favorites on/off in panel
+- @jackwickham for thumbnail middle and right click actions
 - Bug Fixes: @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999
 - Translations: @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru)
