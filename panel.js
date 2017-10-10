@@ -39,6 +39,7 @@ const Mainloop = imports.mainloop;
 const Layout = imports.ui.layout;
 const St = imports.gi.St;
 const GLib = imports.gi.GLib;
+const Meta = imports.gi.Meta;
 const DND = imports.ui.dnd;
 const Shell = imports.gi.Shell;
 const PopupMenu = imports.ui.popupMenu;
@@ -202,6 +203,19 @@ const dtpPanel = new Lang.Class({
             
             return DND.DragMotionResult.CONTINUE;
         });
+
+        // Dynamic transparency is available on Gnome 3.26
+        if (this.panel._updateSolidStyle) {
+            this._injectionsHandler = new Convenience.InjectionsHandler();
+            this.panel._dtpPosition = this._dtpSettings.get_string('panel-position');
+            this._injectionsHandler.addWithLabel('transparency', [
+                this.panel,
+                '_updateSolidStyle',
+                Lang.bind(this.panel, this._dtpUpdateSolidStyle)
+            ]);
+
+            this.panel._updateSolidStyle();
+        }
     },
 
     disable: function () {
@@ -257,6 +271,12 @@ const dtpPanel = new Lang.Class({
         this._setActivitiesButtonVisible(true);
         this._setClockLocation("NATURAL");
         this._displayShowDesktopButton(false);
+
+        if (this.panel._updateSolidStyle) {
+            this._injectionsHandler.removeWithLabel('transparency');
+            this._injectionsHandler.destroy();
+            delete this.panel._dtpPosition;
+        }
 
         this.appMenu = null;
         this.container = null;
@@ -514,6 +534,41 @@ const dtpPanel = new Lang.Class({
 
             Main.overview.hide();
         }
+    },
+
+    _dtpUpdateSolidStyle: function() {
+        if (this.actor.has_style_pseudo_class('overview') || !Main.sessionMode.hasWindows) {
+            this._removeStyleClassName('solid');
+            return false;
+        }
+
+        /* Get all the windows in the active workspace that are in the
+         * primary monitor and visible */
+        let activeWorkspace = global.screen.get_active_workspace();
+        let windows = activeWorkspace.list_windows().filter(function(metaWindow) {
+            return metaWindow.is_on_primary_monitor() &&
+                metaWindow.showing_on_its_workspace() &&
+                metaWindow.get_window_type() != Meta.WindowType.DESKTOP;
+        });
+
+        /* Check if at least one window is near enough to the panel */
+        let [, panelTop] = this.actor.get_transformed_position();
+        let panelBottom = panelTop + this.actor.get_height();
+        let scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        let isNearEnough = windows.some(Lang.bind(this, function(metaWindow) {
+            if (this._dtpPosition === 'TOP') {
+                let verticalPosition = metaWindow.get_frame_rect().y;
+                return verticalPosition < panelBottom + 5 * scale;
+            } else {
+                let verticalPosition = metaWindow.get_frame_rect().y + metaWindow.get_frame_rect().height;
+                return verticalPosition > panelTop - 5 * scale;
+            }
+        }));
+
+        if (isNearEnough)
+            this._addStyleClassName('solid');
+        else
+            this._removeStyleClassName('solid');
     }
 });
 
