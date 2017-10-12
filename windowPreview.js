@@ -199,8 +199,8 @@ const thumbnailPreviewMenu = new Lang.Class({
         this._hoverOpenTimeoutId = null;
         if (!this.isOpen && this._dtpSettings.get_boolean("show-window-previews")) {
             this.popup();          
-            let focusedApp = Shell.WindowTracker.get_default().focus_app.get_name();
-            if (focusedApp === "Oracle VM VirtualBox") {
+            let focusedApp = Shell.WindowTracker.get_default().focus_app;
+            if (focusedApp &&  focusedApp.get_name() === "Oracle VM VirtualBox") {
                 this.actor.grab_key_focus();
             }
         }
