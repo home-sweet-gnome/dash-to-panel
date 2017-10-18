@@ -296,7 +296,9 @@ const taskbarAppIcon = new Lang.Class({
         }
 
         this._focusedDots = new St.DrawingArea({width:1, y_expand: true});
+        this._focusedDots._tweeningToWidth = null;
         this._unfocusedDots = new St.DrawingArea({width:1, y_expand: true});
+        this._unfocusedDots._tweeningToWidth = null;
         
         this._focusedDots.connect('repaint', Lang.bind(this, function() {
             if(this._dashItemContainer.animatingOut) {
