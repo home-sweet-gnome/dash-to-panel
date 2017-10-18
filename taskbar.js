@@ -49,10 +49,10 @@ const Convenience = Me.imports.convenience;
 const WindowPreview = Me.imports.windowPreview;
 const AppIcons = Me.imports.appIcons;
 
-let DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME;
+var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME;
 let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;
 let DASH_ITEM_LABEL_HIDE_TIME = Dash.DASH_ITEM_LABEL_HIDE_TIME;
-let DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
+var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 let HFADE_WIDTH = 48;
 
 function getPosition() {
