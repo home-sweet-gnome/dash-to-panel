@@ -47,7 +47,7 @@ const AppIcons = Me.imports.appIcons;
 let DEFAULT_THUMBNAIL_WIDTH = 350;
 let DEFAULT_THUMBNAIL_HEIGHT = 200;
 
-const thumbnailPreviewMenu = new Lang.Class({
+var thumbnailPreviewMenu = new Lang.Class({
     Name: 'DashToPanel.ThumbnailPreviewMenu',
     Extends: PopupMenu.PopupMenu,
 
@@ -485,7 +485,7 @@ const thumbnailPreviewMenu = new Lang.Class({
     }
 });
 
-const thumbnailPreview = new Lang.Class({
+var thumbnailPreview = new Lang.Class({
     Name: 'DashToPanel.ThumbnailPreview',
     Extends: PopupMenu.PopupBaseMenuItem,
 
@@ -818,7 +818,7 @@ const thumbnailPreview = new Lang.Class({
     }
 });
 
-const thumbnailPreviewList = new Lang.Class({
+var thumbnailPreviewList = new Lang.Class({
     Name: 'DashToPanel.ThumbnailPreviewList',
     Extends: PopupMenu.PopupMenuSection,
 
@@ -1080,7 +1080,7 @@ const thumbnailPreviewList = new Lang.Class({
     }
 });
 
-const previewMenuPopup = new Lang.Class({
+var previewMenuPopup = new Lang.Class({
     Name: 'previewMenuPopup',
     Extends: WindowMenu.WindowMenu,
 
@@ -1096,7 +1096,7 @@ const previewMenuPopup = new Lang.Class({
     // Otherwise, just let the parent do its thing?
 });
 
-const previewMenuPopupManager = new Lang.Class({
+var previewMenuPopupManager = new Lang.Class({
     Name: 'previewMenuPopupManagerTest',
     
     _init: function(window, source) {
