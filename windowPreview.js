@@ -848,11 +848,6 @@ const thumbnailPreviewList = new Lang.Class({
         this._redisplayId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._redisplay));
         this._scrollbarId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._showHideScrollbar));
 
-        if (this._stateChangedId > 0) {
-            this.app.disconnect(this._stateChangedId);
-            this._stateChangedId = 0;
-        }
-
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
         this._stateChangedId = this.app.connect('windows-changed',
                                                 Lang.bind(this,
