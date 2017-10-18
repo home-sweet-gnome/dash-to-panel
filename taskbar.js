@@ -78,7 +78,7 @@ function extendDashItemContainer(dashItemContainer) {
  * - handle horizontal dash
  */
 
-const taskbarActor = new Lang.Class({
+var taskbarActor = new Lang.Class({
     Name: 'DashToPanel.TaskbarActor',
 
     _init: function() {
@@ -160,7 +160,7 @@ const taskbarActor = new Lang.Class({
 
 const baseIconSizes = [ 16, 22, 24, 32, 48, 64, 96, 128 ];
 
-const taskbar = new Lang.Class({
+var taskbar = new Lang.Class({
     Name: 'DashToPanel.Taskbar',
 
     _init : function(settings) {
