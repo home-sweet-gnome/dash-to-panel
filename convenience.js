@@ -92,7 +92,7 @@ function getSettings(schema) {
 
 // simplify global signals and function injections handling
 // abstract class
-const BasicHandler = new Lang.Class({
+var BasicHandler = new Lang.Class({
     Name: 'DashToPanel.BasicHandler',
 
     _init: function(){
@@ -148,7 +148,7 @@ const BasicHandler = new Lang.Class({
 });
 
 // Manage global signals
-const GlobalSignalsHandler = new Lang.Class({
+var GlobalSignalsHandler = new Lang.Class({
     Name: 'DashToPanel.GlobalSignalsHandler',
     Extends: BasicHandler,
 
@@ -171,7 +171,7 @@ const GlobalSignalsHandler = new Lang.Class({
  * Manage function injection: both instances and prototype can be overridden
  * and restored
  */
-const InjectionsHandler = new Lang.Class({
+var InjectionsHandler = new Lang.Class({
     Name: 'DashToPanel.InjectionsHandler',
     Extends: BasicHandler,
 

@@ -31,7 +31,7 @@ const Mainloop = imports.mainloop;
 
 const Meta = imports.gi.Meta;
 
-const dtpOverview = new Lang.Class({
+var dtpOverview = new Lang.Class({
     Name: 'DashToPanel.Overview',
 
     _numHotkeys: 10,

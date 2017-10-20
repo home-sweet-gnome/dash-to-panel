@@ -49,7 +49,7 @@ const ViewSelector = imports.ui.viewSelector;
 
 let tracker = Shell.WindowTracker.get_default();
 
-const dtpPanel = new Lang.Class({
+var dtpPanel = new Lang.Class({
     Name: 'DashToPanel.Panel',
 
     _init: function(settings) {

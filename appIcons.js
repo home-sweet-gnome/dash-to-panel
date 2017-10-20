@@ -91,7 +91,7 @@ let tracker = Shell.WindowTracker.get_default();
  *
  */
 
-const taskbarAppIcon = new Lang.Class({
+var taskbarAppIcon = new Lang.Class({
     Name: 'DashToPanel.TaskbarAppIcon',
     Extends: AppDisplay.AppIcon,
 
@@ -941,7 +941,7 @@ function getInterestingWindows(app, settings) {
  *   (https://github.com/deuill/shell-extension-quitfromdash)
  */
 
-const taskbarSecondaryMenu = new Lang.Class({
+var taskbarSecondaryMenu = new Lang.Class({
     Name: 'DashToPanel.SecondaryMenu',
     Extends: AppDisplay.AppIconMenu,
 
@@ -1207,7 +1207,7 @@ function extendShowAppsIcon(showAppsIcon, settings) {
 /**
  * A menu for the showAppsIcon
  */
-const MyShowAppsIconMenu = new Lang.Class({
+var MyShowAppsIconMenu = new Lang.Class({
     Name: 'DashToPanel.ShowAppsIconMenu',
     Extends: taskbarSecondaryMenu,
 
