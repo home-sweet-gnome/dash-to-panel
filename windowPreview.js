@@ -495,7 +495,7 @@ var thumbnailPreview = new Lang.Class({
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         if(!scaleFactor)
             scaleFactor = 1;
-        
+
         this._thumbnailWidth = DEFAULT_THUMBNAIL_WIDTH*scaleFactor;
         this._thumbnailHeight = DEFAULT_THUMBNAIL_HEIGHT*scaleFactor;
 
@@ -534,9 +534,9 @@ var thumbnailPreview = new Lang.Class({
                                   });
         this._titleBin.add_style_class_name("preview-window-title");
 
-        this.window.connect('notify::title', Lang.bind(this, function() {
-                            this._title.set_text(this.window.title);
-                            }));
+        this._titleNotifyId = this.window.connect('notify::title', Lang.bind(this, function() {
+                                                   this._title.set_text(this.window.title);
+                                               }));
 
         this._windowBin = new St.Bin({ child: this.overlayGroup,
                                     x_align: St.Align.MIDDLE,
@@ -562,6 +562,8 @@ var thumbnailPreview = new Lang.Class({
                                   Lang.bind(this, this._onLeave));
         this.actor.connect('motion-event',
                                   Lang.bind(this, this._onMotionEvent));
+        this.actor.connect('destroy',
+                                  Lang.bind(this, this._onDestroy));
 
         this._previewMenuPopupManager = new previewMenuPopupManager(window, this.actor);
     },
@@ -815,6 +817,11 @@ var thumbnailPreview = new Lang.Class({
             width: 0,
             height: 0
         });
+    },
+
+    _onDestroy: function() {
+        this.window.disconnect(this._titleNotifyId);
+        this._titleNotifyId = 0;
     }
 });
 
