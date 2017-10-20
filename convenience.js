@@ -119,7 +119,8 @@ var BasicHandler = new Lang.Class({
 
         // skip first element of the arguments
         for( let i = 1; i < arguments.length; i++ ) {
-            this._storage[label].push( this._create(arguments[i]) );
+            let item = this._storage[label];
+            item.push(this._create(arguments[i]));
         }
 
     },

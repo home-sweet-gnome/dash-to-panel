@@ -88,7 +88,7 @@ var dtpPanel = new Lang.Class({
         // This pushes everything down, which isn't desired when the this.panel is moved to the bottom
         // I'm adding a 2nd ghost this.panel and will resize the top or bottom ghost depending on the this.panel position
         this._myPanelGhost = new St.Bin({ 
-            child: new Clutter.Clone({ source: Main.overview._panelGhost.get_child(0) }), 
+            child: new Clutter.Clone({ source: Main.overview._panelGhost.get_child() }),
             reactive: false,
             opacity: 0 
         });
