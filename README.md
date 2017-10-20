@@ -60,7 +60,7 @@ This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other ext
 
 How do I embed my bottom left notification drawer into the panel like a system tray? [Top Icons Plus](https://extensions.gnome.org/extension/1031/topicons)
 
-How do I add a traditional start menu? [Gno-Menu](https://extensions.gnome.org/extension/608/gnomenu/)
+How do I add a traditional start menu? [Arc Menu](https://extensions.gnome.org/extension/1228/arc-menu/) or [Gno-Menu](https://extensions.gnome.org/extension/608/gnomenu/)
 
 How do I disable the hot corner? [No Topleft Hot Corner](https://extensions.gnome.org/extension/118/no-topleft-hot-corner)
 
@@ -102,5 +102,5 @@ Thanks to the following people for contributing via pull requests:
 - @robrobinbin for configuring appMenu on/off in the panel
 - @MartinPL for toggling favorites on/off in panel
 - @jackwickham for thumbnail middle and right click actions
-- Bug Fixes: @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999
+- Bug Fixes: @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0
 - Translations: @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru)
