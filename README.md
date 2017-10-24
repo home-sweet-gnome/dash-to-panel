@@ -1,5 +1,5 @@
-![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-to-dock-wide-banner.png?raw=true)
-![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-to-dock-wide-banner2.png?raw=true)
+![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-to-panel-wide-banner-new.png?raw=true)
+
 ##
 ![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/screenshot.png)
 
