@@ -104,7 +104,7 @@ Pattern for moving panel contents based on [Frippery Move Clock](http://frippery
 Ideas for recursing child actors and assigning inline styles are based on code from the extension [StatusAreaHorizontalSpacing](https://bitbucket.org/mathematicalcoffee/status-area-horizontal-spacing-gnome-shell-extension).
 ##
 
-Thanks to the following people for contributing via pull requests:
+#### Thanks to the following people for contributing via pull requests:
 
 - @franglais125 for launching apps by number (w/ overlay), bug fixes, and issue support
 - @dziku1337 for peek mode in window previews
@@ -112,6 +112,8 @@ Thanks to the following people for contributing via pull requests:
 - @MartinPL for toggling favorites on/off in panel
 - @jackwickham for thumbnail middle and right click actions
 
-- Bug Fixes: @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0
+#### Bug Fixes: 
+@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0
 
-- Translations: @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru)
+#### Translations: 
+@frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru)
