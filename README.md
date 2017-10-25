@@ -90,7 +90,7 @@ While this extension works well with most popular Gnome Shell themes, the follow
 ## 
 ### Bug Reporting
 
-Bugs should be reported to the Github bug tracker [https://github.com/jderose9/dash-to-panel/issues](https://github.com/jderose9/dash-to-panel/issues).
+Bugs should be reported on the [Github bug tracker](https://github.com/jderose9/dash-to-panel/issues).
 
 ## 
 ### License
