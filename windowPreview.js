@@ -200,7 +200,7 @@ var thumbnailPreviewMenu = new Lang.Class({
         if (!this.isOpen && this._dtpSettings.get_boolean("show-window-previews")) {
             this.popup();          
             let focusedApp = Shell.WindowTracker.get_default().focus_app;
-            if (focusedApp &&  focusedApp.get_name() === "Oracle VM VirtualBox") {
+            if (focusedApp && (focusedApp.get_name() === "Oracle VM VirtualBox" || focusedApp.get_name() === "Virtual Machine Manager")) {
                 this.actor.grab_key_focus();
             }
         }
