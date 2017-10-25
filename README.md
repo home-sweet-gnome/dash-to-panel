@@ -9,10 +9,10 @@ An icon taskbar for the Gnome Shell. This extension moves the dash into the gnom
 
 ## 
 ### Features
-
-#### Live previews on hover
-
-![screenshot](https://github.com/LinxGem33/Neon/blob/master/artwork/previews.gif?raw=true)
+ 
+|Live Previews on Hover|
+|-----|
+|![screenshot](https://github.com/LinxGem33/Neon/blob/master/artwork/previews.gif?raw=true)|
 ##
 
 |Customizable running indicators|ALT Indicators|
