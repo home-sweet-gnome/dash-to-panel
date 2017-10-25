@@ -1,6 +1,6 @@
 ![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-to-panel-wide-banner-new.png?raw=true)
 ##
-![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-panel.png?raw=true)
+![](https://github.com/LinxGem33/Neon/blob/master/artwork/dtpam.png?raw=true)
 
 ## 
 ### An icon taskbar for the GNOME Shell
@@ -20,9 +20,8 @@ An icon taskbar for the Gnome Shell. This extension moves the dash into the gnom
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)|
  
 ##
-#### Extra Features!
 
-|Extra features|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|Extra features|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
 |:-----|-----|
 |Launch by Number on the app indicators|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
 |Set main panel position (top or bottom) and height|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
