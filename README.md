@@ -93,9 +93,9 @@ While this extension works well with most popular Gnome Shell themes, the follow
 Bugs should be reported on the [Github bug tracker](https://github.com/jderose9/dash-to-panel/issues).
 
 ## 
-### License
-Dash to Panel Gnome Shell extension is distributed under the terms of the GNU General Public License,
-version 2 or later. See the COPYING file for details.
+### License & Terms ![](https://github.com/LinxGem33/IP-Finder/blob/master/screens/Copyleft-16.png?raw=true)
+
+Dash to Panel is available under the terms of the GPL-v2 or later license See [`COPYING`](https://github.com/jderose9/dash-to-panel/blob/master/COPYING) for details.
 
 ## 
 ### Credits
