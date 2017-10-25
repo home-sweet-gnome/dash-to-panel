@@ -21,8 +21,8 @@ An icon taskbar for Gnome Shell. This extension moves the dash into the gnome ma
  
 ##
 
-|Extra features|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-|:-----|-----|
+|Extra features|Implemented Features|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+|:-----|:-----:|-----|
 |Launch by Number on the app indicators|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
 |Set main panel position (top or bottom) and height|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
 |Configure clock location|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
