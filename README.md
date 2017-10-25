@@ -18,11 +18,13 @@ An icon taskbar for the Gnome Shell. This extension moves the dash into the gnom
 |Customizable running indicators|ALT Indicators|
 |-----|-----|
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)|
+ 
 ##
 #### Extra Features!
 
 |Extra features|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
 |:-----|-----|
+|Launch by Number on the app indicators|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
 |Set main panel position (top or bottom) and height|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
 |Configure clock location|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
 |Remove "Show Apps" icon from dash|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
