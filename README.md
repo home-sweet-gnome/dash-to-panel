@@ -119,3 +119,5 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 
 #### Translations: 
 @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru)
+##
+ ![](https://img.shields.io/badge/Language-JavaScript-yellow.svg) ![](https://img.shields.io/badge/Licence-GPL--2.0-blue.svg)
