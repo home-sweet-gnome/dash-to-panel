@@ -26,17 +26,17 @@ An icon taskbar for the Gnome Shell. This extension moves the dash into the gnom
 
 #### ... and more!
 
-|Extra features||
-|-----|-----|
-|Set main panel position (top or bottom) and height|
-|Configure clock location|
-|Remove "Show Apps" icon from dash|
-|Add "Show Desktop" button to panel|
-|Hide Activities and App Menu buttons from panel|
-|Isolate running apps in workspaces|
-|Assign click behaviors (launch new window, cycle open windows, minimize, etc)|
-|Assign font & icon sizes and margins for dash icons, status icons and panel elements|
-|AppMenu for native Gnome apps is integrated into right-click secondary menu|
+|Extra features|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|:-----|-----|
+|Set main panel position (top or bottom) and height|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|Configure clock location|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|Remove "Show Apps" icon from dash|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|Add "Show Desktop" button to panel|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|Hide Activities and App Menu buttons from panel|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|Isolate running apps in workspaces|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|Assign click behaviors (launch new window, cycle open windows, minimize, etc)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|Assign font & icon sizes and margins for dash icons, status icons and panel elements|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|AppMenu for native Gnome apps is integrated into right-click secondary menu|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
 
 ##
 ### Installation
