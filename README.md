@@ -14,7 +14,7 @@ An icon taskbar for Gnome Shell. This extension moves the dash into the gnome ma
 |Live Previews on Hover|
 |-----|
 |![screenshot](https://github.com/LinxGem33/Neon/blob/master/artwork/previews.gif?raw=true)|
-
+|Dash to Panel v9 adds a couple of new features, including a Window Peek mode lets you hover over a task bar preview to see a full-size preview of that app’s window. Helpful for finding a specific app window|
 ##
 
 |Customizable running indicators|ALT Indicators|
@@ -24,7 +24,7 @@ An icon taskbar for Gnome Shell. This extension moves the dash into the gnome ma
 |Launch by Number|
 |:-----:|
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators5.png?raw=true)|
-
+|If you’re a fan of the Unity launcher style number overlays that can be used to launch apps you may want to take advantage of  the new setting, as the number overlays can now be set to show all the time.|
 ##
 
 |Extra features|Implemented Features|
