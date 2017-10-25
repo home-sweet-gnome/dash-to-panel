@@ -52,13 +52,15 @@ make install
 </pre>
 to install the extension in your home directory. A Shell reload is required <code>Alt+F2 r Enter</code> and the extension has to be enabled  with *gnome-tweak-tool* or with *dconf*.
 
-## Compatibility
+## 
+### Compatibility
 
 This extension has been tested with Gnome 3.18+.
 
 This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other extensions which operate on the top bar should be compatible.
 
-## FAQ
+## 
+### FAQ
 
 How do I embed my bottom left notification drawer into the panel like a system tray? [Top Icons Plus](https://extensions.gnome.org/extension/1031/topicons)
 
@@ -76,20 +78,24 @@ How do I display Minimize & Maximize buttons? In the Tweak Tool application, tur
 
 Why can't I put the panel vertically on the left or right of the display? Gnome-shell and it's numerous extensions add widgets to the panel. These widgets have been designed using padding and absolute positioning assuming a horizontal layout. At this point in time, I don't think it is possible to allow for a vertical layout and still maintain any sort of reasonable compatibility with many of the other features of Gnome.
 
-## Themes
+## 
+### Themes
 While this extension works well with most popular Gnome Shell themes, the following themes are known to have explicitly added custom styles for this extension:
 - [Ciliora Tertia](https://github.com/zagortenay333/ciliora-tertia-shell) / [Ciliora Secunda](https://github.com/zagortenay333/ciliora-secunda-shell)
 - [Plano](https://github.com/lassekongo83/plano-theme)
 
-## Bug Reporting
+## 
+### Bug Reporting
 
 Bugs should be reported to the Github bug tracker [https://github.com/jderose9/dash-to-panel/issues](https://github.com/jderose9/dash-to-panel/issues).
 
-## License
+## 
+### License
 Dash to Panel Gnome Shell extension is distributed under the terms of the GNU General Public License,
 version 2 or later. See the COPYING file for details.
 
-## Credits
+## 
+### Credits
 
 Much of the code in this extension comes from [Dash-to-Dock](https://micheleg.github.io/dash-to-dock/index.html).
 
