@@ -1,17 +1,20 @@
 ![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-to-panel-wide-banner-new.png?raw=true)
 ##
 ![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-panel.png?raw=true)
-##
-## An icon taskbar for the GNOME Shell
+
+## 
+### An icon taskbar for the GNOME Shell
+
 An icon taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.
 
 The easiest way to install Dash-to-Panel is from [Gnome Shell Extensions](https://extensions.gnome.org/extension/1160/dash-to-panel/).
 
-## Features
+## 
+### Features
 
 #### Live previews on hover
 
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/windowpreview.png)
+![screenshot](https://github.com/LinxGem33/Neon/blob/master/artwork/previews.gif?raw=true)
 
 #### Customizable running indicators
 
