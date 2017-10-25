@@ -20,9 +20,9 @@ An icon taskbar for the Gnome Shell. This extension moves the dash into the gnom
 |-----|-----|
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)|
 
-#### Launch by number
-
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/numlaunch.png)
+|Launch by number|
+|-----|
+|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators-num.png?raw=true)|
 
 #### ... and more!
 
