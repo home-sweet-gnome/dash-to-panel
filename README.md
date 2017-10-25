@@ -21,6 +21,10 @@ An icon taskbar for Gnome Shell. This extension moves the dash into the gnome ma
 |-----|-----|
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)|
 
+|Launch by Number|
+|:-----:|
+|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators5.png?raw=true)|
+
 ##
 
 |Extra features||Implemented Features|
