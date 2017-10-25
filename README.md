@@ -15,16 +15,11 @@ An icon taskbar for the Gnome Shell. This extension moves the dash into the gnom
 ![screenshot](https://github.com/LinxGem33/Neon/blob/master/artwork/previews.gif?raw=true)
 ##
 
-#### 
 |Customizable running indicators|ALT Indicators|
 |-----|-----|
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)|
-
-|Launch by number|
-|-----|
-|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators-num.png?raw=true)|
-
-#### ... and more!
+##
+#### Extra Features!
 
 |Extra features|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
 |:-----|-----|
