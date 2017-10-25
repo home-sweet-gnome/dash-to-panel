@@ -15,15 +15,10 @@ An icon taskbar for the Gnome Shell. This extension moves the dash into the gnom
 ![screenshot](https://github.com/LinxGem33/Neon/blob/master/artwork/previews.gif?raw=true)
 ##
 
-#### Customizable running indicators
-
-![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)
-
-![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)
-
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/dashes.png)
-
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/squares-segmented.png)
+#### 
+|Customizable running indicators|ALT Indicators|
+|-----|-----|
+|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)|
 
 #### Launch by number
 
@@ -31,15 +26,18 @@ An icon taskbar for the Gnome Shell. This extension moves the dash into the gnom
 
 #### ... and more!
 
-* Set main panel position (top or bottom) and height
-* Configure clock location
-* Remove "Show Apps" icon from dash
-* Add "Show Desktop" button to panel
-* Hide Activities and App Menu buttons from panel
-* Isolate running apps in workspaces
-* Assign click behaviors (launch new window, cycle open windows, minimize, etc)
-* Assign font & icon sizes and margins for dash icons, status icons and panel elements
-* AppMenu for native Gnome apps is integrated into right-click secondary menu
+|Extra features||
+|-----|-----|
+|Set main panel position (top or bottom) and height|
+|Configure clock location|
+|Remove "Show Apps" icon from dash|
+|Add "Show Desktop" button to panel|
+|Hide Activities and App Menu buttons from panel|
+|Isolate running apps in workspaces|
+|Assign click behaviors (launch new window, cycle open windows, minimize, etc)|
+|Assign font & icon sizes and margins for dash icons, status icons and panel elements|
+|AppMenu for native Gnome apps is integrated into right-click secondary menu|
+
 ##
 ### Installation
 
