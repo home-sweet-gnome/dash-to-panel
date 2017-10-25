@@ -3,9 +3,9 @@
 ![](https://github.com/LinxGem33/Neon/blob/master/artwork/dtpam.png?raw=true)
 
 ## 
-### An icon taskbar for the GNOME Shell
+### An icon taskbar for GNOME Shell
 
-An icon taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.
+An icon taskbar for Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.
 
 ## 
 ### Features
