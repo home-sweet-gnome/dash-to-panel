@@ -13,12 +13,13 @@ An icon taskbar for the Gnome Shell. This extension moves the dash into the gnom
 #### Live previews on hover
 
 ![screenshot](https://github.com/LinxGem33/Neon/blob/master/artwork/previews.gif?raw=true)
+##
 
 #### Customizable running indicators
 
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/metro.png)
+![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)
 
-![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/ciliora.png)
+![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)
 
 ![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/dashes.png)
 
