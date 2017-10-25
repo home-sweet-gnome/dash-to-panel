@@ -1,6 +1,6 @@
 ![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-to-panel-wide-banner-new.png?raw=true)
 ##
-![](https://github.com/LinxGem33/Neon/blob/master/artwork/dtpam3.png?raw=true)
+![](https://github.com/LinxGem33/Neon/blob/master/artwork/banner1.png?raw=true)
 
 ## 
 ### An icon taskbar for GNOME Shell
