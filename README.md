@@ -19,8 +19,6 @@ An icon taskbar for Gnome Shell. This extension moves the dash into the gnome ma
 |-----|-----|
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)|
  
-##
-
 |Extra features|Implemented Features|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
 |:-----|:-----:|-----|
 |Launch by Number on the app indicators|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
@@ -103,12 +101,16 @@ Additional credits: This extension leverages the work for [ZorinOS Taskbar](http
 Code to set anchor position taken from [Thoma5/gnome-shell-extension-bottompanel](https://github.com/Thoma5/gnome-shell-extension-bottompanel).
 Pattern for moving panel contents based on [Frippery Move Clock](http://frippery.org/extensions/) by R M Yorston.
 Ideas for recursing child actors and assigning inline styles are based on code from the extension [StatusAreaHorizontalSpacing](https://bitbucket.org/mathematicalcoffee/status-area-horizontal-spacing-gnome-shell-extension).
+##
 
 Thanks to the following people for contributing via pull requests:
+
 - @franglais125 for launching apps by number (w/ overlay), bug fixes, and issue support
 - @dziku1337 for peek mode in window previews
 - @robrobinbin for configuring appMenu on/off in the panel
 - @MartinPL for toggling favorites on/off in panel
 - @jackwickham for thumbnail middle and right click actions
+
 - Bug Fixes: @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0
+
 - Translations: @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru)
