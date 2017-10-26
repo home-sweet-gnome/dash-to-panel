@@ -1,6 +1,6 @@
  ![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-to-dock-wide-banner2.png?raw=true)
 ##
-![](https://github.com/LinxGem33/Neon/blob/master/artwork/dtp-main-p2.png?raw=true)
+![](https://github.com/LinxGem33/Neon/blob/master/artwork/dtp-banner3.svg.png?raw=true)
 
 ## 
 ### Introduction
