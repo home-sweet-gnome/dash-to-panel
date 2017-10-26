@@ -14,9 +14,11 @@ Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash 
 |Dash to Panel v9 adds a couple of new features, including a Window Peek mode lets you hover over a task bar preview to see a full-size preview of that app’s window. Helpful for finding a specific app window|
 ##
 
-|Customizable running indicators|ALT Indicators|
-|-----|-----|
-|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)|
+|Customizable running indicators|
+|:-----:|
+|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|
+|Dash to panel Has the ability to customize the running indicators to access this feature 
+just open up dash to panel’s  settings from the gnome tweak tool. |
 
 |Launch by Number|
 |:-----:|
