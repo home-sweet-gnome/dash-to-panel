@@ -24,7 +24,7 @@ Some of dash to panel’s features include customizable indicators and launcher 
 
 |Launch by Number|
 |:-----:|
-|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators-num.png?raw=true)|
+|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators-num.png.png?raw=true)|
 |Dash to panel Has the ability to customize the running indicators to access this feature just open up dash to panel’s settings from gnome tweak tool. So if you’re a fan of the Unity launcher style number overlays that can be used to launch apps you may want to take advantage of the new setting, as the number overlays can now be set to show all the time.|
 
 ##
