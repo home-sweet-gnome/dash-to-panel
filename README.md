@@ -9,7 +9,7 @@ Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash 
 ##
 ### Dash to Panel features
 
-some of dash to panel’s features include customizable indicators and launcher style number overlays, so if you’re a fan of the Unity launcher style number overlays that can be used to launch apps you may want to take advantage another feature are live previews on hover illustrated below, if you want to access more features and configure dash to panel the way you want then just click on the options button via gnome tweak tool.
+Some of dash to panel’s features include customizable indicators and launcher style number overlays, so if you’re a fan of the Unity launcher style number overlays that can be used to launch apps you may want to take advantage another feature are live previews on hover illustrated below, if you want to access more features and configure dash to panel the way you want then just click on the options button via gnome tweak tool.
 
 ##
 
