@@ -1,4 +1,4 @@
-![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-to-dock-wide-banner2.png?raw=true)
+ ![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-to-dock-wide-banner2.png?raw=true)
 ##
 ![](https://github.com/LinxGem33/Neon/blob/master/artwork/dtp-new-main-pic.png?raw=true)
 
@@ -25,7 +25,7 @@ Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash 
 ##
 ### Contribute & volunteer
 
-Currently dash to panel has enhancements that are not assigned to anyone and are of high priority, if you feel that you have the ability and could contribute to any of the open enhancements please click on the reference number to get more information about the specific enhancement you want to work on, you will see a table below with all the current open issues tagged as enhancements and priority.
+Currently dash to panel has enhancements that are not assigned to anyone and are of high priority, if you feel that you have the ability and could contribute to any of the open enhancements please click on the reference number to get more information about the specific enhancement you want to work on, you will see a table below with all the current open issues tagged as enhancements and high priority.
 ##
 |Feature Assigned|Feature Unassigned|
 |:-----:|:-----:|
@@ -33,12 +33,11 @@ Currently dash to panel has enhancements that are not assigned to anyone and are
 
 |Current high priority enhancements that don't have anyone assigned|Issue ref:|Assigned|Unassigned|
 |:-----|:-----:|-----|-----|
-| Ungroup Applications on TaskBar Panel? |#208| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-| Add option to show window titles in tasks buttons |#115| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-| Launcher icons disappear (issue reocurrence with v7) |#92| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-| Add Intellihide behavior to panel |#41| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-| Option to Move Panel to Left or Right |#3| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-
+| Ungroup Applications on TaskBar Panel? |[#208](https://github.com/jderose9/dash-to-panel/issues/208)| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+| Add option to show window titles in tasks buttons |[#115](https://github.com/jderose9/dash-to-panel/issues/115)| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+| Launcher icons disappear (issue reocurrence with v7) |[#92](https://github.com/jderose9/dash-to-panel/issues/92)| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+| Add Intellihide behavior to panel |[#41](https://github.com/jderose9/dash-to-panel/issues/41)| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+| Option to Move Panel to Left or Right |[#3](https://github.com/jderose9/dash-to-panel/issues/3)| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
 
 ##
 ### Installation
