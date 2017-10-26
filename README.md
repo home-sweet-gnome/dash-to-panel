@@ -13,6 +13,11 @@ Some of dash to panel’s features include customizable indicators and launcher 
 
 ##
 
+|Live Previews on Hover|
+|-----|
+|![screenshot](https://github.com/LinxGem33/Neon/blob/master/artwork/previews.gif?raw=true)|
+|Dash to Panel v9 adds a couple of new features, including a Window Peek mode lets you hover over a task bar preview to see a full-size preview of that app’s window. Helpful for finding a specific app window|
+
 |Customizable running indicators|ALT Indicators|
 |:-----:|-----|
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.svg3.png?raw=true)|
@@ -21,11 +26,6 @@ Some of dash to panel’s features include customizable indicators and launcher 
 |:-----:|
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators-num.png?raw=true)|
 |Dash to panel Has the ability to customize the running indicators to access this feature just open up dash to panel’s settings from gnome tweak tool. So if you’re a fan of the Unity launcher style number overlays that can be used to launch apps you may want to take advantage of the new setting, as the number overlays can now be set to show all the time.|
-
-|Live Previews on Hover|
-|-----|
-|![screenshot](https://github.com/LinxGem33/Neon/blob/master/artwork/previews.gif?raw=true)|
-|Dash to Panel v9 adds a couple of new features, including a Window Peek mode lets you hover over a task bar preview to see a full-size preview of that app’s window. Helpful for finding a specific app window|
 
 ##
 ### Contribute & volunteer
