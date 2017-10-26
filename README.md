@@ -10,6 +10,7 @@ Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash 
 ### Notable features
 
 some of dash to panel’s features include customizable indicators as well as live previews on hover illustrated below, if you want to access more features just click on the options via gnome tweak tool.
+##
 
 |Customizable running indicators|ALT Indicators|
 |:-----:|-----|
