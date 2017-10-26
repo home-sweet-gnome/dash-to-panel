@@ -24,18 +24,14 @@ Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash 
 |Dash to panel Has the ability to customize the running indicators to access this feature just open up dash to panel’s settings from gnome tweak tool. So if you’re a fan of the Unity launcher style number overlays that can be used to launch apps you may want to take advantage of the new setting, as the number overlays can now be set to show all the time.|
 ##
 
-|Extra features|Implemented Features|
-|:-----|:-----:|
-|Launch by Number on the app indicators|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
-|Set main panel position (top or bottom) and height|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
-|Configure clock location|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
-|Remove "Show Apps" icon from dash|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
-|Add "Show Desktop" button to panel|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
-|Hide Activities and App Menu buttons from panel|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
-|Isolate running apps in workspaces|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
-|Assign click behaviors (launch new window, cycle open windows, minimize, etc)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
-|Assign font & icon sizes and margins for dash icons, status icons and panel elements used on dash to panel|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
-|AppMenu for native Gnome apps is integrated into right-click secondary menu|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|
+|Current high priority enhancements that don't have anyone assigned|Issue ref:|Assigned|Unassigned|
+|:-----|:-----:|-----|-----|
+| Ungroup Applications on TaskBar Panel? |#208| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+| Add option to show window titles in tasks buttons |#115| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+| Launcher icons disappear (issue reocurrence with v7) |#92| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+| Add Intellihide behavior to panel |#41| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+| Option to Move Panel to Left or Right |#3| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+
 
 ##
 ### Installation
