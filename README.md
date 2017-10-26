@@ -26,7 +26,7 @@ Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash 
 ### Contribute & volunteer
 
 Currently dash to panel has enhancements that are not assigned to anyone and are of high priority, if you feel that you have the ability and could contribute to any of the open enhancements please click on the reference number to get more information about the specific enhancement you want to work on, you will see a table below with all the current open issues tagged as enhancements and priority.
-
+##
 |Feature Assigned|Feature Unassigned|
 |:-----:|:-----:|
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
