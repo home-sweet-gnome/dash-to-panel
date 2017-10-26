@@ -20,7 +20,7 @@ Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash 
 
 |Launch by Number|
 |:-----:|
-|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators5.png?raw=true)|
+|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators-num.png?raw=true)|
 |Dash to panel Has the ability to customize the running indicators to access this feature just open up dash to panel’s settings from gnome tweak tool. So if you’re a fan of the Unity launcher style number overlays that can be used to launch apps you may want to take advantage of the new setting, as the number overlays can now be set to show all the time.|
 ##
 
