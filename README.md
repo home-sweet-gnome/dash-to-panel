@@ -40,13 +40,13 @@ Currently dash to panel has enhancements that are not assigned to anyone and are
 |:-----:|:-----:|
 |![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
 
-|Current high priority enhancements that don't have anyone assigned|Issue ref:|Assigned|Unassigned|
+|Current high priority enhancements that don't have anyone assigned|Issue ref:|Assigned|Contributor|
 |:-----|:-----:|:-----:|:-----:|
-| Ungroup Applications on TaskBar Panel? |[#208](https://github.com/jderose9/dash-to-panel/issues/208)| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-| Add option to show window titles in tasks buttons |[#115](https://github.com/jderose9/dash-to-panel/issues/115)| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-| Launcher icons disappear (issue reocurrence with v7) |[#92](https://github.com/jderose9/dash-to-panel/issues/92)| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-| Add Intellihide behavior to panel |[#41](https://github.com/jderose9/dash-to-panel/issues/41)| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-| Option to Move Panel to Left or Right |[#3](https://github.com/jderose9/dash-to-panel/issues/3)| |![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
+| Ungroup Applications on TaskBar Panel? |[#208](https://github.com/jderose9/dash-to-panel/issues/208)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)||
+| Add option to show window titles in tasks buttons |[#115](https://github.com/jderose9/dash-to-panel/issues/115)| ![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)||
+| Launcher icons disappear (issue reocurrence with v7) |[#92](https://github.com/jderose9/dash-to-panel/issues/92)| ![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)||
+| Add Intellihide behavior to panel |[#41](https://github.com/jderose9/dash-to-panel/issues/41)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)||
+| Option to Move Panel to Left or Right |[#3](https://github.com/jderose9/dash-to-panel/issues/3)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)||
 
 ##
 ### Installation
