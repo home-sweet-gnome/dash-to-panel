@@ -20,7 +20,7 @@ Some of dash to panel’s features include customizable indicators and launcher 
 
 |Customizable running indicators|ALT Indicators|
 |:-----:|-----|
-|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.svg3.png?raw=true)|
+|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)|
 
 |Launch by Number|
 |:-----:|
