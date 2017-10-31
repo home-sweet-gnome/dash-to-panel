@@ -308,6 +308,10 @@ msgstr "Położenie i wygląd"
 msgid "Show <i>Applications</i> icon"
 msgstr "Pokazuj ikonę <i>Programy</i>"
 
+#: Settings.ui.h
+msgid "Show favorite applications"
+msgstr "Pokaż ulubione programy"
+
 #: Settings.ui.h:59
 msgid "Animate <i>Show Applications</i>."
 msgstr "Animuj <i>Wyświetlanie programów</i>"
@@ -435,6 +439,9 @@ msgid ""
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">GNU General Public License, version 2 or later</a> for details.</span>"
 msgstr ""
+"<span size=\"small\">Ten program nie obejmuje ABSOLUTNIE ŻADNA GWARANCJA.\n"
+"Więcej informacji można znaleźć w licencji <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU General Public License, wersja 2 lub nowsza</a>.</span>"
 
 #: Settings.ui.h:91
 msgid "About"
