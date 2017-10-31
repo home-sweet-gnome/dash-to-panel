@@ -1,6 +1,6 @@
-![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/dash-to-panel-wide-banner5.png)
+![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/dash-to-panel-wide-banner5.png)
 ##
-![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/dtp-main-p2.png)
+![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/dtp-main-p2.png)
 
 ## 
 ### Introduction
@@ -11,37 +11,37 @@ Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash 
 
 |Live Previews on Hover|
 |:-----:|
-|![screenshot](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/previews.gif)|
+|![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/design/previews.gif)|
 |Hover over the launcher icon for an open application to get a live window preview|
 
 |Customizable running indicators|ALT Indicators|
 |:-----:|-----|
-|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/indicators.png)|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/indicators4.png)|
+|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/indicators.png)|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/indicators4.png)|
 
 |Launch by Number|
 |:-----:|
-|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/indicators-num.png.png)|
+|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/indicators-num.png.png)|
 |Optionally launch your favorite applications via keyboard|
 
-|Additional Features|Implemented|
+|Additional Features|Feature Implemented|
 |:-----|:-----:|
-|Set main panel position (top or bottom) and height|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
-|Configure clock location|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
-|Remove "Show Apps" icon from dash|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
-|Add "Show Desktop" button to panel|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
-|Hide Show Apps, Activities and App Menu buttons from panel|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
-|Isolate running apps in workspaces|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
-|Custom click behaviors (launch new window, cycle open windows, minimize, etc)|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
-|Assign font & icon sizes and margins for panel elements|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
-|Integrate native Gnome appMenu into right-click secondary menu|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
+|Set main panel position (top or bottom) and height|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/done.svg.png)|
+|Configure clock location|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/done.svg.png)|
+|Remove "Show Apps" icon from dash|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/done.svg.png)|
+|Add "Show Desktop" button to panel|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/done.svg.png)|
+|Hide Show Apps, Activities and App Menu buttons from panel|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/done.svg.png)|
+|Isolate running apps in workspaces|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/done.svg.png)|
+|Custom click behaviors (launch new window, cycle open windows, minimize, etc)|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/done.svg.png)|
+|Assign font & icon sizes and margins for panel elements|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/done.svg.png)|
+|Integrate native Gnome appMenu into right-click secondary menu|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/done.svg.png)|
 
 ##
 ### Installation
 
-**To install the latest official release:
+**To install the most recent official release:
 [Visit Dash-to-Panel at GNOME Extensions](https://extensions.gnome.org/extension/1160/dash-to-panel/)**
 
-To install the latest version from source, please see the [Installation wiki page](https://github.com/jderose9/dash-to-panel/wiki/Installation).
+To install a development version from source, please see the [Installation wiki page](https://github.com/jderose9/dash-to-panel/wiki/Installation).
 
 ## 
 ### FAQ
@@ -76,20 +76,10 @@ This extension has been tested with Gnome 3.18+.
 
 This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other extensions which operate on the top bar should be compatible.
 
-## 
-### Bug Reporting
-
-Bugs should be reported on the [Github bug tracker](https://github.com/jderose9/dash-to-panel/issues).
-
 ##
 ### Volunteers needed!
 
 This extension could be even better with your help! Any items in the issue tracker labelled `help wanted` or `good first issue` are up for grabs. For more info, see the [Contributing wiki page](https://github.com/jderose9/dash-to-panel/wiki/Contributing).
-
-## 
-### License & Terms ![](https://github.com/jderose9/dash-to-panel/raw/readme/media/copyleft-16.png)
-
-Dash to Panel is available under the terms of the GPL-v2 or later license See [`COPYING`](https://github.com/jderose9/dash-to-panel/blob/master/COPYING) for details.
 
 ## 
 ### Credits
@@ -118,3 +108,8 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 @frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru)
 ##
  ![](https://img.shields.io/badge/Language-JavaScript-yellow.svg) ![](https://img.shields.io/badge/Licence-GPL--2.0-blue.svg)
+
+## 
+### License & Terms ![](https://github.com/jderose9/dash-to-panel/raw/master/media/copyleft-16.png)
+
+Dash to Panel is available under the terms of the GPL-v2 or later license See [`COPYING`](https://github.com/jderose9/dash-to-panel/blob/master/COPYING) for details.
