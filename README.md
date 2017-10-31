@@ -1,73 +1,47 @@
- ![](https://github.com/LinxGem33/Neon/blob/master/artwork/dash-to-panel-wide-banner5.png?raw=true)
+![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/dash-to-panel-wide-banner5.png)
 ##
-![](https://github.com/LinxGem33/Neon/blob/master/artwork/dtp-main-p2.png?raw=true)
+![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/dtp-main-p2.png)
 
 ## 
 ### Introduction
 
 Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.
 ##
-### Dash to Panel features
-
-Some of dash to panel’s features include customizable indicators and launcher style number overlays, so if you’re a fan of the Unity launcher style number overlays that can be used to launch apps you may want to take advantage another feature are live previews on hover illustrated below, if you want to access more features and configure dash to panel the way you want then just click on the options button via gnome tweak tool.
-
-##
+### Features
 
 |Live Previews on Hover|
-|-----|
-|![screenshot](https://github.com/LinxGem33/Neon/blob/master/artwork/previews.gif?raw=true)|
-|Dash to Panel v9 adds a couple of new features, including a Window Peek mode lets you hover over a task bar preview to see a full-size preview of that app’s window. Helpful for finding a specific app window|
+|:-----:|
+|![screenshot](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/previews.gif)|
+|Hover over the launcher icon for an open application to get a live window preview|
 
 |Customizable running indicators|ALT Indicators|
 |:-----:|-----|
-|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators4.png?raw=true)|
+|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/indicators.png)|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/indicators4.png)|
 
 |Launch by Number|
 |:-----:|
-|![](https://github.com/LinxGem33/Neon/blob/master/artwork/indicators-num.png.png?raw=true)|
-|Dash to panel Has the ability to customize the running indicators to access this feature just open up dash to panel’s settings from gnome tweak tool. So if you’re a fan of the Unity launcher style number overlays that can be used to launch apps you may want to take advantage of the new setting, as the number overlays can now be set to show all the time.|
+|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/indicators-num.png.png)|
+|Optionally launch your favorite applications via keyboard|
 
-##
-### Contribute & volunteer
-
-Currently dash to panel has enhancements that are not assigned to anyone and are of high priority, if you feel that you have the ability and could contribute to any of the open enhancements please click on the reference number to get more information about the specific enhancement you want to work on, you will see a table below with all the current open issues tagged as enhancements and high priority.
-##
-|Assigned|Unassigned|
-|:-----:|:-----:|
-|![](https://github.com/LinxGem33/Neon/blob/master/artwork/done.svg.png?raw=true)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)|
-
-|Current high priority enhancements that are not assigned to anyone |Issue ref:|Assigned|Contributor|
-|:-----|:-----:|:-----:|:-----:|
-|Ungroup Applications on TaskBar Panel?|[#208](https://github.com/jderose9/dash-to-panel/issues/208)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)||
-| Add option to show window titles in tasks buttons |[#115](https://github.com/jderose9/dash-to-panel/issues/115)| ![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)||
-| Launcher icons disappear (issue reocurrence with v7) |[#92](https://github.com/jderose9/dash-to-panel/issues/92)| ![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)||
-| Add Intellihide behavior to panel |[#41](https://github.com/jderose9/dash-to-panel/issues/41)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)||
-| Option to Move Panel to Left or Right |[#3](https://github.com/jderose9/dash-to-panel/issues/3)|![](https://github.com/LinxGem33/Neon/blob/master/artwork/planned.svg.png?raw=true)||
+|Additional Features|Implemented|
+|:-----|:-----:|
+|Set main panel position (top or bottom) and height|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
+|Configure clock location|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
+|Remove "Show Apps" icon from dash|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
+|Add "Show Desktop" button to panel|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
+|Hide Show Apps, Activities and App Menu buttons from panel|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
+|Isolate running apps in workspaces|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
+|Custom click behaviors (launch new window, cycle open windows, minimize, etc)|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
+|Assign font & icon sizes and margins for panel elements|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
+|Integrate native Gnome appMenu into right-click secondary menu|![](https://github.com/jderose9/dash-to-panel/raw/readme/media/design/png/done.svg.png)|
 
 ##
 ### Installation
 
-The easiest way to install Dash-to-Panel is from [Gnome Shell Extensions](https://extensions.gnome.org/extension/1160/dash-to-panel/).
+**To install the latest official release:
+[Visit Dash-to-Panel at GNOME Extensions](https://extensions.gnome.org/extension/1160/dash-to-panel/)**
 
-## 
-### Installation from source
-
-The extension can be installed directly from source, either for the convenience of using git or to test the latest development version. Please be aware that if you install the extension from git, Gnome will no longer notify you of future updates available from extensions.gnome.org.
-
-Clone the desired branch with git
-<pre>git clone https://github.com/jderose9/dash-to-panel.git</pre>
-or download the branch from github. A simple Makefile is included. Then run
-<pre>make
-make install
-</pre>
-to install the extension in your home directory. A Shell reload is required <code>Alt+F2 r Enter</code> and the extension has to be enabled  with *gnome-tweak-tool* or with *dconf*.
-
-## 
-### Compatibility
-
-This extension has been tested with Gnome 3.18+.
-
-This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other extensions which operate on the top bar should be compatible.
+To install the latest version from source, please see the [Installation wiki page](https://github.com/jderose9/dash-to-panel/wiki/Installation).
 
 ## 
 ### FAQ
@@ -94,13 +68,26 @@ While this extension works well with most popular Gnome Shell themes, the follow
 - [Ciliora Tertia](https://github.com/zagortenay333/ciliora-tertia-shell) / [Ciliora Secunda](https://github.com/zagortenay333/ciliora-secunda-shell)
 - [Plano](https://github.com/lassekongo83/plano-theme)
 
+
+## 
+### Compatibility
+
+This extension has been tested with Gnome 3.18+.
+
+This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other extensions which operate on the top bar should be compatible.
+
 ## 
 ### Bug Reporting
 
 Bugs should be reported on the [Github bug tracker](https://github.com/jderose9/dash-to-panel/issues).
 
+##
+### Volunteers needed!
+
+This extension could be even better with your help! Any items in the issue tracker labelled `help wanted` or `good first issue` are up for grabs. For more info, see the [Contributing wiki page](https://github.com/jderose9/dash-to-panel/wiki/Contributing).
+
 ## 
-### License & Terms ![](https://github.com/LinxGem33/IP-Finder/blob/master/screens/Copyleft-16.png?raw=true)
+### License & Terms ![](https://github.com/jderose9/dash-to-panel/raw/readme/media/copyleft-16.png)
 
 Dash to Panel is available under the terms of the GPL-v2 or later license See [`COPYING`](https://github.com/jderose9/dash-to-panel/blob/master/COPYING) for details.
 
@@ -118,6 +105,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 #### Thanks to the following people for contributing via pull requests:
 
 - @franglais125 for launching apps by number (w/ overlay), bug fixes, and issue support
+- @LinxGem33 for artwork, logos, screenshots and design effort
 - @dziku1337 for peek mode in window previews
 - @robrobinbin for configuring appMenu on/off in the panel
 - @MartinPL for toggling favorites on/off in panel
