@@ -314,6 +314,10 @@ msgstr "Pozíció és stílus"
 msgid "Show <i>Applications</i> icon"
 msgstr "<i>Alkalmazások</i> ikon megjelenítése"
 
+#: Settings.ui.h
+msgid "Show favorite applications"
+msgstr "Kedvenc alkalmazások megjelenítése"
+
 #: Settings.ui.h:59
 msgid "Animate <i>Show Applications</i>."
 msgstr "<i>Alkalmazások megjelenítése</i> animálása."
