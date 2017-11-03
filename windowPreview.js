@@ -822,6 +822,13 @@ var thumbnailPreview = new Lang.Class({
     _onDestroy: function() {
         this.window.disconnect(this._titleNotifyId);
         this._titleNotifyId = 0;
+        if(this._resizeId) {
+            let mutterWindow = this.window.get_compositor_private();
+            if (mutterWindow) {
+                mutterWindow.meta_window.disconnect(this._resizeId);
+                this._resizeId = 0;
+            }
+        }
     }
 });
 
