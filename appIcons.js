@@ -144,8 +144,6 @@ var taskbarAppIcon = new Lang.Class({
         this._dtpSettings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh));
         this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh));
 
-        this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, this._setIconStyle));
-
         this.windowPreview = null;
 
         this.forcedOverview = false;
@@ -357,7 +355,7 @@ var taskbarAppIcon = new Lang.Class({
                 containerWidth + "px " + 
                 (containerWidth - (pos == DOT_POSITION.BOTTOM ? highlightMargin : 0)) + "px;";
         }
-
+        
         // graphical glitches if i dont set this on a timeout
         if(this.actor.get_style() != inlineStyle)
             Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(inlineStyle); }));
@@ -418,14 +416,14 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _displayProperIndicator: function (force) {
+        this._setIconStyle();
+
         let containerWidth = this._iconContainer.get_width();
         let isFocused = (tracker.focus_app == this.app);
         let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
         let unfocusedDotStyle = this._dtpSettings.get_string('dot-style-unfocused');
         let focusedIsWide = this._isWideDotStyle(focusedDotStyle);
         let unfocusedIsWide = this._isWideDotStyle(unfocusedDotStyle);
-
-        this._setIconStyle();
 
         let newFocusedDotsWidth = 0;
         let newFocusedDotsOpacity = 0;
@@ -756,7 +754,7 @@ var taskbarAppIcon = new Lang.Class({
             cr.rectangle(0, 0, width, size);
             cr.fill();
         }
-
+        
         cr.$dispose();
     },
 

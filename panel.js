@@ -295,6 +295,11 @@ var dtpPanel = new Lang.Class({
 
         this._dtpSettings.connect('changed::panel-size', Lang.bind(this, function() {
             this._setPanelPosition();
+            this.taskbar.resetAppIcons();
+        }));
+
+        this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, function() {
+            this.taskbar.resetAppIcons();
         }));
 
         this._dtpSettings.connect('changed::show-activities-button', Lang.bind(this, function() {
