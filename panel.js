@@ -97,6 +97,7 @@ var dtpPanel = new Lang.Class({
         this._setPanelPosition();
         this._MonitorsChangedListener = global.screen.connect("monitors-changed", Lang.bind(this, function(){
             this._setPanelPosition();
+            this.taskbar.resetAppIcons();
         }));
         this._HeightNotifyListener = this.panelBox.connect("notify::height", Lang.bind(this, function(){
             this._setPanelPosition();
