@@ -166,7 +166,10 @@ var taskbar = new Lang.Class({
     _init : function(settings) {
         this._dtpSettings = settings;
         this._maxWidth = -1;
-        this.iconSize = 32;
+        
+        // start at smallest size due to running indicator drawing area expanding but not shrinking
+        this.iconSize = baseIconSizes[0];
+
         this._availableIconSizes = baseIconSizes;
         this._shownInitially = false;
 
