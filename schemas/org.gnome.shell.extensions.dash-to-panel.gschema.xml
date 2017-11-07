@@ -22,6 +22,11 @@
     <value value='1' nick='STATUSLEFT'/>
     <value value='2' nick='STATUSRIGHT'/>
   </enum>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.taskbarPosition'>
+    <value value='0' nick='LEFTPANEL'/>
+    <value value='1' nick='CENTEREDMONITOR'/>
+    <value value='2' nick='CENTEREDCENTER'/>
+  </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix'>
     <value value='0' nick='Super'/>
     <value value='1' nick='SuperAlt'/>
@@ -131,6 +136,11 @@
       <default>'STATUSLEFT'</default>
       <summary>Location of the clock</summary>
       <description>Set the location of the clock on the taskbar</description>
+    </key>
+    <key name="taskbar-position" enum="org.gnome.shell.extensions.dash-to-panel.taskbarPosition">
+      <default>'LEFTPANEL'</default>
+      <summary>Position of the taskbar</summary>
+      <description>Set the position of the taskbar on the panel</description>
     </key>
     <key type="b" name="show-show-apps-button">
       <default>true</default>

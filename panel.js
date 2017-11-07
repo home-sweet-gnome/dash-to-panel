@@ -55,11 +55,21 @@ var dtpPanel = new Lang.Class({
     _init: function(settings) {
         this._dtpSettings = settings;
         this.panelStyle = new PanelStyle.dtpPanelStyle(settings);
+	//rebuild panel when taskar-position change
+        this._dtpSettings.connect('changed::taskbar-position', Lang.bind(this, function() {
+            this.disable();
+            this.enable();
+        }));
     },
 
     enable : function() {
         this.panel = Main.panel;
-        this.container = this.panel._leftBox;
+	//choose the leftBox or the centerBox to build taskbar
+        if (this._dtpSettings.get_string('taskbar-position') == 'LEFTPANEL') {
+            this.container = this.panel._leftBox;
+        } else {
+            this.container = this.panel._centerBox;
+        }
         this.appMenu = this.panel.statusArea.appMenu;
         this.panelBox = Main.layoutManager.panelBox;
         
@@ -328,29 +338,41 @@ var dtpPanel = new Lang.Class({
         let [centerMinWidth, centerNaturalWidth] = this.panel._centerBox.get_preferred_width(-1);
         let [rightMinWidth, rightNaturalWidth] = this.panel._rightBox.get_preferred_width(-1);
 
-        let sideWidth = allocWidth - rightNaturalWidth - centerNaturalWidth;
+	//I use ctb and cim variables to make diff reading easier. This must be replaced by if loups.
+        let taskbarPosition = this._dtpSettings.get_string('taskbar-position');
+        let ctb = (taskbarPosition != 'LEFTPANEL'); // ctb: centered taskbar
+        let cim = (taskbarPosition == 'CENTEREDMONITOR'); // cim: centered in monitor
+
+        let sideWidth, leftSideWidth, rightSideWidth;
+        if(ctb && !cim) {
+            leftSideWidth = (allocWidth - centerNaturalWidth + leftNaturalWidth - rightNaturalWidth) / 2;
+            rightSideWidth = (allocWidth - centerNaturalWidth - leftNaturalWidth + rightNaturalWidth) / 2;
+            sideWidth = 0;
+        } else {
+            sideWidth = leftSideWidth = rightSideWidth = (!ctb)*(allocWidth - rightNaturalWidth - centerNaturalWidth) + ctb*((allocWidth - centerNaturalWidth) / 2);
+        }
 
         let childBox = new Clutter.ActorBox();
 
         childBox.y1 = 0;
         childBox.y2 = allocHeight;
         if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
-            childBox.x1 = allocWidth - Math.min(Math.floor(sideWidth), leftNaturalWidth);
+            childBox.x1 = allocWidth - ctb*leftNaturalWidth - (!ctb)*sideWidth;
             childBox.x2 = allocWidth;
         } else {
             childBox.x1 = 0;
-            childBox.x2 = sideWidth;
+            childBox.x2 = ctb*leftNaturalWidth + (!ctb)*sideWidth;
         }
         this.panel._leftBox.allocate(childBox, flags, true);
 
         childBox.y1 = 0;
         childBox.y2 = allocHeight;
         if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
-            childBox.x1 = rightNaturalWidth;
-            childBox.x2 = childBox.x1 + centerNaturalWidth;
+            childBox.x1 = allocWidth - ctb*(allocWidth - Math.max(rightNaturalWidth, rightSideWidth)) - (!ctb)*(childBox.x1 + centerNaturalWidth);
+            childBox.x2 = allocWidth - ctb*(Math.max(leftNaturalWidth, leftSideWidth)) - (!ctb)*(allocWidth - centerNaturalWidth - rightNaturalWidth);
         } else {
-            childBox.x1 = allocWidth - centerNaturalWidth - rightNaturalWidth;
-            childBox.x2 = childBox.x1 + centerNaturalWidth;
+            childBox.x1 = ctb*(Math.max(leftNaturalWidth, leftSideWidth)) + (!ctb)*(allocWidth - centerNaturalWidth - rightNaturalWidth);
+            childBox.x2 = ctb*(allocWidth - Math.max(rightNaturalWidth, rightSideWidth)) + (!ctb)*(childBox.x1 + centerNaturalWidth);
         }
         this.panel._centerBox.allocate(childBox, flags, true);
 
