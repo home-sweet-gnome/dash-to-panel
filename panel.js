@@ -448,11 +448,20 @@ var dtpPanel = new Lang.Class({
     },
     
     _setAppmenuVisible: function(isVisible) {
-        let centerBox = this.panel._centerBox;
-        if (isVisible && centerBox.get_children().indexOf(this.appMenu.container) == -1) {
-            centerBox.insert_child_at_index(this.appMenu.container, 0)
-        } else if (!isVisible && centerBox.get_children().indexOf(this.appMenu.container) != -1) {
-            centerBox.remove_child(this.appMenu.container);
+        if (this._dtpSettings.get_string('taskbar-position') == 'LEFTPANEL') {
+            let centerBox = this.panel._centerBox;
+            if (isVisible && centerBox.get_children().indexOf(this.appMenu.container) == -1) {
+                centerBox.insert_child_at_index(this.appMenu.container, 0);
+            } else if (!isVisible && centerBox.get_children().indexOf(this.appMenu.container) != -1) {
+                centerBox.remove_child(this.appMenu.container);
+            }
+        } else {
+            let leftBox = this.panel._leftBox;
+            if (isVisible && leftBox.get_children().indexOf(this.appMenu.container) == -1) {
+                leftBox.insert_child_above(this.appMenu.container, null);
+            } else if (!isVisible && leftBox.get_children().indexOf(this.appMenu.container) != -1) {
+                leftBox.remove_child(this.appMenu.container);
+            }
         }
     },
 
