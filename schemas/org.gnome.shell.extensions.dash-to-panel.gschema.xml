@@ -25,7 +25,7 @@
   <enum id='org.gnome.shell.extensions.dash-to-panel.taskbarPosition'>
     <value value='0' nick='LEFTPANEL'/>
     <value value='1' nick='CENTEREDMONITOR'/>
-    <value value='2' nick='CENTEREDCENTER'/>
+    <value value='2' nick='CENTEREDCONTENT'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix'>
     <value value='0' nick='Super'/>

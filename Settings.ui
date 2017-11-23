@@ -2213,7 +2213,7 @@
                             <items>
                               <item id="LEFTPANEL" translatable="yes">Left panel</item>
                               <item id="CENTEREDMONITOR" translatable="yes">Centered in monitor</item>
-                              <item id="CENTEREDCENTER" translatable="yes">Centered in center panel</item>
+                              <item id="CENTEREDCONTENT" translatable="yes">Centered in content</item>
                             </items>
                           </object>
                           <packing>

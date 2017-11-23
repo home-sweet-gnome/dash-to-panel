@@ -343,7 +343,7 @@ var dtpPanel = new Lang.Class({
         
         if (taskbarPosition == 'LEFTPANEL') {
             sideWidth = allocWidth - rightNaturalWidth - centerNaturalWidth;
-        } else if (taskbarPosition == 'CENTEREDCENTER') {
+        } else if (taskbarPosition == 'CENTEREDCONTENT') {
             leftSideWidth = (allocWidth - centerNaturalWidth + leftNaturalWidth - rightNaturalWidth) / 2;
             rightSideWidth = (allocWidth - centerNaturalWidth - leftNaturalWidth + rightNaturalWidth) / 2;
         } else if (taskbarPosition == 'CENTEREDMONITOR') {
