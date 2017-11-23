@@ -338,41 +338,59 @@ var dtpPanel = new Lang.Class({
         let [centerMinWidth, centerNaturalWidth] = this.panel._centerBox.get_preferred_width(-1);
         let [rightMinWidth, rightNaturalWidth] = this.panel._rightBox.get_preferred_width(-1);
 
-	//I use ctb and cim variables to make diff reading easier. This must be replaced by if loups.
         let taskbarPosition = this._dtpSettings.get_string('taskbar-position');
-        let ctb = (taskbarPosition != 'LEFTPANEL'); // ctb: centered taskbar
-        let cim = (taskbarPosition == 'CENTEREDMONITOR'); // cim: centered in monitor
-
         let sideWidth, leftSideWidth, rightSideWidth;
-        if(ctb && !cim) {
+        
+        if (taskbarPosition == 'LEFTPANEL') {
+            sideWidth = allocWidth - rightNaturalWidth - centerNaturalWidth;
+        } else if (taskbarPosition == 'CENTEREDCENTER') {
             leftSideWidth = (allocWidth - centerNaturalWidth + leftNaturalWidth - rightNaturalWidth) / 2;
             rightSideWidth = (allocWidth - centerNaturalWidth - leftNaturalWidth + rightNaturalWidth) / 2;
-            sideWidth = 0;
-        } else {
-            sideWidth = leftSideWidth = rightSideWidth = (!ctb)*(allocWidth - rightNaturalWidth - centerNaturalWidth) + ctb*((allocWidth - centerNaturalWidth) / 2);
+        } else if (taskbarPosition == 'CENTEREDMONITOR') {
+            leftSideWidth = rightSideWidth = sideWidth = (allocWidth - centerNaturalWidth) / 2;
         }
-
+        
         let childBox = new Clutter.ActorBox();
-
+        
         childBox.y1 = 0;
         childBox.y2 = allocHeight;
-        if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
-            childBox.x1 = allocWidth - ctb*leftNaturalWidth - (!ctb)*sideWidth;
-            childBox.x2 = allocWidth;
+        if (taskbarPosition == 'LEFTPANEL') {
+            if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
+                childBox.x1 = allocWidth - Math.min(Math.floor(sideWidth), leftNaturalWidth);
+                childBox.x2 = allocWidth;
+            } else {
+                childBox.x1 = 0;
+                childBox.x2 = sideWidth;
+            }
         } else {
-            childBox.x1 = 0;
-            childBox.x2 = ctb*leftNaturalWidth + (!ctb)*sideWidth;
+            if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
+                childBox.x1 = allocWidth - leftNaturalWidth;
+                childBox.x2 = allocWidth;
+            } else {
+                childBox.x1 = 0;
+                childBox.x2 =leftNaturalWidth;
+            }
         }
         this.panel._leftBox.allocate(childBox, flags, true);
-
+        
         childBox.y1 = 0;
         childBox.y2 = allocHeight;
-        if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
-            childBox.x1 = allocWidth - ctb*(allocWidth - Math.max(rightNaturalWidth, rightSideWidth)) - (!ctb)*(childBox.x1 + centerNaturalWidth);
-            childBox.x2 = allocWidth - ctb*(Math.max(leftNaturalWidth, leftSideWidth)) - (!ctb)*(allocWidth - centerNaturalWidth - rightNaturalWidth);
+        if (taskbarPosition == 'LEFTPANEL') {
+            if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
+                childBox.x1 = rightNaturalWidth;
+                childBox.x2 = childBox.x1 + centerNaturalWidth;
+            } else {
+                childBox.x1 = allocWidth - centerNaturalWidth - rightNaturalWidth;
+                childBox.x2 = childBox.x1 + centerNaturalWidth;
+            }
         } else {
-            childBox.x1 = ctb*(Math.max(leftNaturalWidth, leftSideWidth)) + (!ctb)*(allocWidth - centerNaturalWidth - rightNaturalWidth);
-            childBox.x2 = ctb*(allocWidth - Math.max(rightNaturalWidth, rightSideWidth)) + (!ctb)*(childBox.x1 + centerNaturalWidth);
+            if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
+                childBox.x1 = Math.max(rightNaturalWidth, rightSideWidth);
+                childBox.x2 = allocWidth - Math.max(leftNaturalWidth, leftSideWidth);
+            } else {
+                childBox.x1 = Math.max(leftNaturalWidth, leftSideWidth);
+                childBox.x2 = allocWidth - Math.max(rightNaturalWidth, rightSideWidth);
+            }
         }
         this.panel._centerBox.allocate(childBox, flags, true);
 
