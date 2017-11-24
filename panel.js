@@ -55,11 +55,21 @@ var dtpPanel = new Lang.Class({
     _init: function(settings) {
         this._dtpSettings = settings;
         this.panelStyle = new PanelStyle.dtpPanelStyle(settings);
+	//rebuild panel when taskar-position change
+        this._dtpSettings.connect('changed::taskbar-position', Lang.bind(this, function() {
+            this.disable();
+            this.enable();
+        }));
     },
 
     enable : function() {
         this.panel = Main.panel;
-        this.container = this.panel._leftBox;
+	//choose the leftBox or the centerBox to build taskbar
+        if (this._dtpSettings.get_string('taskbar-position') == 'LEFTPANEL') {
+            this.container = this.panel._leftBox;
+        } else {
+            this.container = this.panel._centerBox;
+        }
         this.appMenu = this.panel.statusArea.appMenu;
         this.panelBox = Main.layoutManager.panelBox;
         
@@ -328,29 +338,59 @@ var dtpPanel = new Lang.Class({
         let [centerMinWidth, centerNaturalWidth] = this.panel._centerBox.get_preferred_width(-1);
         let [rightMinWidth, rightNaturalWidth] = this.panel._rightBox.get_preferred_width(-1);
 
-        let sideWidth = allocWidth - rightNaturalWidth - centerNaturalWidth;
-
+        let taskbarPosition = this._dtpSettings.get_string('taskbar-position');
+        let sideWidth, leftSideWidth, rightSideWidth;
+        
+        if (taskbarPosition == 'LEFTPANEL') {
+            sideWidth = allocWidth - rightNaturalWidth - centerNaturalWidth;
+        } else if (taskbarPosition == 'CENTEREDCONTENT') {
+            leftSideWidth = (allocWidth - centerNaturalWidth + leftNaturalWidth - rightNaturalWidth) / 2;
+            rightSideWidth = (allocWidth - centerNaturalWidth - leftNaturalWidth + rightNaturalWidth) / 2;
+        } else if (taskbarPosition == 'CENTEREDMONITOR') {
+            leftSideWidth = rightSideWidth = sideWidth = (allocWidth - centerNaturalWidth) / 2;
+        }
+        
         let childBox = new Clutter.ActorBox();
-
+        
         childBox.y1 = 0;
         childBox.y2 = allocHeight;
-        if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
-            childBox.x1 = allocWidth - Math.min(Math.floor(sideWidth), leftNaturalWidth);
-            childBox.x2 = allocWidth;
+        if (taskbarPosition == 'LEFTPANEL') {
+            if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
+                childBox.x1 = allocWidth - Math.min(Math.floor(sideWidth), leftNaturalWidth);
+                childBox.x2 = allocWidth;
+            } else {
+                childBox.x1 = 0;
+                childBox.x2 = sideWidth;
+            }
         } else {
-            childBox.x1 = 0;
-            childBox.x2 = sideWidth;
+            if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
+                childBox.x1 = allocWidth - leftNaturalWidth;
+                childBox.x2 = allocWidth;
+            } else {
+                childBox.x1 = 0;
+                childBox.x2 =leftNaturalWidth;
+            }
         }
         this.panel._leftBox.allocate(childBox, flags, true);
-
+        
         childBox.y1 = 0;
         childBox.y2 = allocHeight;
-        if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
-            childBox.x1 = rightNaturalWidth;
-            childBox.x2 = childBox.x1 + centerNaturalWidth;
+        if (taskbarPosition == 'LEFTPANEL') {
+            if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
+                childBox.x1 = rightNaturalWidth;
+                childBox.x2 = childBox.x1 + centerNaturalWidth;
+            } else {
+                childBox.x1 = allocWidth - centerNaturalWidth - rightNaturalWidth;
+                childBox.x2 = childBox.x1 + centerNaturalWidth;
+            }
         } else {
-            childBox.x1 = allocWidth - centerNaturalWidth - rightNaturalWidth;
-            childBox.x2 = childBox.x1 + centerNaturalWidth;
+            if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
+                childBox.x1 = Math.max(rightNaturalWidth, rightSideWidth);
+                childBox.x2 = allocWidth - Math.max(leftNaturalWidth, leftSideWidth);
+            } else {
+                childBox.x1 = Math.max(leftNaturalWidth, leftSideWidth);
+                childBox.x2 = allocWidth - Math.max(rightNaturalWidth, rightSideWidth);
+            }
         }
         this.panel._centerBox.allocate(childBox, flags, true);
 
@@ -426,11 +466,20 @@ var dtpPanel = new Lang.Class({
     },
     
     _setAppmenuVisible: function(isVisible) {
-        let centerBox = this.panel._centerBox;
-        if (isVisible && centerBox.get_children().indexOf(this.appMenu.container) == -1) {
-            centerBox.insert_child_at_index(this.appMenu.container, 0)
-        } else if (!isVisible && centerBox.get_children().indexOf(this.appMenu.container) != -1) {
-            centerBox.remove_child(this.appMenu.container);
+        if (this._dtpSettings.get_string('taskbar-position') == 'LEFTPANEL') {
+            let centerBox = this.panel._centerBox;
+            if (isVisible && centerBox.get_children().indexOf(this.appMenu.container) == -1) {
+                centerBox.insert_child_at_index(this.appMenu.container, 0);
+            } else if (!isVisible && centerBox.get_children().indexOf(this.appMenu.container) != -1) {
+                centerBox.remove_child(this.appMenu.container);
+            }
+        } else {
+            let leftBox = this.panel._leftBox;
+            if (isVisible && leftBox.get_children().indexOf(this.appMenu.container) == -1) {
+                leftBox.insert_child_above(this.appMenu.container, null);
+            } else if (!isVisible && leftBox.get_children().indexOf(this.appMenu.container) != -1) {
+                leftBox.remove_child(this.appMenu.container);
+            }
         }
     },
 
