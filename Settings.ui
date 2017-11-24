@@ -2211,7 +2211,7 @@
                             <property name="can_focus">False</property>
                             <property name="valign">center</property>
                             <items>
-                              <item id="LEFTPANEL" translatable="yes">Left panel</item>
+                              <item id="LEFTPANEL" translatable="yes">Left side of panel</item>
                               <item id="CENTEREDMONITOR" translatable="yes">Centered in monitor</item>
                               <item id="CENTEREDCONTENT" translatable="yes">Centered in content</item>
                             </items>
