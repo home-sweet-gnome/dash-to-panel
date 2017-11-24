@@ -100,12 +100,13 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @robrobinbin for configuring appMenu on/off in the panel
 - @MartinPL for toggling favorites on/off in panel
 - @jackwickham for thumbnail middle and right click actions
+- @abakkk for centering the taskbar icons in the panel
 
 #### Bug Fixes: 
 @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0
 
 #### Translations: 
-@frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru)
+@frnogueira (pt_BR), @zeten30 (cs_CZ), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru)
 
 ## 
 ### License & Terms ![](https://github.com/jderose9/dash-to-panel/raw/master/media/copyleft-16.png)
