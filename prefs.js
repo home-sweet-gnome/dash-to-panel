@@ -267,20 +267,27 @@ const Settings = new Lang.Class({
 
         this._builder.get_object('dot_color_apply_all_button').connect('clicked', Lang.bind(this, function() {
             for (let i = 2; i <= MAX_WINDOW_INDICATOR; i++) {
-                        this._settings.set_value('dot-color-' + i, this._settings.get_value('dot-color-1'));
-                        let rgba = new Gdk.RGBA();
-                        rgba.parse(this._settings.get_string('dot-color-' + i));
-                        this._builder.get_object('dot_color_' + i + '_colorbutton').set_rgba(rgba);
+                this._settings.set_value('dot-color-' + i, this._settings.get_value('dot-color-1'));
+                let rgba = new Gdk.RGBA();
+                rgba.parse(this._settings.get_string('dot-color-' + i));
+                this._builder.get_object('dot_color_' + i + '_colorbutton').set_rgba(rgba);
             }
         }));
 
-         this._builder.get_object('dot_color_unfocused_apply_all_button').connect('clicked', Lang.bind(this, function() {
+        this._builder.get_object('dot_color_unfocused_apply_all_button').connect('clicked', Lang.bind(this, function() {
             for (let i = 2; i <= MAX_WINDOW_INDICATOR; i++) {
-                        this._settings.set_value('dot-color-unfocused-' + i, this._settings.get_value('dot-color-unfocused-1'));
-                        let rgba = new Gdk.RGBA();
-                        rgba.parse(this._settings.get_string('dot-color-unfocused-' + i));
-                        this._builder.get_object('dot_color_unfocused_' + i + '_colorbutton').set_rgba(rgba);
+                this._settings.set_value('dot-color-unfocused-' + i, this._settings.get_value('dot-color-unfocused-1'));
+                let rgba = new Gdk.RGBA();
+                rgba.parse(this._settings.get_string('dot-color-unfocused-' + i));
+                this._builder.get_object('dot_color_unfocused_' + i + '_colorbutton').set_rgba(rgba);
             }
+        }));
+
+        this._builder.get_object('focus_highlight_color_colorbutton').connect('notify::color', Lang.bind(this, function(button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            let hexString = cssHexString(css);
+            this._settings.set_string('focus-highlight-color', hexString);
         }));
 
         this._builder.get_object('dot_style_options_button').connect('clicked', Lang.bind(this, function() {
@@ -337,6 +344,17 @@ const Settings = new Lang.Class({
                     'active',
                     Gio.SettingsBindFlags.DEFAULT);
 
+            (function() {
+                let rgba = new Gdk.RGBA();
+                rgba.parse(this._settings.get_string('focus-highlight-color'));
+                this._builder.get_object('focus_highlight_color_colorbutton').set_rgba(rgba);
+            }).apply(this);
+
+            this._builder.get_object('focus_highlight_opacity_spinbutton').set_value(this._settings.get_int('focus-highlight-opacity'));
+            this._builder.get_object('focus_highlight_opacity_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('focus-highlight-opacity', widget.get_value());
+            }));
+
             this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));
             this._builder.get_object('dot_size_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
                 this._settings.set_int('dot-size', widget.get_value());
@@ -348,9 +366,17 @@ const Settings = new Lang.Class({
                     this._settings.set_value('dot-color-override', this._settings.get_default_value('dot-color-override'));
                     this._settings.set_value('dot-color-unfocused-different', this._settings.get_default_value('dot-color-unfocused-different'));
 
+                    this._settings.set_value('focus-highlight-color', this._settings.get_default_value('focus-highlight-color'));
+                    let rgba = new Gdk.RGBA();
+                    rgba.parse(this._settings.get_string('focus-highlight-color'));
+                    this._builder.get_object('focus_highlight_color_colorbutton').set_rgba(rgba);
+
+                    this._settings.set_value('focus-highlight-opacity', this._settings.get_default_value('focus-highlight-opacity'));
+                    this._builder.get_object('focus_highlight_opacity_spinbutton').set_value(this._settings.get_int('focus-highlight-opacity'));
+
                     for (let i = 1; i <= MAX_WINDOW_INDICATOR; i++) {
                         this._settings.set_value('dot-color-' + i, this._settings.get_default_value('dot-color-' + i));
-                        let rgba = new Gdk.RGBA();
+                        rgba = new Gdk.RGBA();
                         rgba.parse(this._settings.get_string('dot-color-' + i));
                         this._builder.get_object('dot_color_' + i + '_colorbutton').set_rgba(rgba);
 
@@ -493,6 +519,73 @@ const Settings = new Lang.Class({
                             this._builder.get_object('isolate_workspaces_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('group-apps',
+                            this._builder.get_object('group_apps_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('group-apps-use-fixed-width',
+                            this._builder.get_object('group_apps_use_fixed_width_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('group-apps-underline-unfocused',
+                            this._builder.get_object('group_apps_underline_unfocused_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('group-apps-use-launchers',
+                            this._builder.get_object('group_apps_use_launchers_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);    
+
+        this._builder.get_object('show_group_apps_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Group applications options'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('box_group_apps_options');
+            dialog.get_content_area().add(box);
+
+            this._builder.get_object('group_apps_label_font_size_spinbutton').set_value(this._settings.get_int('group-apps-label-font-size'));
+            this._builder.get_object('group_apps_label_font_size_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('group-apps-label-font-size', widget.get_value());
+            }));
+
+            this._builder.get_object('group_apps_label_max_width_spinbutton').set_value(this._settings.get_int('group-apps-label-max-width'));
+            this._builder.get_object('group_apps_label_max_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('group-apps-label-max-width', widget.get_value());
+            }));
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('group-apps-label-font-size', this._settings.get_default_value('group-apps-label-font-size'));
+                    this._builder.get_object('group_apps_label_font_size_spinbutton').set_value(this._settings.get_int('group-apps-label-font-size'));
+
+                    this._settings.set_value('group-apps-label-max-width', this._settings.get_default_value('group-apps-label-max-width'));
+                    this._builder.get_object('group_apps_label_max_width_spinbutton').set_value(this._settings.get_int('group-apps-label-max-width'));
+
+                    this._settings.set_value('group-apps-use-fixed-width', this._settings.get_default_value('group-apps-use-fixed-width'));
+                    this._settings.set_value('group-apps-underline-unfocused', this._settings.get_default_value('group-apps-underline-unfocused'));
+                    this._settings.set_value('group-apps-use-launchers', this._settings.get_default_value('group-apps-use-launchers'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));    
 
         this._builder.get_object('click_action_combo').set_active_id(this._settings.get_string('click-action'));
         this._builder.get_object('click_action_combo').connect('changed', Lang.bind (this, function(widget) {

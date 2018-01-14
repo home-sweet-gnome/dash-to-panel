@@ -32,6 +32,20 @@
 	border: none;
 }
 
+#dashtopanelScrollview .app-well-app .overview-label {
+	padding-right: 8px;
+}
+
+#dashtopanelScrollview .app-well-app:hover .overview-icon,
+#dashtopanelScrollview .app-well-app:focus .overview-icon {
+	background: none;
+}
+
+#dashtopanelScrollview .app-well-app:hover > :first-child,
+#dashtopanelScrollview .app-well-app:focus > :first-child {
+	background-color: rgba(238, 238, 236, 0.1);
+}
+
 #dashtopanelScrollview .app-well-app-running-dot {
 	margin-bottom: 0;
 }

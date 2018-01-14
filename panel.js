@@ -328,6 +328,14 @@ var dtpPanel = new Lang.Class({
         this._dtpSettings.connect('changed::show-showdesktop-button', Lang.bind(this, function() {
             this._displayShowDesktopButton(this._dtpSettings.get_boolean('show-showdesktop-button'));
         }));
+
+        this._dtpSettings.connect('changed::group-apps', Lang.bind(this, function() {
+            this.taskbar.resetAppIcons();
+        }));
+
+        this._dtpSettings.connect('changed::group-apps-use-launchers', Lang.bind(this, function() {
+            this.taskbar.resetAppIcons();
+        }));
     },
 
     _allocate: function(actor, box, flags) {
@@ -611,7 +619,7 @@ var dtpPanel = new Lang.Class({
         let panelBottom = panelTop + this.actor.get_height();
         let scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         let isNearEnough = windows.some(Lang.bind(this, function(metaWindow) {
-            if (this._dtpPosition === 'TOP') {
+            if (this.hasOwnProperty('_dtpPosition') && this._dtpPosition === 'TOP') {
                 let verticalPosition = metaWindow.get_frame_rect().y;
                 return verticalPosition < panelBottom + 5 * scale;
             } else {

@@ -82,7 +82,7 @@ var thumbnailPreviewMenu = new Lang.Class({
         this._boxPointer._arrowSide = side;
         this._boxPointer._userArrowSide = side;
 
-        this._previewBox = new thumbnailPreviewList(this._app, this._dtpSettings);
+        this._previewBox = new thumbnailPreviewList(this._app, source.window, this._dtpSettings);
         this.addMenuItem(this._previewBox);
 
         this._peekMode = false;
@@ -309,7 +309,7 @@ var thumbnailPreviewMenu = new Lang.Class({
                 let window = pairWindowOpacity[0];
                 let initialOpacity = pairWindowOpacity[1];
                 let windowActor = window.get_compositor_private();
-        		if(window && windowActor) {
+                if(window && windowActor) {
                     if(window.minimized || !window.located_on_workspace(this._peekModeOriginalWorkspace))
                         Tweener.addTween(windowActor, {
                             opacity: 0,
@@ -326,7 +326,7 @@ var thumbnailPreviewMenu = new Lang.Class({
                             time: Taskbar.DASH_ANIMATION_TIME,
                             transition: 'easeOutQuad'
                         });
-                }	
+                }
             }));
         }));
         this._peekModeSavedWorkspaces = null;
@@ -820,8 +820,11 @@ var thumbnailPreview = new Lang.Class({
     },
 
     _onDestroy: function() {
-        this.window.disconnect(this._titleNotifyId);
-        this._titleNotifyId = 0;
+        if (this._titleNotifyId) {
+            this.window.disconnect(this._titleNotifyId);
+            this._titleNotifyId = 0;
+        }
+        
         if(this._resizeId) {
             let mutterWindow = this.window.get_compositor_private();
             if (mutterWindow) {
@@ -836,7 +839,7 @@ var thumbnailPreviewList = new Lang.Class({
     Name: 'DashToPanel.ThumbnailPreviewList',
     Extends: PopupMenu.PopupMenuSection,
 
-    _init: function(app, settings) {
+    _init: function(app, window, settings) {
         this._dtpSettings = settings;
 
   	    this.parent();
@@ -858,14 +861,15 @@ var thumbnailPreviewList = new Lang.Class({
         this._shownInitially = false;
 
         this.app = app;
+        this.window = window;
 
         this._redisplayId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._redisplay));
         this._scrollbarId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._showHideScrollbar));
 
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
-        this._stateChangedId = this.app.connect('windows-changed',
-                                                Lang.bind(this,
-                                                          this._queueRedisplay));
+        
+        this._stateChangedId = this.window ? 0 : 
+                               this.app.connect('windows-changed', Lang.bind(this, this._queueRedisplay));
     },
 
     _needsScrollbar: function() {
@@ -953,8 +957,10 @@ var thumbnailPreviewList = new Lang.Class({
     },
 
     _onDestroy: function() {
-        this.app.disconnect(this._stateChangedId);
-        this._stateChangedId = 0;
+        if (this._stateChangedId) {
+            this.app.disconnect(this._stateChangedId);
+            this._stateChangedId = 0;
+        }
     },
 
     _createPreviewItem: function(window) {
@@ -986,7 +992,8 @@ var thumbnailPreviewList = new Lang.Class({
     },
 
     _redisplay: function () {
-        let windows = AppIcons.getInterestingWindows(this.app, this._dtpSettings).sort(this.sortWindowsCompareFunction);
+        let windows = this.window ? [this.window] : 
+                      AppIcons.getInterestingWindows(this.app, this._dtpSettings).sort(this.sortWindowsCompareFunction);
         let children = this.box.get_children().filter(function(actor) {
                 return actor._delegate.window && actor._delegate.preview;
             });
@@ -1004,13 +1011,6 @@ var thumbnailPreviewList = new Lang.Class({
         let oldIndex = 0;
 
         while (newIndex < newWin.length || oldIndex < oldWin.length) {
-            // No change at oldIndex/newIndex
-            if (oldWin[oldIndex] == newWin[newIndex]) {
-                oldIndex++;
-                newIndex++;
-                continue;
-            }
-
             // Window removed at oldIndex
             if (oldWin[oldIndex] &&
                 newWin.indexOf(oldWin[oldIndex]) == -1) {
@@ -1024,6 +1024,13 @@ var thumbnailPreviewList = new Lang.Class({
                 oldWin.indexOf(newWin[newIndex]) == -1) {
                 addedItems.push({ item: this._createPreviewItem(newWin[newIndex]),
                                   pos: newIndex });
+                newIndex++;
+                continue;
+            }
+
+            // No change at oldIndex/newIndex
+            if (oldWin[oldIndex] == newWin[newIndex]) {
+                oldIndex++;
                 newIndex++;
                 continue;
             }

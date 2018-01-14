@@ -57,7 +57,7 @@ var dtpOverview = new Lang.Class({
         // 1 static workspace only)
         Main.overview._controls.dash.actor.set_width(1);
 
-        this._optionalWorkspaceIsolation();
+        this._isolation = this._optionalWorkspaceIsolation();
         this._optionalHotKeys();
         this._optionalNumberOverlay();
         this._bindSettingsChanges();
@@ -75,6 +75,8 @@ var dtpOverview = new Lang.Class({
         // Remove key bindings
         this._disableHotKeys();
         this._disableExtraShortcut();
+
+        this._isolation.disable.apply(this);
     },
 
     _bindSettingsChanges: function() {
@@ -142,6 +144,8 @@ var dtpOverview = new Lang.Class({
                 return Main.activateWindow(windows[0]);
             return this.open_new_window(-1);
         }
+
+        return { disable: disable };
     },
 
     // Hotkeys
