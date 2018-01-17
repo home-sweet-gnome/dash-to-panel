@@ -133,12 +133,12 @@
       <description>Whether to highlight the background of the currently focused application's icon</description>
     </key>
     <key type="s" name="focus-highlight-color">
-      <default>"#5A5A5A"</default>
+      <default>"#EEEEEE"</default>
       <summary>Color of highlight of focused application</summary>
       <description>Customize the color of the highlight of the focused application</description>
     </key>
     <key type="i" name="focus-highlight-opacity">
-      <default>50</default>
+      <default>25</default>
       <summary>Opacity of highlight of focused application</summary>
       <description>Customize the opacity of the highlight of the focused application</description>
     </key>
