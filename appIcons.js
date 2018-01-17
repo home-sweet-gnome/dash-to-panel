@@ -181,6 +181,7 @@ var taskbarAppIcon = new Lang.Class({
             this._dtpSettings.connect('changed::focus-highlight-color', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::focus-highlight-opacity', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::group-apps-label-font-size', Lang.bind(this, this._updateWindowTitleStyle)),
+            this._dtpSettings.connect('changed::group-apps-label-font-color', Lang.bind(this, this._updateWindowTitleStyle)),
             this._dtpSettings.connect('changed::group-apps-label-max-width', Lang.bind(this, this._updateWindowTitleStyle)),
             this._dtpSettings.connect('changed::group-apps-use-fixed-width', Lang.bind(this, this._updateWindowTitleStyle)),
             this._dtpSettings.connect('changed::group-apps-underline-unfocused', Lang.bind(this, this._settingsChangeRefresh))
@@ -418,7 +419,8 @@ var taskbarAppIcon = new Lang.Class({
             this._windowTitle.clutter_text.natural_width = useFixedWidth ? maxLabelWidth : 0;
             this._windowTitle.clutter_text.natural_width_set = useFixedWidth;
             this._windowTitle.set_style('font-size: ' + this._dtpSettings.get_int('group-apps-label-font-size') + 'px;' +
-                                        (useFixedWidth ? '' : 'max-width: ' + maxLabelWidth + 'px;'));
+                                        (useFixedWidth ? '' : 'max-width: ' + maxLabelWidth + 'px;') + 
+                                        'color: ' + this._dtpSettings.get_string('group-apps-label-font-color'));
         }
     },
 

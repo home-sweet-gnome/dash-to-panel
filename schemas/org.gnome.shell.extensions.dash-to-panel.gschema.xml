@@ -212,6 +212,11 @@
       <summary>Application title font size</summary>
       <description>When the applications are ungrouped, this defines the application titles font size.</description>
     </key>
+    <key type="s" name="group-apps-label-font-color">
+      <default>"#dddddd"</default>
+      <summary>Application title font color</summary>
+      <description>When the applications are ungrouped, this defines the application titles font color.</description>
+    </key>
     <key type="i" name="group-apps-label-max-width">
       <default>160</default>
       <summary>Application title max width</summary>
