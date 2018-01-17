@@ -525,6 +525,11 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('group-apps',
+                            this._builder.get_object('show_group_apps_options_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
+
         this._builder.get_object('group_apps_label_font_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
