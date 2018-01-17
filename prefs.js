@@ -344,6 +344,11 @@ const Settings = new Lang.Class({
                     'active',
                     Gio.SettingsBindFlags.DEFAULT);
 
+            this._settings.bind('focus-highlight',
+                    this._builder.get_object('grid_focus_highlight_options'),
+                    'sensitive',
+                    Gio.SettingsBindFlags.DEFAULT);
+
             (function() {
                 let rgba = new Gdk.RGBA();
                 rgba.parse(this._settings.get_string('focus-highlight-color'));
