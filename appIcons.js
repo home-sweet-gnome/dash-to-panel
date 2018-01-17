@@ -553,11 +553,6 @@ var taskbarAppIcon = new Lang.Class({
             
             isFocused = (tracker.focus_app == this.app);
 
-            if(isFocused) 
-                this.actor.add_style_class_name('focused');
-            else
-                this.actor.remove_style_class_name('focused');
-    
             if(focusedIsWide) {
                 newFocusedDotsWidth = (isFocused && this._nWindows > 0) ? containerWidth : 0;
                 newFocusedDotsOpacity = 255;
