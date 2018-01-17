@@ -426,7 +426,7 @@ var taskbarAppIcon = new Lang.Class({
 
     _updateWindowTitle: function() {
         if (this._windowTitle.text != this.window.title) {
-            this._windowTitle.text = this.window.title;
+            this._windowTitle.text = this.window.title ? this.window.title : this.app.get_name();
             
             if (this._focusedDots) {
                 this._displayProperIndicator();
