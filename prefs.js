@@ -1048,11 +1048,10 @@ function buildPrefsWidget() {
     // I'd like the scrolled window to default to a size large enough to show all without scrolling, if it fits on the screen
     // But, it doesn't seem possible, so I'm setting a minimum size if there seems to be enough screen real estate
     widget.show_all();
-    let viewport = settings.viewport;
-    let viewportSize = viewport.size_request();
+    let viewportSize = settings.viewport.size_request();
     let screenHeight = widget.get_screen().get_height();
-    if(viewportSize.height < (screenHeight - (screenHeight * .2)))
-        widget.set_size_request(viewportSize.width, viewportSize.height + (viewportSize.height * .05));   
+    
+    widget.set_size_request(viewportSize.width, viewportSize.height > screenHeight ? screenHeight : viewportSize.height);   
     
     return widget;
 }
