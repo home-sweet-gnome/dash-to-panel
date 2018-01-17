@@ -528,7 +528,7 @@ const Settings = new Lang.Class({
         this._settings.bind('group-apps',
                             this._builder.get_object('group_apps_switch'),
                             'active',
-                            Gio.SettingsBindFlags.DEFAULT);
+                            Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
         this._settings.bind('group-apps',
                             this._builder.get_object('show_group_apps_options_button'),
@@ -558,7 +558,7 @@ const Settings = new Lang.Class({
                             Gio.SettingsBindFlags.DEFAULT);    
 
         this._builder.get_object('show_group_apps_options_button').connect('clicked', Lang.bind(this, function() {
-            let dialog = new Gtk.Dialog({ title: _('Group applications options'),
+            let dialog = new Gtk.Dialog({ title: _('Ungrouped application options'),
                                           transient_for: this.widget.get_toplevel(),
                                           use_header_bar: true,
                                           modal: true });
@@ -1054,7 +1054,7 @@ function buildPrefsWidget() {
     // But, it doesn't seem possible, so I'm setting a minimum size if there seems to be enough screen real estate
     widget.show_all();
     let viewportSize = settings.viewport.size_request();
-    let screenHeight = widget.get_screen().get_height();
+    let screenHeight = widget.get_screen().get_height() - 120;
     
     widget.set_size_request(viewportSize.width, viewportSize.height > screenHeight ? screenHeight : viewportSize.height);   
     

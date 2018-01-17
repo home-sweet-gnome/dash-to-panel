@@ -374,6 +374,18 @@
     <property name="step_increment">1</property>
     <property name="page_increment">5</property>
   </object>
+  <object class="GtkAdjustment" id="enter_peek_mode_timeout_adjustment">
+    <property name="lower">50</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">25</property>
+    <property name="page_increment">100</property>
+  </object>
+  <object class="GtkAdjustment" id="focus_highlight_opacity_adjustment">
+    <property name="lower">5</property>
+    <property name="upper">100</property>
+    <property name="step_increment">5</property>
+    <property name="page_increment">5</property>
+  </object>
   <object class="GtkBox" id="box_dots_options">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -947,18 +959,6 @@
         <property name="position">0</property>
       </packing>
     </child>
-  </object>
-  <object class="GtkAdjustment" id="enter_peek_mode_timeout_adjustment">
-    <property name="lower">50</property>
-    <property name="upper">9999</property>
-    <property name="step_increment">25</property>
-    <property name="page_increment">100</property>
-  </object>
-  <object class="GtkAdjustment" id="focus_highlight_opacity_adjustment">
-    <property name="lower">5</property>
-    <property name="upper">100</property>
-    <property name="step_increment">5</property>
-    <property name="page_increment">5</property>
   </object>
   <object class="GtkAdjustment" id="group_apps_label_font_size_adjustment">
     <property name="lower">6</property>
@@ -3064,7 +3064,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Group applications</property>
+                            <property name="label" translatable="yes">Ungroup applications</property>
                             <property name="use_markup">True</property>
                             <property name="xalign">0</property>
                           </object>
