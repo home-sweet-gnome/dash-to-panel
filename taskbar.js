@@ -267,6 +267,11 @@ var taskbar = new Lang.Class({
                 Lang.bind(this, this._queueRedisplay)
             ],
             [
+                global.screen,
+                'restacked',
+                Lang.bind(this, this._queueRedisplay)
+            ],
+            [
                 this._appSystem,
                 'app-state-changed',
                 Lang.bind(this, this._queueRedisplay)
@@ -831,7 +836,7 @@ var taskbar = new Lang.Class({
 
     // Reset the displayed apps icon to mantain the correct order
     resetAppIcons : function() {
-
+        
         let children = this._box.get_children().filter(function(actor) {
             return actor.child &&
                 actor.child._delegate &&
