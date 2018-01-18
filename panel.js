@@ -328,14 +328,6 @@ var dtpPanel = new Lang.Class({
         this._dtpSettings.connect('changed::show-showdesktop-button', Lang.bind(this, function() {
             this._displayShowDesktopButton(this._dtpSettings.get_boolean('show-showdesktop-button'));
         }));
-
-        this._dtpSettings.connect('changed::group-apps', Lang.bind(this, function() {
-            this.taskbar.resetAppIcons();
-        }));
-
-        this._dtpSettings.connect('changed::group-apps-use-launchers', Lang.bind(this, function() {
-            this.taskbar.resetAppIcons();
-        }));
     },
 
     _allocate: function(actor, box, flags) {

@@ -232,7 +232,7 @@ var taskbar = new Lang.Class({
                 this._queueRedisplay();
             }));
 
-        this.actor.connect('notify::width', Lang.bind(this,
+        Main.panel.actor.connect('notify::width', Lang.bind(this,
             function() {
                 if (this._maxWidth < this.actor.width) {
                     this._maxWidth = this.actor.width;
@@ -267,9 +267,9 @@ var taskbar = new Lang.Class({
                 Lang.bind(this, this._queueRedisplay)
             ],
             [
-                global.screen,
-                'restacked',
-                Lang.bind(this, this._queueRedisplay)
+                global.window_manager,
+                'switch-workspace', 
+                () => this._connectWorkspaceSignals()
             ],
             [
                 this._appSystem,
@@ -304,12 +304,18 @@ var taskbar = new Lang.Class({
             ]
         );
 
+        this.isGroupApps = this._dtpSettings.get_boolean('group-apps');
+
+        this._connectWorkspaceSignals();
+
         this._bindSettingsChanges();
     },
 
     destroy: function() {
         this._signalsHandler.destroy();
         this._signalsHandler = 0;
+
+        this._disconnectWorkspaceSignals();
     },
 
     _bindSettingsChanges: function () {
@@ -323,6 +329,16 @@ var taskbar = new Lang.Class({
         this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._redisplay));
 
         this._dtpSettings.connect('changed::show-favorites', Lang.bind(this, this._redisplay));
+
+        this._dtpSettings.connect('changed::group-apps', Lang.bind(this, function() {
+            this.isGroupApps = this._dtpSettings.get_boolean('group-apps');
+            this._connectWorkspaceSignals();
+            this.resetAppIcons();
+        }));
+
+        this._dtpSettings.connect('changed::group-apps-use-launchers', Lang.bind(this, function() {
+            this.resetAppIcons();
+        }));
     },
 
     _onScrollEvent: function(actor, event) {
@@ -427,6 +443,26 @@ var taskbar = new Lang.Class({
         for (let i = 0; i < apps.length; i++)
             ids[apps[i].get_id()] = apps[i];
         return ids;
+    },
+
+    _connectWorkspaceSignals: function() {
+        this._disconnectWorkspaceSignals();
+
+        if (!this.isGroupApps) {
+            this._lastWorkspace = global.screen.get_active_workspace();
+
+            this._workspaceWindowAddedId = this._lastWorkspace.connect('window-added', () => this._queueRedisplay());
+            this._workspaceWindowRemovedId = this._lastWorkspace.connect('window-removed', () => this._queueRedisplay());
+        }
+    },
+
+    _disconnectWorkspaceSignals: function() {
+        if (this._lastWorkspace) {
+            this._lastWorkspace.disconnect(this._workspaceWindowAddedId);
+            this._lastWorkspace.disconnect(this._workspaceWindowRemovedId);
+
+            this._lastWorkspace = null;
+        }
     },
 
     _queueRedisplay: function () {
@@ -712,7 +748,6 @@ var taskbar = new Lang.Class({
             return;
         }
 
-        let groupApps = this._dtpSettings.get_boolean('group-apps');
         let showFavorites = this._dtpSettings.get_boolean('show-favorites');
         //get the currently displayed appIcons
         let currentAppIcons = this._box.get_children().filter(function(actor) {
@@ -731,7 +766,7 @@ var taskbar = new Lang.Class({
         let runningApps = this._getRunningApps().sort(this.sortAppsCompareFunction);
         let expectedAppInfos;
         
-        if (!groupApps && this._dtpSettings.get_boolean('group-apps-use-launchers')) {
+        if (!this.isGroupApps && this._dtpSettings.get_boolean('group-apps-use-launchers')) {
             expectedAppInfos = this._createAppInfos(favoriteApps, [], true)
                                    .concat(this._createAppInfos(runningApps)
                                                .filter(appInfo => appInfo.windows.length));
@@ -752,9 +787,9 @@ var taskbar = new Lang.Class({
                                                                  appInfo.isLauncher == appIcon.isLauncher);
 
             if (appIndex < 0 || 
-                (appIcon.window && (groupApps || expectedAppInfos[appIndex].windows.indexOf(appIcon.window) < 0)) ||
+                (appIcon.window && (this.isGroupApps || expectedAppInfos[appIndex].windows.indexOf(appIcon.window) < 0)) ||
                 (!appIcon.window && !appIcon.isLauncher && 
-                 !groupApps && expectedAppInfos[appIndex].windows.length)) {
+                 !this.isGroupApps && expectedAppInfos[appIndex].windows.length)) {
                 currentAppIcons[i].animateOutAndDestroy();
                 currentAppIcons.splice(i, 1);
             }
@@ -763,7 +798,7 @@ var taskbar = new Lang.Class({
         //if needed, reorder the existing appIcons and create the missing ones
         let currentPosition = 0;
         for (let i = 0, l = expectedAppInfos.length; i < l; ++i) {
-            let neededAppIcons = groupApps || !expectedAppInfos[i].windows.length ? 
+            let neededAppIcons = this.isGroupApps || !expectedAppInfos[i].windows.length ? 
                                  [{ app: expectedAppInfos[i].app, window: null, isLauncher: expectedAppInfos[i].isLauncher }] : 
                                  expectedAppInfos[i].windows.map(window => ({ app: expectedAppInfos[i].app, window: window, isLauncher: false }));
                                  
