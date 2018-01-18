@@ -465,9 +465,15 @@ var taskbarAppIcon = new Lang.Class({
                                                                   this._dtpSettings.get_int('focus-highlight-opacity') * 0.01);
         }
         
-        // graphical glitches if i dont set this on a timeout
-        if(this.actor.get_style() != inlineStyle)
-            Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(inlineStyle); }));
+        if(this.actor.get_style() != inlineStyle) {
+            if (!this._isGroupApps) {
+                //when the apps are ungrouped, set the style synchronously so the icons don't jump around on taskbar redraw
+                this.actor.set_style(inlineStyle);
+            } else {
+                //graphical glitches if i dont set this on a timeout
+                Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(inlineStyle); }));
+            }
+        }
     },
 
     popupMenu: function() {

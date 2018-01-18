@@ -165,7 +165,6 @@ var taskbar = new Lang.Class({
 
     _init : function(settings) {
         this._dtpSettings = settings;
-        this._maxWidth = -1;
         
         // start at smallest size due to running indicator drawing area expanding but not shrinking
         this.iconSize = baseIconSizes[0];
@@ -227,18 +226,8 @@ var taskbar = new Lang.Class({
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
         });
 
-        Main.panel.actor.connect('notify::height', Lang.bind(this,
-            function() {
-                this._queueRedisplay();
-            }));
-
-        Main.panel.actor.connect('notify::width', Lang.bind(this,
-            function() {
-                if (this._maxWidth < this.actor.width) {
-                    this._maxWidth = this.actor.width;
-                    this._queueRedisplay();
-                }
-            }));
+        Main.panel.actor.connect('notify::height', Lang.bind(this, this._queueRedisplay));
+        Main.panel.actor.connect('notify::width', Lang.bind(this, this._queueRedisplay));
 
         // Update minimization animation target position on allocation of the
         // container and on scrollview change.
@@ -443,6 +432,14 @@ var taskbar = new Lang.Class({
         for (let i = 0; i < apps.length; i++)
             ids[apps[i].get_id()] = apps[i];
         return ids;
+    },
+
+    handleIsolatedWorkspaceSwitch: function() {
+        if (this.isGroupApps) {
+            return this._queueRedisplay();
+        }
+
+        this.resetAppIcons();
     },
 
     _connectWorkspaceSignals: function() {
@@ -678,9 +675,6 @@ var taskbar = new Lang.Class({
 
         iconChildren.push(this._showAppsIcon);
 
-        if (this._maxWidth == -1)
-            return;
-
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         let iconSizes = this._availableIconSizes.map(function(s) {
             return s * scaleFactor;
@@ -724,14 +718,14 @@ var taskbar = new Lang.Class({
             // Scale the icon's texture to the previous size and
             // tween to the new size
             icon.icon.set_size(icon.icon.width * scale,
-                               icon.icon.height * scale);
+                                icon.icon.height * scale);
 
             Tweener.addTween(icon.icon,
-                             { width: targetWidth,
-                               height: targetHeight,
-                               time: DASH_ANIMATION_TIME,
-                               transition: 'easeOutQuad',
-                             });
+                        { width: targetWidth,
+                            height: targetHeight,
+                            time: DASH_ANIMATION_TIME,
+                            transition: 'easeOutQuad',
+                        });
         }
     },
 
@@ -775,11 +769,6 @@ var taskbar = new Lang.Class({
                                    .filter(appInfo => appInfo.windows.length || favoriteApps.indexOf(appInfo.app) >= 0);
         }
 
-        // Skip animations on first run when adding the initial set
-        // of items, to avoid all items zooming in at once
-        let animate = this._shownInitially;
-        this._shownInitially = true;
-
         //remove the appIcons which are not in the expected apps list
         for (let i = currentAppIcons.length - 1; i > -1; --i) {
             let appIcon = currentAppIcons[i].child._delegate;
@@ -821,7 +810,9 @@ var taskbar = new Lang.Class({
                     // Emit a custom signal notifying that a new item has been added
                     this.emit('item-added', newAppIcon);
                     
-                    newAppIcon.show(animate);
+                    // Skip animations on first run when adding the initial set
+                    // of items, to avoid all items zooming in at once
+                    newAppIcon.show(this._shownInitially);
                 }
 
                 ++currentPosition;
@@ -842,6 +833,8 @@ var taskbar = new Lang.Class({
 
         // Connect windows previews to hover events
         this._toggleWindowPreview();
+
+        this._shownInitially = true;
     },
 
     _getRunningApps: function() {

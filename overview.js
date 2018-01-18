@@ -114,7 +114,7 @@ var dtpOverview = new Lang.Class({
             this._signalsHandler.addWithLabel(label, [
                 global.window_manager,
                 'switch-workspace',
-                Lang.bind(this.taskbar, this.taskbar._queueRedisplay)
+                () => this.taskbar.handleIsolatedWorkspaceSwitch()
             ]);
         }
 

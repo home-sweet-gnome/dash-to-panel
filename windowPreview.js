@@ -683,6 +683,10 @@ var thumbnailPreview = new Lang.Class({
     },
 
     _onResize: function() {
+        if (!this.preview) {
+            return;
+        }
+        
         let [width, height] = this.preview.get_source().get_size();
         this.scale = Math.min(1.0, this._thumbnailWidth / width, this._thumbnailHeight / height);
         this.preview.set_size(width * this.scale, height * this.scale);
