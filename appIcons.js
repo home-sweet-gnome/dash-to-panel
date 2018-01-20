@@ -416,6 +416,8 @@ var taskbarAppIcon = new Lang.Class({
             let useFixedWidth = this._dtpSettings.get_boolean('group-apps-use-fixed-width');
             let maxLabelWidth = this._dtpSettings.get_int('group-apps-label-max-width');
             
+            this._windowTitle[(maxLabelWidth > 0 ? 'show' : 'hide')]();
+
             this._windowTitle.clutter_text.natural_width = useFixedWidth ? maxLabelWidth : 0;
             this._windowTitle.clutter_text.natural_width_set = useFixedWidth;
             this._windowTitle.set_style('font-size: ' + this._dtpSettings.get_int('group-apps-label-font-size') + 'px;' +
