@@ -122,6 +122,8 @@ var taskbarAppIcon = new Lang.Class({
             this._updateWindowTitle();
             this._updateWindowTitleStyle();
 
+            this._scaleFactorChangedId = St.ThemeContext.get_for_stage(global.stage).connect('changed', () => this._updateWindowTitleStyle());
+
             this.actor.remove_actor(this._iconContainer);
             box.add_child(this._iconContainer);
             box.add_child(this._windowTitle);
@@ -305,6 +307,9 @@ var taskbarAppIcon = new Lang.Class({
         if(this._switchWorkspaceId)
             global.window_manager.disconnect(this._switchWorkspaceId);
 
+        if(this._scaleFactorChangedId)
+            St.ThemeContext.get_for_stage(global.stage).disconnect(this._scaleFactorChangedId);
+
         for (let i = 0, l = this._settingsConnectIds.length; i < l; ++i) {
             if (this._settingsConnectIds[i]) {
                 this._dtpSettings.disconnect(this._settingsConnectIds[i]);
@@ -414,7 +419,8 @@ var taskbarAppIcon = new Lang.Class({
     _updateWindowTitleStyle: function() {
         if (this._windowTitle) {
             let useFixedWidth = this._dtpSettings.get_boolean('group-apps-use-fixed-width');
-            let maxLabelWidth = this._dtpSettings.get_int('group-apps-label-max-width');
+            let maxLabelWidth = this._dtpSettings.get_int('group-apps-label-max-width') * 
+                                St.ThemeContext.get_for_stage(global.stage).scale_factor;
             
             this._windowTitle[(maxLabelWidth > 0 ? 'show' : 'hide')]();
 
