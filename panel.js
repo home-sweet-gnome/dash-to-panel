@@ -230,27 +230,6 @@ var dtpPanel = new Lang.Class({
     },
 
     disable: function () {
-        PopupMenu.PopupMenu.prototype.open = this._oldPopupOpen;
-        PopupMenu.PopupSubMenu.prototype.open = this._oldPopupSubMenuOpen;
-
-        Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
-        Main.layoutManager._updateHotCorners();
-
-        Main.layoutManager._updatePanelBarrier = this._oldUpdatePanelBarrier;
-        Main.layoutManager._updatePanelBarrier();
-
-        Main.overview.viewSelector._animateIn = this._oldViewSelectorAnimateIn;
-        Main.overview.viewSelector._animateOut = this._oldViewSelectorAnimateOut;
-
-        this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
-        delete this.panel._leftBox.oldLeftBoxAllocate;
-
-        this.panel._centerBox.allocate = this.panel._centerBox.oldCenterBoxAllocate;
-        delete this.panel._centerBox.oldCenterBoxAllocate;
-        
-        this.panel._rightBox.allocate = this.panel._rightBox.oldRightBoxAllocate;
-        delete this.panel._rightBox.oldRightBoxAllocate;
-        
         this.panelStyle.disable();
 
         this._signalsHandler.destroy();
@@ -288,6 +267,27 @@ var dtpPanel = new Lang.Class({
             this._injectionsHandler.destroy();
             delete this.panel._dtpPosition;
         }
+
+        PopupMenu.PopupMenu.prototype.open = this._oldPopupOpen;
+        PopupMenu.PopupSubMenu.prototype.open = this._oldPopupSubMenuOpen;
+
+        Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
+        Main.layoutManager._updateHotCorners();
+
+        Main.layoutManager._updatePanelBarrier = this._oldUpdatePanelBarrier;
+        Main.layoutManager._updatePanelBarrier();
+
+        Main.overview.viewSelector._animateIn = this._oldViewSelectorAnimateIn;
+        Main.overview.viewSelector._animateOut = this._oldViewSelectorAnimateOut;
+
+        this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
+        delete this.panel._leftBox.oldLeftBoxAllocate;
+
+        this.panel._centerBox.allocate = this.panel._centerBox.oldCenterBoxAllocate;
+        delete this.panel._centerBox.oldCenterBoxAllocate;
+        
+        this.panel._rightBox.allocate = this.panel._rightBox.oldRightBoxAllocate;
+        delete this.panel._rightBox.oldRightBoxAllocate;
 
         this.appMenu = null;
         this.container = null;
@@ -611,7 +611,7 @@ var dtpPanel = new Lang.Class({
         let panelBottom = panelTop + this.actor.get_height();
         let scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         let isNearEnough = windows.some(Lang.bind(this, function(metaWindow) {
-            if (this._dtpPosition === 'TOP') {
+            if (this.hasOwnProperty('_dtpPosition') && this._dtpPosition === 'TOP') {
                 let verticalPosition = metaWindow.get_frame_rect().y;
                 return verticalPosition < panelBottom + 5 * scale;
             } else {

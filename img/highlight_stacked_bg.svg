@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 1">
-	<g fill="#eeeeee" opacity="0.25">
-		<rect width="45" height="1"/>
-		<rect x="45" width="1" height="1" opacity="0.2"/>
-		<rect x="46" width="2"  height="1" opacity="0.6"/>
+	<g fill="#000000">
+		<rect x="45" width="1" height="1" opacity="0.7"/>
+		<rect x="46" width="2"  height="1" opacity="0.3"/>
 	</g>
 </svg>

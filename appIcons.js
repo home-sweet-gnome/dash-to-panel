@@ -95,16 +95,42 @@ var taskbarAppIcon = new Lang.Class({
     Name: 'DashToPanel.TaskbarAppIcon',
     Extends: AppDisplay.AppIcon,
 
-    _init: function(settings, app, iconParams, onActivateOverride) {
+    _init: function(settings, appInfo, iconParams, onActivateOverride) {
 
         // a prefix is required to avoid conflicting with the parent class variable
         this._dtpSettings = settings;
         this._nWindows = 0;
+        this.window = appInfo.window;
+        this.isLauncher = appInfo.isLauncher;
 
-        this.parent(app, iconParams, onActivateOverride);
+        this.parent(appInfo.app, iconParams, onActivateOverride);
 
         this._dot.set_width(0);
         this._focused = tracker.focus_app == this.app;
+        this._isGroupApps = this._dtpSettings.get_boolean('group-apps');
+
+        if (appInfo.window) {
+            let outbox = new St.Widget({ layout_manager: new Clutter.BinLayout() });
+            let box = new St.BoxLayout();
+            
+            this._windowTitle = new St.Label({ 
+                y_align: Clutter.ActorAlign.CENTER, 
+                x_align: Clutter.ActorAlign.START, 
+                style_class: 'overview-label' 
+            });
+            
+            this._updateWindowTitle();
+            this._updateWindowTitleStyle();
+
+            this._scaleFactorChangedId = St.ThemeContext.get_for_stage(global.stage).connect('changed', () => this._updateWindowTitleStyle());
+
+            this.actor.remove_actor(this._iconContainer);
+            box.add_child(this._iconContainer);
+            box.add_child(this._windowTitle);
+
+            outbox.add_child(box);
+            this.actor.set_child(outbox);
+        }      
 
         // Monitor windows-changes instead of app state.
         // Keep using the same Id and function callback (that is extended)
@@ -113,38 +139,55 @@ var taskbarAppIcon = new Lang.Class({
             this._stateChangedId = 0;
         }
 
-        this._stateChangedId = this.app.connect('windows-changed',
-                                                Lang.bind(this, this.onWindowsChanged));
-        this._focusAppChangedId = tracker.connect('notify::focus-app',
+        this._focusAppChangedId = tracker.connect('notify::focus-app', 
                                                 Lang.bind(this, this._onFocusAppChanged));
+
+        if (!this.window) {
+            this._stateChangedId = this.app.connect('windows-changed',
+                                                Lang.bind(this, this.onWindowsChanged));
+            
+            this._focusWindowChangedId = 0;
+            this._titleWindowChangeId = 0;
+        } else {
+            this._focusWindowChangedId = global.display.connect('notify::focus-window', 
+                                                Lang.bind(this, this._onFocusAppChanged));
+
+            this._titleWindowChangeId = this.window.connect('notify::title', 
+                                                Lang.bind(this, this._updateWindowTitle));
+        }
+        
         this._overviewWindowDragEndId = Main.overview.connect('window-drag-end',
                                                 Lang.bind(this, this._onOverviewWindowDragEnd));
 
         this._switchWorkspaceId = global.window_manager.connect('switch-workspace',
                                                 Lang.bind(this, this._onSwitchWorkspace));
         
-        this._focusedDots = null;
-        this._unfocusedDots = null;
-
         this._showDots();
 
-        this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color-override', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color-1', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color-2', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color-3', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color-4', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color-unfocused-different', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color-unfocused-1', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color-unfocused-2', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color-unfocused-3', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh));
-        this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh));
-
-        this.windowPreview = null;
+        this._settingsConnectIds = [
+            this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._updateDotSize)),
+            this._dtpSettings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-override', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-1', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-2', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-3', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-4', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-unfocused-different', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-unfocused-1', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-unfocused-2', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-unfocused-3', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::focus-highlight-color', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::focus-highlight-opacity', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::group-apps-label-font-size', Lang.bind(this, this._updateWindowTitleStyle)),
+            this._dtpSettings.connect('changed::group-apps-label-font-color', Lang.bind(this, this._updateWindowTitleStyle)),
+            this._dtpSettings.connect('changed::group-apps-label-max-width', Lang.bind(this, this._updateWindowTitleStyle)),
+            this._dtpSettings.connect('changed::group-apps-use-fixed-width', Lang.bind(this, this._updateWindowTitleStyle)),
+            this._dtpSettings.connect('changed::group-apps-underline-unfocused', Lang.bind(this, this._settingsChangeRefresh))
+        ];
 
         this.forcedOverview = false;
 
@@ -236,7 +279,7 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     shouldShowTooltip: function() {
-        if (this._dtpSettings.get_boolean("show-window-previews") && 
+        if (!this.isLauncher && this._dtpSettings.get_boolean("show-window-previews") && 
             getInterestingWindows(this.app, this._dtpSettings).length > 0) {
             return false;
         } else {
@@ -251,12 +294,27 @@ var taskbarAppIcon = new Lang.Class({
         // stateChangedId is already handled by parent)
         if(this._focusAppChangedId)
             tracker.disconnect(this._focusAppChangedId);
-
+        
         if(this._overviewWindowDragEndId)
             Main.overview.disconnect(this._overviewWindowDragEndId);
+
+        if(this._focusWindowChangedId)
+            global.display.disconnect(this._focusWindowChangedId);
+
+        if(this._titleWindowChangeId)
+            this.window.disconnect(this._titleWindowChangeId);
         
         if(this._switchWorkspaceId)
             global.window_manager.disconnect(this._switchWorkspaceId);
+
+        if(this._scaleFactorChangedId)
+            St.ThemeContext.get_for_stage(global.stage).disconnect(this._scaleFactorChangedId);
+
+        for (let i = 0, l = this._settingsConnectIds.length; i < l; ++i) {
+            if (this._settingsConnectIds[i]) {
+                this._dtpSettings.disconnect(this._settingsConnectIds[i]);
+            }
+        }
     },
 
     onWindowsChanged: function() {
@@ -272,18 +330,17 @@ var taskbarAppIcon = new Lang.Class({
         // resulting in an error when assigned to the a rect. This is a more like
         // a workaround to prevent flooding the system with errors.
         if (this.actor.get_stage() == null)
-            return
+            return;
 
         let rect = new Meta.Rectangle();
 
         [rect.x, rect.y] = this.actor.get_transformed_position();
         [rect.width, rect.height] = this.actor.get_transformed_size();
 
-        let windows = this.app.get_windows();
+        let windows = this.window ? [this.window] : this.app.get_windows();
         windows.forEach(function(w) {
             w.set_icon_geometry(rect);
         });
-
     },
 
     _showDots: function() {
@@ -293,72 +350,138 @@ var taskbarAppIcon = new Lang.Class({
             return;
         }
 
-        this._focusedDots = new St.DrawingArea({width:1, y_expand: true});
-        this._focusedDots._tweeningToWidth = null;
-        this._unfocusedDots = new St.DrawingArea({width:1, y_expand: true});
-        this._unfocusedDots._tweeningToWidth = null;
-        
-        this._focusedDots.connect('repaint', Lang.bind(this, function() {
-            if(this._dashItemContainer.animatingOut) {
-                // don't draw and trigger more animations if the icon is in the middle of
-                // being added to the panel
-                return;
-            }
-            this._drawRunningIndicator(this._focusedDots, this._dtpSettings.get_string('dot-style-focused'), true);
-            this._displayProperIndicator();
-        }));
-        
-        this._unfocusedDots.connect('repaint', Lang.bind(this, function() {
-            if(this._dashItemContainer.animatingOut) {
-                // don't draw and trigger more animations if the icon is in the middle of
-                // being added to the panel
-                return;
-            }
-            this._drawRunningIndicator(this._unfocusedDots, this._dtpSettings.get_string('dot-style-unfocused'), false);
-            this._displayProperIndicator();
-        }));
+        let container = this.actor.get_children()[0];
 
+        if (!this._isGroupApps) {
+            this._focusedDots = new St.Widget({ 
+                layout_manager: new Clutter.BinLayout(),
+                x_expand: true, y_expand: true,
+                height: this._getRunningIndicatorHeight(),
+                visible: false
+            });
+
+            let mappedId = this.actor.connect('notify::mapped', () => {
+                this._displayProperIndicator();
+                this.actor.disconnect(mappedId);
+            });
+        } else {
+            this._focusedDots = new St.DrawingArea({ width:1, y_expand: true });
+            this._focusedDots._tweeningToWidth = null;
+            this._unfocusedDots = new St.DrawingArea({width:1, y_expand: true});
+            this._unfocusedDots._tweeningToWidth = null;
             
-        this._iconContainer.add_child(this._focusedDots);
-        this._iconContainer.add_child(this._unfocusedDots);
+            this._focusedDots.connect('repaint', Lang.bind(this, function() {
+                if(this._dashItemContainer.animatingOut) {
+                    // don't draw and trigger more animations if the icon is in the middle of
+                    // being added to the panel
+                    return;
+                }
+                this._drawRunningIndicator(this._focusedDots, this._dtpSettings.get_string('dot-style-focused'), true);
+                this._displayProperIndicator();
+            }));
+            
+            this._unfocusedDots.connect('repaint', Lang.bind(this, function() {
+                if(this._dashItemContainer.animatingOut) {
+                    // don't draw and trigger more animations if the icon is in the middle of
+                    // being added to the panel
+                    return;
+                }
+                this._drawRunningIndicator(this._unfocusedDots, this._dtpSettings.get_string('dot-style-unfocused'), false);
+                this._displayProperIndicator();
+            }));
+                
+            container.add_child(this._unfocusedDots);
+    
+            this._updateCounterClass();
+        }
 
-        this._updateCounterClass();
+        container.add_child(this._focusedDots);
+    },
+
+    _updateDotSize: function() {
+        if (!this._isGroupApps) {
+            this._focusedDots.height = this._getRunningIndicatorHeight();
+        }
+
+        this._settingsChangeRefresh();
     },
 
     _settingsChangeRefresh: function() {
-        this._updateCounterClass();
-        this._focusedDots.queue_repaint();
-        this._unfocusedDots.queue_repaint();
+        if (this._isGroupApps) {
+            this._updateCounterClass();
+            this._focusedDots.queue_repaint();
+            this._unfocusedDots.queue_repaint();
+        }
+
         this._displayProperIndicator(true);
     },
 
-    _setIconStyle: function() {
+    _updateWindowTitleStyle: function() {
+        if (this._windowTitle) {
+            let useFixedWidth = this._dtpSettings.get_boolean('group-apps-use-fixed-width');
+            let maxLabelWidth = this._dtpSettings.get_int('group-apps-label-max-width') * 
+                                St.ThemeContext.get_for_stage(global.stage).scale_factor;
+            
+            this._windowTitle[(maxLabelWidth > 0 ? 'show' : 'hide')]();
+
+            this._windowTitle.clutter_text.natural_width = useFixedWidth ? maxLabelWidth : 0;
+            this._windowTitle.clutter_text.natural_width_set = useFixedWidth;
+            this._windowTitle.set_style('font-size: ' + this._dtpSettings.get_int('group-apps-label-font-size') + 'px;' +
+                                        (useFixedWidth ? '' : 'max-width: ' + maxLabelWidth + 'px;') + 
+                                        'color: ' + this._dtpSettings.get_string('group-apps-label-font-color'));
+        }
+    },
+
+    _updateWindowTitle: function() {
+        if (this._windowTitle.text != this.window.title) {
+            this._windowTitle.text = this.window.title ? this.window.title : this.app.get_name();
+            
+            if (this._focusedDots) {
+                this._displayProperIndicator();
+            }
+        }
+    },
+
+    _setIconStyle: function(isFocused) {
         let margin = this._dtpSettings.get_int('appicon-margin');
         let inlineStyle = 'margin: 0 ' + margin + 'px;';
 
-        if(this._dtpSettings.get_boolean('focus-highlight') && tracker.focus_app == this.app && !this._isThemeProvidingIndicator()) {
-            let containerWidth = this._iconContainer.get_width() / St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        if(this._dtpSettings.get_boolean('focus-highlight') && 
+           tracker.focus_app == this.app && !this.isLauncher &&  
+           (!this.window || isFocused) && !this._isThemeProvidingIndicator()) {
             let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
             let isWide = this._isWideDotStyle(focusedDotStyle);
             let pos = this._dtpSettings.get_string('dot-position');
             let highlightMargin = isWide ? this._dtpSettings.get_int('dot-size') : 0;
-                        
-            if(focusedDotStyle == DOT_STYLE.CILIORA || focusedDotStyle == DOT_STYLE.SEGMENTED)
-                highlightMargin += 1;
 
-            inlineStyle += "background-image: url('" +
-                Me.path + "/img/highlight_" + 
-                ((this._nWindows > 1 && focusedDotStyle == DOT_STYLE.METRO) ? "stacked_" : "") + 
-                "bg.svg'); background-position: 0 " +
-                (pos == DOT_POSITION.TOP ? highlightMargin : 0) +
-                "px; background-size: " + 
-                containerWidth + "px " + 
-                (containerWidth - (pos == DOT_POSITION.BOTTOM ? highlightMargin : 0)) + "px;";
+            if(!this.window) {
+                let containerWidth = this._iconContainer.get_width() / St.ThemeContext.get_for_stage(global.stage).scale_factor;
+                let backgroundSize = containerWidth + "px " + 
+                                     (containerWidth - (pos == DOT_POSITION.BOTTOM ? highlightMargin : 0)) + "px;";
+
+                if (focusedDotStyle == DOT_STYLE.CILIORA || focusedDotStyle == DOT_STYLE.SEGMENTED)
+                    highlightMargin += 1;
+
+                if (this._nWindows > 1 && focusedDotStyle == DOT_STYLE.METRO) {
+                    inlineStyle += "background-image: url('" + Me.path + "/img/highlight_stacked_bg.svg');" + 
+                                   "background-position: 0 " + (pos == DOT_POSITION.TOP ? highlightMargin : 0) + "px;" +
+                                   "background-size: " + backgroundSize;
+                }
+            }
+
+            inlineStyle += "background-color: " + cssHexTocssRgba(this._dtpSettings.get_string('focus-highlight-color'), 
+                                                                  this._dtpSettings.get_int('focus-highlight-opacity') * 0.01);
         }
         
-        // graphical glitches if i dont set this on a timeout
-        if(this.actor.get_style() != inlineStyle)
-            Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(inlineStyle); }));
+        if(this.actor.get_style() != inlineStyle) {
+            if (!this._isGroupApps) {
+                //when the apps are ungrouped, set the style synchronously so the icons don't jump around on taskbar redraw
+                this.actor.set_style(inlineStyle);
+            } else {
+                //graphical glitches if i dont set this on a timeout
+                Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(inlineStyle); }));
+            }
+        }
     },
 
     popupMenu: function() {
@@ -416,57 +539,72 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _displayProperIndicator: function (force) {
-        this._setIconStyle();
+        let isFocused = this._isFocusedWindow();
 
-        let containerWidth = this._iconContainer.get_width();
-        let isFocused = (tracker.focus_app == this.app);
-        let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
-        let unfocusedDotStyle = this._dtpSettings.get_string('dot-style-unfocused');
-        let focusedIsWide = this._isWideDotStyle(focusedDotStyle);
-        let unfocusedIsWide = this._isWideDotStyle(unfocusedDotStyle);
+        this._setIconStyle(isFocused);
 
-        let newFocusedDotsWidth = 0;
-        let newFocusedDotsOpacity = 0;
-        let newUnfocusedDotsWidth = 0;
-        let newUnfocusedDotsOpacity = 0;
-
-        
-        if(isFocused) 
-            this.actor.add_style_class_name('focused');
-        else
-            this.actor.remove_style_class_name('focused');
-
-        if(focusedIsWide) {
-            newFocusedDotsWidth = (isFocused && this._nWindows > 0) ? containerWidth : 0;
-            newFocusedDotsOpacity = 255;
+        if(!this._isGroupApps) {
+            if (this.window && (this._dtpSettings.get_boolean('group-apps-underline-unfocused') || isFocused)) {
+                let dotPosition = this._dtpSettings.get_string('dot-position');
+                
+                this._focusedDots.y_align = dotPosition == DOT_POSITION.TOP ? Clutter.ActorAlign.START : Clutter.ActorAlign.END;
+                this._focusedDots.background_color = this._getRunningIndicatorColor(isFocused);
+                this._focusedDots.show();
+            } else if (this._focusedDots.visible) {
+                this._focusedDots.hide();
+            }
         } else {
-            newFocusedDotsWidth = containerWidth;
-            newFocusedDotsOpacity = (isFocused && this._nWindows > 0) ? 255 : 0;
-        }
+            let containerWidth = this.actor.get_children()[0].width;
+            let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
+            let unfocusedDotStyle = this._dtpSettings.get_string('dot-style-unfocused');
+            let focusedIsWide = this._isWideDotStyle(focusedDotStyle);
+            let unfocusedIsWide = this._isWideDotStyle(unfocusedDotStyle);
+    
+            let newFocusedDotsWidth = 0;
+            let newFocusedDotsOpacity = 0;
+            let newUnfocusedDotsWidth = 0;
+            let newUnfocusedDotsOpacity = 0;
+            
+            isFocused = (tracker.focus_app == this.app);
 
-        if(unfocusedIsWide) {
-            newUnfocusedDotsWidth = (!isFocused && this._nWindows > 0) ? containerWidth : 0;
-            newUnfocusedDotsOpacity = 255;
-        } else {
-            newUnfocusedDotsWidth = containerWidth;
-            newUnfocusedDotsOpacity = (!isFocused && this._nWindows > 0) ? 255 : 0;
-        }
-
-        // Only animate if...
-        // animation is enabled in settings
-        // AND (going from a wide style to a narrow style indicator or vice-versa
-        // OR going from an open app to a closed app or vice versa)
-        if(this._dtpSettings.get_boolean('animate-app-switch') &&
-            ((focusedIsWide != unfocusedIsWide) ||
-            (this._focusedDots.width != newUnfocusedDotsWidth || this._unfocusedDots.width != newFocusedDotsWidth))) {
-            this._animateDotDisplay(this._focusedDots, newFocusedDotsWidth, this._unfocusedDots, newUnfocusedDotsOpacity, force);
-            this._animateDotDisplay(this._unfocusedDots, newUnfocusedDotsWidth, this._focusedDots, newFocusedDotsOpacity, force);
-        }
-        else {
-            this._focusedDots.opacity = newFocusedDotsOpacity;
-            this._unfocusedDots.opacity = newUnfocusedDotsOpacity;
-            this._focusedDots.width = newFocusedDotsWidth;
-            this._unfocusedDots.width = newUnfocusedDotsWidth;
+            Mainloop.timeout_add(0, () => {
+                if(isFocused) 
+                    this.actor.add_style_class_name('focused');
+                else
+                    this.actor.remove_style_class_name('focused');
+            });
+            
+            if(focusedIsWide) {
+                newFocusedDotsWidth = (isFocused && this._nWindows > 0) ? containerWidth : 0;
+                newFocusedDotsOpacity = 255;
+            } else {
+                newFocusedDotsWidth = containerWidth;
+                newFocusedDotsOpacity = (isFocused && this._nWindows > 0) ? 255 : 0;
+            }
+    
+            if(unfocusedIsWide) {
+                newUnfocusedDotsWidth = (!isFocused && this._nWindows > 0) ? containerWidth : 0;
+                newUnfocusedDotsOpacity = 255;
+            } else {
+                newUnfocusedDotsWidth = containerWidth;
+                newUnfocusedDotsOpacity = (!isFocused && this._nWindows > 0) ? 255 : 0;
+            }
+    
+            // Only animate if...
+            // animation is enabled in settings
+            // AND (going from a wide style to a narrow style indicator or vice-versa
+            // OR going from an open app to a closed app or vice versa)
+            if(this._dtpSettings.get_boolean('animate-app-switch') &&
+               ((focusedIsWide != unfocusedIsWide) ||
+                (this._focusedDots.width != newUnfocusedDotsWidth || this._unfocusedDots.width != newFocusedDotsWidth))) {
+                this._animateDotDisplay(this._focusedDots, newFocusedDotsWidth, this._unfocusedDots, newUnfocusedDotsOpacity, force);
+                this._animateDotDisplay(this._unfocusedDots, newUnfocusedDotsWidth, this._focusedDots, newFocusedDotsOpacity, force);
+            } else {
+                this._focusedDots.opacity = newFocusedDotsOpacity;
+                this._unfocusedDots.opacity = newUnfocusedDotsOpacity;
+                this._focusedDots.width = newFocusedDotsWidth;
+                this._unfocusedDots.width = newUnfocusedDotsWidth;
+            }
         }
     },
 
@@ -488,6 +626,20 @@ var taskbarAppIcon = new Lang.Class({
                                 })
                             });
             }
+    },
+
+    _isFocusedWindow: function() {
+        let focusedWindow = global.display.focus_window;
+        
+        while (focusedWindow) {
+            if (focusedWindow == this.window) {
+                return true;
+            }
+
+            focusedWindow = focusedWindow.get_transient_for();
+        }
+
+        return false;
     },
 
     _isWideDotStyle: function(dotStyle) {
@@ -549,76 +701,105 @@ var taskbarAppIcon = new Lang.Class({
             && getInterestingWindows(this.app, this._dtpSettings).length > 0
 
         // We customize the action only when the application is already running
-        if (appIsRunning) {
-            switch (buttonAction) {
-            case "RAISE":
-                activateAllWindows(this.app, this._dtpSettings);
-                break;
+        if (appIsRunning && !this.isLauncher) {
+            if (this.window) {
+                //ungrouped applications behaviors
+                switch (buttonAction) {
+                    case 'RAISE': case 'CYCLE': case 'CYCLE-MIN': case 'MINIMIZE':
+                        if (!Main.overview._shown && 
+                            (buttonAction == 'MINIMIZE' || 
+                             (buttonAction == 'CYCLE-MIN' && this._isFocusedWindow()))) {
+                                this.window.minimize();
+                        } else {
+                            Main.activateWindow(this.window);
+                        }
+                        
+                        break;
+        
+                    case "LAUNCH":
+                        this._launchNewInstance();
+                        break;
 
-            case "LAUNCH":
-                if(this._dtpSettings.get_boolean('animate-window-launch'))
-                    this.animateLaunch();
-                this.app.open_new_window(-1);
-                break;
-
-            case "MINIMIZE":
-                // In overview just activate the app, unless the acion is explicitely
-                // requested with a keyboard modifier
-                if (!Main.overview._shown || modifiers){
-                    // If we have button=2 or a modifier, allow minimization even if
-                    // the app is not focused
-                    if (this.app == focusedApp || button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK) {
-                        // minimize all windows on double click and always in the case of primary click without
-                        // additional modifiers
-                        let click_count = 0;
-                        if (Clutter.EventType.CLUTTER_BUTTON_PRESS)
-                            click_count = event.get_click_count();
-                        let all_windows = (button == 1 && ! modifiers) || click_count > 1;
-                        minimizeWindow(this.app, all_windows, this._dtpSettings);
-                    }
-                    else
+                    case "QUIT":
+                        this.windows.delete(global.get_current_time());
+                        break; 
+                }
+            } else {
+                //grouped application behaviors
+                switch (buttonAction) {
+                    case "RAISE":
                         activateAllWindows(this.app, this._dtpSettings);
+                        break;
+        
+                    case "LAUNCH":
+                        this._launchNewInstance();
+                        break;
+        
+                    case "MINIMIZE":
+                        // In overview just activate the app, unless the acion is explicitely
+                        // requested with a keyboard modifier
+                        if (!Main.overview._shown || modifiers){
+                            // If we have button=2 or a modifier, allow minimization even if
+                            // the app is not focused
+                            if (this.app == focusedApp || button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK) {
+                                // minimize all windows on double click and always in the case of primary click without
+                                // additional modifiers
+                                let click_count = 0;
+                                if (Clutter.EventType.CLUTTER_BUTTON_PRESS)
+                                    click_count = event.get_click_count();
+                                let all_windows = (button == 1 && ! modifiers) || click_count > 1;
+                                minimizeWindow(this.app, all_windows, this._dtpSettings);
+                            }
+                            else
+                                activateAllWindows(this.app, this._dtpSettings);
+                        }
+                        else
+                            this.app.activate();
+                        break;
+        
+                    case "CYCLE":
+                        if (!Main.overview._shown){
+                            if (this.app == focusedApp) 
+                                cycleThroughWindows(this.app, this._dtpSettings, false, false);
+                            else {
+                                activateFirstWindow(this.app, this._dtpSettings);
+                            }
+                        }
+                        else
+                            this.app.activate();
+                        break;
+                    case "CYCLE-MIN":
+                        if (!Main.overview._shown){
+                            if (this.app == focusedApp || 
+                                 (recentlyClickedApp == this.app && recentlyClickedAppWindows[recentlyClickedAppIndex % recentlyClickedAppWindows.length] == "MINIMIZE")) 
+                                cycleThroughWindows(this.app, this._dtpSettings, false, true);
+                            else {
+                                activateFirstWindow(this.app, this._dtpSettings);
+                            }
+                        }
+                        else
+                            this.app.activate();
+                        break;
+        
+                    case "QUIT":
+                        closeAllWindows(this.app, this._dtpSettings);
+                        break;
                 }
-                else
-                    this.app.activate();
-                break;
-
-            case "CYCLE":
-                if (!Main.overview._shown){
-                    if (this.app == focusedApp)
-                        cycleThroughWindows(this.app, this._dtpSettings, false, false);
-                    else {
-                        activateFirstWindow(this.app, this._dtpSettings);
-                    }
-                }
-                else
-                    this.app.activate();
-                break;
-            case "CYCLE-MIN":
-                if (!Main.overview._shown){
-                    if (this.app == focusedApp || 
-                        (recentlyClickedApp == this.app && recentlyClickedAppWindows[recentlyClickedAppIndex % recentlyClickedAppWindows.length] == "MINIMIZE"))
-                        cycleThroughWindows(this.app, this._dtpSettings, false, true);
-                    else {
-                        activateFirstWindow(this.app, this._dtpSettings);
-                    }
-                }
-                else
-                    this.app.activate();
-                break;
-
-            case "QUIT":
-                closeAllWindows(this.app, this._dtpSettings);
-                break;
             }
         }
         else {
-            if(this._dtpSettings.get_boolean('animate-window-launch'))
-                this.animateLaunch();
-            this.app.open_new_window(-1);
+            this._launchNewInstance();
         }
 
         Main.overview.hide();
+    },
+
+    _launchNewInstance: function() {
+        if(this._dtpSettings.get_boolean('animate-window-launch')) {
+            this.animateLaunch();
+        }
+
+        this.app.open_new_window(-1);
     },
 
     _updateCounterClass: function() {
@@ -634,26 +815,39 @@ var taskbarAppIcon = new Lang.Class({
         }
     },
 
-    _drawRunningIndicator: function(area, type, isFocused) {
-        let bodyColor;
+    _getRunningIndicatorHeight: function() {
+        return this._dtpSettings.get_int('dot-size') * St.ThemeContext.get_for_stage(global.stage).scale_factor;
+    },
+
+    _getRunningIndicatorColor: function(isFocused) {
+        let color;
+
         if(this._dtpSettings.get_boolean('dot-color-override')) {
             let dotColorSettingPrefix = 'dot-color-';
+            
             if(!isFocused && this._dtpSettings.get_boolean('dot-color-unfocused-different'))
                 dotColorSettingPrefix = 'dot-color-unfocused-';
-            bodyColor = Clutter.color_from_string(this._dtpSettings.get_string(dotColorSettingPrefix + (this._nWindows > 0 ? this._nWindows : 1)))[1];
+
+            color = Clutter.color_from_string(this._dtpSettings.get_string(dotColorSettingPrefix + (this._nWindows > 0 ? this._nWindows : 1)))[1];
         } else {
             // Re-use the style - background color, and border width and color -
             // of the default dot
             let themeNode = this._dot.get_theme_node();
-            bodyColor = themeNode.get_background_color();
-            if(bodyColor.alpha == 0) // theme didn't provide one, use a default
-                bodyColor = new Clutter.Color({ red: 82, green: 148, blue: 226, alpha: 255 });
+            color = themeNode.get_background_color();
+
+            if(color.alpha == 0) // theme didn't provide one, use a default
+                color = new Clutter.Color({ red: 82, green: 148, blue: 226, alpha: 255 });
         }
 
+        return color;
+    },
+
+    _drawRunningIndicator: function(area, type, isFocused) {
+        let bodyColor = this._getRunningIndicatorColor(isFocused);
         let [width, height] = area.get_surface_size();
         let cr = area.get_context();
         let n = this._nWindows;
-        let size = this._dtpSettings.get_int('dot-size') * St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        let size = this._getRunningIndicatorHeight();
         let padding = 0; // distance from the margin
         let yOffset = this._dtpSettings.get_string('dot-position') == DOT_POSITION.TOP ? 0 : (height - padding -  size);
         
@@ -933,6 +1127,15 @@ function getInterestingWindows(app, settings) {
     return windows;
 }
 
+function cssHexTocssRgba(cssHex, opacity) {
+    var bigint = parseInt(cssHex.slice(1), 16);
+    var r = (bigint >> 16) & 255;
+    var g = (bigint >> 8) & 255;
+    var b = bigint & 255;
+
+    return 'rgba(' + [r, g, b].join(',') + ',' + opacity + ')';
+}
+
 /**
  * Extend AppIconMenu
  *
@@ -1048,7 +1251,8 @@ var taskbarSecondaryMenu = new Lang.Class({
 
         // quit menu
         let app = this._source.app;
-        let count = getInterestingWindows(app, this._dtpSettings).length;
+        let window = this._source.window;
+        let count = window ? 1 : getInterestingWindows(app, this._dtpSettings).length;
         if ( count > 0) {
             this._appendSeparator();
             let quitFromTaskbarMenuText = "";
@@ -1060,7 +1264,7 @@ var taskbarSecondaryMenu = new Lang.Class({
             this._quitfromTaskbarMenuItem = this._appendMenuItem(quitFromTaskbarMenuText);
             this._quitfromTaskbarMenuItem.connect('activate', Lang.bind(this, function() {
                 let app = this._source.app;
-                let windows = app.get_windows();
+                let windows = window ? [window] : app.get_windows();
                 for (let i = 0; i < windows.length; i++) {
                     this._closeWindowInstance(windows[i])
                 }

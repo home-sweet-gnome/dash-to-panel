@@ -165,7 +165,6 @@ var taskbar = new Lang.Class({
 
     _init : function(settings) {
         this._dtpSettings = settings;
-        this._maxWidth = -1;
         
         // start at smallest size due to running indicator drawing area expanding but not shrinking
         this.iconSize = baseIconSizes[0];
@@ -227,18 +226,8 @@ var taskbar = new Lang.Class({
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
         });
 
-        Main.panel.actor.connect('notify::height', Lang.bind(this,
-            function() {
-                this._queueRedisplay();
-            }));
-
-        this.actor.connect('notify::width', Lang.bind(this,
-            function() {
-                if (this._maxWidth < this.actor.width) {
-                    this._maxWidth = this.actor.width;
-                    this._queueRedisplay();
-                }
-            }));
+        Main.panel.actor.connect('notify::height', Lang.bind(this, this._queueRedisplay));
+        Main.panel.actor.connect('notify::width', Lang.bind(this, this._queueRedisplay));
 
         // Update minimization animation target position on allocation of the
         // container and on scrollview change.
@@ -265,6 +254,11 @@ var taskbar = new Lang.Class({
                 AppFavorites.getAppFavorites(),
                 'changed',
                 Lang.bind(this, this._queueRedisplay)
+            ],
+            [
+                global.window_manager,
+                'switch-workspace', 
+                () => this._connectWorkspaceSignals()
             ],
             [
                 this._appSystem,
@@ -299,11 +293,18 @@ var taskbar = new Lang.Class({
             ]
         );
 
+        this.isGroupApps = this._dtpSettings.get_boolean('group-apps');
+
+        this._connectWorkspaceSignals();
+
         this._bindSettingsChanges();
     },
 
     destroy: function() {
         this._signalsHandler.destroy();
+        this._signalsHandler = 0;
+
+        this._disconnectWorkspaceSignals();
     },
 
     _bindSettingsChanges: function () {
@@ -317,6 +318,16 @@ var taskbar = new Lang.Class({
         this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._redisplay));
 
         this._dtpSettings.connect('changed::show-favorites', Lang.bind(this, this._redisplay));
+
+        this._dtpSettings.connect('changed::group-apps', Lang.bind(this, function() {
+            this.isGroupApps = this._dtpSettings.get_boolean('group-apps');
+            this._connectWorkspaceSignals();
+            this.resetAppIcons();
+        }));
+
+        this._dtpSettings.connect('changed::group-apps-use-launchers', Lang.bind(this, function() {
+            this.resetAppIcons();
+        }));
     },
 
     _onScrollEvent: function(actor, event) {
@@ -423,6 +434,34 @@ var taskbar = new Lang.Class({
         return ids;
     },
 
+    handleIsolatedWorkspaceSwitch: function() {
+        if (this.isGroupApps) {
+            return this._queueRedisplay();
+        }
+
+        this.resetAppIcons();
+    },
+
+    _connectWorkspaceSignals: function() {
+        this._disconnectWorkspaceSignals();
+
+        if (!this.isGroupApps) {
+            this._lastWorkspace = global.screen.get_active_workspace();
+
+            this._workspaceWindowAddedId = this._lastWorkspace.connect('window-added', () => this._queueRedisplay());
+            this._workspaceWindowRemovedId = this._lastWorkspace.connect('window-removed', () => this._queueRedisplay());
+        }
+    },
+
+    _disconnectWorkspaceSignals: function() {
+        if (this._lastWorkspace) {
+            this._lastWorkspace.disconnect(this._workspaceWindowAddedId);
+            this._lastWorkspace.disconnect(this._workspaceWindowRemovedId);
+
+            this._lastWorkspace = null;
+        }
+    },
+
     _queueRedisplay: function () {
         Main.queueDeferredWork(this._workId);
     },
@@ -439,10 +478,19 @@ var taskbar = new Lang.Class({
         }
     },
 
-    _createAppItem: function(app) {
-        let appIcon = new AppIcons.taskbarAppIcon(this._dtpSettings, app,
-                                             { setSizeManually: true,
-                                               showLabel: false });
+    _createAppItem: function(app, window, isLauncher) {
+        let appIcon = new AppIcons.taskbarAppIcon(
+            this._dtpSettings, 
+            {
+                app: app, 
+                window: window,
+                isLauncher: isLauncher
+            },
+            { 
+                setSizeManually: true,
+                showLabel: false 
+            }
+        );
 
         if (appIcon._draggable) {
             appIcon._draggable.connect('drag-begin',
@@ -518,7 +566,9 @@ var taskbar = new Lang.Class({
 
     _enableWindowPreview: function() {
         let appIcons = this._getAppIcons();
-        appIcons.forEach(function (appIcon) {
+        
+        appIcons.filter(appIcon => !appIcon.isLauncher)
+                .forEach(function (appIcon) {
             appIcon.enableWindowPreview(appIcons);
         });
     },
@@ -625,9 +675,6 @@ var taskbar = new Lang.Class({
 
         iconChildren.push(this._showAppsIcon);
 
-        if (this._maxWidth == -1)
-            return;
-
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         let iconSizes = this._availableIconSizes.map(function(s) {
             return s * scaleFactor;
@@ -671,156 +718,108 @@ var taskbar = new Lang.Class({
             // Scale the icon's texture to the previous size and
             // tween to the new size
             icon.icon.set_size(icon.icon.width * scale,
-                               icon.icon.height * scale);
+                                icon.icon.height * scale);
 
             Tweener.addTween(icon.icon,
-                             { width: targetWidth,
-                               height: targetHeight,
-                               time: DASH_ANIMATION_TIME,
-                               transition: 'easeOutQuad',
-                             });
+                        { width: targetWidth,
+                            height: targetHeight,
+                            time: DASH_ANIMATION_TIME,
+                            transition: 'easeOutQuad',
+                        });
         }
     },
 
     sortAppsCompareFunction: function(appA, appB) {
-        let windowA = getAppInterestingWindows(appA)[0];
-        let windowB = getAppInterestingWindows(appB)[0];
-        return windowA.get_stable_sequence() > windowB.get_stable_sequence();
+        return getAppStableSequence(appA) - getAppStableSequence(appB);
+    },
+
+    sortWindowsCompareFunction: function(windowA, windowB) {
+        return windowA.get_stable_sequence() - windowB.get_stable_sequence();
     },
 
     _redisplay: function () {
-        let favorites = AppFavorites.getAppFavorites().getFavoriteMap();
-
-        let running = this._appSystem.get_running().sort(this.sortAppsCompareFunction);
-        if (this._dtpSettings.get_boolean('isolate-workspaces')) {
-            // When using isolation, we filter out apps that have no windows in
-            // the current workspace
-            let settings = this._dtpSettings;
-            running = running.filter(function(_app) {
-                return AppIcons.getInterestingWindows(_app, settings).length != 0;
-            });
+        if (!this._signalsHandler) {
+            return;
         }
 
-        let children = this._box.get_children().filter(function(actor) {
-                return actor.child &&
-                       actor.child._delegate &&
-                       actor.child._delegate.app;
-            });
-        // Apps currently in the taskbar
-        let oldApps = children.map(function(actor) {
-                return actor.child._delegate.app;
-            });
-        // Apps supposed to be in the taskbar
-        let newApps = [];
+        let showFavorites = this._dtpSettings.get_boolean('show-favorites');
+        //get the currently displayed appIcons
+        let currentAppIcons = this._box.get_children().filter(function(actor) {
+            return actor.child &&
+                   actor.child._delegate &&
+                   actor.child._delegate.app &&
+                   !actor.animatingOut;
+        });
+        //get the user's favorite apps
+        let favoriteAppsMap = showFavorites ? AppFavorites.getAppFavorites().getFavoriteMap() : {};
+        let favoriteApps = Object.keys(favoriteAppsMap).map(appId => favoriteAppsMap[appId]);
 
-        // Adding favorites
-        if (this._dtpSettings.get_boolean('show-favorites')) {
-            for (let id in favorites)
-                newApps.push(favorites[id]);
+        //find the apps that should be in the taskbar: the favorites first, then add the running apps
+        // When using isolation, we filter out apps that have no windows in
+        // the current workspace (this check is done in AppIcons.getInterstingWindows)
+        let runningApps = this._getRunningApps().sort(this.sortAppsCompareFunction);
+        let expectedAppInfos;
+        
+        if (!this.isGroupApps && this._dtpSettings.get_boolean('group-apps-use-launchers')) {
+            expectedAppInfos = this._createAppInfos(favoriteApps, [], true)
+                                   .concat(this._createAppInfos(runningApps)
+                                               .filter(appInfo => appInfo.windows.length));
+        } else {
+            expectedAppInfos = this._createAppInfos(favoriteApps.concat(runningApps.filter(app => favoriteApps.indexOf(app) < 0)))
+                                   .filter(appInfo => appInfo.windows.length || favoriteApps.indexOf(appInfo.app) >= 0);
         }
 
-        // Adding running apps
-        for (let i = 0; i < running.length; i++) {
-            let app = running[i];
-            if (this._dtpSettings.get_boolean('show-favorites') && (app.get_id() in favorites))
-                continue;
-            newApps.push(app);
-        }
+        //remove the appIcons which are not in the expected apps list
+        for (let i = currentAppIcons.length - 1; i > -1; --i) {
+            let appIcon = currentAppIcons[i].child._delegate;
+            let appIndex = expectedAppInfos.findIndex(appInfo => appInfo.app == appIcon.app &&
+                                                                 appInfo.isLauncher == appIcon.isLauncher);
 
-        // Figure out the actual changes to the list of items; we iterate
-        // over both the list of items currently in the taskbar and the list
-        // of items expected there, and collect additions and removals.
-        // Moves are both an addition and a removal, where the order of
-        // the operations depends on whether we encounter the position
-        // where the item has been added first or the one from where it
-        // was removed.
-        // There is an assumption that only one item is moved at a given
-        // time; when moving several items at once, everything will still
-        // end up at the right position, but there might be additional
-        // additions/removals (e.g. it might remove all the launchers
-        // and add them back in the new order even if a smaller set of
-        // additions and removals is possible).
-        // If above assumptions turns out to be a problem, we might need
-        // to use a more sophisticated algorithm, e.g. Longest Common
-        // Subsequence as used by diff.
-        let addedItems = [];
-        let removedActors = [];
-
-        let newIndex = 0;
-        let oldIndex = 0;
-        while (newIndex < newApps.length || oldIndex < oldApps.length) {
-            // No change at oldIndex/newIndex
-            if (oldApps[oldIndex] == newApps[newIndex]) {
-                oldIndex++;
-                newIndex++;
-                continue;
-            }
-
-            // App removed at oldIndex
-            if (oldApps[oldIndex] &&
-                newApps.indexOf(oldApps[oldIndex]) == -1) {
-                removedActors.push(children[oldIndex]);
-                oldIndex++;
-                continue;
-            }
-
-            // App added at newIndex
-            if (newApps[newIndex] &&
-                oldApps.indexOf(newApps[newIndex]) == -1) {
-                addedItems.push({ app: newApps[newIndex],
-                                  item: this._createAppItem(newApps[newIndex]),
-                                  pos: newIndex });
-                newIndex++;
-                continue;
-            }
-
-            // App moved
-            let insertHere = newApps[newIndex + 1] &&
-                             newApps[newIndex + 1] == oldApps[oldIndex];
-            let alreadyRemoved = removedActors.reduce(function(result, actor) {
-                let removedApp = actor.child._delegate.app;
-                return result || removedApp == newApps[newIndex];
-            }, false);
-
-            if (insertHere || alreadyRemoved) {
-                let newItem = this._createAppItem(newApps[newIndex]);
-                addedItems.push({ app: newApps[newIndex],
-                                  item: newItem,
-                                  pos: newIndex + removedActors.length });
-                newIndex++;
-            } else {
-                removedActors.push(children[oldIndex]);
-                oldIndex++;
+            if (appIndex < 0 || 
+                (appIcon.window && (this.isGroupApps || expectedAppInfos[appIndex].windows.indexOf(appIcon.window) < 0)) ||
+                (!appIcon.window && !appIcon.isLauncher && 
+                 !this.isGroupApps && expectedAppInfos[appIndex].windows.length)) {
+                currentAppIcons[i].animateOutAndDestroy();
+                currentAppIcons.splice(i, 1);
             }
         }
 
-        for (let i = 0; i < addedItems.length; i++)
-            this._box.insert_child_at_index(addedItems[i].item,
-                                            addedItems[i].pos);
+        //if needed, reorder the existing appIcons and create the missing ones
+        let currentPosition = 0;
+        for (let i = 0, l = expectedAppInfos.length; i < l; ++i) {
+            let neededAppIcons = this.isGroupApps || !expectedAppInfos[i].windows.length ? 
+                                 [{ app: expectedAppInfos[i].app, window: null, isLauncher: expectedAppInfos[i].isLauncher }] : 
+                                 expectedAppInfos[i].windows.map(window => ({ app: expectedAppInfos[i].app, window: window, isLauncher: false }));
+                                 
+            for (let j = 0, ll = neededAppIcons.length; j < ll; ++j) {
+                //check if the icon already exists
+                let matchingAppIconIndex = currentAppIcons.findIndex(appIcon => appIcon.child._delegate.app == neededAppIcons[j].app && 
+                                                                                appIcon.child._delegate.window == neededAppIcons[j].window);
 
-        for (let i = 0; i < removedActors.length; i++) {
-            let item = removedActors[i];
-            item.animateOutAndDestroy();
+                if (matchingAppIconIndex > 0 && matchingAppIconIndex != currentPosition) {
+                    //moved icon, reposition it
+                    this._box.remove_child(currentAppIcons[matchingAppIconIndex]);
+                    this._box.insert_child_at_index(currentAppIcons[matchingAppIconIndex], currentPosition);
+                } else if (matchingAppIconIndex < 0) {
+                    //the icon doesn't exist yet, create a new one
+                    let newAppIcon = this._createAppItem(neededAppIcons[j].app, neededAppIcons[j].window, neededAppIcons[j].isLauncher);
+                    
+                    this._box.insert_child_at_index(newAppIcon, currentPosition);
+                    currentAppIcons.splice(currentPosition, 0, newAppIcon);
+                    
+                    // Emit a custom signal notifying that a new item has been added
+                    this.emit('item-added', newAppIcon);
+                    
+                    // Skip animations on first run when adding the initial set
+                    // of items, to avoid all items zooming in at once
+                    newAppIcon.show(this._shownInitially);
+                }
+
+                ++currentPosition;
+            }
         }
 
         this._adjustIconSize();
-
-        for (let i = 0; i < addedItems.length; i++){
-            // Emit a custom signal notifying that a new item has been added
-            this.emit('item-added', addedItems[i]);
-        }
-
-        // Skip animations on first run when adding the initial set
-        // of items, to avoid all items zooming in at once
-
-        let animate = this._shownInitially;
-
-        if (!this._shownInitially)
-            this._shownInitially = true;
-
-        for (let i = 0; i < addedItems.length; i++) {
-            addedItems[i].item.show(animate);
-        }
 
         // Workaround for https://bugzilla.gnome.org/show_bug.cgi?id=692744
         // Without it, StBoxLayout may use a stale size cache
@@ -834,11 +833,38 @@ var taskbar = new Lang.Class({
 
         // Connect windows previews to hover events
         this._toggleWindowPreview();
+
+        this._shownInitially = true;
+    },
+
+    _getRunningApps: function() {
+        let tracker = Shell.WindowTracker.get_default();
+        let windows = global.get_window_actors();
+        let apps = [];
+
+        for (let i = 0, l = windows.length; i < l; ++i) {
+            let app = tracker.get_window_app(windows[i].metaWindow);
+
+            if (app && apps.indexOf(app) < 0) {
+                apps.push(app);
+            }
+        }
+        
+        return apps;
+    },
+
+    _createAppInfos: function(apps, defaultWindows, defaultIsLauncher) {
+        return apps.map(app => ({ 
+            app: app, 
+            isLauncher: defaultIsLauncher || false,
+            windows: defaultWindows || AppIcons.getInterestingWindows(app, this._dtpSettings)
+                                               .sort(this.sortWindowsCompareFunction)
+        }));
     },
 
     // Reset the displayed apps icon to mantain the correct order
     resetAppIcons : function() {
-
+        
         let children = this._box.get_children().filter(function(actor) {
             return actor.child &&
                 actor.child._delegate &&
@@ -1193,6 +1219,14 @@ function getAppInterestingWindows(app, settings) {
     });
 
     return windows;
+}
+
+function getAppStableSequence(app) {
+    let windows = getAppInterestingWindows(app);
+    
+    return windows.reduce((prevWindow, window) => {
+        return Math.min(prevWindow, window.get_stable_sequence());
+    }, Infinity);
 }
 
 /*

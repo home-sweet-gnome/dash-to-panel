@@ -132,6 +132,16 @@
       <summary>Highlight icon of focused application</summary>
       <description>Whether to highlight the background of the currently focused application's icon</description>
     </key>
+    <key type="s" name="focus-highlight-color">
+      <default>"#EEEEEE"</default>
+      <summary>Color of highlight of focused application</summary>
+      <description>Customize the color of the highlight of the focused application</description>
+    </key>
+    <key type="i" name="focus-highlight-opacity">
+      <default>25</default>
+      <summary>Opacity of highlight of focused application</summary>
+      <description>Customize the opacity of the highlight of the focused application</description>
+    </key>
     <key name="location-clock" enum="org.gnome.shell.extensions.dash-to-panel.statusAreaPosition">
       <default>'STATUSLEFT'</default>
       <summary>Location of the clock</summary>
@@ -191,6 +201,41 @@
       <default>false</default>
       <summary>Provide workspace isolation</summary>
       <description>Dash shows only windows from the current workspace</description>
+    </key>
+    <key type="b" name="group-apps">
+      <default>true</default>
+      <summary>Group applications</summary>
+      <description>Dash groups the application instances under the same icon</description>
+    </key>
+    <key type="i" name="group-apps-label-font-size">
+      <default>14</default>
+      <summary>Application title font size</summary>
+      <description>When the applications are ungrouped, this defines the application titles font size.</description>
+    </key>
+    <key type="s" name="group-apps-label-font-color">
+      <default>"#dddddd"</default>
+      <summary>Application title font color</summary>
+      <description>When the applications are ungrouped, this defines the application titles font color.</description>
+    </key>
+    <key type="i" name="group-apps-label-max-width">
+      <default>160</default>
+      <summary>Application title max width</summary>
+      <description>When the applications are ungrouped, this defines the application titles maximum width.</description>
+    </key>
+    <key type="b" name="group-apps-use-fixed-width">
+      <default>true</default>
+      <summary>Use a fixed width for the application titles</summary>
+      <description>The application titles all have the same width, even if their texts are shorter than the maximum width. The maximum width value is used as the fixed width.</description>
+    </key>
+    <key type="b" name="group-apps-underline-unfocused">
+      <default>true</default>
+      <summary>Display running indicators on unfocused applications</summary>
+      <description>When the applications are ungrouped, this defines if running applications should display an indicator.</description>
+    </key>
+    <key type="b" name="group-apps-use-launchers">
+      <default>false</default>
+      <summary>Use favorite icons as application launchers</summary>
+      <description>When the applications are ungrouped, this defines if running applications stay separate from the favorite icons.</description>
     </key>
     <key type="b" name="customize-click">
       <default>true</default>
