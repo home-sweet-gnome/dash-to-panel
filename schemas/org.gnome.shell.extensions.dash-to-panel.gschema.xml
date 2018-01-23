@@ -172,6 +172,11 @@
       <summary>Show desktop button</summary>
       <description>Show button on right side of bar that minimizes/restores all visible windows on current workspace</description>
     </key>
+    <key type="i" name="showdesktop-button-width">
+      <default>4</default>
+      <summary>Width of show Desktop button</summary>
+      <description>Customize the width of the show Desktop button</description>
+    </key>
     <key type="b" name="show-appmenu">
       <default>false</default>
       <summary>Show appMenu button</summary>
