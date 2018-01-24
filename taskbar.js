@@ -78,6 +78,27 @@ function extendDashItemContainer(dashItemContainer) {
  * - handle horizontal dash
  */
 
+//Polyfills
+if (!Array.prototype.findIndex) {
+    Array.prototype.findIndex = function(predicate) {
+        if (!this) {
+            throw new TypeError('findindex called on a null array');
+        }
+
+        if (typeof predicate !== 'function') {
+            throw new TypeError('predicate must be a function');
+        }
+
+        for (var i = 0, l = this.length; i < l; ++i) {
+            if (predicate(this[i])) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+}
+
 var taskbarActor = new Lang.Class({
     Name: 'DashToPanel.TaskbarActor',
 
@@ -436,10 +457,10 @@ var taskbar = new Lang.Class({
 
     handleIsolatedWorkspaceSwitch: function() {
         if (this.isGroupApps) {
-            return this._queueRedisplay();
+            this._queueRedisplay();
+        } else {
+            this.resetAppIcons();
         }
-
-        this.resetAppIcons();
     },
 
     _connectWorkspaceSignals: function() {
