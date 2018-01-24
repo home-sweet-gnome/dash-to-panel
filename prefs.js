@@ -430,6 +430,46 @@ const Settings = new Lang.Class({
                             this._builder.get_object('show_showdesktop_button_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-showdesktop-button',
+                            this._builder.get_object('show_showdesktop_options_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._builder.get_object('show_showdesktop_options_button').connect('clicked', Lang.bind(this, function() {
+
+            let dialog = new Gtk.Dialog({ title: _('Show Desktop options'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('show_showdesktop_options');
+            dialog.get_content_area().add(box);
+
+            this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
+            this._builder.get_object('show_showdesktop_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('showdesktop-button-width', widget.get_value());
+            }));
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('showdesktop-button-width', this._settings.get_default_value('showdesktop-button-width'));
+                    this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+        }));
+
         this._settings.bind('show-appmenu',
                             this._builder.get_object('show_appmenu_switch'),
                             'active',

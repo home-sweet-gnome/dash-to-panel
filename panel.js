@@ -328,6 +328,8 @@ var dtpPanel = new Lang.Class({
         this._dtpSettings.connect('changed::show-showdesktop-button', Lang.bind(this, function() {
             this._displayShowDesktopButton(this._dtpSettings.get_boolean('show-showdesktop-button'));
         }));
+
+        this._dtpSettings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonWidth());
     },
 
     _allocate: function(actor, box, flags) {
@@ -531,6 +533,8 @@ var dtpPanel = new Lang.Class({
                             y_fill: true,
                             track_hover: true });
 
+            this._setShowDesktopButtonWidth();
+
             this._showDesktopButton.connect('button-press-event', Lang.bind(this, this._onShowDesktopButtonPress));
 
             this._showDesktopButton.connect('enter-event', Lang.bind(this, function(){
@@ -549,6 +553,12 @@ var dtpPanel = new Lang.Class({
             this.panel._rightBox.remove_child(this._showDesktopButton);
             this._showDesktopButton.destroy();
             this._showDesktopButton = null;
+        }
+    },
+
+    _setShowDesktopButtonWidth: function() {
+        if (this._showDesktopButton) {
+            this._showDesktopButton.set_style('width: ' + this._dtpSettings.get_int('showdesktop-button-width') + 'px;');
         }
     },
 
