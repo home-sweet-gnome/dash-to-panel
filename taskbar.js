@@ -78,26 +78,19 @@ function extendDashItemContainer(dashItemContainer) {
  * - handle horizontal dash
  */
 
-//Polyfills
-if (!Array.prototype.findIndex) {
-    Array.prototype.findIndex = function(predicate) {
-        if (!this) {
-            throw new TypeError('findindex called on a null array');
-        }
-
-        if (typeof predicate !== 'function') {
-            throw new TypeError('predicate must be a function');
-        }
-
-        for (var i = 0, l = this.length; i < l; ++i) {
-            if (predicate(this[i])) {
-                return i;
-            }
-        }
-
-        return -1;
+function findIndex(array, predicate) {
+    if (Array.prototype.findIndex) {
+        return array.findIndex(predicate);
     }
-}
+
+    for (let i = 0, l = array.length; i < l; ++i) {
+        if (predicate(array[i])) {
+            return i;
+        }
+    }
+
+    return -1;
+};
 
 var taskbarActor = new Lang.Class({
     Name: 'DashToPanel.TaskbarActor',
@@ -793,8 +786,8 @@ var taskbar = new Lang.Class({
         //remove the appIcons which are not in the expected apps list
         for (let i = currentAppIcons.length - 1; i > -1; --i) {
             let appIcon = currentAppIcons[i].child._delegate;
-            let appIndex = expectedAppInfos.findIndex(appInfo => appInfo.app == appIcon.app &&
-                                                                 appInfo.isLauncher == appIcon.isLauncher);
+            let appIndex = findIndex(expectedAppInfos, appInfo => appInfo.app == appIcon.app &&
+                                                                  appInfo.isLauncher == appIcon.isLauncher);
 
             if (appIndex < 0 || 
                 (appIcon.window && (this.isGroupApps || expectedAppInfos[appIndex].windows.indexOf(appIcon.window) < 0)) ||
@@ -814,8 +807,8 @@ var taskbar = new Lang.Class({
                                  
             for (let j = 0, ll = neededAppIcons.length; j < ll; ++j) {
                 //check if the icon already exists
-                let matchingAppIconIndex = currentAppIcons.findIndex(appIcon => appIcon.child._delegate.app == neededAppIcons[j].app && 
-                                                                                appIcon.child._delegate.window == neededAppIcons[j].window);
+                let matchingAppIconIndex = findIndex(currentAppIcons, appIcon => appIcon.child._delegate.app == neededAppIcons[j].app && 
+                                                                                 appIcon.child._delegate.window == neededAppIcons[j].window);
 
                 if (matchingAppIconIndex > 0 && matchingAppIconIndex != currentPosition) {
                     //moved icon, reposition it
