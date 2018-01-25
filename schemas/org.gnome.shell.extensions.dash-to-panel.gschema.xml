@@ -10,7 +10,7 @@
     <value value='6' nick='METRO'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.clickAction'>
-    <value value='0' nick='SKIP'/>
+    <value value='0' nick='RAISE'/>
     <value value='1' nick='MINIMIZE'/>
     <value value='2' nick='LAUNCH'/>
     <value value='3' nick='CYCLE'/>
