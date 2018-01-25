@@ -604,36 +604,35 @@ var dtpPanel = new Lang.Class({
     _dtpUpdateSolidStyle: function() {
         if (this.actor.has_style_pseudo_class('overview') || !Main.sessionMode.hasWindows) {
             this._removeStyleClassName('solid');
-            return false;
+        } else {
+            /* Get all the windows in the active workspace that are in the
+            * primary monitor and visible */
+            let activeWorkspace = global.screen.get_active_workspace();
+            let windows = activeWorkspace.list_windows().filter(function(metaWindow) {
+                return metaWindow.is_on_primary_monitor() &&
+                    metaWindow.showing_on_its_workspace() &&
+                    metaWindow.get_window_type() != Meta.WindowType.DESKTOP;
+            });
+
+            /* Check if at least one window is near enough to the panel */
+            let [, panelTop] = this.actor.get_transformed_position();
+            let panelBottom = panelTop + this.actor.get_height();
+            let scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+            let isNearEnough = windows.some(Lang.bind(this, function(metaWindow) {
+                if (this.hasOwnProperty('_dtpPosition') && this._dtpPosition === 'TOP') {
+                    let verticalPosition = metaWindow.get_frame_rect().y;
+                    return verticalPosition < panelBottom + 5 * scale;
+                } else {
+                    let verticalPosition = metaWindow.get_frame_rect().y + metaWindow.get_frame_rect().height;
+                    return verticalPosition > panelTop - 5 * scale;
+                }
+            }));
+
+            if (isNearEnough)
+                this._addStyleClassName('solid');
+            else
+                this._removeStyleClassName('solid');
         }
-
-        /* Get all the windows in the active workspace that are in the
-         * primary monitor and visible */
-        let activeWorkspace = global.screen.get_active_workspace();
-        let windows = activeWorkspace.list_windows().filter(function(metaWindow) {
-            return metaWindow.is_on_primary_monitor() &&
-                metaWindow.showing_on_its_workspace() &&
-                metaWindow.get_window_type() != Meta.WindowType.DESKTOP;
-        });
-
-        /* Check if at least one window is near enough to the panel */
-        let [, panelTop] = this.actor.get_transformed_position();
-        let panelBottom = panelTop + this.actor.get_height();
-        let scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        let isNearEnough = windows.some(Lang.bind(this, function(metaWindow) {
-            if (this.hasOwnProperty('_dtpPosition') && this._dtpPosition === 'TOP') {
-                let verticalPosition = metaWindow.get_frame_rect().y;
-                return verticalPosition < panelBottom + 5 * scale;
-            } else {
-                let verticalPosition = metaWindow.get_frame_rect().y + metaWindow.get_frame_rect().height;
-                return verticalPosition > panelTop - 5 * scale;
-            }
-        }));
-
-        if (isNearEnough)
-            this._addStyleClassName('solid');
-        else
-            this._removeStyleClassName('solid');
     }
 });
 
