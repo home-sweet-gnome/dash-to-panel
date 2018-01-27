@@ -940,7 +940,7 @@ const Settings = new Lang.Class({
         
         // About Panel
 
-        this._builder.get_object('extension_version').set_label(Me.metadata.version.toString());
+        this._builder.get_object('extension_version').set_label(Me.metadata.version.toString() + (Me.metadata.commit ? ' (' + Me.metadata.commit + ')' : ''));
     },
 
     /**
