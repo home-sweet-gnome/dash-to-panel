@@ -6,5 +6,5 @@
 "shell-version": [ "3.18", "3.20", "3.22", "3.24", "3.26" ],
 "url": "https://github.com/jderose9/dash-to-panel",
 "gettext-domain": "dash-to-panel",
-"version": -1
+"version": 0
 }

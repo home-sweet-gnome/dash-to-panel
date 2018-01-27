@@ -15,13 +15,15 @@ INSTALLNAME = dash-to-panel@jderose9.github.com
 
 # The command line passed variable VERSION is used to set the version string
 # in the metadata and in the generated zip-file. If no VERSION is passed, the
-# current commit SHA1 is used as version number in the metadata while the
-# generated zip file has no string attached.
+# version is pulled from the latest git tag and the current commit SHA1 is 
+# added to the metadata
 ifdef VERSION
-	VSTRING = _v$(VERSION)
+	FILESUFFIX = _v$(VERSION)
 else
-	VERSION = $(shell git rev-parse HEAD)
-	VSTRING =
+	LATEST_TAG = $(shell git describe --match "v[0-9]*" --abbrev=0 --tags HEAD)
+	VERSION = $(LATEST_TAG:v%=%)
+	COMMIT = $(shell git rev-parse HEAD)
+	FILESUFFIX =
 endif
 
 all: extension
@@ -61,8 +63,8 @@ install-local: _build
 
 zip-file: _build
 	cd _build ; \
-	zip -qr "$(UUID)$(VSTRING).zip" .
-	mv _build/$(UUID)$(VSTRING).zip ./
+	zip -qr "$(UUID)$(FILESUFFIX).zip" .
+	mv _build/$(UUID)$(FILESUFFIX).zip ./
 	-rm -fR _build
 
 _build: all
@@ -81,4 +83,8 @@ _build: all
 		mkdir -p $$lf/LC_MESSAGES; \
 		cp $$l $$lf/LC_MESSAGES/dash-to-panel.mo; \
 	done;
-	sed -i 's/"version": -1/"version": "$(VERSION)"/'  _build/metadata.json;
+ifdef COMMIT
+	sed -i 's/"version": [[:digit:]][[:digit:]]*/"version": $(VERSION),\n"commit": "$(COMMIT)"/'  _build/metadata.json;
+else
+	sed -i 's/"version": [[:digit:]][[:digit:]]*/"version": $(VERSION)/'  _build/metadata.json;
+endif
