@@ -83,8 +83,8 @@ _build: all
 		mkdir -p $$lf/LC_MESSAGES; \
 		cp $$l $$lf/LC_MESSAGES/dash-to-panel.mo; \
 	done;
-ifdef COMMIT
+ifneq ($(and $(COMMIT),$(VERSION)),)
 	sed -i 's/"version": [[:digit:]][[:digit:]]*/"version": $(VERSION),\n"commit": "$(COMMIT)"/'  _build/metadata.json;
-else
+else ifneq ($(VERSION),)
 	sed -i 's/"version": [[:digit:]][[:digit:]]*/"version": $(VERSION)/'  _build/metadata.json;
 endif
