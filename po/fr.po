@@ -213,7 +213,7 @@ msgid ""
 "shorter than the maximum width. The maximum width value is used as the fixed "
 "width."
 msgstr ""
-"Les titres d'application ont toutes la même longueur, même si leur texte est "
+"Les titres d'application ont tous la même longueur, même si leur texte est "
 "plus petit que la taille maximum. La valeur maximale de longueur est "
 "utilisée comme longueur fixe."
 
