@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-02 21:57+0100\n"
-"PO-Revision-Date: 2018-02-02 22:31+0100\n"
+"PO-Revision-Date: 2018-02-04 13:47+0100\n"
 "Last-Translator: Nathan Graule <solarliner@gmail.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -165,7 +165,7 @@ msgstr "0"
 
 #: Settings.ui.h:21
 msgid "Indicator color - Override Theme"
-msgstr "Couleurde l'indicateur - Remplacer le thème"
+msgstr "Couleur de l'indicateur - Remplacer le thème"
 
 #: Settings.ui.h:22
 msgid "1 window open (or ungrouped)"
@@ -201,11 +201,12 @@ msgstr "Couleur du texte des titres d'application"
 
 #: Settings.ui.h:30
 msgid "Maximum width (px) of the application titles (default is 160)"
-msgstr "Longueur maximum (px) des titres d'applications (défaut: 160)"
+msgstr "Longueur maximum (px) des titres d'application (défaut: 160)"
 
 #: Settings.ui.h:31
+#, fuzzy
 msgid "Use a fixed width for the application titles"
-msgstr "Utiliser une longueur fixe pour les titres d'application"
+msgstr "Utiliser une largeur fixe pour les titres d'application"
 
 #: Settings.ui.h:32
 msgid ""
@@ -276,8 +277,8 @@ msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
 msgstr ""
-"Toute fenêtre, mis à part celle prévisualisée, ont leur opacité mise à la "
-"même valeur."
+"Toute les fenêtres, mis à part celle prévisualisée, ont leur opacité mise à "
+"la même valeur."
 
 #: Settings.ui.h:44
 msgid "Middle click to close window"
