@@ -496,7 +496,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="halign">end</property>
-                            <property name="text" translatable="yes">5</property>
+                            <property name="text" translatable="no">5</property>
                             <property name="adjustment">focus_highlight_opacity_adjustment</property>
                             <property name="value">5</property>
                           </object>
@@ -548,7 +548,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="halign">end</property>
-                        <property name="text" translatable="yes">0</property>
+                        <property name="text" translatable="no">0</property>
                         <property name="adjustment">dot_size_adjustment</property>
                       </object>
                       <packing>
@@ -1004,7 +1004,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="width_chars">4</property>
-                        <property name="text" translatable="yes">0</property>
+                        <property name="text" translatable="no">0</property>
                         <property name="adjustment">group_apps_label_font_size_adjustment</property>
                         <property name="numeric">True</property>
                       </object>
@@ -1105,7 +1105,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="width_chars">4</property>
-                        <property name="text" translatable="yes">0</property>
+                        <property name="text" translatable="no">0</property>
                         <property name="adjustment">group_apps_label_max_width_adjustment</property>
                         <property name="numeric">True</property>
                       </object>
@@ -1351,7 +1351,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="width_chars">4</property>
-                        <property name="text" translatable="yes">0</property>
+                        <property name="text" translatable="no">0</property>
                         <property name="adjustment">leave_timeout_adjustment</property>
                         <property name="numeric">True</property>
                       </object>
@@ -1435,7 +1435,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="width_chars">4</property>
-                        <property name="text" translatable="yes">0</property>
+                        <property name="text" translatable="no">0</property>
                         <property name="adjustment">preview_timeout_adjustment</property>
                         <property name="numeric">True</property>
                       </object>
@@ -2035,7 +2035,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="width_chars">4</property>
-                <property name="text" translatable="yes">0</property>
+                <property name="text" translatable="no">0</property>
                 <property name="adjustment">show_showdesktop_width_adjustment</property>
                 <property name="numeric">True</property>
               </object>
