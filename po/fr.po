@@ -277,7 +277,7 @@ msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
 msgstr ""
-"Toute les fenêtres, mis à part celle prévisualisée, ont leur opacité mise à "
+"Toutes les fenêtres, mis à part celle prévisualisée, ont leur opacité mise à "
 "la même valeur."
 
 #: Settings.ui.h:44
