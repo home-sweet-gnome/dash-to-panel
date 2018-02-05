@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-25 11:55+0100\n"
-"PO-Revision-Date: 2018-02-04 08:28+0100\n"
+"PO-Revision-Date: 2018-02-05 11:13+0100\n"
 "Last-Translator: Piotr Komur <pkomur@gmail.com>\n"
 "Language-Team: Piotr Komur\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.1\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -144,7 +144,7 @@ msgstr "<i>Wyświetl szczegóły</i>"
 
 #: Settings.ui.h:15
 msgid "Highlight focused application"
-msgstr "Podświetlaj wskaźnik aktywnego programu"
+msgstr "Podświetlaj ikonę aktywnego programu"
 
 #: Settings.ui.h:16
 msgid "Highlight color"
@@ -196,7 +196,7 @@ msgstr "Użyj innego dla pozostałych"
 
 #: Settings.ui.h:28
 msgid "Font size (px) of the application titles (default is 14)"
-msgstr "Wielkość czcionki (px) tytułów okien (domyślnie 14)"
+msgstr "Wielkość czcionki etykiet (px) (domyślnie 14) "
 
 #: Settings.ui.h:29
 msgid "Font color of the application titles"
@@ -204,7 +204,7 @@ msgstr "Kolor czcionki"
 
 #: Settings.ui.h:30
 msgid "Maximum width (px) of the application titles (default is 160)"
-msgstr "Maksymalna szerokość (px) (domyślnie 160)"
+msgstr "Maksymalna szerokość etykiet (px) (domyślnie 160)"
 
 #: Settings.ui.h:31
 msgid "Use a fixed width for the application titles"
@@ -216,9 +216,9 @@ msgid ""
 "shorter than the maximum width. The maximum width value is used as the fixed "
 "width."
 msgstr ""
-"Wszystkie tytuły programów będą miały tę samą szerokość, nawet jeśli ich "
-"teksty są krótsze niż maksymalna szerokość. Wartość stałej szerokości jest "
-"taka, jaka została podana w polu Maksymalna szerokość."
+"Wszystkie etykiety ikon będą miały tę samą szerokość, nawet jeśli ich teksty "
+"są krótsze niż maksymalna szerokość. Wartość stałej szerokości jest taka, "
+"jaka została podana w polu Maksymalna szerokość."
 
 #: Settings.ui.h:33
 msgid "Display running indicators on unfocused applications"
@@ -244,7 +244,7 @@ msgstr ""
 
 #: Settings.ui.h:37
 msgid "Time (ms) before showing (100 is default)"
-msgstr "Opoźnienie wyświetlania podglądu (domyślnie 100 ms)"
+msgstr "Opóźnienie wyświetlania miniatur (domyślnie 100 ms)"
 
 #: Settings.ui.h:38
 msgid "Enable window peeking"
@@ -260,7 +260,7 @@ msgstr ""
 
 #: Settings.ui.h:40
 msgid "Enter window peeking mode timeout (ms)"
-msgstr "Czas opóźnienia wyświetlania podglądu (ms)"
+msgstr "Opóźnienie wyświetlania (ms)"
 
 #: Settings.ui.h:41
 msgid ""
@@ -272,7 +272,7 @@ msgstr ""
 
 #: Settings.ui.h:42
 msgid "Window peeking mode opacity"
-msgstr "Przeźroczystość okien w trybie podglądu"
+msgstr "Przeźroczystość okien"
 
 #: Settings.ui.h:43
 msgid ""
@@ -347,7 +347,7 @@ msgstr "Szerokość przycisku Pokaż pulpit (px)"
 
 #: Settings.ui.h:59
 msgid "Panel screen position"
-msgstr "Położenie panela na ekranie"
+msgstr "Położenie panelu na ekranie"
 
 #: Settings.ui.h:60
 msgid "Bottom"
@@ -362,7 +362,7 @@ msgid ""
 "Panel Size\n"
 "(default is 48)"
 msgstr ""
-"Rozmiar panela\n"
+"Rozmiar panelu\n"
 "(domyślnie 48)"
 
 #: Settings.ui.h:64
@@ -481,7 +481,7 @@ msgstr ""
 
 #: Settings.ui.h:92
 msgid "Show window previews on hover"
-msgstr "Pokaż podgląd okna"
+msgstr "Pokaż podgląd (miniaturę) okna"
 
 #: Settings.ui.h:93
 msgid "Isolate Workspaces"
@@ -489,7 +489,7 @@ msgstr "Niezależne obszary robocze"
 
 #: Settings.ui.h:94
 msgid "Ungroup applications"
-msgstr "Rozgrupuj ikony okien (tryb listy)"
+msgstr "Rozgrupuj ikony (tryb listy)"
 
 #: Settings.ui.h:95
 msgid "Behaviour when clicking on the icon of a running application."
@@ -528,7 +528,7 @@ msgid ""
 "LeftBox Font Size\n"
 "(0 = theme default)"
 msgstr ""
-"Rozmiar czcionki lewej strony panela\n"
+"Rozmiar czcionki lewej strony panelu\n"
 "(0 - domyślnie z motywu)"
 
 #: Settings.ui.h:104
@@ -552,7 +552,7 @@ msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
 msgstr ""
-"Odstęp elementów lewej strony panela\n"
+"Odstęp elementów lewej strony panelu\n"
 "(-1 - domyślnie z motywu)"
 
 #: Settings.ui.h:110
