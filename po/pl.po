@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-25 11:55+0100\n"
-"PO-Revision-Date: 2018-02-05 11:13+0100\n"
+"PO-Revision-Date: 2018-02-10 10:48+0100\n"
 "Last-Translator: Piotr Komur <pkomur@gmail.com>\n"
 "Language-Team: Piotr Komur\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.4\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -38,7 +38,7 @@ msgstr "Podgląd okna - opcje"
 
 #: prefs.js:601
 msgid "Ungrouped application options"
-msgstr "Rozgrupowane ikony - opcje"
+msgstr "Opcje trybu listy"
 
 #: prefs.js:677
 msgid "Customize middle-click behavior"
@@ -172,7 +172,7 @@ msgstr "Kolor wskaźnika (zastępuje kolory motywu)"
 
 #: Settings.ui.h:22
 msgid "1 window open (or ungrouped)"
-msgstr "1 otwarte okno (lub rozgrupowane)"
+msgstr "1 otwarte okno (lub tryb listy)"
 
 #: Settings.ui.h:23
 msgid "Apply to all"
@@ -489,7 +489,7 @@ msgstr "Niezależne obszary robocze"
 
 #: Settings.ui.h:94
 msgid "Ungroup applications"
-msgstr "Rozgrupuj ikony (tryb listy)"
+msgstr "Tryb listy (nie scalaj ikon)"
 
 #: Settings.ui.h:95
 msgid "Behaviour when clicking on the icon of a running application."
