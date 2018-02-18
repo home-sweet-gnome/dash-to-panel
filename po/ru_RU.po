@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-02 16:52+0300\n"
-"PO-Revision-Date: 2018-02-02 19:02+0300\n"
+"PO-Revision-Date: 2018-02-02 18:50+0300\n"
 "Last-Translator: Alex Gluck <alexgluck@bk.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -81,7 +81,8 @@ msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
 msgstr ""
-"Когда установлено сворачивать, двойной клик сворачивает все окна приложений."
+"Когда установлено сворачивать\" , двойной клик сворачивает все окна "
+"приложений."
 
 #: Settings.ui.h:2
 msgid "Shift+Click action"
@@ -197,32 +198,29 @@ msgstr "Переводить окно на передний план"
 msgid ""
 "When hovering over a window preview for some time, the window gets "
 "distinguished."
-msgstr ""
-"При наведении на иконку предпросмотра окно помещается на передний план."
+msgstr "При наведении на иконку предпросмотра иногда окно выделяется."
 
 #: Settings.ui.h:30
 msgid "Enter window peeking mode timeout (ms)"
-msgstr "Задержка перед выводом окна на передний план (в мс)"
+msgstr "Задержка перед помещением окна на передний план (в мс)"
 
 #: Settings.ui.h:31
 msgid ""
 "Time of inactivity while hovering over a window preview needed to enter the "
 "window peeking mode."
 msgstr ""
-"Время через которое, при наведении указателя на иконку предпросмотра, окно "
-"перейдёт на передний план."
+"Время бездействия при наведении указателя на иконку предпросмотра для "
+"перевода окна на передний план."
 
 #: Settings.ui.h:32
 msgid "Window peeking mode opacity"
-msgstr "Уровень прозрачности остальных окон"
+msgstr "Режим прозрачности выделенного окна"
 
 #: Settings.ui.h:33
 msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
-msgstr ""
-"Все окна, кроме выделенного, имеют прозрачность в процентах равное этому "
-"значению."
+msgstr "Все окна, кроме выделенного, имеют прозрачность."
 
 #: Settings.ui.h:34
 msgid "Super"
@@ -234,7 +232,7 @@ msgstr "Super + Alt"
 
 #: Settings.ui.h:36
 msgid "Hotkeys prefix"
-msgstr "Префикс горячих клавиш"
+msgstr "Префик горячих клавиш"
 
 #: Settings.ui.h:37
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
