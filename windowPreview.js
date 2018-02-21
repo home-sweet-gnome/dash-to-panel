@@ -212,6 +212,9 @@ var thumbnailPreviewMenu = new Lang.Class({
     },
 
     destroy: function () {
+        this.cancelClose();
+        this.cancelOpen();
+        
         if (this._mappedId)
             this._source.actor.disconnect(this._mappedId);
 

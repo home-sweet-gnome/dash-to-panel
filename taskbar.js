@@ -240,9 +240,6 @@ var taskbar = new Lang.Class({
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
         });
 
-        Main.panel.actor.connect('notify::height', Lang.bind(this, this._queueRedisplay));
-        Main.panel.actor.connect('notify::width', Lang.bind(this, this._queueRedisplay));
-
         // Update minimization animation target position on allocation of the
         // container and on scrollview change.
         this._box.connect('notify::allocation', Lang.bind(this, this._updateAppIconsGeometry));
@@ -256,6 +253,16 @@ var taskbar = new Lang.Class({
         this._appSystem = Shell.AppSystem.get_default();
 
         this._signalsHandler.add(
+            [
+                Main.panel.actor,
+                'notify::height',
+                () => this._queueRedisplay()
+            ],
+            [
+                Main.panel.actor,
+                'notify::width',
+                () => this._queueRedisplay()
+            ],
             [
                 this._appSystem,
                 'installed-changed',
@@ -313,6 +320,7 @@ var taskbar = new Lang.Class({
         this._signalsHandler.destroy();
         this._signalsHandler = 0;
 
+        this._container.destroy();
         this._disconnectWorkspaceSignals();
     },
 
