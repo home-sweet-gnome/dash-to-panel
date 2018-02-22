@@ -750,17 +750,19 @@ var thumbnailPreview = new Lang.Class({
     },
 
     animateOutAndDestroy: function() {
-        this.animatingOut = true;
-        this._hideCloseButton();
-        Tweener.addTween(this.actor,
-                         { width: 0,
-                           opacity: 0,
-                           time: Taskbar.DASH_ANIMATION_TIME,
-                           transition: 'easeOutQuad',
-                           onComplete: Lang.bind(this, function() {
-                               this.destroy();
-                           })
-                         });
+        if (!this.animatingOut) {
+            this.animatingOut = true;
+            this._hideCloseButton();
+            Tweener.addTween(this.actor,
+                             {  width: 0,
+                                opacity: 0,
+                                time: Taskbar.DASH_ANIMATION_TIME,
+                                transition: 'easeOutQuad',
+                                onComplete: Lang.bind(this, function() {
+                                    this.destroy();
+                                })
+                             });
+        }
     },
 
     activate: function() {
@@ -1002,7 +1004,9 @@ var thumbnailPreviewList = new Lang.Class({
         let windows = this.window ? [this.window] : 
                       AppIcons.getInterestingWindows(this.app, this._dtpSettings).sort(this.sortWindowsCompareFunction);
         let children = this.box.get_children().filter(function(actor) {
-                return actor._delegate.window && actor._delegate.preview;
+                return actor._delegate.window && 
+                       actor._delegate.preview && 
+                       !actor._delegate.animatingOut;
             });
         // Apps currently in the taskbar
         let oldWin = children.map(function(actor) {
