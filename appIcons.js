@@ -289,6 +289,7 @@ var taskbarAppIcon = new Lang.Class({
 
     _onDestroy: function() {
         this.parent();
+        this._destroyed = true;
 
         // Disconect global signals
         // stateChangedId is already handled by parent)
@@ -568,10 +569,12 @@ var taskbarAppIcon = new Lang.Class({
             isFocused = (tracker.focus_app == this.app);
 
             Mainloop.timeout_add(0, () => {
-                if(isFocused) 
-                    this.actor.add_style_class_name('focused');
-                else
-                    this.actor.remove_style_class_name('focused');
+                if (!this._destroyed) {
+                    if(isFocused) 
+                        this.actor.add_style_class_name('focused');
+                    else
+                        this.actor.remove_style_class_name('focused');
+                }
             });
             
             if(focusedIsWide) {
