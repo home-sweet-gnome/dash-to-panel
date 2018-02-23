@@ -671,11 +671,6 @@ var thumbnailPreview = new Lang.Class({
                                              height: height * this.scale });
             this._resizeId = mutterWindow.meta_window.connect('size-changed',
                                             Lang.bind(this, this._queueResize));
-            this._destroyId = mutterWindow.connect('destroy', Lang.bind(this, function() {
-                                                   thumbnail.destroy();
-                                                   this._destroyId = 0;
-                                                   this.animateOutAndDestroy();
-                                                  }));
         }
 
         return thumbnail;
