@@ -798,11 +798,28 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _launchNewInstance: function() {
-        if(this._dtpSettings.get_boolean('animate-window-launch')) {
-            this.animateLaunch();
-        }
+        if (this.app.can_open_new_window()) {
+            let appActions = this.app.get_app_info().list_actions();
+            let newWindowIndex = appActions.indexOf('new-window');
 
-        this.app.open_new_window(-1);
+            if(this._dtpSettings.get_boolean('animate-window-launch')) {
+                this.animateLaunch();
+            }
+
+            if (newWindowIndex < 0) {
+                this.app.open_new_window(-1);
+            } else {
+                this.app.launch_action(appActions[newWindowIndex], global.get_current_time(), -1);
+            }
+        } else {
+            let windows = this.window ? [this.window] : this.app.get_windows();
+
+            if (windows.length) {
+                Main.activateWindow(windows[0]);
+            } else {
+                this.app.activate();
+            }
+        }
     },
 
     _updateCounterClass: function() {
