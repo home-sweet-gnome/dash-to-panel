@@ -565,8 +565,6 @@ var thumbnailPreview = new Lang.Class({
                                   Lang.bind(this, this._onLeave));
         this.actor.connect('motion-event',
                                   Lang.bind(this, this._onMotionEvent));
-        this.actor.connect('destroy',
-                                  Lang.bind(this, this._onDestroy));
 
         this._previewMenuPopupManager = new previewMenuPopupManager(window, this.actor);
     },
@@ -671,6 +669,8 @@ var thumbnailPreview = new Lang.Class({
                                              height: height * this.scale });
             this._resizeId = mutterWindow.meta_window.connect('size-changed',
                                             Lang.bind(this, this._queueResize));
+                                            
+            this._destroyId = mutterWindow.connect('destroy', () => this.animateOutAndDestroy());
         }
 
         return thumbnail;
@@ -823,19 +823,25 @@ var thumbnailPreview = new Lang.Class({
         });
     },
 
-    _onDestroy: function() {
+    destroy: function() {
         if (this._titleNotifyId) {
             this.window.disconnect(this._titleNotifyId);
             this._titleNotifyId = 0;
         }
-        
-        if(this._resizeId) {
-            let mutterWindow = this.window.get_compositor_private();
-            if (mutterWindow) {
+
+        let mutterWindow = this.window.get_compositor_private();
+
+        if (mutterWindow) {
+            if(this._resizeId) {
                 mutterWindow.meta_window.disconnect(this._resizeId);
-                this._resizeId = 0;
+            }
+
+            if(this._destroyId) {
+                mutterWindow.disconnect(this._destroyId);
             }
         }
+
+        this.parent();
     }
 });
 
