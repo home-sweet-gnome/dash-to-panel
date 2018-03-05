@@ -106,17 +106,22 @@ var taskbarAppIcon = new Lang.Class({
 		// Fix touchscreen issues before the listener is added by the parent constructor.
         this._onTouchEvent = function(actor, event) {
             if (event.type() == Clutter.EventType.TOUCH_BEGIN) {
-                // Activate/launch the application, on touch start because touch end doesn't work sometimes.
-                this.activate(1);
-                
                 // Open the popup menu on long press.
-            	this._setPopupTimeout();
-            } else if (this._menuTimeoutId != 0 && (event.type() == Clutter.EventType.TOUCH_END || event.type() == Clutter.EventType.TOUCH_CANCEL)) {
-            	this._removeMenuTimeout();
+                this._setPopupTimeout();
+            } else if (this._menuTimeoutId != 0 && (event.type() == Clutter.EventType.TOUCH_END || event.type() == Clutter.EventType.TOUCH_CANCEL)) {    
+                // Activate/launch the application.
+                this.activate(1);
+                this._removeMenuTimeout();
             }
             // Disable dragging via touch screen as it's buggy as hell. Not perfect for tablet users, but the alternative is way worse.
             // Also, EVENT_PROPAGATE launches applications twice with this solution, so this.activate(1) above must only be called if there's already a window.
             return Clutter.EVENT_STOP;
+        };
+        // Hack for missing TOUCH_END event.
+        this._onLeaveEvent = function(actor, event) {
+            this.actor.fake_release();
+            if (this._menuTimeoutId != 0) this.activate(1); // Activate/launch the application if TOUCH_END didn't fire.
+            this._removeMenuTimeout();
         };
 
         this.parent(appInfo.app, iconParams, onActivateOverride);
