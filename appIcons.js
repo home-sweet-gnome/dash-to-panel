@@ -103,6 +103,22 @@ var taskbarAppIcon = new Lang.Class({
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
 
+		// Fix touchscreen issues before the listener is added by the parent constructor.
+        this._onTouchEvent = function(actor, event) {
+            if (event.type() == Clutter.EventType.TOUCH_BEGIN) {
+                // Activate/launch the application, on touch start because touch end doesn't work sometimes.
+                this.activate(1);
+                
+                // Open the popup menu on long press.
+            	this._setPopupTimeout();
+            } else if (this._menuTimeoutId != 0 && (event.type() == Clutter.EventType.TOUCH_END || event.type() == Clutter.EventType.TOUCH_CANCEL)) {
+            	this._removeMenuTimeout();
+            }
+            // Disable dragging via touch screen as it's buggy as hell. Not perfect for tablet users, but the alternative is way worse.
+            // Also, EVENT_PROPAGATE launches applications twice with this solution, so this.activate(1) above must only be called if there's already a window.
+            return Clutter.EVENT_STOP;
+        };
+
         this.parent(appInfo.app, iconParams, onActivateOverride);
 
         this._dot.set_width(0);
