@@ -47,6 +47,8 @@ const Tweener = imports.ui.tweener;
 const IconGrid = imports.ui.iconGrid;
 const ViewSelector = imports.ui.viewSelector;
 
+const Intellihide = Me.imports.intellihide;
+
 let tracker = Shell.WindowTracker.get_default();
 
 var dtpPanel = new Lang.Class({
@@ -168,6 +170,11 @@ var dtpPanel = new Lang.Class({
         if(this.taskbar._showAppsIcon)
             this.taskbar._showAppsIcon._dtpPanel = this;
 
+        this.startIntellihideId = Mainloop.timeout_add(2000, () => {
+            this.startIntellihideId = 0;
+            this._intellihide = new Intellihide.Intellihide(this);
+        });
+
         this._signalsHandler = new Convenience.GlobalSignalsHandler();
         this._signalsHandler.add(
             // Keep dragged icon consistent in size with this dash
@@ -221,10 +228,10 @@ var dtpPanel = new Lang.Class({
             this.panel._dtpPosition = this._dtpSettings.get_string('panel-position');
             this.panel._dtpRemoveSolidStyleId = 0;
             this._injectionsHandler.addWithLabel('transparency', [
-                this.panel,
-                '_updateSolidStyle',
-                Lang.bind(this.panel, this._dtpUpdateSolidStyle)
-            ]);
+                    this.panel,
+                    '_updateSolidStyle',
+                    Lang.bind(this.panel, this._dtpUpdateSolidStyle)
+                ]);
 
             this.panel._updateSolidStyle();
         }
@@ -239,6 +246,13 @@ var dtpPanel = new Lang.Class({
         this.container.add_child(this.appMenu.container);
         this.taskbar.destroy();
         this.panel.actor.disconnect(this._panelConnectId);
+
+        if (this.startIntellihideId) {
+            Mainloop.source_remove(this.startIntellihideId);
+            this.startIntellihideId = 0;
+        } else {
+            this._intellihide.destroy();
+        }
 
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
@@ -265,7 +279,7 @@ var dtpPanel = new Lang.Class({
 
         if (this.panel._updateSolidStyle) {
             if (this.panel._dtpRemoveSolidStyleId) {
-                Mainloop.source_remove(this._panel._dtpRemoveSolidStyleId);
+                Mainloop.source_remove(this.panel._dtpRemoveSolidStyleId);
             }
 
             this._injectionsHandler.removeWithLabel('transparency');

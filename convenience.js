@@ -26,6 +26,7 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Gettext = imports.gettext;
 const Gio = imports.gi.Gio;
 const Lang = imports.lang;
+const Mainloop = imports.mainloop;
 
 /**
  * initTranslations:
@@ -120,7 +121,11 @@ var BasicHandler = new Lang.Class({
         // skip first element of the arguments
         for( let i = 1; i < arguments.length; i++ ) {
             let item = this._storage[label];
-            item.push(this._create(arguments[i]));
+            let handlers = this._create(arguments[i]);
+
+            for (let j = 0, l = handlers.length; j < l; ++j) {
+                item.push(handlers[j]);
+            }
         }
 
     },
@@ -154,13 +159,20 @@ var GlobalSignalsHandler = new Lang.Class({
     Extends: BasicHandler,
 
     _create: function(item) {
+        let handlers = [];
 
-      let object = item[0];
-      let event = item[1];
-      let callback = item[2]
-      let id = object.connect(event, callback);
+        item[1] = [].concat(item[1]);
 
-      return [object, id];
+        for (let i = 0, l = item[1].length; i < l; ++i) {
+            let object = item[0];
+            let event = item[1][i];
+            let callback = item[2]
+            let id = object.connect(event, callback);
+
+            handlers.push([object, id]);
+        }
+
+        return handlers;
     },
 
     _remove: function(item){
@@ -183,7 +195,7 @@ var InjectionsHandler = new Lang.Class({
         let original = object[name];
 
         object[name] = injectedFunction;
-        return [object, name, injectedFunction, original];
+        return [[object, name, injectedFunction, original]];
     },
 
     _remove: function(item) {
@@ -191,5 +203,45 @@ var InjectionsHandler = new Lang.Class({
         let name = item[1];
         let original = item[3];
         object[name] = original;
+    }
+});
+
+/**
+ * Manage timeouts: the added timeouts have their id reset on completion
+ */
+var TimeoutsHandler = new Lang.Class({
+    Name: 'DashToPanel.TimeoutsHandler',
+    Extends: BasicHandler,
+
+    _create: function(item) {
+        let name = item[0];
+        let delay = item[1];
+        let timeoutHandler = item[2];
+
+        this._remove(item);
+
+        this[name] = Mainloop.timeout_add(delay, () => {
+            this[name] = 0;
+            timeoutHandler();
+        });
+
+        return [[name]];
+    },
+
+    remove: function(name) {
+        this._remove([name])
+    },
+
+    _remove: function(item) {
+        let name = item[0];
+
+        if (this[name]) {
+            Mainloop.source_remove(this[name]);
+            this[name] = 0;
+        }
+    },
+
+    getId: function(name) {
+        return this[name] ? this[name] : 0;
     }
 });

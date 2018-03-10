@@ -300,11 +300,13 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     shouldShowTooltip: function() {
-        if (!this.isLauncher && this._dtpSettings.get_boolean("show-window-previews") && 
+        if (!this.isLauncher && this._dtpSettings.get_boolean("show-window-previews") &&
             getInterestingWindows(this.app, this._dtpSettings).length > 0) {
             return false;
         } else {
-            return this.actor.hover && (!this._menu || !this._menu.isOpen) && (!this.windowPreview || !this.windowPreview.isOpen);
+            return this.actor.hover && !this.window && 
+                   (!this._menu || !this._menu.isOpen) && 
+                   (!this.windowPreview || !this.windowPreview.isOpen);
         }
     },
 
