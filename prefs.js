@@ -20,6 +20,7 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
+const GdkPixbuf = imports.gi.GdkPixbuf;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
@@ -414,6 +415,66 @@ const Settings = new Lang.Class({
                             this._builder.get_object('show_applications_button_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('show-show-apps-button',
+                            this._builder.get_object('show_application_options_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._builder.get_object('show_application_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Show Applications options'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('show_applications_options');
+            dialog.get_content_area().add(box);
+
+            let fileChooser = this._builder.get_object('show_applications_icon_file_filebutton');
+            let fileImage = this._builder.get_object('show_applications_current_icon_image');
+            let fileFilter = new Gtk.FileFilter();
+            let handleIconChange = function(newIconPath) {
+                if (newIconPath && GLib.file_test(newIconPath, GLib.FileTest.EXISTS)) {
+                    let file = Gio.File.new_for_path(newIconPath)
+                    let pixbuf = GdkPixbuf.Pixbuf.new_from_stream_at_scale(file.read(null), 32, 32, true, null);
+
+                    fileImage.set_from_pixbuf(pixbuf);
+                    fileChooser.set_filename(newIconPath);
+                } else {
+                    newIconPath = '';
+                    fileImage.set_from_icon_name('view-app-grid-symbolic', 32);
+                    fileChooser.unselect_all();
+                    fileChooser.set_current_folder(GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES));
+                }
+
+                this._settings.set_string('show-apps-icon-file', newIconPath || '');
+            };
+            
+            fileFilter.add_pixbuf_formats();
+            fileChooser.filter = fileFilter;
+
+            fileChooser.connect('file-set', widget => handleIconChange.call(this, widget.get_filename()));
+            handleIconChange.call(this, this._settings.get_string('show-apps-icon-file'));
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    handleIconChange.call(this, null);
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+        }));
+
         this._settings.bind('animate-show-apps',
                             this._builder.get_object('application_button_animation_button'),
                             'active',

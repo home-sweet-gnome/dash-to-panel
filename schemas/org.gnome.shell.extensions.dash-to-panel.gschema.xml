@@ -157,6 +157,11 @@
       <summary>Show applications button</summary>
       <description>Show appplications button in the dash</description>
     </key>
+    <key type="s" name="show-apps-icon-file">
+      <default>""</default>
+      <summary>Custom Show Applications icon</summary>
+      <description>Customize the Show Applications icon</description>
+    </key>
     <key type="b" name="animate-show-apps">
       <default>true</default>
       <summary>Animate Show Applications from the desktop</summary>
