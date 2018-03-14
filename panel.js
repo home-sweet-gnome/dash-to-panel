@@ -265,7 +265,7 @@ var dtpPanel = new Lang.Class({
 
         if (this.panel._updateSolidStyle) {
             if (this.panel._dtpRemoveSolidStyleId) {
-                Mainloop.source_remove(this._panel._dtpRemoveSolidStyleId);
+                Mainloop.source_remove(this.panel._dtpRemoveSolidStyleId);
             }
 
             this._injectionsHandler.removeWithLabel('transparency');
