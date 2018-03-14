@@ -47,6 +47,12 @@ const AppIcons = Me.imports.appIcons;
 let DEFAULT_THUMBNAIL_WIDTH = 350;
 let DEFAULT_THUMBNAIL_HEIGHT = 200;
 
+let HOVER_APP_BLACKLIST = [
+                           "Oracle VM VirtualBox",
+                           "Virtual Machine Manager",
+                           "Remmina"
+                          ]
+
 var thumbnailPreviewMenu = new Lang.Class({
     Name: 'DashToPanel.ThumbnailPreviewMenu',
     Extends: PopupMenu.PopupMenu,
@@ -194,14 +200,23 @@ var thumbnailPreviewMenu = new Lang.Class({
             this._hoverCloseTimeoutId = null;
         }
     },
+	
+    _appInHoverBlacklist: function (appName) {
+        for (let i = 0; i < HOVER_APP_BLACKLIST.length; i++) {
+            if (appName === HOVER_APP_BLACKLIST[i])
+                return true;
+        }
+        
+        return false;
+    },
 
     hoverOpen: function () {
         this._hoverOpenTimeoutId = null;
         if (!this.isOpen && this._dtpSettings.get_boolean("show-window-previews")) {
             this.popup();          
             let focusedApp = Shell.WindowTracker.get_default().focus_app;
-            if (focusedApp && (focusedApp.get_name() === "Oracle VM VirtualBox" || focusedApp.get_name() === "Virtual Machine Manager")) {
-                this.actor.grab_key_focus();
+            if (focusedApp && this._appInHoverBlacklist(focusedApp.get_name())) {
+		this.actor.grab_key_focus();
             }
         }
     },
