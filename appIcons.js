@@ -1396,6 +1396,26 @@ function extendShowAppsIcon(showAppsIcon, settings) {
 
     showAppsIcon.showLabel = ItemShowLabel;
 
+    let customIconPath = settings.get_string('show-apps-icon-file');
+
+    showAppsIcon.icon.createIcon = function(size) {
+        this._iconActor = new St.Icon({ icon_name: 'view-app-grid-symbolic',
+                                        icon_size: size,
+                                        style_class: 'show-apps-icon',
+                                        track_hover: true });
+
+        if (customIconPath) {
+            this._iconActor.gicon = new Gio.FileIcon({ file: Gio.File.new_for_path(customIconPath) });
+        }
+        
+        return this._iconActor;
+    };
+
+    settings.connect('changed::show-apps-icon-file', () => {
+        customIconPath = settings.get_string('show-apps-icon-file');
+        showAppsIcon.icon._createIconTexture(showAppsIcon.icon.iconSize);
+    });
+
     showAppsIcon.popupMenu = function() {
         showAppsIcon._removeMenuTimeout();
         showAppsIcon.actor.fake_release();
