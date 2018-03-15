@@ -288,8 +288,11 @@ var Intellihide = new Lang.Class({
     },
 
     _checkIfHandledWindowType(metaWindow) {
+        let metaWindowType = metaWindow.get_window_type();
+
         //https://www.roojs.org/seed/gir-1.2-gtk-3.0/seed/Meta.WindowType.html
-        return metaWindow.get_window_type() <= Meta.WindowType.SPLASHSCREEN;
+        return metaWindowType <= Meta.WindowType.SPLASHSCREEN && 
+               metaWindowType != Meta.WindowType.DESKTOP;
     },
 
     _queueUpdatePanelPosition: function(fromRevealMechanism) {
