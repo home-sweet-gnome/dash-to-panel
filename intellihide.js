@@ -175,7 +175,7 @@ var Intellihide = new Lang.Class({
                 this._dtpSettings,
                 'changed::intellihide-behaviour',
                 () => this._queueUpdatePanelPosition()
-            ],
+            ]
         );
     },
 
@@ -379,7 +379,7 @@ var Intellihide = new Lang.Class({
         this._animatePanel(this._panelBox.height * (this._panelAtTop ? -1 : 1), immediate);
     },
 
-    _animatePanel: function(destination,immediate, onComplete) {
+    _animatePanel: function(destination, immediate, onComplete) {
         let animating = Tweener.isTweening(this._panelBox);
 
         if ((animating && destination === this._animationDestination) || 
@@ -410,6 +410,8 @@ var Intellihide = new Lang.Class({
                     this._timeoutsHandler.add([T3, POST_ANIMATE_MS, () => this._queueUpdatePanelPosition()]);
                 }
             });
+
+            this._hoveredOut = false;
         }
     },
 
