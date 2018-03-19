@@ -392,8 +392,6 @@ var Intellihide = new Lang.Class({
             Tweener.removeTweens(this._panelBox);
         }
 
-        this._animationDestination = destination;
-
         if (immediate) {
             this._panelBox.translation_y = destination;
             this._invokeIfExists(onComplete);
@@ -410,9 +408,10 @@ var Intellihide = new Lang.Class({
                     this._timeoutsHandler.add([T3, POST_ANIMATE_MS, () => this._queueUpdatePanelPosition()]);
                 }
             });
-
-            this._hoveredOut = false;
         }
+
+        this._animationDestination = destination;
+        this._hoveredOut = false;
     },
 
     _invokeIfExists: function(func) {
