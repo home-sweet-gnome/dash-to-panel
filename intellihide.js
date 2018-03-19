@@ -267,7 +267,7 @@ var Intellihide = new Lang.Class({
         }
     },
 
-    _disconnectFocusedWindow() {
+    _disconnectFocusedWindow: function() {
         if (this._focusedWindowInfo) {
             this._focusedWindowInfo.window.disconnect(this._focusedWindowInfo.id);
             this._focusedWindowInfo = null;
@@ -280,14 +280,14 @@ var Intellihide = new Lang.Class({
                      .filter(mw => this._checkIfHandledWindow(mw));
     },
 
-    _checkIfHandledWindow(metaWindow) {
+    _checkIfHandledWindow: function(metaWindow) {
         return metaWindow && !metaWindow.minimized &&
                metaWindow.get_workspace().index() == global.screen.get_active_workspace_index() &&
                metaWindow.get_monitor() == Main.layoutManager.primaryIndex &&
                this._checkIfHandledWindowType(metaWindow);
     },
 
-    _checkIfHandledWindowType(metaWindow) {
+    _checkIfHandledWindowType: function(metaWindow) {
         let metaWindowType = metaWindow.get_window_type();
 
         //https://www.roojs.org/seed/gir-1.2-gtk-3.0/seed/Meta.WindowType.html
@@ -360,7 +360,7 @@ var Intellihide = new Lang.Class({
         return windowBottom >= panelTop;
     },
 
-    _checkIfGrab() {
+    _checkIfGrab: function() {
         if (GrabHelper._grabHelperStack.some(gh => this._panelBox.contains(gh._owner))) {
             //there currently is a grab on a child of the panel, check again soon to catch its release
             this._timeoutsHandler.add([T1, CHECK_GRAB_MS, () => this._queueUpdatePanelPosition()]);
