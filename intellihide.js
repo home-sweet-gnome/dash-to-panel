@@ -175,7 +175,7 @@ var Intellihide = new Lang.Class({
                 this._dtpSettings,
                 'changed::intellihide-behaviour',
                 () => this._queueUpdatePanelPosition()
-            ],
+            ]
         );
     },
 
@@ -267,7 +267,7 @@ var Intellihide = new Lang.Class({
         }
     },
 
-    _disconnectFocusedWindow() {
+    _disconnectFocusedWindow: function() {
         if (this._focusedWindowInfo) {
             this._focusedWindowInfo.window.disconnect(this._focusedWindowInfo.id);
             this._focusedWindowInfo = null;
@@ -280,14 +280,14 @@ var Intellihide = new Lang.Class({
                      .filter(mw => this._checkIfHandledWindow(mw));
     },
 
-    _checkIfHandledWindow(metaWindow) {
+    _checkIfHandledWindow: function(metaWindow) {
         return metaWindow && !metaWindow.minimized &&
                metaWindow.get_workspace().index() == global.screen.get_active_workspace_index() &&
                metaWindow.get_monitor() == Main.layoutManager.primaryIndex &&
                this._checkIfHandledWindowType(metaWindow);
     },
 
-    _checkIfHandledWindowType(metaWindow) {
+    _checkIfHandledWindowType: function(metaWindow) {
         let metaWindowType = metaWindow.get_window_type();
 
         //https://www.roojs.org/seed/gir-1.2-gtk-3.0/seed/Meta.WindowType.html
@@ -360,7 +360,7 @@ var Intellihide = new Lang.Class({
         return windowBottom >= panelTop;
     },
 
-    _checkIfGrab() {
+    _checkIfGrab: function() {
         if (GrabHelper._grabHelperStack.some(gh => this._panelBox.contains(gh._owner))) {
             //there currently is a grab on a child of the panel, check again soon to catch its release
             this._timeoutsHandler.add([T1, CHECK_GRAB_MS, () => this._queueUpdatePanelPosition()]);
@@ -379,38 +379,38 @@ var Intellihide = new Lang.Class({
         this._animatePanel(this._panelBox.height * (this._panelAtTop ? -1 : 1), immediate);
     },
 
-    _animatePanel: function(destination,immediate, onComplete) {
+    _animatePanel: function(destination, immediate, onComplete) {
         let animating = Tweener.isTweening(this._panelBox);
 
-        if ((animating && destination === this._animationDestination) || 
-            (!animating && destination === this._panelBox.translation_y)) {
-            //stop here since the panel already is at, or animating to the asked destination
-            return;
+        if (!((animating && destination === this._animationDestination) || 
+              (!animating && destination === this._panelBox.translation_y))) {
+            //the panel isn't already at, or animating to the asked destination
+            if (animating) {
+                Tweener.removeTweens(this._panelBox);
+            }
+
+            this._animationDestination = destination;
+    
+            if (immediate) {
+                this._panelBox.translation_y = destination;
+                this._invokeIfExists(onComplete);
+            } else {
+                Tweener.addTween(this._panelBox, {
+                    translation_y: destination,
+                    time: this._dtpSettings.get_int('intellihide-animation-time') * 0.001,
+                    //only delay the animation when hiding the panel after the user hovered out
+                    delay: destination != 0 && this._hoveredOut ? this._dtpSettings.get_int('intellihide-close-delay') * 0.001 : 0,
+                    transition: 'easeOutQuad',
+                    onComplete: () => {
+                        this._invokeIfExists(onComplete);
+                        Main.layoutManager._queueUpdateRegions();
+                        this._timeoutsHandler.add([T3, POST_ANIMATE_MS, () => this._queueUpdatePanelPosition()]);
+                    }
+                });
+            }
         }
 
-        if (animating) {
-            Tweener.removeTweens(this._panelBox);
-        }
-
-        this._animationDestination = destination;
-
-        if (immediate) {
-            this._panelBox.translation_y = destination;
-            this._invokeIfExists(onComplete);
-        } else {
-            Tweener.addTween(this._panelBox, {
-                translation_y: destination,
-                time: this._dtpSettings.get_int('intellihide-animation-time') * 0.001,
-                //only delay the animation when hiding the panel after the user hovered out
-                delay: destination != 0 && this._hoveredOut ? this._dtpSettings.get_int('intellihide-close-delay') * 0.001 : 0,
-                transition: 'easeOutQuad',
-                onComplete: () => {
-                    this._invokeIfExists(onComplete);
-                    Main.layoutManager._queueUpdateRegions();
-                    this._timeoutsHandler.add([T3, POST_ANIMATE_MS, () => this._queueUpdatePanelPosition()]);
-                }
-            });
-        }
+        this._hoveredOut = false;
     },
 
     _invokeIfExists: function(func) {
