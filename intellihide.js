@@ -153,7 +153,7 @@ var Intellihide = new Lang.Class({
             [
                 Main.overview,
                 [
-                    'shown',
+                    'showing',
                     'hidden'
                 ],
                 () => this._queueUpdatePanelPosition()
@@ -203,7 +203,7 @@ var Intellihide = new Lang.Class({
             this._pressureBarrier = new Layout.PressureBarrier(
                 this._dtpSettings.get_int('intellihide-pressure-threshold'), 
                 this._dtpSettings.get_int('intellihide-pressure-time'), 
-                Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW
+                Shell.ActionMode.NORMAL
             );
             this._pressureBarrier.addBarrier(this._createBarrier());
             this._signalsHandler.add([this._pressureBarrier, 'trigger', () => this._queueUpdatePanelPosition(true)]);
@@ -246,7 +246,7 @@ var Intellihide = new Lang.Class({
     },
 
     _checkMousePointer: function(x, y) {
-        if (!this._panelBox.hover &&
+        if (!this._panelBox.hover && !Main.overview.visible &&
             ((this._panelAtTop && y <= this._primaryMonitor.y + 1) || 
              (!this._panelAtTop && y >= this._primaryMonitor.y + this._primaryMonitor.height - 1)) &&
             (x > this._primaryMonitor.x && x < this._primaryMonitor.x + this._primaryMonitor.width)) {
