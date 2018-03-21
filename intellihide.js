@@ -149,6 +149,14 @@ var Intellihide = new Lang.Class({
                     this._hoveredOut = !this._panelBox.hover;
                     this._queueUpdatePanelPosition();
                 }
+            ],
+            [
+                Main.overview,
+                [
+                    'shown',
+                    'hidden'
+                ],
+                () => this._queueUpdatePanelPosition()
             ]
         );
     },
@@ -322,7 +330,7 @@ var Intellihide = new Lang.Class({
             return !this._dragging;
         }
 
-        if (this._checkIfGrab() || this._panelBox.get_hover()) {
+        if (Main.overview.visible || this._checkIfGrab() || this._panelBox.get_hover()) {
             return true;
         }
 
