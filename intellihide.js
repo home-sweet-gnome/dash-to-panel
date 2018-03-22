@@ -22,6 +22,7 @@ const Shell = imports.gi.Shell;
 const GrabHelper = imports.ui.grabHelper;
 const Layout = imports.ui.layout;
 const Main = imports.ui.main;
+const OverviewControls = imports.ui.overviewControls;
 const PointerWatcher = imports.ui.pointerWatcher;
 const Tweener = imports.ui.tweener;
 
@@ -154,7 +155,7 @@ var Intellihide = new Lang.Class({
                 Main.overview,
                 [
                     'showing',
-                    'hidden'
+                    'hiding'
                 ],
                 () => this._queueUpdatePanelPosition()
             ]
@@ -330,7 +331,7 @@ var Intellihide = new Lang.Class({
             return !this._dragging;
         }
 
-        if (Main.overview.visible || this._checkIfGrab() || this._panelBox.get_hover()) {
+        if (Main.overview.visibleTarget || this._checkIfGrab() || this._panelBox.get_hover()) {
             return true;
         }
 
@@ -405,7 +406,10 @@ var Intellihide = new Lang.Class({
             } else {
                 Tweener.addTween(this._panelBox, {
                     translation_y: destination,
-                    time: this._dtpSettings.get_int('intellihide-animation-time') * 0.001,
+                    //when entering/leaving the overview, use its animation time instead of the one from the settings
+                    time: Main.overview.visible ? 
+                          OverviewControls.SIDE_CONTROLS_ANIMATION_TIME :
+                          this._dtpSettings.get_int('intellihide-animation-time') * 0.001,
                     //only delay the animation when hiding the panel after the user hovered out
                     delay: destination != 0 && this._hoveredOut ? this._dtpSettings.get_int('intellihide-close-delay') * 0.001 : 0,
                     transition: 'easeOutQuad',
