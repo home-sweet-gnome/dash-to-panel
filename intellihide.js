@@ -305,8 +305,9 @@ var Intellihide = new Lang.Class({
     },
 
     _queueUpdatePanelPosition: function(fromRevealMechanism) {
-        if (!fromRevealMechanism && this._timeoutsHandler.getId(T2)) {
-            //limit the number of updates, but remember to update again when the limit timeout is reached
+        if (!fromRevealMechanism && this._timeoutsHandler.getId(T2) && !Main.overview.visible) {
+            //unless this is a mouse interaction or entering/leaving the overview, limit the number
+            //of updates, but remember to update again when the limit timeout is reached
             this._pendingUpdate = true;
         } else {
             this._checkIfShouldBeVisible(fromRevealMechanism) ? this._revealPanel() : this._hidePanel();
