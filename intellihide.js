@@ -184,6 +184,11 @@ var Intellihide = new Lang.Class({
                 this._dtpSettings,
                 'changed::intellihide-behaviour',
                 () => this._queueUpdatePanelPosition()
+            ],
+            [
+                Main.overview,
+                'hidden',
+                () => this._adjustDynamicTransparency()
             ]
         );
     },
@@ -259,13 +264,13 @@ var Intellihide = new Lang.Class({
         this._disconnectFocusedWindow();
 
         let focusedWindow = global.display.focus_window;
-
+        
         if (focusedWindow) {
             let window = (focusedWindow.is_attached_dialog() ? 
                           focusedWindow.get_transient_for() : 
                           focusedWindow).get_compositor_private();
             let metaWindow = window.get_meta_window();
-
+        
             if (this._checkIfHandledWindowType(metaWindow)) {
                 this._focusedWindowInfo = {
                     window: window,
@@ -381,8 +386,12 @@ var Intellihide = new Lang.Class({
         return false;
     },
 
+    _adjustDynamicTransparency: function() {
+        this._invokeIfExists(this._dtpPanel.panel._updateSolidStyle);
+    },
+
     _revealPanel: function(immediate) {
-        this._animatePanel(0, immediate, () => this._invokeIfExists(this._dtpPanel.panel._updateSolidStyle));
+        this._animatePanel(0, immediate, () => this._adjustDynamicTransparency());
     },
 
     _hidePanel: function(immediate) {
