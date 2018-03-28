@@ -325,7 +325,7 @@ var Intellihide = new Lang.Class({
     _checkIfShouldBeVisible: function(fromRevealMechanism) {
         if (fromRevealMechanism) {
             //the user is trying to reveal the panel
-            if (this._primaryMonitor.inFullscreen) {
+            if (this._primaryMonitor.inFullscreen && !this._dragging) {
                 return this._dtpSettings.get_boolean('intellihide-show-in-fullscreen');
             }
             
