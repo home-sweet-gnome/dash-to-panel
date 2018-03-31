@@ -184,11 +184,6 @@ var Intellihide = new Lang.Class({
                 this._dtpSettings,
                 'changed::intellihide-behaviour',
                 () => this._queueUpdatePanelPosition()
-            ],
-            [
-                Main.overview,
-                'hidden',
-                () => this._adjustDynamicTransparency()
             ]
         );
     },
