@@ -198,6 +198,11 @@ var dtpPanel = new Lang.Class({
                 })
             ],
             [
+                Main.overview,
+                'hidden',
+                () => this.panel._updateSolidStyle ? this.panel._updateSolidStyle() : null
+            ],
+            [
                 this.panel._rightBox,
                 'actor-added',
                 Lang.bind(this, function() {

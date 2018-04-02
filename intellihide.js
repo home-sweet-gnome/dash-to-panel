@@ -381,8 +381,12 @@ var Intellihide = new Lang.Class({
         return false;
     },
 
+    _adjustDynamicTransparency: function() {
+        this._invokeIfExists(this._dtpPanel.panel._updateSolidStyle);
+    },
+
     _revealPanel: function(immediate) {
-        this._animatePanel(0, immediate, () => this._invokeIfExists(this._dtpPanel.panel._updateSolidStyle));
+        this._animatePanel(0, immediate, this._adjustDynamicTransparency);
     },
 
     _hidePanel: function(immediate) {
