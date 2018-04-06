@@ -543,28 +543,35 @@ var thumbnailPreview = new Lang.Class({
         this.overlayGroup.add_actor(this._previewBin);
         this.overlayGroup.add_actor(this._closeButton);
 
-        this._title = new St.Label({ text: window.title });
-        this._titleBin = new St.Bin({ child: this._title,
-                                    x_align: St.Align.MIDDLE,
-                                    width: this._thumbnailWidth
-                                  });
-        this._titleBin.add_style_class_name("preview-window-title");
+        this._titleNotifyId = 0;
 
-        this._titleNotifyId = this.window.connect('notify::title', Lang.bind(this, function() {
-                                                   this._title.set_text(this.window.title);
-                                               }));
-
-        this._windowBin = new St.Bin({ child: this.overlayGroup,
-                                    x_align: St.Align.MIDDLE,
-                                    width: this._thumbnailWidth,
-                                    height: this._thumbnailHeight
-                                  });
+        this._windowBin = new St.Bin({
+            child: this.overlayGroup,
+            x_align: St.Align.MIDDLE,
+            width: this._thumbnailWidth,
+            height: this._thumbnailHeight
+        });
 
         this._windowBox.add_child(this._windowBin);
 
+        if (this._dtpSettings.get_boolean('window-preview-show-title')) {
+            this._title = new St.Label({ text: window.title });
+            this._titleBin = new St.Bin({ child: this._title,
+                                        x_align: St.Align.MIDDLE,
+                                        width: this._thumbnailWidth
+                                      });
+            this._titleBin.add_style_class_name("preview-window-title");
+
+            this._windowBox.add_child(this._titleBin);
+    
+            this._titleNotifyId = this.window.connect('notify::title', Lang.bind(this, function() {
+                                                        this._title.set_text(this.window.title);
+                                                    }));
+        }
+
         if (this.preview)
             this._previewBin.set_child(this.preview);
-        this._windowBox.add_child(this._titleBin);
+        
         this.actor.add_child(this._windowBox);
         this._queueRepositionCloseButton();
 
@@ -893,6 +900,7 @@ var thumbnailPreviewList = new Lang.Class({
 
         this._dtpSettings.connect('changed::window-previews-width', () => this._resetPreviews());
         this._dtpSettings.connect('changed::window-previews-height', () => this._resetPreviews());
+        this._dtpSettings.connect('changed::window-preview-show-title', () => this._resetPreviews());
         
         this._stateChangedId = this.window ? 0 : 
                                this.app.connect('windows-changed', Lang.bind(this, this._queueRedisplay));

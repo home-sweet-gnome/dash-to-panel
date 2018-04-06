@@ -675,6 +675,10 @@ const Settings = new Lang.Class({
                             this._builder.get_object('peek_mode_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('window-preview-show-title',
+                            this._builder.get_object('preview_show_title_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
             this._settings.bind('peek-mode',
                             this._builder.get_object('listboxrow_enter_peek_mode_timeout'),
                             'sensitive',
@@ -717,6 +721,7 @@ const Settings = new Lang.Class({
                     this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
 
                     this._settings.set_value('peek-mode', this._settings.get_default_value('peek-mode'));
+                    this._settings.set_value('window-preview-show-title', this._settings.get_default_value('window-preview-show-title'));
                     this._settings.set_value('enter-peek-mode-timeout', this._settings.get_default_value('enter-peek-mode-timeout'));
                     this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
                     this._settings.set_value('peek-mode-opacity', this._settings.get_default_value('peek-mode-opacity'));

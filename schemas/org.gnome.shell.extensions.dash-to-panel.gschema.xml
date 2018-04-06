@@ -257,6 +257,11 @@
       <summary>Enable peek mode</summary>
       <description>Peek a window upon hover for some time</description>
     </key>
+    <key type="b" name="window-preview-show-title">
+      <default>true</default>
+      <summary>Display title in preview</summary>
+      <description>Display window title in preview</description>
+    </key>
     <key type="i" name="window-previews-width">
       <default>350</default>
       <summary>Window previews width</summary>
