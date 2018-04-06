@@ -700,6 +700,16 @@ const Settings = new Lang.Class({
                 this._settings.set_int('peek-mode-opacity', widget.get_value());
             }));
 
+            this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-previews-width'));
+            this._builder.get_object('preview_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-previews-width', widget.get_value());
+            }));
+
+            this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-previews-height'));
+            this._builder.get_object('preview_height_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-previews-height', widget.get_value());
+            }));
+
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
@@ -711,6 +721,13 @@ const Settings = new Lang.Class({
                     this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
                     this._settings.set_value('peek-mode-opacity', this._settings.get_default_value('peek-mode-opacity'));
                     this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
+
+                    this._settings.set_value('window-previews-width', this._settings.get_default_value('window-previews-width'));
+                    this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-previews-width'));
+                    
+                    this._settings.set_value('window-previews-height', this._settings.get_default_value('window-previews-height'));
+                    this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-previews-height'));
+
                     this._settings.set_value('preview-middle-click-close', this._settings.get_default_value('preview-middle-click-close'));
 
                 } else {

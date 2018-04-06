@@ -44,9 +44,6 @@ const Taskbar = Me.imports.taskbar;
 const Convenience = Me.imports.convenience;
 const AppIcons = Me.imports.appIcons;
 
-let DEFAULT_THUMBNAIL_WIDTH = 350;
-let DEFAULT_THUMBNAIL_HEIGHT = 200;
-
 let HOVER_APP_BLACKLIST = [
                            "Oracle VM VirtualBox",
                            "Virtual Machine Manager",
@@ -507,15 +504,16 @@ var thumbnailPreview = new Lang.Class({
     Name: 'DashToPanel.ThumbnailPreview',
     Extends: PopupMenu.PopupBaseMenuItem,
 
-    _init: function(window) {
+    _init: function(window, settings) {
+        this._dtpSettings = settings;
         this.window = window;
 
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         if(!scaleFactor)
             scaleFactor = 1;
 
-        this._thumbnailWidth = DEFAULT_THUMBNAIL_WIDTH*scaleFactor;
-        this._thumbnailHeight = DEFAULT_THUMBNAIL_HEIGHT*scaleFactor;
+        this._thumbnailWidth = this._dtpSettings.get_int('window-previews-width')*scaleFactor;
+        this._thumbnailHeight = this._dtpSettings.get_int('window-previews-height')*scaleFactor;
 
         this.parent({reactive: true});
         this._workId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._onResize));
@@ -816,7 +814,7 @@ var thumbnailPreview = new Lang.Class({
                 break;
             case 2:
                 // Middle click
-                if (this._getTopMenu()._dtpSettings.get_boolean('preview-middle-click-close')) {
+                if (this._dtpSettings.get_boolean('preview-middle-click-close')) {
                     this._closeWindow();
                 }
                 break;
@@ -892,6 +890,9 @@ var thumbnailPreviewList = new Lang.Class({
         this._scrollbarId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._showHideScrollbar));
 
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
+
+        this._dtpSettings.connect('changed::window-previews-width', () => this._resetPreviews());
+        this._dtpSettings.connect('changed::window-previews-height', () => this._resetPreviews());
         
         this._stateChangedId = this.window ? 0 : 
                                this.app.connect('windows-changed', Lang.bind(this, this._queueRedisplay));
@@ -989,8 +990,7 @@ var thumbnailPreviewList = new Lang.Class({
     },
 
     _createPreviewItem: function(window) {
-        let preview = new thumbnailPreview(window);
-
+        let preview = new thumbnailPreview(window, this._dtpSettings);
 
         preview.actor.connect('notify::hover', Lang.bind(this, function() {
             if (preview.actor.hover){
@@ -1016,14 +1016,31 @@ var thumbnailPreviewList = new Lang.Class({
         return preview;
     },
 
+    _resetPreviews: function() {
+        let previews = this._getPreviews();
+        let l = previews.length;
+        
+        if (l > 0) {
+            for (let i = 0; i < l; ++i) {
+                previews[i]._delegate.animateOutAndDestroy();
+            }
+
+            this._queueRedisplay();
+        }
+    },
+
+    _getPreviews: function() {
+        return this.box.get_children().filter(function(actor) {
+            return actor._delegate.window && 
+                   actor._delegate.preview && 
+                   !actor._delegate.animatingOut;
+        });
+    },
+
     _redisplay: function () {
         let windows = this.window ? [this.window] : 
                       AppIcons.getInterestingWindows(this.app, this._dtpSettings).sort(this.sortWindowsCompareFunction);
-        let children = this.box.get_children().filter(function(actor) {
-                return actor._delegate.window && 
-                       actor._delegate.preview && 
-                       !actor._delegate.animatingOut;
-            });
+        let children = this._getPreviews();
         // Apps currently in the taskbar
         let oldWin = children.map(function(actor) {
                 return actor._delegate.window;
