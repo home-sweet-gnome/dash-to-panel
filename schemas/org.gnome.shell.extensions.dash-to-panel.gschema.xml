@@ -257,6 +257,26 @@
       <summary>Enable peek mode</summary>
       <description>Peek a window upon hover for some time</description>
     </key>
+    <key type="b" name="window-preview-show-title">
+      <default>true</default>
+      <summary>Display title in preview</summary>
+      <description>Display window title in preview</description>
+    </key>
+    <key type="i" name="window-preview-width">
+      <default>350</default>
+      <summary>Window previews width</summary>
+      <description>The width of the window previews</description>
+    </key>
+    <key type="i" name="window-preview-height">
+      <default>200</default>
+      <summary>Window previews height</summary>
+      <description>The height of the window previews</description>
+    </key>
+    <key type="i" name="window-preview-padding">
+      <default>20</default>
+      <summary>Window previews padding</summary>
+      <description>The padding of the window previews</description>
+    </key>
     <key type="b" name="isolate-workspaces">
       <default>false</default>
       <summary>Provide workspace isolation</summary>
