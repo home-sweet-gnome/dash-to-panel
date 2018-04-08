@@ -512,8 +512,8 @@ var thumbnailPreview = new Lang.Class({
         if(!scaleFactor)
             scaleFactor = 1;
 
-        this._thumbnailWidth = this._dtpSettings.get_int('window-previews-width')*scaleFactor;
-        this._thumbnailHeight = this._dtpSettings.get_int('window-previews-height')*scaleFactor;
+        this._thumbnailWidth = this._dtpSettings.get_int('window-preview-width')*scaleFactor;
+        this._thumbnailHeight = this._dtpSettings.get_int('window-preview-height')*scaleFactor;
 
         this.parent({reactive: true});
         this._workId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._onResize));
@@ -524,6 +524,8 @@ var thumbnailPreview = new Lang.Class({
 
         this.actor.remove_child(this._ornamentLabel);
         this.actor._delegate = this;
+
+        this.actor.set_style('padding: ' + this._dtpSettings.get_int('window-preview-padding') + 'px;');
 
         this.animatingOut = false;
 
@@ -898,10 +900,11 @@ var thumbnailPreviewList = new Lang.Class({
 
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
 
-        this._dtpSettings.connect('changed::window-previews-width', () => this._resetPreviews());
-        this._dtpSettings.connect('changed::window-previews-height', () => this._resetPreviews());
+        this._dtpSettings.connect('changed::window-preview-width', () => this._resetPreviews());
+        this._dtpSettings.connect('changed::window-preview-height', () => this._resetPreviews());
         this._dtpSettings.connect('changed::window-preview-show-title', () => this._resetPreviews());
-        
+        this._dtpSettings.connect('changed::window-preview-padding', () => this._resetPreviews());
+
         this._stateChangedId = this.window ? 0 : 
                                this.app.connect('windows-changed', Lang.bind(this, this._queueRedisplay));
     },

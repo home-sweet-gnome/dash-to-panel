@@ -704,14 +704,19 @@ const Settings = new Lang.Class({
                 this._settings.set_int('peek-mode-opacity', widget.get_value());
             }));
 
-            this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-previews-width'));
+            this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-preview-width'));
             this._builder.get_object('preview_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
-                this._settings.set_int('window-previews-width', widget.get_value());
+                this._settings.set_int('window-preview-width', widget.get_value());
             }));
 
-            this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-previews-height'));
+            this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-preview-height'));
             this._builder.get_object('preview_height_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
-                this._settings.set_int('window-previews-height', widget.get_value());
+                this._settings.set_int('window-preview-height', widget.get_value());
+            }));
+
+            this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
+            this._builder.get_object('preview_padding_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-padding', widget.get_value());
             }));
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
@@ -727,11 +732,14 @@ const Settings = new Lang.Class({
                     this._settings.set_value('peek-mode-opacity', this._settings.get_default_value('peek-mode-opacity'));
                     this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
 
-                    this._settings.set_value('window-previews-width', this._settings.get_default_value('window-previews-width'));
-                    this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-previews-width'));
+                    this._settings.set_value('window-preview-width', this._settings.get_default_value('window-preview-width'));
+                    this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-preview-width'));
                     
-                    this._settings.set_value('window-previews-height', this._settings.get_default_value('window-previews-height'));
-                    this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-previews-height'));
+                    this._settings.set_value('window-preview-height', this._settings.get_default_value('window-preview-height'));
+                    this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-preview-height'));
+
+                    this._settings.set_value('window-preview-padding', this._settings.get_default_value('window-preview-padding'));
+                    this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
 
                     this._settings.set_value('preview-middle-click-close', this._settings.get_default_value('preview-middle-click-close'));
 
