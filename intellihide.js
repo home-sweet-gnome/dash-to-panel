@@ -129,11 +129,20 @@ var Intellihide = new Lang.Class({
             ],
             [
                 global.screen,
-                [
-                    'restacked',
-                    'monitors-changed'
-                ],
+                'restacked',
                 () => this._queueUpdatePanelPosition()
+            ],
+            [
+                Main.layoutManager,
+                'monitors-changed',
+                () => {
+                    if (this._primaryMonitor.index != Main.layoutManager.primaryIndex) {
+                        this._primaryMonitor = Main.layoutManager.primaryMonitor;
+                        this.reset();
+                    } else {
+                        this._queueUpdatePanelPosition();
+                    }
+                }
             ],
             [
                 global.display,
