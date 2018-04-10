@@ -46,6 +46,11 @@
     <value value='0' nick='BOTTOM'/>
     <value value='1' nick='TOP'/>
   </enum>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.intellihideBehaviour'>
+    <value value='0' nick='ALL_WINDOWS'/>
+    <value value='1' nick='FOCUSED_WINDOWS'/>
+    <value value='2' nick='MAXIMIZED_WINDOWS'/>
+  </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
     <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.panelPosition">
       <default>'BOTTOM'</default>
@@ -152,10 +157,60 @@
       <summary>Position of the taskbar</summary>
       <description>Set the position of the taskbar on the panel</description>
     </key>
+    <key type="b" name="intellihide">
+      <default>false</default>
+      <summary>Intellihide</summary>
+      <description>Whether to intelligently hide the panel</description>
+    </key>
+    <key type="b" name="intellihide-hide-from-windows">
+      <default>false</default>
+      <summary>Only hide from windows</summary>
+      <description>Dictates if the dash should only hide when in conflict with windows</description>
+    </key>
+    <key name="intellihide-behaviour" enum="org.gnome.shell.extensions.dash-to-panel.intellihideBehaviour">
+      <default>'FOCUSED_WINDOWS'</default>
+      <summary>Intellihide behaviour</summary>
+      <description>Dictates how to intelligently hide the panel</description>
+    </key>
+    <key type="b" name="intellihide-use-pressure">
+      <default>false</default>
+      <summary>Intellihide pressure</summary>
+      <description>To reveal the panel, pressure needs to be applied to the edege of the screen</description>
+    </key>
+    <key type="i" name="intellihide-pressure-threshold">
+      <default>100</default>
+      <summary>Intellihide pressure threshold</summary>
+      <description>The pressure needed to reveal the panel</description>
+    </key>
+    <key type="i" name="intellihide-pressure-time">
+      <default>1000</default>
+      <summary>Intellihide pressure time</summary>
+      <description>The numer of milliseconds that the pressure needs to be applied to reveal the panel</description>
+    </key>
+    <key type="b" name="intellihide-show-in-fullscreen">
+      <default>false</default>
+      <summary>Intellihide pressure</summary>
+      <description>Allow the panel to be revealed while an application is in fullscreen mode</description>
+    </key>
+    <key type="i" name="intellihide-animation-time">
+      <default>200</default>
+      <summary>Intellihide animation time</summary>
+      <description>The animation time (ms) to hide and reveal the panel</description>
+    </key>
+    <key type="i" name="intellihide-close-delay">
+      <default>400</default>
+      <summary>Intellihide close delay</summary>
+      <description>The delay (ms) before hiding the panel</description>
+    </key>
     <key type="b" name="show-show-apps-button">
       <default>true</default>
       <summary>Show applications button</summary>
       <description>Show appplications button in the dash</description>
+    </key>
+    <key type="s" name="show-apps-icon-file">
+      <default>""</default>
+      <summary>Custom Show Applications icon</summary>
+      <description>Customize the Show Applications icon</description>
     </key>
     <key type="b" name="animate-show-apps">
       <default>true</default>
@@ -201,6 +256,26 @@
       <default>true</default>
       <summary>Enable peek mode</summary>
       <description>Peek a window upon hover for some time</description>
+    </key>
+    <key type="b" name="window-preview-show-title">
+      <default>true</default>
+      <summary>Display title in preview</summary>
+      <description>Display window title in preview</description>
+    </key>
+    <key type="i" name="window-preview-width">
+      <default>350</default>
+      <summary>Window previews width</summary>
+      <description>The width of the window previews</description>
+    </key>
+    <key type="i" name="window-preview-height">
+      <default>200</default>
+      <summary>Window previews height</summary>
+      <description>The height of the window previews</description>
+    </key>
+    <key type="i" name="window-preview-padding">
+      <default>20</default>
+      <summary>Window previews padding</summary>
+      <description>The padding of the window previews</description>
     </key>
     <key type="b" name="isolate-workspaces">
       <default>false</default>

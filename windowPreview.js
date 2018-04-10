@@ -44,8 +44,11 @@ const Taskbar = Me.imports.taskbar;
 const Convenience = Me.imports.convenience;
 const AppIcons = Me.imports.appIcons;
 
-let DEFAULT_THUMBNAIL_WIDTH = 350;
-let DEFAULT_THUMBNAIL_HEIGHT = 200;
+let HOVER_APP_BLACKLIST = [
+                           "Oracle VM VirtualBox",
+                           "Virtual Machine Manager",
+                           "Remmina"
+                          ]
 
 var thumbnailPreviewMenu = new Lang.Class({
     Name: 'DashToPanel.ThumbnailPreviewMenu',
@@ -194,14 +197,23 @@ var thumbnailPreviewMenu = new Lang.Class({
             this._hoverCloseTimeoutId = null;
         }
     },
+	
+    _appInHoverBlacklist: function (appName) {
+        for (let i = 0; i < HOVER_APP_BLACKLIST.length; i++) {
+            if (appName === HOVER_APP_BLACKLIST[i])
+                return true;
+        }
+        
+        return false;
+    },
 
     hoverOpen: function () {
         this._hoverOpenTimeoutId = null;
         if (!this.isOpen && this._dtpSettings.get_boolean("show-window-previews")) {
             this.popup();          
             let focusedApp = Shell.WindowTracker.get_default().focus_app;
-            if (focusedApp && (focusedApp.get_name() === "Oracle VM VirtualBox" || focusedApp.get_name() === "Virtual Machine Manager")) {
-                this.actor.grab_key_focus();
+            if (focusedApp && this._appInHoverBlacklist(focusedApp.get_name())) {
+		this.actor.grab_key_focus();
             }
         }
     },
@@ -212,6 +224,9 @@ var thumbnailPreviewMenu = new Lang.Class({
     },
 
     destroy: function () {
+        this.cancelClose();
+        this.cancelOpen();
+        
         if (this._mappedId)
             this._source.actor.disconnect(this._mappedId);
 
@@ -489,15 +504,16 @@ var thumbnailPreview = new Lang.Class({
     Name: 'DashToPanel.ThumbnailPreview',
     Extends: PopupMenu.PopupBaseMenuItem,
 
-    _init: function(window) {
+    _init: function(window, settings) {
+        this._dtpSettings = settings;
         this.window = window;
 
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         if(!scaleFactor)
             scaleFactor = 1;
 
-        this._thumbnailWidth = DEFAULT_THUMBNAIL_WIDTH*scaleFactor;
-        this._thumbnailHeight = DEFAULT_THUMBNAIL_HEIGHT*scaleFactor;
+        this._thumbnailWidth = this._dtpSettings.get_int('window-preview-width')*scaleFactor;
+        this._thumbnailHeight = this._dtpSettings.get_int('window-preview-height')*scaleFactor;
 
         this.parent({reactive: true});
         this._workId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._onResize));
@@ -508,6 +524,8 @@ var thumbnailPreview = new Lang.Class({
 
         this.actor.remove_child(this._ornamentLabel);
         this.actor._delegate = this;
+
+        this.actor.set_style('padding: ' + this._dtpSettings.get_int('window-preview-padding') + 'px;');
 
         this.animatingOut = false;
 
@@ -527,28 +545,35 @@ var thumbnailPreview = new Lang.Class({
         this.overlayGroup.add_actor(this._previewBin);
         this.overlayGroup.add_actor(this._closeButton);
 
-        this._title = new St.Label({ text: window.title });
-        this._titleBin = new St.Bin({ child: this._title,
-                                    x_align: St.Align.MIDDLE,
-                                    width: this._thumbnailWidth
-                                  });
-        this._titleBin.add_style_class_name("preview-window-title");
+        this._titleNotifyId = 0;
 
-        this._titleNotifyId = this.window.connect('notify::title', Lang.bind(this, function() {
-                                                   this._title.set_text(this.window.title);
-                                               }));
-
-        this._windowBin = new St.Bin({ child: this.overlayGroup,
-                                    x_align: St.Align.MIDDLE,
-                                    width: this._thumbnailWidth,
-                                    height: this._thumbnailHeight
-                                  });
+        this._windowBin = new St.Bin({
+            child: this.overlayGroup,
+            x_align: St.Align.MIDDLE,
+            width: this._thumbnailWidth,
+            height: this._thumbnailHeight
+        });
 
         this._windowBox.add_child(this._windowBin);
 
+        if (this._dtpSettings.get_boolean('window-preview-show-title')) {
+            this._title = new St.Label({ text: window.title });
+            this._titleBin = new St.Bin({ child: this._title,
+                                        x_align: St.Align.MIDDLE,
+                                        width: this._thumbnailWidth
+                                      });
+            this._titleBin.add_style_class_name("preview-window-title");
+
+            this._windowBox.add_child(this._titleBin);
+    
+            this._titleNotifyId = this.window.connect('notify::title', Lang.bind(this, function() {
+                                                        this._title.set_text(this.window.title);
+                                                    }));
+        }
+
         if (this.preview)
             this._previewBin.set_child(this.preview);
-        this._windowBox.add_child(this._titleBin);
+        
         this.actor.add_child(this._windowBox);
         this._queueRepositionCloseButton();
 
@@ -562,8 +587,6 @@ var thumbnailPreview = new Lang.Class({
                                   Lang.bind(this, this._onLeave));
         this.actor.connect('motion-event',
                                   Lang.bind(this, this._onMotionEvent));
-        this.actor.connect('destroy',
-                                  Lang.bind(this, this._onDestroy));
 
         this._previewMenuPopupManager = new previewMenuPopupManager(window, this.actor);
     },
@@ -668,11 +691,8 @@ var thumbnailPreview = new Lang.Class({
                                              height: height * this.scale });
             this._resizeId = mutterWindow.meta_window.connect('size-changed',
                                             Lang.bind(this, this._queueResize));
-            this._destroyId = mutterWindow.connect('destroy', Lang.bind(this, function() {
-                                                   thumbnail.destroy();
-                                                   this._destroyId = 0;
-                                                   this.animateOutAndDestroy();
-                                                  }));
+                                            
+            this._destroyId = mutterWindow.connect('destroy', () => this.animateOutAndDestroy());
         }
 
         return thumbnail;
@@ -747,17 +767,19 @@ var thumbnailPreview = new Lang.Class({
     },
 
     animateOutAndDestroy: function() {
-        this.animatingOut = true;
-        this._hideCloseButton();
-        Tweener.addTween(this.actor,
-                         { width: 0,
-                           opacity: 0,
-                           time: Taskbar.DASH_ANIMATION_TIME,
-                           transition: 'easeOutQuad',
-                           onComplete: Lang.bind(this, function() {
-                               this.destroy();
-                           })
-                         });
+        if (!this.animatingOut) {
+            this.animatingOut = true;
+            this._hideCloseButton();
+            Tweener.addTween(this.actor,
+                             {  width: 0,
+                                opacity: 0,
+                                time: Taskbar.DASH_ANIMATION_TIME,
+                                transition: 'easeOutQuad',
+                                onComplete: Lang.bind(this, function() {
+                                    this.destroy();
+                                })
+                             });
+        }
     },
 
     activate: function() {
@@ -801,7 +823,7 @@ var thumbnailPreview = new Lang.Class({
                 break;
             case 2:
                 // Middle click
-                if (this._getTopMenu()._dtpSettings.get_boolean('preview-middle-click-close')) {
+                if (this._dtpSettings.get_boolean('preview-middle-click-close')) {
                     this._closeWindow();
                 }
                 break;
@@ -823,19 +845,25 @@ var thumbnailPreview = new Lang.Class({
         });
     },
 
-    _onDestroy: function() {
+    destroy: function() {
         if (this._titleNotifyId) {
             this.window.disconnect(this._titleNotifyId);
             this._titleNotifyId = 0;
         }
-        
-        if(this._resizeId) {
-            let mutterWindow = this.window.get_compositor_private();
-            if (mutterWindow) {
+
+        let mutterWindow = this.window.get_compositor_private();
+
+        if (mutterWindow) {
+            if(this._resizeId) {
                 mutterWindow.meta_window.disconnect(this._resizeId);
-                this._resizeId = 0;
+            }
+
+            if(this._destroyId) {
+                mutterWindow.disconnect(this._destroyId);
             }
         }
+
+        this.parent();
     }
 });
 
@@ -871,7 +899,12 @@ var thumbnailPreviewList = new Lang.Class({
         this._scrollbarId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._showHideScrollbar));
 
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
-        
+
+        this._dtpSettings.connect('changed::window-preview-width', () => this._resetPreviews());
+        this._dtpSettings.connect('changed::window-preview-height', () => this._resetPreviews());
+        this._dtpSettings.connect('changed::window-preview-show-title', () => this._resetPreviews());
+        this._dtpSettings.connect('changed::window-preview-padding', () => this._resetPreviews());
+
         this._stateChangedId = this.window ? 0 : 
                                this.app.connect('windows-changed', Lang.bind(this, this._queueRedisplay));
     },
@@ -968,8 +1001,7 @@ var thumbnailPreviewList = new Lang.Class({
     },
 
     _createPreviewItem: function(window) {
-        let preview = new thumbnailPreview(window);
-
+        let preview = new thumbnailPreview(window, this._dtpSettings);
 
         preview.actor.connect('notify::hover', Lang.bind(this, function() {
             if (preview.actor.hover){
@@ -995,12 +1027,31 @@ var thumbnailPreviewList = new Lang.Class({
         return preview;
     },
 
+    _resetPreviews: function() {
+        let previews = this._getPreviews();
+        let l = previews.length;
+        
+        if (l > 0) {
+            for (let i = 0; i < l; ++i) {
+                previews[i]._delegate.animateOutAndDestroy();
+            }
+
+            this._queueRedisplay();
+        }
+    },
+
+    _getPreviews: function() {
+        return this.box.get_children().filter(function(actor) {
+            return actor._delegate.window && 
+                   actor._delegate.preview && 
+                   !actor._delegate.animatingOut;
+        });
+    },
+
     _redisplay: function () {
         let windows = this.window ? [this.window] : 
                       AppIcons.getInterestingWindows(this.app, this._dtpSettings).sort(this.sortWindowsCompareFunction);
-        let children = this.box.get_children().filter(function(actor) {
-                return actor._delegate.window && actor._delegate.preview;
-            });
+        let children = this._getPreviews();
         // Apps currently in the taskbar
         let oldWin = children.map(function(actor) {
                 return actor._delegate.window;

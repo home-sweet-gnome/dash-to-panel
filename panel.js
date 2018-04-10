@@ -47,6 +47,8 @@ const Tweener = imports.ui.tweener;
 const IconGrid = imports.ui.iconGrid;
 const ViewSelector = imports.ui.viewSelector;
 
+const Intellihide = Me.imports.intellihide;
+
 let tracker = Shell.WindowTracker.get_default();
 
 var dtpPanel = new Lang.Class({
@@ -168,6 +170,11 @@ var dtpPanel = new Lang.Class({
         if(this.taskbar._showAppsIcon)
             this.taskbar._showAppsIcon._dtpPanel = this;
 
+        this.startIntellihideId = Mainloop.timeout_add(2000, () => {
+            this.startIntellihideId = 0;
+            this._intellihide = new Intellihide.Intellihide(this);
+        });
+
         this._signalsHandler = new Convenience.GlobalSignalsHandler();
         this._signalsHandler.add(
             // Keep dragged icon consistent in size with this dash
@@ -189,6 +196,11 @@ var dtpPanel = new Lang.Class({
                 Lang.bind(this, function() {
                     Main.overview.dashIconSize = this.taskbar.iconSize;
                 })
+            ],
+            [
+                Main.overview,
+                'hidden',
+                () => this.panel._updateSolidStyle ? this.panel._updateSolidStyle() : null
             ],
             [
                 this.panel._rightBox,
@@ -219,11 +231,12 @@ var dtpPanel = new Lang.Class({
         if (this.panel._updateSolidStyle) {
             this._injectionsHandler = new Convenience.InjectionsHandler();
             this.panel._dtpPosition = this._dtpSettings.get_string('panel-position');
+            this.panel._dtpRemoveSolidStyleId = 0;
             this._injectionsHandler.addWithLabel('transparency', [
-                this.panel,
-                '_updateSolidStyle',
-                Lang.bind(this.panel, this._dtpUpdateSolidStyle)
-            ]);
+                    this.panel,
+                    '_updateSolidStyle',
+                    Lang.bind(this.panel, this._dtpUpdateSolidStyle)
+                ]);
 
             this.panel._updateSolidStyle();
         }
@@ -238,6 +251,13 @@ var dtpPanel = new Lang.Class({
         this.container.add_child(this.appMenu.container);
         this.taskbar.destroy();
         this.panel.actor.disconnect(this._panelConnectId);
+
+        if (this.startIntellihideId) {
+            Mainloop.source_remove(this.startIntellihideId);
+            this.startIntellihideId = 0;
+        } else {
+            this._intellihide.destroy();
+        }
 
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
@@ -263,9 +283,15 @@ var dtpPanel = new Lang.Class({
         this._displayShowDesktopButton(false);
 
         if (this.panel._updateSolidStyle) {
+            if (this.panel._dtpRemoveSolidStyleId) {
+                Mainloop.source_remove(this.panel._dtpRemoveSolidStyleId);
+            }
+
             this._injectionsHandler.removeWithLabel('transparency');
             this._injectionsHandler.destroy();
+
             delete this.panel._dtpPosition;
+            delete this.panel._dtpRemoveSolidStyleId;
         }
 
         PopupMenu.PopupMenu.prototype.open = this._oldPopupOpen;
@@ -602,36 +628,47 @@ var dtpPanel = new Lang.Class({
     },
 
     _dtpUpdateSolidStyle: function() {
-        if (this.actor.has_style_pseudo_class('overview') || !Main.sessionMode.hasWindows) {
-            this._removeStyleClassName('solid');
-        } else {
-            /* Get all the windows in the active workspace that are in the
-            * primary monitor and visible */
-            let activeWorkspace = global.screen.get_active_workspace();
-            let windows = activeWorkspace.list_windows().filter(function(metaWindow) {
-                return metaWindow.is_on_primary_monitor() &&
-                    metaWindow.showing_on_its_workspace() &&
-                    metaWindow.get_window_type() != Meta.WindowType.DESKTOP;
-            });
-
-            /* Check if at least one window is near enough to the panel */
-            let [, panelTop] = this.actor.get_transformed_position();
-            let panelBottom = panelTop + this.actor.get_height();
-            let scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-            let isNearEnough = windows.some(Lang.bind(this, function(metaWindow) {
-                if (this.hasOwnProperty('_dtpPosition') && this._dtpPosition === 'TOP') {
-                    let verticalPosition = metaWindow.get_frame_rect().y;
-                    return verticalPosition < panelBottom + 5 * scale;
-                } else {
-                    let verticalPosition = metaWindow.get_frame_rect().y + metaWindow.get_frame_rect().height;
-                    return verticalPosition > panelTop - 5 * scale;
-                }
-            }));
-
-            if (isNearEnough)
-                this._addStyleClassName('solid');
-            else
+        let removeSolidStyle = function(solid) {
+            this._dtpRemoveSolidStyleId = Mainloop.timeout_add(0, () => {
+                this._dtpRemoveSolidStyleId = 0;
                 this._removeStyleClassName('solid');
+            });
+        };
+
+        if (this.actor.has_style_pseudo_class('overview') || !Main.sessionMode.hasWindows) {
+            removeSolidStyle.call(this);
+            return;
+        }
+
+        if (!Main.layoutManager.primaryMonitor)
+            return;
+
+        /* Get all the windows in the active workspace that are in the primary monitor and visible */
+        let activeWorkspace = global.screen.get_active_workspace();
+        let windows = activeWorkspace.list_windows().filter(function(metaWindow) {
+            return metaWindow.is_on_primary_monitor() &&
+                   metaWindow.showing_on_its_workspace() &&
+                   metaWindow.get_window_type() != Meta.WindowType.DESKTOP;
+        });
+
+        /* Check if at least one window is near enough to the panel */
+        let [, panelTop] = this.actor.get_transformed_position();
+        let panelBottom = panelTop + this.actor.get_height();
+        let scale = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        let isNearEnough = windows.some(Lang.bind(this, function(metaWindow) {
+            if (this.hasOwnProperty('_dtpPosition') && this._dtpPosition === 'TOP') {
+                let verticalPosition = metaWindow.get_frame_rect().y;
+                return verticalPosition < panelBottom + 5 * scale;
+            } else {
+                let verticalPosition = metaWindow.get_frame_rect().y + metaWindow.get_frame_rect().height;
+                return verticalPosition > panelTop - 5 * scale;
+            }
+        }));
+
+        if (isNearEnough) {
+            this._addStyleClassName('solid');
+        } else {
+            removeSolidStyle.call(this);
         }
     }
 });

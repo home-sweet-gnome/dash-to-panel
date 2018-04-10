@@ -95,6 +95,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 #### Thanks to the following people for contributing via pull requests:
 
 - @franglais125 for launching apps by number (w/ overlay), bug fixes, and issue support
+- @charlesg99 for ungrouping applications/showing window titles, bug fixes, and issue support
 - @LinxGem33 for artwork, logos, screenshots and design effort
 - @dziku1337 for peek mode in window previews
 - @robrobinbin for configuring appMenu on/off in the panel

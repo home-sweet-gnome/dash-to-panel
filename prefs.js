@@ -20,6 +20,7 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
+const GdkPixbuf = imports.gi.GdkPixbuf;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
@@ -408,12 +409,176 @@ const Settings = new Lang.Class({
 
         }));
 
+        this._settings.bind('intellihide',
+                            this._builder.get_object('intellihide_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('intellihide',
+                            this._builder.get_object('intellihide_options_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('intellihide-hide-from-windows',
+                            this._builder.get_object('intellihide_window_hide_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('intellihide-hide-from-windows',
+                            this._builder.get_object('intellihide_behaviour_options'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('intellihide-behaviour',
+                            this._builder.get_object('intellihide_behaviour_combo'),
+                            'active-id',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('intellihide-use-pressure',
+                            this._builder.get_object('intellihide_use_pressure_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT); 
+
+        this._settings.bind('intellihide-use-pressure',
+                            this._builder.get_object('intellihide_use_pressure_options'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('intellihide-show-in-fullscreen',
+                            this._builder.get_object('intellihide_show_in_fullscreen_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT); 
+
+        this._builder.get_object('intellihide_pressure_threshold_spinbutton').set_value(this._settings.get_int('intellihide-pressure-threshold'));
+        this._builder.get_object('intellihide_pressure_threshold_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_int('intellihide-pressure-threshold', widget.get_value());
+        }));
+
+        this._builder.get_object('intellihide_pressure_time_spinbutton').set_value(this._settings.get_int('intellihide-pressure-time'));
+        this._builder.get_object('intellihide_pressure_time_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_int('intellihide-pressure-time', widget.get_value());
+        }));
+
+        this._builder.get_object('intellihide_animation_time_spinbutton').set_value(this._settings.get_int('intellihide-animation-time'));
+        this._builder.get_object('intellihide_animation_time_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('intellihide-animation-time', widget.get_value());
+        }));
+
+        this._builder.get_object('intellihide_close_delay_spinbutton').set_value(this._settings.get_int('intellihide-close-delay'));
+        this._builder.get_object('intellihide_close_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('intellihide-close-delay', widget.get_value());
+        }));
+
+        this._builder.get_object('intellihide_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Intellihide options'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('box_intellihide_options');
+            dialog.get_content_area().add(box);
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('intellihide-hide-from-windows', this._settings.get_default_value('intellihide-hide-from-windows'));
+                    this._settings.set_value('intellihide-behaviour', this._settings.get_default_value('intellihide-behaviour'));
+                    this._settings.set_value('intellihide-use-pressure', this._settings.get_default_value('intellihide-use-pressure'));
+                    this._settings.set_value('intellihide-show-in-fullscreen', this._settings.get_default_value('intellihide-show-in-fullscreen'));
+
+                    this._settings.set_value('intellihide-pressure-threshold', this._settings.get_default_value('intellihide-pressure-threshold'));
+                    this._builder.get_object('intellihide_pressure_threshold_spinbutton').set_value(this._settings.get_int('intellihide-pressure-threshold'));
+                    
+                    this._settings.set_value('intellihide-pressure-time', this._settings.get_default_value('intellihide-pressure-time'));
+                    this._builder.get_object('intellihide_pressure_time_spinbutton').set_value(this._settings.get_int('intellihide-pressure-time'));
+
+                    this._settings.set_value('intellihide-animation-time', this._settings.get_default_value('intellihide-animation-time'));
+                    this._builder.get_object('intellihide_animation_time_spinbutton').set_value(this._settings.get_int('intellihide-animation-time'));
+
+                    this._settings.set_value('intellihide-close-delay', this._settings.get_default_value('intellihide-close-delay'));
+                    this._builder.get_object('intellihide_close_delay_spinbutton').set_value(this._settings.get_int('intellihide-close-delay'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
+
         // Behavior panel
 
         this._settings.bind('show-show-apps-button',
                             this._builder.get_object('show_applications_button_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('show-show-apps-button',
+                            this._builder.get_object('show_application_options_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._builder.get_object('show_application_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Show Applications options'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('show_applications_options');
+            dialog.get_content_area().add(box);
+
+            let fileChooser = this._builder.get_object('show_applications_icon_file_filebutton');
+            let fileImage = this._builder.get_object('show_applications_current_icon_image');
+            let fileFilter = new Gtk.FileFilter();
+            let handleIconChange = function(newIconPath) {
+                if (newIconPath && GLib.file_test(newIconPath, GLib.FileTest.EXISTS)) {
+                    let file = Gio.File.new_for_path(newIconPath)
+                    let pixbuf = GdkPixbuf.Pixbuf.new_from_stream_at_scale(file.read(null), 32, 32, true, null);
+
+                    fileImage.set_from_pixbuf(pixbuf);
+                    fileChooser.set_filename(newIconPath);
+                } else {
+                    newIconPath = '';
+                    fileImage.set_from_icon_name('view-app-grid-symbolic', 32);
+                    fileChooser.unselect_all();
+                    fileChooser.set_current_folder(GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES));
+                }
+
+                this._settings.set_string('show-apps-icon-file', newIconPath || '');
+            };
+            
+            fileFilter.add_pixbuf_formats();
+            fileChooser.filter = fileFilter;
+
+            fileChooser.connect('file-set', widget => handleIconChange.call(this, widget.get_filename()));
+            handleIconChange.call(this, this._settings.get_string('show-apps-icon-file'));
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    handleIconChange.call(this, null);
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+        }));
+
         this._settings.bind('animate-show-apps',
                             this._builder.get_object('application_button_animation_button'),
                             'active',
@@ -446,7 +611,7 @@ const Settings = new Lang.Class({
             // Use +1 for the reset action
             dialog.add_button(_('Reset to defaults'), 1);
 
-            let box = this._builder.get_object('show_showdesktop_options');
+            let box = this._builder.get_object('box_show_showdesktop_options');
             dialog.get_content_area().add(box);
 
             this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
@@ -510,6 +675,10 @@ const Settings = new Lang.Class({
                             this._builder.get_object('peek_mode_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('window-preview-show-title',
+                            this._builder.get_object('preview_show_title_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
             this._settings.bind('peek-mode',
                             this._builder.get_object('listboxrow_enter_peek_mode_timeout'),
                             'sensitive',
@@ -535,6 +704,21 @@ const Settings = new Lang.Class({
                 this._settings.set_int('peek-mode-opacity', widget.get_value());
             }));
 
+            this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-preview-width'));
+            this._builder.get_object('preview_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-width', widget.get_value());
+            }));
+
+            this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-preview-height'));
+            this._builder.get_object('preview_height_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-height', widget.get_value());
+            }));
+
+            this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
+            this._builder.get_object('preview_padding_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-padding', widget.get_value());
+            }));
+
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
@@ -542,10 +726,21 @@ const Settings = new Lang.Class({
                     this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
 
                     this._settings.set_value('peek-mode', this._settings.get_default_value('peek-mode'));
+                    this._settings.set_value('window-preview-show-title', this._settings.get_default_value('window-preview-show-title'));
                     this._settings.set_value('enter-peek-mode-timeout', this._settings.get_default_value('enter-peek-mode-timeout'));
                     this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
                     this._settings.set_value('peek-mode-opacity', this._settings.get_default_value('peek-mode-opacity'));
                     this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
+
+                    this._settings.set_value('window-preview-width', this._settings.get_default_value('window-preview-width'));
+                    this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-preview-width'));
+                    
+                    this._settings.set_value('window-preview-height', this._settings.get_default_value('window-preview-height'));
+                    this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-preview-height'));
+
+                    this._settings.set_value('window-preview-padding', this._settings.get_default_value('window-preview-padding'));
+                    this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
+
                     this._settings.set_value('preview-middle-click-close', this._settings.get_default_value('preview-middle-click-close'));
 
                 } else {

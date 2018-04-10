@@ -103,6 +103,27 @@ var taskbarAppIcon = new Lang.Class({
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
 
+		// Fix touchscreen issues before the listener is added by the parent constructor.
+        this._onTouchEvent = function(actor, event) {
+            if (event.type() == Clutter.EventType.TOUCH_BEGIN) {
+                // Open the popup menu on long press.
+                this._setPopupTimeout();
+            } else if (this._menuTimeoutId != 0 && (event.type() == Clutter.EventType.TOUCH_END || event.type() == Clutter.EventType.TOUCH_CANCEL)) {    
+                // Activate/launch the application.
+                this.activate(1);
+                this._removeMenuTimeout();
+            }
+            // Disable dragging via touch screen as it's buggy as hell. Not perfect for tablet users, but the alternative is way worse.
+            // Also, EVENT_PROPAGATE launches applications twice with this solution, so this.activate(1) above must only be called if there's already a window.
+            return Clutter.EVENT_STOP;
+        };
+        // Hack for missing TOUCH_END event.
+        this._onLeaveEvent = function(actor, event) {
+            this.actor.fake_release();
+            if (this._menuTimeoutId != 0) this.activate(1); // Activate/launch the application if TOUCH_END didn't fire.
+            this._removeMenuTimeout();
+        };
+
         this.parent(appInfo.app, iconParams, onActivateOverride);
 
         this._dot.set_width(0);
@@ -279,16 +300,19 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     shouldShowTooltip: function() {
-        if (!this.isLauncher && this._dtpSettings.get_boolean("show-window-previews") && 
+        if (!this.isLauncher && this._dtpSettings.get_boolean("show-window-previews") &&
             getInterestingWindows(this.app, this._dtpSettings).length > 0) {
             return false;
         } else {
-            return this.actor.hover && (!this._menu || !this._menu.isOpen) && (!this.windowPreview || !this.windowPreview.isOpen);
+            return this.actor.hover && !this.window && 
+                   (!this._menu || !this._menu.isOpen) && 
+                   (!this.windowPreview || !this.windowPreview.isOpen);
         }
     },
 
     _onDestroy: function() {
         this.parent();
+        this._destroyed = true;
 
         // Disconect global signals
         // stateChangedId is already handled by parent)
@@ -568,10 +592,12 @@ var taskbarAppIcon = new Lang.Class({
             isFocused = (tracker.focus_app == this.app);
 
             Mainloop.timeout_add(0, () => {
-                if(isFocused) 
-                    this.actor.add_style_class_name('focused');
-                else
-                    this.actor.remove_style_class_name('focused');
+                if (!this._destroyed) {
+                    if(isFocused) 
+                        this.actor.add_style_class_name('focused');
+                    else
+                        this.actor.remove_style_class_name('focused');
+                }
             });
             
             if(focusedIsWide) {
@@ -795,11 +821,28 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _launchNewInstance: function() {
-        if(this._dtpSettings.get_boolean('animate-window-launch')) {
-            this.animateLaunch();
-        }
+        if (this.app.can_open_new_window()) {
+            let appActions = this.app.get_app_info().list_actions();
+            let newWindowIndex = appActions.indexOf('new-window');
 
-        this.app.open_new_window(-1);
+            if(this._dtpSettings.get_boolean('animate-window-launch')) {
+                this.animateLaunch();
+            }
+
+            if (newWindowIndex < 0) {
+                this.app.open_new_window(-1);
+            } else {
+                this.app.launch_action(appActions[newWindowIndex], global.get_current_time(), -1);
+            }
+        } else {
+            let windows = this.window ? [this.window] : this.app.get_windows();
+
+            if (windows.length) {
+                Main.activateWindow(windows[0]);
+            } else {
+                this.app.activate();
+            }
+        }
     },
 
     _updateCounterClass: function() {
@@ -1375,6 +1418,26 @@ function extendShowAppsIcon(showAppsIcon, settings) {
     showAppsIcon._menuTimeoutId = 0;
 
     showAppsIcon.showLabel = ItemShowLabel;
+
+    let customIconPath = settings.get_string('show-apps-icon-file');
+
+    showAppsIcon.icon.createIcon = function(size) {
+        this._iconActor = new St.Icon({ icon_name: 'view-app-grid-symbolic',
+                                        icon_size: size,
+                                        style_class: 'show-apps-icon',
+                                        track_hover: true });
+
+        if (customIconPath) {
+            this._iconActor.gicon = new Gio.FileIcon({ file: Gio.File.new_for_path(customIconPath) });
+        }
+        
+        return this._iconActor;
+    };
+
+    settings.connect('changed::show-apps-icon-file', () => {
+        customIconPath = settings.get_string('show-apps-icon-file');
+        showAppsIcon.icon._createIconTexture(showAppsIcon.icon.iconSize);
+    });
 
     showAppsIcon.popupMenu = function() {
         showAppsIcon._removeMenuTimeout();

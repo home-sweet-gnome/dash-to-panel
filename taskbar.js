@@ -240,9 +240,6 @@ var taskbar = new Lang.Class({
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
         });
 
-        Main.panel.actor.connect('notify::height', Lang.bind(this, this._queueRedisplay));
-        Main.panel.actor.connect('notify::width', Lang.bind(this, this._queueRedisplay));
-
         // Update minimization animation target position on allocation of the
         // container and on scrollview change.
         this._box.connect('notify::allocation', Lang.bind(this, this._updateAppIconsGeometry));
@@ -256,6 +253,16 @@ var taskbar = new Lang.Class({
         this._appSystem = Shell.AppSystem.get_default();
 
         this._signalsHandler.add(
+            [
+                Main.panel.actor,
+                'notify::height',
+                () => this._queueRedisplay()
+            ],
+            [
+                Main.panel.actor,
+                'notify::width',
+                () => this._queueRedisplay()
+            ],
             [
                 this._appSystem,
                 'installed-changed',
@@ -273,11 +280,6 @@ var taskbar = new Lang.Class({
                 global.window_manager,
                 'switch-workspace', 
                 () => this._connectWorkspaceSignals()
-            ],
-            [
-                this._appSystem,
-                'app-state-changed',
-                Lang.bind(this, this._queueRedisplay)
             ],
             [
                 Main.overview,
@@ -318,6 +320,7 @@ var taskbar = new Lang.Class({
         this._signalsHandler.destroy();
         this._signalsHandler = 0;
 
+        this._container.destroy();
         this._disconnectWorkspaceSignals();
     },
 
@@ -459,12 +462,10 @@ var taskbar = new Lang.Class({
     _connectWorkspaceSignals: function() {
         this._disconnectWorkspaceSignals();
 
-        if (!this.isGroupApps) {
-            this._lastWorkspace = global.screen.get_active_workspace();
+        this._lastWorkspace = global.screen.get_active_workspace();
 
-            this._workspaceWindowAddedId = this._lastWorkspace.connect('window-added', () => this._queueRedisplay());
-            this._workspaceWindowRemovedId = this._lastWorkspace.connect('window-removed', () => this._queueRedisplay());
-        }
+        this._workspaceWindowAddedId = this._lastWorkspace.connect('window-added', () => this._queueRedisplay());
+        this._workspaceWindowRemovedId = this._lastWorkspace.connect('window-removed', () => this._queueRedisplay());
     },
 
     _disconnectWorkspaceSignals: function() {
@@ -600,18 +601,18 @@ var taskbar = new Lang.Class({
         // icons (i.e. ignoring drag placeholders) and which are not
         // animating out (which means they will be destroyed at the end of
         // the animation)
-        let iconChildren = this._box.get_children().filter(function(actor) {
+        return this._getTaskbarIcons().map(function(actor){
+            return actor.child._delegate;
+        });
+    },
+
+    _getTaskbarIcons: function() {
+        return this._box.get_children().filter(function(actor) {
             return actor.child &&
                    actor.child._delegate &&
                    actor.child._delegate.icon &&
                    !actor.animatingOut;
         });
-
-        let appIcons = iconChildren.map(function(actor){
-            return actor.child._delegate;
-        });
-
-        return appIcons;
     },
 
     _updateAppIconsGeometry: function() {
@@ -680,12 +681,7 @@ var taskbar = new Lang.Class({
         // icons (i.e. ignoring drag placeholders) and which are not
         // animating out (which means they will be destroyed at the end of
         // the animation)
-        let iconChildren = this._box.get_children().filter(function(actor) {
-            return actor.child &&
-                   actor.child._delegate &&
-                   actor.child._delegate.icon &&
-                   !actor.animatingOut;
-        });
+        let iconChildren = this._getTaskbarIcons();
 
         iconChildren.push(this._showAppsIcon);
 
@@ -755,15 +751,10 @@ var taskbar = new Lang.Class({
         if (!this._signalsHandler) {
             return;
         }
-
+        
         let showFavorites = this._dtpSettings.get_boolean('show-favorites');
         //get the currently displayed appIcons
-        let currentAppIcons = this._box.get_children().filter(function(actor) {
-            return actor.child &&
-                   actor.child._delegate &&
-                   actor.child._delegate.app &&
-                   !actor.animatingOut;
-        });
+        let currentAppIcons = this._getTaskbarIcons();
         //get the user's favorite apps
         let favoriteAppsMap = showFavorites ? AppFavorites.getAppFavorites().getFavoriteMap() : {};
         let favoriteApps = Object.keys(favoriteAppsMap).map(appId => favoriteAppsMap[appId]);
