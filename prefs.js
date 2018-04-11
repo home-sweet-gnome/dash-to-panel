@@ -675,6 +675,10 @@ const Settings = new Lang.Class({
                             this._builder.get_object('peek_mode_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('window-preview-show-title',
+                            this._builder.get_object('preview_show_title_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
             this._settings.bind('peek-mode',
                             this._builder.get_object('listboxrow_enter_peek_mode_timeout'),
                             'sensitive',
@@ -700,6 +704,21 @@ const Settings = new Lang.Class({
                 this._settings.set_int('peek-mode-opacity', widget.get_value());
             }));
 
+            this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-preview-width'));
+            this._builder.get_object('preview_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-width', widget.get_value());
+            }));
+
+            this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-preview-height'));
+            this._builder.get_object('preview_height_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-height', widget.get_value());
+            }));
+
+            this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
+            this._builder.get_object('preview_padding_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-padding', widget.get_value());
+            }));
+
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
@@ -707,10 +726,21 @@ const Settings = new Lang.Class({
                     this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
 
                     this._settings.set_value('peek-mode', this._settings.get_default_value('peek-mode'));
+                    this._settings.set_value('window-preview-show-title', this._settings.get_default_value('window-preview-show-title'));
                     this._settings.set_value('enter-peek-mode-timeout', this._settings.get_default_value('enter-peek-mode-timeout'));
                     this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
                     this._settings.set_value('peek-mode-opacity', this._settings.get_default_value('peek-mode-opacity'));
                     this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
+
+                    this._settings.set_value('window-preview-width', this._settings.get_default_value('window-preview-width'));
+                    this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-preview-width'));
+                    
+                    this._settings.set_value('window-preview-height', this._settings.get_default_value('window-preview-height'));
+                    this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-preview-height'));
+
+                    this._settings.set_value('window-preview-padding', this._settings.get_default_value('window-preview-padding'));
+                    this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
+
                     this._settings.set_value('preview-middle-click-close', this._settings.get_default_value('preview-middle-click-close'));
 
                 } else {
