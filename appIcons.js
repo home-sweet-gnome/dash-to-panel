@@ -130,8 +130,12 @@ var taskbarAppIcon = new Lang.Class({
         this._focused = tracker.focus_app == this.app;
         this._isGroupApps = this._dtpSettings.get_boolean('group-apps');
 
+        this._container = new St.Widget({ layout_manager: new Clutter.BinLayout() });
+        this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
+
+        this.actor.remove_actor(this._iconContainer);
+
         if (appInfo.window) {
-            let outbox = new St.Widget({ layout_manager: new Clutter.BinLayout() });
             let box = new St.BoxLayout();
             
             this._windowTitle = new St.Label({ 
@@ -145,13 +149,16 @@ var taskbarAppIcon = new Lang.Class({
 
             this._scaleFactorChangedId = St.ThemeContext.get_for_stage(global.stage).connect('changed', () => this._updateWindowTitleStyle());
 
-            this.actor.remove_actor(this._iconContainer);
             box.add_child(this._iconContainer);
             box.add_child(this._windowTitle);
 
-            outbox.add_child(box);
-            this.actor.set_child(outbox);
-        }      
+            this._dotsContainer.add_child(box);
+        } else {
+            this._dotsContainer.add_child(this._iconContainer);
+        }
+
+        this._container.add_child(this._dotsContainer);
+        this.actor.set_child(this._container);
 
         // Monitor windows-changes instead of app state.
         // Keep using the same Id and function callback (that is extended)
@@ -183,32 +190,31 @@ var taskbarAppIcon = new Lang.Class({
         this._switchWorkspaceId = global.window_manager.connect('switch-workspace',
                                                 Lang.bind(this, this._onSwitchWorkspace));
         
+        this._setAppIconPadding();
         this._showDots();
 
-        this._settingsConnectIds = [
-            this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._updateDotSize)),
-            this._dtpSettings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-color-override', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-color-1', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-color-2', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-color-3', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-color-4', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-color-unfocused-different', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-color-unfocused-1', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-color-unfocused-2', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-color-unfocused-3', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::focus-highlight-color', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::focus-highlight-opacity', Lang.bind(this, this._settingsChangeRefresh)),
-            this._dtpSettings.connect('changed::group-apps-label-font-size', Lang.bind(this, this._updateWindowTitleStyle)),
-            this._dtpSettings.connect('changed::group-apps-label-font-color', Lang.bind(this, this._updateWindowTitleStyle)),
-            this._dtpSettings.connect('changed::group-apps-label-max-width', Lang.bind(this, this._updateWindowTitleStyle)),
-            this._dtpSettings.connect('changed::group-apps-use-fixed-width', Lang.bind(this, this._updateWindowTitleStyle)),
-            this._dtpSettings.connect('changed::group-apps-underline-unfocused', Lang.bind(this, this._settingsChangeRefresh))
-        ];
+        this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._updateDotSize));
+        this._dtpSettings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-override', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-1', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-2', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-3', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-4', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-unfocused-different', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-unfocused-1', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-unfocused-2', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-unfocused-3', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::focus-highlight-color', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::focus-highlight-opacity', Lang.bind(this, this._settingsChangeRefresh));
+        this._dtpSettings.connect('changed::group-apps-label-font-size', Lang.bind(this, this._updateWindowTitleStyle));
+        this._dtpSettings.connect('changed::group-apps-label-font-color', Lang.bind(this, this._updateWindowTitleStyle));
+        this._dtpSettings.connect('changed::group-apps-label-max-width', Lang.bind(this, this._updateWindowTitleStyle));
+        this._dtpSettings.connect('changed::group-apps-use-fixed-width', Lang.bind(this, this._updateWindowTitleStyle));
+        this._dtpSettings.connect('changed::group-apps-underline-unfocused', Lang.bind(this, this._settingsChangeRefresh));
 
         this.forcedOverview = false;
 
@@ -333,12 +339,6 @@ var taskbarAppIcon = new Lang.Class({
 
         if(this._scaleFactorChangedId)
             St.ThemeContext.get_for_stage(global.stage).disconnect(this._scaleFactorChangedId);
-
-        for (let i = 0, l = this._settingsConnectIds.length; i < l; ++i) {
-            if (this._settingsConnectIds[i]) {
-                this._dtpSettings.disconnect(this._settingsConnectIds[i]);
-            }
-        }
     },
 
     onWindowsChanged: function() {
@@ -373,8 +373,6 @@ var taskbarAppIcon = new Lang.Class({
             this._updateCounterClass();
             return;
         }
-
-        let container = this.actor.get_children()[0];
 
         if (!this._isGroupApps) {
             this._focusedDots = new St.Widget({ 
@@ -414,12 +412,12 @@ var taskbarAppIcon = new Lang.Class({
                 this._displayProperIndicator();
             }));
                 
-            container.add_child(this._unfocusedDots);
+            this._dotsContainer.add_child(this._unfocusedDots);
     
             this._updateCounterClass();
         }
 
-        container.add_child(this._focusedDots);
+        this._dotsContainer.add_child(this._focusedDots);
     },
 
     _updateDotSize: function() {
@@ -467,8 +465,7 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _setIconStyle: function(isFocused) {
-        let margin = this._dtpSettings.get_int('appicon-margin');
-        let inlineStyle = 'margin: 0 ' + margin + 'px;';
+        let inlineStyle = '';
 
         if(this._dtpSettings.get_boolean('focus-highlight') && 
            tracker.focus_app == this.app && !this.isLauncher &&  
@@ -497,15 +494,29 @@ var taskbarAppIcon = new Lang.Class({
                                                                   this._dtpSettings.get_int('focus-highlight-opacity') * 0.01);
         }
         
-        if(this.actor.get_style() != inlineStyle) {
+        if(this._dotsContainer.get_style() != inlineStyle) {
             if (!this._isGroupApps) {
                 //when the apps are ungrouped, set the style synchronously so the icons don't jump around on taskbar redraw
-                this.actor.set_style(inlineStyle);
+                this._dotsContainer.set_style(inlineStyle);
             } else {
                 //graphical glitches if i dont set this on a timeout
-                Mainloop.timeout_add(0, Lang.bind(this, function() { this.actor.set_style(inlineStyle); }));
+                Mainloop.timeout_add(0, Lang.bind(this, function() { this._dotsContainer.set_style(inlineStyle); }));
             }
         }
+    },
+
+    _setAppIconPadding: function() {
+        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        let availSize = Main.panel.actor.get_height() - this._dtpSettings.get_int('dot-size') * scaleFactor * 2;
+        let padding = this._dtpSettings.get_int('appicon-padding'); 
+        let margin = this._dtpSettings.get_int('appicon-margin');
+
+        if (padding * 2 > availSize) {
+            padding = (availSize - 1) * .5;
+        }
+        
+        this.actor.set_style('padding: 0 ' + margin + 'px;');
+        this._iconContainer.set_style('padding: ' + padding + 'px;');
     },
 
     popupMenu: function() {
@@ -578,7 +589,7 @@ var taskbarAppIcon = new Lang.Class({
                 this._focusedDots.hide();
             }
         } else {
-            let containerWidth = this.actor.get_children()[0].width;
+            let containerWidth = this._container.width;
             let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
             let unfocusedDotStyle = this._dtpSettings.get_string('dot-style-unfocused');
             let focusedIsWide = this._isWideDotStyle(focusedDotStyle);

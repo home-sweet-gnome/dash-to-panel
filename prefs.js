@@ -166,6 +166,7 @@ const Settings = new Lang.Class({
         this._tray_size_timeout = 0;
         this._leftbox_size_timeout = 0;
         this._appicon_margin_timeout = 0;
+        this._appicon_padding_timeout = 0;
         this._tray_padding_timeout = 0;
         this._statusicon_padding_timeout = 0;
         this._leftbox_padding_timeout = 0;
@@ -1097,6 +1098,7 @@ const Settings = new Lang.Class({
             {objectName: 'tray_size_scale', valueName: 'tray-size', range: DEFAULT_FONT_SIZES },
             {objectName: 'leftbox_size_scale', valueName: 'leftbox-size', range: DEFAULT_FONT_SIZES },
             {objectName: 'appicon_margin_scale', valueName: 'appicon-margin', range: DEFAULT_MARGIN_SIZES },
+            {objectName: 'appicon_padding_scale', valueName: 'appicon-padding', range: DEFAULT_MARGIN_SIZES },
             {objectName: 'tray_padding_scale', valueName: 'tray-padding', range: DEFAULT_PADDING_SIZES },
             {objectName: 'leftbox_padding_scale', valueName: 'leftbox-padding', range: DEFAULT_PADDING_SIZES },
             {objectName: 'statusicon_padding_scale', valueName: 'status-icon-padding', range: DEFAULT_PADDING_SIZES }
@@ -1223,6 +1225,22 @@ const Settings = new Lang.Class({
             this._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
                 this._settings.set_int('appicon-margin', scale.get_value());
                 this._appicon_margin_timeout = 0;
+                return GLib.SOURCE_REMOVE;
+            }));
+        },
+
+        appicon_padding_scale_format_value_cb: function(scale, value) {
+            return value + ' px';
+        },
+
+        appicon_padding_scale_value_changed_cb: function(scale) {
+            // Avoid settings the size consinuosly
+            if (this._appicon_padding_timeout > 0)
+                Mainloop.source_remove(this._appicon_padding_timeout);
+
+            this._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+                this._settings.set_int('appicon-padding', scale.get_value());
+                this._appicon_padding_timeout = 0;
                 return GLib.SOURCE_REMOVE;
             }));
         },

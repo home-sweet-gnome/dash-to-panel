@@ -339,6 +339,10 @@ var dtpPanel = new Lang.Class({
             this.taskbar.resetAppIcons();
         }));
 
+        this._dtpSettings.connect('changed::appicon-padding', Lang.bind(this, function() {
+            this.taskbar.resetAppIcons();
+        }));
+
         this._dtpSettings.connect('changed::show-activities-button', Lang.bind(this, function() {
             this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
         }));

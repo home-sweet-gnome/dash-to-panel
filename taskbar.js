@@ -172,8 +172,6 @@ var taskbarActor = new Lang.Class({
  * - Sync minimization application target position.
  */
 
-const baseIconSizes = [ 16, 22, 24, 32, 48, 64, 96, 128 ];
-
 var taskbar = new Lang.Class({
     Name: 'DashToPanel.Taskbar',
 
@@ -181,9 +179,8 @@ var taskbar = new Lang.Class({
         this._dtpSettings = settings;
         
         // start at smallest size due to running indicator drawing area expanding but not shrinking
-        this.iconSize = baseIconSizes[0];
+        this.iconSize = 16;
 
-        this._availableIconSizes = baseIconSizes;
         this._shownInitially = false;
 
         this._position = getPosition();
@@ -686,29 +683,25 @@ var taskbar = new Lang.Class({
         iconChildren.push(this._showAppsIcon);
 
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        let iconSizes = this._availableIconSizes.map(function(s) {
-            return s * scaleFactor;
-        });
 
         // Getting the panel height and making sure that the icon padding is at
         // least the size of the app running indicator on both the top and bottom.
-        let availSize = Main.panel.actor.get_height() - (this._dtpSettings.get_int('dot-size') * scaleFactor * 2);
-
-        let newIconSize = this._availableIconSizes[0];
-        for (let i = 0; i < iconSizes.length ; i++) {
-            if (iconSizes[i] < availSize) {
-                newIconSize = this._availableIconSizes[i];
-            }
+        let availSize = Main.panel.actor.get_height() - 
+                        (this._dtpSettings.get_int('dot-size') * scaleFactor * 2) - 
+                        (this._dtpSettings.get_int('appicon-padding') * 2);
+        
+        if (availSize == this.iconSize)
+            return;
+        
+        if (availSize <= 0) {
+            availSize = 1;
         }
 
-        if (newIconSize == this.iconSize)
-            return;
-
         let oldIconSize = this.iconSize;
-        this.iconSize = newIconSize;
+        this.iconSize = availSize;
         this.emit('icon-size-changed');
 
-        let scale = oldIconSize / newIconSize;
+        let scale = oldIconSize / this.iconSize;
         for (let i = 0; i < iconChildren.length; i++) {
             let icon = iconChildren[i].child._delegate.icon;
 
