@@ -63,7 +63,7 @@ var Intellihide = new Lang.Class({
         this._focusedWindowInfo = null;
         this._animationDestination = -1;
         this._pendingUpdate = false;
-        this._dragging = false;
+        this._dragging = reset ? this._dragging : false;
         this._hoveredOut = false;
         this._panelAtTop = this._dtpSettings.get_string('panel-position') === 'TOP';
 
@@ -135,7 +135,7 @@ var Intellihide = new Lang.Class({
             [
                 Main.layoutManager,
                 'monitors-changed',
-                () => this[this._primaryMonitor.index != Main.layoutManager.primaryIndex ? '_reset' : '_queueUpdatePanelPosition']()
+                () => this._reset()
             ],
             [
                 global.display,
@@ -203,12 +203,13 @@ var Intellihide = new Lang.Class({
 
     _setRevealMechanism: function() {
         if (global.display.supports_extended_barriers() && this._dtpSettings.get_boolean('intellihide-use-pressure')) {
+            this._edgeBarrier = this._createBarrier();
             this._pressureBarrier = new Layout.PressureBarrier(
                 this._dtpSettings.get_int('intellihide-pressure-threshold'), 
                 this._dtpSettings.get_int('intellihide-pressure-time'), 
                 Shell.ActionMode.NORMAL
             );
-            this._pressureBarrier.addBarrier(this._createBarrier());
+            this._pressureBarrier.addBarrier(this._edgeBarrier);
             this._signalsHandler.add([this._pressureBarrier, 'trigger', () => this._queueUpdatePanelPosition(true)]);
         } else {
             this._pointerWatch = PointerWatcher.getPointerWatcher()
@@ -223,6 +224,7 @@ var Intellihide = new Lang.Class({
 
         if (this._pressureBarrier) {
             this._pressureBarrier.destroy();
+            this._edgeBarrier.destroy();
         }
     },
 
@@ -330,7 +332,7 @@ var Intellihide = new Lang.Class({
             if (this._primaryMonitor.inFullscreen && !this._dragging) {
                 return this._dtpSettings.get_boolean('intellihide-show-in-fullscreen');
             }
-            
+
             return !this._dragging;
         }
 
