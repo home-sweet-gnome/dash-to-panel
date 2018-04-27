@@ -686,17 +686,17 @@ var taskbar = new Lang.Class({
 
         // Getting the panel height and making sure that the icon padding is at
         // least the size of the app running indicator on both the top and bottom.
-        let availSize = Main.panel.actor.get_height() - 
-                        (this._dtpSettings.get_int('dot-size') * scaleFactor * 2) - 
-                        (this._dtpSettings.get_int('appicon-padding') * 2);
+        let availSize = (Main.panel.actor.get_height() - 
+                         (this._dtpSettings.get_int('dot-size') * scaleFactor * 2) - 
+                         (this._dtpSettings.get_int('appicon-padding') * 2)) / scaleFactor;
         
         if (availSize == this.iconSize)
             return;
-        
-        if (availSize <= 0) {
+
+        if (availSize < 1) {
             availSize = 1;
         }
-
+        
         let oldIconSize = this.iconSize;
         this.iconSize = availSize;
         this.emit('icon-size-changed');
