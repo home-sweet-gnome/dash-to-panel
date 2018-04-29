@@ -63,7 +63,7 @@ var Intellihide = new Lang.Class({
         this._focusedWindowInfo = null;
         this._animationDestination = -1;
         this._pendingUpdate = false;
-        this._dragging = reset ? this._dragging : false;
+        this._dragging = false;
         this._hoveredOut = false;
         this._panelAtTop = this._dtpSettings.get_string('panel-position') === 'TOP';
 
@@ -139,11 +139,13 @@ var Intellihide = new Lang.Class({
             ],
             [
                 global.display,
-                [
-                    'grab-op-begin',
-                    'grab-op-end'
-                ],
-                () => this._dragging = !this._dragging
+                'grab-op-begin',
+                () => this._dragging = true
+            ],
+            [
+                global.display,
+                'grab-op-end',
+                () => this._dragging = false
             ],
             [
                 this._panelBox,
