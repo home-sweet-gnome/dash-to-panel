@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-27 17:22+0200\n"
-"PO-Revision-Date: 2018-04-27 17:32+0200\n"
+"PO-Revision-Date: 2018-04-30 20:01+0200\n"
 "Last-Translator: Nathan Graule <solarliner@gmail.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -29,7 +29,7 @@ msgstr "Restaurer paramètres"
 
 #: prefs.js:474
 msgid "Intellihide options"
-msgstr "Options d'affichage intelligent"
+msgstr "Options du masquage intelligent"
 
 #: prefs.js:530
 msgid "Show Applications options"
@@ -227,7 +227,7 @@ msgstr "Utiliser les applications favorites comme lanceurs"
 
 #: Settings.ui.h:33
 msgid "Only hide the panel when it is obstructed by windows "
-msgstr "Ne cacher le panneau que quand il est au dessus d'une fenêtre "
+msgstr "Ne cacher le panneau que lorsqu'il est au-dessus d'une fenêtre "
 
 #: Settings.ui.h:34
 msgid "The panel hides from"
@@ -239,7 +239,7 @@ msgstr "Toutes les fenêtres"
 
 #: Settings.ui.h:36
 msgid "Focused windows"
-msgstr "Fenêtres au devant"
+msgstr "Fenêtres au premier plan"
 
 #: Settings.ui.h:37
 msgid "Maximized windows"
@@ -247,7 +247,7 @@ msgstr "Fenêtres maximisées"
 
 #: Settings.ui.h:38
 msgid "Require pressure at the edge of the screen  to reveal the panel"
-msgstr "Ajouter une pression sur le bord de l'écran pour afficher le paneau"
+msgstr "Requiert une pression sur le bord de l'écran pour afficher le panneau"
 
 #: Settings.ui.h:39
 msgid "Required pressure threshold (px)"
@@ -338,11 +338,11 @@ msgstr "Afficher le titre de la fenêtre dans la prévis."
 
 #: Settings.ui.h:56
 msgid "Width of the window previews (px)"
-msgstr "Longueur des aperçus des fenêtres lors du survol (px)"
+msgstr "Largeur des aperçus des fenêtres lors du survol (px)"
 
 #: Settings.ui.h:57
 msgid "Height of the window previews (px)"
-msgstr "Largeur des aperçus des fenêtres lors du survol (px)"
+msgstr "Hauteur des aperçus des fenêtres lors du survol (px)"
 
 #: Settings.ui.h:58
 msgid "Padding of the window previews (px)"
@@ -401,16 +401,18 @@ msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
 msgstr "Syntaxe: <Shift>, <Ctrl>, <Alt>, <Super>"
 
 #: Settings.ui.h:71
+#, fuzzy
 msgid "Current Show Applications icon"
-msgstr "Icône d'affichage des applications actuel"
+msgstr "Icône d'affichage des applications actuelle"
 
 #: Settings.ui.h:72
+#, fuzzy
 msgid "Select a Show Applications image icon"
 msgstr "Sélectionner une icône d'affichage des applications"
 
 #: Settings.ui.h:73
 msgid "Custom Show Applications image icon"
-msgstr "Icône d'affichage des applications personnalisé"
+msgstr "Icône d'affichage des applications personnalisée"
 
 #: Settings.ui.h:74
 msgid "Show Desktop button width (px)"
@@ -450,7 +452,7 @@ msgid ""
 "(default is 4)"
 msgstr ""
 "Marge int. de l'icône d'application\n"
-"(la valeur par défaut est 8)"
+"(la valeur par défaut est 4)"
 
 #: Settings.ui.h:84
 msgid "Running indicator position"
