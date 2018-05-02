@@ -1000,6 +1000,7 @@ var taskbar = new Lang.Class({
         let id = app.get_id();
 
         let favorites = AppFavorites.getAppFavorites().getFavoriteMap();
+        let chilFavorites = {};
 
         let srcIsFavorite = (id in favorites);
 
@@ -1013,8 +1014,9 @@ var taskbar = new Lang.Class({
             let childId = children[i].child._delegate.app.get_id();
             if (childId == id)
                 continue;
-            if (childId in favorites)
-                favPos++;
+            if (childId in favorites && !chilFavorites[childId]) {
+                chilFavorites[childId] = favPos++;
+            }
         }
 
         // No drag placeholder means we don't wan't to favorite the app
