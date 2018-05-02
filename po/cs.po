@@ -7,78 +7,86 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-10 14:00+0100\n"
-"PO-Revision-Date: 2018-04-10 14:00+0100\n"
+"POT-Creation-Date: 2018-05-02 16:40+0200\n"
+"PO-Revision-Date: 2018-05-02 17:03+0200\n"
+"Last-Translator: Milan Zink <zeten30@gmail.com>\n"
+"Language-Team: \n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Last-Translator: Milan Zink <zeten30@gmail.com>\n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.7\n"
 
-#: prefs.js:295
+#: prefs.js:297
 msgid "Running Indicator Options"
 msgstr "Nastavení indikátoru běžících aplikací"
 
-#: prefs.js:302 prefs.js:447 prefs.js:499 prefs.js:608 prefs.js:684
-#: prefs.js:753 prefs.js:829 prefs.js:871
+#: prefs.js:304 prefs.js:481 prefs.js:537 prefs.js:613 prefs.js:665
+#: prefs.js:804 prefs.js:880 prefs.js:949 prefs.js:1025 prefs.js:1067
 msgid "Reset to defaults"
 msgstr "Nastavit výchozí hodnoty"
 
-#: prefs.js:440
+#: prefs.js:474
+msgid "Intellihide options"
+msgstr "Nastavení inteligentního skrývaní (Intellihide)"
+
+#: prefs.js:530
+msgid "Show Applications options"
+msgstr "Zobrazit ikonu <i>aplikací</i>"
+
+#: prefs.js:606
 msgid "Show Desktop options"
 msgstr "Nastavení plochy"
 
-#: prefs.js:492
+#: prefs.js:658
 msgid "Window preview options"
 msgstr "Nastavení náhledu oken"
 
-#: prefs.js:601
+#: prefs.js:797
 msgid "Ungrouped application options"
 msgstr "Nastavení neseskupených aplikací"
 
-#: prefs.js:677
+#: prefs.js:873
 msgid "Customize middle-click behavior"
 msgstr "Akce prostředního tlačítko myši"
 
-#: prefs.js:746
+#: prefs.js:942
 msgid "Advanced hotkeys options"
 msgstr "Nastavení dalších klávesových zkratek"
 
-#: prefs.js:822
+#: prefs.js:1018
 msgid "Secondary Menu Options"
 msgstr "Nastavení sekundárního menu"
 
-#: prefs.js:864 Settings.ui.h:113
+#: prefs.js:1060 Settings.ui.h:133
 msgid "Advanced Options"
 msgstr "Pokročilá nastavení"
 
-#: appIcons.js:1179
+#: appIcons.js:1233
 msgid "Show Details"
 msgstr "Zobrazit detaily"
 
-#: appIcons.js:1198
+#: appIcons.js:1252
 msgid "New Window"
 msgstr "Nové okno"
 
-#: appIcons.js:1198 appIcons.js:1260 appIcons.js:1262 Settings.ui.h:8
+#: appIcons.js:1252 appIcons.js:1314 appIcons.js:1316 Settings.ui.h:8
 msgid "Quit"
 msgstr "Ukončit"
 
-#: appIcons.js:1262
+#: appIcons.js:1316
 msgid "Windows"
 msgstr "Okna"
 
-#: appIcons.js:1421
+#: appIcons.js:1495
 msgid "Dash to Panel Settings"
 msgstr "Nastavení Dash to Panel"
 
-#: appIcons.js:1428
+#: appIcons.js:1502
 msgid "Restore Windows"
 msgstr "Obnovit okna"
 
-#: appIcons.js:1428
+#: appIcons.js:1502
 msgid "Show Desktop"
 msgstr "Zobrazit plochu"
 
@@ -151,62 +159,54 @@ msgid "Highlight opacity"
 msgstr "Průhlednost zvýraznění"
 
 #: Settings.ui.h:18
-msgid "5"
-msgstr "5"
-
-#: Settings.ui.h:19
 msgid "Indicator height (px)"
 msgstr "Výška indikátoru aplikace (px)"
 
-#: Settings.ui.h:20
-msgid "0"
-msgstr "0"
-
-#: Settings.ui.h:21
+#: Settings.ui.h:19
 msgid "Indicator color - Override Theme"
 msgstr "Barva indikátoru - Přepsat nastavení vzhledu"
 
-#: Settings.ui.h:22
+#: Settings.ui.h:20
 msgid "1 window open (or ungrouped)"
 msgstr "1 otevřené okno (nebo neseskupené)"
 
-#: Settings.ui.h:23
+#: Settings.ui.h:21
 msgid "Apply to all"
 msgstr "Nastavit pro všechny"
 
-#: Settings.ui.h:24
+#: Settings.ui.h:22
 msgid "2 windows open"
 msgstr "2 otevřená okna"
 
-#: Settings.ui.h:25
+#: Settings.ui.h:23
 msgid "3 windows open"
 msgstr "3 otevřená okna"
 
-#: Settings.ui.h:26
+#: Settings.ui.h:24
 msgid "4+ windows open"
 msgstr "4 a více otevřených oken"
 
-#: Settings.ui.h:27
+#: Settings.ui.h:25
 msgid "Use different for unfocused"
 msgstr "Použít jinou pro okna v pozadí"
 
-#: Settings.ui.h:28
+#: Settings.ui.h:26
 msgid "Font size (px) of the application titles (default is 14)"
 msgstr "Velikost  fontu (px) titulku aplikace (výchozí 14)"
 
-#: Settings.ui.h:29
+#: Settings.ui.h:27
 msgid "Font color of the application titles"
 msgstr "Barva  fontu (px) titulku aplikace"
 
-#: Settings.ui.h:30
+#: Settings.ui.h:28
 msgid "Maximum width (px) of the application titles (default is 160)"
 msgstr "Maximální šířka titulku aplikace (výchozí 160)"
 
-#: Settings.ui.h:31
+#: Settings.ui.h:29
 msgid "Use a fixed width for the application titles"
 msgstr "Použít pevnou šířku titulku aplikací"
 
-#: Settings.ui.h:32
+#: Settings.ui.h:30
 msgid ""
 "The application titles all have the same width, even if their texts are "
 "shorter than the maximum width. The maximum width value is used as the fixed "
@@ -215,19 +215,63 @@ msgstr ""
 "Titulky aplikací mají stejnou šířku, i když je text kratší. Maximální "
 "hodnota je použita pro všechny."
 
-#: Settings.ui.h:33
+#: Settings.ui.h:31
 msgid "Display running indicators on unfocused applications"
 msgstr "Zobrazit indikátor aplikací na pozadí"
 
-#: Settings.ui.h:34
+#: Settings.ui.h:32
 msgid "Use the favorite icons as application launchers"
 msgstr "Použít ikony oblíbených aplikací jako spouštěče"
 
+#: Settings.ui.h:33
+msgid "Only hide the panel when it is obstructed by windows "
+msgstr "Skrýt panel pouze při překrytí okny aplikací "
+
+#: Settings.ui.h:34
+msgid "The panel hides from"
+msgstr "Skrývání panelu pro"
+
 #: Settings.ui.h:35
+msgid "All windows"
+msgstr "Všechna okna"
+
+#: Settings.ui.h:36
+msgid "Focused windows"
+msgstr "Okna v popředí"
+
+#: Settings.ui.h:37
+msgid "Maximized windows"
+msgstr "Maximalizovaná okna"
+
+#: Settings.ui.h:38
+msgid "Require pressure at the edge of the screen  to reveal the panel"
+msgstr "Vyžaduje podržení myši u okraje obrazovky pro zobrazení panelu"
+
+#: Settings.ui.h:39
+msgid "Required pressure threshold (px)"
+msgstr "Citlivost okraje obrazovky při držení myši (px)"
+
+#: Settings.ui.h:40
+msgid "Required pressure timeout (ms)"
+msgstr "Doba držení myši (ms)"
+
+#: Settings.ui.h:41
+msgid "Allow the panel to be revealed while in fullscreen mode"
+msgstr "Povolit zobrazení panelu v režimu celá obrazovka"
+
+#: Settings.ui.h:42
+msgid "Hide and reveal animation duration (ms)"
+msgstr "Rychlost animace zobrazení/skrytí panelu"
+
+#: Settings.ui.h:43
+msgid "Delay before hiding the panel (ms)"
+msgstr "Zpoždění před skrytím panelu"
+
+#: Settings.ui.h:44
 msgid "Preview timeout on icon leave (ms)"
 msgstr "Skrýt náhled aplikace po odjetí myši (ms)"
 
-#: Settings.ui.h:36
+#: Settings.ui.h:45
 msgid ""
 "If set too low, the window preview of running applications may seem to close "
 "too quickly when trying to enter the popup. If set too high, the preview may "
@@ -236,115 +280,143 @@ msgstr ""
 "Náhled aplikací může mizet velmi rychle při velmi nízkých hodnotách. Při "
 "velkých hodnotách může naopak zůstávat i po najetí na jinou ikonu aplikace."
 
-#: Settings.ui.h:37
+#: Settings.ui.h:46
 msgid "Time (ms) before showing (100 is default)"
 msgstr "Pauza před zobrazením náhledu (výchozí 100ms)"
 
-#: Settings.ui.h:38
+#: Settings.ui.h:47
 msgid "Enable window peeking"
 msgstr "Povolit režim náhledu okna"
 
-#: Settings.ui.h:39
+#: Settings.ui.h:48
 msgid ""
 "When hovering over a window preview for some time, the window gets "
 "distinguished."
 msgstr "Rozlišit okna po delším zobrazení náhledu."
 
-#: Settings.ui.h:40
+#: Settings.ui.h:49
 msgid "Enter window peeking mode timeout (ms)"
 msgstr "Povolit režim náhledu okna po (ms)"
 
-#: Settings.ui.h:41
+#: Settings.ui.h:50
 msgid ""
 "Time of inactivity while hovering over a window preview needed to enter the "
 "window peeking mode."
 msgstr "Čas nečinnosti nad ikonou před přechodem do režimu náhledu okna."
 
-#: Settings.ui.h:42
+#: Settings.ui.h:51
 msgid "Window peeking mode opacity"
 msgstr "Průhlednost režimu náhledu okna"
 
-#: Settings.ui.h:43
+#: Settings.ui.h:52
 msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
 msgstr "Všechna okna, mimo aktivního, mají stejné nastavení průhlednosti."
 
-#: Settings.ui.h:44
+#: Settings.ui.h:53
 msgid "Middle click to close window"
 msgstr "Prostřední tlačítko myši zavře okno"
 
-#: Settings.ui.h:45
+#: Settings.ui.h:54
 msgid "Middle click on the preview to close the window."
 msgstr "Prostřední tlačítko myši zavře okno v režimu náhledu."
 
-#: Settings.ui.h:46
+#: Settings.ui.h:55
+msgid "Display window title in previews"
+msgstr "Zobrazit titulek okna v náhledech"
+
+#: Settings.ui.h:56
+msgid "Width of the window previews (px)"
+msgstr "Šířka náhledu oken aplikací (px)"
+
+#: Settings.ui.h:57
+msgid "Height of the window previews (px)"
+msgstr "Výška náhledu oken aplikací (px)"
+
+#: Settings.ui.h:58
+msgid "Padding of the window previews (px)"
+msgstr "Mezery náhledu oken aplikací (px)"
+
+#: Settings.ui.h:59
 msgid "Super"
 msgstr "Win"
 
-#: Settings.ui.h:47
+#: Settings.ui.h:60
 msgid "Super + Alt"
 msgstr "Win + Alt"
 
-#: Settings.ui.h:48
+#: Settings.ui.h:61
 msgid "Hotkeys prefix"
 msgstr "Zkratka"
 
-#: Settings.ui.h:49
+#: Settings.ui.h:62
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
 msgstr "Zkratky budou buď Win+číslo nebo Win+Alt+číslo"
 
-#: Settings.ui.h:50
+#: Settings.ui.h:63
 msgid "Never"
 msgstr "Nikdy"
 
-#: Settings.ui.h:51
+#: Settings.ui.h:64
 msgid "Show temporarily"
 msgstr "Zobrazit dočasně"
 
-#: Settings.ui.h:52
+#: Settings.ui.h:65
 msgid "Always visible"
 msgstr "Vždy viditelné"
 
-#: Settings.ui.h:53
+#: Settings.ui.h:66
 msgid "Number overlay"
 msgstr "Zobrazit číslo"
 
-#: Settings.ui.h:54
+#: Settings.ui.h:67
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
 msgstr "Dočasně zobrazit čísla aplikací při použití klávesových zkratek."
 
-#: Settings.ui.h:55
+#: Settings.ui.h:68
 msgid "Hide timeout (ms)"
 msgstr "Schovat po (ms)"
 
-#: Settings.ui.h:56
+#: Settings.ui.h:69
 msgid "Shortcut to show the overlay for 2 seconds"
 msgstr "Zkratka pro zobrazení přehledu"
 
-#: Settings.ui.h:57
+#: Settings.ui.h:70
 msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
 msgstr "Syntaxe: <Shift>, <Ctrl>, <Alt>, <Super>"
 
-#: Settings.ui.h:58
+#: Settings.ui.h:71
+msgid "Current Show Applications icon"
+msgstr "Zobrazit ikonu aplikace"
+
+#: Settings.ui.h:72
+msgid "Select a Show Applications image icon"
+msgstr "Vyberte volbu 'Zobrazit ikonu aplikace'"
+
+#: Settings.ui.h:73
+msgid "Custom Show Applications image icon"
+msgstr "Vlastní nastavení zobrazení ikony aplikace"
+
+#: Settings.ui.h:74
 msgid "Show Desktop button width (px)"
 msgstr "Velikost tlačítka plochy (px)"
 
-#: Settings.ui.h:59
+#: Settings.ui.h:75
 msgid "Panel screen position"
 msgstr "Pozice panelu na obrazovce"
 
-#: Settings.ui.h:60
+#: Settings.ui.h:76
 msgid "Bottom"
 msgstr "Dole"
 
-#: Settings.ui.h:61
+#: Settings.ui.h:77
 msgid "Top"
 msgstr "Nahoře"
 
-#: Settings.ui.h:62
+#: Settings.ui.h:78
 msgid ""
 "Panel Size\n"
 "(default is 48)"
@@ -352,7 +424,7 @@ msgstr ""
 "Výška panelu\n"
 "(výchozí = 48)"
 
-#: Settings.ui.h:64
+#: Settings.ui.h:80
 msgid ""
 "App Icon Margin\n"
 "(default is 8)"
@@ -360,131 +432,147 @@ msgstr ""
 "Rozestup ikon aplikací\n"
 "(výchozí = 8)"
 
-#: Settings.ui.h:66
+#: Settings.ui.h:82
+msgid ""
+"App Icon Padding\n"
+"(default is 4)"
+msgstr ""
+"Okraje ikon aplikací\n"
+"(výchozí = 4)"
+
+#: Settings.ui.h:84
 msgid "Running indicator position"
 msgstr "Pozice indikátoru"
 
-#: Settings.ui.h:67
+#: Settings.ui.h:85
 msgid "Running indicator style (Focused app)"
 msgstr "Styl indikátoru běžících aplikací (v popředí)"
 
-#: Settings.ui.h:68
+#: Settings.ui.h:86
 msgid "Dots"
 msgstr "Tečky"
 
-#: Settings.ui.h:69
+#: Settings.ui.h:87
 msgid "Squares"
 msgstr "Čtverce"
 
-#: Settings.ui.h:70
+#: Settings.ui.h:88
 msgid "Dashes"
 msgstr "Čárkovaný"
 
-#: Settings.ui.h:71
+#: Settings.ui.h:89
 msgid "Segmented"
 msgstr "Dělený"
 
-#: Settings.ui.h:72
+#: Settings.ui.h:90
 msgid "Solid"
 msgstr "Solid"
 
-#: Settings.ui.h:73
+#: Settings.ui.h:91
 msgid "Ciliora"
 msgstr "Ciliora"
 
-#: Settings.ui.h:74
+#: Settings.ui.h:92
 msgid "Metro"
 msgstr "Metro"
 
-#: Settings.ui.h:75
+#: Settings.ui.h:93
 msgid "Running indicator style (Unfocused apps)"
 msgstr "Styl indikátoru běžících aplikací (v pozadí)"
 
-#: Settings.ui.h:76
+#: Settings.ui.h:94
 msgid "Clock location"
 msgstr "Umístění hodin"
 
-#: Settings.ui.h:77
+#: Settings.ui.h:95
 msgid "Natural"
 msgstr "Přirozené"
 
-#: Settings.ui.h:78
+#: Settings.ui.h:96
 msgid "Left of status menu"
 msgstr "Vlevo od stavové lišty"
 
-#: Settings.ui.h:79
+#: Settings.ui.h:97
 msgid "Right of status menu"
 msgstr "Vpravo od stavové lišty"
 
-#: Settings.ui.h:80
+#: Settings.ui.h:98
 msgid "Taskbar position"
 msgstr "Pozice panelu"
 
-#: Settings.ui.h:81
+#: Settings.ui.h:99
 msgid "Left side of panel"
 msgstr "Vlevo na panelu"
 
-#: Settings.ui.h:82
+#: Settings.ui.h:100
 msgid "Centered in monitor"
 msgstr "Na střed monitoru"
 
-#: Settings.ui.h:83
+#: Settings.ui.h:101
 msgid "Centered in content"
 msgstr "Na střed obsahu"
 
-#: Settings.ui.h:84
+#: Settings.ui.h:102
+msgid "Panel Intellihide"
+msgstr "Inteligentní skrývání (Intellihide)"
+
+#: Settings.ui.h:103
+msgid "Hide and reveal the panel according to preferences"
+msgstr "Zobrazit/skrýt panel podle nastavení"
+
+#: Settings.ui.h:104
 msgid "Position and Style"
 msgstr "Umístění a vzhled"
 
-#: Settings.ui.h:85
+#: Settings.ui.h:105
 msgid "Show favorite applications"
 msgstr "Zobrazit oblíbené aplikace"
 
-#: Settings.ui.h:86
+#: Settings.ui.h:106
 msgid "Show <i>Applications</i> icon"
 msgstr "Zobrazit ikonu aplikací"
 
-#: Settings.ui.h:87
+#: Settings.ui.h:107
 msgid "Animate <i>Show Applications</i>."
 msgstr "Animovat zobrazení aplikací."
 
-#: Settings.ui.h:88
+#: Settings.ui.h:108
 msgid "Show <i>Activities</i> button"
 msgstr "Zobrazit tlačítko aktivit"
 
-#: Settings.ui.h:89
+#: Settings.ui.h:109
 msgid "Show <i>Desktop</i> button"
 msgstr "Zobrazit tlačítko plochy"
 
-#: Settings.ui.h:90
+#: Settings.ui.h:110
 msgid "Show <i>AppMenu</i> button"
 msgstr "Zobrazit tlačítko aplikací"
 
-#: Settings.ui.h:91
+#: Settings.ui.h:111
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
 msgstr "Nabídka aplikace > Musí být povoleno v <i>Gnome Tweak Tool</i>"
 
-#: Settings.ui.h:92
+#: Settings.ui.h:112
 msgid "Show window previews on hover"
 msgstr "Zobrazit náhled okna při najetí myši"
 
-#: Settings.ui.h:93
+#: Settings.ui.h:113
 msgid "Isolate Workspaces"
 msgstr "Oddělit pracovní plochy"
 
-#: Settings.ui.h:94
+#: Settings.ui.h:114
 msgid "Ungroup applications"
 msgstr "Neseskupené aplikace"
 
-#: Settings.ui.h:95
+#: Settings.ui.h:115
 msgid "Behaviour when clicking on the icon of a running application."
 msgstr "Chování při kliknutí na ikonu běžící aplikace."
 
-#: Settings.ui.h:96
+#: Settings.ui.h:116
 msgid "Click action"
 msgstr "Akce myši"
 
-#: Settings.ui.h:97
+#: Settings.ui.h:117
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
@@ -492,27 +580,27 @@ msgstr ""
 "Povolit klávesové zkratky Win+(0-9) ke spouštění aplikací. Lze použít v "
 "kombinaci s Shift a Ctrl."
 
-#: Settings.ui.h:98
+#: Settings.ui.h:118
 msgid "Use hotkeys to activate apps"
 msgstr "Použít klávesové zkratky pro spouštění aplikací"
 
-#: Settings.ui.h:99
+#: Settings.ui.h:119
 msgid "Behavior"
 msgstr "Chování"
 
-#: Settings.ui.h:100
+#: Settings.ui.h:120
 msgid ""
 "Tray Font Size\n"
 "(0 = theme default)"
 msgstr "Stavové ikony - velikost fontu (0 = výchozí)"
 
-#: Settings.ui.h:102
+#: Settings.ui.h:122
 msgid ""
 "LeftBox Font Size\n"
 "(0 = theme default)"
 msgstr "Levý panel - velikost fontu (0 = výchozí)"
 
-#: Settings.ui.h:104
+#: Settings.ui.h:124
 msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
@@ -520,7 +608,7 @@ msgstr ""
 "Mezery mezi systémovými ikonami\n"
 "(-1 = theme default)"
 
-#: Settings.ui.h:106
+#: Settings.ui.h:126
 msgid ""
 "Status Icon Padding\n"
 "(-1 = theme default)"
@@ -528,7 +616,7 @@ msgstr ""
 "Mezery mezi stavovými ikonami\n"
 "(-1 = výchozí)"
 
-#: Settings.ui.h:108
+#: Settings.ui.h:128
 msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
@@ -536,31 +624,31 @@ msgstr ""
 "Odsazení vlevo\n"
 "(-1 = výchozí)"
 
-#: Settings.ui.h:110
+#: Settings.ui.h:130
 msgid "Animate switching applications"
 msgstr "Animovat přepínání oken"
 
-#: Settings.ui.h:111
+#: Settings.ui.h:131
 msgid "Animate launching new windows"
 msgstr "Animovat spouštěná okna"
 
-#: Settings.ui.h:112
+#: Settings.ui.h:132
 msgid "App icon secondary (right-click) menu"
 msgstr "Nastavení pravého kliku na ikonu aplikace"
 
-#: Settings.ui.h:114
+#: Settings.ui.h:134
 msgid "Fine-Tune"
 msgstr "Detailní nastavení"
 
-#: Settings.ui.h:115
+#: Settings.ui.h:135
 msgid "version: "
 msgstr "verze: "
 
-#: Settings.ui.h:116
+#: Settings.ui.h:136
 msgid "Github"
 msgstr "Github"
 
-#: Settings.ui.h:117
+#: Settings.ui.h:137
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
@@ -570,6 +658,12 @@ msgstr ""
 "Přečtěte si <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">GNU General Public License, version 2 nebo novější verze</a>.</span>"
 
-#: Settings.ui.h:119
+#: Settings.ui.h:139
 msgid "About"
 msgstr "O rozšíření"
+
+#~ msgid "5"
+#~ msgstr "5"
+
+#~ msgid "0"
+#~ msgstr "0"
