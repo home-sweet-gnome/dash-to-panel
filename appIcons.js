@@ -269,34 +269,37 @@ var taskbarAppIcon = new Lang.Class({
         this._signalsHandler.addWithLabel('window-preview', [
             this.windowPreview,
             'menu-closed',
-            function(menu) {
             // enter-event doesn't fire on an app icon when the popup menu from a previously
             // hovered app icon is still open, so when a preview menu closes we need to
             // see if a new app icon is hovered and open its preview menu now.
             // also, for some reason actor doesn't report being hovered by get_hover()
             // if the hover started when a popup was opened. So, look for the actor by mouse position.
-            let [x, y,] = global.get_pointer();
-            let hoveredActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
-            let appIconToOpen;
-            appIcons.forEach(function (appIcon) {
-                if(appIcon.actor == hoveredActor) {
-                    appIconToOpen = appIcon;
-                } else if(appIcon.windowPreview && appIcon.windowPreview.isOpen) {
-                    appIcon.windowPreview.close();
-                }
-            });
-
-            if(appIconToOpen) {
-                appIconToOpen.actor.sync_hover();
-                if(appIconToOpen.windowPreview && appIconToOpen.windowPreview != menu)
-                    appIconToOpen.windowPreview._onEnter();
-            }
-            return GLib.SOURCE_REMOVE;
-
-            }
+            menu => this.syncWindowPreview(appIcons, menu)
         ]);
 
         this.windowPreview.enableWindowPreview();
+    },
+
+    syncWindowPreview: function(appIcons, menu) {
+        let [x, y,] = global.get_pointer();
+        let hoveredActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
+        let appIconToOpen;
+
+        appIcons.forEach(function (appIcon) {
+            if(appIcon.actor == hoveredActor) {
+                appIconToOpen = appIcon;
+            } else if(appIcon.windowPreview && appIcon.windowPreview.isOpen) {
+                appIcon.windowPreview.close();
+            }
+        });
+
+        if(appIconToOpen) {
+            appIconToOpen.actor.sync_hover();
+            if(appIconToOpen.windowPreview && appIconToOpen.windowPreview != menu)
+                appIconToOpen.windowPreview._onEnter();
+        }
+
+        return GLib.SOURCE_REMOVE;
     },
 
     disableWindowPreview: function() {
