@@ -734,7 +734,7 @@ var taskbarAppIcon = new Lang.Class({
             else
                 buttonAction = this._dtpSettings.get_string('click-action');
         }
-
+        
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
         let appIsRunning = this.app.state == Shell.AppState.RUNNING
@@ -761,7 +761,7 @@ var taskbarAppIcon = new Lang.Class({
                         break;
 
                     case "QUIT":
-                        this.windows.delete(global.get_current_time());
+                        this.window.delete(global.get_current_time());
                         break; 
                 }
             } else {
