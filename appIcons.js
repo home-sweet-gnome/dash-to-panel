@@ -468,7 +468,7 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _setIconStyle: function(isFocused) {
-        let inlineStyle = '';
+        let inlineStyle = 'margin: 0;';
 
         if(this._dtpSettings.get_boolean('focus-highlight') && 
            tracker.focus_app == this.app && !this.isLauncher &&  
