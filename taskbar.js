@@ -1000,7 +1000,7 @@ var taskbar = new Lang.Class({
         let id = app.get_id();
 
         let favorites = AppFavorites.getAppFavorites().getFavoriteMap();
-        let chilFavorites = {};
+        let seenFavorites = {};
 
         let srcIsFavorite = (id in favorites);
 
@@ -1014,8 +1014,8 @@ var taskbar = new Lang.Class({
             let childId = children[i].child._delegate.app.get_id();
             if (childId == id)
                 continue;
-            if (childId in favorites && !chilFavorites[childId]) {
-                chilFavorites[childId] = favPos++;
+            if (childId in favorites && !seenFavorites[childId]) {
+                seenFavorites[childId] = favPos++;
             }
         }
 
