@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-04 15:18+0200\n"
-"PO-Revision-Date: 2018-05-04 15:36+0200\n"
+"POT-Creation-Date: 2018-05-04 18:52+0200\n"
+"PO-Revision-Date: 2018-05-04 21:33+0200\n"
 "Last-Translator: Piotr Komur <pkomur@gmail.com>\n"
 "Language-Team: Piotr Komur\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.6\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -33,10 +33,8 @@ msgid "Intellihide options"
 msgstr "Opcje inteligentnego ukrywania"
 
 #: prefs.js:530
-#, fuzzy
-#| msgid "Show <i>Applications</i> icon"
 msgid "Show Applications options"
-msgstr "Pokaż ikonę <i>Programy</i>"
+msgstr "Opcje wyświetlania programów"
 
 #: prefs.js:606
 msgid "Show Desktop options"
@@ -232,53 +230,47 @@ msgstr ""
 
 #: Settings.ui.h:33
 msgid "Only hide the panel when it is obstructed by windows "
-msgstr ""
+msgstr "Ukryj panel tylko wtedy, gdy jest zasłonięty przez okna"
 
 #: Settings.ui.h:34
 msgid "The panel hides from"
-msgstr ""
+msgstr "Ukrywanie przed oknami"
 
 #: Settings.ui.h:35
-#, fuzzy
-#| msgid "Windows"
 msgid "All windows"
-msgstr "Okna"
+msgstr "Wszystkie okna"
 
 #: Settings.ui.h:36
-#, fuzzy
-#| msgid "Raise window"
 msgid "Focused windows"
-msgstr "Przywrócenie okna"
+msgstr "Tylko aktywne okna programu"
 
 #: Settings.ui.h:37
-#, fuzzy
-#| msgid "Minimize window"
 msgid "Maximized windows"
-msgstr "Zminimalizowanie okna"
+msgstr "Tylko zmaksymalizowane okna"
 
 #: Settings.ui.h:38
 msgid "Require pressure at the edge of the screen  to reveal the panel"
-msgstr ""
+msgstr "Wymagany nacisk na krawędź ekranu, aby odsłonić panel"
 
 #: Settings.ui.h:39
 msgid "Required pressure threshold (px)"
-msgstr "Wymagany próg nacisku (px)"
+msgstr "Próg nacisku (px)"
 
 #: Settings.ui.h:40
 msgid "Required pressure timeout (ms)"
-msgstr "Wymagany czas nacisku (ms)"
+msgstr "Czas nacisku (ms)"
 
 #: Settings.ui.h:41
 msgid "Allow the panel to be revealed while in fullscreen mode"
-msgstr ""
+msgstr "Pozwól, aby panel został odsłonięty w trybie pełnoekranowym"
 
 #: Settings.ui.h:42
 msgid "Hide and reveal animation duration (ms)"
-msgstr ""
+msgstr "Czas trwania animacji ukrywania i odsłaniania (ms)"
 
 #: Settings.ui.h:43
 msgid "Delay before hiding the panel (ms)"
-msgstr ""
+msgstr "Opóźnienie przed ukryciem panelu (ms)"
 
 #: Settings.ui.h:44
 msgid "Preview timeout on icon leave (ms)"
@@ -345,23 +337,19 @@ msgstr ""
 
 #: Settings.ui.h:55
 msgid "Display window title in previews"
-msgstr ""
+msgstr "Pokaż tytuł okna w miniaturze podglądu"
 
 #: Settings.ui.h:56
-#, fuzzy
-#| msgid "Show window previews on hover"
 msgid "Width of the window previews (px)"
-msgstr "Pokaż podgląd (miniaturę) okna"
+msgstr "Szerokość miniatury (px)"
 
 #: Settings.ui.h:57
-#, fuzzy
-#| msgid "Show window previews on hover"
 msgid "Height of the window previews (px)"
-msgstr "Pokaż podgląd (miniaturę) okna"
+msgstr "Wysokość miniatury (px)"
 
 #: Settings.ui.h:58
 msgid "Padding of the window previews (px)"
-msgstr ""
+msgstr "Odstęp między miniaturami (px)"
 
 #: Settings.ui.h:59
 msgid "Super"
@@ -414,22 +402,16 @@ msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
 msgstr "Składnia: <Shift>, <Ctrl>, <Alt>, <Super>"
 
 #: Settings.ui.h:71
-#, fuzzy
-#| msgid "Show <i>Applications</i> icon"
 msgid "Current Show Applications icon"
-msgstr "Pokaż ikonę <i>Programy</i>"
+msgstr "Aktualna ikona"
 
 #: Settings.ui.h:72
-#, fuzzy
-#| msgid "Show <i>Applications</i> icon"
 msgid "Select a Show Applications image icon"
-msgstr "Pokaż ikonę <i>Programy</i>"
+msgstr "Wybierz ikonę"
 
 #: Settings.ui.h:73
-#, fuzzy
-#| msgid "Show <i>Applications</i> icon"
 msgid "Custom Show Applications image icon"
-msgstr "Pokaż ikonę <i>Programy</i>"
+msgstr "Wybierz własną ikonę"
 
 #: Settings.ui.h:74
 msgid "Show Desktop button width (px)"
@@ -493,7 +475,7 @@ msgstr "Kreski"
 
 #: Settings.ui.h:89
 msgid "Segmented"
-msgstr "Segmentowy"
+msgstr "Segmenty"
 
 #: Settings.ui.h:90
 msgid "Solid"
@@ -565,7 +547,7 @@ msgstr "Pokaż ikonę <i>Programy</i>"
 
 #: Settings.ui.h:107
 msgid "Animate <i>Show Applications</i>."
-msgstr "Animuj <i>Wyświetlanie programów</i>"
+msgstr "Animuj wyświetlanie programów"
 
 #: Settings.ui.h:108
 msgid "Show <i>Activities</i> button"
