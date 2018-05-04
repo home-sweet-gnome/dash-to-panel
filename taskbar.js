@@ -188,7 +188,6 @@ var taskbar = new Lang.Class({
 
         this._dragPlaceholder = null;
         this._dragPlaceholderPos = -1;
-        this._animatingPlaceholdersCount = 0;
         this._showLabelTimeoutId = 0;
         this._resetHoverTimeoutId = 0;
         this._ensureAppIconVisibilityTimeoutId = 0;
@@ -508,10 +507,14 @@ var taskbar = new Lang.Class({
             appIcon._draggable.connect('drag-begin',
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 50;
+                                           appIcon.windowPreview.requestCloseMenu();
+                                           this._disableWindowPreview();
                                        }));
             appIcon._draggable.connect('drag-end',
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 255;
+                                           this._enableWindowPreview();
+                                           appIcon.syncWindowPreview(this._getAppIcons());
                                        }));
         }
 
@@ -749,8 +752,7 @@ var taskbar = new Lang.Class({
         //get the currently displayed appIcons
         let currentAppIcons = this._getTaskbarIcons();
         //get the user's favorite apps
-        let favoriteAppsMap = showFavorites ? AppFavorites.getAppFavorites().getFavoriteMap() : {};
-        let favoriteApps = Object.keys(favoriteAppsMap).map(appId => favoriteAppsMap[appId]);
+        let favoriteApps = showFavorites ? AppFavorites.getAppFavorites().getFavorites() : [];
 
         //find the apps that should be in the taskbar: the favorites first, then add the running apps
         // When using isolation, we filter out apps that have no windows in
@@ -912,14 +914,10 @@ var taskbar = new Lang.Class({
 
     _clearDragPlaceholder: function() {
         if (this._dragPlaceholder) {
-            this._animatingPlaceholdersCount++;
-            this._dragPlaceholder.animateOutAndDestroy();
-            this._dragPlaceholder.connect('destroy',
-                Lang.bind(this, function() {
-                    this._animatingPlaceholdersCount--;
-                }));
+            this._dragPlaceholder.destroy();
             this._dragPlaceholder = null;
         }
+        
         this._dragPlaceholderPos = -1;
     },
 
@@ -933,96 +931,57 @@ var taskbar = new Lang.Class({
     handleDragOver : function(source, actor, x, y, time) {
         if (source == Main.xdndHandler)
             return DND.DragMotionResult.CONTINUE;
-        
-        let app = Dash.getAppFromSource(source);
 
         // Don't allow favoriting of transient apps
-        if (app == null || app.is_window_backed())
+        if (source.app == null || source.app.is_window_backed())
             return DND.DragMotionResult.NO_DROP;
 
         if (!this._settings.is_writable('favorite-apps'))
             return DND.DragMotionResult.NO_DROP;
 
-        let favorites = AppFavorites.getAppFavorites().getFavorites();
-        let numFavorites = favorites.length;
+        let currentAppIcons = this._getAppIcons();
+        let hoveredAppIcon = currentAppIcons.filter(appIcon => x >= appIcon._dashItemContainer.x && 
+                                                               x <= (appIcon._dashItemContainer.x + appIcon._dashItemContainer.width))[0];
+        
+        if (hoveredAppIcon) {
+            let hoveredIndex = currentAppIcons.indexOf(hoveredAppIcon);
+            let sourceIndex = currentAppIcons.indexOf(source);
+            let rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
 
-        let favPos = favorites.indexOf(app);
-
-        let children = this._box.get_children();
-        let numChildren = children.length;
-        let boxHeight = 0;
-        for (let i = 0; i < numChildren; i++) {
-            boxHeight += children[i].width;
-        }
-
-        // Keep the placeholder out of the index calculation; assuming that
-        // the remove target has the same size as "normal" items, we don't
-        // need to do the same adjustment there.
-        if (this._dragPlaceholder) {
-            boxHeight -= this._dragPlaceholder.width;
-            numChildren--;
-        }
-
-        let pos;
-        if (!this._emptyDropTarget){
-            pos = Math.floor(x * numChildren / boxHeight);
-            if (pos >  numChildren)
-                pos = numChildren;
-        } else
-            pos = 0; // always insert at the top when taskbar is empty
-
-        /* Take into account childredn position in rtl*/
-        if (Clutter.get_default_text_direction() == Clutter.TextDirection.RTL)
-            pos = numChildren - pos;
-
-        if (pos != this._dragPlaceholderPos && pos <= numFavorites && this._animatingPlaceholdersCount == 0) {
-            this._dragPlaceholderPos = pos;
-
-            // Don't allow positioning before or after self
-            if (favPos != -1 && (pos == favPos || pos == favPos + 1)) {
+            // Don't allow positioning on non favorites, same app, before or after self
+            if (hoveredAppIcon.app == source.app ||
+                sourceIndex == hoveredIndex || 
+                sourceIndex + 1 == hoveredIndex || 
+                AppFavorites.getAppFavorites().getFavorites().indexOf(hoveredAppIcon.app) < 0 ||
+                (!rtl && (hoveredIndex - 1 >= 0 && currentAppIcons[hoveredIndex - 1].app == currentAppIcons[hoveredIndex].app)) ||
+                (rtl && (hoveredIndex + 1 < currentAppIcons.length && currentAppIcons[hoveredIndex + 1].app == currentAppIcons[hoveredIndex].app))) {
                 this._clearDragPlaceholder();
-                return DND.DragMotionResult.CONTINUE;
-            }
+            } else if (hoveredIndex != this._dragPlaceholderPos) {
+                if (!this._dragPlaceholder) {
+                    this._dragPlaceholder = new Dash.DragPlaceholderItem();
+                    this._dragPlaceholder.show();
+                } else {
+                    this._box.remove_child(this._dragPlaceholder);
+                }
 
-            // If the placeholder already exists, we just move
-            // it, but if we are adding it, expand its size in
-            // an animation
-            let fadeIn;
-            if (this._dragPlaceholder) {
-                this._dragPlaceholder.destroy();
-                fadeIn = false;
-            } else {
-                fadeIn = true;
-            }
+                this._dragPlaceholder.child.set_width(this.iconSize);
+                this._dragPlaceholder.child.set_height(this.iconSize);
 
-            this._dragPlaceholder = new Dash.DragPlaceholderItem();
-            this._dragPlaceholder.child.set_width(this.iconSize);
-            this._dragPlaceholder.child.set_height(this.iconSize);
-            this._box.insert_child_at_index(this._dragPlaceholder,
-                                            this._dragPlaceholderPos);
-            this._dragPlaceholder.show(fadeIn);
-            // Ensure the next and previous icon are visible when moving the placeholder
-            // (I assume there's room for both of them)
-            if (this._dragPlaceholderPos > 1)
-                ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[this._dragPlaceholderPos-1]);
-            if (this._dragPlaceholderPos < this._box.get_children().length-1)
-                ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[this._dragPlaceholderPos+1]);
+                this._box.insert_child_at_index(this._dragPlaceholder, hoveredIndex);
+                this._dragPlaceholderPos = hoveredIndex;
+
+                // Ensure the next and previous icon are visible when moving the placeholder
+                // (I assume there's room for both of them)
+                if (this._dragPlaceholderPos > 1)
+                    ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[this._dragPlaceholderPos-1]);
+                if (this._dragPlaceholderPos < this._box.get_children().length-1)
+                    ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[this._dragPlaceholderPos+1]);
+            }
         }
-
-        // Remove the drag placeholder if we are not in the
-        // "favorites zone"
-        if (pos > numFavorites)
-            this._clearDragPlaceholder();
-
-        if (!this._dragPlaceholder)
-            return DND.DragMotionResult.NO_DROP;
-
-        let srcIsFavorite = (favPos != -1);
-
-        if (srcIsFavorite)
-            return DND.DragMotionResult.MOVE_DROP;
-
-        return DND.DragMotionResult.COPY_DROP;
+        
+        return this._dragPlaceholder ? 
+               DND.DragMotionResult.MOVE_DROP : 
+               DND.DragMotionResult.CONTINUE;
     },
 
     // Draggable target interface
@@ -1041,6 +1000,7 @@ var taskbar = new Lang.Class({
         let id = app.get_id();
 
         let favorites = AppFavorites.getAppFavorites().getFavoriteMap();
+        let seenFavorites = {};
 
         let srcIsFavorite = (id in favorites);
 
@@ -1054,8 +1014,9 @@ var taskbar = new Lang.Class({
             let childId = children[i].child._delegate.app.get_id();
             if (childId == id)
                 continue;
-            if (childId in favorites)
-                favPos++;
+            if (childId in favorites && !seenFavorites[childId]) {
+                seenFavorites[childId] = favPos++;
+            }
         }
 
         // No drag placeholder means we don't wan't to favorite the app
