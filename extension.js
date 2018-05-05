@@ -29,6 +29,7 @@ const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Lang = imports.lang;
 const Shell = imports.gi.Shell;
+const St = imports.gi.St;
 const WindowManager = imports.ui.windowManager;
 const ExtensionUtils = imports.misc.extensionUtils;
 const ExtensionSystem = imports.ui.extensionSystem;
@@ -53,10 +54,14 @@ function enable() {
 }
 
 function _enable() {
-    // Disable Ubuntu Dock
-    if (imports.misc.extensionUtils.extensions[UBUNTU_DOCK_UUID] && 
-        imports.misc.extensionUtils.extensions[UBUNTU_DOCK_UUID].stateObj.dockManager) {
-        imports[UBUNTU_DOCK_UUID].extension.disable();
+    let ubuntuDock = ExtensionUtils.extensions[UBUNTU_DOCK_UUID];
+    
+    if (ubuntuDock && ubuntuDock.stateObj.dockManager) {
+        // Disable Ubuntu Dock
+        St.ThemeContext.get_for_stage(global.stage).get_theme().unload_stylesheet(ubuntuDock.stylesheet);
+        ubuntuDock.stateObj.disable();
+        ubuntuDock.state = ExtensionSystem.ExtensionState.DISABLED;
+        ExtensionSystem.extensionOrder.splice(ExtensionSystem.extensionOrder.indexOf(UBUNTU_DOCK_UUID), 1);
 
         //reset to prevent conflicts with the ubuntu-dock
         if (panel) {
@@ -121,7 +126,7 @@ function disable(reset) {
 
         // Re-enable Ubuntu Dock if it exists
         if (ExtensionUtils.extensions[UBUNTU_DOCK_UUID] && Main.sessionMode.allowExtensions) {
-            imports[UBUNTU_DOCK_UUID].extension.enable();
+            ExtensionSystem.enableExtension(UBUNTU_DOCK_UUID);
         }
     }
 }
