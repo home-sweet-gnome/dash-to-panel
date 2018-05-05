@@ -189,13 +189,16 @@ var dtpOverview = new Lang.Class({
         keys.forEach( function(key) {
             for (let i = 0; i < this._numHotkeys; i++) {
                 let appNum = i;
-                Main.wm.addKeybinding(key + (i + 1), this._dtpSettings,
-                                      Meta.KeyBindingFlags.NONE,
-                                      Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW,
-                                      Lang.bind(this, function() {
-                                          this._activateApp(appNum);
-                                          this._showOverlay();
-                                      }));
+
+                if (!Main.wm._allowedKeybindings[key + (i + 1)]) {
+                    Main.wm.addKeybinding(key + (i + 1), this._dtpSettings,
+                                        Meta.KeyBindingFlags.NONE,
+                                        Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW,
+                                        Lang.bind(this, function() {
+                                            this._activateApp(appNum);
+                                            this._showOverlay();
+                                        }));
+                }
             }
         }, this);
 
@@ -212,8 +215,11 @@ var dtpOverview = new Lang.Class({
         let keys = ['app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-',  // Regular numbers
                     'app-hotkey-kp-', 'app-shift-hotkey-kp-', 'app-ctrl-hotkey-kp-']; // Key-pad numbers
         keys.forEach( function(key) {
-            for (let i = 0; i < this._numHotkeys; i++)
-                Main.wm.removeKeybinding(key + (i + 1));
+            for (let i = 0; i < this._numHotkeys; i++) {
+                if (Main.wm._allowedKeybindings[key + (i + 1)]) {
+                    Main.wm.removeKeybinding(key + (i + 1));
+                }
+            }
         }, this);
 
         this._hotKeysEnabled = false;
@@ -222,7 +228,6 @@ var dtpOverview = new Lang.Class({
     },
 
     _optionalNumberOverlay: function() {
-        this._shortcutIsSet = false;
         // Enable extra shortcut
         if (this._dtpSettings.get_boolean('hot-keys'))
             this._enableExtraShortcut();
@@ -251,7 +256,7 @@ var dtpOverview = new Lang.Class({
     },
 
     _enableExtraShortcut: function() {
-        if (!this._shortcutIsSet) {
+        if (!Main.wm._allowedKeybindings['shortcut']) {
             Main.wm.addKeybinding('shortcut', this._dtpSettings,
                                   Meta.KeyBindingFlags.NONE,
                                   Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW,
@@ -259,14 +264,12 @@ var dtpOverview = new Lang.Class({
                                       this._overlayFromShortcut = true;
                                       this._showOverlay();
                                   }));
-            this._shortcutIsSet = true;
         }
     },
 
     _disableExtraShortcut: function() {
-        if (this._shortcutIsSet) {
+        if (Main.wm._allowedKeybindings['shortcut']) {
             Main.wm.removeKeybinding('shortcut');
-            this._shortcutIsSet = false;
         }
     },
 

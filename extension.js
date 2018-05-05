@@ -46,27 +46,31 @@ function init() {
 }
 
 function enable() {
-    // Disable Ubuntu Dock
-    if (ExtensionUtils.extensions[UBUNTU_DOCK_UUID] && ExtensionUtils.extensions[UBUNTU_DOCK_UUID].state == ExtensionSystem.ExtensionState.ENABLED) {
-        Mainloop.timeout_add(0, () => {
-            ExtensionSystem.disableExtension(UBUNTU_DOCK_UUID);
-            return GLib.SOURCE_REMOVE;
-        });
-    }
     // The Ubuntu Dock extension might get enabled after this extension
-    extensionChangedHandler = ExtensionSystem.connect('extension-state-changed', (evt, extension) => {
-        if (extension.uuid == UBUNTU_DOCK_UUID) {
-            Mainloop.timeout_add(0, () => {
-                if(extension.state == ExtensionSystem.ExtensionState.ENABLED) 
-                    ExtensionSystem.disableExtension(UBUNTU_DOCK_UUID);
-                else if(extension.state == ExtensionSystem.ExtensionState.DISABLED) 
-                    Main.overview._controls.dash.actor.hide(); // ubuntu dock shows this when disabled, hide it again
-                
-                return GLib.SOURCE_REMOVE;
-            });
-        }
-    });
+    extensionChangedHandler = ExtensionSystem.connect('extension-state-changed', _enable);
     
+    _enable();
+}
+
+function _enable() {
+    // Disable Ubuntu Dock
+    if (imports.misc.extensionUtils.extensions[UBUNTU_DOCK_UUID] && 
+        imports.misc.extensionUtils.extensions[UBUNTU_DOCK_UUID].stateObj.dockManager) {
+        imports[UBUNTU_DOCK_UUID].extension.disable();
+
+        //reset to prevent conflicts with the ubuntu-dock
+        if (panel) {
+            disable(true);
+        }
+
+        // ubuntu dock shows this when disabled, hide it again
+        if (Main.overview._controls.dash.actor.visible) {
+            Main.overview._controls.dash.actor.hide();
+        }
+    }
+
+    if (panel) return; //already initialized
+
     settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');  
     panel = new Panel.dtpPanel(settings);
     panel.enable();
@@ -93,7 +97,7 @@ function enable() {
     Main.overview._dash = panel.taskbar;
 }
 
-function disable() {
+function disable(reset) {
     overview.disable();
     panel.disable();
     settings.run_dispose();
@@ -112,12 +116,12 @@ function disable() {
                            Shell.ActionMode.POPUP,
                            Lang.bind(Main.wm, Main.wm._toggleAppMenu));
 
+    if (!reset) {
+        ExtensionSystem.disconnect(extensionChangedHandler);
 
-    // Re-enable Ubuntu Dock if it exists
-    ExtensionSystem.disconnect(extensionChangedHandler);
-    if (ExtensionUtils.extensions[UBUNTU_DOCK_UUID] && Main.sessionMode.allowExtensions) {
-        Mainloop.timeout_add(0, () => {
-            ExtensionSystem.enableExtension(UBUNTU_DOCK_UUID);
-        });
+        // Re-enable Ubuntu Dock if it exists
+        if (ExtensionUtils.extensions[UBUNTU_DOCK_UUID] && Main.sessionMode.allowExtensions) {
+            imports[UBUNTU_DOCK_UUID].extension.enable();
+        }
     }
 }
