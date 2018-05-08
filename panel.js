@@ -394,13 +394,21 @@ var dtpPanel = new Lang.Class({
                 childBox.x1 = 0;
                 childBox.x2 = sideWidth;
             }
+        } else if (taskbarPosition == 'CENTEREDMONITOR' ) {
+            if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
+                childBox.x1 = allocWidth - Math.min(Math.floor(sideWidth), leftNaturalWidth);
+                childBox.x2 = allocWidth;
+            } else {
+                childBox.x1 = 0;
+                childBox.x2 = Math.min(Math.floor(sideWidth), leftNaturalWidth);
+            }
         } else {
             if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
                 childBox.x1 = allocWidth - leftNaturalWidth;
                 childBox.x2 = allocWidth;
             } else {
                 childBox.x1 = 0;
-                childBox.x2 =leftNaturalWidth;
+                childBox.x2 = leftNaturalWidth;
             }
         }
         this.panel._leftBox.allocate(childBox, flags, true);
@@ -413,6 +421,14 @@ var dtpPanel = new Lang.Class({
                 childBox.x2 = childBox.x1 + centerNaturalWidth;
             } else {
                 childBox.x1 = allocWidth - centerNaturalWidth - rightNaturalWidth;
+                childBox.x2 = childBox.x1 + centerNaturalWidth;
+            }
+        } else if (taskbarPosition == 'CENTEREDMONITOR' ) {
+            if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
+                childBox.x1 = Math.ceil(sideWidth);
+                childBox.x2 = childBox.x1 + centerNaturalWidth;
+            } else {
+                childBox.x1 = allocWidth - centerNaturalWidth - Math.ceil(sideWidth);
                 childBox.x2 = childBox.x1 + centerNaturalWidth;
             }
         } else {
