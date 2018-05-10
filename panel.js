@@ -830,6 +830,13 @@ function newUpdateHotCorners() {
             corner.destroy();
     });
     this.hotCorners = [];
+    
+    //ubuntu specific setting to disable the hot corner (Tweak tool > Top Bar > Activities Overview Hot Corner)
+    if (global.settings.list_keys().indexOf('enable-hot-corners') >= 0 && 
+        !global.settings.get_boolean('enable-hot-corners')) {
+        this.emit('hot-corners-changed');
+        return;
+    }
 
     let size = this.panelBox.height;
     let panelPosition = Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
