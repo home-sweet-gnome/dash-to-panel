@@ -40,8 +40,9 @@ var dtpOverview = new Lang.Class({
         this._dtpSettings = settings;
     },
 
-    enable : function(taskbar) {
-        this.taskbar = taskbar;
+    enable : function(panel) {
+        this._panel = panel;
+        this.taskbar = panel.taskbar;
 
         this._injectionsHandler = new Convenience.InjectionsHandler();
         this._signalsHandler = new Convenience.GlobalSignalsHandler();
@@ -261,8 +262,7 @@ var dtpOverview = new Lang.Class({
                                   Meta.KeyBindingFlags.NONE,
                                   Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW,
                                   Lang.bind(this, function() {
-                                      this._overlayFromShortcut = true;
-                                      this._showOverlay();
+                                      this._showOverlay(true);
                                   }));
         }
     },
@@ -273,7 +273,7 @@ var dtpOverview = new Lang.Class({
         }
     },
 
-    _showOverlay: function() {
+    _showOverlay: function(overlayFromShortcut) {
         // Restart the counting if the shortcut is pressed again
         if (this._numberOverlayTimeoutId) {
             Mainloop.source_remove(this._numberOverlayTimeoutId);
@@ -282,23 +282,29 @@ var dtpOverview = new Lang.Class({
 
         let hotkey_option = this._dtpSettings.get_string('hotkeys-overlay-combo');
 
-        // Set to true and exit if the overlay is always visible
-        if (hotkey_option === 'ALWAYS')
+        if (hotkey_option === 'NEVER')
             return;
 
-        if (hotkey_option === 'TEMPORARILY' || this._overlayFromShortcut)
+        if (hotkey_option === 'TEMPORARILY' || overlayFromShortcut)
             this.taskbar.toggleNumberOverlay(true);
 
+        this._panel.intellihide.revealAndHold();
+
         let timeout = this._dtpSettings.get_int('overlay-timeout');
-        if (this._overlayFromShortcut) {
+        
+        if (overlayFromShortcut) {
             timeout = this._dtpSettings.get_int('shortcut-timeout');
-            this._overlayFromShortcut = false;
         }
 
         // Hide the overlay/dock after the timeout
         this._numberOverlayTimeoutId = Mainloop.timeout_add(timeout, Lang.bind(this, function() {
-                this._numberOverlayTimeoutId = 0;
+            this._numberOverlayTimeoutId = 0;
+            
+            if (hotkey_option != 'ALWAYS') {
                 this.taskbar.toggleNumberOverlay(false);
+            }
+            
+            this._panel.intellihide.release();
         }));
     }
 });

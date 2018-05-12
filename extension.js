@@ -80,7 +80,7 @@ function _enable() {
     panel = new Panel.dtpPanel(settings);
     panel.enable();
     overview = new Overview.dtpOverview(settings);
-    overview.enable(panel.taskbar);
+    overview.enable(panel);
     
     Main.wm.removeKeybinding('open-application-menu');
     Main.wm.addKeybinding('open-application-menu',

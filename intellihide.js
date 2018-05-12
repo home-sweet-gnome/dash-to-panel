@@ -59,11 +59,13 @@ var Intellihide = new Lang.Class({
     },
 
     enable: function(reset) {
+        this._enabled = true;
         this._primaryMonitor = Main.layoutManager.primaryMonitor;
         this._focusedWindowInfo = null;
         this._animationDestination = -1;
         this._pendingUpdate = false;
         this._dragging = false;
+        this._currentlyHeld = false;
         this._hoveredOut = false;
         this._panelAtTop = this._dtpSettings.get_string('panel-position') === 'TOP';
 
@@ -95,10 +97,26 @@ var Intellihide = new Lang.Class({
         this._removeRevealMechanism();
 
         this._revealPanel(!reset);
+        
+        this._enabled = false;
     },
 
     destroy: function() {
         this.disable();
+    },
+
+    revealAndHold: function() {
+        if (this._enabled) {
+            this._revealPanel();
+            this._currentlyHeld = true;
+        }
+    },
+
+    release: function() {
+        if (this._enabled) {
+            this._currentlyHeld = false;
+            this._queueUpdatePanelPosition();
+        }
     },
 
     _reset: function() {
@@ -315,7 +333,7 @@ var Intellihide = new Lang.Class({
             //unless this is a mouse interaction or entering/leaving the overview, limit the number
             //of updates, but remember to update again when the limit timeout is reached
             this._pendingUpdate = true;
-        } else {
+        } else if (!this._currentlyHeld) {
             this._checkIfShouldBeVisible(fromRevealMechanism) ? this._revealPanel() : this._hidePanel();
             this._timeoutsHandler.add([T2, MIN_UPDATE_MS, () => this._endLimitUpdate()]);
         }
