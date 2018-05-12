@@ -84,9 +84,11 @@ This extension could be even better with your help! Any items in the issue track
 ## 
 ### Credits
 
-Much of the code in this extension comes from [Dash-to-Dock](https://micheleg.github.io/dash-to-dock/index.html).
+This extension is developed and maintained by [@jderose9](https://github.com/jderose9) and [@charlesg99](https://github.com/charlesg99).
 
-Additional credits: This extension leverages the work for [ZorinOS Taskbar](https://github.com/ZorinOS/zorin-taskbar) used in [ZorinOS](https://zorinos.com/) to allow the dash from [Dash-to-Dock](https://micheleg.github.io/dash-to-dock/index.html) to be embedded in the Gnome main panel.
+Significant portions of code in this extension were derived from [Dash-to-Dock](https://micheleg.github.io/dash-to-dock/index.html).
+
+Additional credits: This extension leverages the work for [ZorinOS Taskbar](https://github.com/ZorinOS/zorin-taskbar) (used in [ZorinOS](https://zorinos.com/)) to show window previews and allow the dash from [Dash-to-Dock](https://micheleg.github.io/dash-to-dock/index.html) to be embedded in the Gnome main panel.
 Code to set anchor position taken from [Thoma5/gnome-shell-extension-bottompanel](https://github.com/Thoma5/gnome-shell-extension-bottompanel).
 Pattern for moving panel contents based on [Frippery Move Clock](http://frippery.org/extensions/) by R M Yorston.
 Ideas for recursing child actors and assigning inline styles are based on code from the extension [StatusAreaHorizontalSpacing](https://bitbucket.org/mathematicalcoffee/status-area-horizontal-spacing-gnome-shell-extension).
@@ -95,7 +97,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 #### Thanks to the following people for contributing via pull requests:
 
 - @franglais125 for launching apps by number (w/ overlay), bug fixes, and issue support
-- @charlesg99 for ungrouping applications/showing window titles, bug fixes, and issue support
+- @charlesg99 for intellihide, ungrouping applications/showing window titles, bug fixes, and issue support
 - @LinxGem33 for artwork, logos, screenshots and design effort
 - @dziku1337 for peek mode in window previews
 - @robrobinbin for configuring appMenu on/off in the panel
@@ -104,7 +106,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @abakkk for centering the taskbar icons in the panel
 
 #### Bug Fixes: 
-@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0
+@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin
 
 #### Translations: 
 @frnogueira (pt_BR), @zeten30 (cs), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru)
