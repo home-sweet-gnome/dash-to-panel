@@ -172,7 +172,7 @@ var dtpPanel = new Lang.Class({
 
         this.startIntellihideId = Mainloop.timeout_add(2000, () => {
             this.startIntellihideId = 0;
-            this._intellihide = new Intellihide.Intellihide(this);
+            this.intellihide = new Intellihide.Intellihide(this);
         });
 
         this._signalsHandler = new Convenience.GlobalSignalsHandler();
@@ -256,7 +256,7 @@ var dtpPanel = new Lang.Class({
             Mainloop.source_remove(this.startIntellihideId);
             this.startIntellihideId = 0;
         } else {
-            this._intellihide.destroy();
+            this.intellihide.destroy();
         }
 
         // reset stored icon size  to the default dash
