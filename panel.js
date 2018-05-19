@@ -143,7 +143,7 @@ var dtpPanel = new Lang.Class({
         });
 
         this._panelConnectId = this.panel.actor.connect('allocate', Lang.bind(this, function(actor,box,flags){this._allocate(actor,box,flags);}));
-        this.container.remove_child(this.appMenu.container);
+        this.panel._leftBox.remove_child(this.appMenu.container);
         this.taskbar = new Taskbar.taskbar(this._dtpSettings);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
@@ -248,7 +248,7 @@ var dtpPanel = new Lang.Class({
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
         this._setAppmenuVisible(false);
-        this.container.add_child(this.appMenu.container);
+        this.panel._leftBox.add_child(this.appMenu.container);
         this.taskbar.destroy();
         this.panel.actor.disconnect(this._panelConnectId);
 
@@ -514,20 +514,16 @@ var dtpPanel = new Lang.Class({
     },
     
     _setAppmenuVisible: function(isVisible) {
-        if (this._dtpSettings.get_string('taskbar-position') == 'LEFTPANEL') {
-            let centerBox = this.panel._centerBox;
-            if (isVisible && centerBox.get_children().indexOf(this.appMenu.container) == -1) {
-                centerBox.insert_child_at_index(this.appMenu.container, 0);
-            } else if (!isVisible && centerBox.get_children().indexOf(this.appMenu.container) != -1) {
-                centerBox.remove_child(this.appMenu.container);
-            }
-        } else {
-            let leftBox = this.panel._leftBox;
-            if (isVisible && leftBox.get_children().indexOf(this.appMenu.container) == -1) {
-                leftBox.insert_child_above(this.appMenu.container, null);
-            } else if (!isVisible && leftBox.get_children().indexOf(this.appMenu.container) != -1) {
-                leftBox.remove_child(this.appMenu.container);
-            }
+        let parent = this.appMenu.container.get_parent();
+
+        if (parent) {
+            parent.remove_child(this.appMenu.container);
+        }
+
+        if (isVisible && this._dtpSettings.get_string('taskbar-position') == 'LEFTPANEL') {
+            this.panel._centerBox.insert_child_at_index(this.appMenu.container, 0);
+        } else if (isVisible) {
+            this.panel._leftBox.insert_child_above(this.appMenu.container, null);
         }
     },
 
