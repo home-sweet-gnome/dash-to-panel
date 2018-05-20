@@ -208,6 +208,11 @@ var dtpPanel = new Lang.Class({
                 Lang.bind(this, function() {
                     this._setClockLocation(this._dtpSettings.get_string('location-clock'));
                 })
+            ],
+            [
+                this.panel._centerBox,
+                'actor-added',
+                () => this._setClockLocation(this._dtpSettings.get_string('location-clock'))
             ]
         );
 
@@ -528,21 +533,34 @@ var dtpPanel = new Lang.Class({
     },
 
     _setClockLocation: function(loc) {
-        let centerBox = this.panel._centerBox;
-        let rightBox = this.panel._rightBox;
         let dateMenu = this.panel.statusArea.dateMenu;
-        let statusMenu = this.panel.statusArea.aggregateMenu;
+        let parent = dateMenu.container.get_parent();
 
-        if(loc == "NATURAL") {
-            // only move the clock back if it's in the right box
-            if ( rightBox.get_children().indexOf(dateMenu.container) != -1 ) {
-                rightBox.remove_actor(dateMenu.container);
+        if (!parent) {
+            return;
+        }
+
+        if (loc.indexOf("NATURAL") == 0) {
+            let centerBox = this.panel._centerBox;
+
+            // if clock isn't in center box, add it there
+            if (parent != centerBox) {
+                parent.remove_actor(dateMenu.container);
                 centerBox.add_actor(dateMenu.container);
             }
+
+            if (loc == 'NATURALRIGHT') {
+                centerBox.set_child_above_sibling(dateMenu.container, null);
+            } else {
+                centerBox.set_child_at_index(dateMenu.container, 0);
+            }
         } else {
-            // if clock is in left box, remove it and add to right
-            if ( centerBox.get_children().indexOf(dateMenu.container) != -1 ) {
-                centerBox.remove_actor(dateMenu.container);
+            let rightBox = this.panel._rightBox;
+            let statusMenu = this.panel.statusArea.aggregateMenu;
+            
+            // if clock isn't in right box, add it there
+            if (parent != rightBox) {
+                parent.remove_actor(dateMenu.container);
                 rightBox.insert_child_at_index(dateMenu.container, 0);
             }
 

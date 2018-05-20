@@ -3308,7 +3308,8 @@
                             <property name="can_focus">False</property>
                             <property name="valign">center</property>
                             <items>
-                              <item id="NATURAL" translatable="yes">Natural</item>
+                              <item id="NATURAL" translatable="yes">Natural - left</item>
+                              <item id="NATURALRIGHT" translatable="yes">Natural - right</item>
                               <item id="STATUSLEFT" translatable="yes">Left of status menu</item>
                               <item id="STATUSRIGHT" translatable="yes">Right of status menu</item>
                             </items>
