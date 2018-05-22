@@ -21,6 +21,7 @@
     <value value='0' nick='NATURAL'/>
     <value value='1' nick='STATUSLEFT'/>
     <value value='2' nick='STATUSRIGHT'/>
+    <value value='3' nick='NATURALRIGHT'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.taskbarPosition'>
     <value value='0' nick='LEFTPANEL'/>
