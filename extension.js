@@ -56,7 +56,7 @@ function enable() {
 function _enable() {
     let ubuntuDock = ExtensionUtils.extensions[UBUNTU_DOCK_UUID];
     
-    if (ubuntuDock && ubuntuDock.stateObj.dockManager) {
+    if (ubuntuDock && ubuntuDock.stateObj && ubuntuDock.stateObj.dockManager) {
         // Disable Ubuntu Dock
         St.ThemeContext.get_for_stage(global.stage).get_theme().unload_stylesheet(ubuntuDock.stylesheet);
         ubuntuDock.stateObj.disable();
