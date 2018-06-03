@@ -147,7 +147,7 @@ var dtpPanel = new Lang.Class({
         this.taskbar = new Taskbar.taskbar(this._dtpSettings);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
-        this.container.insert_child_at_index( this.taskbar.actor, 2 );
+        this.container.insert_child_at_index( this.taskbar.actor, 0 );
         
         this._oldLeftBoxStyle = this.panel._leftBox.get_style();
         this._oldCenterBoxStyle = this.panel._centerBox.get_style();
@@ -285,7 +285,7 @@ var dtpPanel = new Lang.Class({
         Main.overview._overview.remove_child(this._myPanelGhost);
         Main.overview._panelGhost.set_height(this._oldPanelHeight);
         this._setActivitiesButtonVisible(true);
-        this._setClockLocation("NATURAL");
+        this._setClockLocation("BUTTONSLEFT");
         this._displayShowDesktopButton(false);
 
         if (this.panel._updateSolidStyle) {
@@ -555,51 +555,37 @@ var dtpPanel = new Lang.Class({
     },
 
     _setClockLocation: function(loc) {
-        let dateMenu = this.panel.statusArea.dateMenu;
-        let parent = dateMenu.container.get_parent();
+        let dateMenuContainer = this.panel.statusArea.dateMenu.container;
+        let parent = dateMenuContainer.get_parent();
+        let destination;
+        let leftSibling = null;
 
         if (!parent) {
             return;
         }
 
-        if (loc.indexOf("NATURAL") == 0) {
-            let centerBox = this.panel._centerBox;
+        if (loc.indexOf('BUTTONS') == 0) {
+            destination = this.panel._centerBox;
+        } else if (loc.indexOf('STATUS') == 0) {
+            leftSibling = this.panel.statusArea.aggregateMenu.container;
+            destination = this.panel._rightBox;
+        } else { //TASKBAR
+            leftSibling = this.taskbar.actor;
+            destination = leftSibling.get_parent();
+        }
 
-            // if clock isn't in center box, add it there
-            if (parent != centerBox) {
-                parent.remove_actor(dateMenu.container);
-                centerBox.add_actor(dateMenu.container);
-            }
+        if (parent != destination) {
+            parent.remove_actor(dateMenuContainer);
+            destination.add_actor(dateMenuContainer);
+        }
 
-            if (loc == 'NATURALRIGHT') {
-                centerBox.set_child_above_sibling(dateMenu.container, null);
-            } else {
-                centerBox.set_child_at_index(dateMenu.container, 0);
-            }
+        if (loc.indexOf('RIGHT') > 0) {
+            destination.set_child_above_sibling(dateMenuContainer, leftSibling);
         } else {
-            let rightBox = this.panel._rightBox;
-            let statusMenu = this.panel.statusArea.aggregateMenu;
-            
-            // if clock isn't in right box, add it there
-            if (parent != rightBox) {
-                parent.remove_actor(dateMenu.container);
-                rightBox.insert_child_at_index(dateMenu.container, 0);
-            }
-
-            // then, move to its new location
-            switch(loc) {
-                case "STATUSLEFT":
-                    if(statusMenu)
-                        rightBox.set_child_below_sibling(dateMenu.container, statusMenu.container);
-                    break;
-                case "STATUSRIGHT":
-                    if(statusMenu)
-                        rightBox.set_child_above_sibling(dateMenu.container, statusMenu.container);
-                    break;
-                default:
-                    break;
-            }
-
+            destination.set_child_at_index(
+                dateMenuContainer, 
+                leftSibling != this.taskbar.actor && destination.get_children()[0] == this.taskbar.actor ? 1 : 0
+            );
         }
     },
 

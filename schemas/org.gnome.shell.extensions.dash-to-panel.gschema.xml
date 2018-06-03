@@ -18,10 +18,12 @@
     <value value='5' nick='QUIT'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.statusAreaPosition'>
-    <value value='0' nick='NATURAL'/>
+    <value value='0' nick='BUTTONSLEFT'/>
     <value value='1' nick='STATUSLEFT'/>
     <value value='2' nick='STATUSRIGHT'/>
-    <value value='3' nick='NATURALRIGHT'/>
+    <value value='3' nick='BUTTONSRIGHT'/>
+    <value value='4' nick='TASKBARLEFT'/>
+    <value value='5' nick='TASKBARRIGHT'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.taskbarPosition'>
     <value value='0' nick='LEFTPANEL'/>

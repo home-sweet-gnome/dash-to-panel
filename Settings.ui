@@ -3308,10 +3308,12 @@
                             <property name="can_focus">False</property>
                             <property name="valign">center</property>
                             <items>
-                              <item id="NATURAL" translatable="yes">Natural - left</item>
-                              <item id="NATURALRIGHT" translatable="yes">Natural - right</item>
+                              <item id="BUTTONSLEFT" translatable="yes">Left of panel buttons</item>
+                              <item id="BUTTONSRIGHT" translatable="yes">Right of panel buttons</item>
                               <item id="STATUSLEFT" translatable="yes">Left of status menu</item>
                               <item id="STATUSRIGHT" translatable="yes">Right of status menu</item>
+                              <item id="TASKBARLEFT" translatable="yes">Left of taskbar</item>
+                              <item id="TASKBARRIGHT" translatable="yes">Right of taskbar</item>
                             </items>
                           </object>
                           <packing>
