@@ -279,6 +279,7 @@ var dtpPanel = new Lang.Class({
         if(this._ScaleFactorListener !== null) {
             St.ThemeContext.get_for_stage(global.stage).disconnect(this._ScaleFactorListener);
         }
+        this._removeTopLimit();
         this.panel.actor.set_height(this._oldPanelHeight);
         this.panelBox.set_anchor_point(0, 0);
         Main.overview._overview.remove_child(this._myPanelGhost);
@@ -478,6 +479,7 @@ var dtpPanel = new Lang.Class({
     _setPanelPosition: function() {
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         let size = this._dtpSettings.get_int('panel-size');
+        
         if(scaleFactor)
             size = size*scaleFactor;
 
@@ -491,6 +493,8 @@ var dtpPanel = new Lang.Class({
 
         if(isTop) {
             this.panelBox.set_anchor_point(0, 0);
+
+            this._removeTopLimit();
             
             // styles for theming
             if(this.panel.actor.has_style_class_name('dashtopanelBottom'))
@@ -499,7 +503,17 @@ var dtpPanel = new Lang.Class({
             if(!this.panel.actor.has_style_class_name('dashtopanelTop'))
                 this.panel.actor.add_style_class_name('dashtopanelTop');
         } else {
-            this.panelBox.set_anchor_point(0,(-1)*(Main.layoutManager.primaryMonitor.height-this.panelBox.height));
+            let primaryMonitor = Main.layoutManager.primaryMonitor;
+
+            this.panelBox.set_anchor_point(0,(-1)*(primaryMonitor.height-this.panelBox.height));
+
+            if (!this._topLimit) {
+                this._topLimit = new St.BoxLayout({ name: 'topLimit', vertical: true });
+                Main.layoutManager.addChrome(this._topLimit, { affectsStruts: true, trackFullscreen: true });
+            }
+
+            this._topLimit.set_position(primaryMonitor.x, primaryMonitor.y);
+            this._topLimit.set_size(primaryMonitor.width, -1);
 
             // styles for theming
             if(this.panel.actor.has_style_class_name('dashtopanelTop'))
@@ -510,6 +524,13 @@ var dtpPanel = new Lang.Class({
         }
 
         Main.layoutManager._updateHotCorners();
+    },
+
+    _removeTopLimit: function() {
+        if (this._topLimit) {
+            Main.layoutManager.removeChrome(this._topLimit);
+            this._topLimit = null;
+        }
     },
 
     _setActivitiesButtonVisible: function(isVisible) {
