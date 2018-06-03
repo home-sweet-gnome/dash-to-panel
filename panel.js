@@ -956,10 +956,11 @@ function newUpdatePanelBarrier() {
         return;
 
     if (this.panelBox.height) {
+        let barrierHeight = Math.min(10, this.panelBox.height); 
         let primary = this.primaryMonitor;
         let isTop = Main.layoutManager.panelBox.anchor_y == 0;
-        let y1 = isTop ? primary.y : primary.y + primary.height - this.panelBox.height;
-        let y2 = isTop ? primary.y + this.panelBox.height : primary.y + primary.height;
+        let y1 = isTop ? primary.y : primary.y + primary.height - barrierHeight;
+        let y2 = isTop ? primary.y + barrierHeight : primary.y + primary.height;
 
         this._rightPanelBarrier = new Meta.Barrier({ display: global.display,
                                                      x1: primary.x + primary.width, y1: y1,
