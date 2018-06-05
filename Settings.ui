@@ -4885,7 +4885,7 @@
         </child>
         <child>
           <object class="GtkLinkButton" id="homepage_link">
-            <property name="label" translatable="yes">Github</property>
+            <property name="label" translatable="yes">GitHub</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
