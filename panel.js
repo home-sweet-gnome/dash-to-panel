@@ -524,6 +524,7 @@ var dtpPanel = new Lang.Class({
         }
 
         Main.layoutManager._updateHotCorners();
+        Main.layoutManager._updatePanelBarrier();
     },
 
     _removeTopLimit: function() {
@@ -949,5 +950,21 @@ function newUpdatePanelBarrier() {
     if (this._rightPanelBarrier) {
         this._rightPanelBarrier.destroy();
         this._rightPanelBarrier = null;
+    }
+
+    if (!this.primaryMonitor)
+        return;
+
+    if (this.panelBox.height) {
+        let barrierHeight = Math.min(10, this.panelBox.height); 
+        let primary = this.primaryMonitor;
+        let isTop = Main.layoutManager.panelBox.anchor_y == 0;
+        let y1 = isTop ? primary.y : primary.y + primary.height - barrierHeight;
+        let y2 = isTop ? primary.y + barrierHeight : primary.y + primary.height;
+
+        this._rightPanelBarrier = new Meta.Barrier({ display: global.display,
+                                                     x1: primary.x + primary.width, y1: y1,
+                                                     x2: primary.x + primary.width, y2: y2,
+                                                     directions: Meta.BarrierDirection.NEGATIVE_X });
     }
 }
