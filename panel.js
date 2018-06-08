@@ -147,7 +147,7 @@ var dtpPanel = new Lang.Class({
         this.taskbar = new Taskbar.taskbar(this._dtpSettings);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
-        this.container.insert_child_at_index( this.taskbar.actor, 0 );
+        this.container.insert_child_at_index( this.taskbar.actor, 2 );
         
         this._oldLeftBoxStyle = this.panel._leftBox.get_style();
         this._oldCenterBoxStyle = this.panel._centerBox.get_style();
@@ -558,7 +558,7 @@ var dtpPanel = new Lang.Class({
         let dateMenuContainer = this.panel.statusArea.dateMenu.container;
         let parent = dateMenuContainer.get_parent();
         let destination;
-        let leftSibling = null;
+        let refSibling = null;
 
         if (!parent) {
             return;
@@ -567,11 +567,11 @@ var dtpPanel = new Lang.Class({
         if (loc.indexOf('BUTTONS') == 0) {
             destination = this.panel._centerBox;
         } else if (loc.indexOf('STATUS') == 0) {
-            leftSibling = this.panel.statusArea.aggregateMenu.container;
+            refSibling = this.panel.statusArea.aggregateMenu.container;
             destination = this.panel._rightBox;
         } else { //TASKBAR
-            leftSibling = this.taskbar.actor;
-            destination = leftSibling.get_parent();
+            refSibling = this.taskbar.actor;
+            destination = refSibling.get_parent();
         }
 
         if (parent != destination) {
@@ -579,14 +579,7 @@ var dtpPanel = new Lang.Class({
             destination.add_actor(dateMenuContainer);
         }
 
-        if (loc.indexOf('RIGHT') > 0) {
-            destination.set_child_above_sibling(dateMenuContainer, leftSibling);
-        } else {
-            destination.set_child_at_index(
-                dateMenuContainer, 
-                leftSibling != this.taskbar.actor && destination.get_children()[0] == this.taskbar.actor ? 1 : 0
-            );
-        }
+        destination['set_child_' + (loc.indexOf('RIGHT') > 0 ? 'above' : 'below') + '_sibling'](dateMenuContainer, refSibling);
     },
 
     _displayShowDesktopButton: function (isVisible) {

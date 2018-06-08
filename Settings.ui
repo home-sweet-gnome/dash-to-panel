@@ -3308,10 +3308,10 @@
                             <property name="can_focus">False</property>
                             <property name="valign">center</property>
                             <items>
-                              <item id="BUTTONSLEFT" translatable="yes">Left of panel buttons</item>
-                              <item id="BUTTONSRIGHT" translatable="yes">Right of panel buttons</item>
-                              <item id="STATUSLEFT" translatable="yes">Left of status menu</item>
-                              <item id="STATUSRIGHT" translatable="yes">Right of status menu</item>
+                              <item id="BUTTONSLEFT" translatable="yes">Left of plugin icons</item>
+                              <item id="BUTTONSRIGHT" translatable="yes">Right of plugin icons</item>
+                              <item id="STATUSLEFT" translatable="yes">Left of system indicators</item>
+                              <item id="STATUSRIGHT" translatable="yes">Right of system indicators</item>
                               <item id="TASKBARLEFT" translatable="yes">Left of taskbar</item>
                               <item id="TASKBARRIGHT" translatable="yes">Right of taskbar</item>
                             </items>
