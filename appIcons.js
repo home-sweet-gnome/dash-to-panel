@@ -33,6 +33,7 @@ const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const Mainloop = imports.mainloop;
 
+const Config = imports.misc.config;
 const AppDisplay = imports.ui.appDisplay;
 const AppFavorites = imports.ui.appFavorites;
 const Dash = imports.ui.dash;
@@ -1436,7 +1437,7 @@ function extendShowAppsIcon(showAppsIcon, settings) {
     let customIconPath = settings.get_string('show-apps-icon-file');
 
     showAppsIcon.icon.createIcon = function(size) {
-        this._iconActor = new St.Icon({ icon_name: 'view-app-grid-symbolic',
+        this._iconActor = new St.Icon({ icon_name: 'view' + (Config.PACKAGE_VERSION > '3.18' ? '-app' : '') + '-grid-symbolic',
                                         icon_size: size,
                                         style_class: 'show-apps-icon',
                                         track_hover: true });
