@@ -1437,7 +1437,7 @@ function extendShowAppsIcon(showAppsIcon, settings) {
     let customIconPath = settings.get_string('show-apps-icon-file');
 
     showAppsIcon.icon.createIcon = function(size) {
-        this._iconActor = new St.Icon({ icon_name: 'view' + (Config.PACKAGE_VERSION > '3.18' ? '-app' : '') + '-grid-symbolic',
+        this._iconActor = new St.Icon({ icon_name: 'view' + (Config.PACKAGE_VERSION < '3.20' ? '' : '-app') + '-grid-symbolic',
                                         icon_size: size,
                                         style_class: 'show-apps-icon',
                                         track_hover: true });
