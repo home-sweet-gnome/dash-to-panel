@@ -428,12 +428,12 @@ var thumbnailPreviewMenu = new Lang.Class({
 
         //Save the visible windows in each workspace and lower their opacity
 	    this._peekModeSavedWorkspaces = [];
-        this._peekModeOriginalWorkspace = global.screen.get_active_workspace();
+        this._peekModeOriginalWorkspace = global.workspace_manager.get_active_workspace();
 	    this._peekModeCurrentWorkspace = this._peekModeOriginalWorkspace;
         
-        for ( let wks=0; wks<global.screen.n_workspaces; ++wks ) {
+        for ( let wks=0; wks<global.workspace_manager.n_workspaces; ++wks ) {
             // construct a list with all windows
-            let metaWorkspace = global.screen.get_workspace_by_index(wks);
+            let metaWorkspace = global.workspace_manager.get_workspace_by_index(wks);
             let windows = metaWorkspace.list_windows(); 
             this._peekModeSavedWorkspaces.push([]);
             windows.forEach(Lang.bind(this, function(window) {
