@@ -1038,6 +1038,55 @@
               </object>
             </child>
             <child>
+              <object class="GtkListBoxRow" id="listbox_group_apps_label_font_weight">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_group_apps_label_font_weight">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">12</property>
+                    <property name="margin_right">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkLabel" id="group_apps_label_font_weight_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Font weight of application titles</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBoxText" id="group_apps_label_font_weight_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">center</property>
+                        <items>
+                          <item id="inherit" translatable="yes">inherit from theme</item>
+                          <item id="normal" translatable="yes">normal</item>
+                          <item id="lighter" translatable="yes">lighter</item>
+                          <item id="bold" translatable="yes">bold</item>
+                          <item id="bolder" translatable="yes">bolder</item>
+                        </items>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                        <property name="height">2</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
               <object class="GtkListBoxRow" id="listbox_group_apps_label_font_color">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
