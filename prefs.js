@@ -811,6 +811,11 @@ const Settings = new Lang.Class({
                 this._settings.set_int('group-apps-label-font-size', widget.get_value());
             }));
 
+            this._builder.get_object('group_apps_label_font_weight_combo').set_active_id(this._settings.get_string('group-apps-label-font-weight'));
+            this._builder.get_object('group_apps_label_font_weight_combo').connect('changed', Lang.bind (this, function(widget) {
+                this._settings.set_string('group-apps-label-font-weight', widget.get_active_id());
+            }));
+
             (function() {
                 let rgba = new Gdk.RGBA();
                 rgba.parse(this._settings.get_string('group-apps-label-font-color'));
@@ -827,6 +832,9 @@ const Settings = new Lang.Class({
                     // restore default settings
                     this._settings.set_value('group-apps-label-font-size', this._settings.get_default_value('group-apps-label-font-size'));
                     this._builder.get_object('group_apps_label_font_size_spinbutton').set_value(this._settings.get_int('group-apps-label-font-size'));
+
+                    this._settings.set_value('group-apps-label-font-weight', this._settings.get_default_value('group-apps-label-font-weight'));
+                    this._builder.get_object('group_apps_label_font_weight_combo').set_active_id(this._settings.get_string('group-apps-label-font-weight'));
 
                     this._settings.set_value('group-apps-label-font-color', this._settings.get_default_value('group-apps-label-font-color'));
                     let rgba = new Gdk.RGBA();

@@ -54,6 +54,13 @@
     <value value='1' nick='FOCUSED_WINDOWS'/>
     <value value='2' nick='MAXIMIZED_WINDOWS'/>
   </enum>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.fontWeight'>
+    <value value='0' nick='inherit'/>
+    <value value='1' nick='normal'/>
+    <value value='2' nick='lighter'/>
+    <value value='3' nick='bold'/>
+    <value value='4' nick='bolder'/>
+  </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
     <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.panelPosition">
       <default>'BOTTOM'</default>
@@ -294,6 +301,11 @@
       <default>14</default>
       <summary>Application title font size</summary>
       <description>When the applications are ungrouped, this defines the application titles font size.</description>
+    </key>
+    <key name="group-apps-label-font-weight" enum="org.gnome.shell.extensions.dash-to-panel.fontWeight">
+      <default>'inherit'</default>
+      <summary>Font weight of application titles</summary>
+      <description>When the applications are ungrouped, this defines font weight of application titles. Supported values: inherit (from theme), normal, lighter, bold and bolder.</description>
     </key>
     <key type="s" name="group-apps-label-font-color">
       <default>"#dddddd"</default>
