@@ -107,10 +107,12 @@ var dtpPanel = new Lang.Class({
         Main.overview._overview.add_actor(this._myPanelGhost);
         
         this._setPanelPosition();
-        this._MonitorsChangedListener = global.screen.connect("monitors-changed", Lang.bind(this, function(){
+        let monitorManager = Meta.MonitorManager.get();
+        this._MonitorsChangedListener = monitorManager.connect('monitors-changed', Lang.bind(this, function() {
             this._setPanelPosition();
             this.taskbar.resetAppIcons();
         }));
+
         this._HeightNotifyListener = this.panelBox.connect("notify::height", Lang.bind(this, function(){
             this._setPanelPosition();
         }));
@@ -274,7 +276,7 @@ var dtpPanel = new Lang.Class({
             this.panelBox.disconnect(this._HeightNotifyListener);
         }
         if(this._MonitorsChangedListener !== null) {
-            global.screen.disconnect(this._MonitorsChangedListener);
+            global.display.disconnect(this._MonitorsChangedListener);
         }
         if(this._ScaleFactorListener !== null) {
             St.ThemeContext.get_for_stage(global.stage).disconnect(this._ScaleFactorListener);
@@ -630,7 +632,7 @@ var dtpPanel = new Lang.Class({
         }
 
         if(this._restoreWindowList && this._restoreWindowList.length) {
-            let current_workspace = global.screen.get_active_workspace();
+            let current_workspace = global.workspace_manager.get_active_workspace();
             let windows = current_workspace.list_windows();
             this._restoreWindowList.forEach(function(w) {
                 if(windows.indexOf(w) > -1)
@@ -640,7 +642,7 @@ var dtpPanel = new Lang.Class({
 
             Main.overview.hide();
         } else {
-            let current_workspace = global.screen.get_active_workspace();
+            let current_workspace = global.workspace_manager.get_active_workspace();
             let windows = current_workspace.list_windows().filter(function (w) {
                 return w.showing_on_its_workspace() && !w.skip_taskbar;
             });
@@ -679,7 +681,7 @@ var dtpPanel = new Lang.Class({
             return;
 
         /* Get all the windows in the active workspace that are in the primary monitor and visible */
-        let activeWorkspace = global.screen.get_active_workspace();
+        let activeWorkspace = global.workspace_manger.get_active_workspace();
         let windows = activeWorkspace.list_windows().filter(function(metaWindow) {
             return metaWindow.is_on_primary_monitor() &&
                    metaWindow.showing_on_its_workspace() &&
