@@ -21,7 +21,7 @@
  */
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
+const Utils = Me.imports.utils;
 const Lang = imports.lang;
 const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
@@ -44,8 +44,8 @@ var dtpOverview = new Lang.Class({
         this._panel = panel;
         this.taskbar = panel.taskbar;
 
-        this._injectionsHandler = new Convenience.InjectionsHandler();
-        this._signalsHandler = new Convenience.GlobalSignalsHandler();
+        this._injectionsHandler = new Utils.InjectionsHandler();
+        this._signalsHandler = new Utils.GlobalSignalsHandler();
 
         // Hide usual Dash
         Main.overview._controls.dash.actor.hide();

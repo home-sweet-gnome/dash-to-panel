@@ -27,7 +27,7 @@ const PointerWatcher = imports.ui.pointerWatcher;
 const Tweener = imports.ui.tweener;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
+const Utils = Me.imports.utils;
 
 //timeout intervals
 const CHECK_POINTER_MS = 200;
@@ -48,8 +48,8 @@ var Intellihide = new Lang.Class({
         this._dtpSettings = dtpPanel._dtpSettings;
         this._panelBox = dtpPanel.panelBox;
         
-        this._signalsHandler = new Convenience.GlobalSignalsHandler();
-        this._timeoutsHandler = new Convenience.TimeoutsHandler();
+        this._signalsHandler = new Utils.GlobalSignalsHandler();
+        this._timeoutsHandler = new Utils.TimeoutsHandler();
 
         this._dtpSettings.connect('changed::intellihide', Lang.bind(this, this._changeEnabledStatus));
 

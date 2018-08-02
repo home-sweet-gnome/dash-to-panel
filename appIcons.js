@@ -47,7 +47,7 @@ const Util = imports.misc.util;
 const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
+const Utils = Me.imports.utils;
 const WindowPreview = Me.imports.windowPreview;
 const Taskbar = Me.imports.taskbar;
 
@@ -222,7 +222,7 @@ var taskbarAppIcon = new Lang.Class({
 
         this._numberOverlay();
 
-        this._signalsHandler = new Convenience.GlobalSignalsHandler();
+        this._signalsHandler = new Utils.GlobalSignalsHandler();
     },
 
     _createWindowPreview: function() {

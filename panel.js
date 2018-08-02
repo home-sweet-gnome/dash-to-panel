@@ -30,7 +30,7 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Clutter = imports.gi.Clutter;
 const Gtk = imports.gi.Gtk;
-const Convenience = Me.imports.convenience;
+const Utils = Me.imports.utils;
 const Taskbar = Me.imports.taskbar;
 const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
@@ -175,7 +175,7 @@ var dtpPanel = new Lang.Class({
             this.intellihide = new Intellihide.Intellihide(this);
         });
 
-        this._signalsHandler = new Convenience.GlobalSignalsHandler();
+        this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._signalsHandler.add(
             // Keep dragged icon consistent in size with this dash
             [
@@ -234,7 +234,7 @@ var dtpPanel = new Lang.Class({
 
         // Dynamic transparency is available on Gnome 3.26
         if (this.panel._updateSolidStyle) {
-            this._injectionsHandler = new Convenience.InjectionsHandler();
+            this._injectionsHandler = new Utils.InjectionsHandler();
             this.panel._dtpPosition = this._dtpSettings.get_string('panel-position');
             this.panel._dtpRemoveSolidStyleId = 0;
             this._injectionsHandler.addWithLabel('transparency', [

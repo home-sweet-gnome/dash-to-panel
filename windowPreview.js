@@ -41,7 +41,6 @@ const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Taskbar = Me.imports.taskbar;
-const Convenience = Me.imports.convenience;
 const AppIcons = Me.imports.appIcons;
 
 let HOVER_APP_BLACKLIST = [
