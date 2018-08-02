@@ -458,7 +458,7 @@ var taskbar = new Lang.Class({
     _connectWorkspaceSignals: function() {
         this._disconnectWorkspaceSignals();
 
-        this._lastWorkspace = global.screen.get_active_workspace();
+        this._lastWorkspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
 
         this._workspaceWindowAddedId = this._lastWorkspace.connect('window-added', () => this._queueRedisplay());
         this._workspaceWindowRemovedId = this._lastWorkspace.connect('window-removed', () => this._queueRedisplay());

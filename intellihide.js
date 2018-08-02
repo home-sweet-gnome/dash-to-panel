@@ -146,7 +146,7 @@ var Intellihide = new Lang.Class({
                 () => this._reset()
             ],
             [
-                global.screen,
+                Utils.DisplayWrapper.getScreen(),
                 'restacked',
                 () => this._queueUpdatePanelPosition()
             ],
@@ -315,7 +315,7 @@ var Intellihide = new Lang.Class({
 
     _checkIfHandledWindow: function(metaWindow) {
         return metaWindow && !metaWindow.minimized &&
-               metaWindow.get_workspace().index() == global.screen.get_active_workspace_index() &&
+               metaWindow.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index() &&
                metaWindow.get_monitor() == Main.layoutManager.primaryIndex &&
                this._checkIfHandledWindowType(metaWindow);
     },

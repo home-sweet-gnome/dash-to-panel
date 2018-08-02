@@ -42,6 +42,7 @@ const Workspace = imports.ui.workspace;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Taskbar = Me.imports.taskbar;
 const AppIcons = Me.imports.appIcons;
+const Utils = Me.imports.utils;
 
 let HOVER_APP_BLACKLIST = [
                            "Oracle VM VirtualBox",
@@ -418,6 +419,8 @@ var thumbnailPreviewMenu = new Lang.Class({
     },
 
     _enterPeekMode: function(thumbnail) {
+        let workspaceManager = Utils.DisplayWrapper.getWorkspaceManager();
+
         this._peekMode = true;
         //Remove the enter peek mode timeout
         if(this._peekModeEnterTimeoutId) {
@@ -427,12 +430,12 @@ var thumbnailPreviewMenu = new Lang.Class({
 
         //Save the visible windows in each workspace and lower their opacity
 	    this._peekModeSavedWorkspaces = [];
-        this._peekModeOriginalWorkspace = global.screen.get_active_workspace();
+        this._peekModeOriginalWorkspace = workspaceManager.get_active_workspace();
 	    this._peekModeCurrentWorkspace = this._peekModeOriginalWorkspace;
         
-        for ( let wks=0; wks<global.screen.n_workspaces; ++wks ) {
+        for ( let wks=0; wks<workspaceManager.n_workspaces; ++wks ) {
             // construct a list with all windows
-            let metaWorkspace = global.screen.get_workspace_by_index(wks);
+            let metaWorkspace = workspaceManager.get_workspace_by_index(wks);
             let windows = metaWorkspace.list_windows(); 
             this._peekModeSavedWorkspaces.push([]);
             windows.forEach(Lang.bind(this, function(window) {

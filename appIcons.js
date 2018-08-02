@@ -1071,7 +1071,7 @@ var taskbarAppIcon = new Lang.Class({
 function minimizeWindow(app, param, settings){
     // Param true make all app windows minimize
     let windows = getInterestingWindows(app, settings);
-    let current_workspace = global.screen.get_active_workspace();
+    let current_workspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
     for (let i = 0; i < windows.length; i++) {
         let w = windows[i];
         if (w.get_workspace() == current_workspace && w.showing_on_its_workspace()){
@@ -1095,7 +1095,7 @@ function activateAllWindows(app, settings){
     let windows = getInterestingWindows(app, settings);
     let w = windows[0];
     Main.activateWindow(w);
-    let activeWorkspace = global.screen.get_active_workspace_index();
+    let activeWorkspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index();
 
     if (windows.length <= 0)
         return;
@@ -1182,7 +1182,7 @@ function getInterestingWindows(app, settings) {
     // that are not in the current workspace
     if (settings.get_boolean('isolate-workspaces'))
         windows = windows.filter(function(w) {
-            return w.get_workspace().index() == global.screen.get_active_workspace_index();
+            return w.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index();
         });
 
     return windows;
