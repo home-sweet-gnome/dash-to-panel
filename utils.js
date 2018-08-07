@@ -23,6 +23,7 @@
 
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
+const Meta = imports.gi.Meta;
 
 // simplify global signals and function injections handling
 // abstract class
