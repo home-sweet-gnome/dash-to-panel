@@ -285,19 +285,30 @@ var Intellihide = new Lang.Class({
         let focusedWindow = global.display.focus_window;
 
         if (focusedWindow) {
-            let window = (focusedWindow.is_attached_dialog() ? 
-                          focusedWindow.get_transient_for() : 
-                          focusedWindow).get_compositor_private();
-            let metaWindow = window.get_meta_window();
+            let focusedWindowInfo = this._getFocusedWindowInfo(focusedWindow);
 
-            if (this._checkIfHandledWindowType(metaWindow)) {
-                this._focusedWindowInfo = {
-                    window: window,
-                    metaWindow: metaWindow,
-                    id: window.connect('allocation-changed', () => this._queueUpdatePanelPosition())
-                };
+            if (this._checkIfHandledWindowType(focusedWindowInfo.metaWindow)) {
+                focusedWindowInfo.id = focusedWindowInfo.window.connect('allocation-changed', () => this._queueUpdatePanelPosition())
+                this._focusedWindowInfo = focusedWindowInfo;
             }
         }
+    },
+
+    _getFocusedWindowInfo: function(focusedWindow) {
+        let focusedWindowInfo = { window: focusedWindow.get_compositor_private() };
+        
+        focusedWindowInfo.metaWindow = focusedWindowInfo.window.get_meta_window();
+
+        if (focusedWindow.is_attached_dialog()) {
+            let mainMetaWindow = focusedWindow.get_transient_for();
+
+            if (focusedWindowInfo.metaWindow.get_frame_rect().height < mainMetaWindow.get_frame_rect().height) {
+                focusedWindowInfo.window = mainMetaWindow.get_compositor_private();
+                focusedWindowInfo.metaWindow = mainMetaWindow;
+            }
+        }
+
+        return focusedWindowInfo;
     },
 
     _disconnectFocusedWindow: function() {
