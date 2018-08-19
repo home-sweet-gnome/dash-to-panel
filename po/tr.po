@@ -1,0 +1,342 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-25 11:55+0100\n"
+"PO-Revision-Date: 2017-12-04 18:43+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.4\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Last-Translator: Cihan Alkan <cihanalk@gmail.com>\n"
+"Language: uk\n"
+
+msgid "0"
+msgstr "0"
+
+msgid "1 window open"
+msgstr "1 pencere açık"
+
+msgid "2 windows open"
+msgstr "2 pencere açık"
+
+msgid "3 windows open"
+msgstr "3 pencere açık"
+
+msgid "4+ windows open"
+msgstr "4+ pencere açık"
+
+msgid "<i>Show Details</i> menu item"
+msgstr "Ayrıntıları Göster <i>menu item</i>"
+
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU General Public License, version 2 or later</a> for details.</span>"
+
+msgid "About"
+msgstr "Hakkında"
+
+msgid "Advanced Options"
+msgstr "Gelişmiş Ayarlar"
+
+msgid "Advanced hotkeys options"
+msgstr "Gelişmiş kısayol ayarları"
+
+msgid "Animate <i>Show Applications</i>."
+msgstr "Animate  <i>Uygulamaları Göster</i>."
+
+msgid "Animate launching new windows"
+msgstr "Yeni pencereleri başlatma animasyonu"
+
+msgid "Animate switching applications"
+msgstr "Animate switching applications"
+
+msgid ""
+"App Icon Margin\n"
+"(default is 8)"
+msgstr ""
+"App Icon Margin\n"
+"(Varsayılan 8)"
+
+msgid "App icon secondary (right-click) menu"
+msgstr "App icon secondary (sağ-tık) menu"
+
+msgid "Apply to all"
+msgstr "Tümüne uygula"
+
+msgid "Behavior"
+msgstr "Behavior"
+
+msgid "Behavior for Middle-Click."
+msgstr "Behavior for Middle-Click."
+
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Behavior for Shift+Middle-Click."
+
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr "Çalışan bir uygulamanın simgesini tıkladığınızda davranış."
+
+msgid "Bottom"
+msgstr "Altta"
+
+msgid "Ciliora"
+msgstr "Ciliora"
+
+msgid "Click action"
+msgstr "Tıklama eylemi"
+
+msgid "Clock location"
+msgstr "Saatin Yeri"
+
+msgid "Color - Override Theme"
+msgstr ""
+
+msgid "Customize middle-click behavior"
+msgstr ""
+
+msgid "Cycle through windows"
+msgstr ""
+
+msgid "Cycle windows + minimize"
+msgstr ""
+
+msgid "Dash to Panel Settings"
+msgstr "Dash Panel Ayarları"
+
+msgid "Dashes"
+msgstr ""
+
+msgid "Dots"
+msgstr ""
+
+msgid ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
+"together with Shift and Ctrl."
+msgstr ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
+"together with Shift and Ctrl."
+
+msgid "Fine-Tune"
+msgstr "Fine-Tune"
+
+msgid "Github"
+msgstr "GitHub"
+
+msgid "Height (px)"
+msgstr "Height (px)"
+
+msgid "Hide timeout (ms)"
+msgstr "Hide timeout (ms)"
+
+msgid "Highlight focused application"
+msgstr "Highlight focused application"
+
+msgid "Hotkeys prefix"
+msgstr ""
+
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr ""
+
+msgid ""
+"If set too low, the window preview of running applications may seem to close "
+"too quickly when trying to enter the popup. If set too high, the preview may "
+"linger too long when moving to an adjacent icon."
+msgstr ""
+"If set too low, the window preview of running applications may seem to close "
+"too quickly when trying to enter the popup. If set too high, the preview may "
+"linger too long when moving to an adjacent icon."
+
+msgid "Integrate <i>AppMenu</i> items"
+msgstr ""
+
+msgid "Isolate Workspaces"
+msgstr ""
+
+msgid "Launch new instance"
+msgstr "Yeni örneği başlat"
+
+msgid "Left of status menu"
+msgstr "Durum menüsünün solu"
+
+msgid ""
+"LeftBox Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"LeftBox Font Size\n"
+"(0 = theme default)"
+
+msgid ""
+"LeftBox Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"LeftBox Padding\n"
+"(-1 = theme default)"
+
+msgid "Metro"
+msgstr "Metro"
+
+msgid "Middle-Click action"
+msgstr ""
+
+msgid "Minimize window"
+msgstr "Pencereyi küçült"
+
+msgid "Natural"
+msgstr "Doğal"
+
+msgid "New Window"
+msgstr "Yeni Pencere"
+
+msgid "Number overlay"
+msgstr ""
+
+msgid ""
+"Panel Size\n"
+"(default is 48)"
+msgstr ""
+"Panel Boyutu\n"
+"(varsayılan 48)"
+
+msgid "Panel screen position"
+msgstr "Panel ekran konumu"
+
+msgid "Position and Style"
+msgstr "Konum ve tarz"
+
+msgid "Preview timeout on icon leave (ms)"
+msgstr "Simge izninde zaman aşımını önizle (ms)"
+
+msgid "Quit"
+msgstr "Çıkış"
+
+msgid "Raise window"
+msgstr "Pencere kaldır"
+
+msgid "Reset to defaults"
+msgstr "Varsayılana dön"
+
+msgid "Restore Windows"
+msgstr "Pencereleri onar"
+
+msgid "Right of status menu"
+msgstr "Durum menüsünün sağı"
+
+msgid "Running Indicator Options"
+msgstr "Çalışan Gösterge Seçenekleri"
+
+msgid "Running indicator position"
+msgstr "Çalışma göstergesi pozisyonu"
+
+msgid "Running indicator style (Focused app)"
+msgstr "Çalışan gösterge stili (Odaklanmış uygulama)"
+
+msgid "Running indicator style (Unfocused apps)"
+msgstr "Çalışan gösterge stili (Odaklanmamış uygulamalar)"
+
+msgid "Secondary Menu Options"
+msgstr "İkinci Menü Ayarları"
+
+msgid "Segmented"
+msgstr ""
+
+msgid "Shift+Click action"
+msgstr ""
+
+msgid "Shift+Middle-Click action"
+msgstr ""
+
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr "Bindirmeyi 2 saniye gösterecek kısayol"
+
+msgid "Show <i>Activities</i> button"
+msgstr ""
+
+msgid "Show <i>AppMenu</i> button"
+msgstr ""
+
+msgid "Show <i>Applications</i> icon"
+msgstr "<i>Uygulamalar</i> simgesini göster"
+
+msgid "Show <i>Desktop</i> button"
+msgstr "<i>Desktop</i> buttonunu göster"
+
+msgid "Show Desktop"
+msgstr "Masaüstünü Göster"
+
+msgid "Show Details"
+msgstr "Ayrıntıları Göster"
+
+msgid "Show window previews on hover"
+msgstr "Vurguluda pencere önizlemelerini göster"
+
+msgid "Solid"
+msgstr "Katı"
+
+msgid "Squares"
+msgstr "Kareler"
+
+msgid ""
+"Status Icon Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Status Icon Padding\n"
+"(-1 = theme default)"
+
+msgid "Super"
+msgstr "Super"
+
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+msgstr "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+
+msgid ""
+"Temporarily show the application numbers over the icons when using the "
+"hotkeys."
+msgstr ""
+"Kısayol tuşlarını kullanırken uygulama numaralarını simgeler üzerinde geçici olarak gösterin."
+
+msgid "Time (ms) before showing (100 is default)"
+msgstr "Gösterilmeden önce süre (ms) (100 varsayılan)"
+
+msgid "Top"
+msgstr "Üstte"
+
+msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
+msgstr ""
+
+msgid ""
+"Tray Font Size\n"
+"(0 = theme default)"
+msgstr ""
+
+msgid ""
+"Tray Item Padding\n"
+"(-1 = theme default)"
+msgstr ""
+
+msgid "Use different for unfocused"
+msgstr "Odaklanmamış için farklı kullanın"
+
+msgid "Use hotkeys to activate apps"
+msgstr "Uygulamaları etkinleştirmek için kısayol tuşlarını kullanın"
+
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr "Panele indir ayarlandığında, çift tıklama, uygulamanın tüm pencerelerini panele indirir."
+
+msgid "Windows"
+msgstr "Pencere"
+
+msgid "version: "
+msgstr "sürüm:"
