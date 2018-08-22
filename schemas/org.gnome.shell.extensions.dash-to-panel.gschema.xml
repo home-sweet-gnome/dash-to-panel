@@ -29,6 +29,8 @@
     <value value='0' nick='LEFTPANEL'/>
     <value value='1' nick='CENTEREDMONITOR'/>
     <value value='2' nick='CENTEREDCONTENT'/>
+    <value value='3' nick='LEFTPANEL_FIXEDCENTER'/>
+    <value value='4' nick='LEFTPANEL_FLOATCENTER'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix'>
     <value value='0' nick='Super'/>
