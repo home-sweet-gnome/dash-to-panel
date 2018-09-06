@@ -104,6 +104,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @MartinPL for toggling favorites on/off in panel
 - @jackwickham for thumbnail middle and right click actions
 - @abakkk for centering the taskbar icons in the panel
+- @quasoft for changing of font weight of ungrouped application titles
 
 #### Bug Fixes: 
 @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin
