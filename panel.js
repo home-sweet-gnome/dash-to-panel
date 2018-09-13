@@ -36,7 +36,9 @@ const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
+const CtrlAltTab = imports.ui.ctrlAltTab;
 const Layout = imports.ui.layout;
+const Panel = imports.ui.panel;
 const St = imports.gi.St;
 const GLib = imports.gi.GLib;
 const Meta = imports.gi.Meta;
@@ -51,22 +53,23 @@ const Intellihide = Me.imports.intellihide;
 
 let tracker = Shell.WindowTracker.get_default();
 
-var dtpPanel = new Lang.Class({
-    Name: 'DashToPanel.Panel',
+var dtpPanelWrapper = new Lang.Class({
+    Name: 'DashToPanel.PanelWrapper',
 
-    _init: function(settings) {
+    _init: function(settings, monitor, panel, panelBox) {
         this._dtpSettings = settings;
         this.panelStyle = new PanelStyle.dtpPanelStyle(settings);
-	//rebuild panel when taskar-position change
+	    //rebuild panel when taskar-position change
         this._dtpSettings.connect('changed::taskbar-position', Lang.bind(this, function() {
             this.disable();
             this.enable();
         }));
+        this.monitor = monitor;
+        this.panel = panel;
+        this.panelBox = panelBox;
     },
 
     enable : function() {
-        this.panel = Main.panel;
-        
         let taskbarPosition = this._dtpSettings.get_string('taskbar-position');
         if (taskbarPosition == 'CENTEREDCONTENT' || taskbarPosition == 'CENTEREDMONITOR') {
             this.container = this.panel._centerBox;
@@ -74,7 +77,6 @@ var dtpPanel = new Lang.Class({
             this.container = this.panel._leftBox;
         }
         this.appMenu = this.panel.statusArea.appMenu;
-        this.panelBox = Main.layoutManager.panelBox;
         
         this._oldPopupOpen = PopupMenu.PopupMenu.prototype.open;
         PopupMenu.PopupMenu.prototype.open = newPopupOpen;
@@ -144,8 +146,9 @@ var dtpPanel = new Lang.Class({
         });
 
         this._panelConnectId = this.panel.actor.connect('allocate', Lang.bind(this, function(actor,box,flags){this._allocate(actor,box,flags);}));
-        this.panel._leftBox.remove_child(this.appMenu.container);
-        this.taskbar = new Taskbar.taskbar(this._dtpSettings);
+        if(this.appMenu)
+            this.panel._leftBox.remove_child(this.appMenu.container);
+        this.taskbar = new Taskbar.taskbar(this._dtpSettings, this.panel);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
         this.container.insert_child_at_index( this.taskbar.actor, 2 );
@@ -254,7 +257,8 @@ var dtpPanel = new Lang.Class({
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
         this._setAppmenuVisible(false);
-        this.panel._leftBox.add_child(this.appMenu.container);
+        if(this.appMenu)
+            this.panel._leftBox.add_child(this.appMenu.container);
         this.taskbar.destroy();
         this.panel.actor.disconnect(this._panelConnectId);
 
@@ -490,17 +494,15 @@ var dtpPanel = new Lang.Class({
             if(!this.panel.actor.has_style_class_name('dashtopanelTop'))
                 this.panel.actor.add_style_class_name('dashtopanelTop');
         } else {
-            let primaryMonitor = Main.layoutManager.primaryMonitor;
-
-            this.panelBox.set_anchor_point(0,(-1)*(primaryMonitor.height-this.panelBox.height));
+            this.panelBox.set_anchor_point(0,(-1)*(this.monitor.height-this.panelBox.height));
 
             if (!this._topLimit) {
                 this._topLimit = new St.BoxLayout({ name: 'topLimit', vertical: true });
                 Main.layoutManager.addChrome(this._topLimit, { affectsStruts: true, trackFullscreen: true });
             }
 
-            this._topLimit.set_position(primaryMonitor.x, primaryMonitor.y);
-            this._topLimit.set_size(primaryMonitor.width, -1);
+            this._topLimit.set_position(this.monitor.x, this.monitor.y);
+            this._topLimit.set_size(this.monitor.width, -1);
 
             // styles for theming
             if(this.panel.actor.has_style_class_name('dashtopanelTop'))
@@ -528,13 +530,15 @@ var dtpPanel = new Lang.Class({
     },
     
     _setAppmenuVisible: function(isVisible) {
-        let parent = this.appMenu.container.get_parent();
+        let parent;
+        if(this.appMenu)
+            parent = this.appMenu.container.get_parent();
 
         if (parent) {
             parent.remove_child(this.appMenu.container);
         }
 
-        if (isVisible) {
+        if (isVisible && this.appMenu) {
             let taskbarPosition = this._dtpSettings.get_string('taskbar-position');
             if (taskbarPosition == 'CENTEREDCONTENT' || taskbarPosition == 'CENTEREDMONITOR') {
                 this.panel._leftBox.insert_child_above(this.appMenu.container, null);
@@ -545,6 +549,9 @@ var dtpPanel = new Lang.Class({
     },
 
     _setClockLocation: function(loc) {
+        if(!this.panel.statusArea.dateMenu)
+            return;
+
         let dateMenuContainer = this.panel.statusArea.dateMenu.container;
         let parent = dateMenuContainer.get_parent();
         let destination;
@@ -937,3 +944,97 @@ function newUpdatePanelBarrier() {
                                                      directions: Meta.BarrierDirection.NEGATIVE_X });
     }
 }
+
+var dtpSecondaryPanelBoxWrapper = new Lang.Class({
+    Name: 'DashToPanel.SecondaryPanelBox',
+
+    _init: function (monitor) {
+		this._rightPanelBarrier = null;
+	
+        this.panelBox = new St.BoxLayout({ name: 'panelBox', vertical: true });
+        
+        Main.layoutManager.addChrome(this.panelBox, { affectsStruts: true, trackFullscreen: true });
+        this.panelBox.set_position(monitor.x, monitor.y);
+        this.panelBox.set_size(monitor.width, -1);
+        Main.uiGroup.set_child_below_sibling(this.panelBox, Main.layoutManager.panelBox);
+        
+        this._panelBoxChangedId = this.panelBox.connect('allocation-changed', Lang.bind(this, this._panelBoxChanged));
+        
+        this.panel = new dtpSecondaryPanel();
+        this.panelBox.add(this.panel.actor);
+	},
+	
+	destroy: function () {
+		if (this._rightPanelBarrier) {
+	        this._rightPanelBarrier.destroy();
+	        this._rightPanelBarrier = null;
+	    }
+	
+		this.panelBox.disconnect(this._panelBoxChangedId);
+		this.panelBox.destroy();
+	},
+	
+	updatePanel: function(monitor) {
+	    this.panelBox.set_position(monitor.x, monitor.y);
+	    this.panelBox.set_size(monitor.width, -1);
+	},
+
+	_panelBoxChanged: function(self, box, flags) {
+	    if (this._rightPanelBarrier) {
+	        this._rightPanelBarrier.destroy();
+	        this._rightPanelBarrier = null;
+	    }
+	    
+	    if (this.panelBox.height) {
+	    	this._rightPanelBarrier = new Meta.Barrier({ display: global.display,
+	    									x1: box.get_x() + box.get_width(), y1: box.get_y(),
+								            x2: box.get_x() + box.get_width(), y2: box.get_y() + this.panelBox.height,
+								            directions: Meta.BarrierDirection.NEGATIVE_X });
+	    }
+	},
+});
+
+var dtpSecondaryPanel = new Lang.Class({
+    Name: 'DashToPanel.SecondaryPanel',
+    Extends: Panel.Panel,
+
+    _init : function(monitorIndex, panelBox) {
+        this.monitorIndex = monitorIndex;
+        this.panelBox = panelBox;
+   	
+        this.actor = new Shell.GenericContainer({ name: 'panel', reactive: true });
+        this.actor._delegate = this;
+
+        this._sessionStyle = null;
+
+        this.statusArea = {};
+
+        this.menuManager = new PopupMenu.PopupMenuManager(this);
+
+        this._leftBox = new St.BoxLayout({ name: 'panelLeft' });
+        this.actor.add_actor(this._leftBox);
+        this._centerBox = new St.BoxLayout({ name: 'panelCenter' });
+        this.actor.add_actor(this._centerBox);
+        this._rightBox = new St.BoxLayout({ name: 'panelRight' });
+        this.actor.add_actor(this._rightBox);
+
+        this._leftCorner = new Panel.PanelCorner(St.Side.LEFT);
+        this.actor.add_actor(this._leftCorner.actor);
+
+        this._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
+        this.actor.add_actor(this._rightCorner.actor);
+
+        this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
+       
+        Main.ctrlAltTabManager.addGroup(this.actor, _("Top Bar")+" "+this.monitorIndex, 'focus-top-bar-symbolic',
+                                        { sortGroup: CtrlAltTab.SortGroup.TOP });
+
+    },
+    
+    _onDestroy: function(actor) {
+	    Main.ctrlAltTabManager.removeGroup(this.actor);
+	    
+        this.actor._delegate = null;
+    },
+  
+});

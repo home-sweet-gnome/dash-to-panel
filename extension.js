@@ -20,7 +20,7 @@
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
-const Panel = Me.imports.panel;
+const PanelManager = Me.imports.panelManager;
 const Overview = Me.imports.overview;
 
 const Main = imports.ui.main;
@@ -37,7 +37,7 @@ const Mainloop = imports.mainloop;
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
-let panel;
+let panelManager;
 let overview;
 let settings;
 let oldDash;
@@ -64,7 +64,7 @@ function _enable() {
         ExtensionSystem.extensionOrder.splice(ExtensionSystem.extensionOrder.indexOf(UBUNTU_DOCK_UUID), 1);
 
         //reset to prevent conflicts with the ubuntu-dock
-        if (panel) {
+        if (panelManager) {
             disable(true);
         }
 
@@ -74,13 +74,13 @@ function _enable() {
         }
     }
 
-    if (panel) return; //already initialized
+    if (panelManager) return; //already initialized
 
     settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');  
-    panel = new Panel.dtpPanel(settings);
-    panel.enable();
+    panelManager = new PanelManager.dtpPanelManager(settings);
+    panelManager.enable();
     overview = new Overview.dtpOverview(settings);
-    overview.enable(panel);
+    overview.enable(panelManager.primaryPanel);
     
     Main.wm.removeKeybinding('open-application-menu');
     Main.wm.addKeybinding('open-application-menu',
@@ -92,26 +92,26 @@ function _enable() {
             if(settings.get_boolean('show-appmenu'))
                 Main.wm._toggleAppMenu();
             else
-                panel.taskbar.popupFocusedAppSecondaryMenu();
+                panelManager.primaryPanel.taskbar.popupFocusedAppSecondaryMenu();
         })
     );
 
     // Pretend I'm the dash: meant to make appgrd swarm animation come from the
     // right position of the appShowButton.
     oldDash  = Main.overview._dash;
-    Main.overview._dash = panel.taskbar;
+    Main.overview._dash = panelManager.primaryPanel.taskbar;
 }
 
 function disable(reset) {
     overview.disable();
-    panel.disable();
+    panelManager.disable();
     settings.run_dispose();
     Main.overview._dash = oldDash;
 
     oldDash=null;
     settings = null;
     overview = null;
-    panel = null;
+    panelManager = null;
     
     Main.wm.removeKeybinding('open-application-menu');
     Main.wm.addKeybinding('open-application-menu',

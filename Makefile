@@ -2,7 +2,7 @@
 
 UUID = dash-to-panel@jderose9.github.com
 BASE_MODULES = extension.js stylesheet.css metadata.json COPYING README.md
-EXTRA_MODULES = appIcons.js convenience.js panel.js intellihide.js panelStyle.js overview.js taskbar.js windowPreview.js prefs.js utils.js Settings.ui
+EXTRA_MODULES = appIcons.js convenience.js panel.js panelManager.js intellihide.js panelStyle.js overview.js taskbar.js windowPreview.js prefs.js utils.js Settings.ui
 EXTRA_IMAGES = highlight_stacked_bg.svg
 TOLOCALIZE =  prefs.js appIcons.js
 MSGSRC = $(wildcard po/*.po)

@@ -175,8 +175,9 @@ var taskbarActor = new Lang.Class({
 var taskbar = new Lang.Class({
     Name: 'DashToPanel.Taskbar',
 
-    _init : function(settings) {
+    _init : function(settings, panel) {
         this._dtpSettings = settings;
+        this.panel = panel;
         
         // start at smallest size due to running indicator drawing area expanding but not shrinking
         this.iconSize = 16;
@@ -250,12 +251,12 @@ var taskbar = new Lang.Class({
 
         this._signalsHandler.add(
             [
-                Main.panel.actor,
+                this.panel.actor,
                 'notify::height',
                 () => this._queueRedisplay()
             ],
             [
-                Main.panel.actor,
+                this.panel.actor,
                 'notify::width',
                 () => this._queueRedisplay()
             ],
@@ -497,6 +498,7 @@ var taskbar = new Lang.Class({
                 window: window,
                 isLauncher: isLauncher
             },
+            this.panel,
             { 
                 setSizeManually: true,
                 showLabel: false 
@@ -689,7 +691,7 @@ var taskbar = new Lang.Class({
 
         // Getting the panel height and making sure that the icon padding is at
         // least the size of the app running indicator on both the top and bottom.
-        let availSize = (Main.panel.actor.get_height() - 
+        let availSize = (this.panel.actor.get_height() - 
                          (this._dtpSettings.get_int('dot-size') * scaleFactor * 2) - 
                          (this._dtpSettings.get_int('appicon-padding') * 2)) / scaleFactor;
         

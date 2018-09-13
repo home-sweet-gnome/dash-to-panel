@@ -96,10 +96,11 @@ var taskbarAppIcon = new Lang.Class({
     Name: 'DashToPanel.TaskbarAppIcon',
     Extends: AppDisplay.AppIcon,
 
-    _init: function(settings, appInfo, iconParams, onActivateOverride) {
+    _init: function(settings, appInfo, panel, iconParams, onActivateOverride) {
 
         // a prefix is required to avoid conflicting with the parent class variable
         this._dtpSettings = settings;
+        this.panel = panel;
         this._nWindows = 0;
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
@@ -514,7 +515,7 @@ var taskbarAppIcon = new Lang.Class({
 
     _setAppIconPadding: function() {
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        let availSize = Main.panel.actor.get_height() - this._dtpSettings.get_int('dot-size') * scaleFactor * 2;
+        let availSize = this.panel.actor.get_height() - this._dtpSettings.get_int('dot-size') * scaleFactor * 2;
         let padding = this._dtpSettings.get_int('appicon-padding'); 
         let margin = this._dtpSettings.get_int('appicon-margin');
 
