@@ -233,7 +233,7 @@ msgstr "Скрывать только при наложении окон"
 
 #: Settings.ui.h:34
 msgid "The panel hides from"
-msgstr "Скриывать панель с"
+msgstr "Скрывать панель с"
 
 #: Settings.ui.h:35
 msgid "All windows"
