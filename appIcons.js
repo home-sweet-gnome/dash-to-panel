@@ -1337,7 +1337,7 @@ var taskbarSecondaryMenu = new Lang.Class({
 Signals.addSignalMethods(taskbarSecondaryMenu.prototype);
 
 /**
- * This function is used for both extendShowAppsIcon and extendDashItemContainer
+ * This function is used for extendDashItemContainer
  */
 function ItemShowLabel()  {
     if (!this._labelText)
@@ -1394,101 +1394,106 @@ function ItemShowLabel()  {
       });
 };
 
-
 /**
- * Extend ShowAppsIcon
+ * A wrapper class around the ShowAppsIcon class.
  *
  * - Pass settings to the constructor
- * - set label position based on dash orientation
- * - implement a popupMenu based on the AppIcon code
+ * - set label position based on dash orientation (Note, I am reusing most machinery of the appIcon class)
+ * - implement a popupMenu based on the AppIcon code (Note, I am reusing most machinery of the appIcon class)
  *
- *  I can't subclass the original object because of this: https://bugzilla.gnome.org/show_bug.cgi?id=688973.
- *  thus use this ugly pattern.
+ * I can't subclass the original object because of this: https://bugzilla.gnome.org/show_bug.cgi?id=688973.
+ * thus use this pattern where the real showAppsIcon object is encaptulated, and a reference to it will be properly wired upon
+ * use of this class in place of the original showAppsButton.
+ *
  */
-function extendShowAppsIcon(showAppsIcon, settings) {
-    showAppsIcon._dtpSettings = settings;
-    /* the variable equivalent to toggleButton has a different name in the appIcon class
-     (actor): duplicate reference to easily reuse appIcon methods */
-    showAppsIcon.actor =  showAppsIcon.toggleButton;
+var ShowAppsIconWrapper = new Lang.Class({
+    Name: 'DashToDock.ShowAppsIconWrapper',
 
-    // Re-use appIcon methods
-    showAppsIcon._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
-    showAppsIcon._setPopupTimeout = AppDisplay.AppIcon.prototype._setPopupTimeout;
-    showAppsIcon._onButtonPress = AppDisplay.AppIcon.prototype._onButtonPress;
-    showAppsIcon._onKeyboardPopupMenu = AppDisplay.AppIcon.prototype._onKeyboardPopupMenu;
-    showAppsIcon._onLeaveEvent = AppDisplay.AppIcon.prototype._onLeaveEvent;
-    showAppsIcon._onTouchEvent = AppDisplay.AppIcon.prototype._onTouchEvent;
-    showAppsIcon._onMenuPoppedDown = AppDisplay.AppIcon.prototype._onMenuPoppedDown;
+    _init: function(settings) {
+        this._dtpSettings = settings;
+        this.realShowAppsIcon = new Dash.ShowAppsIcon();
 
+        /* the variable equivalent to toggleButton has a different name in the appIcon class
+        (actor): duplicate reference to easily reuse appIcon methods */
+        this.actor = this.realShowAppsIcon.toggleButton;
 
-    // No action on clicked (showing of the appsview is controlled elsewhere)
-    showAppsIcon._onClicked = function(actor, button) {
-        showAppsIcon._removeMenuTimeout();
-    };
+        // Re-use appIcon methods
+        this._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
+        this._setPopupTimeout = AppDisplay.AppIcon.prototype._setPopupTimeout;
+        this._onButtonPress = AppDisplay.AppIcon.prototype._onButtonPress;
+        this._onKeyboardPopupMenu = AppDisplay.AppIcon.prototype._onKeyboardPopupMenu;
+        this._onLeaveEvent = AppDisplay.AppIcon.prototype._onLeaveEvent;
+        this._onTouchEvent = AppDisplay.AppIcon.prototype._onTouchEvent;
+        this._onMenuPoppedDown = AppDisplay.AppIcon.prototype._onMenuPoppedDown;
 
-    showAppsIcon.actor.connect('leave-event', Lang.bind(showAppsIcon, showAppsIcon._onLeaveEvent));
-    showAppsIcon.actor.connect('button-press-event', Lang.bind(showAppsIcon, showAppsIcon._onButtonPress));
-    showAppsIcon.actor.connect('touch-event', Lang.bind(showAppsIcon, showAppsIcon._onTouchEvent));
-    showAppsIcon.actor.connect('clicked', Lang.bind(showAppsIcon, showAppsIcon._onClicked));
-    showAppsIcon.actor.connect('popup-menu', Lang.bind(showAppsIcon, showAppsIcon._onKeyboardPopupMenu));
+        // No action on clicked (showing of the appsview is controlled elsewhere)
+        this._onClicked = Lang.bind(this, function(actor, button) {
+            this._removeMenuTimeout();
+        });
 
-    showAppsIcon._menu = null;
-    showAppsIcon._menuManager = new PopupMenu.PopupMenuManager(showAppsIcon);
-    showAppsIcon._menuTimeoutId = 0;
+        this.actor.connect('leave-event', Lang.bind(this, this._onLeaveEvent));
+        this.actor.connect('button-press-event', Lang.bind(this, this._onButtonPress));
+        this.actor.connect('touch-event', Lang.bind(this, this._onTouchEvent));
+        this.actor.connect('clicked', Lang.bind(this, this._onClicked));
+        this.actor.connect('popup-menu', Lang.bind(this, this._onKeyboardPopupMenu));
 
-    showAppsIcon.showLabel = ItemShowLabel;
+        this._menu = null;
+        this._menuManager = new PopupMenu.PopupMenuManager(this);
+        this._menuTimeoutId = 0;
 
-    let customIconPath = settings.get_string('show-apps-icon-file');
+        this.showLabel = ItemShowLabel;
 
-    showAppsIcon.icon.createIcon = function(size) {
-        this._iconActor = new St.Icon({ icon_name: 'view' + (Config.PACKAGE_VERSION < '3.20' ? '' : '-app') + '-grid-symbolic',
-                                        icon_size: size,
-                                        style_class: 'show-apps-icon',
-                                        track_hover: true });
+        let customIconPath = this._dtpSettings.get_string('show-apps-icon-file');
 
-        if (customIconPath) {
-            this._iconActor.gicon = new Gio.FileIcon({ file: Gio.File.new_for_path(customIconPath) });
-        }
-        
-        return this._iconActor;
-    };
+        this.realShowAppsIcon.icon.createIcon = function(size) {
+            this._iconActor = new St.Icon({ icon_name: 'view' + (Config.PACKAGE_VERSION < '3.20' ? '' : '-app') + '-grid-symbolic',
+                                            icon_size: size,
+                                            style_class: 'show-apps-icon',
+                                            track_hover: true });
 
-    settings.connect('changed::show-apps-icon-file', () => {
-        customIconPath = settings.get_string('show-apps-icon-file');
-        showAppsIcon.icon._createIconTexture(showAppsIcon.icon.iconSize);
-    });
+            if (customIconPath) {
+                this._iconActor.gicon = new Gio.FileIcon({ file: Gio.File.new_for_path(customIconPath) });
+            }
+            
+            return this._iconActor;
+        };
 
-    showAppsIcon.popupMenu = function() {
-        showAppsIcon._removeMenuTimeout();
-        showAppsIcon.actor.fake_release();
+        this._dtpSettings.connect('changed::show-apps-icon-file', () => {
+            customIconPath = this._dtpSettings.get_string('show-apps-icon-file');
+            this.realShowAppsIcon.icon._createIconTexture(this.realShowAppsIcon.icon.iconSize);
+        });
+    },
 
-        if (!showAppsIcon._menu) {
-            showAppsIcon._menu = new MyShowAppsIconMenu(showAppsIcon, showAppsIcon._dtpSettings);
-            showAppsIcon._menu.connect('open-state-changed', Lang.bind(showAppsIcon, function(menu, isPoppedUp) {
+    popupMenu: function() {
+        this._removeMenuTimeout();
+        this.actor.fake_release();
+
+        if (!this._menu) {
+            this._menu = new MyShowAppsIconMenu(this, this._dtpSettings);
+            this._menu.connect('open-state-changed', Lang.bind(this, function(menu, isPoppedUp) {
                 if (!isPoppedUp)
-                    showAppsIcon._onMenuPoppedDown();
+                    this._onMenuPoppedDown();
             }));
-            let id = Main.overview.connect('hiding', Lang.bind(showAppsIcon, function() {
-                showAppsIcon._menu.close();
+            let id = Main.overview.connect('hiding', Lang.bind(this, function() {
+                this._menu.close();
             }));
-            showAppsIcon._menu.actor.connect('destroy', function() {
+            this._menu.actor.connect('destroy', function() {
                 Main.overview.disconnect(id);
             });
-            showAppsIcon._menuManager.addMenu(showAppsIcon._menu);
+            this._menuManager.addMenu(this._menu);
         }
 
-        showAppsIcon.emit('menu-state-changed', true);
+        //this.emit('menu-state-changed', true);
 
-        showAppsIcon.actor.set_hover(true);
-        showAppsIcon._menu.popup();
-        showAppsIcon._menuManager.ignoreRelease();
-        showAppsIcon.emit('sync-tooltip');
+        this.actor.set_hover(true);
+        this._menu.popup();
+        this._menuManager.ignoreRelease();
+        this.emit('sync-tooltip');
 
         return false;
-    };
-
-    Signals.addSignalMethods(showAppsIcon);
-}
+    }
+});
+Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
 
 /**
  * A menu for the showAppsIcon
