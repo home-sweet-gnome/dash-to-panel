@@ -309,7 +309,7 @@ msgid ""
 "window peeking mode."
 msgstr ""
 "Bir pencere önizleme üzerinde vurgulama sırasında etkinlik dışı zaman girmek için gerekli "
-"pencere göz atma modu
+"pencere göz atma modu"
 
 #: Settings.ui.h:51
 msgid "Window peeking mode opacity"
