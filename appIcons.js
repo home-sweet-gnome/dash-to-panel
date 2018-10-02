@@ -701,7 +701,7 @@ var taskbarAppIcon = new Lang.Class({
                 this.icon.actor.get_theme_node().get_border_image());
     },
 
-    activate: function(button) {
+    activate: function(button, handleAsGrouped) {
         if (this.windowPreview)
             this.windowPreview.requestCloseMenu();
 
@@ -746,7 +746,7 @@ var taskbarAppIcon = new Lang.Class({
 
         // We customize the action only when the application is already running
         if (appIsRunning && !this.isLauncher) {
-            if (this.window) {
+            if (this.window && !handleAsGrouped) {
                 //ungrouped applications behaviors
                 switch (buttonAction) {
                     case 'RAISE': case 'CYCLE': case 'CYCLE-MIN': case 'MINIMIZE':
