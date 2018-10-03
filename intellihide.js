@@ -60,7 +60,7 @@ var Intellihide = new Lang.Class({
 
     enable: function(reset) {
         this._enabled = true;
-        this._primaryMonitor = Main.layoutManager.primaryMonitor;
+        this._monitor = this._dtpPanel.monitor;
         this._focusedWindowInfo = null;
         this._animationDestination = -1;
         this._pendingUpdate = false;
@@ -251,16 +251,16 @@ var Intellihide = new Lang.Class({
     _createBarrier: function() {
         let opts = { 
             display: global.display,
-            x1: this._primaryMonitor.x + 1,
-            x2: this._primaryMonitor.x + this._primaryMonitor.width - 1 
+            x1: this._monitor.x + 1,
+            x2: this._monitor.x + this._monitor.width - 1 
         };
 
         if (this._panelAtTop) {
-            opts.y1 = this._primaryMonitor.y;
-            opts.y2 = this._primaryMonitor.y;
+            opts.y1 = this._monitor.y;
+            opts.y2 = this._monitor.y;
             opts.directions = Meta.BarrierDirection.POSITIVE_Y;
         } else {
-            let screenBottom = this._primaryMonitor.y + this._primaryMonitor.height;
+            let screenBottom = this._monitor.y + this._monitor.height;
 
             opts.y1 = screenBottom;
             opts.y2 = screenBottom;
@@ -272,9 +272,9 @@ var Intellihide = new Lang.Class({
 
     _checkMousePointer: function(x, y) {
         if (!this._panelBox.hover && !Main.overview.visible &&
-            ((this._panelAtTop && y <= this._primaryMonitor.y + 1) || 
-             (!this._panelAtTop && y >= this._primaryMonitor.y + this._primaryMonitor.height - 1)) &&
-            (x > this._primaryMonitor.x && x < this._primaryMonitor.x + this._primaryMonitor.width)) {
+            ((this._panelAtTop && y <= this._monitor.y + 1) || 
+             (!this._panelAtTop && y >= this._monitor.y + this._monitor.height - 1)) &&
+            (x > this._monitor.x && x < this._monitor.x + this._monitor.width)) {
             this._queueUpdatePanelPosition(true);
         }
     },
@@ -327,7 +327,7 @@ var Intellihide = new Lang.Class({
     _checkIfHandledWindow: function(metaWindow) {
         return metaWindow && !metaWindow.minimized &&
                metaWindow.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index() &&
-               metaWindow.get_monitor() == Main.layoutManager.primaryIndex &&
+               metaWindow.get_monitor() == this._monitor.index &&
                this._checkIfHandledWindowType(metaWindow);
     },
 
@@ -360,7 +360,7 @@ var Intellihide = new Lang.Class({
     _checkIfShouldBeVisible: function(fromRevealMechanism) {
         if (fromRevealMechanism) {
             //the user is trying to reveal the panel
-            if (this._primaryMonitor.inFullscreen && !this._dragging) {
+            if (this._monitor.inFullscreen && !this._dragging) {
                 return this._dtpSettings.get_boolean('intellihide-show-in-fullscreen');
             }
 
@@ -396,11 +396,11 @@ var Intellihide = new Lang.Class({
         let windowRect = metaWindow.get_frame_rect();
 
         if (this._panelAtTop) {
-            return windowRect.y <= this._primaryMonitor.y + this._panelBox.height;
+            return windowRect.y <= this._monitor.y + this._panelBox.height;
         }
 
         let windowBottom = windowRect.y + windowRect.height;
-        let panelTop = this._primaryMonitor.y + this._primaryMonitor.height - this._panelBox.height;
+        let panelTop = this._monitor.y + this._monitor.height - this._panelBox.height;
 
         return windowBottom >= panelTop;
     },
