@@ -1099,9 +1099,10 @@ var taskbar = new Lang.Class({
                     }
                 }
 
-                // Finally show the overview
+                //temporarily use as primary the monitor on which the showapps btn was clicked 
                 this.panelWrapper.panelManager.setFocusedMonitor(this.panelWrapper.monitor);
 
+                // Finally show the overview
                 selector._showAppsButton.checked = true;
                 Main.overview.show();
             }
@@ -1131,6 +1132,9 @@ var taskbar = new Lang.Class({
                     selector._showAppsButton.checked = false;
                     this.forcedOverview = false;
                 }
+
+                //if changed when opening the overview, reset the primary monitor when exiting the overview
+                this.panelWrapper.panelManager.setFocusedMonitor(Main.layoutManager.primaryMonitor);
             }
         }
 

@@ -91,10 +91,11 @@ var dtpPanelManager = new Lang.Class({
 
         this._oldOverviewRelayout = Main.overview._relayout;
         Main.overview._relayout = Lang.bind(Main.overview, this._newOverviewRelayout);
-        Main.overview._focusedMonitor = Main.layoutManager.primaryMonitor;
 
         this._oldUpdateWorkspacesViews = Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews;
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview.viewSelector._workspacesDisplay, this._newUpdateWorkspacesViews);
+
+        this.setFocusedMonitor(Main.layoutManager.primaryMonitor);
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
@@ -128,7 +129,7 @@ var dtpPanelManager = new Lang.Class({
     },
 
     setFocusedMonitor: function(monitor) {
-        if (Main.overview._focusedMonitor != monitor) {
+        if ((Main.overview._focusedMonitor || 0) != monitor) {
             Main.overview._focusedMonitor = monitor;
             Main.overview.viewSelector._workspacesDisplay._primaryIndex = monitor.index;
             
@@ -160,11 +161,7 @@ var dtpPanelManager = new Lang.Class({
         this._workspacesViews = [];
         let monitors = Main.layoutManager.monitors;
         for (let i = 0; i < monitors.length; i++) {
-            let view;
-            if (this._workspacesOnlyOnPrimary && i != this._primaryIndex)
-                view = new WorkspacesView.ExtraWorkspaceView(i);
-            else
-                view = new WorkspacesView.WorkspacesView(i);
+            let view = new WorkspacesView.WorkspacesView(i);
 
             view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
             if (i == this._primaryIndex) {
