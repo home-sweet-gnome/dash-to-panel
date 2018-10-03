@@ -36,6 +36,7 @@ const PopupMenu = imports.ui.popupMenu;
 const Tweener = imports.ui.tweener;
 const Meta = imports.gi.Meta;
 const Layout = imports.ui.layout;
+const WorkspacesView = imports.ui.workspacesView;
 
 var dtpPanelManager = new Lang.Class({
     Name: 'DashToDock.DockManager',
@@ -45,7 +46,7 @@ var dtpPanelManager = new Lang.Class({
     },
 
     enable: function() {
-        this.primaryPanel = new Panel.dtpPanelWrapper(this._dtpSettings, Main.layoutManager.primaryMonitor, Main.panel, Main.layoutManager.panelBox);
+        this.primaryPanel = new Panel.dtpPanelWrapper(this, Main.layoutManager.primaryMonitor, Main.panel, Main.layoutManager.panelBox);
         this.primaryPanel.enable();
         this.allPanels = [ this.primaryPanel ];
 
@@ -63,8 +64,8 @@ var dtpPanelManager = new Lang.Class({
             panelBox.set_position(monitor.x, monitor.y);
             panelBox.set_size(monitor.width, -1);
             
-            let panelWrapper = new Panel.dtpPanelWrapper(this._dtpSettings, monitor, panel, panelBox);
-            panelWrapper.enable(panelWrapper);
+            let panelWrapper = new Panel.dtpPanelWrapper(this, monitor, panel, panelBox);
+            panelWrapper.enable();
 
             this.allPanels.push(panelWrapper);
         });
@@ -88,6 +89,13 @@ var dtpPanelManager = new Lang.Class({
         Main.layoutManager._updateHotCorners = Lang.bind(Main.layoutManager, newUpdateHotCorners);
         Main.layoutManager._updateHotCorners();
 
+        this._oldOverviewRelayout = Main.overview._relayout;
+        Main.overview._relayout = Lang.bind(Main.overview, this._newOverviewRelayout);
+        Main.overview._focusedMonitor = Main.layoutManager.primaryMonitor;
+
+        this._oldUpdateWorkspacesViews = Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews;
+        Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview.viewSelector._workspacesDisplay, this._newUpdateWorkspacesViews);
+
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
         if(Main.overview.viewSelector._activePage == null)
@@ -110,6 +118,67 @@ var dtpPanelManager = new Lang.Class({
 
         Main.overview.viewSelector._animateIn = this._oldViewSelectorAnimateIn;
         Main.overview.viewSelector._animateOut = this._oldViewSelectorAnimateOut;
+
+        Main.overview._relayout = this._oldOverviewRelayout;
+        delete Main.overview._focusedMonitor;
+        Main.overview._relayout();
+
+        Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
+        Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews();
+    },
+
+    setFocusedMonitor: function(monitor) {
+        if (Main.overview._focusedMonitor != monitor) {
+            Main.overview._focusedMonitor = monitor;
+            Main.overview.viewSelector._workspacesDisplay._primaryIndex = monitor.index;
+            
+            Main.overview._overview.clear_constraints();
+            Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
+            
+            this._newOverviewRelayout.call(Main.overview);
+        }
+    },
+
+    _newOverviewRelayout: function() {
+        // To avoid updating the position and size of the workspaces
+        // we just hide the overview. The positions will be updated
+        // when it is next shown.
+        this.hide();
+
+        let workArea = Main.layoutManager.getWorkAreaForMonitor(this._focusedMonitor);
+
+        this._coverPane.set_position(0, workArea.y);
+        this._coverPane.set_size(workArea.width, workArea.height);
+
+        this._updateBackgrounds();
+    },
+
+    _newUpdateWorkspacesViews: function() {
+        for (let i = 0; i < this._workspacesViews.length; i++)
+            this._workspacesViews[i].destroy();
+
+        this._workspacesViews = [];
+        let monitors = Main.layoutManager.monitors;
+        for (let i = 0; i < monitors.length; i++) {
+            let view;
+            if (this._workspacesOnlyOnPrimary && i != this._primaryIndex)
+                view = new WorkspacesView.ExtraWorkspaceView(i);
+            else
+                view = new WorkspacesView.WorkspacesView(i);
+
+            view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
+            if (i == this._primaryIndex) {
+                this._scrollAdjustment = view.scrollAdjustment;
+                this._scrollAdjustment.connect('notify::value',
+                                               this._scrollValueChanged.bind(this));
+            }
+
+            this._workspacesViews.push(view);
+            Main.layoutManager.overviewGroup.add_actor(view.actor);
+        }
+
+        this._updateWorkspacesFullGeometry();
+        this._updateWorkspacesActualGeometry();
     }
     
 });

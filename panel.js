@@ -54,9 +54,10 @@ let tracker = Shell.WindowTracker.get_default();
 var dtpPanelWrapper = new Lang.Class({
     Name: 'DashToPanel.PanelWrapper',
 
-    _init: function(settings, monitor, panel, panelBox) {
-        this._dtpSettings = settings;
-        this.panelStyle = new PanelStyle.dtpPanelStyle(settings);
+    _init: function(panelManager, monitor, panel, panelBox) {
+        this.panelManager = panelManager;
+        this._dtpSettings = panelManager._dtpSettings;
+        this.panelStyle = new PanelStyle.dtpPanelStyle(panelManager._dtpSettings);
 	    //rebuild panel when taskar-position change
         this._dtpSettings.connect('changed::taskbar-position', Lang.bind(this, function() {
             this.disable();
@@ -129,7 +130,7 @@ var dtpPanelWrapper = new Lang.Class({
         this._panelConnectId = this.panel.actor.connect('allocate', Lang.bind(this, function(actor,box,flags){this._allocate(actor,box,flags);}));
         if(this.appMenu)
             this.panel._leftBox.remove_child(this.appMenu.container);
-        this.taskbar = new Taskbar.taskbar(this._dtpSettings, this.panel);
+        this.taskbar = new Taskbar.taskbar(this._dtpSettings, this);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
         this.container.insert_child_at_index( this.taskbar.actor, 2 );

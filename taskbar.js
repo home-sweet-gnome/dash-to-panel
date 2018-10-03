@@ -175,9 +175,9 @@ var taskbarActor = new Lang.Class({
 var taskbar = new Lang.Class({
     Name: 'DashToPanel.Taskbar',
 
-    _init : function(settings, panel) {
+    _init : function(settings, panelWrapper) {
         this._dtpSettings = settings;
-        this.panel = panel;
+        this.panelWrapper = panelWrapper;
         
         // start at smallest size due to running indicator drawing area expanding but not shrinking
         this.iconSize = 16;
@@ -251,12 +251,12 @@ var taskbar = new Lang.Class({
 
         this._signalsHandler.add(
             [
-                this.panel.actor,
+                this.panelWrapper.panel.actor,
                 'notify::height',
                 () => this._queueRedisplay()
             ],
             [
-                this.panel.actor,
+                this.panelWrapper.panel.actor,
                 'notify::width',
                 () => this._queueRedisplay()
             ],
@@ -498,7 +498,7 @@ var taskbar = new Lang.Class({
                 window: window,
                 isLauncher: isLauncher
             },
-            this.panel,
+            this.panelWrapper.panel,
             { 
                 setSizeManually: true,
                 showLabel: false 
@@ -691,7 +691,7 @@ var taskbar = new Lang.Class({
 
         // Getting the panel height and making sure that the icon padding is at
         // least the size of the app running indicator on both the top and bottom.
-        let availSize = (this.panel.actor.get_height() - 
+        let availSize = (this.panelWrapper.panel.actor.get_height() - 
                          (this._dtpSettings.get_int('dot-size') * scaleFactor * 2) - 
                          (this._dtpSettings.get_int('appicon-padding') * 2)) / scaleFactor;
         
@@ -1100,6 +1100,8 @@ var taskbar = new Lang.Class({
                 }
 
                 // Finally show the overview
+                this.panelWrapper.panelManager.setFocusedMonitor(this.panelWrapper.monitor);
+
                 selector._showAppsButton.checked = true;
                 Main.overview.show();
             }
