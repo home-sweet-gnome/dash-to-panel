@@ -96,11 +96,11 @@ var taskbarAppIcon = new Lang.Class({
     Name: 'DashToPanel.TaskbarAppIcon',
     Extends: AppDisplay.AppIcon,
 
-    _init: function(settings, appInfo, panel, iconParams, onActivateOverride) {
+    _init: function(settings, appInfo, panelWrapper, iconParams, onActivateOverride) {
 
         // a prefix is required to avoid conflicting with the parent class variable
         this._dtpSettings = settings;
-        this.panel = panel;
+        this.panelWrapper = panelWrapper;
         this._nWindows = 0;
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
@@ -313,7 +313,7 @@ var taskbarAppIcon = new Lang.Class({
 
     shouldShowTooltip: function() {
         if (!this.isLauncher && this._dtpSettings.get_boolean("show-window-previews") &&
-            getInterestingWindows(this.app, this._dtpSettings).length > 0) {
+            this.getAppIconInterestingWindows().length > 0) {
             return false;
         } else {
             return this.actor.hover && !this.window && 
@@ -367,7 +367,7 @@ var taskbarAppIcon = new Lang.Class({
         [rect.x, rect.y] = this.actor.get_transformed_position();
         [rect.width, rect.height] = this.actor.get_transformed_size();
 
-        let windows = this.window ? [this.window] : this.app.get_windows();
+        let windows = this.window ? [this.window] : this.getAppIconInterestingWindows();
         windows.forEach(function(w) {
             w.set_icon_geometry(rect);
         });
@@ -515,7 +515,7 @@ var taskbarAppIcon = new Lang.Class({
 
     _setAppIconPadding: function() {
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        let availSize = this.panel.actor.get_height() - this._dtpSettings.get_int('dot-size') * scaleFactor * 2;
+        let availSize = this.panelWrapper.panel.actor.get_height() - this._dtpSettings.get_int('dot-size') * scaleFactor * 2;
         let padding = this._dtpSettings.get_int('appicon-padding'); 
         let margin = this._dtpSettings.get_int('appicon-margin');
 
@@ -743,7 +743,7 @@ var taskbarAppIcon = new Lang.Class({
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
         let appIsRunning = this.app.state == Shell.AppState.RUNNING
-            && getInterestingWindows(this.app, this._dtpSettings).length > 0
+            && this.getAppIconInterestingWindows().length > 0
 
         // We customize the action only when the application is already running
         if (appIsRunning && !this.isLauncher) {
@@ -866,7 +866,7 @@ var taskbarAppIcon = new Lang.Class({
 
     _updateCounterClass: function() {
         let maxN = 4;
-        this._nWindows = Math.min(getInterestingWindows(this.app, this._dtpSettings).length, maxN);
+        this._nWindows = Math.min(this.getAppIconInterestingWindows().length, maxN);
 
         for (let i = 1; i <= maxN; i++){
             let className = 'running'+i;
@@ -1065,6 +1065,10 @@ var taskbarAppIcon = new Lang.Class({
         }
             
         return DND.DragMotionResult.CONTINUE;
+    },
+
+    getAppIconInterestingWindows: function() {
+        return getInterestingWindows(this.app, this._dtpSettings, this.panelWrapper.monitor);
     }
 
 });
@@ -1101,12 +1105,9 @@ function activateAllWindows(app, settings){
     if (windows.length <= 0)
         return;
 
-    let activatedWindows = 0;
-
     for (let i = windows.length - 1; i >= 0; i--){
         if (windows[i].get_workspace().index() == activeWorkspace){
             Main.activateWindow(windows[i]);
-            activatedWindows++;
         }
     }
 }
@@ -1174,18 +1175,24 @@ function closeAllWindows(app, settings) {
 
 // Filter out unnecessary windows, for instance
 // nautilus desktop window.
-function getInterestingWindows(app, settings) {
+function getInterestingWindows(app, settings, monitor) {
     let windows = app.get_windows().filter(function(w) {
         return !w.skip_taskbar;
     });
 
-    // When using workspace isolation, we filter out windows
-    // that are not in the current workspace
+    // When using workspace or monitor isolation, we filter out windows
+    // that are not in the current workspace or on the same monitor as the appicon
     if (settings.get_boolean('isolate-workspaces'))
         windows = windows.filter(function(w) {
             return w.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index();
         });
 
+    if (monitor && settings.get_boolean('multi-monitors') && settings.get_boolean('isolate-monitors')) {
+        windows = windows.filter(function(w) {
+            return w.get_monitor() == monitor.index;
+        });
+    }
+    
     return windows;
 }
 

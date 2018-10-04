@@ -498,7 +498,7 @@ var taskbar = new Lang.Class({
                 window: window,
                 isLauncher: isLauncher
             },
-            this.panelWrapper.panel,
+            this.panelWrapper,
             { 
                 setSizeManually: true,
                 showLabel: false 
@@ -859,7 +859,7 @@ var taskbar = new Lang.Class({
         return apps.map(app => ({ 
             app: app, 
             isLauncher: defaultIsLauncher || false,
-            windows: defaultWindows || AppIcons.getInterestingWindows(app, this._dtpSettings)
+            windows: defaultWindows || AppIcons.getInterestingWindows(app, this._dtpSettings, this.panelWrapper.monitor)
                                                .sort(this.sortWindowsCompareFunction)
         }));
     },
