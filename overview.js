@@ -146,21 +146,20 @@ var dtpOverview = new Lang.Class({
 
     // Hotkeys
     _activateApp: function(appIndex) {
-        let children = this.taskbar._box.get_children().filter(function(actor) {
-                return actor.child &&
-                       actor.child._delegate &&
-                       actor.child._delegate.app;
+        let seenApps = {};
+        let apps = [];
+        
+        this.taskbar._getAppIcons().forEach(function(appIcon) {
+            if (!seenApps[appIcon.app]) {
+                seenApps[appIcon.app] = 1;
+                apps.push(appIcon);
+            }
         });
-
-        // Apps currently in the taskbar
-        let apps = children.map(function(actor) {
-                return actor.child._delegate;
-            });
 
         // Activate with button = 1, i.e. same as left click
         let button = 1;
         if (appIndex < apps.length)
-            apps[appIndex].activate(button);
+            apps[appIndex].activate(button, true);
     },
 
     _optionalHotKeys: function() {

@@ -884,21 +884,22 @@ var taskbar = new Lang.Class({
     },
 
     _updateNumberOverlay: function() {
-        let appIcons = this._getAppIcons();
-        let counter = 1;
-        appIcons.forEach(function(icon) {
-            if (counter < 10){
-                icon.setNumberOverlay(counter);
+        let seenApps = {};
+        let counter = 0;
+
+        this._getAppIcons().forEach(function(icon) {
+            if (!seenApps[icon.app]) {
+                seenApps[icon.app] = 1;
                 counter++;
             }
-            else if (counter == 10) {
-                icon.setNumberOverlay(0);
-                counter++;
-            }
-            else {
+
+            if (counter <= 10) {
+                icon.setNumberOverlay(counter == 10 ? 0 : counter);
+            } else {
                 // No overlay after 10
                 icon.setNumberOverlay(-1);
             }
+
             icon.updateNumberOverlay();
         });
 
