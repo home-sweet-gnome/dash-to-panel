@@ -21,7 +21,6 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 const PanelManager = Me.imports.panelManager;
-const Overview = Me.imports.overview;
 
 const Main = imports.ui.main;
 const Meta = imports.gi.Meta;
@@ -38,7 +37,6 @@ const Mainloop = imports.mainloop;
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
 let panelManager;
-let overview;
 let settings;
 let oldDash;
 let extensionChangedHandler;
@@ -78,11 +76,9 @@ function _enable() {
 
     if (panelManager) return; //already initialized
 
-    settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');  
+    settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     panelManager = new PanelManager.dtpPanelManager(settings);
     panelManager.enable();
-    overview = new Overview.dtpOverview(settings);
-    overview.enable(panelManager.primaryPanel);
     
     Main.wm.removeKeybinding('open-application-menu');
     Main.wm.addKeybinding('open-application-menu',
@@ -105,14 +101,12 @@ function _enable() {
 }
 
 function disable(reset) {
-    overview.disable();
     panelManager.disable();
     settings.run_dispose();
     Main.overview._dash = oldDash;
 
     oldDash=null;
     settings = null;
-    overview = null;
     panelManager = null;
     
     Main.wm.removeKeybinding('open-application-menu');

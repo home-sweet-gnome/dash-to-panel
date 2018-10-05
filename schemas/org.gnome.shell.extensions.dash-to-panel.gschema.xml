@@ -334,13 +334,18 @@
       <summary>Use favorite icons as application launchers</summary>
       <description>When the applications are ungrouped, this defines if running applications stay separate from the favorite icons.</description>
     </key>
+    <key type="i" name="primary-monitor">
+      <default>0</default>
+      <summary>Primary monitor index</summary>
+      <description>Specifies the index of the primary monitor.</description>
+    </key>
     <key type="b" name="multi-monitors">
       <default>false</default>
       <summary>Display panels on all monitors</summary>
       <description>Specifies if a panel is shown on every monitors</description>
     </key>
     <key type="b" name="isolate-monitors">
-      <default>false</default>
+      <default>true</default>
       <summary>Provide monitor isolation</summary>
       <description>Dash shows only windows from the current monitor</description>
     </key>

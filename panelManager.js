@@ -28,7 +28,10 @@
  */
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const Overview = Me.imports.overview;
 const Panel = Me.imports.panel;
+const Utils = Me.imports.utils;
+
 const Main = imports.ui.main;
 const Lang = imports.lang;
 const St = imports.gi.St;
@@ -43,32 +46,43 @@ var dtpPanelManager = new Lang.Class({
 
     _init: function(settings) {
         this._dtpSettings = settings;
+        this._overview = new Overview.dtpOverview(settings);
     },
 
-    enable: function() {
-        this.primaryPanel = new Panel.dtpPanelWrapper(this, Main.layoutManager.primaryMonitor, Main.panel, Main.layoutManager.panelBox);
+    enable: function(reset) {
+        let dtpPrimaryMonitor = Main.layoutManager.monitors[(Main.layoutManager.primaryIndex + this._dtpSettings.get_int('primary-monitor')) % Main.layoutManager.monitors.length];
+        
+        this.primaryPanel = new Panel.dtpPanelWrapper(this, dtpPrimaryMonitor, Main.panel, Main.layoutManager.panelBox);
+        Main.layoutManager.panelBox.set_position(dtpPrimaryMonitor.x, dtpPrimaryMonitor.y);
+        Main.layoutManager.panelBox.set_size(dtpPrimaryMonitor.width, -1);
         this.primaryPanel.enable();
         this.allPanels = [ this.primaryPanel ];
+        
+        this._overview.enable(this.primaryPanel);
 
-        Main.layoutManager.monitors.forEach(monitor => {
-            if(monitor == Main.layoutManager.primaryMonitor)
-                return;
+        if (this._dtpSettings.get_boolean('multi-monitors')) {
+            Main.layoutManager.monitors.forEach(monitor => {
+                if(monitor == dtpPrimaryMonitor)
+                    return;
 
-            let panelBox = new St.BoxLayout({ name: 'dashtopanelSecondaryPanelBox', vertical: true });
-            Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
-            Main.uiGroup.set_child_below_sibling(panelBox, Main.layoutManager.panelBox);
+                let panelBox = new St.BoxLayout({ name: 'dashtopanelSecondaryPanelBox', vertical: true });
+                Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
+                Main.uiGroup.set_child_below_sibling(panelBox, Main.layoutManager.panelBox);
 
-            let panel = new Panel.dtpSecondaryPanel();
-            panelBox.add(panel.actor);
+                let panel = new Panel.dtpSecondaryPanel();
+                panelBox.add(panel.actor);
 
-            panelBox.set_position(monitor.x, monitor.y);
-            panelBox.set_size(monitor.width, -1);
-            
-            let panelWrapper = new Panel.dtpPanelWrapper(this, monitor, panel, panelBox);
-            panelWrapper.enable();
+                panelBox.set_position(monitor.x, monitor.y);
+                panelBox.set_size(monitor.width, -1);
+                
+                let panelWrapper = new Panel.dtpPanelWrapper(this, monitor, panel, panelBox, true);
+                panelWrapper.enable();
 
-            this.allPanels.push(panelWrapper);
-        });
+                this.allPanels.push(panelWrapper);
+            });
+        }
+
+        if (reset) return;
 
         this._oldPopupOpen = PopupMenu.PopupMenu.prototype.open;
         PopupMenu.PopupMenu.prototype.open = newPopupOpen;
@@ -95,18 +109,32 @@ var dtpPanelManager = new Lang.Class({
         this._oldUpdateWorkspacesViews = Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews;
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview.viewSelector._workspacesDisplay, this._newUpdateWorkspacesViews);
 
-        this.setFocusedMonitor(Main.layoutManager.primaryMonitor);
+        this.setFocusedMonitor(dtpPrimaryMonitor);
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
         if(Main.overview.viewSelector._activePage == null)
             Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
+
+        //listen settings
+        this._dtpSettings.connect('changed::primary-monitor', () => this._reset());
+        this._dtpSettings.connect('changed::multi-monitors', () => this._reset());
+        this._dtpSettings.connect('changed::isolate-monitors', () => this._reset());
+        this._monitorsChangedListener = Utils.DisplayWrapper.getMonitorManager().connect("monitors-changed", () => this._reset());
     },
 
-    disable: function() {
+    disable: function(reset) {
+        this._overview.disable();
+
         this.allPanels.forEach(p => {
             p.disable();
         });
+
+        if (reset) return;
+
+        if(this._monitorsChangedListener) {
+            Utils.DisplayWrapper.getMonitorManager().disconnect(this._monitorsChangedListener);
+        }
 
         PopupMenu.PopupMenu.prototype.open = this._oldPopupOpen;
         PopupMenu.PopupSubMenu.prototype.open = this._oldPopupSubMenuOpen;
@@ -126,6 +154,9 @@ var dtpPanelManager = new Lang.Class({
 
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews();
+
+        Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
+        Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
     },
 
     setFocusedMonitor: function(monitor) {
@@ -138,6 +169,11 @@ var dtpPanelManager = new Lang.Class({
             
             this._newOverviewRelayout.call(Main.overview);
         }
+    },
+
+    _reset: function() {
+        this.disable(true);
+        this.enable(true);
     },
 
     _newOverviewRelayout: function() {

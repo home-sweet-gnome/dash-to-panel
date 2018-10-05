@@ -54,7 +54,7 @@ let tracker = Shell.WindowTracker.get_default();
 var dtpPanelWrapper = new Lang.Class({
     Name: 'DashToPanel.PanelWrapper',
 
-    _init: function(panelManager, monitor, panel, panelBox) {
+    _init: function(panelManager, monitor, panel, panelBox, isSecondary) {
         this.panelManager = panelManager;
         this._dtpSettings = panelManager._dtpSettings;
         this.panelStyle = new PanelStyle.dtpPanelStyle(panelManager._dtpSettings);
@@ -66,6 +66,7 @@ var dtpPanelWrapper = new Lang.Class({
         this.monitor = monitor;
         this.panel = panel;
         this.panelBox = panelBox;
+        this.isSecondary = isSecondary;
     },
 
     enable : function() {
@@ -92,10 +93,7 @@ var dtpPanelWrapper = new Lang.Class({
         Main.overview._overview.add_actor(this._myPanelGhost);
         
         this._setPanelPosition();
-        this._MonitorsChangedListener = Utils.DisplayWrapper.getMonitorManager().connect("monitors-changed", Lang.bind(this, function(){
-            this._setPanelPosition();
-            this.taskbar.resetAppIcons();
-        }));
+        
         this._HeightNotifyListener = this.panelBox.connect("notify::height", Lang.bind(this, function(){
             this._setPanelPosition();
         }));
@@ -255,20 +253,11 @@ var dtpPanelWrapper = new Lang.Class({
         if(this._HeightNotifyListener !== null) {
             this.panelBox.disconnect(this._HeightNotifyListener);
         }
-        if(this._MonitorsChangedListener !== null) {
-            Utils.DisplayWrapper.getMonitorManager().disconnect(this._MonitorsChangedListener);
-        }
         if(this._ScaleFactorListener !== null) {
             St.ThemeContext.get_for_stage(global.stage).disconnect(this._ScaleFactorListener);
         }
+        
         this._removeTopLimit();
-        this.panel.actor.set_height(this._oldPanelHeight);
-        this.panelBox.set_anchor_point(0, 0);
-        Main.overview._overview.remove_child(this._myPanelGhost);
-        Main.overview._panelGhost.set_height(this._oldPanelHeight);
-        this._setActivitiesButtonVisible(true);
-        this._setClockLocation("BUTTONSLEFT");
-        this._displayShowDesktopButton(false);
 
         if (this.panel._updateSolidStyle) {
             if (this.panel._dtpRemoveSolidStyleId) {
@@ -282,14 +271,29 @@ var dtpPanelWrapper = new Lang.Class({
             delete this.panel._dtpRemoveSolidStyleId;
         }
 
-        this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
-        delete this.panel._leftBox.oldLeftBoxAllocate;
+        Main.overview._overview.remove_child(this._myPanelGhost);
 
-        this.panel._centerBox.allocate = this.panel._centerBox.oldCenterBoxAllocate;
-        delete this.panel._centerBox.oldCenterBoxAllocate;
-        
-        this.panel._rightBox.allocate = this.panel._rightBox.oldRightBoxAllocate;
-        delete this.panel._rightBox.oldRightBoxAllocate;
+        if (!this.isSecondary) {
+            this.panel.actor.set_height(this._oldPanelHeight);
+            this.panelBox.set_anchor_point(0, 0);
+            
+            Main.overview._panelGhost.set_height(this._oldPanelHeight);
+            this._setActivitiesButtonVisible(true);
+            this._setClockLocation("BUTTONSLEFT");
+            this._displayShowDesktopButton(false);
+
+            this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
+            delete this.panel._leftBox.oldLeftBoxAllocate;
+
+            this.panel._centerBox.allocate = this.panel._centerBox.oldCenterBoxAllocate;
+            delete this.panel._centerBox.oldCenterBoxAllocate;
+            
+            this.panel._rightBox.allocate = this.panel._rightBox.oldRightBoxAllocate;
+            delete this.panel._rightBox.oldRightBoxAllocate;
+        } else {
+            Main.layoutManager.removeChrome(this.panelBox);
+            this.panelBox.destroy();
+        }
 
         this.appMenu = null;
         this.container = null;
@@ -297,7 +301,6 @@ var dtpPanelWrapper = new Lang.Class({
         this.taskbar = null;
         this._panelConnectId = null;
         this._signalsHandler = null;
-        this._MonitorsChangedListener = null;
         this._HeightNotifyListener = null;
     },
 

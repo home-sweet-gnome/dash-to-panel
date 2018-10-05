@@ -410,6 +410,64 @@ const Settings = new Lang.Class({
 
         }));
 
+        //multi-monitor
+        let monitors = [Gdk.Screen.get_default().get_primary_monitor()]; //always 0 in GDK
+
+        this._builder.get_object('multimon_primary_combo').append_text(_('Primary monitor'));
+
+        for (let i = 1, monitorNum = Gdk.Screen.get_default().get_n_monitors(); i < monitorNum; ++i) {
+            this._builder.get_object('multimon_primary_combo').append_text(_('Monitor ') + i);
+            monitors.push(i);
+        }
+
+        this._builder.get_object('multimon_primary_combo').set_active(monitors.indexOf(this._settings.get_int('primary-monitor')));
+        this._builder.get_object('multimon_primary_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('primary-monitor', monitors[widget.get_active()]);
+        }));
+
+        this._settings.bind('multi-monitors',
+                            this._builder.get_object('multimon_multi_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('multi-monitors',
+                            this._builder.get_object('multimon_multi_options_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('isolate-monitors',
+                            this._builder.get_object('multimon_multi_isolate_monitor_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT); 
+
+        this._builder.get_object('multimon_multi_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Multi-monitors options'),
+                                            transient_for: this.widget.get_toplevel(),
+                                            use_header_bar: true,
+                                            modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('box_multimon_multi_options');
+            dialog.get_content_area().add(box);
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('isolate-monitors', this._settings.get_default_value('isolate-monitors'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+        }));
+
         this._settings.bind('intellihide',
                             this._builder.get_object('intellihide_switch'),
                             'active',
