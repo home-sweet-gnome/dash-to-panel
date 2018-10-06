@@ -139,9 +139,6 @@ var dtpPanelWrapper = new Lang.Class({
         
         this.panel.actor.add_style_class_name('dashtopanelMainPanel');
 
-        // sync hover after a popupmenu is closed
-        this.taskbar.connect('menu-closed', Lang.bind(this, function(){this.container.sync_hover();}));
-        
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
         if(Main.overview.viewSelector._activePage == null)
