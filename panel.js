@@ -57,11 +57,6 @@ var dtpPanel = new Lang.Class({
     _init: function(settings) {
         this._dtpSettings = settings;
         this.panelStyle = new PanelStyle.dtpPanelStyle(settings);
-	//rebuild panel when taskar-position change
-        this._dtpSettings.connect('changed::taskbar-position', Lang.bind(this, function() {
-            this.disable();
-            this.enable();
-        }));
     },
 
     enable : function() {
@@ -165,9 +160,6 @@ var dtpPanel = new Lang.Class({
         if(Main.overview.viewSelector._activePage == null)
             Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
 
-        // sync hover after a popupmenu is closed
-        this.taskbar.connect('menu-closed', Lang.bind(this, function(){this.container.sync_hover();}));
-        
         if(this.taskbar._showAppsIcon)
             this.taskbar._showAppsIcon._dtpPanel = this;
 
@@ -185,6 +177,12 @@ var dtpPanel = new Lang.Class({
                 Lang.bind(this, function() {
                     Main.overview.dashIconSize = this.taskbar.iconSize;
                 })
+            ],
+            [
+                // sync hover after a popupmenu is closed
+                this.taskbar,
+                'menu-closed', 
+                Lang.bind(this, function(){this.container.sync_hover();})
             ],
             // This duplicate the similar signal which is in overview.js.
             // Being connected and thus executed later this effectively
@@ -280,6 +278,11 @@ var dtpPanel = new Lang.Class({
         if(this._ScaleFactorListener !== null) {
             St.ThemeContext.get_for_stage(global.stage).disconnect(this._ScaleFactorListener);
         }
+
+        for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
+            this._dtpSettings.disconnect(this._dtpSettingsSignalIds[i]);
+        }
+
         this._removeTopLimit();
         this.panel.actor.set_height(this._oldPanelHeight);
         this.panelBox.set_anchor_point(0, 0);
@@ -333,40 +336,48 @@ var dtpPanel = new Lang.Class({
     },
 
     _bindSettingsChanges: function() {
-        this._dtpSettings.connect('changed::panel-position', Lang.bind(this, function() {
-            this._setPanelPosition();
-        }));
+        this._dtpSettingsSignalIds = [
+            //rebuild panel when taskar-position change
+            this._dtpSettings.connect('changed::taskbar-position', Lang.bind(this, function() {
+                this.disable();
+                this.enable();
+            })),
 
-        this._dtpSettings.connect('changed::panel-size', Lang.bind(this, function() {
-            this._setPanelPosition();
-            this.taskbar.resetAppIcons();
-        }));
+            this._dtpSettings.connect('changed::panel-position', Lang.bind(this, function() {
+                this._setPanelPosition();
+            })),
 
-        this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, function() {
-            this.taskbar.resetAppIcons();
-        }));
+            this._dtpSettings.connect('changed::panel-size', Lang.bind(this, function() {
+                this._setPanelPosition();
+                this.taskbar.resetAppIcons();
+            })),
 
-        this._dtpSettings.connect('changed::appicon-padding', Lang.bind(this, function() {
-            this.taskbar.resetAppIcons();
-        }));
+            this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, function() {
+                this.taskbar.resetAppIcons();
+            })),
 
-        this._dtpSettings.connect('changed::show-activities-button', Lang.bind(this, function() {
-            this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
-        }));
-        
-        this._dtpSettings.connect('changed::show-appmenu', Lang.bind(this, function() {
-            this._setAppmenuVisible(this._dtpSettings.get_boolean('show-appmenu'));
-        }));
+            this._dtpSettings.connect('changed::appicon-padding', Lang.bind(this, function() {
+                this.taskbar.resetAppIcons();
+            })),
 
-        this._dtpSettings.connect('changed::location-clock', Lang.bind(this, function() {
-            this._setClockLocation(this._dtpSettings.get_string('location-clock'));
-        }));
+            this._dtpSettings.connect('changed::show-activities-button', Lang.bind(this, function() {
+                this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
+            })),
+            
+            this._dtpSettings.connect('changed::show-appmenu', Lang.bind(this, function() {
+                this._setAppmenuVisible(this._dtpSettings.get_boolean('show-appmenu'));
+            })),
 
-        this._dtpSettings.connect('changed::show-showdesktop-button', Lang.bind(this, function() {
-            this._displayShowDesktopButton(this._dtpSettings.get_boolean('show-showdesktop-button'));
-        }));
+            this._dtpSettings.connect('changed::location-clock', Lang.bind(this, function() {
+                this._setClockLocation(this._dtpSettings.get_string('location-clock'));
+            })),
 
-        this._dtpSettings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonWidth());
+            this._dtpSettings.connect('changed::show-showdesktop-button', Lang.bind(this, function() {
+                this._displayShowDesktopButton(this._dtpSettings.get_boolean('show-showdesktop-button'));
+            })),
+
+            this._dtpSettings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonWidth())
+        ];
     },
 
     _allocate: function(actor, box, flags) {

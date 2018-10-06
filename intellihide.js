@@ -51,7 +51,7 @@ var Intellihide = new Lang.Class({
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._timeoutsHandler = new Utils.TimeoutsHandler();
 
-        this._dtpSettings.connect('changed::intellihide', Lang.bind(this, this._changeEnabledStatus));
+        this._intellihideChangedId = this._dtpSettings.connect('changed::intellihide', Lang.bind(this, this._changeEnabledStatus));
 
         if (this._dtpSettings.get_boolean('intellihide')) {
             this.enable();
@@ -88,6 +88,10 @@ var Intellihide = new Lang.Class({
     },
 
     disable: function(reset) {
+        if (!reset) {
+            this._dtpSettings.disconnect(this._intellihideChangedId);
+        }
+
         this._setTrackPanel(reset, false);
         this._disconnectFocusedWindow();
 

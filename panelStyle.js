@@ -47,6 +47,10 @@ var dtpPanelStyle = new Lang.Class({
     },
 
     disable: function () {
+        for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
+            this._dtpSettings.disconnect(this._dtpSettingsSignalIds[i]);
+        }
+
         this._removeStyles();
     },
 
@@ -58,12 +62,14 @@ var dtpPanelStyle = new Lang.Class({
             "leftbox-padding",
             "status-icon-padding",
         ];
+
+        this._dtpSettingsSignalIds = [];
         
         for(let i in configKeys) {
-            this._dtpSettings.connect('changed::' + configKeys[i], Lang.bind(this, function () {
+            this._dtpSettingsSignalIds.push(this._dtpSettings.connect('changed::' + configKeys[i], Lang.bind(this, function () {
                 this._removeStyles();
                 this._applyStyles();
-            }));
+            })));
         }
     },
 

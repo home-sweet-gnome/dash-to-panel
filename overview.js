@@ -90,13 +90,18 @@ var dtpOverview = new Lang.Class({
 
         let label = 'optionalWorkspaceIsolation';
 
-        this._dtpSettings.connect('changed::isolate-workspaces', Lang.bind(this, function() {
-            this.taskbar.resetAppIcons();
-            if (this._dtpSettings.get_boolean('isolate-workspaces'))
-                Lang.bind(this, enable)();
-            else
-                Lang.bind(this, disable)();
-        }));
+        this._signalsHandler.addWithLabel(label, [
+            this._dtpSettings,
+            'changed::isolate-workspaces',
+            Lang.bind(this, function() {
+                this.taskbar.resetAppIcons();
+
+                if (this._dtpSettings.get_boolean('isolate-workspaces'))
+                    Lang.bind(this, enable)();
+                else
+                    Lang.bind(this, disable)();
+            })
+        ]);
 
         if (this._dtpSettings.get_boolean('isolate-workspaces'))
             Lang.bind(this, enable)();
