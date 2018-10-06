@@ -303,14 +303,44 @@ var taskbar = new Lang.Class({
                 this._dtpSettings,
                 'changed::show-window-previews',
                 Lang.bind(this, this._toggleWindowPreview)
+            ],
+            [
+                this._dtpSettings,
+                'changed::show-show-apps-button',
+                Lang.bind(this, function() {
+                    if (this._dtpSettings.get_boolean('show-show-apps-button'))
+                        this.showShowAppsButton();
+                    else
+                        this.hideShowAppsButton();
+                })
+            ],
+            [
+                this._dtpSettings,
+                [
+                    'changed::dot-size',
+                    'changed::show-favorites'
+                ],
+                Lang.bind(this, this._redisplay)
+            ],
+            [
+                this._dtpSettings,
+                'changed::group-apps',
+                Lang.bind(this, function() {
+                    this.isGroupApps = this._dtpSettings.get_boolean('group-apps');
+                    this._connectWorkspaceSignals();
+                    this.resetAppIcons();
+                })
+            ],
+            [
+                this._dtpSettings,
+                'changed::group-apps-use-launchers',
+                () => this.resetAppIcons()
             ]
         );
 
         this.isGroupApps = this._dtpSettings.get_boolean('group-apps');
 
         this._connectWorkspaceSignals();
-
-        this._bindSettingsChanges();
     },
 
     destroy: function() {
@@ -319,29 +349,6 @@ var taskbar = new Lang.Class({
 
         this._container.destroy();
         this._disconnectWorkspaceSignals();
-    },
-
-    _bindSettingsChanges: function () {
-        this._dtpSettings.connect('changed::show-show-apps-button', Lang.bind(this, function() {
-            if (this._dtpSettings.get_boolean('show-show-apps-button'))
-                this.showShowAppsButton();
-            else
-                this.hideShowAppsButton();
-        }));
-
-        this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._redisplay));
-
-        this._dtpSettings.connect('changed::show-favorites', Lang.bind(this, this._redisplay));
-
-        this._dtpSettings.connect('changed::group-apps', Lang.bind(this, function() {
-            this.isGroupApps = this._dtpSettings.get_boolean('group-apps');
-            this._connectWorkspaceSignals();
-            this.resetAppIcons();
-        }));
-
-        this._dtpSettings.connect('changed::group-apps-use-launchers', Lang.bind(this, function() {
-            this.resetAppIcons();
-        }));
     },
 
     _onScrollEvent: function(actor, event) {

@@ -902,10 +902,12 @@ var thumbnailPreviewList = new Lang.Class({
 
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
 
-        this._dtpSettings.connect('changed::window-preview-width', () => this._resetPreviews());
-        this._dtpSettings.connect('changed::window-preview-height', () => this._resetPreviews());
-        this._dtpSettings.connect('changed::window-preview-show-title', () => this._resetPreviews());
-        this._dtpSettings.connect('changed::window-preview-padding', () => this._resetPreviews());
+        this._dtpSettingsSignalIds = [
+            this._dtpSettings.connect('changed::window-preview-width', () => this._resetPreviews()),
+            this._dtpSettings.connect('changed::window-preview-height', () => this._resetPreviews()),
+            this._dtpSettings.connect('changed::window-preview-show-title', () => this._resetPreviews()),
+            this._dtpSettings.connect('changed::window-preview-padding', () => this._resetPreviews())
+        ];
 
         this._stateChangedId = this._source.window ? 0 : 
                                this.app.connect('windows-changed', Lang.bind(this, this._queueRedisplay));
@@ -996,6 +998,10 @@ var thumbnailPreviewList = new Lang.Class({
     },
 
     _onDestroy: function() {
+        for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
+            this._dtpSettings.disconnect(this._dtpSettingsSignalIds[i]);
+        }
+
         if (this._stateChangedId) {
             this.app.disconnect(this._stateChangedId);
             this._stateChangedId = 0;
