@@ -438,6 +438,11 @@ const Settings = new Lang.Class({
         this._settings.bind('isolate-monitors',
                             this._builder.get_object('multimon_multi_isolate_monitor_switch'),
                             'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('show-clock-all-monitors',
+                            this._builder.get_object('multimon_multi_show_clock_switch'),
+                            'active',
                             Gio.SettingsBindFlags.DEFAULT); 
 
         this._builder.get_object('multimon_multi_options_button').connect('clicked', Lang.bind(this, function() {
@@ -457,6 +462,7 @@ const Settings = new Lang.Class({
                 if (id == 1) {
                     // restore default settings
                     this._settings.set_value('isolate-monitors', this._settings.get_default_value('isolate-monitors'));
+                    this._settings.set_value('show-clock-all-monitors', this._settings.get_default_value('show-clock-all-monitors'));
                 } else {
                     // remove the settings box so it doesn't get destroyed;
                     dialog.get_content_area().remove(box);

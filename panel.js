@@ -46,6 +46,7 @@ const Shell = imports.gi.Shell;
 const PopupMenu = imports.ui.popupMenu;
 const IconGrid = imports.ui.iconGrid;
 const ViewSelector = imports.ui.viewSelector;
+const DateMenu = imports.ui.dateMenu;
 
 const Intellihide = Me.imports.intellihide;
 
@@ -743,16 +744,15 @@ var dtpSecondaryPanel = new Lang.Class({
     Name: 'DashToPanel.SecondaryPanel',
     Extends: Panel.Panel,
 
-    _init : function(monitorIndex, panelBox) {
-        this.monitorIndex = monitorIndex;
-        this.panelBox = panelBox;
+    _init : function(settings, monitor) {
+        this._dtpSettings = settings;
    	
         this.actor = new Shell.GenericContainer({ name: 'panel', reactive: true });
         this.actor._delegate = this;
 
         this._sessionStyle = null;
 
-        this.statusArea = {};
+        this.statusArea = { aggregateMenu: { container: null } };
 
         this.menuManager = new PopupMenu.PopupMenuManager(this);
 
@@ -769,16 +769,48 @@ var dtpSecondaryPanel = new Lang.Class({
         this._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
         this.actor.add_actor(this._rightCorner.actor);
 
+        this._setDateMenu();
+        this.showClockOnAllMonitorsId = this._dtpSettings.connect('changed::show-clock-all-monitors', () => this._setDateMenu());
+
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
        
-        Main.ctrlAltTabManager.addGroup(this.actor, _("Top Bar")+" "+this.monitorIndex, 'focus-top-bar-symbolic',
+        Main.ctrlAltTabManager.addGroup(this.actor, _("Top Bar")+" "+ monitor.index, 'focus-top-bar-symbolic',
                                         { sortGroup: CtrlAltTab.SortGroup.TOP });
 
     },
+
+    _setDateMenu: function() {
+        if (!this._dtpSettings.get_boolean('show-clock-all-monitors')) {
+            this._removeDateMenu();
+        } else if (!this.statusArea.dateMenu) {
+            this.statusArea.dateMenu = new DateMenu.DateMenuButton();
+            this.menuManager.addMenu(this.statusArea.dateMenu.menu);
+
+            //adding the clock to the centerbox will correctly position it according to dtp settings (event in dtpPanelWrapper)
+            this._centerBox.add_actor(this.statusArea.dateMenu.container);
+        }
+    },
     
+    _removeDateMenu: function() {
+        if (this.statusArea.dateMenu) {
+            let parent = this.statusArea.dateMenu.container.get_parent();
+
+            if (parent) {
+                parent.remove_actor(this.statusArea.dateMenu.container);
+            }
+
+            //this.statusArea.dateMenu.destroy(); //buggy for now, creates the same error as when destroying the default gnome-shell clock
+            this.menuManager.removeMenu(this.statusArea.dateMenu.menu);
+            this.statusArea.dateMenu = null;
+        }
+    },
+
     _onDestroy: function(actor) {
 	    Main.ctrlAltTabManager.removeGroup(this.actor);
-	    
+        
+        this._dtpSettings.disconnect(this.showClockOnAllMonitorsId);
+        this._removeDateMenu();
+        
         this.actor._delegate = null;
     },
   

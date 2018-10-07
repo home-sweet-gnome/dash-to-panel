@@ -349,6 +349,11 @@
       <summary>Provide monitor isolation</summary>
       <description>Dash shows only windows from the current monitor</description>
     </key>
+    <key type="b" name="show-clock-all-monitors">
+      <default>true</default>
+      <summary>Display the clock on all monitors</summary>
+      <description>Specifies if every panel should display the clock. If false, the clock is only displayed on the primary monitor.</description>
+    </key>
     <key type="b" name="customize-click">
       <default>true</default>
       <summary>Customize click behaviour</summary>

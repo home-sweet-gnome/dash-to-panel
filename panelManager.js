@@ -62,14 +62,14 @@ var dtpPanelManager = new Lang.Class({
 
         if (this._dtpSettings.get_boolean('multi-monitors')) {
             Main.layoutManager.monitors.forEach(monitor => {
-                if(monitor == dtpPrimaryMonitor)
+                if (monitor == dtpPrimaryMonitor)
                     return;
 
                 let panelBox = new St.BoxLayout({ name: 'dashtopanelSecondaryPanelBox', vertical: true });
                 Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
                 Main.uiGroup.set_child_below_sibling(panelBox, Main.layoutManager.panelBox);
 
-                let panel = new Panel.dtpSecondaryPanel();
+                let panel = new Panel.dtpSecondaryPanel(this._dtpSettings, monitor);
                 panelBox.add(panel.actor);
 
                 panelBox.set_position(monitor.x, monitor.y);
