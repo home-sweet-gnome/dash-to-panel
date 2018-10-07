@@ -1454,7 +1454,7 @@ var ShowAppsIconWrapper = new Lang.Class({
         this._menuManager = new PopupMenu.PopupMenuManager(this);
         this._menuTimeoutId = 0;
 
-        this.showLabel = ItemShowLabel;
+        this.realShowAppsIcon.showLabel = ItemShowLabel;
 
         let customIconPath = this._dtpSettings.get_string('show-apps-icon-file');
 
