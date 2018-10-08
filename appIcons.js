@@ -1480,7 +1480,7 @@ var ShowAppsIconWrapper = new Lang.Class({
     popupMenu: function() {
         this._removeMenuTimeout();
         this.actor.fake_release();
-
+        
         if (!this._menu) {
             this._menu = new MyShowAppsIconMenu(this, this._dtpSettings);
             this._menu.connect('open-state-changed', Lang.bind(this, function(menu, isPoppedUp) {

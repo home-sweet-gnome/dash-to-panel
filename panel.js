@@ -144,8 +144,8 @@ var dtpPanelWrapper = new Lang.Class({
         if(Main.overview.viewSelector._activePage == null)
             Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
 
-        if(this.taskbar._showAppsIcon)
-            this.taskbar._showAppsIcon._dtpPanel = this;
+        if(this.taskbar._showAppsIconWrapper)
+            this.taskbar._showAppsIconWrapper._dtpPanel = this;
 
         this.startIntellihideId = Mainloop.timeout_add(2000, () => {
             this.startIntellihideId = 0;

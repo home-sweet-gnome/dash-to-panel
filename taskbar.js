@@ -212,12 +212,12 @@ var taskbar = new Lang.Class({
         this._scrollView.add_actor(this._box);
 
         // Create a wrapper around the real showAppsIcon in order to add a popupMenu.
-        let showAppsIconWrapper = new AppIcons.ShowAppsIconWrapper(this._dtpSettings);
-        showAppsIconWrapper.connect('menu-state-changed', Lang.bind(this, function(showAppsIconWrapper, opened) {
+        this._showAppsIconWrapper = new AppIcons.ShowAppsIconWrapper(this._dtpSettings);
+        this._showAppsIconWrapper.connect('menu-state-changed', Lang.bind(this, function(showAppsIconWrapper, opened) {
             this._itemMenuStateChanged(showAppsIconWrapper, opened);
         }));
         // an instance of the showAppsIcon class is encapsulated in the wrapper
-        this._showAppsIcon = showAppsIconWrapper.realShowAppsIcon;
+        this._showAppsIcon = this._showAppsIconWrapper.realShowAppsIcon;
         this.showAppsButton = this._showAppsIcon.toggleButton;
              
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
