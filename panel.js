@@ -83,12 +83,11 @@ var dtpPanelWrapper = new Lang.Class({
         // This pushes everything down, which isn't desired when the this.panel is moved to the bottom
         // I'm adding a 2nd ghost this.panel and will resize the top or bottom ghost depending on the this.panel position
         this._myPanelGhost = new St.Bin({ 
-            child: new Clutter.Clone({ source: Main.overview._panelGhost.get_child() }),
+            child: new Clutter.Clone({ source: this.panel.actor }),
             reactive: false,
             opacity: 0 
         });
-        Main.overview._overview.add_actor(this._myPanelGhost);
-        
+
         this._setPanelPosition();
         
         this._HeightNotifyListener = this.panelBox.connect("notify::height", Lang.bind(this, function(){
@@ -187,6 +186,26 @@ var dtpPanelWrapper = new Lang.Class({
                 () => this.panel._updateSolidStyle ? this.panel._updateSolidStyle() : null
             ],
             [
+                Main.overview,
+                [
+                    'showing',
+                    'hiding'
+                ],
+                () => {
+                    let isFocusedMonitor = Main.overview._focusedMonitor == this.monitor;
+                    let isOverview = !!Main.overview.visibleTarget;
+                    let isShown = !isOverview || (isOverview && isFocusedMonitor);
+
+                    this.panel.actor[isShown ? 'show' : 'hide']();
+                    
+                    if (isOverview && isFocusedMonitor) {
+                        Main.overview._overview.add_actor(this._myPanelGhost);
+                    } else if (this._myPanelGhost.get_parent()) {
+                        Main.overview._overview.remove_actor(this._myPanelGhost);
+                    }
+                }
+            ],
+            [
                 this.panel._rightBox,
                 'actor-added',
                 Lang.bind(this, function() {
@@ -279,8 +298,6 @@ var dtpPanelWrapper = new Lang.Class({
             delete this.panel._dtpPosition;
             delete this.panel._dtpRemoveSolidStyleId;
         }
-
-        Main.overview._overview.remove_child(this._myPanelGhost);
 
         if (!this.isSecondary) {
             this.panel.actor.set_height(this._oldPanelHeight);
