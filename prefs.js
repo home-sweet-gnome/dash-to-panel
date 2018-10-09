@@ -450,6 +450,11 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT); 
 
+        this._settings.bind('show-favorites-all-monitors',
+                            this._builder.get_object('multimon_multi_show_favorites_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT); 
+
         this._builder.get_object('multimon_multi_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Multi-monitors options'),
                                             transient_for: this.widget.get_toplevel(),
@@ -467,6 +472,7 @@ const Settings = new Lang.Class({
                 if (id == 1) {
                     // restore default settings
                     this._settings.set_value('isolate-monitors', this._settings.get_default_value('isolate-monitors'));
+                    this._settings.set_value('show-favorites-all-monitors', this._settings.get_default_value('show-favorites-all-monitors'));
                     this._settings.set_value('show-clock-all-monitors', this._settings.get_default_value('show-clock-all-monitors'));
                     this._settings.set_value('show-status-menu-all-monitors', this._settings.get_default_value('show-status-menu-all-monitors'));
                 } else {

@@ -359,6 +359,11 @@
       <summary>Display the status menu on all monitors</summary>
       <description>Specifies if every panel should display the status menu. If false, the status menu is only displayed on the primary monitor.</description>
     </key>
+    <key type="b" name="show-favorites-all-monitors">
+      <default>false</default>
+      <summary>Display the favorites on all monitors</summary>
+      <description>Specifies if every panel should display the favorite applications. If false, the favorite appplications are only displayed on the primary monitor.</description>
+    </key>
     <key type="b" name="customize-click">
       <default>true</default>
       <summary>Customize click behaviour</summary>

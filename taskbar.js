@@ -318,7 +318,8 @@ var taskbar = new Lang.Class({
                 this._dtpSettings,
                 [
                     'changed::dot-size',
-                    'changed::show-favorites'
+                    'changed::show-favorites',
+                    'changed::show-favorites-all-monitors'
                 ],
                 Lang.bind(this, this._redisplay)
             ],
@@ -757,7 +758,8 @@ var taskbar = new Lang.Class({
             return;
         }
         
-        let showFavorites = this._dtpSettings.get_boolean('show-favorites');
+        let showFavorites = this._dtpSettings.get_boolean('show-favorites') && 
+                            (!this.panelWrapper.isSecondary || this._dtpSettings.get_boolean('show-favorites-all-monitors'));
         //get the currently displayed appIcons
         let currentAppIcons = this._getTaskbarIcons();
         //get the user's favorite apps
