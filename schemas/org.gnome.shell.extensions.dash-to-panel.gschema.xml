@@ -85,7 +85,7 @@
       <description>Style of the running indicator for the icon for the currently focused application</description>
     </key>
     <key name="dot-style-unfocused" enum="org.gnome.shell.extensions.dash-to-panel.dotStyle">
-      <default>'DOTS'</default>
+      <default>'METRO'</default>
       <summary>Style of the running indicator (unfocused)</summary>
       <description>Style of the running indicator for the icon for applications which are not currently focused</description>
     </key>
@@ -235,12 +235,12 @@
       <description>Show activities button on the left hand side of the taskbar</description>
     </key>
     <key type="b" name="show-showdesktop-button">
-      <default>false</default>
+      <default>true</default>
       <summary>Show desktop button</summary>
       <description>Show button on right side of bar that minimizes/restores all visible windows on current workspace</description>
     </key>
     <key type="i" name="showdesktop-button-width">
-      <default>4</default>
+      <default>8</default>
       <summary>Width of show Desktop button</summary>
       <description>Customize the width of the show Desktop button</description>
     </key>
@@ -340,12 +340,12 @@
       <description>Specifies the index of the primary monitor.</description>
     </key>
     <key type="b" name="multi-monitors">
-      <default>false</default>
+      <default>true</default>
       <summary>Display panels on all monitors</summary>
       <description>Specifies if a panel is shown on every monitors</description>
     </key>
     <key type="b" name="isolate-monitors">
-      <default>true</default>
+      <default>false</default>
       <summary>Provide monitor isolation</summary>
       <description>Dash shows only windows from the current monitor</description>
     </key>
