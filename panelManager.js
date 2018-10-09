@@ -32,6 +32,8 @@ const Overview = Me.imports.overview;
 const Panel = Me.imports.panel;
 const Utils = Me.imports.utils;
 
+const Clutter = imports.gi.Clutter;
+const Gtk = imports.gi.Gtk;
 const Main = imports.ui.main;
 const Lang = imports.lang;
 const St = imports.gi.St;
