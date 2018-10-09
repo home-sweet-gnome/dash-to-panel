@@ -29,6 +29,7 @@
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Clutter = imports.gi.Clutter;
+const Config = imports.misc.config;
 const Gtk = imports.gi.Gtk;
 const Utils = Me.imports.utils;
 const Taskbar = Me.imports.taskbar;
@@ -38,6 +39,7 @@ const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
 const CtrlAltTab = imports.ui.ctrlAltTab;
 const Panel = imports.ui.panel;
+const PanelMenu = imports.ui.panelMenu;
 const St = imports.gi.St;
 const GLib = imports.gi.GLib;
 const Meta = imports.gi.Meta;
@@ -570,7 +572,7 @@ var dtpPanelWrapper = new Lang.Class({
         if (loc.indexOf('BUTTONS') == 0) {
             destination = this.panel._centerBox;
         } else if (loc.indexOf('STATUS') == 0) {
-            refSibling = this.panel.statusArea.aggregateMenu.container;
+            refSibling = this.panel.statusArea.aggregateMenu ? this.panel.statusArea.aggregateMenu.container : null;
             destination = this.panel._rightBox;
         } else { //TASKBAR
             refSibling = this.taskbar.actor;
@@ -773,7 +775,7 @@ var dtpSecondaryPanel = new Lang.Class({
 
         this._sessionStyle = null;
 
-        this.statusArea = { aggregateMenu: { container: null } };
+        this.statusArea = { };
 
         this.menuManager = new PopupMenu.PopupMenuManager(this);
 
@@ -790,9 +792,12 @@ var dtpSecondaryPanel = new Lang.Class({
         this._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
         this.actor.add_actor(this._rightCorner.actor);
 
-        this._setDateMenu();
-        this.showClockOnAllMonitorsId = this._dtpSettings.connect('changed::show-clock-all-monitors', () => this._setDateMenu());
+        this._panelMenuSignalIds = [];
 
+        //adding the clock to the centerbox will correctly position it according to dtp settings (event in dtpPanelWrapper)
+        this._setPanelMenu('show-status-menu-all-monitors', 'aggregateMenu', dtpSecondaryAggregateMenu, this._rightBox, true);
+        this._setPanelMenu('show-clock-all-monitors', 'dateMenu', DateMenu.DateMenuButton, this._centerBox, true);
+        
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
        
         Main.ctrlAltTabManager.addGroup(this.actor, _("Top Bar")+" "+ monitor.index, 'focus-top-bar-symbolic',
@@ -800,39 +805,111 @@ var dtpSecondaryPanel = new Lang.Class({
 
     },
 
-    _setDateMenu: function() {
-        if (!this._dtpSettings.get_boolean('show-clock-all-monitors')) {
-            this._removeDateMenu();
-        } else if (!this.statusArea.dateMenu) {
-            this.statusArea.dateMenu = new DateMenu.DateMenuButton();
-            this.menuManager.addMenu(this.statusArea.dateMenu.menu);
-
-            //adding the clock to the centerbox will correctly position it according to dtp settings (event in dtpPanelWrapper)
-            this._centerBox.add_actor(this.statusArea.dateMenu.container);
+    _setPanelMenu: function(settingName, propName, constr, container, isInit) {
+        if (isInit) {
+            this._panelMenuSignalIds.push(this._dtpSettings.connect(
+                'changed::' + settingName, () => this._setPanelMenu(settingName, propName, constr, container)));
+        }
+        
+        if (!this._dtpSettings.get_boolean(settingName)) {
+            this._removePanelMenu(propName);
+        } else if (!this.statusArea[propName]) {
+            this.statusArea[propName] = new constr();
+            this.menuManager.addMenu(this.statusArea[propName].menu);
+            container.insert_child_at_index(this.statusArea[propName].container, 0);
         }
     },
     
-    _removeDateMenu: function() {
-        if (this.statusArea.dateMenu) {
-            let parent = this.statusArea.dateMenu.container.get_parent();
+    _removePanelMenu: function(propName) {
+        if (this.statusArea[propName]) {
+            let parent = this.statusArea[propName].container.get_parent();
 
             if (parent) {
-                parent.remove_actor(this.statusArea.dateMenu.container);
+                parent.remove_actor(this.statusArea[propName].container);
             }
 
-            //this.statusArea.dateMenu.destroy(); //buggy for now, creates the same error as when destroying the default gnome-shell clock
-            this.menuManager.removeMenu(this.statusArea.dateMenu.menu);
-            this.statusArea.dateMenu = null;
+            //this.statusArea[propName].destroy(); //buggy for now, gnome-shell never destroys those menus
+            this.menuManager.removeMenu(this.statusArea[propName].menu);
+            this.statusArea[propName] = null;
         }
     },
 
-    _onDestroy: function(actor) {
+    _onDestroy: function() {
 	    Main.ctrlAltTabManager.removeGroup(this.actor);
         
-        this._dtpSettings.disconnect(this.showClockOnAllMonitorsId);
-        this._removeDateMenu();
+        this._panelMenuSignalIds.forEach(id => this._dtpSettings.disconnect(id));
+        
+        this._removePanelMenu('dateMenu');
+        this._removePanelMenu('aggregateMenu');
         
         this.actor._delegate = null;
     },
   
+});
+
+var dtpSecondaryAggregateMenu = new Lang.Class({
+    Name: 'dtpSecondaryAggregateMenu',
+    Extends: PanelMenu.Button,
+
+    _init() {
+        this.parent(0.0, C_("System menu in the top bar", "System"), false);
+        this.menu.actor.add_style_class_name('aggregate-menu');
+
+        let menuLayout = new Panel.AggregateLayout();
+        this.menu.box.set_layout_manager(menuLayout);
+
+        this._indicators = new St.BoxLayout({ style_class: 'panel-status-indicators-box' });
+        this.actor.add_child(this._indicators);
+
+        if (Config.HAVE_NETWORKMANAGER) {
+            this._network = new imports.ui.status.network.NMApplet();
+        } else {
+            this._network = null;
+        }
+        if (Config.HAVE_BLUETOOTH) {
+            this._bluetooth = new imports.ui.status.bluetooth.Indicator();
+        } else {
+            this._bluetooth = null;
+        }
+
+        this._remoteAccess = new imports.ui.status.remoteAccess.RemoteAccessApplet();
+        this._power = new imports.ui.status.power.Indicator();
+        this._volume = new imports.ui.status.volume.Indicator();
+        this._brightness = new imports.ui.status.brightness.Indicator();
+        this._system = new imports.ui.status.system.Indicator();
+        this._screencast = new imports.ui.status.screencast.Indicator();
+        this._nightLight = new imports.ui.status.nightLight.Indicator();
+        this._thunderbolt = new imports.ui.status.thunderbolt.Indicator();
+
+        this._indicators.add_child(this._thunderbolt.indicators);
+        this._indicators.add_child(this._screencast.indicators);
+        this._indicators.add_child(this._nightLight.indicators);
+        if (this._network) {
+            this._indicators.add_child(this._network.indicators);
+        }
+        if (this._bluetooth) {
+            this._indicators.add_child(this._bluetooth.indicators);
+        }
+        this._indicators.add_child(this._remoteAccess.indicators);
+        this._indicators.add_child(this._volume.indicators);
+        this._indicators.add_child(this._power.indicators);
+        this._indicators.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
+
+        this.menu.addMenuItem(this._volume.menu);
+        this.menu.addMenuItem(this._brightness.menu);
+        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+        if (this._network) {
+            this.menu.addMenuItem(this._network.menu);
+        }
+        if (this._bluetooth) {
+            this.menu.addMenuItem(this._bluetooth.menu);
+        }
+        this.menu.addMenuItem(this._remoteAccess.menu);
+        this.menu.addMenuItem(this._power.menu);
+        this.menu.addMenuItem(this._nightLight.menu);
+        this.menu.addMenuItem(this._system.menu);
+
+        menuLayout.addSizeChild(this._power.menu.actor);
+        menuLayout.addSizeChild(this._system.menu.actor);
+    },
 });
