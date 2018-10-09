@@ -183,7 +183,13 @@ var dtpPanelWrapper = new Lang.Class({
             [
                 Main.overview,
                 'hidden',
-                () => this.panel._updateSolidStyle ? this.panel._updateSolidStyle() : null
+                () => {
+                    this.panel._updateSolidStyle ? this.panel._updateSolidStyle() : null;
+
+                    if (this._myPanelGhost.get_parent()) {
+                        Main.overview._overview.remove_actor(this._myPanelGhost);
+                    }
+                }
             ],
             [
                 Main.overview,
@@ -200,8 +206,6 @@ var dtpPanelWrapper = new Lang.Class({
                     
                     if (isOverview && isFocusedMonitor) {
                         Main.overview._overview.add_actor(this._myPanelGhost);
-                    } else if (this._myPanelGhost.get_parent()) {
-                        Main.overview._overview.remove_actor(this._myPanelGhost);
                     }
                 }
             ],
