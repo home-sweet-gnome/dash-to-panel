@@ -279,6 +279,18 @@ var taskbar = new Lang.Class({
                 () => this._connectWorkspaceSignals()
             ],
             [
+                Utils.DisplayWrapper.getScreen(),
+                [
+                    'window-entered-monitor',
+                    'window-left-monitor'
+                ],
+                () => {
+                    if (this._dtpSettings.get_boolean('isolate-monitors')) {
+                        this._queueRedisplay()
+                    }
+                }
+            ],
+            [
                 Main.overview,
                 'item-drag-begin',
                 Lang.bind(this, this._onDragBegin)
