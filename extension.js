@@ -101,7 +101,7 @@ function _enable() {
 }
 
 function disable(reset) {
-    panelManager.disable();
+    panelManager.disable(reset);
     settings.run_dispose();
     Main.overview._dash = oldDash;
 

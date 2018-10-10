@@ -872,7 +872,6 @@ var dtpSecondaryAggregateMenu = new Lang.Class({
             this._bluetooth = null;
         }
 
-        this._remoteAccess = new imports.ui.status.remoteAccess.RemoteAccessApplet();
         this._power = new imports.ui.status.power.Indicator();
         this._volume = new imports.ui.status.volume.Indicator();
         this._brightness = new imports.ui.status.brightness.Indicator();
@@ -890,7 +889,6 @@ var dtpSecondaryAggregateMenu = new Lang.Class({
         if (this._bluetooth) {
             this._indicators.add_child(this._bluetooth.indicators);
         }
-        this._indicators.add_child(this._remoteAccess.indicators);
         this._indicators.add_child(this._volume.indicators);
         this._indicators.add_child(this._power.indicators);
         this._indicators.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
@@ -904,7 +902,6 @@ var dtpSecondaryAggregateMenu = new Lang.Class({
         if (this._bluetooth) {
             this.menu.addMenuItem(this._bluetooth.menu);
         }
-        this.menu.addMenuItem(this._remoteAccess.menu);
         this.menu.addMenuItem(this._power.menu);
         this.menu.addMenuItem(this._nightLight.menu);
         this.menu.addMenuItem(this._system.menu);
