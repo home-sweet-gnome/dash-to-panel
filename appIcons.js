@@ -1512,6 +1512,10 @@ var ShowAppsIconWrapper = new Lang.Class({
         this.emit('sync-tooltip');
 
         return false;
+    },
+
+    shouldShowTooltip: function() {
+        return this.actor.hover && (!this._menu || !this._menu.isOpen);
     }
 });
 Signals.addSignalMethods(ShowAppsIconWrapper.prototype);

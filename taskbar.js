@@ -225,7 +225,7 @@ var taskbar = new Lang.Class({
         this._showAppsIcon.childScale = 1;
         this._showAppsIcon.childOpacity = 255;
         this._showAppsIcon.icon.setIconSize(this.iconSize);
-        this._hookUpLabel(this._showAppsIcon);
+        this._hookUpLabel(this._showAppsIcon, this._showAppsIconWrapper);
 
         this._container.add_actor(this._showAppsIcon);
 
@@ -498,16 +498,14 @@ var taskbar = new Lang.Class({
         Main.queueDeferredWork(this._workId);
     },
 
-    _hookUpLabel: function(item, appIcon) {
+    _hookUpLabel: function(item, syncHandler) {
         item.child.connect('notify::hover', Lang.bind(this, function() {
-            this._syncLabel(item, appIcon);
+            this._syncLabel(item, syncHandler);
         }));
 
-        if (appIcon) {
-            appIcon.connect('sync-tooltip', Lang.bind(this, function() {
-                this._syncLabel(item, appIcon);
-            }));
-        }
+        syncHandler.connect('sync-tooltip', Lang.bind(this, function() {
+            this._syncLabel(item, syncHandler);
+        }));
     },
 
     _createAppItem: function(app, window, isLauncher) {
@@ -662,8 +660,8 @@ var taskbar = new Lang.Class({
         }
     },
 
-    _syncLabel: function (item, appIcon) {
-        let shouldShow = appIcon ? appIcon.shouldShowTooltip() : item.child.get_hover();
+    _syncLabel: function (item, syncHandler) {
+        let shouldShow = syncHandler ? syncHandler.shouldShowTooltip() : item.child.get_hover();
 
         if (shouldShow) {
             if (this._showLabelTimeoutId == 0) {
