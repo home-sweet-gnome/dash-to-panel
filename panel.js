@@ -866,7 +866,7 @@ var dtpSecondaryAggregateMenu = new Lang.Class({
     Name: 'dtpSecondaryAggregateMenu',
     Extends: PanelMenu.Button,
 
-    _init() {
+    _init: function() {
         this.parent(0.0, C_("System menu in the top bar", "System"), false);
         this.menu.actor.add_style_class_name('aggregate-menu');
 
@@ -892,12 +892,22 @@ var dtpSecondaryAggregateMenu = new Lang.Class({
         this._brightness = new imports.ui.status.brightness.Indicator();
         this._system = new imports.ui.status.system.Indicator();
         this._screencast = new imports.ui.status.screencast.Indicator();
-        this._nightLight = new imports.ui.status.nightLight.Indicator();
-        this._thunderbolt = new imports.ui.status.thunderbolt.Indicator();
+        
+        if (Config.PACKAGE_VERSION >= '3.24') {
+            this._nightLight = new imports.ui.status.nightLight.Indicator();
+        }
 
-        this._indicators.add_child(this._thunderbolt.indicators);
+        if (Config.PACKAGE_VERSION >= '3.28') {
+            this._thunderbolt = new imports.ui.status.thunderbolt.Indicator();
+        }
+
+        if (this._thunderbolt) {
+            this._indicators.add_child(this._thunderbolt.indicators);
+        }
         this._indicators.add_child(this._screencast.indicators);
-        this._indicators.add_child(this._nightLight.indicators);
+        if (this._nightLight) {
+            this._indicators.add_child(this._nightLight.indicators);
+        }
         if (this._network) {
             this._indicators.add_child(this._network.indicators);
         }
@@ -918,7 +928,9 @@ var dtpSecondaryAggregateMenu = new Lang.Class({
             this.menu.addMenuItem(this._bluetooth.menu);
         }
         this.menu.addMenuItem(this._power.menu);
-        this.menu.addMenuItem(this._nightLight.menu);
+        if (this._nightLight) {
+            this.menu.addMenuItem(this._nightLight.menu);
+        }
         this.menu.addMenuItem(this._system.menu);
 
         menuLayout.addSizeChild(this._power.menu.actor);

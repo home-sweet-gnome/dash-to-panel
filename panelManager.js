@@ -184,7 +184,7 @@ var dtpPanelManager = new Lang.Class({
         // when it is next shown.
         this.hide();
 
-        let workArea = Main.layoutManager.getWorkAreaForMonitor(this._focusedMonitor);
+        let workArea = Main.layoutManager.getWorkAreaForMonitor(this._focusedMonitor.index);
 
         this._coverPane.set_position(0, workArea.y);
         this._coverPane.set_size(workArea.width, workArea.height);
