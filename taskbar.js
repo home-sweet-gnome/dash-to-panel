@@ -628,12 +628,12 @@ var taskbar = new Lang.Class({
         });
     },
 
-    _getTaskbarIcons: function() {
+    _getTaskbarIcons: function(includeAnimated) {
         return this._box.get_children().filter(function(actor) {
             return actor.child &&
                    actor.child._delegate &&
                    actor.child._delegate.icon &&
-                   !actor.animatingOut;
+                   (includeAnimated || !actor.animatingOut);
         });
     },
 
@@ -887,12 +887,8 @@ var taskbar = new Lang.Class({
 
     // Reset the displayed apps icon to mantain the correct order
     resetAppIcons : function() {
-        
-        let children = this._box.get_children().filter(function(actor) {
-            return actor.child &&
-                actor.child._delegate &&
-                actor.child._delegate.icon;
-        });
+        let children = this._getTaskbarIcons(true);
+
         for (let i = 0; i < children.length; i++) {
             let item = children[i];
             item.destroy();

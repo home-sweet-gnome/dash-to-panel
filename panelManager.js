@@ -244,7 +244,7 @@ function newPopupOpen(animate) {
     } 
     
     this._boxPointer.setPosition(this.sourceActor, this._arrowAlignment);
-    this._boxPointer.show(animate);
+    (this._boxPointer.open || this._boxPointer.show).call(this._boxPointer, animate);
 
     this.actor.raise_top();
 

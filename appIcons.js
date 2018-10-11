@@ -1429,6 +1429,7 @@ var ShowAppsIconWrapper = new Lang.Class({
         /* the variable equivalent to toggleButton has a different name in the appIcon class
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
+        this.actor.name = 'show-apps-btn';
 
         // Re-use appIcon methods
         this._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
@@ -1475,6 +1476,13 @@ var ShowAppsIconWrapper = new Lang.Class({
             customIconPath = this._dtpSettings.get_string('show-apps-icon-file');
             this.realShowAppsIcon.icon._createIconTexture(this.realShowAppsIcon.icon.iconSize);
         });
+
+        this._dtpSettings.connect('changed::appicon-padding', () => this.setShowAppsPadding());
+        this.setShowAppsPadding();
+    },
+
+    setShowAppsPadding: function() {
+        this.actor.set_style('padding:' + (this._dtpSettings.get_int('appicon-padding') + 2) + 'px;');
     },
 
     popupMenu: function() {
