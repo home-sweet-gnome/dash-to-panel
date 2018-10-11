@@ -255,7 +255,7 @@ var thumbnailPreviewMenu = new Lang.Class({
             this._activeMenuItem.setActive(false);
 
         if (this._boxPointer.actor.visible) {
-            this._boxPointer.hide(animate, Lang.bind(this, function() {
+            (this._boxPointer.close || this._boxPointer.hide).call(this._boxPointer, animate, Lang.bind(this, function() {
                 this.emit('menu-closed', this);
             }));
         }

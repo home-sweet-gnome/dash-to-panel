@@ -24,10 +24,16 @@
 #dashtopanelScrollview .app-well-app .overview-icon {
 	border-radius: 0;
 	border: none;
+	padding: 2px;
 }
 
 #dashtopanelScrollview .app-well-app .overview-label {
 	padding-right: 8px;
+}
+
+#show-apps-btn, #show-apps-btn .overview-icon {
+	margin: 0;
+	padding: 0;
 }
 
 #dashtopanelScrollview .app-well-app:hover .overview-icon,

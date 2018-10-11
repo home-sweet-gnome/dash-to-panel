@@ -30,6 +30,7 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Clutter = imports.gi.Clutter;
 const Gtk = imports.gi.Gtk;
+const Gi = imports._gi;
 const Utils = Me.imports.utils;
 const Taskbar = Me.imports.taskbar;
 const PanelStyle = Me.imports.panelStyle;
@@ -138,16 +139,24 @@ var dtpPanel = new Lang.Class({
                 this.oldRightBoxAllocate(box, flags);
         });
 
-        this._panelConnectId = this.panel.actor.connect('allocate', Lang.bind(this, function(actor,box,flags){this._allocate(actor,box,flags);}));
+        if (this.panel.vfunc_allocate) {
+            this._panelConnectId = 0;
+            this._oldAllocate = this.panel.__proto__.vfunc_allocate;
+            this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', (box, flags) => {
+                //panel inherits from St.Widget, invoke its parent allocation
+                St.Widget.prototype.vfunc_allocate.call(this.panel, box, flags);
+                this._allocate(null, box, flags);
+            }); 
+        } else {
+            this._panelConnectId = this.panel.actor.connect('allocate', (actor,box,flags) => this._allocate(actor,box,flags));
+        }
+
         this.panel._leftBox.remove_child(this.appMenu.container);
         this.taskbar = new Taskbar.taskbar(this._dtpSettings);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
         this.container.insert_child_at_index( this.taskbar.actor, 2 );
         
-        this._oldLeftBoxStyle = this.panel._leftBox.get_style();
-        this._oldCenterBoxStyle = this.panel._centerBox.get_style();
-        this._oldRightBoxStyle = this.panel._rightBox.get_style();
         this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
         this._setAppmenuVisible(this._dtpSettings.get_boolean('show-appmenu'));
         this._setClockLocation(this._dtpSettings.get_string('location-clock'));
@@ -254,7 +263,12 @@ var dtpPanel = new Lang.Class({
         this._setAppmenuVisible(false);
         this.panel._leftBox.add_child(this.appMenu.container);
         this.taskbar.destroy();
-        this.panel.actor.disconnect(this._panelConnectId);
+
+        if (this._panelConnectId) {
+            this.panel.actor.disconnect(this._panelConnectId);
+        } else if (this._oldAllocate) {
+            this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this._oldAllocate);
+        }
 
         if (this.startIntellihideId) {
             Mainloop.source_remove(this.startIntellihideId);
@@ -734,7 +748,7 @@ function newPopupOpen(animate) {
     } 
     
     this._boxPointer.setPosition(this.sourceActor, this._arrowAlignment);
-    this._boxPointer.show(animate);
+    (this._boxPointer.open || this._boxPointer.show).call(this._boxPointer, animate);
 
     this.actor.raise_top();
 

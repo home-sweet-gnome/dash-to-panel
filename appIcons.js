@@ -1415,6 +1415,7 @@ function extendShowAppsIcon(showAppsIcon, settings) {
     /* the variable equivalent to toggleButton has a different name in the appIcon class
      (actor): duplicate reference to easily reuse appIcon methods */
     showAppsIcon.actor =  showAppsIcon.toggleButton;
+    showAppsIcon.actor.name = 'show-apps-btn';
 
     // Re-use appIcon methods
     showAppsIcon._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
@@ -1462,6 +1463,13 @@ function extendShowAppsIcon(showAppsIcon, settings) {
         customIconPath = settings.get_string('show-apps-icon-file');
         showAppsIcon.icon._createIconTexture(showAppsIcon.icon.iconSize);
     });
+
+    setShowAppsPadding();
+    settings.connect('changed::appicon-padding', setShowAppsPadding);
+
+    function setShowAppsPadding() {
+        showAppsIcon.actor.set_style('padding:' + (settings.get_int('appicon-padding') + 2) + 'px;');
+    }
 
     showAppsIcon.popupMenu = function() {
         showAppsIcon._removeMenuTimeout();
