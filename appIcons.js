@@ -135,6 +135,10 @@ var taskbarAppIcon = new Lang.Class({
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
 
         this.actor.remove_actor(this._iconContainer);
+        
+        let iconContainer = new St.Widget({ name: 'icon-container', layout_manager: new Clutter.BinLayout() });
+        
+        iconContainer.add_child(this._iconContainer);
 
         if (appInfo.window) {
             let box = new St.BoxLayout();
@@ -150,12 +154,12 @@ var taskbarAppIcon = new Lang.Class({
 
             this._scaleFactorChangedId = St.ThemeContext.get_for_stage(global.stage).connect('changed', () => this._updateWindowTitleStyle());
 
-            box.add_child(this._iconContainer);
+            box.add_child(iconContainer);
             box.add_child(this._windowTitle);
 
             this._dotsContainer.add_child(box);
         } else {
-            this._dotsContainer.add_child(this._iconContainer);
+            this._dotsContainer.add_child(iconContainer);
         }
 
         this._container.add_child(this._dotsContainer);

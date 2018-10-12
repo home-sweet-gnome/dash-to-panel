@@ -21,23 +21,23 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
- #dashtopanelScrollview .app-well-app .overview-icon {
+#dashtopanelScrollview .app-well-app .overview-icon {
 	border-radius: 0;
 	border: none;
-	padding: 2px 6px;
+	padding: 2px;
+}
+
+#dashtopanelScrollview .app-well-app #icon-container {
+	padding: 0 4px 0 6px;
 }
 
 #dashtopanelScrollview .app-well-app .overview-label {
 	padding-right: 8px;
 }
 
-#show-apps-btn {
-	margin: 0;
-	padding: 0;
-}
-
-#show-apps-btn .overview-icon {
-	padding: 2px 8px;
+#show-apps-btn, #show-apps-btn .overview-icon {
+	margin: 0px;
+	padding: 0px;
 }
 
 #dashtopanelScrollview .app-well-app:hover .overview-icon,
