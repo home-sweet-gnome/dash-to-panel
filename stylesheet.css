@@ -27,8 +27,8 @@
 	padding: 2px;
 }
 
-#dashtopanelScrollview .app-well-app #icon-container {
-	padding: 0 4px 0 6px;
+#dashtopanelScrollview .app-well-app #dtp-icon-container {
+	padding: 0 4px;
 }
 
 #dashtopanelScrollview .app-well-app .overview-label {
