@@ -30,6 +30,7 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Overview = Me.imports.overview;
 const Panel = Me.imports.panel;
+const Proximity = Me.imports.proximity;
 const Utils = Me.imports.utils;
 
 const Clutter = imports.gi.Clutter;
@@ -53,10 +54,9 @@ var dtpPanelManager = new Lang.Class({
 
     enable: function(reset) {
         let dtpPrimaryMonitor = Main.layoutManager.monitors[(Main.layoutManager.primaryIndex + this._dtpSettings.get_int('primary-monitor')) % Main.layoutManager.monitors.length];
-        
+        this.proximityManager = new Proximity.ProximityManager();
+
         this.primaryPanel = new Panel.dtpPanelWrapper(this, dtpPrimaryMonitor, Main.panel, Main.layoutManager.panelBox);
-        Main.layoutManager.panelBox.set_position(dtpPrimaryMonitor.x, dtpPrimaryMonitor.y);
-        Main.layoutManager.panelBox.set_size(dtpPrimaryMonitor.width, -1);
         this.primaryPanel.enable();
         this.allPanels = [ this.primaryPanel ];
         
@@ -73,8 +73,6 @@ var dtpPanelManager = new Lang.Class({
 
                 let panel = new Panel.dtpSecondaryPanel(this._dtpSettings, monitor);
                 panelBox.add(panel.actor);
-
-                panelBox.set_position(monitor.x, monitor.y);
                 panelBox.set_size(monitor.width, -1);
                 
                 let panelWrapper = new Panel.dtpPanelWrapper(this, monitor, panel, panelBox, true);
@@ -127,6 +125,7 @@ var dtpPanelManager = new Lang.Class({
 
     disable: function(reset) {
         this._overview.disable();
+        this.proximityManager.destroy();
 
         this.allPanels.forEach(p => {
             p.disable();

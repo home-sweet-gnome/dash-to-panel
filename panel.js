@@ -322,7 +322,6 @@ var dtpPanelWrapper = new Lang.Class({
 
         if (!this.isSecondary) {
             this.panel.actor.set_height(this._oldPanelHeight);
-            this.panelBox.set_anchor_point(0, 0);
             
             Main.overview._panelGhost.set_height(this._oldPanelHeight);
             this._setActivitiesButtonVisible(true);
@@ -506,7 +505,7 @@ var dtpPanelWrapper = new Lang.Class({
         this._myPanelGhost.set_height(isTop ? 0 : size);
 
         if(isTop) {
-            this.panelBox.set_anchor_point(0, 0);
+            this.panelBox.set_position(this.monitor.x, this.monitor.y);
 
             this._removeTopLimit();
             
@@ -517,7 +516,7 @@ var dtpPanelWrapper = new Lang.Class({
             if(!this.panel.actor.has_style_class_name('dashtopanelTop'))
                 this.panel.actor.add_style_class_name('dashtopanelTop');
         } else {
-            this.panelBox.set_anchor_point(0,(-1)*(this.monitor.height-this.panelBox.height));
+            this.panelBox.set_position(this.monitor.x, this.monitor.y + this.monitor.height - this.panelBox.height);
 
             if (!this._topLimit) {
                 this._topLimit = new St.BoxLayout({ name: 'topLimit', vertical: true });
@@ -780,12 +779,14 @@ var dtpSecondaryPanelBoxWrapper = new Lang.Class({
 
 var dtpSecondaryPanel = new Lang.Class({
     Name: 'DashToPanel.SecondaryPanel',
-    Extends: Panel.Panel,
+    Extends: St.Widget,
 
     _init : function(settings, monitor) {
+        this.parent({ name: 'panel', reactive: true });
+        
         this._dtpSettings = settings;
    	
-        this.actor = new Shell.GenericContainer({ name: 'panel', reactive: true });
+        this.actor = this;
         this.actor._delegate = this;
 
         this._sessionStyle = null;
