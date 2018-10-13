@@ -1150,7 +1150,7 @@ var taskbar = new Lang.Class({
                 }
 
                 //if changed when opening the overview, reset the primary monitor when exiting the overview
-                this.panelWrapper.panelManager.setFocusedMonitor(Main.layoutManager.primaryMonitor);
+                this.panelWrapper.panelManager.setFocusedMonitor(Main.layoutManager.primaryMonitor, true);
             }
         }
 

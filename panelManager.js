@@ -165,7 +165,7 @@ var dtpPanelManager = new Lang.Class({
         Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
     },
 
-    setFocusedMonitor: function(monitor) {
+    setFocusedMonitor: function(monitor, ignoreRelayout) {
         if ((Main.overview._focusedMonitor || 0) != monitor) {
             Main.overview._focusedMonitor = monitor;
             Main.overview.viewSelector._workspacesDisplay._primaryIndex = monitor.index;
@@ -173,6 +173,8 @@ var dtpPanelManager = new Lang.Class({
             Main.overview._overview.clear_constraints();
             Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
             
+            if (ignoreRelayout) return;
+
             this._newOverviewRelayout.call(Main.overview);
         }
     },
