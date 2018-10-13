@@ -27,13 +27,17 @@
 	padding: 2px;
 }
 
+#dashtopanelScrollview .app-well-app #dtp-icon-container {
+	padding: 0 4px;
+}
+
 #dashtopanelScrollview .app-well-app .overview-label {
 	padding-right: 8px;
 }
 
 #show-apps-btn, #show-apps-btn .overview-icon {
-	margin: 0;
-	padding: 0;
+	margin: 0px;
+	padding: 0px;
 }
 
 #dashtopanelScrollview .app-well-app:hover .overview-icon,

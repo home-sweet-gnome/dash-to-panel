@@ -136,6 +136,10 @@ var taskbarAppIcon = new Lang.Class({
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
 
         this.actor.remove_actor(this._iconContainer);
+        
+        this._dtpIconContainer = new St.Widget({ name: 'dtp-icon-container', layout_manager: new Clutter.BinLayout() });
+        
+        this._dtpIconContainer.add_child(this._iconContainer);
 
         if (appInfo.window) {
             let box = new St.BoxLayout();
@@ -151,12 +155,12 @@ var taskbarAppIcon = new Lang.Class({
 
             this._scaleFactorChangedId = St.ThemeContext.get_for_stage(global.stage).connect('changed', () => this._updateWindowTitleStyle());
 
-            box.add_child(this._iconContainer);
+            box.add_child(this._dtpIconContainer);
             box.add_child(this._windowTitle);
 
             this._dotsContainer.add_child(box);
         } else {
-            this._dotsContainer.add_child(this._iconContainer);
+            this._dotsContainer.add_child(this._dtpIconContainer);
         }
 
         this._container.add_child(this._dotsContainer);
@@ -490,7 +494,7 @@ var taskbarAppIcon = new Lang.Class({
             let highlightMargin = isWide ? this._dtpSettings.get_int('dot-size') : 0;
 
             if(!this.window) {
-                let containerWidth = this._iconContainer.get_width() / St.ThemeContext.get_for_stage(global.stage).scale_factor;
+                let containerWidth = this._dtpIconContainer.get_width() / St.ThemeContext.get_for_stage(global.stage).scale_factor;
                 let backgroundSize = containerWidth + "px " + 
                                      (containerWidth - (pos == DOT_POSITION.BOTTOM ? highlightMargin : 0)) + "px;";
 
