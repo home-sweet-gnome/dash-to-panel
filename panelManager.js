@@ -73,7 +73,6 @@ var dtpPanelManager = new Lang.Class({
 
                 let panel = new Panel.dtpSecondaryPanel(this._dtpSettings, monitor);
                 panelBox.add(panel.actor);
-                panelBox.set_size(monitor.width, -1);
                 
                 let panelWrapper = new Panel.dtpPanelWrapper(this, monitor, panel, panelBox, true);
                 panelWrapper.enable();
@@ -81,6 +80,8 @@ var dtpPanelManager = new Lang.Class({
                 this.allPanels.push(panelWrapper);
             });
         }
+
+        this.allPanels.forEach(p => p.panelBox.set_size(p.monitor.width, -1));
 
         if (reset) return;
 
@@ -96,7 +97,11 @@ var dtpPanelManager = new Lang.Class({
         Main.overview.viewSelector._animateOut = Lang.bind(this.primaryPanel, newViewSelectorAnimateOut);
 
         this._oldUpdatePanelBarrier = Main.layoutManager._updatePanelBarrier;
-        Main.layoutManager._updatePanelBarrier = Lang.bind(Main.layoutManager, newUpdatePanelBarrier);
+        Main.layoutManager._updatePanelBarrier = (panel) => {
+            let panelUpdates = panel ? [panel] : this.allPanels;
+
+            panelUpdates.forEach(p => newUpdatePanelBarrier.call(Main.layoutManager, p, this._dtpSettings));
+        };
         Main.layoutManager._updatePanelBarrier();
 
         this._oldUpdateHotCorners = Main.layoutManager._updateHotCorners;
@@ -435,25 +440,27 @@ function newUpdateHotCorners() {
     this.emit('hot-corners-changed');
 }
 
-function newUpdatePanelBarrier() {
-    if (this._rightPanelBarrier) {
-        this._rightPanelBarrier.destroy();
-        this._rightPanelBarrier = null;
+function newUpdatePanelBarrier(panel, dtpSettings) {
+    let propName = '_rightPanelBarrier';
+    let targetObj = panel.isSecondary ? panel : this;
+    
+    if (targetObj[propName]) {
+        targetObj[propName].destroy();
+        targetObj[propName] = null;
     }
-
-    if (!this.primaryMonitor)
+    
+    if (!this.primaryMonitor || !targetObj['panelBox'].height) {
         return;
-
-    if (this.panelBox.height) {
-        let barrierHeight = Math.min(10, this.panelBox.height); 
-        let primary = this.primaryMonitor;
-        let isTop = Main.layoutManager.panelBox.anchor_y == 0;
-        let y1 = isTop ? primary.y : primary.y + primary.height - barrierHeight;
-        let y2 = isTop ? primary.y + barrierHeight : primary.y + primary.height;
-
-        this._rightPanelBarrier = new Meta.Barrier({ display: global.display,
-                                                     x1: primary.x + primary.width, y1: y1,
-                                                     x2: primary.x + primary.width, y2: y2,
-                                                     directions: Meta.BarrierDirection.NEGATIVE_X });
     }
+
+    let barrierHeight = Math.min(10, panel.panelBox.height); 
+    let isTop = dtpSettings.get_string('panel-position') === 'TOP';
+    let y1 = isTop ? panel.monitor.y : panel.monitor.y + panel.monitor.height - barrierHeight;
+    let y2 = isTop ? panel.monitor.y + barrierHeight : panel.monitor.y + panel.monitor.height;
+    let x = panel.monitor.x + panel.monitor.width;
+    
+    targetObj[propName] = new Meta.Barrier({ display: global.display,
+                                             x1: x, y1: y1,
+                                             x2: x, y2: y2,
+                                             directions: Meta.BarrierDirection.NEGATIVE_X });
 }

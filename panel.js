@@ -67,6 +67,7 @@ var dtpPanelWrapper = new Lang.Class({
         this.panel = panel;
         this.panelBox = panelBox;
         this.isSecondary = isSecondary;
+        this._rightPanelBarrier = null;
     },
 
     enable : function() {
@@ -337,6 +338,11 @@ var dtpPanelWrapper = new Lang.Class({
             this.panel._rightBox.allocate = this.panel._rightBox.oldRightBoxAllocate;
             delete this.panel._rightBox.oldRightBoxAllocate;
         } else {
+            if (this._rightPanelBarrier) {
+                this._rightPanelBarrier.destroy();
+                this._rightPanelBarrier = null;
+            }
+            
             Main.layoutManager.removeChrome(this.panelBox);
             this.panelBox.destroy();
         }
@@ -535,7 +541,7 @@ var dtpPanelWrapper = new Lang.Class({
         }
 
         Main.layoutManager._updateHotCorners();
-        Main.layoutManager._updatePanelBarrier();
+        Main.layoutManager._updatePanelBarrier(this);
     },
 
     _removeTopLimit: function() {
@@ -728,54 +734,54 @@ var dtpPanelWrapper = new Lang.Class({
 });
 
 
-var dtpSecondaryPanelBoxWrapper = new Lang.Class({
-    Name: 'DashToPanel.SecondaryPanelBox',
+// var dtpSecondaryPanelBoxWrapper = new Lang.Class({
+//     Name: 'DashToPanel.SecondaryPanelBox',
 
-    _init: function (monitor) {
-		this._rightPanelBarrier = null;
+//     _init: function (monitor) {
+// 		this._rightPanelBarrier = null;
 	
-        this.panelBox = new St.BoxLayout({ name: 'panelBox', vertical: true });
+//         this.panelBox = new St.BoxLayout({ name: 'panelBox', vertical: true });
         
-        Main.layoutManager.addChrome(this.panelBox, { affectsStruts: true, trackFullscreen: true });
-        this.panelBox.set_position(monitor.x, monitor.y);
-        this.panelBox.set_size(monitor.width, -1);
-        Main.uiGroup.set_child_below_sibling(this.panelBox, Main.layoutManager.panelBox);
+//         Main.layoutManager.addChrome(this.panelBox, { affectsStruts: true, trackFullscreen: true });
+//         this.panelBox.set_position(monitor.x, monitor.y);
+//         this.panelBox.set_size(monitor.width, -1);
+//         Main.uiGroup.set_child_below_sibling(this.panelBox, Main.layoutManager.panelBox);
         
-        this._panelBoxChangedId = this.panelBox.connect('allocation-changed', Lang.bind(this, this._panelBoxChanged));
+//         this._panelBoxChangedId = this.panelBox.connect('allocation-changed', Lang.bind(this, this._panelBoxChanged));
         
-        this.panel = new dtpSecondaryPanel();
-        this.panelBox.add(this.panel.actor);
-	},
+//         this.panel = new dtpSecondaryPanel();
+//         this.panelBox.add(this.panel.actor);
+// 	},
 	
-	destroy: function () {
-		if (this._rightPanelBarrier) {
-	        this._rightPanelBarrier.destroy();
-	        this._rightPanelBarrier = null;
-	    }
+// 	destroy: function () {
+// 		if (this._rightPanelBarrier) {
+// 	        this._rightPanelBarrier.destroy();
+// 	        this._rightPanelBarrier = null;
+// 	    }
 	
-		this.panelBox.disconnect(this._panelBoxChangedId);
-		this.panelBox.destroy();
-	},
+// 		this.panelBox.disconnect(this._panelBoxChangedId);
+// 		this.panelBox.destroy();
+// 	},
 	
-	updatePanel: function(monitor) {
-	    this.panelBox.set_position(monitor.x, monitor.y);
-	    this.panelBox.set_size(monitor.width, -1);
-	},
+// 	updatePanel: function(monitor) {
+// 	    this.panelBox.set_position(monitor.x, monitor.y);
+// 	    this.panelBox.set_size(monitor.width, -1);
+// 	},
 
-	_panelBoxChanged: function(self, box, flags) {
-	    if (this._rightPanelBarrier) {
-	        this._rightPanelBarrier.destroy();
-	        this._rightPanelBarrier = null;
-	    }
+// 	_panelBoxChanged: function(self, box, flags) {
+// 	    if (this._rightPanelBarrier) {
+// 	        this._rightPanelBarrier.destroy();
+// 	        this._rightPanelBarrier = null;
+// 	    }
 	    
-	    if (this.panelBox.height) {
-	    	this._rightPanelBarrier = new Meta.Barrier({ display: global.display,
-	    									x1: box.get_x() + box.get_width(), y1: box.get_y(),
-								            x2: box.get_x() + box.get_width(), y2: box.get_y() + this.panelBox.height,
-								            directions: Meta.BarrierDirection.NEGATIVE_X });
-	    }
-	},
-});
+// 	    if (this.panelBox.height) {
+// 	    	this._rightPanelBarrier = new Meta.Barrier({ display: global.display,
+// 	    									x1: box.get_x() + box.get_width(), y1: box.get_y(),
+// 								            x2: box.get_x() + box.get_width(), y2: box.get_y() + this.panelBox.height,
+// 								            directions: Meta.BarrierDirection.NEGATIVE_X });
+// 	    }
+// 	},
+// });
 
 var dtpSecondaryPanel = new Lang.Class({
     Name: 'DashToPanel.SecondaryPanel',
