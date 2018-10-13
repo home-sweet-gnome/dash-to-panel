@@ -68,6 +68,7 @@ var Intellihide = new Lang.Class({
         this._dragging = false;
         this._currentlyHeld = false;
         this._hoveredOut = false;
+        this._windowOverlap = false;
         this._panelAtTop = this._dtpSettings.get_string('panel-position') === 'TOP';
 
         if (this._panelAtTop && this._panelBox.translation_y > 0 || 

@@ -1369,22 +1369,18 @@ function ItemShowLabel()  {
     let labelWidth = this.label.get_width();
     let labelHeight = this.label.get_height();
 
-    let x, y, xOffset, yOffset;
-
     let position = Taskbar.getPosition();
     let labelOffset = node.get_length('-x-offset');
+
+    let xOffset = Math.floor((itemWidth - labelWidth) / 2);
+    let x = stageX + xOffset, y;
 
     switch(position) {
       case St.Side.TOP:
           y = stageY + labelOffset + itemHeight;
-          xOffset = Math.floor((itemWidth - labelWidth) / 2);
-          x = stageX + xOffset;
           break;
       case St.Side.BOTTOM:
-          yOffset = labelOffset;
-          y = stageY - labelHeight - yOffset;
-          xOffset = Math.floor((itemWidth - labelWidth) / 2);
-          x = stageX + xOffset;
+          y = stageY - labelHeight - labelOffset;
           break;
     }
 

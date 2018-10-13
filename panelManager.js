@@ -31,6 +31,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Overview = Me.imports.overview;
 const Panel = Me.imports.panel;
 const Proximity = Me.imports.proximity;
+const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
 const Clutter = imports.gi.Clutter;
@@ -125,6 +126,8 @@ var dtpPanelManager = new Lang.Class({
         this._dtpSettings.connect('changed::primary-monitor', () => this._reset());
         this._dtpSettings.connect('changed::multi-monitors', () => this._reset());
         this._dtpSettings.connect('changed::isolate-monitors', () => this._reset());
+        this._dtpSettings.connect('changed::taskbar-position', () => this._reset());
+        this._dtpSettings.connect('changed::panel-position', () => this._reset());
         this._monitorsChangedListener = Utils.DisplayWrapper.getMonitorManager().connect("monitors-changed", () => this._reset());
     },
 
@@ -236,7 +239,7 @@ function newPopupOpen(animate) {
     this.isOpen = true;
     
     let side = this._boxPointer._arrowSide;
-    let panelPosition = Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
+    let panelPosition = Taskbar.getPosition();
 
     if(side != panelPosition) {
         let actor = this.sourceActor;
@@ -276,7 +279,7 @@ function newPopupSubMenuOpen(animate) {
 
     let workArea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.primaryIndex);
     let subMenuMaxHeight = Math.floor(workArea.height / 2);
-    let panelPosition = Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
+    let panelPosition = Taskbar.getPosition();
     let isBottomPanelMenu = this._getTopMenu().actor.has_style_class_name('panel-menu') && panelPosition == St.Side.BOTTOM;
     
     if(isBottomPanelMenu) {
@@ -387,7 +390,7 @@ function newUpdateHotCorners() {
     }
 
     let size = this.panelBox.height;
-    let panelPosition = Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
+    let panelPosition = Taskbar.getPosition();
 
     // build new hot corners
     for (let i = 0; i < this.monitors.length; i++) {

@@ -55,19 +55,17 @@ var ProximityWatch = new Lang.Class({
     },
 
     _update: function() {
-        let [actorX, actorY] = this.actor.get_position();
-
-        this.actorX = actorX;
-        this.actorY = actorY;
         this.monitorIndex = Main.layoutManager.findIndexForActor(this.actor);
 
         this._updateWatchRect();
     },
 
     _updateWatchRect: function() {
+        let [actorX, actorY] = this.actor.get_position();
+
         this.rect = new Meta.Rectangle({ 
-            x: this.actorX - this.threshold,
-            y: this.actorY - this.threshold,
+            x: actorX - this.threshold,
+            y: actorY - this.threshold,
             width: this.actor.width + this.threshold * 2,
             height: this.actor.height + this.threshold * 2 
         });

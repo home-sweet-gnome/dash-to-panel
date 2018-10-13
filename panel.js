@@ -358,16 +358,6 @@ var dtpPanelWrapper = new Lang.Class({
 
     _bindSettingsChanges: function() {
         this._dtpSettingsSignalIds = [
-            //rebuild panel when taskar-position change
-            this._dtpSettings.connect('changed::taskbar-position', Lang.bind(this, function() {
-                this.disable();
-                this.enable();
-            })),
-
-            this._dtpSettings.connect('changed::panel-position', Lang.bind(this, function() {
-                this._setPanelPosition();
-            })),
-
             this._dtpSettings.connect('changed::panel-size', Lang.bind(this, function() {
                 this._setPanelPosition();
                 this.taskbar.resetAppIcons();
