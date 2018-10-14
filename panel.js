@@ -771,14 +771,11 @@ var dtpPanelWrapper = new Lang.Class({
 
 var dtpSecondaryPanel = new Lang.Class({
     Name: 'DashToPanel.SecondaryPanel',
-    Extends: St.Widget,
 
     _init : function(settings, monitor) {
-        this.parent({ name: 'panel', reactive: true });
-        
         this._dtpSettings = settings;
    	
-        this.actor = this;
+        this.actor = new Shell.GenericContainer({ name: 'panel', reactive: true });
         this.actor._delegate = this;
 
         this._sessionStyle = null;
