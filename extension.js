@@ -102,11 +102,9 @@ function _enable() {
 
 function disable(reset) {
     panelManager.disable(reset);
-    settings.run_dispose();
     Main.overview._dash = oldDash;
 
     oldDash=null;
-    settings = null;
     panelManager = null;
     
     Main.wm.removeKeybinding('open-application-menu');
@@ -118,6 +116,9 @@ function disable(reset) {
                            Lang.bind(Main.wm, Main.wm._toggleAppMenu));
 
     if (!reset) {
+        settings.run_dispose();
+        settings = null;
+
         ExtensionSystem.disconnect(extensionChangedHandler);
 
         // Re-enable Ubuntu Dock if it exists and if it was disabled by dash to panel
