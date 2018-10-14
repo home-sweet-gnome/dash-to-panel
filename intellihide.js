@@ -84,7 +84,7 @@ var Intellihide = new Lang.Class({
             this._proximityWatchId = this._proximityManager.createWatch(
                 this._panelBox, 
                 Proximity.Mode[this._dtpSettings.get_string('intellihide-behaviour')], 
-                0, 
+                0, 0,
                 overlap => { 
                     this._windowOverlap = overlap;
                     this._queueUpdatePanelPosition();

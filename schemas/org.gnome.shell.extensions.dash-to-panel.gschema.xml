@@ -169,6 +169,46 @@
       <summary>Position of the taskbar</summary>
       <description>Set the position of the taskbar on the panel</description>
     </key>
+    <key type="b" name="trans-use-custom-bg">
+      <default>false</default>
+      <summary>Override theme background color</summary>
+      <description>Replace current theme background color for the panel</description>
+    </key>
+    <key type="s" name="trans-bg-color">
+      <default>"#000"</default>
+      <summary>Custom background color</summary>
+      <description>Custom background color for the panel</description>
+    </key>
+    <key type="b" name="trans-use-custom-opacity">
+      <default>false</default>
+      <summary>Custom background color</summary>
+      <description>Replace current theme background color for the panel</description>
+    </key>
+    <key type="b" name="trans-use-dynamic-opacity">
+      <default>false</default>
+      <summary>Dynamic opacity</summary>
+      <description>Enable dynamic opacity</description>
+    </key>
+    <key type="d" name="trans-panel-opacity">
+      <default>0.4</default>
+      <summary>Panel opacity</summary>
+      <description>Custom opacity for the panel</description>
+    </key>
+    <key type="i" name="trans-dynamic-distance">
+      <default>20</default>
+      <summary>Distance to change opacity</summary>
+      <description>The distance a window needs to be from the panel to change opacity</description>
+    </key>
+    <key type="d" name="trans-dynamic-anim-target">
+      <default>0.8</default>
+      <summary>Modified panel opacity</summary>
+      <description>Modified opacity for the panel when a window is near</description>
+    </key>
+    <key type="i" name="trans-dynamic-anim-time">
+      <default>300</default>
+      <summary>Opacity change duration</summary>
+      <description>The duration of the animation when the opacity changes</description>
+    </key>
     <key type="b" name="intellihide">
       <default>false</default>
       <summary>Intellihide</summary>

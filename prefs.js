@@ -167,6 +167,7 @@ const Settings = new Lang.Class({
         this._leftbox_size_timeout = 0;
         this._appicon_margin_timeout = 0;
         this._appicon_padding_timeout = 0;
+        this._opacity_timeout = 0;
         this._tray_padding_timeout = 0;
         this._statusicon_padding_timeout = 0;
         this._leftbox_padding_timeout = 0;
@@ -485,6 +486,104 @@ const Settings = new Lang.Class({
 
             dialog.show_all();
         }));
+
+        //dynamic opacity
+        this._settings.bind('trans-use-custom-bg',
+                            this._builder.get_object('trans_bg_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-use-custom-bg',
+                            this._builder.get_object('trans_bg_color_colorbutton'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        let rgba = new Gdk.RGBA();
+        rgba.parse(this._settings.get_string('trans-bg-color'));
+        this._builder.get_object('trans_bg_color_colorbutton').set_rgba(rgba);
+
+        this._builder.get_object('trans_bg_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            let hexString = cssHexString(css);
+            this._settings.set_string('trans-bg-color', hexString);
+        }));
+
+        this._settings.bind('trans-use-custom-opacity',
+                            this._builder.get_object('trans_opacity_override_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-use-custom-opacity',
+                            this._builder.get_object('trans_opacity_box'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._builder.get_object('trans_opacity_override_switch').connect('notify::active', (widget) => {
+            if (!widget.get_active())
+                this._builder.get_object('trans_dyn_switch').set_active(false);
+        });
+
+        this._builder.get_object('trans_opacity_scale').set_value(this._settings.get_double('trans-panel-opacity'));
+
+        this._settings.bind('trans-use-dynamic-opacity',
+                            this._builder.get_object('trans_dyn_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-use-dynamic-opacity',
+                            this._builder.get_object('trans_dyn_options_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._builder.get_object('trans_options_distance_spinbutton').set_value(this._settings.get_int('trans-dynamic-distance'));
+        this._builder.get_object('trans_options_distance_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_int('trans-dynamic-distance', widget.get_value());
+        }));
+        
+        this._builder.get_object('trans_options_min_opacity_scale').set_value(this._settings.get_double('trans-dynamic-anim-target'));
+
+        this._builder.get_object('trans_options_anim_time_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-time'));
+        this._builder.get_object('trans_options_anim_time_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_int('trans-dynamic-anim-time', widget.get_value());
+        }));
+
+        this._builder.get_object('trans_dyn_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Dynamic opacity options'),
+                                            transient_for: this.widget.get_toplevel(),
+                                            use_header_bar: true,
+                                            modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('box_dynamic_opacity_options');
+            dialog.get_content_area().add(box);
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('trans-dynamic-distance', this._settings.get_default_value('trans-dynamic-distance'));
+                    this._builder.get_object('trans_options_distance_spinbutton').set_value(this._settings.get_int('trans-dynamic-distance'));
+
+                    this._settings.set_value('trans-dynamic-anim-target', this._settings.get_default_value('trans-dynamic-anim-target'));
+                    this._builder.get_object('trans_options_min_opacity_scale').set_value(this._settings.get_double('trans-dynamic-anim-target'));
+
+                    this._settings.set_value('trans-dynamic-anim-time', this._settings.get_default_value('trans-dynamic-anim-time'));
+                    this._builder.get_object('trans_options_anim_time_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-time'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
+
 
         this._settings.bind('intellihide',
                             this._builder.get_object('intellihide_switch'),
@@ -1325,6 +1424,38 @@ const Settings = new Lang.Class({
             this._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
                 this._settings.set_int('appicon-padding', scale.get_value());
                 this._appicon_padding_timeout = 0;
+                return GLib.SOURCE_REMOVE;
+            }));
+        },
+
+        trans_opacity_scale_format_value_cb: function(scale, value) {
+            return Math.round(value * 100) + ' %';
+        },
+
+        trans_opacity_scale_value_changed_cb: function(scale) {
+            // Avoid settings the opacity consinuosly
+            if (this._opacity_timeout > 0)
+                Mainloop.source_remove(this._opacity_timeout);
+
+            this._opacity_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+                this._settings.set_double('trans-panel-opacity', scale.get_value());
+                this._opacity_timeout = 0;
+                return GLib.SOURCE_REMOVE;
+            }));
+        },
+
+        trans_opacity_min_scale_format_value_cb: function(scale, value) {
+            return Math.round(value * 100) + ' %';
+        },
+
+        trans_opacity_min_scale_value_changed_cb: function(scale) {
+            // Avoid settings the opacity consinuosly
+            if (this._opacity_timeout > 0)
+                Mainloop.source_remove(this._opacity_timeout);
+
+            this._opacity_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+                this._settings.set_double('trans-dynamic-anim-target', scale.get_value());
+                this._opacity_timeout = 0;
                 return GLib.SOURCE_REMOVE;
             }));
         },

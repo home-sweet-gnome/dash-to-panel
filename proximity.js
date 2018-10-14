@@ -39,10 +39,10 @@ var Mode = {
 var ProximityWatch = new Lang.Class({
     Name: 'DashToPanel.ProximityWatch',
 
-    _init: function(actor, mode, threshold, handler) {
+    _init: function(actor, mode, xThreshold, yThreshold, handler) {
         this.actor = actor;
         this.mode = mode;
-        this.threshold = threshold;
+        this.threshold = [xThreshold, yThreshold];
         this.handler = handler;
 
         this._allocationChangedId = actor.connect('allocation-changed', () => this._update());
@@ -64,10 +64,10 @@ var ProximityWatch = new Lang.Class({
         let [actorX, actorY] = this.actor.get_position();
 
         this.rect = new Meta.Rectangle({ 
-            x: actorX - this.threshold,
-            y: actorY - this.threshold,
-            width: this.actor.width + this.threshold * 2,
-            height: this.actor.height + this.threshold * 2 
+            x: actorX - this.threshold[0],
+            y: actorY - this.threshold[1],
+            width: this.actor.width + this.threshold[0] * 2,
+            height: this.actor.height + this.threshold[1] * 2 
         });
     },
 });
@@ -87,8 +87,8 @@ var ProximityManager = new Lang.Class({
         this._setFocusedWindow();
     },
 
-    createWatch: function(actor, mode, threshold, handler) {
-        let watch = new ProximityWatch(actor, mode, threshold, handler);
+    createWatch: function(actor, mode, xThreshold, yThreshold, handler) {
+        let watch = new ProximityWatch(actor, mode, xThreshold, yThreshold, handler);
 
         this._watches[this._counter] = watch;
         this.update();
