@@ -122,6 +122,11 @@ var ProximityManager = new Lang.Class({
                 () => this._queueUpdate()
             ],
             [
+                global.window_manager,
+                'switch-workspace', 
+                () => Object.keys(this._watches).forEach(id => this._watches[id].overlap = 0)
+            ],
+            [
                 global.display,
                 'notify::focus-window', 
                 () => {
@@ -182,6 +187,7 @@ var ProximityManager = new Lang.Class({
 
     _getHandledWindows: function() {
         return global.get_window_actors()
+                     .filter(w => w.visible)
                      .map(w => w.get_meta_window())
                      .filter(mw => this._checkIfHandledWindow(mw));
     },
