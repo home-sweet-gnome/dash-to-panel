@@ -103,7 +103,7 @@ var ProximityManager = new Lang.Class({
         }
     },
 
-    update() {
+    update: function() {
         this._queueUpdate(true);
     },
 
@@ -173,10 +173,11 @@ var ProximityManager = new Lang.Class({
     },
 
     _disconnectFocusedWindow: function() {
-        if (this._focusedWindowInfo) {
+        if (this._focusedWindowInfo && this._focusedWindowInfo.window) {
             this._focusedWindowInfo.window.disconnect(this._focusedWindowInfo.id);
-            this._focusedWindowInfo = null;
         }
+
+        this._focusedWindowInfo = null;
     },
 
     _getHandledWindows: function() {

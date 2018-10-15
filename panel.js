@@ -772,7 +772,7 @@ var dtpPanelWrapper = new Lang.Class({
 var dtpSecondaryPanel = new Lang.Class({
     Name: 'DashToPanel.SecondaryPanel',
 
-    _init : function(settings, monitor) {
+    _init: function(settings, monitor) {
         this._dtpSettings = settings;
    	
         this.actor = new Shell.GenericContainer({ name: 'panel', reactive: true });
