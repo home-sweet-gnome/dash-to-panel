@@ -53,7 +53,7 @@ var Intellihide = new Lang.Class({
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._timeoutsHandler = new Utils.TimeoutsHandler();
 
-        this._intellihideChangedId = this._dtpSettings.connect('changed::intellihide', Lang.bind(this, this._changeEnabledStatus));
+        this._intellihideChangedId = this._dtpSettings.connect('changed::intellihide', () => this._changeEnabledStatus());
 
         if (this._dtpSettings.get_boolean('intellihide')) {
             this.enable();
@@ -97,10 +97,6 @@ var Intellihide = new Lang.Class({
     },
 
     disable: function(reset) {
-        if (!reset) {
-            this._dtpSettings.disconnect(this._intellihideChangedId);
-        }
-
         this._proximityManager.removeWatch(this._proximityWatchId);
 
         this._setTrackPanel(reset, false);
@@ -116,6 +112,7 @@ var Intellihide = new Lang.Class({
     },
 
     destroy: function() {
+        this._dtpSettings.disconnect(this._intellihideChangedId);
         this.disable();
     },
 

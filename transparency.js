@@ -88,6 +88,7 @@ var DynamicTransparency = new Lang.Class({
             [
                 this._dtpSettings,
                 [
+                    'changed::trans-dynamic-behavior',
                     'changed::trans-use-dynamic-opacity',
                     'changed::trans-dynamic-distance'
                 ],
@@ -107,7 +108,7 @@ var DynamicTransparency = new Lang.Class({
         if (this._dtpSettings.get_boolean('trans-use-dynamic-opacity')) {
             this._proximityWatchId = this._proximityManager.createWatch(
                 this._dtpPanel.panelBox, 
-                Proximity.Mode.ALL_WINDOWS, 
+                Proximity.Mode[this._dtpSettings.get_string('trans-dynamic-behavior')], 
                 0, this._dtpSettings.get_int('trans-dynamic-distance'), 
                 overlap => { 
                     this._windowOverlap = overlap;

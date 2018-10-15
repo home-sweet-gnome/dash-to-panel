@@ -536,6 +536,11 @@ const Settings = new Lang.Class({
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('trans-dynamic-behavior',
+                            this._builder.get_object('trans_options_window_type_combo'),
+                            'active-id',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         this._builder.get_object('trans_options_distance_spinbutton').set_value(this._settings.get_int('trans-dynamic-distance'));
         this._builder.get_object('trans_options_distance_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
             this._settings.set_int('trans-dynamic-distance', widget.get_value());
@@ -564,6 +569,8 @@ const Settings = new Lang.Class({
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
+                    this._settings.set_value('trans-dynamic-behavior', this._settings.get_default_value('trans-dynamic-behavior'));
+
                     this._settings.set_value('trans-dynamic-distance', this._settings.get_default_value('trans-dynamic-distance'));
                     this._builder.get_object('trans_options_distance_spinbutton').set_value(this._settings.get_int('trans-dynamic-distance'));
 
