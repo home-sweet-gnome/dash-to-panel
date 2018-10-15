@@ -40,14 +40,18 @@ let panelManager;
 let settings;
 let oldDash;
 let extensionChangedHandler;
+let disabledUbuntuDock;
 
 function init() {
 }
 
 function enable() {
     // The Ubuntu Dock extension might get enabled after this extension
-    extensionChangedHandler = ExtensionSystem.connect('extension-state-changed', _enable);
-    this._disabledUbuntuDock = false;
+    extensionChangedHandler = ExtensionSystem.connect('extension-state-changed', (data, extension) => {
+        if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
+            _enable();
+        }
+    });
 
     _enable();
 }
@@ -59,7 +63,7 @@ function _enable() {
         // Disable Ubuntu Dock
         St.ThemeContext.get_for_stage(global.stage).get_theme().unload_stylesheet(ubuntuDock.stylesheet);
         ubuntuDock.stateObj.disable();
-        this._disabledUbuntuDock = true;
+        disabledUbuntuDock = true;
         ubuntuDock.state = ExtensionSystem.ExtensionState.DISABLED;
         ExtensionSystem.extensionOrder.splice(ExtensionSystem.extensionOrder.indexOf(UBUNTU_DOCK_UUID), 1);
 
@@ -101,9 +105,11 @@ function _enable() {
 }
 
 function disable(reset) {
-    panelManager.disable(reset);
+    panelManager.disable();
     Main.overview._dash = oldDash;
+    settings.run_dispose();
 
+    settings = null;
     oldDash=null;
     panelManager = null;
     
@@ -116,13 +122,10 @@ function disable(reset) {
                            Lang.bind(Main.wm, Main.wm._toggleAppMenu));
 
     if (!reset) {
-        settings.run_dispose();
-        settings = null;
-
         ExtensionSystem.disconnect(extensionChangedHandler);
 
         // Re-enable Ubuntu Dock if it exists and if it was disabled by dash to panel
-        if (this._disabledUbuntuDock && ExtensionUtils.extensions[UBUNTU_DOCK_UUID] && Main.sessionMode.allowExtensions) {
+        if (disabledUbuntuDock && ExtensionUtils.extensions[UBUNTU_DOCK_UUID] && Main.sessionMode.allowExtensions) {
             ExtensionSystem.enableExtension(UBUNTU_DOCK_UUID);
         }
     }
