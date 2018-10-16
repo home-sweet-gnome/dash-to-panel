@@ -34,13 +34,10 @@ const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
-const Clutter = imports.gi.Clutter;
-const Gtk = imports.gi.Gtk;
 const Main = imports.ui.main;
+const PanelMenu = imports.ui.panelMenu;
 const Lang = imports.lang;
 const St = imports.gi.St;
-const PopupMenu = imports.ui.popupMenu;
-const Tweener = imports.ui.tweener;
 const Meta = imports.gi.Meta;
 const Layout = imports.ui.layout;
 const WorkspacesView = imports.ui.workspacesView;
@@ -86,11 +83,7 @@ var dtpPanelManager = new Lang.Class({
 
         if (reset) return;
 
-        this._oldPopupOpen = PopupMenu.PopupMenu.prototype.open;
-        PopupMenu.PopupMenu.prototype.open = newPopupOpen;
-
-        this._oldPopupSubMenuOpen = PopupMenu.PopupSubMenu.prototype.open;
-        PopupMenu.PopupSubMenu.prototype.open = newPopupSubMenuOpen;
+        this._adjustBoxPointers(Main.layoutManager.panelBox, Taskbar.getPosition());
 
         this._oldViewSelectorAnimateIn = Main.overview.viewSelector._animateIn;
         Main.overview.viewSelector._animateIn = Lang.bind(this.primaryPanel, newViewSelectorAnimateIn);
@@ -123,12 +116,30 @@ var dtpPanelManager = new Lang.Class({
             Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
 
         //listen settings
-        this._dtpSettings.connect('changed::primary-monitor', () => this._reset());
-        this._dtpSettings.connect('changed::multi-monitors', () => this._reset());
-        this._dtpSettings.connect('changed::isolate-monitors', () => this._reset());
-        this._dtpSettings.connect('changed::taskbar-position', () => this._reset());
-        this._dtpSettings.connect('changed::panel-position', () => this._reset());
-        this._monitorsChangedListener = Utils.DisplayWrapper.getMonitorManager().connect("monitors-changed", () => this._reset());
+        this._signalsHandler = new Utils.GlobalSignalsHandler();
+
+        this._signalsHandler.add(
+            [
+                this._dtpSettings,
+                [
+                    'changed::primary-monitor',
+                    'changed::multi-monitors',
+                    'changed::isolate-monitors',
+                    'changed::taskbar-position',
+                    'changed::panel-position'
+                ],
+                () => this._reset()
+            ],
+            [
+                Utils.DisplayWrapper.getMonitorManager(),
+                'monitors-changed', 
+                () => this._reset()
+            ]
+        );
+
+        ['_leftBox', '_centerBox', '_rightBox'].forEach(c => this._signalsHandler.add(
+            [Main.panel[c], 'actor-added', () => this._adjustBoxPointers(Main.panel[c], Taskbar.getPosition())]
+        ));
     },
 
     disable: function(reset) {
@@ -141,12 +152,9 @@ var dtpPanelManager = new Lang.Class({
 
         if (reset) return;
 
-        if(this._monitorsChangedListener) {
-            Utils.DisplayWrapper.getMonitorManager().disconnect(this._monitorsChangedListener);
-        }
+        this._adjustBoxPointers(Main.layoutManager.panelBox, St.Side.TOP);
 
-        PopupMenu.PopupMenu.prototype.open = this._oldPopupOpen;
-        PopupMenu.PopupSubMenu.prototype.open = this._oldPopupSubMenuOpen;
+        this._signalsHandler.destroy();
 
         Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
         Main.layoutManager._updateHotCorners();
@@ -185,6 +193,20 @@ var dtpPanelManager = new Lang.Class({
     _reset: function() {
         this.disable(true);
         this.enable(true);
+    },
+
+    _adjustBoxPointers: function(container, arrowSide) {
+        let adjustBoxPointer = parent => {
+            parent.get_children().forEach(c => {
+                if (c._delegate && c._delegate instanceof PanelMenu.Button) {
+                    c._delegate.menu._boxPointer._userArrowSide = arrowSide;
+                }
+
+                adjustBoxPointer(c);
+            });
+        };
+
+        adjustBoxPointer(container);    
     },
 
     _newOverviewRelayout: function() {
@@ -226,111 +248,6 @@ var dtpPanelManager = new Lang.Class({
     }
     
 });
-
-
-
-function newPopupOpen(animate) {
-    if (this.isOpen)
-        return;
-
-    if (this.isEmpty())
-        return;
-
-    this.isOpen = true;
-    
-    let side = this._boxPointer._arrowSide;
-    let panelPosition = Taskbar.getPosition();
-
-    if(side != panelPosition) {
-        let actor = this.sourceActor;
-        while(actor) {
-            if(actor == Main.panel.actor) {
-                this._boxPointer._arrowSide = panelPosition;
-                break;
-            }
-            actor = actor.get_parent();
-        }
-    } 
-    
-    this._boxPointer.setPosition(this.sourceActor, this._arrowAlignment);
-    (this._boxPointer.open || this._boxPointer.show).call(this._boxPointer, animate);
-
-    this.actor.raise_top();
-
-    this.emit('open-state-changed', true);
-}
-
-
-// there seems to be a rounding bug in the shell calculating the submenu size
-// when the panel is at the bottom. When the height is too high to fit on the screen
-// then the menu does not display at all. There's quiet a few factors involved in 
-// calculating the correct height so this is a lousy hack to max it at 50% of the screen 
-// height which should cover most real-world scenarios
-function newPopupSubMenuOpen(animate) {
-    if (this.isOpen)
-        return;
-
-    if (this.isEmpty())
-        return;
-
-
-    this.isOpen = true;
-    this.emit('open-state-changed', true);
-
-    let workArea = Main.layoutManager.getWorkAreaForMonitor(Main.layoutManager.primaryIndex);
-    let subMenuMaxHeight = Math.floor(workArea.height / 2);
-    let panelPosition = Taskbar.getPosition();
-    let isBottomPanelMenu = this._getTopMenu().actor.has_style_class_name('panel-menu') && panelPosition == St.Side.BOTTOM;
-    
-    if(isBottomPanelMenu) {
-        this.actor.style = 'max-height: ' + subMenuMaxHeight + 'px;'
-    }
-
-    this.actor.show();
-
-    let needsScrollbar = this._needsScrollbar() || (isBottomPanelMenu && this.actor.height >= subMenuMaxHeight);
-
-    // St.ScrollView always requests space horizontally for a possible vertical
-    // scrollbar if in AUTOMATIC mode. Doing better would require implementation
-    // of width-for-height in St.BoxLayout and St.ScrollView. This looks bad
-    // when we *don't* need it, so turn off the scrollbar when that's true.
-    // Dynamic changes in whether we need it aren't handled properly.
-    this.actor.vscrollbar_policy =
-        needsScrollbar ? Gtk.PolicyType.AUTOMATIC : Gtk.PolicyType.NEVER;
-
-    if (needsScrollbar)
-        this.actor.add_style_pseudo_class('scrolled');
-    else
-        this.actor.remove_style_pseudo_class('scrolled');
-
-    // It looks funny if we animate with a scrollbar (at what point is
-    // the scrollbar added?) so just skip that case
-    if (animate && needsScrollbar)
-        animate = false;
-
-    let targetAngle = this.actor.text_direction == Clutter.TextDirection.RTL ? -90 : 90;
-
-    if (animate) {
-        let [minHeight, naturalHeight] = this.actor.get_preferred_height(-1);
-        this.actor.height = 0;
-        this.actor._arrowRotation = this._arrow.rotation_angle_z;
-        Tweener.addTween(this.actor,
-                            { _arrowRotation: targetAngle,
-                            height: naturalHeight,
-                            time: 0.25,
-                            onUpdateScope: this,
-                            onUpdate: function() {
-                                this._arrow.rotation_angle_z = this.actor._arrowRotation;
-                            },
-                            onCompleteScope: this,
-                            onComplete: function() {
-                                this.actor.set_height(-1);
-                            }
-                            });
-    } else {
-        this._arrow.rotation_angle_z = targetAngle;
-    }
-}
 
 function newViewSelectorAnimateIn(oldPage) {
     if (oldPage)

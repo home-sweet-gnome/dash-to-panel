@@ -279,6 +279,10 @@ var Intellihide = new Lang.Class({
     },
 
     _checkIfShouldBeVisible: function(fromRevealMechanism) {
+        if (Main.overview.visibleTarget || this._checkIfGrab() || this._panelBox.get_hover()) {
+            return true;
+        }
+
         if (fromRevealMechanism) {
             //the user is trying to reveal the panel
             if (this._monitor.inFullscreen && !this._dragging) {
@@ -286,10 +290,6 @@ var Intellihide = new Lang.Class({
             }
 
             return !this._dragging;
-        }
-
-        if (Main.overview.visibleTarget || this._checkIfGrab() || this._panelBox.get_hover()) {
-            return true;
         }
 
         if (!this._dtpSettings.get_boolean('intellihide-hide-from-windows')) {
