@@ -34,6 +34,7 @@ const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
+const BoxPointer = imports.ui.boxpointer;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Lang = imports.lang;
@@ -43,7 +44,7 @@ const Layout = imports.ui.layout;
 const WorkspacesView = imports.ui.workspacesView;
 
 var dtpPanelManager = new Lang.Class({
-    Name: 'DashToDock.DockManager',
+    Name: 'DashToPanel.PanelManager',
 
     _init: function(settings) {
         this._dtpSettings = settings;
@@ -79,11 +80,13 @@ var dtpPanelManager = new Lang.Class({
             });
         }
 
-        this.allPanels.forEach(p => p.panelBox.set_size(p.monitor.width, -1));
+        let panelPosition = Taskbar.getPosition();
+        this.allPanels.forEach(p => {
+            p.panelBox.set_size(p.monitor.width, -1);
+            this._findPanelBoxPointers(p.panelBox).forEach(bp => this._adjustBoxPointer(bp, panelPosition));
+        });
 
         if (reset) return;
-
-        this._adjustBoxPointers(Main.layoutManager.panelBox, Taskbar.getPosition());
 
         this._oldViewSelectorAnimateIn = Main.overview.viewSelector._animateIn;
         Main.overview.viewSelector._animateIn = Lang.bind(this.primaryPanel, newViewSelectorAnimateIn);
@@ -138,7 +141,7 @@ var dtpPanelManager = new Lang.Class({
         );
 
         ['_leftBox', '_centerBox', '_rightBox'].forEach(c => this._signalsHandler.add(
-            [Main.panel[c], 'actor-added', () => this._adjustBoxPointers(Main.panel[c], Taskbar.getPosition())]
+            [Main.panel[c], 'actor-added', (parent, child) => this._adjustBoxPointer(this._getPanelButtonBoxPointer(child), Taskbar.getPosition())]
         ));
     },
 
@@ -147,12 +150,14 @@ var dtpPanelManager = new Lang.Class({
         this.proximityManager.destroy();
 
         this.allPanels.forEach(p => {
+            this._findPanelBoxPointers(p.panelBox).forEach(bp => {
+                bp._container.disconnect(bp._dtpAllocateId);
+                bp._userArrowSide = St.Side.TOP;
+            })
             p.disable();
         });
 
         if (reset) return;
-
-        this._adjustBoxPointers(Main.layoutManager.panelBox, St.Side.TOP);
 
         this._signalsHandler.destroy();
 
@@ -195,18 +200,44 @@ var dtpPanelManager = new Lang.Class({
         this.enable(true);
     },
 
-    _adjustBoxPointers: function(container, arrowSide) {
-        let adjustBoxPointer = parent => {
-            parent.get_children().forEach(c => {
-                if (c._delegate && c._delegate instanceof PanelMenu.Button) {
-                    c._delegate.menu._boxPointer._userArrowSide = arrowSide;
+    _adjustBoxPointer: function(boxPointer, arrowSide) {
+        if (boxPointer) {
+            boxPointer._userArrowSide = arrowSide;
+            boxPointer._dtpAllocateId = boxPointer._container.connect('allocate', (actor, box, flags) => {
+                if (this._dtpSettings.get_boolean('intellihide')) {
+                    let [width, height] = box.get_size();
+                    let monitor = Main.layoutManager.findMonitorForActor(actor);
+                    let excess = height + this._dtpSettings.get_int('panel-size') - monitor.height;
+                    
+                    if (excess > 0) {
+                        actor.set_size(width, height - excess);
+                    }
                 }
-
-                adjustBoxPointer(c);
             });
-        };
+        }
+    },
 
-        adjustBoxPointer(container);    
+    _findPanelBoxPointers: function(container) {
+        let panelBoxPointers = [];
+        let boxPointer;
+
+        let find = parent => parent.get_children().forEach(c => {
+            if ((boxPointer = this._getPanelButtonBoxPointer(c))) {
+                panelBoxPointers.push(boxPointer);
+            }
+
+            find(c);
+        });
+
+        find(container);
+
+        return panelBoxPointers;
+    },
+
+    _getPanelButtonBoxPointer: function(obj) {
+        if (obj._delegate && obj._delegate instanceof PanelMenu.Button) {
+            return obj._delegate.menu._boxPointer;
+        }
     },
 
     _newOverviewRelayout: function() {
