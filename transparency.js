@@ -81,9 +81,20 @@ var DynamicTransparency = new Lang.Class({
                     'changed::trans-panel-opacity',
                     'changed::trans-bg-color',
                     'changed::trans-dynamic-anim-target',
-                    'changed::trans-use-dynamic-opacity',
+                    'changed::trans-use-dynamic-opacity'
                 ],
                 () => this._updateAlphaAndSet()
+            ],
+            [
+                this._dtpSettings,
+                [
+                    'changed::trans-use-custom-gradient',
+                    'changed::trans-gradient-top-color',
+                    'changed::trans-gradient-bottom-color',
+                    'changed::trans-gradient-top-opacity',
+                    'changed::trans-gradient-bottom-opacity'
+                ],
+                () => this._updateGradientAndSet()
             ],
             [
                 this._dtpSettings,
@@ -119,7 +130,7 @@ var DynamicTransparency = new Lang.Class({
     },
 
     _updateAnimationDuration: function() {
-        this._animationDuration = this._dtpSettings.get_int('trans-dynamic-anim-time') * 0.001;
+        this._animationDuration = (this._dtpSettings.get_int('trans-dynamic-anim-time') * 0.001) + 's;';
     },
 
     _updateAllAndSet: function() {
@@ -127,7 +138,9 @@ var DynamicTransparency = new Lang.Class({
 
         this._updateColor(themeBackground);
         this._updateAlpha(themeBackground);
+        this._updateGradient();
         this._setBackground();
+        this._setGradient();
     },
 
     _updateColorAndSet: function() {
@@ -140,9 +153,14 @@ var DynamicTransparency = new Lang.Class({
         this._setBackground();
     },
 
+    _updateGradientAndSet: function() {
+        this._updateGradient();
+        this._setGradient();
+    },
+
     _updateColor: function(themeBackground) {
         this._backgroundColor = this._dtpSettings.get_boolean('trans-use-custom-bg') ?
-                                Clutter.color_from_string(this._dtpSettings.get_string('trans-bg-color'))[1] :
+                                this._dtpSettings.get_string('trans-bg-color') :
                                 (themeBackground || this._getThemeBackground());
     },
 
@@ -156,16 +174,45 @@ var DynamicTransparency = new Lang.Class({
         }
     },
 
+    _updateGradient: function() {
+        this._gradientStyle = '';
+
+        if (this._dtpSettings.get_boolean('trans-use-custom-gradient')) {
+            this._gradientStyle += 'background-gradient-direction: vertical; ' +
+                                   'background-gradient-start: ' + this._getrgbaColor(this._dtpSettings.get_string('trans-gradient-top-color'), 
+                                                                                      this._dtpSettings.get_double('trans-gradient-top-opacity')) + 
+                                   'background-gradient-end: ' + this._getrgbaColor(this._dtpSettings.get_string('trans-gradient-bottom-color'), 
+                                                                                    this._dtpSettings.get_double('trans-gradient-bottom-opacity'));
+        }
+    },
+
     _setBackground: function() {
-        this._dtpPanel.panel.actor.set_style(
-            'background-color: rgba(' + 
-            this._backgroundColor.red + ',' +
-            this._backgroundColor.green + ',' +
-            this._backgroundColor.blue + ',' +
-            this._alpha + '); ' +
-            'border-image: none; background-image: none; ' +
-            'transition-duration:' + this._animationDuration + 's'
+        this._dtpPanel.panelBox.set_style(
+            'background-color: ' + this._getrgbaColor(this._backgroundColor, this._alpha) +
+            'transition-duration:' + this._animationDuration
         );
+    },
+
+    _setGradient: function() {
+        this._dtpPanel.panel.actor.set_style(
+            'background-color: none; ' + 
+            'border-image: none; ' + 
+            'background-image: none; ' +
+            this._gradientStyle +
+            'transition-duration:' + this._animationDuration
+        );
+    },
+
+    _getrgbaColor: function(color, alpha) {
+        if (alpha <= 0) {
+            return 'transparent; ';
+        }
+
+        if (typeof color === 'string') {
+            color = Clutter.color_from_string(color)[1];
+        }
+
+        return 'rgba(' + color.red + ',' + color.green + ',' + color.blue + ',' + (Math.floor(alpha * 100) * 0.01) + '); ' ;
     },
 
     _getThemeBackground: function(reload) {

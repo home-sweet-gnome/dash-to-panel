@@ -524,7 +524,10 @@ const Settings = new Lang.Class({
                 this._builder.get_object('trans_dyn_switch').set_active(false);
         });
 
-        this._builder.get_object('trans_opacity_scale').set_value(this._settings.get_double('trans-panel-opacity'));
+        this._builder.get_object('trans_opacity_spinbutton').set_value(this._settings.get_double('trans-panel-opacity') * 100);
+        this._builder.get_object('trans_opacity_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_double('trans-panel-opacity', widget.get_value() * 0.01);
+        }));
 
         this._settings.bind('trans-use-dynamic-opacity',
                             this._builder.get_object('trans_dyn_switch'),
@@ -541,12 +544,57 @@ const Settings = new Lang.Class({
                             'active-id',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('trans-use-custom-gradient',
+                            this._builder.get_object('trans_gradient_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-use-custom-gradient',
+                            this._builder.get_object('trans_gradient_box'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        rgba.parse(this._settings.get_string('trans-gradient-top-color'));
+        this._builder.get_object('trans_gradient_color1_colorbutton').set_rgba(rgba);
+
+        this._builder.get_object('trans_gradient_color1_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            let hexString = cssHexString(css);
+            this._settings.set_string('trans-gradient-top-color', hexString);
+        }));
+
+        this._builder.get_object('trans_gradient_color1_spinbutton').set_value(this._settings.get_double('trans-gradient-top-opacity') * 100);
+        this._builder.get_object('trans_gradient_color1_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_double('trans-gradient-top-opacity', widget.get_value() * 0.01);
+        }));
+
+        rgba.parse(this._settings.get_string('trans-gradient-bottom-color'));
+        this._builder.get_object('trans_gradient_color2_colorbutton').set_rgba(rgba);
+
+        this._builder.get_object('trans_gradient_color2_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            let hexString = cssHexString(css);
+            this._settings.set_string('trans-gradient-bottom-color', hexString);
+        }));
+
+        this._builder.get_object('trans_gradient_color2_spinbutton').set_value(this._settings.get_double('trans-gradient-bottom-opacity') * 100);
+        this._builder.get_object('trans_gradient_color2_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_double('trans-gradient-bottom-opacity', widget.get_value() * 0.01);
+        }));
+
         this._builder.get_object('trans_options_distance_spinbutton').set_value(this._settings.get_int('trans-dynamic-distance'));
         this._builder.get_object('trans_options_distance_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
             this._settings.set_int('trans-dynamic-distance', widget.get_value());
         }));
         
-        this._builder.get_object('trans_options_min_opacity_scale').set_value(this._settings.get_double('trans-dynamic-anim-target'));
+        this._builder.get_object('trans_options_min_opacity_spinbutton').set_value(this._settings.get_double('trans-dynamic-anim-target') * 100);
+        this._builder.get_object('trans_options_min_opacity_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_double('trans-dynamic-anim-target', widget.get_value() * 0.01);
+        }));
+
+        this._builder.get_object('trans_options_min_opacity_spinbutton').set_value(this._settings.get_double('trans-dynamic-anim-target'));
 
         this._builder.get_object('trans_options_anim_time_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-time'));
         this._builder.get_object('trans_options_anim_time_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
@@ -575,7 +623,7 @@ const Settings = new Lang.Class({
                     this._builder.get_object('trans_options_distance_spinbutton').set_value(this._settings.get_int('trans-dynamic-distance'));
 
                     this._settings.set_value('trans-dynamic-anim-target', this._settings.get_default_value('trans-dynamic-anim-target'));
-                    this._builder.get_object('trans_options_min_opacity_scale').set_value(this._settings.get_double('trans-dynamic-anim-target'));
+                    this._builder.get_object('trans_options_min_opacity_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-target') * 100);
 
                     this._settings.set_value('trans-dynamic-anim-time', this._settings.get_default_value('trans-dynamic-anim-time'));
                     this._builder.get_object('trans_options_anim_time_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-time'));
@@ -1431,38 +1479,6 @@ const Settings = new Lang.Class({
             this._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
                 this._settings.set_int('appicon-padding', scale.get_value());
                 this._appicon_padding_timeout = 0;
-                return GLib.SOURCE_REMOVE;
-            }));
-        },
-
-        trans_opacity_scale_format_value_cb: function(scale, value) {
-            return Math.round(value * 100) + ' %';
-        },
-
-        trans_opacity_scale_value_changed_cb: function(scale) {
-            // Avoid settings the opacity consinuosly
-            if (this._opacity_timeout > 0)
-                Mainloop.source_remove(this._opacity_timeout);
-
-            this._opacity_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-                this._settings.set_double('trans-panel-opacity', scale.get_value());
-                this._opacity_timeout = 0;
-                return GLib.SOURCE_REMOVE;
-            }));
-        },
-
-        trans_opacity_min_scale_format_value_cb: function(scale, value) {
-            return Math.round(value * 100) + ' %';
-        },
-
-        trans_opacity_min_scale_value_changed_cb: function(scale) {
-            // Avoid settings the opacity consinuosly
-            if (this._opacity_timeout > 0)
-                Mainloop.source_remove(this._opacity_timeout);
-
-            this._opacity_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-                this._settings.set_double('trans-dynamic-anim-target', scale.get_value());
-                this._opacity_timeout = 0;
                 return GLib.SOURCE_REMOVE;
             }));
         },

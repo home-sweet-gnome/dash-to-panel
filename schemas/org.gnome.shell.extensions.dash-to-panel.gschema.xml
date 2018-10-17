@@ -214,6 +214,31 @@
       <summary>Opacity change duration</summary>
       <description>The duration of the animation when the opacity changes</description>
     </key>
+    <key type="b" name="trans-use-custom-gradient">
+      <default>false</default>
+      <summary>Custom gradient</summary>
+      <description>Replace current theme gradient for the panel</description>
+    </key>
+    <key type="s" name="trans-gradient-top-color">
+      <default>"#000"</default>
+      <summary>Custom gradient top color</summary>
+      <description>Custom gradient top color for the panel</description>
+    </key>
+    <key type="d" name="trans-gradient-top-opacity">
+      <default>0</default>
+      <summary>Custom gradient top opacity</summary>
+      <description>Custom gradient top opacity for the panel</description>
+    </key>
+    <key type="s" name="trans-gradient-bottom-color">
+      <default>"#000"</default>
+      <summary>Custom gradient bottom color</summary>
+      <description>Custom gradient bottom color for the panel</description>
+    </key>
+    <key type="d" name="trans-gradient-bottom-opacity">
+      <default>0.2</default>
+      <summary>Custom gradient bottom opacity</summary>
+      <description>Custom gradient bottom opacity for the panel</description>
+    </key>
     <key type="b" name="intellihide">
       <default>false</default>
       <summary>Intellihide</summary>
