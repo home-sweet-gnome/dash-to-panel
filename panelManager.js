@@ -83,7 +83,7 @@ var dtpPanelManager = new Lang.Class({
         let panelPosition = Taskbar.getPosition();
         this.allPanels.forEach(p => {
             p.panelBox.set_size(p.monitor.width, -1);
-            this._findPanelBoxPointers(p.panelBox).forEach(bp => this._adjustBoxPointer(bp, panelPosition));
+            this._findPanelBoxPointers(p.panelBox).forEach(bp => this._adjustBoxPointer(bp, p.monitor, panelPosition));
         });
 
         if (reset) return;
@@ -141,7 +141,7 @@ var dtpPanelManager = new Lang.Class({
         );
 
         ['_leftBox', '_centerBox', '_rightBox'].forEach(c => this._signalsHandler.add(
-            [Main.panel[c], 'actor-added', (parent, child) => this._adjustBoxPointer(this._getPanelButtonBoxPointer(child), Taskbar.getPosition())]
+            [Main.panel[c], 'actor-added', (parent, child) => this._adjustBoxPointer(this._getPanelButtonBoxPointer(child), this.primaryPanel.monitor, Taskbar.getPosition())]
         ));
     },
 
@@ -151,7 +151,7 @@ var dtpPanelManager = new Lang.Class({
 
         this.allPanels.forEach(p => {
             this._findPanelBoxPointers(p.panelBox).forEach(bp => {
-                bp._container.disconnect(bp._dtpAllocateId);
+                bp._container.disconnect(bp._dtpGetPreferredHeightId);
                 bp._userArrowSide = St.Side.TOP;
             })
             p.disable();
@@ -200,17 +200,15 @@ var dtpPanelManager = new Lang.Class({
         this.enable(true);
     },
 
-    _adjustBoxPointer: function(boxPointer, arrowSide) {
+    _adjustBoxPointer: function(boxPointer, monitor, arrowSide) {
         if (boxPointer) {
             boxPointer._userArrowSide = arrowSide;
-            boxPointer._dtpAllocateId = boxPointer._container.connect('allocate', (actor, box, flags) => {
+            boxPointer._dtpGetPreferredHeightId = boxPointer._container.connect('get-preferred-height', (actor, forWidth, alloc) => {
                 if (this._dtpSettings.get_boolean('intellihide')) {
-                    let [width, height] = box.get_size();
-                    let monitor = Main.layoutManager.findMonitorForActor(actor);
-                    let excess = height + this._dtpSettings.get_int('panel-size') - monitor.height;
-                    
+                    let excess = alloc.natural_size + this._dtpSettings.get_int('panel-size') + 20 - monitor.height; // 20 is arbitrary
+
                     if (excess > 0) {
-                        actor.set_size(width, height - excess);
+                        alloc.natural_size -= excess;
                     }
                 }
             });
