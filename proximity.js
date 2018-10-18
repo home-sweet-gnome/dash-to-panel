@@ -42,7 +42,7 @@ var ProximityWatch = new Lang.Class({
     _init: function(actor, mode, xThreshold, yThreshold, handler) {
         this.actor = actor;
         this.mode = mode;
-        this.threshold = [xThreshold || 1, yThreshold || 1];
+        this.threshold = [xThreshold, yThreshold];
         this.handler = handler;
 
         this._allocationChangedId = actor.connect('allocation-changed', () => this._update());
