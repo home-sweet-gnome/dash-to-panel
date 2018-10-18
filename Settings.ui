@@ -4649,6 +4649,8 @@
                           <object class="GtkSwitch" id="trans_gradient_switch">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
