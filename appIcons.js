@@ -533,7 +533,7 @@ var taskbarAppIcon = new Lang.Class({
         }
         
         this.actor.set_style('padding: 0 ' + margin + 'px;');
-        this._iconContainer.set_style('padding: ' + padding + 'px;');
+        this._dtpIconContainer.set_style('padding: ' + padding + 'px;');
     },
 
     popupMenu: function() {
