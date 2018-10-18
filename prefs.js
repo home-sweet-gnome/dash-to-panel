@@ -594,8 +594,6 @@ const Settings = new Lang.Class({
             this._settings.set_double('trans-dynamic-anim-target', widget.get_value() * 0.01);
         }));
 
-        this._builder.get_object('trans_options_min_opacity_spinbutton').set_value(this._settings.get_double('trans-dynamic-anim-target'));
-
         this._builder.get_object('trans_options_anim_time_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-time'));
         this._builder.get_object('trans_options_anim_time_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
             this._settings.set_int('trans-dynamic-anim-time', widget.get_value());
@@ -623,7 +621,7 @@ const Settings = new Lang.Class({
                     this._builder.get_object('trans_options_distance_spinbutton').set_value(this._settings.get_int('trans-dynamic-distance'));
 
                     this._settings.set_value('trans-dynamic-anim-target', this._settings.get_default_value('trans-dynamic-anim-target'));
-                    this._builder.get_object('trans_options_min_opacity_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-target') * 100);
+                    this._builder.get_object('trans_options_min_opacity_spinbutton').set_value(this._settings.get_double('trans-dynamic-anim-target') * 100);
 
                     this._settings.set_value('trans-dynamic-anim-time', this._settings.get_default_value('trans-dynamic-anim-time'));
                     this._builder.get_object('trans_options_anim_time_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-time'));
