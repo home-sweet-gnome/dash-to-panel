@@ -4253,25 +4253,6 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">0</property>
-                            <property name="height">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="trans_bg_description">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Define a custom background color for the panel</property>
-                            <property name="wrap">True</property>
-                            <property name="max_width_chars">40</property>
-                            <property name="xalign">0</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
-                          </object>
-                          <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
                           </packing>
                         </child>
                       </object>
@@ -4320,25 +4301,6 @@
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="top_attach">0</property>
-                                <property name="height">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="trans_opacity_override_description">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="hexpand">True</property>
-                                <property name="label" translatable="yes">Define custom opacity options for the panel background</property>
-                                <property name="wrap">True</property>
-                                <property name="max_width_chars">40</property>
-                                <property name="xalign">0</property>
-                                <style>
-                                  <class name="dim-label"/>
-                                </style>
-                              </object>
-                              <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
                               </packing>
                             </child>
                             <child>
@@ -4346,18 +4308,48 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="margin_left">12</property>
+                                <property name="margin_top">12</property>
+                                <property name="row_spacing">6</property>
                                 <child>
-                                  <object class="GtkBox" id="trans_opacity_select_box">
+                                  <object class="GtkLabel" id="trans_opacity_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="margin_top">12</property>
-                                    <property name="margin_bottom">12</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="label" translatable="yes">Panel background opacity (%)</property>
+                                    <property name="use_markup">True</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="trans_opacity_spinbutton">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">center</property>
+                                    <property name="text" translatable="yes">0</property>
+                                    <property name="adjustment">trans_opacity_adjustment</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="top_attach">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkBox">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="orientation">vertical</property>
                                     <child>
-                                      <object class="GtkLabel" id="trans_opacity_label">
+                                      <object class="GtkLabel" id="trans_dyn_label">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="margin_right">12</property>
-                                        <property name="label" translatable="yes">Panel background opacity (%)</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="label" translatable="yes">Dynamic background opacity</property>
                                         <property name="use_markup">True</property>
                                         <property name="xalign">0</property>
                                       </object>
@@ -4368,33 +4360,24 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkSpinButton" id="trans_opacity_spinbutton">
+                                      <object class="GtkLabel" id="trans_dyn_description">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="adjustment">trans_opacity_adjustment</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="label" translatable="yes">Change opacity when a window gets close to the panel</property>
+                                        <property name="wrap">True</property>
+                                        <property name="max_width_chars">40</property>
+                                        <property name="xalign">0</property>
+                                        <style>
+                                          <class name="dim-label"/>
+                                        </style>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="pack_type">end</property>
+                                        <property name="fill">True</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">0</property>
-                                    <property name="top_attach">0</property>
-                                    <property name="width">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="trans_dyn_label">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="label" translatable="yes">Dynamic background opacity</property>
-                                    <property name="use_markup">True</property>
-                                    <property name="xalign">0</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">0</property>
@@ -4402,27 +4385,11 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="trans_dyn_description">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="label" translatable="yes">Change opacity when a window gets close to the panel</property>
-                                    <property name="wrap">True</property>
-                                    <property name="max_width_chars">40</property>
-                                    <property name="xalign">0</property>
-                                    <style>
-                                      <class name="dim-label"/>
-                                    </style>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">0</property>
-                                    <property name="top_attach">2</property>
-                                  </packing>
-                                </child>
-                                <child>
                                   <object class="GtkBox" id="trans_dyn_box">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">center</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkButton" id="trans_dyn_options_button">
@@ -4466,13 +4433,12 @@
                                   <packing>
                                     <property name="left_attach">1</property>
                                     <property name="top_attach">1</property>
-                                    <property name="height">2</property>
                                   </packing>
                                 </child>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
-                                <property name="top_attach">2</property>
+                                <property name="top_attach">1</property>
                                 <property name="width">2</property>
                               </packing>
                             </child>
@@ -4515,21 +4481,15 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="trans_gradient_description">
+                          <object class="GtkSwitch" id="trans_gradient_switch">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Define a custom gradient for the panel</property>
-                            <property name="wrap">True</property>
-                            <property name="max_width_chars">40</property>
-                            <property name="xalign">0</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
+                            <property name="can_focus">True</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">0</property>
                           </packing>
                         </child>
                         <child>
@@ -4537,11 +4497,8 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_left">12</property>
-                            <property name="margin_right">12</property>
                             <property name="margin_top">12</property>
-                            <property name="margin_bottom">12</property>
                             <property name="row_spacing">6</property>
-                            <property name="column_spacing">32</property>
                             <child>
                               <object class="GtkLabel" id="trans_gradient_color1_label">
                                 <property name="visible">True</property>
@@ -4589,6 +4546,9 @@
                                   <object class="GtkSpinButton" id="trans_gradient_color1_spinbutton">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">center</property>
+                                    <property name="text" translatable="yes">0</property>
                                     <property name="adjustment">trans_gradient_opacity1_adjustment</property>
                                   </object>
                                   <packing>
@@ -4624,6 +4584,9 @@
                                   <object class="GtkSpinButton" id="trans_gradient_color2_spinbutton">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">center</property>
+                                    <property name="text" translatable="yes">0</property>
                                     <property name="adjustment">trans_gradient_opacity2_adjustment</property>
                                   </object>
                                   <packing>
@@ -4641,21 +4604,8 @@
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
+                            <property name="top_attach">1</property>
                             <property name="width">2</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSwitch" id="trans_gradient_switch">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="halign">end</property>
-                            <property name="valign">center</property>
-                          </object>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                            <property name="height">2</property>
                           </packing>
                         </child>
                       </object>
