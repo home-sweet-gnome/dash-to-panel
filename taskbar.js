@@ -56,7 +56,7 @@ var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 let HFADE_WIDTH = 48;
 
 function getPosition() {
-    return Main.layoutManager.panelBox.anchor_y == 0 ? St.Side.TOP : St.Side.BOTTOM;
+    return Main.layoutManager.panelBox.y == Main.layoutManager.primaryMonitor.y ? St.Side.TOP : St.Side.BOTTOM;
 }
 /**
  * Extend DashItemContainer
@@ -175,8 +175,9 @@ var taskbarActor = new Lang.Class({
 var taskbar = new Lang.Class({
     Name: 'DashToPanel.Taskbar',
 
-    _init : function(settings) {
+    _init : function(settings, panelWrapper) {
         this._dtpSettings = settings;
+        this.panelWrapper = panelWrapper;
         
         // start at smallest size due to running indicator drawing area expanding but not shrinking
         this.iconSize = 16;
@@ -210,8 +211,13 @@ var taskbar = new Lang.Class({
         this._container.add_actor(this._scrollView);
         this._scrollView.add_actor(this._box);
 
-        this._showAppsIcon = new Dash.ShowAppsIcon();
-        AppIcons.extendShowAppsIcon(this._showAppsIcon, this._dtpSettings);
+        // Create a wrapper around the real showAppsIcon in order to add a popupMenu.
+        this._showAppsIconWrapper = new AppIcons.ShowAppsIconWrapper(this._dtpSettings);
+        this._showAppsIconWrapper.connect('menu-state-changed', Lang.bind(this, function(showAppsIconWrapper, opened) {
+            this._itemMenuStateChanged(showAppsIconWrapper, opened);
+        }));
+        // an instance of the showAppsIcon class is encapsulated in the wrapper
+        this._showAppsIcon = this._showAppsIconWrapper.realShowAppsIcon;
         this.showAppsButton = this._showAppsIcon.toggleButton;
              
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
@@ -219,12 +225,7 @@ var taskbar = new Lang.Class({
         this._showAppsIcon.childScale = 1;
         this._showAppsIcon.childOpacity = 255;
         this._showAppsIcon.icon.setIconSize(this.iconSize);
-        this._hookUpLabel(this._showAppsIcon);
-
-        let appsIcon = this._showAppsIcon;
-        appsIcon.connect('menu-state-changed', Lang.bind(this, function(appsIcon, opened) {
-            this._itemMenuStateChanged(appsIcon, opened);
-        }));
+        this._hookUpLabel(this._showAppsIcon, this._showAppsIconWrapper);
 
         this._container.add_actor(this._showAppsIcon);
 
@@ -250,12 +251,12 @@ var taskbar = new Lang.Class({
 
         this._signalsHandler.add(
             [
-                Main.panel.actor,
+                this.panelWrapper.panel.actor,
                 'notify::height',
                 () => this._queueRedisplay()
             ],
             [
-                Main.panel.actor,
+                this.panelWrapper.panel.actor,
                 'notify::width',
                 () => this._queueRedisplay()
             ],
@@ -276,6 +277,18 @@ var taskbar = new Lang.Class({
                 global.window_manager,
                 'switch-workspace', 
                 () => this._connectWorkspaceSignals()
+            ],
+            [
+                Utils.DisplayWrapper.getScreen(),
+                [
+                    'window-entered-monitor',
+                    'window-left-monitor'
+                ],
+                () => {
+                    if (this._dtpSettings.get_boolean('isolate-monitors')) {
+                        this._queueRedisplay()
+                    }
+                }
             ],
             [
                 Main.overview,
@@ -317,7 +330,8 @@ var taskbar = new Lang.Class({
                 this._dtpSettings,
                 [
                     'changed::dot-size',
-                    'changed::show-favorites'
+                    'changed::show-favorites',
+                    'changed::show-favorites-all-monitors'
                 ],
                 Lang.bind(this, this._redisplay)
             ],
@@ -484,16 +498,14 @@ var taskbar = new Lang.Class({
         Main.queueDeferredWork(this._workId);
     },
 
-    _hookUpLabel: function(item, appIcon) {
+    _hookUpLabel: function(item, syncHandler) {
         item.child.connect('notify::hover', Lang.bind(this, function() {
-            this._syncLabel(item, appIcon);
+            this._syncLabel(item, syncHandler);
         }));
 
-        if (appIcon) {
-            appIcon.connect('sync-tooltip', Lang.bind(this, function() {
-                this._syncLabel(item, appIcon);
-            }));
-        }
+        syncHandler.connect('sync-tooltip', Lang.bind(this, function() {
+            this._syncLabel(item, syncHandler);
+        }));
     },
 
     _createAppItem: function(app, window, isLauncher) {
@@ -504,6 +516,7 @@ var taskbar = new Lang.Class({
                 window: window,
                 isLauncher: isLauncher
             },
+            this.panelWrapper,
             { 
                 setSizeManually: true,
                 showLabel: false 
@@ -647,8 +660,8 @@ var taskbar = new Lang.Class({
         }
     },
 
-    _syncLabel: function (item, appIcon) {
-        let shouldShow = appIcon ? appIcon.shouldShowTooltip() : item.child.get_hover();
+    _syncLabel: function (item, syncHandler) {
+        let shouldShow = syncHandler ? syncHandler.shouldShowTooltip() : item.child.get_hover();
 
         if (shouldShow) {
             if (this._showLabelTimeoutId == 0) {
@@ -696,7 +709,7 @@ var taskbar = new Lang.Class({
 
         // Getting the panel height and making sure that the icon padding is at
         // least the size of the app running indicator on both the top and bottom.
-        let availSize = (Main.panel.actor.get_height() - 
+        let availSize = (this.panelWrapper.panel.actor.get_height() - 
                          (this._dtpSettings.get_int('dot-size') * scaleFactor * 2) - 
                          (this._dtpSettings.get_int('appicon-padding') * 2)) / scaleFactor;
         
@@ -755,7 +768,8 @@ var taskbar = new Lang.Class({
             return;
         }
         
-        let showFavorites = this._dtpSettings.get_boolean('show-favorites');
+        let showFavorites = this._dtpSettings.get_boolean('show-favorites') && 
+                            (!this.panelWrapper.isSecondary || this._dtpSettings.get_boolean('show-favorites-all-monitors'));
         //get the currently displayed appIcons
         let currentAppIcons = this._getTaskbarIcons();
         //get the user's favorite apps
@@ -864,7 +878,7 @@ var taskbar = new Lang.Class({
         return apps.map(app => ({ 
             app: app, 
             isLauncher: defaultIsLauncher || false,
-            windows: defaultWindows || AppIcons.getInterestingWindows(app, this._dtpSettings)
+            windows: defaultWindows || AppIcons.getInterestingWindows(app, this._dtpSettings, this.panelWrapper.monitor)
                                                .sort(this.sortWindowsCompareFunction)
         }));
     },
@@ -1101,6 +1115,9 @@ var taskbar = new Lang.Class({
                     }
                 }
 
+                //temporarily use as primary the monitor on which the showapps btn was clicked 
+                this.panelWrapper.panelManager.setFocusedMonitor(this.panelWrapper.monitor);
+
                 // Finally show the overview
                 selector._showAppsButton.checked = true;
                 Main.overview.show();
@@ -1131,6 +1148,9 @@ var taskbar = new Lang.Class({
                     selector._showAppsButton.checked = false;
                     this.forcedOverview = false;
                 }
+
+                //if changed when opening the overview, reset the primary monitor when exiting the overview
+                this.panelWrapper.panelManager.setFocusedMonitor(Main.layoutManager.primaryMonitor, true);
             }
         }
 

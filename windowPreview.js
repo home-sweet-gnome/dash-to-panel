@@ -85,7 +85,7 @@ var thumbnailPreviewMenu = new Lang.Class({
         this._boxPointer._arrowSide = side;
         this._boxPointer._userArrowSide = side;
 
-        this._previewBox = new thumbnailPreviewList(this._app, source.window, this._dtpSettings);
+        this._previewBox = new thumbnailPreviewList(this._app, source, this._dtpSettings);
         this.addMenuItem(this._previewBox);
 
         this._peekMode = false;
@@ -141,7 +141,7 @@ var thumbnailPreviewMenu = new Lang.Class({
     },
 
     popup: function() {
-        let windows = AppIcons.getInterestingWindows(this._app, this._dtpSettings);
+        let windows = AppIcons.getInterestingWindows(this._app, this._dtpSettings, this._source.panelWrapper.monitor);
         if (windows.length > 0) {
             this._redisplay();
             this.open();
@@ -873,7 +873,7 @@ var thumbnailPreviewList = new Lang.Class({
     Name: 'DashToPanel.ThumbnailPreviewList',
     Extends: PopupMenu.PopupMenuSection,
 
-    _init: function(app, window, settings) {
+    _init: function(app, source, settings) {
         this._dtpSettings = settings;
 
   	    this.parent();
@@ -895,7 +895,7 @@ var thumbnailPreviewList = new Lang.Class({
         this._shownInitially = false;
 
         this.app = app;
-        this.window = window;
+        this._source = source;
 
         this._redisplayId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._redisplay));
         this._scrollbarId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._showHideScrollbar));
@@ -909,7 +909,7 @@ var thumbnailPreviewList = new Lang.Class({
             this._dtpSettings.connect('changed::window-preview-padding', () => this._resetPreviews())
         ];
 
-        this._stateChangedId = this.window ? 0 : 
+        this._stateChangedId = this._source.window ? 0 : 
                                this.app.connect('windows-changed', Lang.bind(this, this._queueRedisplay));
     },
 
@@ -1057,8 +1057,8 @@ var thumbnailPreviewList = new Lang.Class({
     },
 
     _redisplay: function () {
-        let windows = this.window ? [this.window] : 
-                      AppIcons.getInterestingWindows(this.app, this._dtpSettings).sort(this.sortWindowsCompareFunction);
+        let windows = this._source.window ? [this._source.window] : 
+                      AppIcons.getInterestingWindows(this.app, this._dtpSettings, this._source.panelWrapper.monitor).sort(this.sortWindowsCompareFunction);
         let children = this._getPreviews();
         // Apps currently in the taskbar
         let oldWin = children.map(function(actor) {

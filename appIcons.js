@@ -96,10 +96,11 @@ var taskbarAppIcon = new Lang.Class({
     Name: 'DashToPanel.TaskbarAppIcon',
     Extends: AppDisplay.AppIcon,
 
-    _init: function(settings, appInfo, iconParams, onActivateOverride) {
+    _init: function(settings, appInfo, panelWrapper, iconParams, onActivateOverride) {
 
         // a prefix is required to avoid conflicting with the parent class variable
         this._dtpSettings = settings;
+        this.panelWrapper = panelWrapper;
         this._nWindows = 0;
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
@@ -318,7 +319,7 @@ var taskbarAppIcon = new Lang.Class({
 
     shouldShowTooltip: function() {
         if (!this.isLauncher && this._dtpSettings.get_boolean("show-window-previews") &&
-            getInterestingWindows(this.app, this._dtpSettings).length > 0) {
+            this.getAppIconInterestingWindows().length > 0) {
             return false;
         } else {
             return this.actor.hover && !this.window && 
@@ -376,7 +377,7 @@ var taskbarAppIcon = new Lang.Class({
         [rect.x, rect.y] = this.actor.get_transformed_position();
         [rect.width, rect.height] = this.actor.get_transformed_size();
 
-        let windows = this.window ? [this.window] : this.app.get_windows();
+        let windows = this.window ? [this.window] : this.getAppIconInterestingWindows();
         windows.forEach(function(w) {
             w.set_icon_geometry(rect);
         });
@@ -524,7 +525,7 @@ var taskbarAppIcon = new Lang.Class({
 
     _setAppIconPadding: function() {
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        let availSize = Main.panel.actor.get_height() - this._dtpSettings.get_int('dot-size') * scaleFactor * 2;
+        let availSize = this.panelWrapper.panel.actor.get_height() - this._dtpSettings.get_int('dot-size') * scaleFactor * 2;
         let padding = this._dtpSettings.get_int('appicon-padding'); 
         let margin = this._dtpSettings.get_int('appicon-margin');
 
@@ -752,7 +753,7 @@ var taskbarAppIcon = new Lang.Class({
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
         let appIsRunning = this.app.state == Shell.AppState.RUNNING
-            && getInterestingWindows(this.app, this._dtpSettings).length > 0
+            && this.getAppIconInterestingWindows().length > 0
 
         // We customize the action only when the application is already running
         if (appIsRunning && !this.isLauncher) {
@@ -875,7 +876,7 @@ var taskbarAppIcon = new Lang.Class({
 
     _updateCounterClass: function() {
         let maxN = 4;
-        this._nWindows = Math.min(getInterestingWindows(this.app, this._dtpSettings).length, maxN);
+        this._nWindows = Math.min(this.getAppIconInterestingWindows().length, maxN);
 
         for (let i = 1; i <= maxN; i++){
             let className = 'running'+i;
@@ -1074,6 +1075,10 @@ var taskbarAppIcon = new Lang.Class({
         }
             
         return DND.DragMotionResult.CONTINUE;
+    },
+
+    getAppIconInterestingWindows: function() {
+        return getInterestingWindows(this.app, this._dtpSettings, this.panelWrapper.monitor);
     }
 
 });
@@ -1110,12 +1115,9 @@ function activateAllWindows(app, settings){
     if (windows.length <= 0)
         return;
 
-    let activatedWindows = 0;
-
     for (let i = windows.length - 1; i >= 0; i--){
         if (windows[i].get_workspace().index() == activeWorkspace){
             Main.activateWindow(windows[i]);
-            activatedWindows++;
         }
     }
 }
@@ -1183,18 +1185,24 @@ function closeAllWindows(app, settings) {
 
 // Filter out unnecessary windows, for instance
 // nautilus desktop window.
-function getInterestingWindows(app, settings) {
+function getInterestingWindows(app, settings, monitor) {
     let windows = app.get_windows().filter(function(w) {
         return !w.skip_taskbar;
     });
 
-    // When using workspace isolation, we filter out windows
-    // that are not in the current workspace
+    // When using workspace or monitor isolation, we filter out windows
+    // that are not in the current workspace or on the same monitor as the appicon
     if (settings.get_boolean('isolate-workspaces'))
         windows = windows.filter(function(w) {
             return w.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index();
         });
 
+    if (monitor && settings.get_boolean('multi-monitors') && settings.get_boolean('isolate-monitors')) {
+        windows = windows.filter(function(w) {
+            return w.get_monitor() == monitor.index;
+        });
+    }
+    
     return windows;
 }
 
@@ -1346,7 +1354,7 @@ var taskbarSecondaryMenu = new Lang.Class({
 Signals.addSignalMethods(taskbarSecondaryMenu.prototype);
 
 /**
- * This function is used for both extendShowAppsIcon and extendDashItemContainer
+ * This function is used for extendDashItemContainer
  */
 function ItemShowLabel()  {
     if (!this._labelText)
@@ -1365,22 +1373,18 @@ function ItemShowLabel()  {
     let labelWidth = this.label.get_width();
     let labelHeight = this.label.get_height();
 
-    let x, y, xOffset, yOffset;
-
     let position = Taskbar.getPosition();
     let labelOffset = node.get_length('-x-offset');
+
+    let xOffset = Math.floor((itemWidth - labelWidth) / 2);
+    let x = stageX + xOffset, y;
 
     switch(position) {
       case St.Side.TOP:
           y = stageY + labelOffset + itemHeight;
-          xOffset = Math.floor((itemWidth - labelWidth) / 2);
-          x = stageX + xOffset;
           break;
       case St.Side.BOTTOM:
-          yOffset = labelOffset;
-          y = stageY - labelHeight - yOffset;
-          xOffset = Math.floor((itemWidth - labelWidth) / 2);
-          x = stageX + xOffset;
+          y = stageY - labelHeight - labelOffset;
           break;
     }
 
@@ -1403,109 +1407,118 @@ function ItemShowLabel()  {
       });
 };
 
-
 /**
- * Extend ShowAppsIcon
+ * A wrapper class around the ShowAppsIcon class.
  *
  * - Pass settings to the constructor
- * - set label position based on dash orientation
- * - implement a popupMenu based on the AppIcon code
+ * - set label position based on dash orientation (Note, I am reusing most machinery of the appIcon class)
+ * - implement a popupMenu based on the AppIcon code (Note, I am reusing most machinery of the appIcon class)
  *
- *  I can't subclass the original object because of this: https://bugzilla.gnome.org/show_bug.cgi?id=688973.
- *  thus use this ugly pattern.
+ * I can't subclass the original object because of this: https://bugzilla.gnome.org/show_bug.cgi?id=688973.
+ * thus use this pattern where the real showAppsIcon object is encaptulated, and a reference to it will be properly wired upon
+ * use of this class in place of the original showAppsButton.
+ *
  */
-function extendShowAppsIcon(showAppsIcon, settings) {
-    showAppsIcon._dtpSettings = settings;
-    /* the variable equivalent to toggleButton has a different name in the appIcon class
-     (actor): duplicate reference to easily reuse appIcon methods */
-    showAppsIcon.actor =  showAppsIcon.toggleButton;
-    showAppsIcon.actor.name = 'show-apps-btn';
+var ShowAppsIconWrapper = new Lang.Class({
+    Name: 'DashToDock.ShowAppsIconWrapper',
 
-    // Re-use appIcon methods
-    showAppsIcon._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
-    showAppsIcon._setPopupTimeout = AppDisplay.AppIcon.prototype._setPopupTimeout;
-    showAppsIcon._onButtonPress = AppDisplay.AppIcon.prototype._onButtonPress;
-    showAppsIcon._onKeyboardPopupMenu = AppDisplay.AppIcon.prototype._onKeyboardPopupMenu;
-    showAppsIcon._onLeaveEvent = AppDisplay.AppIcon.prototype._onLeaveEvent;
-    showAppsIcon._onTouchEvent = AppDisplay.AppIcon.prototype._onTouchEvent;
-    showAppsIcon._onMenuPoppedDown = AppDisplay.AppIcon.prototype._onMenuPoppedDown;
+    _init: function(settings) {
+        this._dtpSettings = settings;
+        this.realShowAppsIcon = new Dash.ShowAppsIcon();
 
+        /* the variable equivalent to toggleButton has a different name in the appIcon class
+        (actor): duplicate reference to easily reuse appIcon methods */
+        this.actor = this.realShowAppsIcon.toggleButton;
+        this.actor.name = 'show-apps-btn';
 
-    // No action on clicked (showing of the appsview is controlled elsewhere)
-    showAppsIcon._onClicked = function(actor, button) {
-        showAppsIcon._removeMenuTimeout();
-    };
+        // Re-use appIcon methods
+        this._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
+        this._setPopupTimeout = AppDisplay.AppIcon.prototype._setPopupTimeout;
+        this._onButtonPress = AppDisplay.AppIcon.prototype._onButtonPress;
+        this._onKeyboardPopupMenu = AppDisplay.AppIcon.prototype._onKeyboardPopupMenu;
+        this._onLeaveEvent = AppDisplay.AppIcon.prototype._onLeaveEvent;
+        this._onTouchEvent = AppDisplay.AppIcon.prototype._onTouchEvent;
+        this._onMenuPoppedDown = AppDisplay.AppIcon.prototype._onMenuPoppedDown;
 
-    showAppsIcon.actor.connect('leave-event', Lang.bind(showAppsIcon, showAppsIcon._onLeaveEvent));
-    showAppsIcon.actor.connect('button-press-event', Lang.bind(showAppsIcon, showAppsIcon._onButtonPress));
-    showAppsIcon.actor.connect('touch-event', Lang.bind(showAppsIcon, showAppsIcon._onTouchEvent));
-    showAppsIcon.actor.connect('clicked', Lang.bind(showAppsIcon, showAppsIcon._onClicked));
-    showAppsIcon.actor.connect('popup-menu', Lang.bind(showAppsIcon, showAppsIcon._onKeyboardPopupMenu));
+        // No action on clicked (showing of the appsview is controlled elsewhere)
+        this._onClicked = Lang.bind(this, function(actor, button) {
+            this._removeMenuTimeout();
+        });
 
-    showAppsIcon._menu = null;
-    showAppsIcon._menuManager = new PopupMenu.PopupMenuManager(showAppsIcon);
-    showAppsIcon._menuTimeoutId = 0;
+        this.actor.connect('leave-event', Lang.bind(this, this._onLeaveEvent));
+        this.actor.connect('button-press-event', Lang.bind(this, this._onButtonPress));
+        this.actor.connect('touch-event', Lang.bind(this, this._onTouchEvent));
+        this.actor.connect('clicked', Lang.bind(this, this._onClicked));
+        this.actor.connect('popup-menu', Lang.bind(this, this._onKeyboardPopupMenu));
 
-    showAppsIcon.showLabel = ItemShowLabel;
+        this._menu = null;
+        this._menuManager = new PopupMenu.PopupMenuManager(this);
+        this._menuTimeoutId = 0;
 
-    let customIconPath = settings.get_string('show-apps-icon-file');
+        this.realShowAppsIcon.showLabel = ItemShowLabel;
 
-    showAppsIcon.icon.createIcon = function(size) {
-        this._iconActor = new St.Icon({ icon_name: 'view' + (Config.PACKAGE_VERSION < '3.20' ? '' : '-app') + '-grid-symbolic',
-                                        icon_size: size,
-                                        style_class: 'show-apps-icon',
-                                        track_hover: true });
+        let customIconPath = this._dtpSettings.get_string('show-apps-icon-file');
 
-        if (customIconPath) {
-            this._iconActor.gicon = new Gio.FileIcon({ file: Gio.File.new_for_path(customIconPath) });
-        }
+        this.realShowAppsIcon.icon.createIcon = function(size) {
+            this._iconActor = new St.Icon({ icon_name: 'view' + (Config.PACKAGE_VERSION < '3.20' ? '' : '-app') + '-grid-symbolic',
+                                            icon_size: size,
+                                            style_class: 'show-apps-icon',
+                                            track_hover: true });
+
+            if (customIconPath) {
+                this._iconActor.gicon = new Gio.FileIcon({ file: Gio.File.new_for_path(customIconPath) });
+            }
+            
+            return this._iconActor;
+        };
+
+        this._dtpSettings.connect('changed::show-apps-icon-file', () => {
+            customIconPath = this._dtpSettings.get_string('show-apps-icon-file');
+            this.realShowAppsIcon.icon._createIconTexture(this.realShowAppsIcon.icon.iconSize);
+        });
+
+        this._dtpSettings.connect('changed::appicon-padding', () => this.setShowAppsPadding());
+        this.setShowAppsPadding();
+    },
+
+    setShowAppsPadding: function() {
+        this.actor.set_style('padding:' + (this._dtpSettings.get_int('appicon-padding') + 2) + 'px;');
+    },
+
+    popupMenu: function() {
+        this._removeMenuTimeout();
+        this.actor.fake_release();
         
-        return this._iconActor;
-    };
-
-    settings.connect('changed::show-apps-icon-file', () => {
-        customIconPath = settings.get_string('show-apps-icon-file');
-        showAppsIcon.icon._createIconTexture(showAppsIcon.icon.iconSize);
-    });
-
-    setShowAppsPadding();
-    settings.connect('changed::appicon-padding', setShowAppsPadding);
-
-    function setShowAppsPadding() {
-        showAppsIcon.actor.set_style('padding:' + (settings.get_int('appicon-padding') + 2) + 'px;');
-    }
-
-    showAppsIcon.popupMenu = function() {
-        showAppsIcon._removeMenuTimeout();
-        showAppsIcon.actor.fake_release();
-
-        if (!showAppsIcon._menu) {
-            showAppsIcon._menu = new MyShowAppsIconMenu(showAppsIcon, showAppsIcon._dtpSettings);
-            showAppsIcon._menu.connect('open-state-changed', Lang.bind(showAppsIcon, function(menu, isPoppedUp) {
+        if (!this._menu) {
+            this._menu = new MyShowAppsIconMenu(this, this._dtpSettings);
+            this._menu.connect('open-state-changed', Lang.bind(this, function(menu, isPoppedUp) {
                 if (!isPoppedUp)
-                    showAppsIcon._onMenuPoppedDown();
+                    this._onMenuPoppedDown();
             }));
-            let id = Main.overview.connect('hiding', Lang.bind(showAppsIcon, function() {
-                showAppsIcon._menu.close();
+            let id = Main.overview.connect('hiding', Lang.bind(this, function() {
+                this._menu.close();
             }));
-            showAppsIcon._menu.actor.connect('destroy', function() {
+            this._menu.actor.connect('destroy', function() {
                 Main.overview.disconnect(id);
             });
-            showAppsIcon._menuManager.addMenu(showAppsIcon._menu);
+            this._menuManager.addMenu(this._menu);
         }
 
-        showAppsIcon.emit('menu-state-changed', true);
+        //this.emit('menu-state-changed', true);
 
-        showAppsIcon.actor.set_hover(true);
-        showAppsIcon._menu.popup();
-        showAppsIcon._menuManager.ignoreRelease();
-        showAppsIcon.emit('sync-tooltip');
+        this.actor.set_hover(true);
+        this._menu.popup();
+        this._menuManager.ignoreRelease();
+        this.emit('sync-tooltip');
 
         return false;
-    };
+    },
 
-    Signals.addSignalMethods(showAppsIcon);
-}
+    shouldShowTooltip: function() {
+        return this.actor.hover && (!this._menu || !this._menu.isOpen);
+    }
+});
+Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
 
 /**
  * A menu for the showAppsIcon

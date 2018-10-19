@@ -51,7 +51,7 @@
     <value value='0' nick='BOTTOM'/>
     <value value='1' nick='TOP'/>
   </enum>
-  <enum id='org.gnome.shell.extensions.dash-to-panel.intellihideBehaviour'>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.proximityBehavior'>
     <value value='0' nick='ALL_WINDOWS'/>
     <value value='1' nick='FOCUSED_WINDOWS'/>
     <value value='2' nick='MAXIMIZED_WINDOWS'/>
@@ -85,7 +85,7 @@
       <description>Style of the running indicator for the icon for the currently focused application</description>
     </key>
     <key name="dot-style-unfocused" enum="org.gnome.shell.extensions.dash-to-panel.dotStyle">
-      <default>'DOTS'</default>
+      <default>'METRO'</default>
       <summary>Style of the running indicator (unfocused)</summary>
       <description>Style of the running indicator for the icon for applications which are not currently focused</description>
     </key>
@@ -169,6 +169,76 @@
       <summary>Position of the taskbar</summary>
       <description>Set the position of the taskbar on the panel</description>
     </key>
+    <key type="b" name="trans-use-custom-bg">
+      <default>false</default>
+      <summary>Override theme background color</summary>
+      <description>Replace current theme background color for the panel</description>
+    </key>
+    <key type="s" name="trans-bg-color">
+      <default>"#000"</default>
+      <summary>Custom background color</summary>
+      <description>Custom background color for the panel</description>
+    </key>
+    <key type="b" name="trans-use-custom-opacity">
+      <default>false</default>
+      <summary>Custom background color</summary>
+      <description>Replace current theme background color for the panel</description>
+    </key>
+    <key type="b" name="trans-use-dynamic-opacity">
+      <default>false</default>
+      <summary>Dynamic opacity</summary>
+      <description>Enable dynamic opacity</description>
+    </key>
+    <key type="d" name="trans-panel-opacity">
+      <default>0.4</default>
+      <summary>Panel opacity</summary>
+      <description>Custom opacity for the panel</description>
+    </key>
+    <key name="trans-dynamic-behavior" enum="org.gnome.shell.extensions.dash-to-panel.proximityBehavior">
+      <default>'ALL_WINDOWS'</default>
+      <summary>Dynamic opacity behavior</summary>
+      <description>Dictates which window type affects the panel opacity</description>
+    </key>
+    <key type="i" name="trans-dynamic-distance">
+      <default>20</default>
+      <summary>Distance to change opacity</summary>
+      <description>The distance a window needs to be from the panel to change opacity</description>
+    </key>
+    <key type="d" name="trans-dynamic-anim-target">
+      <default>0.8</default>
+      <summary>Modified panel opacity</summary>
+      <description>Modified opacity for the panel when a window is near</description>
+    </key>
+    <key type="i" name="trans-dynamic-anim-time">
+      <default>300</default>
+      <summary>Opacity change duration</summary>
+      <description>The duration of the animation when the opacity changes</description>
+    </key>
+    <key type="b" name="trans-use-custom-gradient">
+      <default>false</default>
+      <summary>Custom gradient</summary>
+      <description>Replace current theme gradient for the panel</description>
+    </key>
+    <key type="s" name="trans-gradient-top-color">
+      <default>"#000"</default>
+      <summary>Custom gradient top color</summary>
+      <description>Custom gradient top color for the panel</description>
+    </key>
+    <key type="d" name="trans-gradient-top-opacity">
+      <default>0</default>
+      <summary>Custom gradient top opacity</summary>
+      <description>Custom gradient top opacity for the panel</description>
+    </key>
+    <key type="s" name="trans-gradient-bottom-color">
+      <default>"#000"</default>
+      <summary>Custom gradient bottom color</summary>
+      <description>Custom gradient bottom color for the panel</description>
+    </key>
+    <key type="d" name="trans-gradient-bottom-opacity">
+      <default>0.2</default>
+      <summary>Custom gradient bottom opacity</summary>
+      <description>Custom gradient bottom opacity for the panel</description>
+    </key>
     <key type="b" name="intellihide">
       <default>false</default>
       <summary>Intellihide</summary>
@@ -179,7 +249,7 @@
       <summary>Only hide from windows</summary>
       <description>Dictates if the dash should only hide when in conflict with windows</description>
     </key>
-    <key name="intellihide-behaviour" enum="org.gnome.shell.extensions.dash-to-panel.intellihideBehaviour">
+    <key name="intellihide-behaviour" enum="org.gnome.shell.extensions.dash-to-panel.proximityBehavior">
       <default>'FOCUSED_WINDOWS'</default>
       <summary>Intellihide behaviour</summary>
       <description>Dictates how to intelligently hide the panel</description>
@@ -235,12 +305,12 @@
       <description>Show activities button on the left hand side of the taskbar</description>
     </key>
     <key type="b" name="show-showdesktop-button">
-      <default>false</default>
+      <default>true</default>
       <summary>Show desktop button</summary>
       <description>Show button on right side of bar that minimizes/restores all visible windows on current workspace</description>
     </key>
     <key type="i" name="showdesktop-button-width">
-      <default>4</default>
+      <default>8</default>
       <summary>Width of show Desktop button</summary>
       <description>Customize the width of the show Desktop button</description>
     </key>
@@ -333,6 +403,36 @@
       <default>false</default>
       <summary>Use favorite icons as application launchers</summary>
       <description>When the applications are ungrouped, this defines if running applications stay separate from the favorite icons.</description>
+    </key>
+    <key type="i" name="primary-monitor">
+      <default>0</default>
+      <summary>Primary monitor index</summary>
+      <description>Specifies the index of the primary monitor.</description>
+    </key>
+    <key type="b" name="multi-monitors">
+      <default>true</default>
+      <summary>Display panels on all monitors</summary>
+      <description>Specifies if a panel is shown on every monitors</description>
+    </key>
+    <key type="b" name="isolate-monitors">
+      <default>false</default>
+      <summary>Provide monitor isolation</summary>
+      <description>Dash shows only windows from the current monitor</description>
+    </key>
+    <key type="b" name="show-clock-all-monitors">
+      <default>true</default>
+      <summary>Display the clock on all monitors</summary>
+      <description>Specifies if every panel should display the clock. If false, the clock is only displayed on the primary monitor.</description>
+    </key>
+    <key type="b" name="show-status-menu-all-monitors">
+      <default>true</default>
+      <summary>Display the status menu on all monitors</summary>
+      <description>Specifies if every panel should display the status menu. If false, the status menu is only displayed on the primary monitor.</description>
+    </key>
+    <key type="b" name="show-favorites-all-monitors">
+      <default>true</default>
+      <summary>Display the favorites on all monitors</summary>
+      <description>Specifies if every panel should display the favorite applications. If false, the favorite appplications are only displayed on the primary monitor.</description>
     </key>
     <key type="b" name="customize-click">
       <default>true</default>

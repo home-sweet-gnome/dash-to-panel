@@ -167,6 +167,7 @@ const Settings = new Lang.Class({
         this._leftbox_size_timeout = 0;
         this._appicon_margin_timeout = 0;
         this._appicon_padding_timeout = 0;
+        this._opacity_timeout = 0;
         this._tray_padding_timeout = 0;
         this._statusicon_padding_timeout = 0;
         this._leftbox_padding_timeout = 0;
@@ -409,6 +410,233 @@ const Settings = new Lang.Class({
             dialog.show_all();
 
         }));
+
+        //multi-monitor
+        let monitors = [Gdk.Screen.get_default().get_primary_monitor()]; //always 0 in GDK
+
+        this._builder.get_object('multimon_primary_combo').append_text(_('Primary monitor'));
+
+        for (let i = 1, monitorNum = Gdk.Screen.get_default().get_n_monitors(); i < monitorNum; ++i) {
+            this._builder.get_object('multimon_primary_combo').append_text(_('Monitor ') + i);
+            monitors.push(i);
+        }
+
+        this._builder.get_object('multimon_primary_combo').set_active(monitors.indexOf(this._settings.get_int('primary-monitor')));
+        this._builder.get_object('multimon_primary_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('primary-monitor', monitors[widget.get_active()]);
+        }));
+
+        this._settings.bind('multi-monitors',
+                            this._builder.get_object('multimon_multi_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('multi-monitors',
+                            this._builder.get_object('multimon_multi_options_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('isolate-monitors',
+                            this._builder.get_object('multimon_multi_isolate_monitor_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('show-clock-all-monitors',
+                            this._builder.get_object('multimon_multi_show_clock_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT); 
+
+        this._settings.bind('show-status-menu-all-monitors',
+                            this._builder.get_object('multimon_multi_show_status_menu_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT); 
+
+        this._settings.bind('show-favorites-all-monitors',
+                            this._builder.get_object('multimon_multi_show_favorites_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT); 
+
+        this._builder.get_object('multimon_multi_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Multi-monitors options'),
+                                            transient_for: this.widget.get_toplevel(),
+                                            use_header_bar: true,
+                                            modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('box_multimon_multi_options');
+            dialog.get_content_area().add(box);
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('isolate-monitors', this._settings.get_default_value('isolate-monitors'));
+                    this._settings.set_value('show-favorites-all-monitors', this._settings.get_default_value('show-favorites-all-monitors'));
+                    this._settings.set_value('show-clock-all-monitors', this._settings.get_default_value('show-clock-all-monitors'));
+                    this._settings.set_value('show-status-menu-all-monitors', this._settings.get_default_value('show-status-menu-all-monitors'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+        }));
+
+        //dynamic opacity
+        this._settings.bind('trans-use-custom-bg',
+                            this._builder.get_object('trans_bg_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-use-custom-bg',
+                            this._builder.get_object('trans_bg_color_colorbutton'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        let rgba = new Gdk.RGBA();
+        rgba.parse(this._settings.get_string('trans-bg-color'));
+        this._builder.get_object('trans_bg_color_colorbutton').set_rgba(rgba);
+
+        this._builder.get_object('trans_bg_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            let hexString = cssHexString(css);
+            this._settings.set_string('trans-bg-color', hexString);
+        }));
+
+        this._settings.bind('trans-use-custom-opacity',
+                            this._builder.get_object('trans_opacity_override_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-use-custom-opacity',
+                            this._builder.get_object('trans_opacity_box'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._builder.get_object('trans_opacity_override_switch').connect('notify::active', (widget) => {
+            if (!widget.get_active())
+                this._builder.get_object('trans_dyn_switch').set_active(false);
+        });
+
+        this._builder.get_object('trans_opacity_spinbutton').set_value(this._settings.get_double('trans-panel-opacity') * 100);
+        this._builder.get_object('trans_opacity_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_double('trans-panel-opacity', widget.get_value() * 0.01);
+        }));
+
+        this._settings.bind('trans-use-dynamic-opacity',
+                            this._builder.get_object('trans_dyn_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-use-dynamic-opacity',
+                            this._builder.get_object('trans_dyn_options_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-dynamic-behavior',
+                            this._builder.get_object('trans_options_window_type_combo'),
+                            'active-id',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-use-custom-gradient',
+                            this._builder.get_object('trans_gradient_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-use-custom-gradient',
+                            this._builder.get_object('trans_gradient_box'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        rgba.parse(this._settings.get_string('trans-gradient-top-color'));
+        this._builder.get_object('trans_gradient_color1_colorbutton').set_rgba(rgba);
+
+        this._builder.get_object('trans_gradient_color1_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            let hexString = cssHexString(css);
+            this._settings.set_string('trans-gradient-top-color', hexString);
+        }));
+
+        this._builder.get_object('trans_gradient_color1_spinbutton').set_value(this._settings.get_double('trans-gradient-top-opacity') * 100);
+        this._builder.get_object('trans_gradient_color1_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_double('trans-gradient-top-opacity', widget.get_value() * 0.01);
+        }));
+
+        rgba.parse(this._settings.get_string('trans-gradient-bottom-color'));
+        this._builder.get_object('trans_gradient_color2_colorbutton').set_rgba(rgba);
+
+        this._builder.get_object('trans_gradient_color2_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            let hexString = cssHexString(css);
+            this._settings.set_string('trans-gradient-bottom-color', hexString);
+        }));
+
+        this._builder.get_object('trans_gradient_color2_spinbutton').set_value(this._settings.get_double('trans-gradient-bottom-opacity') * 100);
+        this._builder.get_object('trans_gradient_color2_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_double('trans-gradient-bottom-opacity', widget.get_value() * 0.01);
+        }));
+
+        this._builder.get_object('trans_options_distance_spinbutton').set_value(this._settings.get_int('trans-dynamic-distance'));
+        this._builder.get_object('trans_options_distance_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_int('trans-dynamic-distance', widget.get_value());
+        }));
+        
+        this._builder.get_object('trans_options_min_opacity_spinbutton').set_value(this._settings.get_double('trans-dynamic-anim-target') * 100);
+        this._builder.get_object('trans_options_min_opacity_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_double('trans-dynamic-anim-target', widget.get_value() * 0.01);
+        }));
+
+        this._builder.get_object('trans_options_anim_time_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-time'));
+        this._builder.get_object('trans_options_anim_time_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_int('trans-dynamic-anim-time', widget.get_value());
+        }));
+
+        this._builder.get_object('trans_dyn_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Dynamic opacity options'),
+                                            transient_for: this.widget.get_toplevel(),
+                                            use_header_bar: true,
+                                            modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('box_dynamic_opacity_options');
+            dialog.get_content_area().add(box);
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('trans-dynamic-behavior', this._settings.get_default_value('trans-dynamic-behavior'));
+
+                    this._settings.set_value('trans-dynamic-distance', this._settings.get_default_value('trans-dynamic-distance'));
+                    this._builder.get_object('trans_options_distance_spinbutton').set_value(this._settings.get_int('trans-dynamic-distance'));
+
+                    this._settings.set_value('trans-dynamic-anim-target', this._settings.get_default_value('trans-dynamic-anim-target'));
+                    this._builder.get_object('trans_options_min_opacity_spinbutton').set_value(this._settings.get_double('trans-dynamic-anim-target') * 100);
+
+                    this._settings.set_value('trans-dynamic-anim-time', this._settings.get_default_value('trans-dynamic-anim-time'));
+                    this._builder.get_object('trans_options_anim_time_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-time'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
+
 
         this._settings.bind('intellihide',
                             this._builder.get_object('intellihide_switch'),

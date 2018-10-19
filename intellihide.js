@@ -27,6 +27,7 @@ const PointerWatcher = imports.ui.pointerWatcher;
 const Tweener = imports.ui.tweener;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const Proximity = Me.imports.proximity;
 const Utils = Me.imports.utils;
 
 //timeout intervals
@@ -47,11 +48,12 @@ var Intellihide = new Lang.Class({
         this._dtpPanel = dtpPanel;
         this._dtpSettings = dtpPanel._dtpSettings;
         this._panelBox = dtpPanel.panelBox;
+        this._proximityManager = dtpPanel.panelManager.proximityManager;
         
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._timeoutsHandler = new Utils.TimeoutsHandler();
 
-        this._intellihideChangedId = this._dtpSettings.connect('changed::intellihide', Lang.bind(this, this._changeEnabledStatus));
+        this._intellihideChangedId = this._dtpSettings.connect('changed::intellihide', () => this._changeEnabledStatus());
 
         if (this._dtpSettings.get_boolean('intellihide')) {
             this.enable();
@@ -60,13 +62,13 @@ var Intellihide = new Lang.Class({
 
     enable: function(reset) {
         this._enabled = true;
-        this._primaryMonitor = Main.layoutManager.primaryMonitor;
-        this._focusedWindowInfo = null;
+        this._monitor = this._dtpPanel.monitor;
         this._animationDestination = -1;
         this._pendingUpdate = false;
         this._dragging = false;
         this._currentlyHeld = false;
         this._hoveredOut = false;
+        this._windowOverlap = false;
         this._panelAtTop = this._dtpSettings.get_string('panel-position') === 'TOP';
 
         if (this._panelAtTop && this._panelBox.translation_y > 0 || 
@@ -79,8 +81,15 @@ var Intellihide = new Lang.Class({
         this._bindGeneralSignals();
 
         if (this._dtpSettings.get_boolean('intellihide-hide-from-windows')) {
-            this._bindWindowSignals();
-            this._setFocusedWindow();
+            this._proximityWatchId = this._proximityManager.createWatch(
+                this._panelBox, 
+                Proximity.Mode[this._dtpSettings.get_string('intellihide-behaviour')], 
+                0, 0,
+                overlap => { 
+                    this._windowOverlap = overlap;
+                    this._queueUpdatePanelPosition();
+                }
+            );
         }
 
         this._setRevealMechanism();
@@ -88,12 +97,9 @@ var Intellihide = new Lang.Class({
     },
 
     disable: function(reset) {
-        if (!reset) {
-            this._dtpSettings.disconnect(this._intellihideChangedId);
-        }
+        this._proximityManager.removeWatch(this._proximityWatchId);
 
         this._setTrackPanel(reset, false);
-        this._disconnectFocusedWindow();
 
         this._signalsHandler.destroy();
         this._timeoutsHandler.destroy();
@@ -106,6 +112,7 @@ var Intellihide = new Lang.Class({
     },
 
     destroy: function() {
+        this._dtpSettings.disconnect(this._intellihideChangedId);
         this.disable();
     },
 
@@ -145,14 +152,10 @@ var Intellihide = new Lang.Class({
                     'changed::panel-position',
                     'changed::panel-size',
                     'changed::intellihide-use-pressure',
-                    'changed::intellihide-hide-from-windows'
+                    'changed::intellihide-hide-from-windows',
+                    'changed::intellihide-behaviour'
                 ],
                 () => this._reset()
-            ],
-            [
-                Utils.DisplayWrapper.getScreen(),
-                'restacked',
-                () => this._queueUpdatePanelPosition()
             ],
             [
                 Main.layoutManager,
@@ -183,32 +186,6 @@ var Intellihide = new Lang.Class({
                     'showing',
                     'hiding'
                 ],
-                () => this._queueUpdatePanelPosition()
-            ]
-        );
-    },
-
-    _bindWindowSignals: function() {
-        this._signalsHandler.add(
-            [
-                global.display,
-                'notify::focus-window', 
-                () => {
-                    this._setFocusedWindow();
-                    this._queueUpdatePanelPosition();
-                }
-            ],
-            [
-                global.window_group,
-                [
-                    'actor-added',
-                    'actor-removed'
-                ],
-                () => this._queueUpdatePanelPosition()
-            ],
-            [
-                this._dtpSettings,
-                'changed::intellihide-behaviour',
                 () => this._queueUpdatePanelPosition()
             ]
         );
@@ -255,16 +232,16 @@ var Intellihide = new Lang.Class({
     _createBarrier: function() {
         let opts = { 
             display: global.display,
-            x1: this._primaryMonitor.x + 1,
-            x2: this._primaryMonitor.x + this._primaryMonitor.width - 1 
+            x1: this._monitor.x + 1,
+            x2: this._monitor.x + this._monitor.width - 1 
         };
 
         if (this._panelAtTop) {
-            opts.y1 = this._primaryMonitor.y;
-            opts.y2 = this._primaryMonitor.y;
+            opts.y1 = this._monitor.y;
+            opts.y2 = this._monitor.y;
             opts.directions = Meta.BarrierDirection.POSITIVE_Y;
         } else {
-            let screenBottom = this._primaryMonitor.y + this._primaryMonitor.height;
+            let screenBottom = this._monitor.y + this._monitor.height;
 
             opts.y1 = screenBottom;
             opts.y2 = screenBottom;
@@ -276,71 +253,11 @@ var Intellihide = new Lang.Class({
 
     _checkMousePointer: function(x, y) {
         if (!this._panelBox.hover && !Main.overview.visible &&
-            ((this._panelAtTop && y <= this._primaryMonitor.y + 1) || 
-             (!this._panelAtTop && y >= this._primaryMonitor.y + this._primaryMonitor.height - 1)) &&
-            (x > this._primaryMonitor.x && x < this._primaryMonitor.x + this._primaryMonitor.width)) {
+            ((this._panelAtTop && y <= this._monitor.y + 1) || 
+             (!this._panelAtTop && y >= this._monitor.y + this._monitor.height - 1)) &&
+            (x > this._monitor.x && x < this._monitor.x + this._monitor.width)) {
             this._queueUpdatePanelPosition(true);
         }
-    },
-
-    _setFocusedWindow: function() {
-        this._disconnectFocusedWindow();
-
-        let focusedWindow = global.display.focus_window;
-
-        if (focusedWindow) {
-            let focusedWindowInfo = this._getFocusedWindowInfo(focusedWindow);
-
-            if (this._checkIfHandledWindowType(focusedWindowInfo.metaWindow)) {
-                focusedWindowInfo.id = focusedWindowInfo.window.connect('allocation-changed', () => this._queueUpdatePanelPosition())
-                this._focusedWindowInfo = focusedWindowInfo;
-            }
-        }
-    },
-
-    _getFocusedWindowInfo: function(focusedWindow) {
-        let focusedWindowInfo = { window: focusedWindow.get_compositor_private() };
-        
-        focusedWindowInfo.metaWindow = focusedWindowInfo.window.get_meta_window();
-
-        if (focusedWindow.is_attached_dialog()) {
-            let mainMetaWindow = focusedWindow.get_transient_for();
-
-            if (focusedWindowInfo.metaWindow.get_frame_rect().height < mainMetaWindow.get_frame_rect().height) {
-                focusedWindowInfo.window = mainMetaWindow.get_compositor_private();
-                focusedWindowInfo.metaWindow = mainMetaWindow;
-            }
-        }
-
-        return focusedWindowInfo;
-    },
-
-    _disconnectFocusedWindow: function() {
-        if (this._focusedWindowInfo) {
-            this._focusedWindowInfo.window.disconnect(this._focusedWindowInfo.id);
-            this._focusedWindowInfo = null;
-        }
-    },
-
-    _getHandledWindows: function() {
-        return global.get_window_actors()
-                     .map(w => w.get_meta_window())
-                     .filter(mw => this._checkIfHandledWindow(mw));
-    },
-
-    _checkIfHandledWindow: function(metaWindow) {
-        return metaWindow && !metaWindow.minimized &&
-               metaWindow.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index() &&
-               metaWindow.get_monitor() == Main.layoutManager.primaryIndex &&
-               this._checkIfHandledWindowType(metaWindow);
-    },
-
-    _checkIfHandledWindowType: function(metaWindow) {
-        let metaWindowType = metaWindow.get_window_type();
-
-        //https://www.roojs.org/seed/gir-1.2-gtk-3.0/seed/Meta.WindowType.html
-        return metaWindowType <= Meta.WindowType.SPLASHSCREEN && 
-               metaWindowType != Meta.WindowType.DESKTOP;
     },
 
     _queueUpdatePanelPosition: function(fromRevealMechanism) {
@@ -362,51 +279,24 @@ var Intellihide = new Lang.Class({
     },
 
     _checkIfShouldBeVisible: function(fromRevealMechanism) {
+        if (Main.overview.visibleTarget || this._checkIfGrab() || this._panelBox.get_hover()) {
+            return true;
+        }
+
         if (fromRevealMechanism) {
             //the user is trying to reveal the panel
-            if (this._primaryMonitor.inFullscreen && !this._dragging) {
+            if (this._monitor.inFullscreen && !this._dragging) {
                 return this._dtpSettings.get_boolean('intellihide-show-in-fullscreen');
             }
 
             return !this._dragging;
         }
 
-        if (Main.overview.visibleTarget || this._checkIfGrab() || this._panelBox.get_hover()) {
-            return true;
-        }
-
         if (!this._dtpSettings.get_boolean('intellihide-hide-from-windows')) {
             return this._panelBox.hover;
         }
 
-        let behaviour = this._dtpSettings.get_string('intellihide-behaviour');
-
-        if (behaviour === 'FOCUSED_WINDOWS') {
-            return !(this._focusedWindowInfo && 
-                     this._checkIfHandledWindow(this._focusedWindowInfo.metaWindow) &&
-                     this._checkIfWindowObstructs(this._focusedWindowInfo.metaWindow));
-        } 
-        
-        let metaWindows = this._getHandledWindows();
-
-        if (behaviour === 'MAXIMIZED_WINDOWS') {
-            return !metaWindows.some(mw => mw.maximized_vertically && mw.maximized_horizontally);
-        } else { //ALL_WINDOWS
-            return !metaWindows.some(mw => this._checkIfWindowObstructs(mw));
-        }
-    },
-
-    _checkIfWindowObstructs: function(metaWindow) {
-        let windowRect = metaWindow.get_frame_rect();
-
-        if (this._panelAtTop) {
-            return windowRect.y <= this._primaryMonitor.y + this._panelBox.height;
-        }
-
-        let windowBottom = windowRect.y + windowRect.height;
-        let panelTop = this._primaryMonitor.y + this._primaryMonitor.height - this._panelBox.height;
-
-        return windowBottom >= panelTop;
+        return !this._windowOverlap;
     },
 
     _checkIfGrab: function() {
@@ -421,7 +311,8 @@ var Intellihide = new Lang.Class({
     },
 
     _adjustDynamicTransparency: function() {
-        this._invokeIfExists(this._dtpPanel.panel._updateSolidStyle);
+        if (this._dtpPanel.panel.hasOwnProperty('_updateSolidStyle'))
+            this._invokeIfExists(this._dtpPanel.panel._updateSolidStyle);
     },
 
     _revealPanel: function(immediate) {
