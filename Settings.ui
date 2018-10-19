@@ -4209,7 +4209,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Override theme background color </property>
+                            <property name="label" translatable="yes">Override panel theme background color </property>
                             <property name="use_markup">True</property>
                             <property name="xalign">0</property>
                           </object>
@@ -4282,7 +4282,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="hexpand">True</property>
-                                <property name="label" translatable="yes">Override theme background opacity</property>
+                                <property name="label" translatable="yes">Override panel theme background opacity</property>
                                 <property name="use_markup">True</property>
                                 <property name="xalign">0</property>
                               </object>
@@ -4471,7 +4471,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Override theme gradient </property>
+                            <property name="label" translatable="yes">Override panel theme gradient </property>
                             <property name="use_markup">True</property>
                             <property name="xalign">0</property>
                           </object>
