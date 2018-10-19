@@ -154,6 +154,9 @@ var dtpPanelManager = new Lang.Class({
                 bp._container.disconnect(bp._dtpGetPreferredHeightId);
                 bp._userArrowSide = St.Side.TOP;
             })
+
+            this._removePanelBarriers(p);
+
             p.disable();
         });
 
@@ -230,6 +233,14 @@ var dtpPanelManager = new Lang.Class({
         find(container);
 
         return panelBoxPointers;
+    },
+
+    _removePanelBarriers: function(panel) {
+        if (panel.isSecondary) {
+            panel._rightPanelBarrier.destroy();
+        }
+
+        panel._leftPanelBarrier.destroy();
     },
 
     _getPanelButtonBoxPointer: function(obj) {
@@ -392,15 +403,21 @@ function newUpdateHotCorners() {
 }
 
 function newUpdatePanelBarrier(panel, dtpSettings) {
-    let propName = '_rightPanelBarrier';
-    let targetObj = panel.isSecondary ? panel : this;
-    
-    if (targetObj[propName]) {
-        targetObj[propName].destroy();
-        targetObj[propName] = null;
-    }
-    
-    if (!this.primaryMonitor || !targetObj['panelBox'].height) {
+    let barriers = {
+        '_rightPanelBarrier': [(panel.isSecondary ? panel : this), panel.monitor.x + panel.monitor.width, Meta.BarrierDirection.NEGATIVE_X],
+        '_leftPanelBarrier': [panel, panel.monitor.x, Meta.BarrierDirection.POSITIVE_X]
+    };
+
+    Object.keys(barriers).forEach(k => {
+        let obj = barriers[k][0];
+
+        if (obj[k]) {
+            obj[k].destroy();
+            obj[k] = null;
+        }
+    });
+
+    if (!this.primaryMonitor || !panel.panelBox.height) {
         return;
     }
 
@@ -408,10 +425,11 @@ function newUpdatePanelBarrier(panel, dtpSettings) {
     let isTop = dtpSettings.get_string('panel-position') === 'TOP';
     let y1 = isTop ? panel.monitor.y : panel.monitor.y + panel.monitor.height - barrierHeight;
     let y2 = isTop ? panel.monitor.y + barrierHeight : panel.monitor.y + panel.monitor.height;
-    let x = panel.monitor.x + panel.monitor.width;
-    
-    targetObj[propName] = new Meta.Barrier({ display: global.display,
-                                             x1: x, y1: y1,
-                                             x2: x, y2: y2,
-                                             directions: Meta.BarrierDirection.NEGATIVE_X });
+
+    Object.keys(barriers).forEach(k => {
+        barriers[k][0][k] = new Meta.Barrier({ display: global.display,
+                                               x1: barriers[k][1], y1: y1,
+                                               x2: barriers[k][1], y2: y2,
+                                               directions: barriers[k][2] });
+    });
 }

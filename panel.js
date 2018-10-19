@@ -68,7 +68,6 @@ var dtpPanelWrapper = new Lang.Class({
         this.panel = panel;
         this.panelBox = panelBox;
         this.isSecondary = isSecondary;
-        this._rightPanelBarrier = null;
     },
 
     enable : function() {
@@ -334,11 +333,6 @@ var dtpPanelWrapper = new Lang.Class({
             this.panel._rightBox.allocate = this.panel._rightBox.oldRightBoxAllocate;
             delete this.panel._rightBox.oldRightBoxAllocate;
         } else {
-            if (this._rightPanelBarrier) {
-                this._rightPanelBarrier.destroy();
-                this._rightPanelBarrier = null;
-            }
-            
             Main.layoutManager.removeChrome(this.panelBox);
             this.panelBox.destroy();
         }
