@@ -519,8 +519,6 @@ var thumbnailPreview = new Lang.Class({
 
         this.parent({reactive: true});
         this._workId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._onResize));
-        this._closeButtonId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._repositionCloseButton));
-        this.scale = 0;
 
         this.preview = this.getThumbnail();
 
@@ -535,17 +533,19 @@ var thumbnailPreview = new Lang.Class({
                                              x_expand: true,
                                              vertical: true });
 
-        this._previewBin = new St.Bin();
-        this._previewBin.set_size(this._thumbnailWidth, this._thumbnailHeight);
-
-        this._closeButton = new St.Button({ style_class: 'window-close',
-                                            accessible_name: "Close window" });
+        this._closeButton = new St.Button({ style_class: 'window-close', accessible_name: "Close window" });
         this._closeButton.opacity = 0;
         this._closeButton.connect('clicked', Lang.bind(this, this._closeWindow));
 
-        this.overlayGroup = new Clutter.Actor({layout_manager: new Clutter.BinLayout()});
+        this._previewBin = new Clutter.Actor({ width: this._thumbnailWidth, height: this._thumbnailHeight });
+
+        if (this.preview)
+            this._previewBin.add_actor(this.preview);
+
+        this._previewBin.add_actor(this._closeButton);
+
+        this.overlayGroup = new Clutter.Actor({ layout_manager: new Clutter.BinLayout()});
         this.overlayGroup.add_actor(this._previewBin);
-        this.overlayGroup.add_actor(this._closeButton);
 
         this._titleNotifyId = 0;
 
@@ -572,12 +572,8 @@ var thumbnailPreview = new Lang.Class({
                                                         this._title.set_text(this.window.title);
                                                     }));
         }
-
-        if (this.preview)
-            this._previewBin.set_child(this.preview);
         
         this.actor.add_child(this._windowBox);
-        this._queueRepositionCloseButton();
 
         this.actor.connect('enter-event',
                                   Lang.bind(this, this._onEnter));
@@ -594,6 +590,7 @@ var thumbnailPreview = new Lang.Class({
     },
 
     _onEnter: function(actor, event) {
+        this._repositionCloseButton();
         this._showCloseButton();
 
         let topMenu = this._getTopMenu();
@@ -684,13 +681,9 @@ var thumbnailPreview = new Lang.Class({
         let thumbnail = null;
         let mutterWindow = this.window.get_compositor_private();
         if (mutterWindow) {
-            let windowTexture = mutterWindow.get_texture();
-            let [width, height] = windowTexture.get_size();
-            this.scale = Math.min(1.0, this._thumbnailWidth / width, this._thumbnailHeight / height);
-            thumbnail = new Clutter.Clone ({ source: windowTexture,
-                                             reactive: true,
-                                             width: width * this.scale,
-                                             height: height * this.scale });
+            thumbnail = new Clutter.Clone ({ source: mutterWindow.get_texture(), reactive: true });
+            this._resizePreview(thumbnail);
+
             this._resizeId = mutterWindow.meta_window.connect('size-changed',
                                             Lang.bind(this, this._queueResize));
                                             
@@ -704,43 +697,36 @@ var thumbnailPreview = new Lang.Class({
         Main.queueDeferredWork(this._workId);
     },
 
+    _resizePreview: function(preview) {
+        let [width, height] = preview.get_source().get_size();
+        let scale = Math.min(this._thumbnailWidth / width, this._thumbnailHeight / height);
+
+        preview.set_size(width * scale, height * scale);
+        preview.set_position((this._thumbnailWidth - preview.width) * .5, (this._thumbnailHeight - preview.height) * .5);
+    },
+
     _onResize: function() {
         if (!this.preview) {
             return;
         }
         
-        let [width, height] = this.preview.get_source().get_size();
-        this.scale = Math.min(1.0, this._thumbnailWidth / width, this._thumbnailHeight / height);
-        this.preview.set_size(width * this.scale, height * this.scale);
-
-        this._queueRepositionCloseButton();
-    },
-
-    _queueRepositionCloseButton: function () {
-        Main.queueDeferredWork(this._closeButtonId);
+        this._resizePreview(this.preview);
     },
 
     _repositionCloseButton: function() {
-        let rect = this.window.get_compositor_private().meta_window.get_frame_rect();
-        let cloneWidth = Math.floor(rect.width) * this.scale;
-        let cloneHeight = Math.floor(rect.height) * this.scale;
-
-        let cloneX = (this._thumbnailWidth - cloneWidth) / 2 ;
-        let cloneY = (this._thumbnailHeight - cloneHeight) / 2;
-
+        let padding = this._dtpSettings.get_int('window-preview-padding');
+        let halfButton = this._closeButton.width * .5; //button is a square
+        let xInset = 4;
         let buttonX;
-        if (Clutter.get_default_text_direction() == Clutter.TextDirection.RTL) {
-            buttonX = cloneX - (this._closeButton.width / 2);
-            buttonX = Math.max(buttonX, 0);
+        
+        if (Meta.prefs_get_button_layout().left_buttons.indexOf(Meta.ButtonFunction.CLOSE) < 0) {
+            //window buttons are on the right side
+            buttonX = (this.preview.x + this.preview.width - Math.min(halfButton, this.preview.x + padding)) - xInset;
         } else {
-            buttonX = cloneX + (cloneWidth - (this._closeButton.width / 2));
-            buttonX = Math.min(buttonX, this._thumbnailWidth - this._closeButton.width);
+            buttonX = Math.max(this.preview.x - halfButton, -padding) + xInset;
         }
 
-        let buttonY = cloneY - (this._closeButton.height / 2);
-        buttonY = Math.max(buttonY, 0);
-
-        this._closeButton.set_position(Math.floor(buttonX), Math.floor(buttonY));
+        this._closeButton.set_position(buttonX, Math.max(this.preview.y - halfButton, -padding));
     },
 
     _closeWindow: function() {
