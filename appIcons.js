@@ -574,7 +574,7 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _onFocusAppChanged: function(windowTracker) {
-        this._displayProperIndicator();
+        this._displayProperIndicator(true);
     },
 
     _onOverviewWindowDragEnd: function(windowTracker) {
