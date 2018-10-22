@@ -536,6 +536,7 @@ var thumbnailPreview = new Lang.Class({
         this._closeButton = new St.Button({ style_class: 'window-close', accessible_name: "Close window" });
         this._closeButton.opacity = 0;
         this._closeButton.connect('clicked', Lang.bind(this, this._closeWindow));
+        this._closeButton.connect('style-changed', () => this._isLeftButtons = null);
 
         this._previewBin = new Clutter.Actor({ width: this._thumbnailWidth, height: this._thumbnailHeight });
 
@@ -714,19 +715,23 @@ var thumbnailPreview = new Lang.Class({
     },
 
     _repositionCloseButton: function() {
-        let padding = this._dtpSettings.get_int('window-preview-padding');
-        let halfButton = this._closeButton.width * .5; //button is a square
-        let xInset = 4;
-        let buttonX;
+        let isLeftButtons = Meta.prefs_get_button_layout().left_buttons.indexOf(Meta.ButtonFunction.CLOSE) >= 0;
         
-        if (Meta.prefs_get_button_layout().left_buttons.indexOf(Meta.ButtonFunction.CLOSE) < 0) {
-            //window buttons are on the right side
-            buttonX = (this.preview.x + this.preview.width - Math.min(halfButton, this.preview.x + padding)) - xInset;
-        } else {
-            buttonX = Math.max(this.preview.x - halfButton, -padding) + xInset;
-        }
+        if (this._isLeftButtons !== isLeftButtons) {
+            let padding = this._dtpSettings.get_int('window-preview-padding');
+            let halfButton = this._closeButton.width * .5; //button is a square
+            let xInset = 4;
+            let buttonX;
 
-        this._closeButton.set_position(buttonX, Math.max(this.preview.y - halfButton, -padding));
+            if (isLeftButtons) {
+                buttonX = Math.max(this.preview.x - halfButton + xInset, -padding);
+            } else {
+                buttonX = this.preview.x + this.preview.width - halfButton - Math.max(xInset, halfButton - this.preview.x - padding);
+            }
+
+            this._closeButton.set_position(buttonX, Math.max(this.preview.y - halfButton, -padding));
+            this._isLeftButtons = isLeftButtons;
+        }
     },
 
     _closeWindow: function() {
