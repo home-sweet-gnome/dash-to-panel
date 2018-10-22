@@ -456,6 +456,11 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT); 
 
+        if (monitors.length === 1) {
+            this._builder.get_object('multimon_listbox').set_sensitive(false);
+            this._builder.get_object('multimon_multi_switch').set_active(false);
+        }
+        
         this._builder.get_object('multimon_multi_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Multi-monitors options'),
                                             transient_for: this.widget.get_toplevel(),
