@@ -21,7 +21,9 @@
  */
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const Intellihide = Me.imports.intellihide;
 const Utils = Me.imports.utils;
+
 const Lang = imports.lang;
 const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
@@ -292,7 +294,7 @@ var dtpOverview = new Lang.Class({
         if (hotkey_option === 'TEMPORARILY' || overlayFromShortcut)
             this.taskbar.toggleNumberOverlay(true);
 
-        this._panel.intellihide.revealAndHold();
+        this._panel.intellihide.revealAndHold(Intellihide.Hold.TEMPORARY);
 
         let timeout = this._dtpSettings.get_int('overlay-timeout');
         
@@ -308,7 +310,7 @@ var dtpOverview = new Lang.Class({
                 this.taskbar.toggleNumberOverlay(false);
             }
             
-            this._panel.intellihide.release();
+            this._panel.intellihide.release(Intellihide.Hold.TEMPORARY);
         }));
     }
 });

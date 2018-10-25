@@ -41,6 +41,12 @@ const T1 = 'checkGrabTimeout';
 const T2 = 'limitUpdateTimeout';
 const T3 = 'postAnimateTimeout';
 
+var Hold = {
+    NONE: 0,
+    TEMPORARY: 1,
+    PERMANENT: 2
+};
+
 var Intellihide = new Lang.Class({
     Name: 'DashToPanel.Intellihide',
 
@@ -49,6 +55,7 @@ var Intellihide = new Lang.Class({
         this._dtpSettings = dtpPanel._dtpSettings;
         this._panelBox = dtpPanel.panelBox;
         this._proximityManager = dtpPanel.panelManager.proximityManager;
+        this._holdStatus = Hold.NONE;
         
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._timeoutsHandler = new Utils.TimeoutsHandler();
@@ -66,7 +73,6 @@ var Intellihide = new Lang.Class({
         this._animationDestination = -1;
         this._pendingUpdate = false;
         this._dragging = false;
-        this._currentlyHeld = false;
         this._hoveredOut = false;
         this._windowOverlap = false;
         this._panelAtTop = this._dtpSettings.get_string('panel-position') === 'TOP';
@@ -119,19 +125,21 @@ var Intellihide = new Lang.Class({
     },
 
     toggle: function() {
-        this._currentlyHeld ? this.release() : this.revealAndHold()
+        this[this._holdStatus & Hold.PERMANENT ? 'release' : 'revealAndHold'](Hold.PERMANENT);
     },
 
-    revealAndHold: function() {
-        if (this._enabled) {
+    revealAndHold: function(holdStatus) {
+        if (this._enabled && !this._holdStatus) {
             this._revealPanel();
-            this._currentlyHeld = true;
         }
+        
+        this._holdStatus |= holdStatus;
     },
 
-    release: function() {
-        if (this._enabled) {
-            this._currentlyHeld = false;
+    release: function(holdStatus) {
+        this._holdStatus -= holdStatus;
+
+        if (this._enabled && !this._holdStatus) {
             this._queueUpdatePanelPosition();
         }
     },
@@ -271,7 +279,7 @@ var Intellihide = new Lang.Class({
             //unless this is a mouse interaction or entering/leaving the overview, limit the number
             //of updates, but remember to update again when the limit timeout is reached
             this._pendingUpdate = true;
-        } else if (!this._currentlyHeld) {
+        } else if (!this._holdStatus) {
             this._checkIfShouldBeVisible(fromRevealMechanism) ? this._revealPanel() : this._hidePanel();
             this._timeoutsHandler.add([T2, MIN_UPDATE_MS, () => this._endLimitUpdate()]);
         }
