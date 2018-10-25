@@ -194,8 +194,6 @@ var ProximityManager = new Lang.Class({
 
     _checkIfHandledWindow: function(metaWindow) {
         return metaWindow && !metaWindow.minimized &&
-            //    metaWindow.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index() &&
-            //    metaWindow.get_monitor() == this._monitor.index &&
                this._checkIfHandledWindowType(metaWindow);
     },
 

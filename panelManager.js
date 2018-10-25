@@ -41,6 +41,7 @@ const Lang = imports.lang;
 const St = imports.gi.St;
 const Meta = imports.gi.Meta;
 const Layout = imports.ui.layout;
+const Shell = imports.gi.Shell;
 const WorkspacesView = imports.ui.workspacesView;
 
 var dtpPanelManager = new Lang.Class({
@@ -134,6 +135,11 @@ var dtpPanelManager = new Lang.Class({
                 () => this._reset()
             ],
             [
+                this._dtpSettings,
+                'changed::intellihide-key-toggle-text',
+                () => this._setKeyBindings(true)
+            ],
+            [
                 Utils.DisplayWrapper.getMonitorManager(),
                 'monitors-changed', 
                 () => this._reset()
@@ -143,6 +149,8 @@ var dtpPanelManager = new Lang.Class({
         ['_leftBox', '_centerBox', '_rightBox'].forEach(c => this._signalsHandler.add(
             [Main.panel[c], 'actor-added', (parent, child) => this._adjustBoxPointer(this._getPanelButtonBoxPointer(child), this.primaryPanel.monitor, Taskbar.getPosition())]
         ));
+
+        this._setKeyBindings(true);
     },
 
     disable: function(reset) {
@@ -161,6 +169,8 @@ var dtpPanelManager = new Lang.Class({
         });
 
         if (reset) return;
+
+        this._setKeyBindings(false);
 
         this._signalsHandler.destroy();
 
@@ -247,6 +257,22 @@ var dtpPanelManager = new Lang.Class({
         if (obj._delegate && obj._delegate instanceof PanelMenu.Button) {
             return obj._delegate.menu._boxPointer;
         }
+    },
+
+    _setKeyBindings: function(enable) {
+        let keys = {
+            'intellihide-key-toggle': () => this.allPanels.forEach(p => p.intellihide.toggle())
+        };
+
+        Object.keys(keys).forEach(k => {
+            if (Main.wm._allowedKeybindings[k]) {
+                Main.wm.removeKeybinding(k);
+            }
+
+            if (enable) {
+                Main.wm.addKeybinding(k, this._dtpSettings, Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL, keys[k]);
+            }
+        });
     },
 
     _newOverviewRelayout: function() {

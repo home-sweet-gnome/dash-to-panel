@@ -75,16 +75,16 @@ function cssHexString(css) {
     return rrggbb;
 }
 
-function setShortcut(settings) {
-    let shortcut_text = settings.get_string('shortcut-text');
+function setShortcut(settings, shortcutName) {
+    let shortcut_text = settings.get_string(shortcutName + '-text');
     let [key, mods] = Gtk.accelerator_parse(shortcut_text);
 
     if (Gtk.accelerator_valid(key, mods)) {
         let shortcut = Gtk.accelerator_name(key, mods);
-        settings.set_strv('shortcut', [shortcut]);
+        settings.set_strv(shortcutName, [shortcut]);
     }
     else {
-        settings.set_strv('shortcut', []);
+        settings.set_strv(shortcutName, []);
     }
 }
 
@@ -693,6 +693,12 @@ const Settings = new Lang.Class({
             this._settings.set_int('intellihide-pressure-time', widget.get_value());
         }));
 
+        this._settings.bind('intellihide-key-toggle-text',
+                             this._builder.get_object('intellihide_toggle_entry'),
+                             'text',
+                             Gio.SettingsBindFlags.DEFAULT);
+        this._settings.connect('changed::intellihide-key-toggle-text', () => setShortcut(this._settings, 'intellihide-key-toggle'));
+
         this._builder.get_object('intellihide_animation_time_spinbutton').set_value(this._settings.get_int('intellihide-animation-time'));
         this._builder.get_object('intellihide_animation_time_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
             this._settings.set_int('intellihide-animation-time', widget.get_value());
@@ -729,6 +735,8 @@ const Settings = new Lang.Class({
                     
                     this._settings.set_value('intellihide-pressure-time', this._settings.get_default_value('intellihide-pressure-time'));
                     this._builder.get_object('intellihide_pressure_time_spinbutton').set_value(this._settings.get_int('intellihide-pressure-time'));
+
+                    this._settings.set_value('intellihide-key-toggle-text', this._settings.get_default_value('intellihide-key-toggle-text'));
 
                     this._settings.set_value('intellihide-animation-time', this._settings.get_default_value('intellihide-animation-time'));
                     this._builder.get_object('intellihide_animation_time_spinbutton').set_value(this._settings.get_int('intellihide-animation-time'));
@@ -1232,7 +1240,7 @@ const Settings = new Lang.Class({
                                 this._builder.get_object('shortcut_entry'),
                                 'text',
                                 Gio.SettingsBindFlags.DEFAULT);
-            this._settings.connect('changed::shortcut-text', Lang.bind(this, function() {setShortcut(this._settings);}));
+            this._settings.connect('changed::shortcut-text', Lang.bind(this, function() {setShortcut(this._settings, 'shortcut');}));
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {

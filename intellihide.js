@@ -97,7 +97,9 @@ var Intellihide = new Lang.Class({
     },
 
     disable: function(reset) {
-        this._proximityManager.removeWatch(this._proximityWatchId);
+        if (this._proximityWatchId) {
+            this._proximityManager.removeWatch(this._proximityWatchId);
+        }
 
         this._setTrackPanel(reset, false);
 
@@ -114,6 +116,10 @@ var Intellihide = new Lang.Class({
     destroy: function() {
         this._dtpSettings.disconnect(this._intellihideChangedId);
         this.disable();
+    },
+
+    toggle: function() {
+        this._currentlyHeld ? this.release() : this.revealAndHold()
     },
 
     revealAndHold: function() {
@@ -310,13 +316,8 @@ var Intellihide = new Lang.Class({
         return false;
     },
 
-    _adjustDynamicTransparency: function() {
-        if (this._dtpPanel.panel.hasOwnProperty('_updateSolidStyle'))
-            this._invokeIfExists(this._dtpPanel.panel._updateSolidStyle);
-    },
-
     _revealPanel: function(immediate) {
-        this._animatePanel(0, immediate, this._adjustDynamicTransparency);
+        this._animatePanel(0, immediate);
     },
 
     _hidePanel: function(immediate) {

@@ -284,6 +284,16 @@
       <summary>Intellihide close delay</summary>
       <description>The delay (ms) before hiding the panel</description>
     </key>
+    <key type="s" name="intellihide-key-toggle-text">
+      <default>"&lt;Super&gt;i"</default>
+      <summary>Keybinding toggle intellihide</summary>
+      <description>Keybinding to reveal the panel while in intellihide mode</description>
+    </key>
+    <key type="as" name="intellihide-key-toggle">
+      <default><![CDATA[['<Super>i']]]></default>
+      <summary>Keybinding toggle intellihide</summary>
+      <description>Keybinding to reveal the panel while in intellihide mode</description>
+    </key>
     <key type="b" name="show-show-apps-button">
       <default>true</default>
       <summary>Show applications button</summary>
