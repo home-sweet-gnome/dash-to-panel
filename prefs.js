@@ -1214,6 +1214,11 @@ const Settings = new Lang.Class({
                                 'active-id',
                                 Gio.SettingsBindFlags.DEFAULT);
 
+            this._settings.bind('shortcut-previews',
+                                this._builder.get_object('shortcut_preview_switch'),
+                                'active',
+                                Gio.SettingsBindFlags.DEFAULT);
+
             this._builder.get_object('overlay_combo').set_active_id(this._settings.get_string('hotkeys-overlay-combo'));
 
             this._settings.bind('hotkeys-overlay-combo',
@@ -1245,7 +1250,7 @@ const Settings = new Lang.Class({
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings for the relevant keys
-                    let keys = ['hotkey-prefix-text', 'shortcut-text', 'hotkeys-overlay-combo', 'overlay-timeout'];
+                    let keys = ['hotkey-prefix-text', 'shortcut-text', 'hotkeys-overlay-combo', 'overlay-timeout, shortcut-previews'];
                     keys.forEach(function(val) {
                         this._settings.set_value(val, this._settings.get_default_value(val));
                     }, this);

@@ -583,6 +583,11 @@
       <summary>Prefix to use for hotkeys</summary>
       <description>You can choose between Super or SuperAlt as the prefix for hotkeys.</description>
     </key>
+    <key type="b" name="shortcut-previews">
+      <default>false</default>
+      <summary>Show window previews</summary>
+      <description>When multiple instances of the application are available, show their window previews</description>
+    </key>
     <key name="app-ctrl-hotkey-1" type="as">
       <default><![CDATA[['<Ctrl><Super>1']]]></default>
       <summary>Keybinding to launch 1st dash app</summary>
