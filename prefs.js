@@ -1185,6 +1185,48 @@ const Settings = new Lang.Class({
             this._settings.set_string('hotkeys-overlay-combo', widget.get_active_id());
         }));
 
+        this._settings.bind('shortcut-previews',
+                            this._builder.get_object('shortcut_preview_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+       this._settings.connect('changed::hotkey-prefix-text', Lang.bind(this, function() {checkHotkeyPrefix(this._settings);}));
+
+        this._builder.get_object('hotkey_prefix_combo').set_active_id(this._settings.get_string('hotkey-prefix-text'));
+
+        this._settings.bind('hotkey-prefix-text',
+                            this._builder.get_object('hotkey_prefix_combo'),
+                            'active-id',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._builder.get_object('overlay_combo').set_active_id(this._settings.get_string('hotkeys-overlay-combo'));
+
+        this._settings.bind('hotkeys-overlay-combo',
+                            this._builder.get_object('overlay_combo'),
+                            'active-id',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('overlay-timeout',
+                            this._builder.get_object('timeout_spinbutton'),
+                            'value',
+                            Gio.SettingsBindFlags.DEFAULT);
+        if (this._settings.get_string('hotkeys-overlay-combo') !== 'TEMPORARILY') {
+            this._builder.get_object('timeout_spinbutton').set_sensitive(false);
+        }
+
+        this._settings.connect('changed::hotkeys-overlay-combo', Lang.bind(this, function() {
+            if (this._settings.get_string('hotkeys-overlay-combo') !== 'TEMPORARILY')
+                this._builder.get_object('timeout_spinbutton').set_sensitive(false);
+            else
+                this._builder.get_object('timeout_spinbutton').set_sensitive(true);
+        }));
+
+        this._settings.bind('shortcut-text',
+                            this._builder.get_object('shortcut_entry'),
+                            'text',
+                            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.connect('changed::shortcut-text', Lang.bind(this, function() {setShortcut(this._settings, 'shortcut');}));
+
         // Create dialog for number overlay options
         this._builder.get_object('overlay_button').connect('clicked', Lang.bind(this, function() {
 
@@ -1200,57 +1242,10 @@ const Settings = new Lang.Class({
             let box = this._builder.get_object('box_overlay_shortcut');
             dialog.get_content_area().add(box);
 
-            this._settings.bind('hotkey-prefix-text',
-                                this._builder.get_object('hotkey_prefix_combo'),
-                                'text',
-                                Gio.SettingsBindFlags.DEFAULT);
-
-            this._settings.connect('changed::hotkey-prefix-text', Lang.bind(this, function() {checkHotkeyPrefix(this._settings);}));
-
-            this._builder.get_object('hotkey_prefix_combo').set_active_id(this._settings.get_string('hotkey-prefix-text'));
-
-            this._settings.bind('hotkey-prefix-text',
-                                this._builder.get_object('hotkey_prefix_combo'),
-                                'active-id',
-                                Gio.SettingsBindFlags.DEFAULT);
-
-            this._settings.bind('shortcut-previews',
-                                this._builder.get_object('shortcut_preview_switch'),
-                                'active',
-                                Gio.SettingsBindFlags.DEFAULT);
-
-            this._builder.get_object('overlay_combo').set_active_id(this._settings.get_string('hotkeys-overlay-combo'));
-
-            this._settings.bind('hotkeys-overlay-combo',
-                                this._builder.get_object('overlay_combo'),
-                                'active-id',
-                                Gio.SettingsBindFlags.DEFAULT);
-
-            this._settings.bind('overlay-timeout',
-                                this._builder.get_object('timeout_spinbutton'),
-                                'value',
-                                Gio.SettingsBindFlags.DEFAULT);
-            if (this._settings.get_string('hotkeys-overlay-combo') !== 'TEMPORARILY') {
-                this._builder.get_object('timeout_spinbutton').set_sensitive(false);
-            }
-
-            this._settings.connect('changed::hotkeys-overlay-combo', Lang.bind(this, function() {
-                if (this._settings.get_string('hotkeys-overlay-combo') !== 'TEMPORARILY')
-                    this._builder.get_object('timeout_spinbutton').set_sensitive(false);
-                else
-                    this._builder.get_object('timeout_spinbutton').set_sensitive(true);
-            }));
-
-            this._settings.bind('shortcut-text',
-                                this._builder.get_object('shortcut_entry'),
-                                'text',
-                                Gio.SettingsBindFlags.DEFAULT);
-            this._settings.connect('changed::shortcut-text', Lang.bind(this, function() {setShortcut(this._settings, 'shortcut');}));
-
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings for the relevant keys
-                    let keys = ['hotkey-prefix-text', 'shortcut-text', 'hotkeys-overlay-combo', 'overlay-timeout, shortcut-previews'];
+                    let keys = ['hotkey-prefix-text', 'shortcut-text', 'hotkeys-overlay-combo', 'overlay-timeout', 'shortcut-previews'];
                     keys.forEach(function(val) {
                         this._settings.set_value(val, this._settings.get_default_value(val));
                     }, this);

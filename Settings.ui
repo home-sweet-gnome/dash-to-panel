@@ -2823,8 +2823,6 @@
             </child>
             <child>
               <object class="GtkListBoxRow" id="listboxrow_extra_shortcut">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
@@ -2846,6 +2844,7 @@
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="top_attach">0</property>
+                        <property name="height">2</property>
                       </packing>
                     </child>
                     <child>
@@ -2877,9 +2876,6 @@
                         <property name="left_attach">0</property>
                         <property name="top_attach">1</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                 </child>

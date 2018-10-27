@@ -849,8 +849,10 @@ var taskbar = new Lang.Class({
         // This is required for icon reordering when the scrollview is used.
         this._updateAppIconsGeometry();
 
-        // This will update the size, and the corresponding number for each icon
-        this._updateNumberOverlay();
+        // This will update the size, and the corresponding number for each icon on the primary panel
+        if (!this.panelWrapper.isSecondary) {
+            this._updateNumberOverlay();
+        }
 
         // Connect windows previews to hover events
         this._toggleWindowPreview();
