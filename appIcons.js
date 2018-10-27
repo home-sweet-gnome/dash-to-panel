@@ -56,6 +56,7 @@ let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;
 let DASH_ITEM_LABEL_HIDE_TIME = Dash.DASH_ITEM_LABEL_HIDE_TIME;
 let DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 let LABEL_GAP = 5;
+let MAX_INDICATORS = 4;
 
 let DOT_STYLE = {
     DOTS: "DOTS",
@@ -875,10 +876,9 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _updateCounterClass: function() {
-        let maxN = 4;
-        this._nWindows = Math.min(this.getAppIconInterestingWindows().length, maxN);
+        this._nWindows = this.getAppIconInterestingWindows().length;
 
-        for (let i = 1; i <= maxN; i++){
+        for (let i = 1; i <= MAX_INDICATORS; i++){
             let className = 'running'+i;
             if(i != this._nWindows)
                 this.actor.remove_style_class_name(className);
@@ -918,7 +918,7 @@ var taskbarAppIcon = new Lang.Class({
         let bodyColor = this._getRunningIndicatorColor(isFocused);
         let [width, height] = area.get_surface_size();
         let cr = area.get_context();
-        let n = this._nWindows;
+        let n = Math.min(this._nWindows, MAX_INDICATORS);
         let size = this._getRunningIndicatorHeight();
         let padding = 0; // distance from the margin
         let yOffset = this._dtpSettings.get_string('dot-position') == DOT_POSITION.TOP ? 0 : (height - padding -  size);
