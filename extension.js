@@ -20,6 +20,7 @@
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
+const Overview = Me.imports.overview;
 const PanelManager = Me.imports.panelManager;
 
 const Main = imports.ui.main;
@@ -58,6 +59,8 @@ function enable() {
 
 function _enable() {
     let ubuntuDock = ExtensionUtils.extensions[UBUNTU_DOCK_UUID];
+
+    settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     
     if (ubuntuDock && ubuntuDock.stateObj && ubuntuDock.stateObj.dockManager) {
         // Disable Ubuntu Dock
@@ -73,12 +76,11 @@ function _enable() {
         }
 
         // ubuntu dock shows the dash when disabled, hide it again if necessary
-        panelManager.overview.toggleDash();
+        Overview.toggleDash(settings);
     }
 
     if (panelManager) return; //already initialized
 
-    settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     panelManager = new PanelManager.dtpPanelManager(settings);
     panelManager.enable();
     
@@ -98,7 +100,7 @@ function _enable() {
 
     // Pretend I'm the dash: meant to make appgrd swarm animation come from the
     // right position of the appShowButton.
-    oldDash  = Main.overview._dash;
+    oldDash = Main.overview._dash;
     Main.overview._dash = panelManager.primaryPanel.taskbar;
 }
 
@@ -108,7 +110,7 @@ function disable(reset) {
     settings.run_dispose();
 
     settings = null;
-    oldDash=null;
+    oldDash = null;
     panelManager = null;
     
     Main.wm.removeKeybinding('open-application-menu');
