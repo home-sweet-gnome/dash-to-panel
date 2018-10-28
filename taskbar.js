@@ -1133,7 +1133,6 @@ var taskbar = new Lang.Class({
                         // workspaceView to avoid the zoomout animation. Hide the appPage
                         // onComplete to avoid ugly flashing of original icons.
                         let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
-                        let grid = view._grid;
                         view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
                             Main.overview.viewSelector._appsPage.hide();
                             Main.overview.hide();
@@ -1155,11 +1154,6 @@ var taskbar = new Lang.Class({
                 this.panelWrapper.panelManager.setFocusedMonitor(Main.layoutManager.primaryMonitor, true);
             }
         }
-
-        // whenever the button is unactivated even if not by the user still reset the
-        // forcedOverview flag
-        if (this.showAppsButton.checked == false)
-            this.forcedOverview = false;
     },
     
     _syncShowAppsButtonToggled: function() {

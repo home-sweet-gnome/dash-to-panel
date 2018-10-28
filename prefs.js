@@ -1383,6 +1383,11 @@ const Settings = new Lang.Class({
                     this._builder.get_object('animate_window_launch_switch'),
                     'active',
                     Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('stockgs-keep-dash',
+                            this._builder.get_object('stockgs_dash_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
         
         // About Panel
 

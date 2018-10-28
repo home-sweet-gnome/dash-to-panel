@@ -72,10 +72,8 @@ function _enable() {
             disable(true);
         }
 
-        // ubuntu dock shows this when disabled, hide it again
-        if (Main.overview._controls.dash.actor.visible) {
-            Main.overview._controls.dash.actor.hide();
-        }
+        // ubuntu dock shows the dash when disabled, hide it again if necessary
+        panelManager.overview.toggleDash();
     }
 
     if (panelManager) return; //already initialized

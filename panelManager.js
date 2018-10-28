@@ -49,7 +49,7 @@ var dtpPanelManager = new Lang.Class({
 
     _init: function(settings) {
         this._dtpSettings = settings;
-        this._overview = new Overview.dtpOverview(settings);
+        this.overview = new Overview.dtpOverview(settings);
     },
 
     enable: function(reset) {
@@ -60,7 +60,7 @@ var dtpPanelManager = new Lang.Class({
         this.primaryPanel.enable();
         this.allPanels = [ this.primaryPanel ];
         
-        this._overview.enable(this.primaryPanel);
+        this.overview.enable(this.primaryPanel);
 
         if (this._dtpSettings.get_boolean('multi-monitors')) {
             Main.layoutManager.monitors.forEach(monitor => {
@@ -154,7 +154,7 @@ var dtpPanelManager = new Lang.Class({
     },
 
     disable: function(reset) {
-        this._overview.disable();
+        this.overview.disable();
         this.proximityManager.destroy();
 
         this.allPanels.forEach(p => {

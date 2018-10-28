@@ -50,28 +50,17 @@ var dtpOverview = new Lang.Class({
         this._injectionsHandler = new Utils.InjectionsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
-        // Hide usual Dash
-        Main.overview._controls.dash.actor.hide();
-
-        // Also set dash width to 1, so it's almost not taken into account by code
-        // calculaing the reserved space in the overview. The reason to keep it at 1 is
-        // to allow its visibility change to trigger an allocaion of the appGrid which
-        // in turn is triggergin the appsIcon spring animation, required when no other
-        // actors has this effect, i.e in horizontal mode and without the workspaceThumnails
-        // 1 static workspace only)
-        Main.overview._controls.dash.actor.set_width(1);
-
         this._isolation = this._optionalWorkspaceIsolation();
         this._optionalHotKeys();
         this._optionalNumberOverlay();
-        this._bindSettingsChanges();
+        this.toggleDash();
+        this._stockgsKeepDashId = this._dtpSettings.connect('changed::stockgs-keep-dash', () => this.toggleDash());
     },
 
     disable: function () {
-        Main.overview._controls.dash.actor.show();
-        Main.overview._controls.dash.actor.set_width(-1); //reset default dash size
-        // This force the recalculation of the icon size
-        Main.overview._controls.dash._maxHeight = -1;
+        this._dtpSettings.disconnect(this._stockgsKeepDashId);
+        
+        this.toggleDash(true);
 
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
@@ -83,7 +72,26 @@ var dtpOverview = new Lang.Class({
         this._isolation.disable.apply(this);
     },
 
-    _bindSettingsChanges: function() {
+    toggleDash: function(visible) {
+        // To hide the dash, set its width to 1, so it's almost not taken into account by code
+        // calculaing the reserved space in the overview. The reason to keep it at 1 is
+        // to allow its visibility change to trigger an allocaion of the appGrid which
+        // in turn is triggergin the appsIcon spring animation, required when no other
+        // actors has this effect, i.e in horizontal mode and without the workspaceThumnails
+        // 1 static workspace only)
+
+        if (visible === undefined) {
+            visible = this._dtpSettings.get_boolean('stockgs-keep-dash');
+        }
+
+        let visibilityFunc = visible ? 'show' : 'hide';
+        let width = visible ? -1 : 1;
+        
+        Main.overview._controls.dash.actor[visibilityFunc]();
+        Main.overview._controls.dash.actor.set_width(width);
+
+        // This force the recalculation of the icon size
+        Main.overview._controls.dash._maxHeight = -1;
     },
 
     /**
