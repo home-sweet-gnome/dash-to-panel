@@ -53,14 +53,14 @@ var dtpOverview = new Lang.Class({
         this._isolation = this._optionalWorkspaceIsolation();
         this._optionalHotKeys();
         this._optionalNumberOverlay();
-        toggleDash(this._dtpSettings);
-        this._stockgsKeepDashId = this._dtpSettings.connect('changed::stockgs-keep-dash', () => toggleDash(this._dtpSettings));
+        this._toggleDash();
+        this._stockgsKeepDashId = this._dtpSettings.connect('changed::stockgs-keep-dash', () => this._toggleDash());
     },
 
     disable: function () {
         this._dtpSettings.disconnect(this._stockgsKeepDashId);
-
-        toggleDash(this._dtpSettings, true);
+        
+        this._toggleDash(true);
 
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
@@ -72,7 +72,27 @@ var dtpOverview = new Lang.Class({
         this._isolation.disable.apply(this);
     },
 
-    
+    _toggleDash: function(visible) {
+        // To hide the dash, set its width to 1, so it's almost not taken into account by code
+        // calculaing the reserved space in the overview. The reason to keep it at 1 is
+        // to allow its visibility change to trigger an allocaion of the appGrid which
+        // in turn is triggergin the appsIcon spring animation, required when no other
+        // actors has this effect, i.e in horizontal mode and without the workspaceThumnails
+        // 1 static workspace only)
+
+        if (visible === undefined) {
+            visible = this._dtpSettings.get_boolean('stockgs-keep-dash');
+        }
+
+        let visibilityFunc = visible ? 'show' : 'hide';
+        let width = visible ? -1 : 1;
+        
+        Main.overview._controls.dash.actor[visibilityFunc]();
+        Main.overview._controls.dash.actor.set_width(width);
+
+        // This force the recalculation of the icon size
+        Main.overview._controls.dash._maxHeight = -1;
+    },
 
     /**
      * Isolate overview to open new windows for inactive apps
@@ -352,25 +372,3 @@ var dtpOverview = new Lang.Class({
         }));
     }
 });
-
-function toggleDash(settings, visible) {
-    // To hide the dash, set its width to 1, so it's almost not taken into account by code
-    // calculaing the reserved space in the overview. The reason to keep it at 1 is
-    // to allow its visibility change to trigger an allocaion of the appGrid which
-    // in turn is triggergin the appsIcon spring animation, required when no other
-    // actors has this effect, i.e in horizontal mode and without the workspaceThumnails
-    // 1 static workspace only)
-
-    if (visible === undefined) {
-        visible = settings.get_boolean('stockgs-keep-dash');
-    }
-
-    let visibilityFunc = visible ? 'show' : 'hide';
-    let width = visible ? -1 : 1;
-    
-    Main.overview._controls.dash.actor[visibilityFunc]();
-    Main.overview._controls.dash.actor.set_width(width);
-
-    // This force the recalculation of the icon size
-    Main.overview._controls.dash._maxHeight = -1;
-}

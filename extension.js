@@ -20,7 +20,6 @@
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
-const Overview = Me.imports.overview;
 const PanelManager = Me.imports.panelManager;
 
 const Main = imports.ui.main;
@@ -60,8 +59,6 @@ function enable() {
 function _enable() {
     let ubuntuDock = ExtensionUtils.extensions[UBUNTU_DOCK_UUID];
 
-    settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
-    
     if (ubuntuDock && ubuntuDock.stateObj && ubuntuDock.stateObj.dockManager) {
         // Disable Ubuntu Dock
         St.ThemeContext.get_for_stage(global.stage).get_theme().unload_stylesheet(ubuntuDock.stylesheet);
@@ -74,13 +71,11 @@ function _enable() {
         if (panelManager) {
             disable(true);
         }
-
-        // ubuntu dock shows the dash when disabled, hide it again if necessary
-        Overview.toggleDash(settings);
     }
 
     if (panelManager) return; //already initialized
 
+    settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     panelManager = new PanelManager.dtpPanelManager(settings);
     panelManager.enable();
     
