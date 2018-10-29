@@ -35,6 +35,7 @@ const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
 const BoxPointer = imports.ui.boxpointer;
+const IconGrid = imports.ui.iconGrid;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Lang = imports.lang;
