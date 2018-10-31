@@ -308,10 +308,6 @@ var dtpPanelWrapper = new Lang.Class({
         this._removeTopLimit();
 
         if (this.panel._updateSolidStyle) {
-            if (this.panel._dtpRemoveSolidStyleId) {
-                Mainloop.source_remove(this.panel._dtpRemoveSolidStyleId);
-            }
-
             this._injectionsHandler.removeWithLabel('transparency');
             this._injectionsHandler.destroy();
         }
@@ -703,6 +699,10 @@ var dtpSecondaryPanel = new Lang.Class({
         this._setPanelMenu('show-clock-all-monitors', 'dateMenu', DateMenu.DateMenuButton, this._centerBox, true);
         
         this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
+
+        this.actor.connect('button-press-event', Main.panel._onButtonPress.bind(this));
+        this.actor.connect('touch-event', Main.panel._onButtonPress.bind(this));
+        this.actor.connect('key-press-event', Main.panel._onKeyPress.bind(this));
        
         Main.ctrlAltTabManager.addGroup(this.actor, _("Top Bar")+" "+ monitor.index, 'focus-top-bar-symbolic',
                                         { sortGroup: CtrlAltTab.SortGroup.TOP });
