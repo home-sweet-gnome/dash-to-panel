@@ -128,6 +128,8 @@ var thumbnailPreviewMenu = new Lang.Class({
             this.actor.disconnect(this._leaveMenuId);
             this._leaveMenuId = 0;
         }
+
+        this.close();
     },
 
     requestCloseMenu: function() {

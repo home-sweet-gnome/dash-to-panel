@@ -527,7 +527,6 @@ var taskbar = new Lang.Class({
             appIcon._draggable.connect('drag-begin',
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 50;
-                                           appIcon.windowPreview.requestCloseMenu();
                                            this._disableWindowPreview();
                                        }));
             appIcon._draggable.connect('drag-end',
