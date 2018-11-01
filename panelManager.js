@@ -247,11 +247,13 @@ var dtpPanelManager = new Lang.Class({
     },
 
     _removePanelBarriers: function(panel) {
-        if (panel.isSecondary) {
+        if (panel.isSecondary && panel._rightPanelBarrier) {
             panel._rightPanelBarrier.destroy();
         }
 
-        panel._leftPanelBarrier.destroy();
+        if (panel._leftPanelBarrier) {
+            panel._leftPanelBarrier.destroy();
+        }
     },
 
     _getPanelButtonBoxPointer: function(obj) {
