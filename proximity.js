@@ -154,7 +154,9 @@ var ProximityManager = new Lang.Class({
             let focusedWindowInfo = this._getFocusedWindowInfo(focusedWindow);
 
             if (this._checkIfHandledWindowType(focusedWindowInfo.metaWindow)) {
-                focusedWindowInfo.id = focusedWindowInfo.window.connect('allocation-changed', () => this._queueUpdate())
+                focusedWindowInfo.allocationId = focusedWindowInfo.window.connect('allocation-changed', () => this._queueUpdate());
+                focusedWindowInfo.destroyId = focusedWindowInfo.window.connect('destroy', () => this._disconnectFocusedWindow(true));
+                
                 this._focusedWindowInfo = focusedWindowInfo;
             }
         }
@@ -177,9 +179,10 @@ var ProximityManager = new Lang.Class({
         return focusedWindowInfo;
     },
 
-    _disconnectFocusedWindow: function() {
-        if (this._focusedWindowInfo && this._focusedWindowInfo.window) {
-            this._focusedWindowInfo.window.disconnect(this._focusedWindowInfo.id);
+    _disconnectFocusedWindow: function(destroy) {
+        if (this._focusedWindowInfo && !destroy) {
+            this._focusedWindowInfo.window.disconnect(this._focusedWindowInfo.allocationId);
+            this._focusedWindowInfo.window.disconnect(this._focusedWindowInfo.destroyId);
         }
 
         this._focusedWindowInfo = null;
