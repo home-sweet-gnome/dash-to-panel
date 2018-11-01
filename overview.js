@@ -105,7 +105,7 @@ var dtpOverview = new Lang.Class({
             this._dtpSettings,
             'changed::isolate-workspaces',
             Lang.bind(this, function() {
-                this.taskbar.resetAppIcons();
+                this._panel.panelManager.allPanels.forEach(p => p.taskbar.resetAppIcons());
 
                 if (this._dtpSettings.get_boolean('isolate-workspaces'))
                     Lang.bind(this, enable)();
@@ -131,7 +131,7 @@ var dtpOverview = new Lang.Class({
             this._signalsHandler.addWithLabel(label, [
                 global.window_manager,
                 'switch-workspace',
-                () => this.taskbar.handleIsolatedWorkspaceSwitch()
+                () => this._panel.panelManager.allPanels.forEach(p => p.taskbar.handleIsolatedWorkspaceSwitch())
             ]);
         }
 
