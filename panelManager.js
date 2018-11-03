@@ -188,8 +188,8 @@ var dtpPanelManager = new Lang.Class({
         delete Main.overview._focusedMonitor;
         Main.overview._relayout();
 
+        Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews(true);
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
-        Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews();
 
         Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
         Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
@@ -292,24 +292,27 @@ var dtpPanelManager = new Lang.Class({
         this._updateBackgrounds();
     },
 
-    _newUpdateWorkspacesViews: function() {
+    _newUpdateWorkspacesViews: function(disable) {
         for (let i = 0; i < this._workspacesViews.length; i++)
             this._workspacesViews[i].destroy();
 
         this._workspacesViews = [];
-        let monitors = Main.layoutManager.monitors;
-        for (let i = 0; i < monitors.length; i++) {
-            let view = new WorkspacesView.WorkspacesView(i);
 
-            view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
-            if (i == this._primaryIndex) {
-                this._scrollAdjustment = view.scrollAdjustment;
-                this._scrollAdjustment.connect('notify::value',
-                                               this._scrollValueChanged.bind(this));
+        if (!disable) {
+            let monitors = Main.layoutManager.monitors;
+            for (let i = 0; i < monitors.length; i++) {
+                let view = new WorkspacesView.WorkspacesView(i);
+
+                view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
+                if (i == this._primaryIndex) {
+                    this._scrollAdjustment = view.scrollAdjustment;
+                    this._scrollAdjustment.connect('notify::value',
+                                                this._scrollValueChanged.bind(this));
+                }
+
+                this._workspacesViews.push(view);
+                Main.layoutManager.overviewGroup.add_actor(view.actor);
             }
-
-            this._workspacesViews.push(view);
-            Main.layoutManager.overviewGroup.add_actor(view.actor);
         }
 
         this._updateWorkspacesFullGeometry();
