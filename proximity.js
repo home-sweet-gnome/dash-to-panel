@@ -153,7 +153,7 @@ var ProximityManager = new Lang.Class({
         if (focusedWindow) {
             let focusedWindowInfo = this._getFocusedWindowInfo(focusedWindow);
 
-            if (this._checkIfHandledWindowType(focusedWindowInfo.metaWindow)) {
+            if (focusedWindowInfo && this._checkIfHandledWindowType(focusedWindowInfo.metaWindow)) {
                 focusedWindowInfo.allocationId = focusedWindowInfo.window.connect('allocation-changed', () => this._queueUpdate());
                 focusedWindowInfo.destroyId = focusedWindowInfo.window.connect('destroy', () => this._disconnectFocusedWindow(true));
                 
@@ -163,16 +163,20 @@ var ProximityManager = new Lang.Class({
     },
 
     _getFocusedWindowInfo: function(focusedWindow) {
-        let focusedWindowInfo = { window: focusedWindow.get_compositor_private() };
-        
-        focusedWindowInfo.metaWindow = focusedWindowInfo.window.get_meta_window();
+        let window = focusedWindow.get_compositor_private();
+        let focusedWindowInfo;
 
-        if (focusedWindow.is_attached_dialog()) {
-            let mainMetaWindow = focusedWindow.get_transient_for();
+        if (window) {
+            focusedWindowInfo = { window: window };
+            focusedWindowInfo.metaWindow = focusedWindowInfo.window.get_meta_window();
 
-            if (focusedWindowInfo.metaWindow.get_frame_rect().height < mainMetaWindow.get_frame_rect().height) {
-                focusedWindowInfo.window = mainMetaWindow.get_compositor_private();
-                focusedWindowInfo.metaWindow = mainMetaWindow;
+            if (focusedWindow.is_attached_dialog()) {
+                let mainMetaWindow = focusedWindow.get_transient_for();
+
+                if (focusedWindowInfo.metaWindow.get_frame_rect().height < mainMetaWindow.get_frame_rect().height) {
+                    focusedWindowInfo.window = mainMetaWindow.get_compositor_private();
+                    focusedWindowInfo.metaWindow = mainMetaWindow;
+                }
             }
         }
 
