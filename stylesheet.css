@@ -58,6 +58,11 @@
 	-st-hfade-offset: 48px;
 }
 
+#dashtopanelScrollview #drag-placeholder {
+	background-color: rgba(130, 130, 130, 0.2);
+	padding: 0;
+}
+
 .dashtopanelSecondaryMenu {
 	max-width: 400px;
 }
