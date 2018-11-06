@@ -541,7 +541,10 @@ var taskbarAppIcon = new Lang.Class({
     popupMenu: function() {
         this._removeMenuTimeout();
         this.actor.fake_release();
-        this._draggable.fakeRelease();
+        
+        if (this._draggable) { 
+            this._draggable.fakeRelease();
+        }
 
         if (!this._menu) {
             this._menu = new taskbarSecondaryMenu(this, this._dtpSettings);
@@ -1527,8 +1530,18 @@ var MyShowAppsIconMenu = new Lang.Class({
     Name: 'DashToPanel.ShowAppsIconMenu',
     Extends: taskbarSecondaryMenu,
 
+    _init: function(showAppsIconWrapper, settings) {
+        this.parent(showAppsIconWrapper);
+        this._dtpSettings = settings;
+    },
+
     _redisplay: function() {
         this.removeAll();
+
+        let lockTaskbarMenuItem = this._appendMenuItem(this._dtpSettings.get_boolean('taskbar-locked') ? _('Unlock taskbar') : _('Lock taskbar'));
+        lockTaskbarMenuItem.connect('activate', () => {
+            this._dtpSettings.set_boolean('taskbar-locked', !this._dtpSettings.get_boolean('taskbar-locked'));
+        });
 
         let settingsMenuItem = this._appendMenuItem(_('Dash to Panel Settings'));
         settingsMenuItem.connect('activate', function () {

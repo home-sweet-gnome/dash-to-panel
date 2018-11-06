@@ -346,7 +346,10 @@ var taskbar = new Lang.Class({
             ],
             [
                 this._dtpSettings,
-                'changed::group-apps-use-launchers',
+                [
+                    'changed::group-apps-use-launchers',
+                    'changed::taskbar-locked'
+                ],
                 () => this.resetAppIcons()
             ]
         );
@@ -519,7 +522,8 @@ var taskbar = new Lang.Class({
             this.panelWrapper,
             { 
                 setSizeManually: true,
-                showLabel: false 
+                showLabel: false,
+                isDraggable: !this._dtpSettings.get_boolean('taskbar-locked'),
             }
         );
 
