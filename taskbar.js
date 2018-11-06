@@ -1200,7 +1200,7 @@ var taskbar = new Lang.Class({
 Signals.addSignalMethods(taskbar.prototype);
 
 var DragPlaceholderItem = new Lang.Class({
-    Name: 'DashToPanel.DragPlaceholderItem',
+    Name: 'DashToPanel-DragPlaceholderItem',
     Extends: Dash.DashItemContainer,
 
     _init: function(icon) {
@@ -1218,11 +1218,6 @@ var DragPlaceholderItem = new Lang.Class({
         bin.set_child(this._clone);
 
         this.setChild(bin);
-    },
-
-    destroy: function() {
-        this._clone.destroy();
-        this.parent();
     }
 });
 
