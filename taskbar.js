@@ -184,6 +184,7 @@ var taskbar = new Lang.Class({
         this._showAppsIcon.icon.setIconSize(this.iconSize);
         this._hookUpLabel(this._showAppsIcon, this._showAppsIconWrapper);
 
+        this._container.add_child(new St.Widget({ width: 0, reactive: false }));
         this._container.add_actor(this._showAppsIcon);
         this._container.add_actor(this._scrollView);
 
