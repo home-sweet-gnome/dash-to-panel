@@ -93,68 +93,27 @@ function findIndex(array, predicate) {
 };
 
 var taskbarActor = new Lang.Class({
-    Name: 'DashToPanel.TaskbarActor',
+    Name: 'DashToPanel-TaskbarActor',
+    Extends: St.Widget,
 
     _init: function() {
+        this.parent({ name: 'dashtopanelTaskbar',
+                      layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL }),
+                      clip_to_allocation: true });
         this._rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
 
         this._position = getPosition();
 
-        let layout = new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL });
-
-        this.actor = new Shell.GenericContainer({ name: 'dashtopanelTaskbar',
-                      layout_manager: layout,
-                      clip_to_allocation: true });
-        this.actor.connect('get-preferred-width', Lang.bind(this, this._getPreferredWidth));
-        this.actor.connect('get-preferred-height', Lang.bind(this, this._getPreferredHeight));
-        this.actor.connect('allocate', Lang.bind(this, this._allocate));
-
-        this.actor._delegate = this;
-
+        this._delegate = this;
     },
 
-    _allocate: function(actor, box, flags) {
+    vfunc_get_preferred_width: function(actor, forHeight) {
+        // We want to request the natural height of all our children
+        // as our natural width, so we chain up to StWidget (which
+        // then calls BoxLayout)
+        let [, natWidth] = this.parent(forHeight);
         
-        this._isHorizontal = true;
-        this._isAppAtLeft = true;
-        let contentBox = box;
-        let availWidth = contentBox.x2 - contentBox.x1;
-        let availHeight = contentBox.y2 - contentBox.y1;
-
-        let [appIcons, showAppsButton] = actor.get_children();
-        let [showAppsMinHeight, showAppsNatHeight] = showAppsButton.get_preferred_height(availWidth);
-        let [showAppsMinWidth, showAppsNatWidth] = showAppsButton.get_preferred_width(availHeight);
-
-        let childBox = new Clutter.ActorBox();
-        childBox.x1 = contentBox.x1 + showAppsNatWidth;
-        childBox.y1 = contentBox.y1;
-        childBox.x2 = contentBox.x2;
-        childBox.y2 = contentBox.y2;
-        appIcons.allocate(childBox, flags);
-
-        childBox.y1 = contentBox.y1;
-        childBox.x1 = contentBox.x1;
-        childBox.x2 = contentBox.x1 + showAppsNatWidth;
-        childBox.y2 = contentBox.y2;
-        showAppsButton.allocate(childBox, flags);
-    },
-
-    _getPreferredWidth: function(actor, forHeight, alloc) {
-        // We want to request the natural height of all our children
-        // as our natural height, so we chain up to StWidget (which
-        // then calls BoxLayout)
-        let [, natWidth] = this.actor.layout_manager.get_preferred_width(this.actor, forHeight);
-        alloc.min_size = 0;
-        alloc.natural_size = natWidth + HFADE_WIDTH;
-    },
-
-    _getPreferredHeight: function(actor, forWidth, alloc) {
-        // We want to request the natural height of all our children
-        // as our natural height, so we chain up to StWidget (which
-        // then calls BoxLayout)
-        let [, natHeight] = this.actor.layout_manager.get_preferred_height(this.actor, forWidth);
-        alloc.min_size = 0;
-        alloc.natural_size = natHeight;
+        return [0, natWidth + HFADE_WIDTH];
     }
 });
 
@@ -194,8 +153,7 @@ var taskbar = new Lang.Class({
         this._ensureAppIconVisibilityTimeoutId = 0;
         this._labelShowing = false;
 
-        this._containerObject = new taskbarActor();
-        this._container = this._containerObject.actor;
+        this._container = new taskbarActor();
         this._scrollView = new St.ScrollView({ name: 'dashtopanelScrollview',
                                                hscrollbar_policy: Gtk.PolicyType.NEVER,
                                                vscrollbar_policy: Gtk.PolicyType.NEVER,
@@ -208,7 +166,6 @@ var taskbar = new Lang.Class({
                                        x_align: Clutter.ActorAlign.START,
                                        y_align: Clutter.ActorAlign.START });
         this._box._delegate = this;
-        this._container.add_actor(this._scrollView);
         this._scrollView.add_actor(this._box);
 
         // Create a wrapper around the real showAppsIcon in order to add a popupMenu.
@@ -228,6 +185,7 @@ var taskbar = new Lang.Class({
         this._hookUpLabel(this._showAppsIcon, this._showAppsIconWrapper);
 
         this._container.add_actor(this._showAppsIcon);
+        this._container.add_actor(this._scrollView);
 
         if (!this._dtpSettings.get_boolean('show-show-apps-button'))
             this.hideShowAppsButton();

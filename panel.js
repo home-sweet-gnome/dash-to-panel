@@ -665,14 +665,14 @@ var dtpPanelWrapper = new Lang.Class({
 });
 
 var dtpSecondaryPanel = new Lang.Class({
-    Name: 'DashToPanel.SecondaryPanel',
+    Name: 'DashToPanel-SecondaryPanel',
+    Extends: St.Widget,
 
     _init: function(settings, monitor) {
+        this.parent({ name: 'panel', reactive: true });
         this._dtpSettings = settings;
-   	
-        this.actor = new Shell.GenericContainer({ name: 'panel', reactive: true });
-        this.actor._delegate = this;
-
+       
+        this.actor = this;
         this._sessionStyle = null;
 
         this.statusArea = { };
@@ -680,17 +680,17 @@ var dtpSecondaryPanel = new Lang.Class({
         this.menuManager = new PopupMenu.PopupMenuManager(this);
 
         this._leftBox = new St.BoxLayout({ name: 'panelLeft' });
-        this.actor.add_actor(this._leftBox);
+        this.add_actor(this._leftBox);
         this._centerBox = new St.BoxLayout({ name: 'panelCenter' });
-        this.actor.add_actor(this._centerBox);
+        this.add_actor(this._centerBox);
         this._rightBox = new St.BoxLayout({ name: 'panelRight' });
-        this.actor.add_actor(this._rightBox);
+        this.add_actor(this._rightBox);
 
         this._leftCorner = new Panel.PanelCorner(St.Side.LEFT);
-        this.actor.add_actor(this._leftCorner.actor);
+        this.add_actor(this._leftCorner.actor);
 
         this._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
-        this.actor.add_actor(this._rightCorner.actor);
+        this.add_actor(this._rightCorner.actor);
 
         this._panelMenuSignalIds = [];
 
@@ -698,13 +698,13 @@ var dtpSecondaryPanel = new Lang.Class({
         this._setPanelMenu('show-status-menu-all-monitors', 'aggregateMenu', dtpSecondaryAggregateMenu, this._rightBox, true);
         this._setPanelMenu('show-clock-all-monitors', 'dateMenu', DateMenu.DateMenuButton, this._centerBox, true);
         
-        this.actor.connect('destroy', Lang.bind(this, this._onDestroy));
+        this.connect('destroy', Lang.bind(this, this._onDestroy));
 
-        this.actor.connect('button-press-event', Main.panel._onButtonPress.bind(this));
-        this.actor.connect('touch-event', Main.panel._onButtonPress.bind(this));
-        this.actor.connect('key-press-event', Main.panel._onKeyPress.bind(this));
+        this.connect('button-press-event', Main.panel._onButtonPress.bind(this));
+        this.connect('touch-event', Main.panel._onButtonPress.bind(this));
+        this.connect('key-press-event', Main.panel._onKeyPress.bind(this));
        
-        Main.ctrlAltTabManager.addGroup(this.actor, _("Top Bar")+" "+ monitor.index, 'focus-top-bar-symbolic',
+        Main.ctrlAltTabManager.addGroup(this, _("Top Bar")+" "+ monitor.index, 'focus-top-bar-symbolic',
                                         { sortGroup: CtrlAltTab.SortGroup.TOP });
 
     },
@@ -739,16 +739,13 @@ var dtpSecondaryPanel = new Lang.Class({
     },
 
     _onDestroy: function() {
-	    Main.ctrlAltTabManager.removeGroup(this.actor);
+	    Main.ctrlAltTabManager.removeGroup(this);
         
         this._panelMenuSignalIds.forEach(id => this._dtpSettings.disconnect(id));
         
         this._removePanelMenu('dateMenu');
         this._removePanelMenu('aggregateMenu');
-        
-        this.actor._delegate = null;
     },
-  
 });
 
 var dtpSecondaryAggregateMenu = new Lang.Class({
