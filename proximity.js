@@ -215,7 +215,8 @@ var ProximityManager = new Lang.Class({
     _queueUpdate: function(noDelay) {
         if (!noDelay && this._timeoutsHandler.getId(T1)) {
             //limit the number of updates
-            return this._pendingUpdate = true;
+            this._pendingUpdate = true;
+            return;
         }
 
         this._timeoutsHandler.add([T1, MIN_UPDATE_MS, () => this._endLimitUpdate()]);
@@ -245,14 +246,13 @@ var ProximityManager = new Lang.Class({
             return (this._focusedWindowInfo && 
                     this._checkIfHandledWindow(this._focusedWindowInfo.metaWindow) &&
                     this._checkProximity(this._focusedWindowInfo.metaWindow, watch));
-        } 
-        
-        if (watch.mode === Mode.MAXIMIZED_WINDOWS) {
+        } else if (watch.mode === Mode.MAXIMIZED_WINDOWS) {
             return metaWindows.some(mw => mw.maximized_vertically && mw.maximized_horizontally && 
                                           mw.get_monitor() == watch.monitorIndex);
-        } else if (watch.mode === Mode.ALL_WINDOWS) {
-            return metaWindows.some(mw => this._checkProximity(mw, watch));
         }
+        
+        //Mode.ALL_WINDOWS
+        return metaWindows.some(mw => this._checkProximity(mw, watch));
     },
 
     _checkProximity: function(metaWindow, watch) {

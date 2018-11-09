@@ -257,9 +257,7 @@ var dtpPanelManager = new Lang.Class({
     },
 
     _getPanelButtonBoxPointer: function(obj) {
-        if (obj._delegate && obj._delegate instanceof PanelMenu.Button) {
-            return obj._delegate.menu._boxPointer;
-        }
+        return obj._delegate && obj._delegate instanceof PanelMenu.Button ? obj._delegate.menu._boxPointer : 0;
     },
 
     _setKeyBindings: function(enable) {
