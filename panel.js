@@ -128,7 +128,7 @@ var dtpPanelWrapper = new Lang.Class({
         if (this.panel.vfunc_allocate) {
             this._panelConnectId = 0;
             this._oldAllocate = this.panel.__proto__.vfunc_allocate;
-            this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', (box, flags) => {
+            this._hookVfunc('allocate', (box, flags) => {
                 //panel inherits from St.Widget, invoke its parent allocation
                 St.Widget.prototype.vfunc_allocate.call(this.panel, box, flags);
                 this._allocate(null, box, flags);
@@ -276,7 +276,7 @@ var dtpPanelWrapper = new Lang.Class({
         if (this._panelConnectId) {
             this.panel.actor.disconnect(this._panelConnectId);
         } else if (this._oldAllocate) {
-            this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this._oldAllocate);
+            this._hookVfunc('allocate', this._oldAllocate);
         }
 
         if (this.startIntellihideId) {
@@ -375,6 +375,15 @@ var dtpPanelWrapper = new Lang.Class({
 
             this._dtpSettings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonWidth())
         ];
+    },
+
+    _hookVfunc: function(symbol, func) {
+        if (Gi.hook_up_vfunc_symbol) {
+            //gjs > 1.53.3
+            this.panel.__proto__[Gi.hook_up_vfunc_symbol](symbol, func);
+        } else {
+            Gi.hook_up_vfunc(this.panel.__proto__, symbol, func);
+        }
     },
 
     _allocate: function(actor, box, flags) {
@@ -700,9 +709,14 @@ var dtpSecondaryPanel = new Lang.Class({
         
         this.connect('destroy', Lang.bind(this, this._onDestroy));
 
-        this.connect('button-press-event', Main.panel._onButtonPress.bind(this));
-        this.connect('touch-event', Main.panel._onButtonPress.bind(this));
-        this.connect('key-press-event', Main.panel._onKeyPress.bind(this));
+        if (Main.panel._onButtonPress) {
+            this.connect('button-press-event', Main.panel._onButtonPress.bind(this));
+            this.connect('touch-event', Main.panel._onButtonPress.bind(this));
+        }
+
+        if (Main.panel._onKeyPress) {
+            this.connect('key-press-event', Main.panel._onKeyPress.bind(this));
+        }
        
         Main.ctrlAltTabManager.addGroup(this, _("Top Bar")+" "+ monitor.index, 'focus-top-bar-symbolic',
                                         { sortGroup: CtrlAltTab.SortGroup.TOP });
