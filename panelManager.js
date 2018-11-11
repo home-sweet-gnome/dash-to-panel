@@ -70,7 +70,6 @@ var dtpPanelManager = new Lang.Class({
 
                 let panelBox = new St.BoxLayout({ name: 'dashtopanelSecondaryPanelBox', vertical: true });
                 Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
-                Main.uiGroup.set_child_below_sibling(panelBox, Main.layoutManager.panelBox);
 
                 let panel = new Panel.dtpSecondaryPanel(this._dtpSettings, monitor);
                 panelBox.add(panel.actor);

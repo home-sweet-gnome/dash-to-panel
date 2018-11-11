@@ -176,6 +176,7 @@ var taskbar = new Lang.Class({
         this.showAppsButton = this._showAppsIcon.toggleButton;
              
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
+        this.showAppsButton.checked = Main.overview.viewSelector._showAppsButton.checked;
 
         this._showAppsIcon.childScale = 1;
         this._showAppsIcon.childOpacity = 255;

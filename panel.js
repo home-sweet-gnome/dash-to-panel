@@ -92,6 +92,8 @@ var dtpPanelWrapper = new Lang.Class({
             opacity: 0 
         });
 
+        this._adjustForOverview();
+
         this._setPanelPosition();
         
         this._HeightNotifyListener = this.panelBox.connect("notify::height", Lang.bind(this, function(){
@@ -198,11 +200,7 @@ var dtpPanelWrapper = new Lang.Class({
             [
                 Main.overview,
                 'hidden',
-                () => {
-                    if (this._myPanelGhost.get_parent()) {
-                        Main.overview._overview.remove_actor(this._myPanelGhost);
-                    }
-                }
+                () => this._removePanelGhost()
             ],
             [
                 Main.overview,
@@ -210,17 +208,7 @@ var dtpPanelWrapper = new Lang.Class({
                     'showing',
                     'hiding'
                 ],
-                () => {
-                    let isFocusedMonitor = Main.overview.viewSelector._workspacesDisplay._primaryIndex == this.monitor.index;
-                    let isOverview = !!Main.overview.visibleTarget;
-                    let isShown = !isOverview || (isOverview && isFocusedMonitor);
-
-                    this.panel.actor[isShown ? 'show' : 'hide']();
-                    
-                    if (isOverview && isFocusedMonitor) {
-                        Main.overview._overview.add_actor(this._myPanelGhost);
-                    }
-                }
+                () => this._adjustForOverview()
             ],
             [
                 this.panel._rightBox,
@@ -265,6 +253,8 @@ var dtpPanelWrapper = new Lang.Class({
 
     disable: function () {
         this.panelStyle.disable();
+
+        this._removePanelGhost();
 
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
@@ -375,6 +365,24 @@ var dtpPanelWrapper = new Lang.Class({
 
             this._dtpSettings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonWidth())
         ];
+    },
+
+    _adjustForOverview: function() {
+        let isFocusedMonitor = Main.overview.viewSelector._workspacesDisplay._primaryIndex == this.monitor.index;
+        let isOverview = !!Main.overview.visibleTarget;
+        let isShown = !isOverview || (isOverview && isFocusedMonitor);
+
+        this.panel.actor[isShown ? 'show' : 'hide']();
+        
+        if (isOverview && isFocusedMonitor) {
+            Main.overview._overview.add_actor(this._myPanelGhost);
+        }
+    },
+    
+    _removePanelGhost: function() {
+        if (this._myPanelGhost.get_parent()) {
+            Main.overview._overview.remove_actor(this._myPanelGhost);
+        }
     },
 
     _hookVfunc: function(symbol, func) {
