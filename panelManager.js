@@ -160,7 +160,10 @@ var dtpPanelManager = new Lang.Class({
 
         this.allPanels.forEach(p => {
             this._findPanelBoxPointers(p.panelBox).forEach(bp => {
-                bp._container.disconnect(bp._dtpGetPreferredHeightId);
+                if (bp._dtpGetPreferredHeightId) {
+                    bp._container.disconnect(bp._dtpGetPreferredHeightId);
+                }
+
                 bp._userArrowSide = St.Side.TOP;
             })
 
@@ -185,7 +188,6 @@ var dtpPanelManager = new Lang.Class({
         Main.overview.viewSelector._animateOut = this._oldViewSelectorAnimateOut;
 
         Main.overview._relayout = this._oldOverviewRelayout;
-        delete Main.overview._focusedMonitor;
         Main.overview._relayout();
 
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
@@ -195,8 +197,7 @@ var dtpPanelManager = new Lang.Class({
     },
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {
-        if ((Main.overview._focusedMonitor || 0) != monitor) {
-            Main.overview._focusedMonitor = monitor;
+        if (Main.overview.viewSelector._workspacesDisplay._primaryIndex != monitor.index) {
             Main.overview.viewSelector._workspacesDisplay._primaryIndex = monitor.index;
             
             Main.overview._overview.clear_constraints();
@@ -281,7 +282,7 @@ var dtpPanelManager = new Lang.Class({
         // when it is next shown.
         this.hide();
 
-        let workArea = Main.layoutManager.getWorkAreaForMonitor(this._focusedMonitor.index);
+        let workArea = Main.layoutManager.getWorkAreaForMonitor(Main.overview.viewSelector._workspacesDisplay._primaryIndex);
 
         this._coverPane.set_position(0, workArea.y);
         this._coverPane.set_size(workArea.width, workArea.height);

@@ -1102,7 +1102,10 @@ var taskbar = new Lang.Class({
                 }
 
                 //if changed when opening the overview, reset the primary monitor when exiting the overview
-                this.panelWrapper.panelManager.setFocusedMonitor(Main.layoutManager.primaryMonitor, true);
+                let overviewHiddenId = Main.overview.connect('hidden', () => {
+                    Main.overview.disconnect(overviewHiddenId);
+                    this.panelWrapper.panelManager.setFocusedMonitor(Main.layoutManager.primaryMonitor, true);
+                });
             }
         }
     },

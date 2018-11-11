@@ -211,7 +211,7 @@ var dtpPanelWrapper = new Lang.Class({
                     'hiding'
                 ],
                 () => {
-                    let isFocusedMonitor = Main.overview._focusedMonitor == this.monitor;
+                    let isFocusedMonitor = Main.overview.viewSelector._workspacesDisplay._primaryIndex == this.monitor.index;
                     let isOverview = !!Main.overview.visibleTarget;
                     let isShown = !isOverview || (isOverview && isFocusedMonitor);
 
@@ -819,6 +819,9 @@ var dtpSecondaryAggregateMenu = new Lang.Class({
         this._indicators.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
 
         this.menu.addMenuItem(this._volume.menu);
+        this._volume._volumeMenu._readOutput();
+        this._volume._volumeMenu._readInput();
+        
         this.menu.addMenuItem(this._brightness.menu);
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         if (this._network) {
@@ -828,6 +831,8 @@ var dtpSecondaryAggregateMenu = new Lang.Class({
             this.menu.addMenuItem(this._bluetooth.menu);
         }
         this.menu.addMenuItem(this._power.menu);
+        this._power._sync();
+
         if (this._nightLight) {
             this.menu.addMenuItem(this._nightLight.menu);
         }
