@@ -953,6 +953,7 @@ var taskbar = new Lang.Class({
 
         let appIcons = this._getAppIcons();
         let sourceIndex = appIcons.indexOf(source);
+        let usingLaunchers = !this.isGroupApps && this._dtpSettings.get_boolean('group-apps-use-launchers');
 
         // dragging the icon to its original position
         if (this._dragInfo[0] === sourceIndex) {
@@ -985,11 +986,16 @@ var taskbar = new Lang.Class({
         }
 
         for (let i = 0, l = appIcons.length; i < l; ++i) {
-            let windows = appIcons[i].window ? [appIcons[i].window] : getAppWindows(appIcons[i].app);
+            let windows = [];
+            
+            if (!usingLaunchers || (!source.isLauncher && !appIcons[i].isLauncher)) {
+                windows = appIcons[i].window ? [appIcons[i].window] : getAppWindows(appIcons[i].app);
+            }
 
             windows.forEach(w => w._dtpPosition = position++);
 
-            if (appFavorites.isFavorite(appIcons[i].app.get_id())) {
+            if ((usingLaunchers && appIcons[i].isLauncher) || 
+                (!usingLaunchers && appFavorites.isFavorite(appIcons[i].app.get_id()))) {
                 ++favoritesCount;
             }
         }
@@ -1000,7 +1006,7 @@ var taskbar = new Lang.Class({
             } else {
                 appFavorites.addFavoriteAtPos(sourceAppId, favoriteIndex);
             }
-        } else if (appIsFavorite) {
+        } else if (appIsFavorite && (!usingLaunchers || source.isLauncher)) {
             appFavorites.removeFavorite(sourceAppId);
         }
 
