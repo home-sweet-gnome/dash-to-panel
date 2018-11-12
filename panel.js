@@ -128,13 +128,20 @@ var dtpPanelWrapper = new Lang.Class({
         });
 
         if (this.panel.vfunc_allocate) {
-            this._panelConnectId = 0;
-            this._oldAllocate = this.panel.__proto__.vfunc_allocate;
-            this._hookVfunc('allocate', (box, flags) => {
+            let vfuncAllocate = (box, flags) => {
                 //panel inherits from St.Widget, invoke its parent allocation
                 St.Widget.prototype.vfunc_allocate.call(this.panel, box, flags);
                 this._allocate(null, box, flags);
-            }); 
+            };
+
+            this._panelConnectId = 0;
+
+            if (this.isSecondary) {
+                this.panel.allocateProxy = vfuncAllocate;
+            } else {
+                this._oldAllocate = this.panel.__proto__.vfunc_allocate;
+                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', vfuncAllocate);
+            }
         } else {
             this._panelConnectId = this.panel.actor.connect('allocate', (actor,box,flags) => this._allocate(actor,box,flags));
         }
@@ -266,7 +273,7 @@ var dtpPanelWrapper = new Lang.Class({
         if (this._panelConnectId) {
             this.panel.actor.disconnect(this._panelConnectId);
         } else if (this._oldAllocate) {
-            this._hookVfunc('allocate', this._oldAllocate);
+            this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this._oldAllocate);
         }
 
         if (this.startIntellihideId) {
@@ -320,6 +327,7 @@ var dtpPanelWrapper = new Lang.Class({
             delete this.panel._rightBox.oldRightBoxAllocate;
         } else {
             Main.layoutManager.removeChrome(this.panelBox);
+            this.panel.allocateProxy = null;
             this.panelBox.destroy();
         }
 
@@ -382,15 +390,6 @@ var dtpPanelWrapper = new Lang.Class({
     _removePanelGhost: function() {
         if (this._myPanelGhost.get_parent()) {
             Main.overview._overview.remove_actor(this._myPanelGhost);
-        }
-    },
-
-    _hookVfunc: function(symbol, func) {
-        if (Gi.hook_up_vfunc_symbol) {
-            //gjs > 1.53.3
-            this.panel.__proto__[Gi.hook_up_vfunc_symbol](symbol, func);
-        } else {
-            Gi.hook_up_vfunc(this.panel.__proto__, symbol, func);
         }
     },
 
@@ -729,6 +728,10 @@ var dtpSecondaryPanel = new Lang.Class({
         Main.ctrlAltTabManager.addGroup(this, _("Top Bar")+" "+ monitor.index, 'focus-top-bar-symbolic',
                                         { sortGroup: CtrlAltTab.SortGroup.TOP });
 
+    },
+
+    vfunc_allocate: function(box, flags) {
+        (this.allocateProxy || function(){})(box, flags);
     },
 
     _setPanelMenu: function(settingName, propName, constr, container, isInit) {

@@ -87,6 +87,8 @@ var dtpPanelManager = new Lang.Class({
             this._findPanelBoxPointers(p.panelBox).forEach(bp => this._adjustBoxPointer(bp, p.monitor, panelPosition));
         });
 
+        this.setFocusedMonitor(dtpPrimaryMonitor);
+        
         if (reset) return;
 
         this._oldViewSelectorAnimateIn = Main.overview.viewSelector._animateIn;
@@ -111,8 +113,6 @@ var dtpPanelManager = new Lang.Class({
 
         this._oldUpdateWorkspacesViews = Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews;
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview.viewSelector._workspacesDisplay, this._newUpdateWorkspacesViews);
-
-        this.setFocusedMonitor(dtpPrimaryMonitor);
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created

@@ -1072,6 +1072,12 @@ var taskbar = new Lang.Class({
                 //temporarily use as primary the monitor on which the showapps btn was clicked 
                 this.panelWrapper.panelManager.setFocusedMonitor(this.panelWrapper.monitor);
 
+                //reset the primary monitor when exiting the overview
+                let overviewHiddenId = Main.overview.connect('hidden', () => {
+                    Main.overview.disconnect(overviewHiddenId);
+                    this.panelWrapper.panelManager.setFocusedMonitor(this.panelWrapper.panelManager.primaryPanel.monitor, true);
+                });
+
                 // Finally show the overview
                 selector._showAppsButton.checked = true;
                 Main.overview.show();
@@ -1101,12 +1107,6 @@ var taskbar = new Lang.Class({
                     selector._showAppsButton.checked = false;
                     this.forcedOverview = false;
                 }
-
-                //if changed when opening the overview, reset the primary monitor when exiting the overview
-                let overviewHiddenId = Main.overview.connect('hidden', () => {
-                    Main.overview.disconnect(overviewHiddenId);
-                    this.panelWrapper.panelManager.setFocusedMonitor(Main.layoutManager.primaryMonitor, true);
-                });
             }
         }
     },
