@@ -56,7 +56,14 @@ var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 let HFADE_WIDTH = 48;
 
 function getPosition() {
-    return Main.layoutManager.panelBox.y == Main.layoutManager.primaryMonitor.y ? St.Side.TOP : St.Side.BOTTOM;
+    let position = St.Side.BOTTOM;
+
+    if (Main.layoutManager.primaryMonitor && Main.layoutManager.panelBox && 
+        Main.layoutManager.panelBox.y == Main.layoutManager.primaryMonitor.y) {
+        position = St.Side.TOP;
+    }
+
+    return position;
 }
 /**
  * Extend DashItemContainer
