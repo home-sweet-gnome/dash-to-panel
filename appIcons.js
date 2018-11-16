@@ -174,19 +174,15 @@ var taskbarAppIcon = new Lang.Class({
             this._stateChangedId = 0;
         }
 
-        this._focusAppChangedId = tracker.connect('notify::focus-app', 
-                                                Lang.bind(this, this._onFocusAppChanged));
+        this._focusWindowChangedId = global.display.connect('notify::focus-window', 
+                                                            Lang.bind(this, this._onFocusAppChanged));
 
         if (!this.window) {
             this._stateChangedId = this.app.connect('windows-changed',
                                                 Lang.bind(this, this.onWindowsChanged));
             
-            this._focusWindowChangedId = 0;
             this._titleWindowChangeId = 0;
         } else {
-            this._focusWindowChangedId = global.display.connect('notify::focus-window', 
-                                                Lang.bind(this, this._onFocusAppChanged));
-
             this._titleWindowChangeId = this.window.connect('notify::title', 
                                                 Lang.bind(this, this._updateWindowTitle));
         }
@@ -335,8 +331,6 @@ var taskbarAppIcon = new Lang.Class({
 
         // Disconect global signals
         // stateChangedId is already handled by parent)
-        if(this._focusAppChangedId)
-            tracker.disconnect(this._focusAppChangedId);
         
         if(this._overviewWindowDragEndId)
             Main.overview.disconnect(this._overviewWindowDragEndId);
@@ -488,7 +482,7 @@ var taskbarAppIcon = new Lang.Class({
 
         if(this._dtpSettings.get_boolean('focus-highlight') && 
            tracker.focus_app == this.app && !this.isLauncher &&  
-           (!this.window || isFocused) && !this._isThemeProvidingIndicator()) {
+           (!this.window || isFocused) && !this._isThemeProvidingIndicator() && this._checkIfMonitorHasFocus()) {
             let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
             let isWide = this._isWideDotStyle(focusedDotStyle);
             let pos = this._dtpSettings.get_string('dot-position');
@@ -522,6 +516,10 @@ var taskbarAppIcon = new Lang.Class({
                 Mainloop.timeout_add(0, Lang.bind(this, function() { this._dotsContainer.set_style(inlineStyle); }));
             }
         }
+    },
+
+    _checkIfMonitorHasFocus() {
+        return global.display.focus_window && global.display.focus_window.get_monitor() === this.panelWrapper.monitor.index;
     },
 
     _setAppIconPadding: function() {
@@ -622,7 +620,7 @@ var taskbarAppIcon = new Lang.Class({
             let newUnfocusedDotsWidth = 0;
             let newUnfocusedDotsOpacity = 0;
             
-            isFocused = (tracker.focus_app == this.app);
+            isFocused = (tracker.focus_app == this.app) && this._checkIfMonitorHasFocus();
 
             Mainloop.timeout_add(0, () => {
                 if (!this._destroyed) {
