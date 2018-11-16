@@ -142,7 +142,11 @@ var dtpPanelManager = new Lang.Class({
             [
                 Utils.DisplayWrapper.getMonitorManager(),
                 'monitors-changed', 
-                () => this._reset()
+                () => {
+                    if (Main.layoutManager.primaryMonitor) {
+                        this._reset();
+                    }
+                }
             ]
         );
 
