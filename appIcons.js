@@ -518,7 +518,7 @@ var taskbarAppIcon = new Lang.Class({
         }
     },
 
-    _checkIfMonitorHasFocus() {
+    _checkIfMonitorHasFocus: function() {
         return global.display.focus_window && global.display.focus_window.get_monitor() === this.panelWrapper.monitor.index;
     },
 
