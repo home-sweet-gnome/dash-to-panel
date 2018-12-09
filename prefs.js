@@ -1427,7 +1427,7 @@ const Settings = new Lang.Class({
         this._builder.get_object('importexport_import_button').connect('clicked', widget => {
             this._showFileChooser(
                 _('Import settings'),
-                { action: Gtk.FileChooserAction.SAVE },
+                { action: Gtk.FileChooserAction.OPEN },
                 Gtk.STOCK_OPEN,
                 filename => {
                     let settingsFile = Gio.File.new_for_path(filename);
