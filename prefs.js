@@ -43,6 +43,10 @@ const DEFAULT_MARGIN_SIZES = [ 32, 24, 16, 12, 8, 4, 0 ];
 const DEFAULT_PADDING_SIZES = [ 32, 24, 16, 12, 8, 4, 0, -1 ];
 const MAX_WINDOW_INDICATOR = 4;
 
+const SCHEMA_PATH = '/org/gnome/shell/extensions/dash-to-panel/';
+const UUID = 'dash-to-panel@jderose9.github.com';
+const GSET = 'gnome-shell-extension-tool';
+
 /**
  * This function was copied from the activities-config extension
  * https://github.com/nls1729/acme-code/tree/master/activities-config
@@ -140,6 +144,16 @@ function checkHotkeyPrefix(settings) {
 
     settings.apply();
 }
+
+function mergeObjects(main, bck) {
+    for (var prop in bck) {
+        if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
+            main[prop] = bck[prop];
+        }
+    }
+
+    return main;
+};
 
 const Settings = new Lang.Class({
     Name: 'DashToPanel.Settings',
@@ -1392,6 +1406,71 @@ const Settings = new Lang.Class({
         // About Panel
 
         this._builder.get_object('extension_version').set_label(Me.metadata.version.toString() + (Me.metadata.commit ? ' (' + Me.metadata.commit + ')' : ''));
+
+        this._builder.get_object('importexport_export_button').connect('clicked', widget => {
+            this._showFileChooser(
+                _('Export settings'),
+                { action: Gtk.FileChooserAction.SAVE,
+                  do_overwrite_confirmation: true },
+                Gtk.STOCK_SAVE,
+                filename => {
+                    let file = Gio.file_new_for_path(filename);
+                    let raw = file.replace(null, false, Gio.FileCreateFlags.NONE, null);
+                    let out = Gio.BufferedOutputStream.new_sized(raw, 4096);
+
+                    out.write_all(GLib.spawn_command_line_sync('dconf dump ' + SCHEMA_PATH)[1], null);
+                    out.close(null);
+                }
+            );
+        });
+
+        this._builder.get_object('importexport_import_button').connect('clicked', widget => {
+            this._showFileChooser(
+                _('Import settings'),
+                { action: Gtk.FileChooserAction.SAVE },
+                Gtk.STOCK_OPEN,
+                filename => {
+                    let settingsFile = Gio.File.new_for_path(filename);
+                    let [ , pid, stdin, stdout, stderr] = 
+                        GLib.spawn_async_with_pipes(
+                            null,
+                            ['dconf', 'load', SCHEMA_PATH],
+                            null,
+                            GLib.SpawnFlags.SEARCH_PATH | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+                            null
+                        );
+        
+                    stdin = new Gio.UnixOutputStream({ fd: stdin, close_fd: true });
+                    GLib.close(stdout);
+                    GLib.close(stderr);
+                                        
+                    let [ , , , retCode] = GLib.spawn_command_line_sync(GSET + ' -d ' + UUID);
+                                        
+                    if (retCode == 0) {
+                        GLib.child_watch_add(GLib.PRIORITY_DEFAULT, pid, () => GLib.spawn_command_line_sync(GSET + ' -e ' + UUID));
+                    }
+
+                    stdin.splice(settingsFile.read(null), Gio.OutputStreamSpliceFlags.CLOSE_SOURCE | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, null);
+                }
+            );
+        });
+    },
+
+    _showFileChooser: function(title, params, acceptBtn, acceptHandler) {
+        let dialog = new Gtk.FileChooserDialog(mergeObjects({ title: title, transient_for: this.widget.get_toplevel() }, params));
+
+        dialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL);
+        dialog.add_button(acceptBtn, Gtk.ResponseType.ACCEPT);
+
+        if (dialog.run() == Gtk.ResponseType.ACCEPT) {
+            try {
+                acceptHandler(dialog.get_filename());
+            } catch(e) {
+                log('error from dash-to-panel filechooser: ' + e);
+            }
+        }
+
+        dialog.destroy();
     },
 
     /**

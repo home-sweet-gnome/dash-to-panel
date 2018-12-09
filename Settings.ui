@@ -6108,6 +6108,8 @@
     <child>
       <object class="GtkBox" id="about">
         <property name="can_focus">False</property>
+        <property name="margin_left">24</property>
+        <property name="margin_right">24</property>
         <property name="margin_top">24</property>
         <property name="margin_bottom">24</property>
         <property name="hexpand">True</property>
@@ -6115,29 +6117,16 @@
         <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
-          <object class="GtkLabel" id="extension_name">
+          <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label">&lt;b&gt;Dash-to-Panel&lt;/b&gt;</property>
-            <property name="use_markup">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="halign">center</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkLabel" id="extension_version_label">
+              <object class="GtkLabel" id="extension_name">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="label" translatable="yes">version: </property>
+                <property name="label">&lt;b&gt;Dash-to-Panel&lt;/b&gt;</property>
+                <property name="use_markup">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -6146,11 +6135,36 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="extension_version">
+              <object class="GtkBox" id="box1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">start</property>
-                <property name="label">...</property>
+                <property name="halign">center</property>
+                <child>
+                  <object class="GtkLabel" id="extension_version_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="label" translatable="yes">version: </property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="extension_version">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label">...</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -6158,28 +6172,125 @@
                 <property name="position">1</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkLinkButton" id="homepage_link">
+                <property name="label" translatable="yes">GitHub</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="events"/>
+                <property name="halign">center</property>
+                <property name="relief">none</property>
+                <property name="uri">https://github.com/jderose9/dash-to-panel</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFrame" id="importexport_frame">
+            <property name="can_focus">False</property>
+            <property name="margin_top">20</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkListBox" id="importexport_listbox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="selection_mode">none</property>
+                <child>
+                  <object class="GtkListBoxRow" id="importexport_listboxrow">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <child>
+                      <object class="GtkGrid" id="importexport_grid">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_left">12</property>
+                        <property name="margin_right">12</property>
+                        <property name="margin_top">12</property>
+                        <property name="margin_bottom">12</property>
+                        <property name="row_spacing">6</property>
+                        <property name="column_spacing">32</property>
+                        <child>
+                          <object class="GtkLabel" id="importexport_description">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_bottom">12</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Use the buttons below to create a settings file from your current preferences that can be imported on a different machine.</property>
+                            <property name="wrap">True</property>
+                            <property name="xalign">0</property>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">1</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="importexport_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="label" translatable="yes">Export and import settings</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">0</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="importexport_export_button">
+                            <property name="label" translatable="yes">Export to file</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="importexport_import_button">
+                            <property name="label" translatable="yes">Import from file</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">2</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLinkButton" id="homepage_link">
-            <property name="label" translatable="yes">GitHub</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="events"/>
-            <property name="halign">center</property>
-            <property name="relief">none</property>
-            <property name="uri">https://github.com/jderose9/dash-to-panel</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">5</property>
           </packing>
         </child>
         <child>
