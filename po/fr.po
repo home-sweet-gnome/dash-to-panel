@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-12-11 17:52+0100\n"
-"PO-Revision-Date: 2018-12-11 20:00+0100\n"
+"PO-Revision-Date: 2018-12-12 10:54+0100\n"
 "Last-Translator: Laurent Tréguier <laurent@treguier.org>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -710,12 +710,12 @@ msgstr "Remplacer le gradient du thème du panneau "
 #: Settings.ui.h:141
 #, no-c-format
 msgid "Gradient top color and opacity (%)"
-msgstr "Couleur et opacité ( %) du haut du gradient"
+msgstr "Couleur et opacité (%) du haut du gradient"
 
 #: Settings.ui.h:143
 #, no-c-format
 msgid "Gradient bottom color and opacity (%)"
-msgstr "Couleur et opacité ( %) du bas du gradient"
+msgstr "Couleur et opacité (%) du bas du gradient"
 
 #: Settings.ui.h:144
 msgid "Style"
@@ -865,7 +865,7 @@ msgstr ""
 
 #: Settings.ui.h:179
 msgid "Export and import settings"
-msgstr "Paramètres d'import et d'export"
+msgstr "Import et export de paramètres"
 
 #: Settings.ui.h:180
 msgid "Export to file"
