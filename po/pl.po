@@ -188,7 +188,7 @@ msgstr "Zegar na wszystkich monitorach"
 
 #: Settings.ui.h:16
 msgid "Display the status menu on all monitors"
-msgstr "Menu systemow na wszystkich monitorach"
+msgstr "Menu systemowe na wszystkich monitorach"
 
 #: Settings.ui.h:17
 msgid "Integrate <i>AppMenu</i> items"
