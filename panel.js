@@ -258,9 +258,9 @@ var dtpPanelWrapper = new Lang.Class({
         }
 	    
 	// Since we are usually visible but not usually changing, make sure
-        // most repaint requests don't actually require us to repaint anything.
-        // This saves significant CPU when repainting the screen.
-        this.set_offscreen_redirect(Clutter.OffscreenRedirect.ALWAYS);
+	// most repaint requests don't actually require us to repaint anything.
+	// This saves significant CPU when repainting the screen.
+        this.panel.actor.set_offscreen_redirect(Clutter.OffscreenRedirect.ALWAYS);
     },
 
     disable: function () {
