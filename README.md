@@ -25,7 +25,7 @@ Beyond that, just about every aspect of the panel is fully customizable. From po
 
 ##
 
-<table align="center">
+<table>
     <thead>
         <tr>
             <th colspan=2>Customizable running indicators</th>
@@ -33,31 +33,31 @@ Beyond that, just about every aspect of the panel is fully customizable. From po
     </thead>
     <tbody>
         <tr>
-            <td style="text-align:center">Metro</td>
-            <td style="text-align:center">Ciliora/Dashes</td>
+            <td align="center">Metro</td>
+            <td align="center">Ciliora/Dashes</td>
         </tr> 
         <tr>
-            <td><img src="media/design/png/metro.png" style="margin:8px 80px 0px 80px"/></td>
-            <td><img src="media/design/png/ciliora-dashes.png"style="margin:8px 80px 0px 80px"/></td>
+            <td align="center"><img src="media/design/png/metro.png"/></td>
+            <td align="center"><img src="media/design/png/ciliora-dashes.png"/></td>
         </tr>
         <tr>
-            <td style="text-align:center">Ciliora</td>
-            <td style="text-align:center">Squares/Segmented</td>
+            <td align="center">Ciliora</td>
+            <td align="center">Squares/Segmented</td>
         </tr> 
         <tr>
-            <td><img src="media/design/png/ciliora.png"style="margin:8px 80px 0px 80px"/></td>
-            <td><img src="media/design/png/squares-segments.png"style="margin:8px 80px 0px 80px"/></td>
+            <td align="center"><img src="media/design/png/ciliora.png"/></td>
+            <td align="center"><img src="media/design/png/squares-segments.png"/></td>
         </tr>
         <tr>
-            <td style="text-align:center">Dashes</td>
-            <td style="text-align:center">Dots/Solid</td>
+            <td align="center">Dashes</td>
+            <td align="center">Dots/Solid</td>
         </tr> 
         <tr>
-            <td><img src="media/design/png/dashes.png"style="margin:8px 80px 0px 80px"/></td>
-            <td><img src="media/design/png/dots-solid.png"style="margin:8px 80px 0px 80px"/></td>
+            <td align="center"><img src="media/design/png/dashes.png"/></td>
+            <td align="center"><img src="media/design/png/dots-solid.png"/></td>
         </tr>
         <tr>
-            <td colspan=2 align="center">Set position, style, weight & color for focused and unfocused application icons</td>
+            <td colspan=2 align="center">Set position, style, weight & color of running indicators to easily and quickly identify focused and unfocused applications</td>
         </tr>
     </tbody>
 </table>
