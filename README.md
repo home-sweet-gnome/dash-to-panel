@@ -1,41 +1,100 @@
-![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/dash-to-panel-wide-banner5.png)
-##
-![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/dtp-main-p2.png)
+<p align="left">
+  <img src="/media/design/svg/D2P_logo.svg" width="620"/>
+</p>
+<p align="left">
+    <img src="/media/design/svg/GitHub_logo.svg" width="120" style="margin-left: 4px"/>
+    <a href="https://extensions.gnome.org/extension/1160/dash-to-panel/" >
+        <img src="/media/design/svg/Gnome_logo.svg" width="120px"/>
+    </a>
+</p>
 
-## 
+![](media/design/png/dtp-main-p2.png)
+
 ### Introduction
 
-Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.
-##
+Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications. 
+
+Beyond that, just about every aspect of the panel is fully customizable. From positioning and scaling panel elements to running indicators to multi-monitor display, to window previews and even intellihide, Dash to Panel has everything you need to make your workspace feel like home.
+
 ### Features
+
+|Customizable appearance|
+|:-----:|
+|![screenshot](media/design/gif/customizable.gif)|
+|Hide & show panel elements and set their positions, sizes & colors|
+
+##
+
+<table align="center">
+    <thead>
+        <tr>
+            <th colspan=2>Customizable running indicators</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="text-align:center">Metro</td>
+            <td style="text-align:center">Ciliora/Dashes</td>
+        </tr> 
+        <tr>
+            <td><img src="media/design/png/metro.png" style="margin:8px 80px 0px 80px"/></td>
+            <td><img src="media/design/png/ciliora-dashes.png"style="margin:8px 80px 0px 80px"/></td>
+        </tr>
+        <tr>
+            <td style="text-align:center">Ciliora</td>
+            <td style="text-align:center">Squares/Segmented</td>
+        </tr> 
+        <tr>
+            <td><img src="media/design/png/ciliora.png"style="margin:8px 80px 0px 80px"/></td>
+            <td><img src="media/design/png/squares-segments.png"style="margin:8px 80px 0px 80px"/></td>
+        </tr>
+        <tr>
+            <td style="text-align:center">Dashes</td>
+            <td style="text-align:center">Dots/Solid</td>
+        </tr> 
+        <tr>
+            <td><img src="media/design/png/dashes.png"style="margin:8px 80px 0px 80px"/></td>
+            <td><img src="media/design/png/dots-solid.png"style="margin:8px 80px 0px 80px"/></td>
+        </tr>
+        <tr>
+            <td colspan=2 align="center">Set position, style, weight & color for focused and unfocused application icons</td>
+        </tr>
+    </tbody>
+</table>
+
+##
 
 |Live Previews on Hover|
 |:-----:|
-|![screenshot](https://github.com/jderose9/dash-to-panel/raw/master/media/design/previews.gif)|
+|![screenshot](media/design/gif/previews.gif)|
 |Hover over the launcher icon for an open application to get a live window preview|
 
-|Customizable running indicators|ALT Indicators|
-|:-----:|-----|
-|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/indicators.png)|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/indicators4.png)|
-
+##
 |Launch by Number|
 |:-----:|
-|![](https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/indicators-num.png.png)|
+|![](media/design/png/indicators-num.png.png)|
 |Optionally launch your favorite applications via keyboard|
 
-|Additional Features|Feature Implemented|
-|:-----|:-----:|
-|Set main panel position (top or bottom) and height|![](https://github.com/jderose9/dash-to-panel/raw/master/media/done.png)|
-|Configure clock location|![](https://github.com/jderose9/dash-to-panel/raw/master/media/done.png)|
-|Remove "Show Apps" icon from dash|![](https://github.com/jderose9/dash-to-panel/raw/master/media/done.png)|
-|Add "Show Desktop" button to panel|![](https://github.com/jderose9/dash-to-panel/raw/master/media/done.png)|
-|Hide Show Apps, Activities and App Menu buttons from panel|![](https://github.com/jderose9/dash-to-panel/raw/master/media/done.png)|
-|Isolate running apps in workspaces|![](https://github.com/jderose9/dash-to-panel/raw/master/media/done.png)|
-|Custom click behaviors (launch new window, cycle open windows, minimize, etc)|![](https://github.com/jderose9/dash-to-panel/raw/master/media/done.png)|
-|Assign font & icon sizes and margins for panel elements|![](https://github.com/jderose9/dash-to-panel/raw/master/media/done.png)|
-|Integrate native Gnome appMenu into right-click secondary menu|![](https://github.com/jderose9/dash-to-panel/raw/master/media/done.png)|
+##
+
+|Panel Intellihide|
+|:-----:|
+|![Intellihide](media/design/gif/Intellihide.gif)|
+|Hide and reveal the panel according to your set preferences|
 
 ##
+|Additional Features|Feature Implemented|
+|:-----|:-----:|
+|Add "Show Desktop" button to panel|![](media/design/png/done.png)|
+|Isolate running apps by workspaces and/or monitors|![](media/design/png/done.png)|
+|Custom click behaviors (launch new window, cycle open windows, minimize, etc)|![](media/design/png/done.png)|
+|Integrate native Gnome appMenu into right-click secondary menu|![](media/design/png/done.png)|
+|Multi-monitor support|![](media/design/png/done.png)|
+|Dynamic transparency|![](media/design/png/done.png)|
+|Ungroup application windows|![](media/design/png/done.png)|
+|Export and import settings|![](media/design/png/done.png)|
+##
+
 ### Installation
 
 **To install the most recent official release:
@@ -97,7 +156,6 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 #### Thanks to the following people for contributing via pull requests:
 
 - @franglais125 for launching apps by number (w/ overlay), bug fixes, and issue support
-- @charlesg99 for intellihide, ungrouping applications/showing window titles, bug fixes, and issue support
 - @LinxGem33 for artwork, logos, screenshots and design effort
 - @dziku1337 for peek mode in window previews
 - @robrobinbin for configuring appMenu on/off in the panel
@@ -107,13 +165,14 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @quasoft for changing of font weight of ungrouped application titles
 
 #### Bug Fixes: 
-@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin
+@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan
 
 #### Translations: 
-@frnogueira (pt_BR), @zeten30 (cs), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru), @oltulu (tr)
+@frnogueira (pt_BR), @zeten30 (cs), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / MartinPL (pl), @AlexGluck / @GoodNike (ru), @sicklylife-jp (jp), @oltulu / @TeknoMobil / @daenney (tr), @sbadux (it)
+
 
 ## 
-### License & Terms ![](https://github.com/jderose9/dash-to-panel/raw/master/media/copyleft-16.png)
+### License & Terms ![](media/design/png/copyleft-16.png)
 
 Dash to Panel is available under the terms of the GPL-v2 or later license See [`COPYING`](https://github.com/jderose9/dash-to-panel/blob/master/COPYING) for details.
 
