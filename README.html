@@ -1,0 +1,394 @@
+<!DOCTYPE html><html><head>
+      <title>README</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///C:\Users\Sarah\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.3.11\node_modules\@shd101wyy\mume\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+      <style> 
+      /**
+ * prism.js Github theme based on GitHub's theme.
+ * @author Sam Clarke
+ */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #333;
+  background: none;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.4;
+
+  -moz-tab-size: 8;
+  -o-tab-size: 8;
+  tab-size: 8;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: .8em;
+  overflow: auto;
+  /* border: 1px solid #ddd; */
+  border-radius: 3px;
+  /* background: #fff; */
+  background: #f5f5f5;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: .1em;
+  border-radius: .3em;
+  white-space: normal;
+  background: #f5f5f5;
+}
+
+.token.comment,
+.token.blockquote {
+  color: #969896;
+}
+
+.token.cdata {
+  color: #183691;
+}
+
+.token.doctype,
+.token.punctuation,
+.token.variable,
+.token.macro.property {
+  color: #333;
+}
+
+.token.operator,
+.token.important,
+.token.keyword,
+.token.rule,
+.token.builtin {
+  color: #a71d5d;
+}
+
+.token.string,
+.token.url,
+.token.regex,
+.token.attr-value {
+  color: #183691;
+}
+
+.token.property,
+.token.number,
+.token.boolean,
+.token.entity,
+.token.atrule,
+.token.constant,
+.token.symbol,
+.token.command,
+.token.code {
+  color: #0086b3;
+}
+
+.token.tag,
+.token.selector,
+.token.prolog {
+  color: #63a35c;
+}
+
+.token.function,
+.token.namespace,
+.token.pseudo-element,
+.token.class,
+.token.class-name,
+.token.pseudo-class,
+.token.id,
+.token.url-reference .token.variable,
+.token.attr-name {
+  color: #795da3;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+.token.title,
+.token.title .token.punctuation {
+  font-weight: bold;
+  color: #1d3e81;
+}
+
+.token.list {
+  color: #ed6a43;
+}
+
+.token.inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+
+.token.deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+
+.token.bold {
+  font-weight: bold;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+
+/* JSON */
+.language-json .token.property {
+  color: #183691;
+}
+
+.language-markup .token.tag .token.punctuation {
+  color: #333;
+}
+
+/* CSS */
+code.language-css,
+.language-css .token.function {
+  color: #0086b3;
+}
+
+/* YAML */
+.language-yaml .token.atrule {
+  color: #63a35c;
+}
+
+code.language-yaml {
+  color: #183691;
+}
+
+/* Ruby */
+.language-ruby .token.function {
+  color: #333;
+}
+
+/* Markdown */
+.language-markdown .token.url {
+  color: #795da3;
+}
+
+/* Makefile */
+.language-makefile .token.symbol {
+  color: #795da3;
+}
+
+.language-makefile .token.variable {
+  color: #183691;
+}
+
+.language-makefile .token.builtin {
+  color: #0086b3;
+}
+
+/* Bash */
+.language-bash .token.keyword {
+  color: #0086b3;
+}html body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ul,html body>ol{margin-bottom:16px}html body ul,html body ol{padding-left:2em}html body ul.no-list,html body ol.no-list{padding:0;list-style-type:none}html body ul ul,html body ul ol,html body ol ol,html body ol ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:bold;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:bold}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em !important;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::before,html body code::after{letter-spacing:-0.2em;content:"\00a0"}html body pre>code{padding:0;margin:0;font-size:.85em !important;word-break:normal;white-space:pre;background:transparent;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;font-size:.85em !important;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:before,html body pre tt:before,html body pre code:after,html body pre tt:after{content:normal}html body p,html body blockquote,html body ul,html body ol,html body dl,html body pre{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body pre,html body code{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview .pagebreak,.markdown-preview .newpage{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center !important}.markdown-preview:not([for="preview"]) .code-chunk .btn-group{display:none}.markdown-preview:not([for="preview"]) .code-chunk .status{display:none}.markdown-preview:not([for="preview"]) .code-chunk .output-div{margin-bottom:16px}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0}@media screen and (min-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px)}}@media screen and (max-width:914px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode]) .markdown-preview{font-size:14px !important;padding:1em}}@media print{html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for="html-export"]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,0.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,0.66);border:4px solid rgba(150,150,150,0.66);background-clip:content-box}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{padding:0 1.6em;margin-top:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc li{margin-bottom:.8em}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc ul{list-style-type:none}html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% -  300px);padding:2em calc(50% - 457px -  150px);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for="html-export"]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for="html-export"]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+ 
+      </style>
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview   ">
+      <p><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/dash-to-panel-wide-banner5.png" alt=""></p>
+<h1 class="mume-header" id=""></h1>
+
+<p><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/dtp-main-p2.png" alt=""></p>
+<h3 class="mume-header" id="introduction">Introduction</h3>
+
+<p>Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.</p>
+<h1 class="mume-header" id="-1"></h1>
+
+<h3 class="mume-header" id="features">Features</h3>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Live Previews on Hover</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/design/previews.gif" alt="screenshot"></td>
+</tr>
+<tr>
+<td style="text-align:center">Hover over the launcher icon for an open application to get a live window preview</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Customizable running indicators</th>
+<th>ALT Indicators</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/indicators.png" alt=""></td>
+<td><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/indicators4.png" alt=""></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Launch by Number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/design/png/indicators-num.png.png" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:center">Optionally launch your favorite applications via keyboard</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Additional Features</th>
+<th style="text-align:center">Feature Implemented</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Set main panel position (top or bottom) and height</td>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/done.png" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:left">Configure clock location</td>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/done.png" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:left">Remove &quot;Show Apps&quot; icon from dash</td>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/done.png" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:left">Add &quot;Show Desktop&quot; button to panel</td>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/done.png" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:left">Hide Show Apps, Activities and App Menu buttons from panel</td>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/done.png" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:left">Isolate running apps in workspaces</td>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/done.png" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:left">Custom click behaviors (launch new window, cycle open windows, minimize, etc)</td>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/done.png" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:left">Assign font &amp; icon sizes and margins for panel elements</td>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/done.png" alt=""></td>
+</tr>
+<tr>
+<td style="text-align:left">Integrate native Gnome appMenu into right-click secondary menu</td>
+<td style="text-align:center"><img src="https://github.com/jderose9/dash-to-panel/raw/master/media/done.png" alt=""></td>
+</tr>
+</tbody>
+</table>
+<h1 class="mume-header" id="-2"></h1>
+
+<h3 class="mume-header" id="installation">Installation</h3>
+
+<p><strong>To install the most recent official release:<br>
+<a href="https://extensions.gnome.org/extension/1160/dash-to-panel/">Visit Dash-to-Panel at GNOME Extensions</a></strong></p>
+<p>To install a development version from source, please see the <a href="https://github.com/jderose9/dash-to-panel/wiki/Installation">Installation wiki page</a>.</p>
+<h3 class="mume-header" id="faq">FAQ</h3>
+
+<p>How do I embed my bottom left notification drawer into the panel like a system tray? <a href="https://extensions.gnome.org/extension/1031/topicons">Top Icons Plus</a></p>
+<p>How do I add a traditional start menu? <a href="https://extensions.gnome.org/extension/1228/arc-menu/">Arc Menu</a> or <a href="https://extensions.gnome.org/extension/608/gnomenu/">Gno-Menu</a></p>
+<p>How do I disable the hot corner? <a href="https://extensions.gnome.org/extension/118/no-topleft-hot-corner">No Topleft Hot Corner</a></p>
+<p>How do I move the notifications to somewhere other than the top center? <a href="https://extensions.gnome.org/extension/708/panel-osd">Panel OSD</a></p>
+<p>How do I add transparency to the panel? <a href="https://extensions.gnome.org/extension/1011/dynamic-panel-transparency/">Dynamic Panel Transparency</a></p>
+<p>How do I change workspaces by scrolling the mouse wheel in the empty space? <a href="https://extensions.gnome.org/extension/701/top-panel-workspace-scroll/">Top Panel Workspace Scroll</a></p>
+<p>How do I display Minimize &amp; Maximize buttons? In the Tweak Tool application, turn on <code>Windows &gt; Titlebar Buttons &gt; Minimize &amp; Maximize</code>.</p>
+<p>Why can&apos;t I put the panel vertically on the left or right of the display? Gnome-shell and it&apos;s numerous extensions add widgets to the panel. These widgets have been designed using padding and absolute positioning assuming a horizontal layout. At this point in time, I don&apos;t think it is possible to allow for a vertical layout and still maintain any sort of reasonable compatibility with many of the other features of Gnome.</p>
+<h3 class="mume-header" id="themes">Themes</h3>
+
+<p>While this extension works well with most popular Gnome Shell themes, the following themes are known to have explicitly added custom styles for this extension:</p>
+<ul>
+<li><a href="https://github.com/zagortenay333/ciliora-tertia-shell">Ciliora Tertia</a> / <a href="https://github.com/zagortenay333/ciliora-secunda-shell">Ciliora Secunda</a></li>
+<li><a href="https://github.com/lassekongo83/plano-theme">Plano</a></li>
+</ul>
+<h3 class="mume-header" id="compatibility">Compatibility</h3>
+
+<p>This extension has been tested with Gnome 3.18+.</p>
+<p>This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other extensions which operate on the top bar should be compatible.</p>
+<h1 class="mume-header" id="-3"></h1>
+
+<h3 class="mume-header" id="volunteers-needed">Volunteers needed!</h3>
+
+<p>This extension could be even better with your help! Any items in the issue tracker labelled <code>help wanted</code> or <code>good first issue</code> are up for grabs. For more info, see the <a href="https://github.com/jderose9/dash-to-panel/wiki/Contributing">Contributing wiki page</a>.</p>
+<h3 class="mume-header" id="credits">Credits</h3>
+
+<p>This extension is developed and maintained by <a href="https://github.com/jderose9">@jderose9</a> and <a href="https://github.com/charlesg99">@charlesg99</a>.</p>
+<p>Significant portions of code in this extension were derived from <a href="https://micheleg.github.io/dash-to-dock/index.html">Dash-to-Dock</a>.</p>
+<p>Additional credits: This extension leverages the work for <a href="https://github.com/ZorinOS/zorin-taskbar">ZorinOS Taskbar</a> (used in <a href="https://zorinos.com/">ZorinOS</a>) to show window previews and allow the dash from <a href="https://micheleg.github.io/dash-to-dock/index.html">Dash-to-Dock</a> to be embedded in the Gnome main panel.<br>
+Code to set anchor position taken from <a href="https://github.com/Thoma5/gnome-shell-extension-bottompanel">Thoma5/gnome-shell-extension-bottompanel</a>.<br>
+Pattern for moving panel contents based on <a href="http://frippery.org/extensions/">Frippery Move Clock</a> by R M Yorston.<br>
+Ideas for recursing child actors and assigning inline styles are based on code from the extension <a href="https://bitbucket.org/mathematicalcoffee/status-area-horizontal-spacing-gnome-shell-extension">StatusAreaHorizontalSpacing</a>.</p>
+<h1 class="mume-header" id="-4"></h1>
+
+<h4 class="mume-header" id="thanks-to-the-following-people-for-contributing-via-pull-requests">Thanks to the following people for contributing via pull requests:</h4>
+
+<ul>
+<li>@franglais125 for launching apps by number (w/ overlay), bug fixes, and issue support</li>
+<li>@charlesg99 for intellihide, ungrouping applications/showing window titles, bug fixes, and issue support</li>
+<li>@LinxGem33 for artwork, logos, screenshots and design effort</li>
+<li>@dziku1337 for peek mode in window previews</li>
+<li>@robrobinbin for configuring appMenu on/off in the panel</li>
+<li>@MartinPL for toggling favorites on/off in panel</li>
+<li>@jackwickham for thumbnail middle and right click actions</li>
+<li>@abakkk for centering the taskbar icons in the panel</li>
+<li>@quasoft for changing of font weight of ungrouped application titles</li>
+</ul>
+<h4 class="mume-header" id="bug-fixes">Bug Fixes:</h4>
+
+<p>@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin</p>
+<h4 class="mume-header" id="translations">Translations:</h4>
+
+<p>@frnogueira (pt_BR), @zeten30 (cs), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh_CN), @jonnius (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur (pl), @AlexGluck (ru), @oltulu (tr)</p>
+<h3 class="mume-header" id="license-terms-httpsgithubcomjderose9dash-to-panelrawmastermediacopyleft-16png">License &amp; Terms <img src="https://github.com/jderose9/dash-to-panel/raw/master/media/copyleft-16.png" alt=""></h3>
+
+<p>Dash to Panel is available under the terms of the GPL-v2 or later license See <a href="https://github.com/jderose9/dash-to-panel/blob/master/COPYING"><code>COPYING</code></a> for details.</p>
+<p><img src="https://img.shields.io/badge/Language-JavaScript-yellow.svg" alt=""> <img src="https://img.shields.io/badge/Licence-GPL--2.0-blue.svg" alt=""></p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
