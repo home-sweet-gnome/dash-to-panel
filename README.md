@@ -105,15 +105,13 @@ To install a development version from source, please see the [Installation wiki 
 ## 
 ### FAQ
 
-How do I embed my bottom left notification drawer into the panel like a system tray? [Top Icons Plus](https://extensions.gnome.org/extension/1031/topicons)
+How do I embed my bottom left notification drawer into the panel like a system tray? [Top Icons Plus](https://extensions.gnome.org/extension/1031/topicons) or [(K)StatusNotifierItem/AppIndicator Support](https://extensions.gnome.org/extension/615/appindicator-support)
 
-How do I add a traditional start menu? [Arc Menu](https://extensions.gnome.org/extension/1228/arc-menu/) or [Gno-Menu](https://extensions.gnome.org/extension/608/gnomenu/)
+How do I add a traditional start menu? [Arc Menu](https://extensions.gnome.org/extension/1228/arc-menu/)
 
 How do I disable the hot corner? [No Topleft Hot Corner](https://extensions.gnome.org/extension/118/no-topleft-hot-corner)
 
 How do I move the notifications to somewhere other than the top center? [Panel OSD](https://extensions.gnome.org/extension/708/panel-osd)
-
-How do I add transparency to the panel? [Dynamic Panel Transparency](https://extensions.gnome.org/extension/1011/dynamic-panel-transparency/)
 
 How do I change workspaces by scrolling the mouse wheel in the empty space? [Top Panel Workspace Scroll](https://extensions.gnome.org/extension/701/top-panel-workspace-scroll/)
 
@@ -156,7 +154,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 #### Thanks to the following people for contributing via pull requests:
 
 - @franglais125 for launching apps by number (w/ overlay), bug fixes, and issue support
-- @LinxGem33 for artwork, logos, screenshots and design effort
+- @LinxGem33 and @sbarrett322 for artwork, logos, screenshots and design effort
 - @dziku1337 for peek mode in window previews
 - @robrobinbin for configuring appMenu on/off in the panel
 - @MartinPL for toggling favorites on/off in panel
