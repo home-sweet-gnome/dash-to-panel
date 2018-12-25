@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-13 00:00+0900\n"
-"PO-Revision-Date: 2018-11-19 00:00+0900\n"
+"POT-Creation-Date: 2018-12-12 00:00+0900\n"
+"PO-Revision-Date: 2018-12-12 00:00+0900\n"
 "Last-Translator: sicklylife.jp <translation@sicklylife.jp>\n"
-"Language-Team: Japanese <ja@li.org>\n"
+"Language-Team: Japanese\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,8 +50,8 @@ msgstr "ウィンドウを循環表示"
 msgid "Cycle windows + minimize"
 msgstr "ウィンドウを循環 + 最小化"
 
-#: Settings.ui:93 Settings.ui:163 Settings.ui:233 appIcons.js:1280
-#: appIcons.js:1342 appIcons.js:1344
+#: Settings.ui:93 Settings.ui:163 Settings.ui:233 appIcons.js:1278
+#: appIcons.js:1340 appIcons.js:1342
 msgid "Quit"
 msgstr "終了"
 
@@ -666,7 +666,7 @@ msgstr "アプリケーションを非グループ化"
 
 #: Settings.ui:5367
 msgid "Behaviour when clicking on the icon of a running application."
-msgstr "実行中のアプリケーションのアイコンをクリックした際の挙動です。"
+msgstr "実行中アプリケーションのアイコンをクリックした際の挙動です。"
 
 #: Settings.ui:5384
 msgid "Click action"
@@ -678,11 +678,11 @@ msgid ""
 "together with Shift and Ctrl."
 msgstr ""
 "アプリを起動するショートカット (Super + 0〜9) を有効にします。Shift や Ctrl と共に"
-"に使用できます。"
+"使用できます。"
 
 #: Settings.ui:5509
 msgid "Use hotkeys to activate apps"
-msgstr "アプリを起動するためのホットキーを使用"
+msgstr "ホットキーを使用してアプリを起動"
 
 #: Settings.ui:5592
 msgid "Behavior"
@@ -744,7 +744,7 @@ msgstr "オリジナルの GNOME Shell Dash (オーバービュー) を維持"
 msgid "App icon secondary (right-click) menu"
 msgstr "アプリのアイコンのセカンダリー (右クリック) メニュー"
 
-#: Settings.ui:6079 prefs.js:1309
+#: Settings.ui:6079 prefs.js:1323
 msgid "Advanced Options"
 msgstr "高度なオプション"
 
@@ -752,54 +752,76 @@ msgstr "高度なオプション"
 msgid "Fine-Tune"
 msgstr "微調整"
 
-#: Settings.ui:6140
+#: Settings.ui:6147
 msgid "version: "
 msgstr "バージョン: "
 
-#: Settings.ui:6170
+#: Settings.ui:6177
 msgid "GitHub"
 msgstr "GitHub"
 
-#: Settings.ui:6190
+#: Settings.ui:6230
+msgid ""
+"Use the buttons below to create a settings file from your current "
+"preferences that can be imported on a different machine."
+msgstr "以下のボタンを使用して現在の設定から設定ファイルを作成し、"
+"別のマシンにインポートできます。"
+
+#: Settings.ui:6248
+msgid "Export and import settings"
+msgstr "設定のエクスポートとインポート"
+
+#: Settings.ui:6258
+msgid "Export to file"
+msgstr "ファイルにエクスポート"
+
+#: Settings.ui:6270
+msgid "Import from file"
+msgstr "ファイルからインポート"
+
+#: Settings.ui:6301
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">GNU General Public License, version 2 or later</a> for details.</span>"
 msgstr ""
+"<span size=\"small\">このプログラムは全くの無保証です。\n"
+"詳しくは <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0-translations.html"
+"\">GNU General Public License, version 2 またはそれ以降</a> をご確認ください。</span>"
 
-#: Settings.ui:6211
+#: Settings.ui:6322
 msgid "About"
 msgstr "Dash to Panel について"
 
-#: appIcons.js:1261
+#: appIcons.js:1259
 msgid "Show Details"
 msgstr "詳細を表示"
 
-#: appIcons.js:1280
+#: appIcons.js:1278
 msgid "New Window"
 msgstr "新しいウィンドウ"
 
-#: appIcons.js:1344
+#: appIcons.js:1342
 msgid "Windows"
 msgstr "ウィンドウ"
 
-#: appIcons.js:1541
+#: appIcons.js:1539
 msgid "Unlock taskbar"
 msgstr "タスクバーをロック解除"
 
-#: appIcons.js:1541
+#: appIcons.js:1539
 msgid "Lock taskbar"
 msgstr "タスクバーをロック"
 
-#: appIcons.js:1546
+#: appIcons.js:1544
 msgid "Dash to Panel Settings"
 msgstr "Dash to Panel の設定"
 
-#: appIcons.js:1553
+#: appIcons.js:1551
 msgid "Restore Windows"
 msgstr "ウィンドウを復元"
 
-#: appIcons.js:1553
+#: appIcons.js:1551
 msgid "Show Desktop"
 msgstr "デスクトップを表示"
 
@@ -807,63 +829,71 @@ msgstr "デスクトップを表示"
 msgid "Top Bar"
 msgstr "トップバー"
 
-#: prefs.js:298
+#: prefs.js:312
 msgid "Running Indicator Options"
 msgstr "実行中インジケーターのオプション"
 
-#: prefs.js:305 prefs.js:472 prefs.js:615 prefs.js:720 prefs.js:778
-#: prefs.js:854 prefs.js:906 prefs.js:1045 prefs.js:1129 prefs.js:1240
-#: prefs.js:1274 prefs.js:1316
+#: prefs.js:319 prefs.js:486 prefs.js:629 prefs.js:734 prefs.js:792
+#: prefs.js:868 prefs.js:920 prefs.js:1059 prefs.js:1143 prefs.js:1254
+#: prefs.js:1288 prefs.js:1330
 msgid "Reset to defaults"
 msgstr "デフォルトに戻す"
 
-#: prefs.js:417
+#: prefs.js:431
 msgid "Primary monitor"
 msgstr "プライマリーモニター"
 
-#: prefs.js:420
+#: prefs.js:434
 msgid "Monitor "
 msgstr "モニター "
 
-#: prefs.js:465
+#: prefs.js:479
 msgid "Multi-monitors options"
 msgstr "マルチモニターのオプション"
 
-#: prefs.js:608
+#: prefs.js:622
 msgid "Dynamic opacity options"
 msgstr "動的不透明度のオプション"
 
-#: prefs.js:713
+#: prefs.js:727
 msgid "Intellihide options"
 msgstr "Intellihide のオプション"
 
-#: prefs.js:771
+#: prefs.js:785
 msgid "Show Applications options"
-msgstr "アプリケーションの表示のオプション"
+msgstr "アプリケーション表示のオプション"
 
-#: prefs.js:847
+#: prefs.js:861
 msgid "Show Desktop options"
-msgstr "デスクトップの表示のオプション"
+msgstr "デスクトップ表示のオプション"
 
-#: prefs.js:899
+#: prefs.js:913
 msgid "Window preview options"
-msgstr "ウィンドウのプレビューのオプション"
+msgstr "ウィンドウプレビューのオプション"
 
-#: prefs.js:1038
+#: prefs.js:1052
 msgid "Ungrouped application options"
-msgstr "アプリケーションの非グループ化のオプション"
+msgstr "アプリケーション非グループ化のオプション"
 
-#: prefs.js:1122
+#: prefs.js:1136
 msgid "Customize middle-click behavior"
 msgstr "中クリックの挙動のカスタマイズ"
 
-#: prefs.js:1233
+#: prefs.js:1247
 msgid "Advanced hotkeys options"
 msgstr "高度なホットキーのオプション"
 
-#: prefs.js:1267
+#: prefs.js:1281
 msgid "Secondary Menu Options"
 msgstr "右クリックメニューのオプション"
+
+#: prefs.js:1412
+msgid "Export settings"
+msgstr "設定のエクスポート"
+
+#: prefs.js:1429
+msgid "Import settings"
+msgstr "設定のインポート"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:68(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:78(default)
