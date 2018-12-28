@@ -183,6 +183,7 @@ var taskbar = new Lang.Class({
         this.showAppsButton = this._showAppsIcon.toggleButton;
              
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
+        this.showAppsButton.connect('notify::width', Lang.bind(this, this.updateScrollViewSizeConstraint));
         this.showAppsButton.checked = Main.overview.viewSelector._showAppsButton.checked;
 
         this._showAppsIcon.childScale = 1;
@@ -1154,7 +1155,23 @@ var taskbar = new Lang.Class({
                 break;
             }
         }
-    }
+    },
+    
+    updateScrollViewSizeConstraint: function() {
+        let offset = - this.showAppsButton.get_width();
+        if (!this.scrollViewSizeConstraint) {
+            // add a width constraint to the scrollview, based on this._container width + offset
+            // offset is the width of this.showAppsButton
+            this.scrollViewSizeConstraint = new Clutter.BindConstraint({
+                source: this._container,
+                coordinate: Clutter.BindCoordinate.WIDTH,
+                offset: offset
+            });
+            this._scrollView.add_constraint(this.scrollViewSizeConstraint);
+        } else {
+            this.scrollViewSizeConstraint.set_offset(offset);
+        }       
+    },
 
 });
 

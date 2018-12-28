@@ -414,16 +414,17 @@ var dtpPanelWrapper = new Lang.Class({
         // Now figure out how large the _leftBox and _centerBox should be.
         // The box with the taskbar is always the one that is forced to be smaller as the other boxes grow
         let leftAllocWidth, centerStartPosition, centerEndPosition;
+        // HFADE_WIDTH is the width of the empty space at the end of the taskbar (see Taskbar.TaskbarActor.vfunc_get_preferred_width)
         if (taskbarPosition == 'CENTEREDMONITOR') {
             leftAllocWidth = leftNaturalWidth;
 
-            centerStartPosition = Math.max(leftNaturalWidth, Math.floor((panelAllocWidth - centerNaturalWidth)/2));
-            centerEndPosition = Math.min(panelAllocWidth-rightNaturalWidth, Math.ceil((panelAllocWidth+centerNaturalWidth))/2);
+            centerStartPosition = Math.max(leftNaturalWidth, Math.floor((panelAllocWidth - centerNaturalWidth + Taskbar.HFADE_WIDTH)/2));
+            centerEndPosition = Math.min(panelAllocWidth-rightNaturalWidth, Math.ceil((panelAllocWidth+centerNaturalWidth + Taskbar.HFADE_WIDTH))/2);
         } else if (taskbarPosition == 'CENTEREDCONTENT') {
             leftAllocWidth = leftNaturalWidth;
 
-            centerStartPosition = Math.max(leftNaturalWidth, Math.floor((panelAllocWidth - centerNaturalWidth + leftNaturalWidth - rightNaturalWidth) / 2));
-            centerEndPosition = Math.max(panelAllocWidth-rightNaturalWidth, Math.ceil((panelAllocWidth - centerNaturalWidth - leftNaturalWidth + rightNaturalWidth) / 2));
+            centerStartPosition = Math.max(leftNaturalWidth, Math.floor((panelAllocWidth - centerNaturalWidth + leftNaturalWidth - rightNaturalWidth + Taskbar.HFADE_WIDTH) / 2));
+            centerEndPosition = Math.min(panelAllocWidth-rightNaturalWidth, Math.ceil((panelAllocWidth + centerNaturalWidth + leftNaturalWidth - rightNaturalWidth + Taskbar.HFADE_WIDTH) / 2));
         } else if (taskbarPosition == 'LEFTPANEL_FIXEDCENTER') {
             leftAllocWidth = Math.floor((panelAllocWidth - centerNaturalWidth) / 2);
             centerStartPosition = leftAllocWidth;
