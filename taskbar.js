@@ -183,7 +183,8 @@ var taskbar = new Lang.Class({
         this.showAppsButton = this._showAppsIcon.toggleButton;
              
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
-        this.showAppsButton.connect('notify::width', Lang.bind(this, this.updateScrollViewSizeConstraint));
+        if (this.panelWrapper.panel.actor.get_text_direction() != Clutter.TextDirection.RTL)
+            this.showAppsButton.connect('notify::width', Lang.bind(this, this.updateScrollViewSizeConstraint));
         this.showAppsButton.checked = Main.overview.viewSelector._showAppsButton.checked;
 
         this._showAppsIcon.childScale = 1;
