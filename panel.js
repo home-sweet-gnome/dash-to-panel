@@ -423,7 +423,7 @@ var dtpPanelWrapper = new Lang.Class({
             leftAllocWidth = leftNaturalWidth;
 
             centerStartPosition = Math.max(leftNaturalWidth, Math.floor((panelAllocWidth - centerNaturalWidth + leftNaturalWidth - rightNaturalWidth) / 2));
-            centerEndPosition = Math.max(panelAllocWidth-rightNaturalWidth, Math.ceil((panelAllocWidth - centerNaturalWidth - leftNaturalWidth + rightNaturalWidth) / 2));
+            centerEndPosition = Math.min(panelAllocWidth-rightNaturalWidth, Math.ceil((panelAllocWidth + centerNaturalWidth + leftNaturalWidth - rightNaturalWidth) / 2));
         } else if (taskbarPosition == 'LEFTPANEL_FIXEDCENTER') {
             leftAllocWidth = Math.floor((panelAllocWidth - centerNaturalWidth) / 2);
             centerStartPosition = leftAllocWidth;
