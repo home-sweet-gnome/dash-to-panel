@@ -38,7 +38,7 @@ msgstr ""
 
 #: prefs.js:479
 msgid "Multi-monitors options"
-msgstr "Opcje wielu-monitorów"
+msgstr "Opcje wielu monitorów"
 
 #: prefs.js:622
 msgid "Dynamic opacity options"
@@ -248,7 +248,7 @@ msgstr "Wielkość czcionki etykiet (px) (domyślnie 14) "
 
 #: Settings.ui.h:31
 msgid "Font weight of application titles"
-msgstr "Grubość czcionki tytułów aplikacji"
+msgstr "Grubość czcionki tytułów programów"
 
 #: Settings.ui.h:32
 msgid "inherit from theme"
@@ -256,19 +256,19 @@ msgstr "dziedzicz po motywie"
 
 #: Settings.ui.h:33
 msgid "normal"
-msgstr ""
+msgstr "zwykła"
 
 #: Settings.ui.h:34
 msgid "lighter"
-msgstr ""
+msgstr "cieńsza"
 
 #: Settings.ui.h:35
 msgid "bold"
-msgstr ""
+msgstr "pogrubiona"
 
 #: Settings.ui.h:36
 msgid "bolder"
-msgstr ""
+msgstr "grubsza"
 
 #: Settings.ui.h:37
 msgid "Font color of the application titles"
@@ -548,15 +548,15 @@ msgstr "Położenie paska zadań"
 
 #: Settings.ui.h:100
 msgid "Left, with plugin icons collapsed to right"
-msgstr "Lewa, ikony wtyczek wyrównane do prawej"
+msgstr "Lewa, ikony wyrównane do prawej"
 
 #: Settings.ui.h:101
 msgid "Left, with fixed center plugin icons"
-msgstr "Lewa, ze stałym wyśrodkowaniem ikona wtyczek"
+msgstr "Lewa, ze stałym wyśrodkowaniem ikon"
 
 #: Settings.ui.h:102
 msgid "Left, with floating center plugin icons"
-msgstr "Lewa, ze swobodnym wyśrodkowaniem ikona wtyczek"
+msgstr "Lewa, ze swobodnym wyśrodkowaniem ikon"
 
 #: Settings.ui.h:103
 msgid "Center, fixed in middle of monitor"
@@ -564,7 +564,7 @@ msgstr "Środek, ze stałym wyśrodkowaniem monitora"
 
 #: Settings.ui.h:104
 msgid "Center, floating between left and right elements"
-msgstr "Center, ze swobodnym wyśrodkowaniem elementów"
+msgstr "Środek, ze swobodnym wyśrodkowaniem elementów"
 
 #: Settings.ui.h:105
 msgid "Clock location"
@@ -837,7 +837,7 @@ msgstr "Zachowaj oryginalny panel (podgląd)"
 
 #: Settings.ui.h:173
 msgid "App icon secondary (right-click) menu"
-msgstr "Menu kontekstowe aplikacji (prawy przycisk myszy)"
+msgstr "Menu kontekstowe programu (prawy przycisk myszy)"
 
 #: Settings.ui.h:175
 msgid "Fine-Tune"
