@@ -49,6 +49,10 @@
 	background-color: rgba(238, 238, 236, 0.1);
 }
 
+#dashtopanelScrollview .app-well-app .favorite {
+	background-color: rgba(80, 150, 255, 0.4);
+}
+
 #dashtopanelScrollview .app-well-app-running-dot {
 	margin-bottom: 0;
 }

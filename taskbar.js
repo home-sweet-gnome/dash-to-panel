@@ -391,6 +391,8 @@ var taskbar = new Lang.Class({
             this._box.insert_child_at_index(this._emptyDropTarget, 0);
             this._emptyDropTarget.show(true);
         }
+
+        this._toggleFavortieHighlight(true);
     },
 
     _onDragCancelled: function() {
@@ -415,6 +417,8 @@ var taskbar = new Lang.Class({
         this._clearEmptyDropTarget();
         this._showAppsIcon.setDragApp(null);
         DND.removeDragMonitor(this._dragMonitor);
+        
+        this._toggleFavortieHighlight();
     },
 
     _onDragMotion: function(dragEvent) {
@@ -430,6 +434,14 @@ var taskbar = new Lang.Class({
             this._showAppsIcon.setDragApp(null);
 
         return DND.DragMotionResult.CONTINUE;
+    },
+
+    _toggleFavortieHighlight: function(show) {
+        let appFavorites = AppFavorites.getAppFavorites();
+        let cssFuncName = (show ? 'add' : 'remove') + '_style_class_name';
+        
+        this._getAppIcons().filter(appIcon => appFavorites.isFavorite(appIcon.app.get_id()))
+                           .forEach(fav => fav._container[cssFuncName]('favorite'));
     },
 
     _appIdListToHash: function(apps) {
