@@ -35,6 +35,7 @@ const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
 const BoxPointer = imports.ui.boxpointer;
+const Gi = imports._gi;
 const IconGrid = imports.ui.iconGrid;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
@@ -86,6 +87,19 @@ var dtpPanelManager = new Lang.Class({
             p.panelBox.set_size(p.monitor.width, -1);
             this._findPanelBoxPointers(p.panelBox).forEach(bp => this._adjustBoxPointer(bp, p.monitor, panelPosition));
         });
+
+        //in 3.32, BoxPointer now inherits St.Widget
+        if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
+            let panelManager = this;
+
+            BoxPointer.BoxPointer.prototype[Gi.hook_up_vfunc_symbol]('get_preferred_height', function(forWidth) {
+                let alloc = { min_size: 0, natural_size: 0 };
+                
+                [alloc.min_size, alloc.natural_size] = this.vfunc_get_preferred_height(forWidth);
+
+                return panelManager._getBoxPointerPreferredHeight(this, alloc);
+            });
+        }
 
         this.setFocusedMonitor(dtpPrimaryMonitor);
         
@@ -175,6 +189,10 @@ var dtpPanelManager = new Lang.Class({
             p.disable();
         });
 
+        if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
+            BoxPointer.BoxPointer.prototype[Gi.hook_up_vfunc_symbol]('get_preferred_height', BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height);
+        }
+
         if (reset) return;
 
         this._setKeyBindings(false);
@@ -220,16 +238,26 @@ var dtpPanelManager = new Lang.Class({
     _adjustBoxPointer: function(boxPointer, monitor, arrowSide) {
         if (boxPointer) {
             boxPointer._userArrowSide = arrowSide;
-            boxPointer._dtpGetPreferredHeightId = boxPointer._container.connect('get-preferred-height', (actor, forWidth, alloc) => {
-                if (this._dtpSettings.get_boolean('intellihide')) {
-                    let excess = alloc.natural_size + this._dtpSettings.get_int('panel-size') + 20 - monitor.height; // 20 is arbitrary
+            boxPointer._dtpInPanel = 1;
 
-                    if (excess > 0) {
-                        alloc.natural_size -= excess;
-                    }
-                }
-            });
+            if (!boxPointer.vfunc_get_preferred_height) {
+                boxPointer._dtpGetPreferredHeightId = boxPointer._container.connect('get-preferred-height', (actor, forWidth, alloc) => {
+                    this._getBoxPointerPreferredHeight(boxPointer, alloc);
+                });
+            }
         }
+    },
+
+    _getBoxPointerPreferredHeight: function(boxPointer, alloc) {
+        if (boxPointer._dtpInPanel && this._dtpSettings.get_boolean('intellihide')) {
+            let excess = alloc.natural_size + this._dtpSettings.get_int('panel-size') + 10 - monitor.height; // 10 is arbitrary
+
+            if (excess > 0) {
+                alloc.natural_size -= excess;
+            }
+        }
+
+        return [alloc.min_size, alloc.natural_size];
     },
 
     _findPanelBoxPointers: function(container) {
