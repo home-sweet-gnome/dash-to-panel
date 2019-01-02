@@ -128,6 +128,9 @@ var dtpPanelManager = new Lang.Class({
         this._oldUpdateWorkspacesViews = Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews;
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview.viewSelector._workspacesDisplay, this._newUpdateWorkspacesViews);
 
+        this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
+        Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
+        
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
         if(Main.overview.viewSelector._activePage == null)
@@ -212,6 +215,7 @@ var dtpPanelManager = new Lang.Class({
         Main.overview._relayout();
 
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
+        Main.overview.getShowAppsButton = this._oldGetShowAppsButton;
 
         Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
         Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
@@ -345,8 +349,11 @@ var dtpPanelManager = new Lang.Class({
 
         this._updateWorkspacesFullGeometry();
         this._updateWorkspacesActualGeometry();
+    },
+
+    _newGetShowAppsButton: function() {
+        return this.allPanels.find(p => p.monitor.index == Main.overview.viewSelector._workspacesDisplay._primaryIndex).taskbar.showAppsButton;
     }
-    
 });
 
 function newViewSelectorAnimateIn(oldPage) {
