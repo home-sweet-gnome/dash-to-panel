@@ -519,7 +519,9 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _checkIfMonitorHasFocus: function() {
-        return global.display.focus_window && global.display.focus_window.get_monitor() === this.panelWrapper.monitor.index;
+        return global.display.focus_window
+            && (!this._dtpSettings.get_boolean('multi-monitors')    // only check same monitor index if multi window is enabled.
+                    || global.display.focus_window.get_monitor() === this.panelWrapper.monitor.index);
     },
 
     _setAppIconPadding: function() {
