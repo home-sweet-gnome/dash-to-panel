@@ -305,7 +305,7 @@ var dtpOverview = new Lang.Class({
             this._dtpSettings,
             'changed::hotkeys-overlay-combo',
             Lang.bind(this, function() {
-                if (this._dtpSettings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+                if (this._dtpSettings.get_boolean('hot-keys') && this._dtpSettings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
                     this.taskbar.toggleNumberOverlay(true);
                 else
                     this.taskbar.toggleNumberOverlay(false);
