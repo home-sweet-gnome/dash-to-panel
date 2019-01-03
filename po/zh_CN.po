@@ -28,7 +28,7 @@ msgid "Reset to defaults"
 msgstr "恢复默认值"
 
 #: prefs.js:431
-msgid "Primary monitor"
+msgid "Default (Primary monitor)"
 msgstr "主显示器"
 
 #: prefs.js:434

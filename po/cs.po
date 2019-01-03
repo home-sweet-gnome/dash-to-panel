@@ -28,8 +28,8 @@ msgid "Reset to defaults"
 msgstr "Nastavit výchozí hodnoty"
 
 #: prefs.js:431
-msgid "Primary monitor"
-msgstr "Primární monitor"
+msgid "Default (Primary monitor)"
+msgstr "Default (Primární monitor)"
 
 #: prefs.js:434
 msgid "Monitor "

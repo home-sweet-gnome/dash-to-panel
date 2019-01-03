@@ -55,7 +55,12 @@ var dtpPanelManager = new Lang.Class({
     },
 
     enable: function(reset) {
-        let dtpPrimaryMonitor = Main.layoutManager.monitors[(Main.layoutManager.primaryIndex + this._dtpSettings.get_int('primary-monitor')) % Main.layoutManager.monitors.length];
+        let dtpPrimaryIndex = this._dtpSettings.get_int('primary-monitor');
+        if(dtpPrimaryIndex < 0 || dtpPrimaryIndex >= Main.layoutManager.monitors.length)
+            dtpPrimaryIndex = Main.layoutManager.primaryIndex;
+        
+        let dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex];
+        
         this.proximityManager = new Proximity.ProximityManager();
 
         this.primaryPanel = new Panel.dtpPanelWrapper(this, dtpPrimaryMonitor, Main.panel, Main.layoutManager.panelBox);

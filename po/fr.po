@@ -29,8 +29,8 @@ msgid "Reset to defaults"
 msgstr "Restaurer paramètres"
 
 #: prefs.js:431
-msgid "Primary monitor"
-msgstr "Écran principal"
+msgid "Default (Primary monitor)"
+msgstr "Default (Écran principal)"
 
 #: prefs.js:434
 msgid "Monitor "

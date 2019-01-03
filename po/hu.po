@@ -29,8 +29,8 @@ msgid "Reset to defaults"
 msgstr "Visszaállítás az alapértékekre"
 
 #: prefs.js:431
-msgid "Primary monitor"
-msgstr "Elsődleges kijelző"
+msgid "Default (Primary monitor)"
+msgstr "Default (Elsődleges kijelző)"
 
 #: prefs.js:434
 msgid "Monitor "

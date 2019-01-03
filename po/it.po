@@ -28,8 +28,8 @@ msgid "Reset to defaults"
 msgstr "Ripristina predefiniti"
 
 #: prefs.js:431
-msgid "Primary monitor"
-msgstr "Monitor principale"
+msgid "Default (Primary monitor)"
+msgstr "Default (Monitor principale)"
 
 #: prefs.js:434
 msgid "Monitor "

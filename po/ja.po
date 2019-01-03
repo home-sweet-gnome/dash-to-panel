@@ -840,7 +840,7 @@ msgid "Reset to defaults"
 msgstr "デフォルトに戻す"
 
 #: prefs.js:431
-msgid "Primary monitor"
+msgid "Default (Primary monitor)"
 msgstr "プライマリーモニター"
 
 #: prefs.js:434

@@ -426,12 +426,12 @@ const Settings = new Lang.Class({
         }));
 
         //multi-monitor
-        let monitors = [Gdk.Screen.get_default().get_primary_monitor()]; //always 0 in GDK
+        let monitors = [-1];
 
-        this._builder.get_object('multimon_primary_combo').append_text(_('Primary monitor'));
+        this._builder.get_object('multimon_primary_combo').append_text(_('Default (Primary monitor)'));
 
-        for (let i = 1, monitorNum = Gdk.Screen.get_default().get_n_monitors(); i < monitorNum; ++i) {
-            this._builder.get_object('multimon_primary_combo').append_text(_('Monitor ') + i);
+        for (let i = 0, monitorNum = Gdk.Screen.get_default().get_n_monitors(); i < monitorNum; ++i) {
+            this._builder.get_object('multimon_primary_combo').append_text(_('Monitor ') + (i+1));
             monitors.push(i);
         }
 
