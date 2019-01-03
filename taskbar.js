@@ -53,6 +53,7 @@ var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME;
 let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;
 let DASH_ITEM_LABEL_HIDE_TIME = Dash.DASH_ITEM_LABEL_HIDE_TIME;
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
+const SCROLLVIEW_FADE_SIZE = 48;
 
 function getPosition() {
     let position = St.Side.BOTTOM;
@@ -102,7 +103,9 @@ var taskbarActor = new Lang.Class({
     Name: 'DashToPanel-TaskbarActor',
     Extends: St.Widget,
 
-    _init: function() {
+    _init: function(appIconsBox) {
+        this._appIconsBox = appIconsBox;
+        this._fadeOffset = 0;
         this.parent({ name: 'dashtopanelTaskbar',
                       layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL }),
                       clip_to_allocation: true });
@@ -127,6 +130,15 @@ var taskbarActor = new Lang.Class({
         childBox.x2 = box.x2;
         childBox.y2 = box.y2;
         scrollview.allocate(childBox, flags);
+
+        let [, appIconsBoxNatWidth] = this._appIconsBox.get_preferred_width(availHeight);
+        let hiddenAppIconsBoxWidth = appIconsBoxNatWidth - (box.x2 - box.x1 - showAppsNatWidth);
+        let destFadeOffset = hiddenAppIconsBoxWidth > 0 ? SCROLLVIEW_FADE_SIZE : 0;
+        
+        if (destFadeOffset != this._fadeOffset) {
+            scrollview.update_fade_effect(0, destFadeOffset);
+            this._fadeOffset = destFadeOffset;
+        } 
     },
 
     vfunc_get_preferred_width: function(actor, forHeight) {
@@ -135,7 +147,7 @@ var taskbarActor = new Lang.Class({
         // then calls BoxLayout)
         let [, natWidth] = this.parent(forHeight);
         
-        return [0, natWidth];
+        return [0, natWidth + this._fadeOffset];
     },
 });
 
@@ -173,7 +185,12 @@ var taskbar = new Lang.Class({
         this._ensureAppIconVisibilityTimeoutId = 0;
         this._labelShowing = false;
 
-        this._container = new taskbarActor();
+        this._box = new St.BoxLayout({ vertical: false,
+                                       clip_to_allocation: false,
+                                       x_align: Clutter.ActorAlign.START,
+                                       y_align: Clutter.ActorAlign.START });
+
+        this._container = new taskbarActor(this._box);
         this._scrollView = new St.ScrollView({ name: 'dashtopanelScrollview',
                                                hscrollbar_policy: Gtk.PolicyType.NEVER,
                                                vscrollbar_policy: Gtk.PolicyType.NEVER,
@@ -181,10 +198,6 @@ var taskbar = new Lang.Class({
 
         this._scrollView.connect('scroll-event', Lang.bind(this, this._onScrollEvent ));
 
-        this._box = new St.BoxLayout({ vertical: false,
-                                       clip_to_allocation: false,
-                                       x_align: Clutter.ActorAlign.START,
-                                       y_align: Clutter.ActorAlign.START });
         this._box._delegate = this;
         this._scrollView.add_actor(this._box);
 
@@ -266,7 +279,7 @@ var taskbar = new Lang.Class({
                 ],
                 () => {
                     if (this._dtpSettings.get_boolean('isolate-monitors')) {
-                        this._queueRedisplay()
+                        this._queueRedisplay();
                     }
                 }
             ],

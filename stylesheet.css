@@ -57,11 +57,6 @@
 	margin-bottom: 0;
 }
 
-#dashtopanelThumbnailScrollview,
-#dashtopanelScrollview {
-	-st-hfade-offset: 48px;
-}
-
 .dashtopanelSecondaryMenu {
 	max-width: 400px;
 }
