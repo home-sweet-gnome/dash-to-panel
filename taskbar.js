@@ -53,7 +53,6 @@ var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME;
 let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;
 let DASH_ITEM_LABEL_HIDE_TIME = Dash.DASH_ITEM_LABEL_HIDE_TIME;
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
-let HFADE_WIDTH = 48;
 
 function getPosition() {
     let position = St.Side.BOTTOM;
@@ -107,21 +106,37 @@ var taskbarActor = new Lang.Class({
         this.parent({ name: 'dashtopanelTaskbar',
                       layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL }),
                       clip_to_allocation: true });
-        this._rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
+    },
 
-        this._position = getPosition();
+    vfunc_allocate: function(box, flags)  {
+        this.set_allocation(box, flags);
 
-        this._delegate = this;
+        let availHeight = box.y2 - box.y1;
+        let [, showAppsButton, scrollview] = this.get_children();
+        let [, showAppsNatWidth] = showAppsButton.get_preferred_width(availHeight);
+        let childBox = new Clutter.ActorBox();
+
+        childBox.y1 = box.y1;
+        childBox.x1 = box.x1;
+        childBox.x2 = box.x1 + showAppsNatWidth;
+        childBox.y2 = box.y2;
+        showAppsButton.allocate(childBox, flags);
+
+        childBox.x1 = box.x1 + showAppsNatWidth;
+        childBox.y1 = box.y1;
+        childBox.x2 = box.x2;
+        childBox.y2 = box.y2;
+        scrollview.allocate(childBox, flags);
     },
 
     vfunc_get_preferred_width: function(actor, forHeight) {
-        // We want to request the natural height of all our children
+        // We want to request the natural width of all our children
         // as our natural width, so we chain up to StWidget (which
         // then calls BoxLayout)
         let [, natWidth] = this.parent(forHeight);
         
-        return [0, natWidth + HFADE_WIDTH];
-    }
+        return [0, natWidth];
+    },
 });
 
 /* This class is a fork of the upstream dash class (ui.dash.js)
@@ -183,7 +198,6 @@ var taskbar = new Lang.Class({
         this.showAppsButton = this._showAppsIcon.toggleButton;
              
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
-        this.showAppsButton.connect('notify::width', Lang.bind(this, this.updateScrollViewSizeConstraint));
         this.showAppsButton.checked = Main.overview.viewSelector._showAppsButton.checked;
 
         this._showAppsIcon.childScale = 1;
@@ -1168,23 +1182,6 @@ var taskbar = new Lang.Class({
             }
         }
     },
-    
-    updateScrollViewSizeConstraint: function() {
-        let offset = - this.showAppsButton.get_width();
-        if (!this.scrollViewSizeConstraint) {
-            // add a width constraint to the scrollview, based on this._container width + offset
-            // offset is the width of this.showAppsButton
-            this.scrollViewSizeConstraint = new Clutter.BindConstraint({
-                source: this._container,
-                coordinate: Clutter.BindCoordinate.WIDTH,
-                offset: offset
-            });
-            this._scrollView.add_constraint(this.scrollViewSizeConstraint);
-        } else {
-            this.scrollViewSizeConstraint.set_offset(offset);
-        }       
-    },
-
 });
 
 Signals.addSignalMethods(taskbar.prototype);
