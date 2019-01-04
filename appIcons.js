@@ -891,7 +891,7 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _getRunningIndicatorCount: function() {
-        return this._nWindows > 0 ? Math.min(this._nWindows, MAX_INDICATORS) : 1;
+        return Math.min(this._nWindows, MAX_INDICATORS);
     },
 
     _getRunningIndicatorHeight: function() {
@@ -907,7 +907,7 @@ var taskbarAppIcon = new Lang.Class({
             if(!isFocused && this._dtpSettings.get_boolean('dot-color-unfocused-different'))
                 dotColorSettingPrefix = 'dot-color-unfocused-';
 
-            color = Clutter.color_from_string(this._dtpSettings.get_string(dotColorSettingPrefix + this._getRunningIndicatorCount()))[1];
+            color = Clutter.color_from_string(this._dtpSettings.get_string(dotColorSettingPrefix + (this._getRunningIndicatorCount() || 1) ))[1];
         } else {
             // Re-use the style - background color, and border width and color -
             // of the default dot
@@ -922,14 +922,19 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _drawRunningIndicator: function(area, type, isFocused) {
+        let n = this._getRunningIndicatorCount();
+
+        if (!n) {
+            return;
+        }
+
         let bodyColor = this._getRunningIndicatorColor(isFocused);
         let [width, height] = area.get_surface_size();
         let cr = area.get_context();
-        let n = this._getRunningIndicatorCount();
         let size = this._getRunningIndicatorHeight();
         let padding = 0; // distance from the margin
         let yOffset = this._dtpSettings.get_string('dot-position') == DOT_POSITION.TOP ? 0 : (height - padding -  size);
-        
+
         if(type == DOT_STYLE.DOTS) {
             // Draw the required numbers of dots
             let radius = size/2;
