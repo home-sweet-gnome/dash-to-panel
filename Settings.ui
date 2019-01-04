@@ -5428,7 +5428,7 @@
                                   <item id="LAUNCH" translatable="yes">Launch new instance</item>
                                   <item id="CYCLE" translatable="yes">Cycle through windows</item>
                                   <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
-                                  <item id="NOTHING-MIN" translatable="yes">Do nothing + minimize</item>
+                                  <item id="TOOGLE-SHOWPREVIEW" translatable="yes">Toggle + Show preview</item>
                                 </items>
                               </object>
                               <packing>
