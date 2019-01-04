@@ -717,9 +717,6 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     activate: function(button, handleAsGrouped) {
-        if (this.windowPreview)
-            this.windowPreview.requestCloseMenu();
-
         let event = Clutter.get_current_event();
         let modifiers = event ? event.get_state() : 0;
         let focusedApp = tracker.focus_app;
@@ -753,7 +750,11 @@ var taskbarAppIcon = new Lang.Class({
             else
                 buttonAction = this._dtpSettings.get_string('click-action');
         }
-        
+
+        let appCount = this.getAppIconInterestingWindows().length;
+        if (this.windowPreview && (!(buttonAction == "NOTHING-MIN") || (appCount <= 1)))
+            this.windowPreview.requestCloseMenu();
+
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
         let appIsRunning = this.app.state == Shell.AppState.RUNNING
@@ -838,6 +839,19 @@ var taskbarAppIcon = new Lang.Class({
                         }
                         else
                             this.app.activate();
+                        break;
+                    case "NOTHING-MIN":
+                        if (appCount == 1) {
+                            if (!Main.overview._shown) {
+                                if (this.app == focusedApp)
+                                    cycleThroughWindows(this.app, this._dtpSettings, false, true);
+                                else {
+                                    activateFirstWindow(this.app, this._dtpSettings);
+                                }
+                            }
+                            else
+                                this.app.activate();
+                        }
                         break;
         
                     case "QUIT":
