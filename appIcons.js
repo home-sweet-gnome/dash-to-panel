@@ -840,17 +840,17 @@ var taskbarAppIcon = new Lang.Class({
                             this.app.activate();
                         break;
                     case "TOOGLE-SHOWPREVIEW":
-                        if (appCount == 1) {
-                            if (!Main.overview._shown) {
+                        if (!Main.overview._shown) {
+                            if (appCount == 1) {
                                 if (this.app == focusedApp)
                                     cycleThroughWindows(this.app, this._dtpSettings, false, true);
                                 else {
                                     activateFirstWindow(this.app, this._dtpSettings);
-                                }
+                                    }
                             }
-                            else
-                                this.app.activate();
                         }
+                        else
+                            this.app.activate();
                         break;
         
                     case "QUIT":
