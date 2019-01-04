@@ -890,6 +890,10 @@ var taskbarAppIcon = new Lang.Class({
         }
     },
 
+    _getRunningIndicatorCount: function() {
+        return this._nWindows > 0 ? Math.min(this._nWindows, MAX_INDICATORS) : 1;
+    },
+
     _getRunningIndicatorHeight: function() {
         return this._dtpSettings.get_int('dot-size') * St.ThemeContext.get_for_stage(global.stage).scale_factor;
     },
@@ -903,7 +907,7 @@ var taskbarAppIcon = new Lang.Class({
             if(!isFocused && this._dtpSettings.get_boolean('dot-color-unfocused-different'))
                 dotColorSettingPrefix = 'dot-color-unfocused-';
 
-            color = Clutter.color_from_string(this._dtpSettings.get_string(dotColorSettingPrefix + (this._nWindows > 0 ? this._nWindows : 1)))[1];
+            color = Clutter.color_from_string(this._dtpSettings.get_string(dotColorSettingPrefix + this._getRunningIndicatorCount()))[1];
         } else {
             // Re-use the style - background color, and border width and color -
             // of the default dot
@@ -921,7 +925,7 @@ var taskbarAppIcon = new Lang.Class({
         let bodyColor = this._getRunningIndicatorColor(isFocused);
         let [width, height] = area.get_surface_size();
         let cr = area.get_context();
-        let n = Math.min(this._nWindows, MAX_INDICATORS);
+        let n = this._getRunningIndicatorCount();
         let size = this._getRunningIndicatorHeight();
         let padding = 0; // distance from the margin
         let yOffset = this._dtpSettings.get_string('dot-position') == DOT_POSITION.TOP ? 0 : (height - padding -  size);
