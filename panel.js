@@ -128,19 +128,14 @@ var dtpPanelWrapper = new Lang.Class({
         });
 
         if (this.panel.vfunc_allocate) {
-            let vfuncAllocate = (box, flags) => {
-                //panel inherits from St.Widget, invoke its parent allocation
-                St.Widget.prototype.vfunc_allocate.call(this.panel, box, flags);
-                this._allocate(null, box, flags);
-            };
-
             this._panelConnectId = 0;
 
-            if (this.isSecondary) {
-                this.panel.allocateProxy = vfuncAllocate;
-            } else {
-                this._oldAllocate = this.panel.__proto__.vfunc_allocate;
-                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', vfuncAllocate);
+            if (!this.panel.__proto__._dtpOldAllocate) {
+                this.panel.__proto__._dtpOldAllocate = this.panel.__proto__.vfunc_allocate;
+                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', (box, flags) => { 
+                    this.panel.set_allocation(box, flags); 
+                    this._allocate(null, box, flags)
+                });
             }
         } else {
             this._panelConnectId = this.panel.actor.connect('allocate', (actor,box,flags) => this._allocate(actor,box,flags));
@@ -277,8 +272,9 @@ var dtpPanelWrapper = new Lang.Class({
 
         if (this._panelConnectId) {
             this.panel.actor.disconnect(this._panelConnectId);
-        } else if (this._oldAllocate) {
-            this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this._oldAllocate);
+        } else if (this.panel.__proto__._dtpOldAllocate) {
+            this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this.panel.__proto__._dtpOldAllocate);
+            delete this.panel.__proto__._dtpOldAllocate;
         }
 
         if (this.startIntellihideId) {
@@ -381,11 +377,11 @@ var dtpPanelWrapper = new Lang.Class({
     },
 
     _adjustForOverview: function() {
-        let isFocusedMonitor = Main.overview.viewSelector._workspacesDisplay._primaryIndex == this.monitor.index;
+        let isFocusedMonitor = this.panelManager.checkIfFocusedMonitor(this.monitor);
         let isOverview = !!Main.overview.visibleTarget;
         let isShown = !isOverview || (isOverview && isFocusedMonitor);
 
-        this.panel.actor[isShown ? 'show' : 'hide']();
+        this.panelBox[isShown ? 'show' : 'hide']();
         
         if (isOverview && isFocusedMonitor) {
             Main.overview._overview.add_actor(this._myPanelGhost);
@@ -735,10 +731,8 @@ var dtpSecondaryPanel = new Lang.Class({
 
     },
 
-    vfunc_allocate: function(box, flags) {
-        (this.allocateProxy || function(){})(box, flags);
-    },
-
+    vfunc_allocate: function(box, flags) {},
+    
     _setPanelMenu: function(settingName, propName, constr, container, isInit) {
         if (isInit) {
             this._panelMenuSignalIds.push(this._dtpSettings.connect(

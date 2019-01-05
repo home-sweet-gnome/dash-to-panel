@@ -41,6 +41,7 @@ var ProximityWatch = new Lang.Class({
 
     _init: function(actor, mode, xThreshold, yThreshold, handler) {
         this.actor = actor;
+        this.overlap = 0;
         this.mode = mode;
         this.threshold = [xThreshold, yThreshold];
         this.handler = handler;

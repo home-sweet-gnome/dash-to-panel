@@ -227,7 +227,7 @@ var dtpPanelManager = new Lang.Class({
     },
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {
-        if (Main.overview.viewSelector._workspacesDisplay._primaryIndex != monitor.index) {
+        if (!this.checkIfFocusedMonitor(monitor)) {
             Main.overview.viewSelector._workspacesDisplay._primaryIndex = monitor.index;
             
             Main.overview._overview.clear_constraints();
@@ -237,6 +237,10 @@ var dtpPanelManager = new Lang.Class({
 
             this._newOverviewRelayout.call(Main.overview);
         }
+    },
+
+    checkIfFocusedMonitor: function(monitor) {
+        return Main.overview.viewSelector._workspacesDisplay._primaryIndex == monitor.index;
     },
 
     _reset: function() {
@@ -357,7 +361,7 @@ var dtpPanelManager = new Lang.Class({
     },
 
     _newGetShowAppsButton: function() {
-        return this.allPanels.find(p => p.monitor.index == Main.overview.viewSelector._workspacesDisplay._primaryIndex).taskbar.showAppsButton;
+        return this.allPanels.find(p => this.checkIfFocusedMonitor(p.monitor)).taskbar.showAppsButton;
     }
 });
 

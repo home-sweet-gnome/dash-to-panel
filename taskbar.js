@@ -136,8 +136,8 @@ var taskbarActor = new Lang.Class({
         let destFadeOffset = hiddenAppIconsBoxWidth > 0 ? SCROLLVIEW_FADE_SIZE : 0;
         
         if (destFadeOffset != this._fadeOffset) {
-            scrollview.update_fade_effect(0, destFadeOffset);
             this._fadeOffset = destFadeOffset;
+            scrollview.get_effect('fade').enabled = this._fadeOffset > 0;
         } 
     },
 
