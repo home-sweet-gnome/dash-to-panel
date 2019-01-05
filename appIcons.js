@@ -764,10 +764,10 @@ var taskbarAppIcon = new Lang.Class({
             if (this.window && !handleAsGrouped) {
                 //ungrouped applications behaviors
                 switch (buttonAction) {
-                    case 'RAISE': case 'CYCLE': case 'CYCLE-MIN': case 'MINIMIZE':
+                    case 'RAISE': case 'CYCLE': case 'CYCLE-MIN': case 'MINIMIZE': case 'TOGGLE-SHOWPREVIEW':
                         if (!Main.overview._shown && 
-                            (buttonAction == 'MINIMIZE' || 
-                             (buttonAction == 'CYCLE-MIN' && this._isFocusedWindow()))) {
+                            (buttonAction == 'MINIMIZE' || buttonAction == 'TOGGLE-SHOWPREVIEW' || buttonAction == 'CYCLE-MIN') && 
+                            (this._isFocusedWindow() || (buttonAction == 'MINIMIZE' && (button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK)))) {
                                 this.window.minimize();
                         } else {
                             Main.activateWindow(this.window);
@@ -846,6 +846,14 @@ var taskbarAppIcon = new Lang.Class({
                                     minimizeWindow(this.app, false, this._dtpSettings);
                                 else
                                     activateFirstWindow(this.app, this._dtpSettings);
+                            } else {
+                                // minimize all windows if double clicked
+                                if (Clutter.EventType.CLUTTER_BUTTON_PRESS) {
+                                    let click_count = event.get_click_count();
+                                    if(click_count > 1) {
+                                        minimizeWindow(this.app, true, this._dtpSettings);
+                                    }
+                                }
                             }
                         }
                         else
