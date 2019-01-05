@@ -752,12 +752,12 @@ var taskbarAppIcon = new Lang.Class({
         }
 
         let appCount = this.getAppIconInterestingWindows().length;
-        if (this.windowPreview && (!(buttonAction == "TOOGLE-SHOWPREVIEW") || (appCount <= 1)))
+        if (this.windowPreview && (!(buttonAction == "TOGGLE-SHOWPREVIEW") || (appCount <= 1)))
             this.windowPreview.requestCloseMenu();
 
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
-        let appIsRunning = this.app.state == Shell.AppState.RUNNING && appCount > 0
+        let appIsRunning = this.app.state == Shell.AppState.RUNNING && appCount > 0;
 
         // We customize the action only when the application is already running
         if (appIsRunning && !this.isLauncher) {
@@ -839,7 +839,7 @@ var taskbarAppIcon = new Lang.Class({
                         else
                             this.app.activate();
                         break;
-                    case "TOOGLE-SHOWPREVIEW":
+                    case "TOGGLE-SHOWPREVIEW":
                         if (!Main.overview._shown) {
                             if (appCount == 1) {
                                 if (this.app == focusedApp)

@@ -16,7 +16,7 @@
     <value value='3' nick='CYCLE'/>
     <value value='4' nick='CYCLE-MIN'/>
     <value value='5' nick='QUIT'/>
-    <value value='6' nick='TOOGLE-SHOWPREVIEW'/>
+    <value value='6' nick='TOGGLE-SHOWPREVIEW'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.statusAreaPosition'>
     <value value='0' nick='BUTTONSLEFT'/>
