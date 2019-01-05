@@ -85,11 +85,12 @@
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <items>
-                          <item id="RAISE" translatable="yes">Raise window</item>
+                          <item id="RAISE" translatable="yes">Raise all windows</item>
                           <item id="MINIMIZE" translatable="yes">Minimize window</item>
                           <item id="LAUNCH" translatable="yes">Launch new instance</item>
                           <item id="CYCLE" translatable="yes">Cycle through windows</item>
                           <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                          <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
                           <item id="QUIT" translatable="yes">Quit</item>
                         </items>
                       </object>
@@ -155,11 +156,12 @@
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <items>
-                          <item id="RAISE" translatable="yes">Raise window</item>
+                          <item id="RAISE" translatable="yes">Raise all windows</item>
                           <item id="MINIMIZE" translatable="yes">Minimize window</item>
                           <item id="LAUNCH" translatable="yes">Launch new instance</item>
                           <item id="CYCLE" translatable="yes">Cycle through windows</item>
                           <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                          <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
                           <item id="QUIT" translatable="yes">Quit</item>
                         </items>
                       </object>
@@ -225,11 +227,12 @@
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
                         <items>
-                          <item id="RAISE" translatable="yes">Raise window</item>
+                          <item id="RAISE" translatable="yes">Raise all windows</item>
                           <item id="MINIMIZE" translatable="yes">Minimize window</item>
                           <item id="LAUNCH" translatable="yes">Launch new instance</item>
                           <item id="CYCLE" translatable="yes">Cycle through windows</item>
                           <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                          <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
                           <item id="QUIT" translatable="yes">Quit</item>
                         </items>
                       </object>
@@ -5423,12 +5426,12 @@
                                 <property name="can_focus">False</property>
                                 <property name="valign">center</property>
                                 <items>
-                                  <item id="RAISE" translatable="yes">Raise all windows</item>
-                                  <item id="MINIMIZE" translatable="yes">Minimize window</item>
-                                  <item id="LAUNCH" translatable="yes">Launch new instance</item>
-                                  <item id="CYCLE" translatable="yes">Cycle through windows</item>
                                   <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
-                                  <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle / Preview multiple</item>
+                                  <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                                  <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
+                                  <item id="MINIMIZE" translatable="yes">Toggle all windows</item>
+                                  <item id="RAISE" translatable="yes">Raise all windows</item>
+                                  <item id="LAUNCH" translatable="yes">Launch new instance</item>
                                 </items>
                               </object>
                               <packing>
