@@ -843,10 +843,9 @@ var taskbarAppIcon = new Lang.Class({
                         if (!Main.overview._shown) {
                             if (appCount == 1) {
                                 if (this.app == focusedApp)
-                                    cycleThroughWindows(this.app, this._dtpSettings, false, true);
-                                else {
+                                    minimizeWindow(this.app, false, this._dtpSettings);
+                                else
                                     activateFirstWindow(this.app, this._dtpSettings);
-                                    }
                             }
                         }
                         else
