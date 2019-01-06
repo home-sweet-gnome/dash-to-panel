@@ -1231,10 +1231,12 @@ function ensureActorVisibleInScrollView(scrollView, actor) {
 
     let voffset = 0;
     let hoffset = 0;
-    let fade = scrollView.get_effect("fade");
-    if (fade){
-        voffset = fade.vfade_offset;
-        hoffset = fade.hfade_offset;
+    
+    if (scrollView.get_effect("fade")){
+        let node = scrollView.get_theme_node();
+
+        voffset = node.get_length('-st-vfade-offset');;
+        hoffset = node.get_length('-st-hfade-offset');;
     }
 
     let box = actor.get_allocation_box();
