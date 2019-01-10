@@ -39,8 +39,7 @@
 	padding: 0px;
 }
 
-#dashtopanelThumbnailScrollview,
-#dashtopanelScrollview {
+#dashtopanelThumbnailScrollview {
 	-st-hfade-offset: 48px;
 }
 
@@ -60,6 +59,11 @@
 
 #dashtopanelScrollview .app-well-app-running-dot {
 	margin-bottom: 0;
+}
+
+#dashtopanelTaskbar .scrollview-fade {
+	background-gradient-direction: horizontal;
+    background-gradient-end: rgba(0, 0, 0, 0);
 }
 
 .dashtopanelSecondaryMenu {

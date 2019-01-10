@@ -53,7 +53,6 @@ var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME;
 let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;
 let DASH_ITEM_LABEL_HIDE_TIME = Dash.DASH_ITEM_LABEL_HIDE_TIME;
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
-const SCROLLVIEW_FADE_SIZE = 48;
 
 function getPosition() {
     let position = St.Side.BOTTOM;
@@ -103,9 +102,9 @@ var taskbarActor = new Lang.Class({
     Name: 'DashToPanel-TaskbarActor',
     Extends: St.Widget,
 
-    _init: function(appIconsBox) {
-        this._appIconsBox = appIconsBox;
-        this._fadeOffset = 0;
+    _init: function(delegate) {
+        this._delegate = delegate;
+        this._currentBackgroundColor = 0;
         this.parent({ name: 'dashtopanelTaskbar',
                       layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL }),
                       clip_to_allocation: true });
@@ -115,30 +114,38 @@ var taskbarActor = new Lang.Class({
         this.set_allocation(box, flags);
 
         let availHeight = box.y2 - box.y1;
-        let [, showAppsButton, scrollview] = this.get_children();
+        let [, showAppsButton, scrollview, leftFade, rightFade] = this.get_children();
         let [, showAppsNatWidth] = showAppsButton.get_preferred_width(availHeight);
         let childBox = new Clutter.ActorBox();
 
-        childBox.y1 = box.y1;
         childBox.x1 = box.x1;
         childBox.x2 = box.x1 + showAppsNatWidth;
+        childBox.y1 = box.y1;
         childBox.y2 = box.y2;
         showAppsButton.allocate(childBox, flags);
 
         childBox.x1 = box.x1 + showAppsNatWidth;
-        childBox.y1 = box.y1;
         childBox.x2 = box.x2;
-        childBox.y2 = box.y2;
         scrollview.allocate(childBox, flags);
 
-        let [, appIconsBoxNatWidth] = this._appIconsBox.get_preferred_width(availHeight);
-        let hiddenAppIconsBoxWidth = appIconsBoxNatWidth - (box.x2 - box.x1 - showAppsNatWidth);
-        let destFadeOffset = hiddenAppIconsBoxWidth > 0 ? SCROLLVIEW_FADE_SIZE : 0;
+        let [hvalue, , hupper, , , hpageSize] = scrollview.hscroll.adjustment.get_values();
+        hupper = Math.floor(hupper);
+        scrollview._dtpFadeSize = hupper > hpageSize ? this._delegate.iconSize : 0;
+
+        if (this._currentBackgroundColor !== this._delegate.panelWrapper.dynamicTransparency.currentBackgroundColor) {
+            this._currentBackgroundColor = this._delegate.panelWrapper.dynamicTransparency.currentBackgroundColor;
+            let gradientStart = 'background-gradient-start: ' + this._currentBackgroundColor;
+            leftFade.set_style(gradientStart);
+            rightFade.set_style(gradientStart);
+        }
         
-        if (destFadeOffset != this._fadeOffset) {
-            this._fadeOffset = destFadeOffset;
-            scrollview.get_effect('fade').enabled = this._fadeOffset > 0;
-        } 
+        childBox.x1 = box.x1 + showAppsNatWidth;
+        childBox.x2 = childBox.x1 + (hvalue > 0 ? scrollview._dtpFadeSize : 0);
+        leftFade.allocate(childBox, flags);
+
+        childBox.x1 = box.x2 - (hvalue + hpageSize < hupper ? scrollview._dtpFadeSize : 0);
+        childBox.x2 = box.x2;
+        rightFade.allocate(childBox, flags);
     },
 
     vfunc_get_preferred_width: function(actor, forHeight) {
@@ -147,7 +154,7 @@ var taskbarActor = new Lang.Class({
         // then calls BoxLayout)
         let [, natWidth] = this.parent(forHeight);
         
-        return [0, natWidth + this._fadeOffset];
+        return [0, natWidth];
     },
 });
 
@@ -190,15 +197,13 @@ var taskbar = new Lang.Class({
                                        x_align: Clutter.ActorAlign.START,
                                        y_align: Clutter.ActorAlign.START });
 
-        this._container = new taskbarActor(this._box);
+        this._container = new taskbarActor(this);
         this._scrollView = new St.ScrollView({ name: 'dashtopanelScrollview',
                                                hscrollbar_policy: Gtk.PolicyType.NEVER,
                                                vscrollbar_policy: Gtk.PolicyType.NEVER,
                                                enable_mouse_scrolling: true });
 
         this._scrollView.connect('scroll-event', Lang.bind(this, this._onScrollEvent ));
-
-        this._box._delegate = this;
         this._scrollView.add_actor(this._box);
 
         // Create a wrapper around the real showAppsIcon in order to add a popupMenu.
@@ -221,6 +226,11 @@ var taskbar = new Lang.Class({
         this._container.add_child(new St.Widget({ width: 0, reactive: false }));
         this._container.add_actor(this._showAppsIcon);
         this._container.add_actor(this._scrollView);
+        this._container.add_actor(new St.Widget({ style_class: 'scrollview-fade', reactive: false }));
+        this._container.add_actor(new St.Widget({ style_class: 'scrollview-fade', 
+                                                  reactive: false,  
+                                                  pivot_point: new Clutter.Point({ x: .5, y: .5 }), 
+                                                  rotation_angle_z: 180 }));
 
         if (!this._dtpSettings.get_boolean('show-show-apps-button'))
             this.hideShowAppsButton();
@@ -1230,15 +1240,8 @@ function ensureActorVisibleInScrollView(scrollView, actor) {
     let [hvalue0, vvalue0] = [hvalue, vvalue];
 
     let voffset = 0;
-    let hoffset = 0;
+    let hoffset = scrollView._dtpFadeSize;
     
-    if (scrollView.get_effect("fade")){
-        let node = scrollView.get_theme_node();
-
-        voffset = node.get_length('-st-vfade-offset');;
-        hoffset = node.get_length('-st-hfade-offset');;
-    }
-
     let box = actor.get_allocation_box();
     let y1 = box.y1, y2 = box.y2, x1 = box.x1, x2 = box.x2;
 

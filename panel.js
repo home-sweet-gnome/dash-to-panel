@@ -129,12 +129,13 @@ var dtpPanelWrapper = new Lang.Class({
 
         if (this.panel.vfunc_allocate) {
             this._panelConnectId = 0;
+            this.panel._dtpPanelWrapper = this;
 
             if (!this.panel.__proto__._dtpOldAllocate) {
                 this.panel.__proto__._dtpOldAllocate = this.panel.__proto__.vfunc_allocate;
-                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', (box, flags) => { 
-                    this.panel.set_allocation(box, flags); 
-                    this._allocate(null, box, flags)
+                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', function(box, flags) { 
+                    this.set_allocation(box, flags); 
+                    this._dtpPanelWrapper._allocate(null, box, flags)
                 });
             }
         } else {
@@ -144,6 +145,7 @@ var dtpPanelWrapper = new Lang.Class({
         if(this.appMenu)
             this.panel._leftBox.remove_child(this.appMenu.container);
 
+        this.dynamicTransparency = new Transparency.DynamicTransparency(this);
         this.taskbar = new Taskbar.taskbar(this._dtpSettings, this);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
@@ -168,8 +170,6 @@ var dtpPanelWrapper = new Lang.Class({
             this.startIntellihideId = 0;
             this.intellihide = new Intellihide.Intellihide(this);
         });
-
-        this.dynamicTransparency = new Transparency.DynamicTransparency(this);
 
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._signalsHandler.add(
@@ -250,6 +250,7 @@ var dtpPanelWrapper = new Lang.Class({
                     '_updateSolidStyle',
                     () => {}
                 ]);
+            this.panel.actor.remove_style_class_name('solid');
         }
 	    
 	// Since we are usually visible but not usually changing, make sure
@@ -272,9 +273,13 @@ var dtpPanelWrapper = new Lang.Class({
 
         if (this._panelConnectId) {
             this.panel.actor.disconnect(this._panelConnectId);
-        } else if (this.panel.__proto__._dtpOldAllocate) {
-            this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this.panel.__proto__._dtpOldAllocate);
-            delete this.panel.__proto__._dtpOldAllocate;
+        } else if (this.panel._dtpPanelWrapper) {
+            if (this.panel.__proto__._dtpOldAllocate) {
+                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this.panel.__proto__._dtpOldAllocate);
+                delete this.panel.__proto__._dtpOldAllocate;
+            }
+
+            delete this.panel._dtpPanelWrapper;
         }
 
         if (this.startIntellihideId) {

@@ -36,6 +36,7 @@ var DynamicTransparency = new Lang.Class({
         this._proximityWatchId = 0;
         this._initialPanelStyle = dtpPanel.panel.actor.get_style();
         this._windowOverlap = false;
+        this.currentBackgroundColor = 0;
 
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._bindSignals();
@@ -187,8 +188,9 @@ var DynamicTransparency = new Lang.Class({
     },
 
     _setBackground: function() {
+        this.currentBackgroundColor = this._getrgbaColor(this._backgroundColor, this._alpha);
         this._dtpPanel.panelBox.set_style(
-            'background-color: ' + this._getrgbaColor(this._backgroundColor, this._alpha) +
+            'background-color: ' + this.currentBackgroundColor +
             'transition-duration:' + this._animationDuration
         );
     },
