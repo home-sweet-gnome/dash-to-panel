@@ -127,19 +127,16 @@ var dtpPanelWrapper = new Lang.Class({
                 this.oldRightBoxAllocate(box, flags);
         });
 
-        if (this.panel.vfunc_allocate) {
-            this._panelConnectId = 0;
-            this.panel._dtpPanelWrapper = this;
-
-            if (!this.panel.__proto__._dtpOldAllocate) {
+        if (!this.isSecondary) {
+            if (this.panel.vfunc_allocate) {
+                this._panelConnectId = 0;
                 this.panel.__proto__._dtpOldAllocate = this.panel.__proto__.vfunc_allocate;
                 this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', function(box, flags) { 
-                    this.set_allocation(box, flags); 
-                    this._dtpPanelWrapper._allocate(null, box, flags)
+                    this._allocate(null, box, flags);
                 });
+            } else {
+                this._panelConnectId = this.panel.actor.connect('allocate', (actor,box,flags) => this._allocate(actor,box,flags));
             }
-        } else {
-            this._panelConnectId = this.panel.actor.connect('allocate', (actor,box,flags) => this._allocate(actor,box,flags));
         }
 
         if(this.appMenu)
@@ -271,17 +268,6 @@ var dtpPanelWrapper = new Lang.Class({
             this.panel._leftBox.add_child(this.appMenu.container);
         this.taskbar.destroy();
 
-        if (this._panelConnectId) {
-            this.panel.actor.disconnect(this._panelConnectId);
-        } else if (this.panel._dtpPanelWrapper) {
-            if (this.panel.__proto__._dtpOldAllocate) {
-                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this.panel.__proto__._dtpOldAllocate);
-                delete this.panel.__proto__._dtpOldAllocate;
-            }
-
-            delete this.panel._dtpPanelWrapper;
-        }
-
         if (this.startIntellihideId) {
             Mainloop.source_remove(this.startIntellihideId);
             this.startIntellihideId = 0;
@@ -323,6 +309,13 @@ var dtpPanelWrapper = new Lang.Class({
             this._setClockLocation("BUTTONSLEFT");
             this._displayShowDesktopButton(false);
 
+            if (this._panelConnectId) {
+                this.panel.actor.disconnect(this._panelConnectId);
+            } else {
+                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this.panel.__proto__._dtpOldAllocate);
+                delete this.panel.__proto__._dtpOldAllocate;
+            }
+
             this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
             delete this.panel._leftBox.oldLeftBoxAllocate;
 
@@ -332,8 +325,9 @@ var dtpPanelWrapper = new Lang.Class({
             this.panel._rightBox.allocate = this.panel._rightBox.oldRightBoxAllocate;
             delete this.panel._rightBox.oldRightBoxAllocate;
         } else {
+            this.panel.delegate = null;
             Main.layoutManager.removeChrome(this.panelBox);
-            this.panel.allocateProxy = null;
+            this.panel.destroy();
             this.panelBox.destroy();
         }
 
@@ -736,7 +730,11 @@ var dtpSecondaryPanel = new Lang.Class({
 
     },
 
-    vfunc_allocate: function(box, flags) {},
+    vfunc_allocate: function(box, flags) {
+        if(this.delegate) {
+            this.delegate._allocate(null, box, flags);
+        }
+    },
     
     _setPanelMenu: function(settingName, propName, constr, container, isInit) {
         if (isInit) {

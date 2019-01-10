@@ -81,6 +81,7 @@ var dtpPanelManager = new Lang.Class({
                 panelBox.add(panel.actor);
                 
                 let panelWrapper = new Panel.dtpPanelWrapper(this, monitor, panel, panelBox, true);
+                panel.delegate = panelWrapper;
                 panelWrapper.enable();
 
                 this.allPanels.push(panelWrapper);
@@ -361,7 +362,9 @@ var dtpPanelManager = new Lang.Class({
     },
 
     _newGetShowAppsButton: function() {
-        return this.allPanels.find(p => this.checkIfFocusedMonitor(p.monitor)).taskbar.showAppsButton;
+        let focusedMonitorIndex = Taskbar.findIndex(this.allPanels, p => this.checkIfFocusedMonitor(p.monitor));
+        
+        return this.allPanels[focusedMonitorIndex].taskbar.showAppsButton;
     }
 });
 
