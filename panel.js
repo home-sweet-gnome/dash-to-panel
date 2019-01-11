@@ -131,9 +131,7 @@ var dtpPanelWrapper = new Lang.Class({
             if (this.panel.vfunc_allocate) {
                 this._panelConnectId = 0;
                 this.panel.__proto__._dtpOldAllocate = this.panel.__proto__.vfunc_allocate;
-                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', function(box, flags) { 
-                    this._allocate(null, box, flags);
-                });
+                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', (box, flags) => this._allocate(null, box, flags));
             } else {
                 this._panelConnectId = this.panel.actor.connect('allocate', (actor,box,flags) => this._allocate(actor,box,flags));
             }
