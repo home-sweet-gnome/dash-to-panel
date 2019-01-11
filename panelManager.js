@@ -256,7 +256,7 @@ var dtpPanelManager = new Lang.Class({
             button.menu._boxPointer._dtpSourceActor = button.menu._boxPointer.sourceActor;
             button.menu._boxPointer.sourceActor = button.actor;
             button.menu._boxPointer._userArrowSide = arrowSide;
-            button.menu._boxPointer_dtpInPanel = 1;
+            button.menu._boxPointer._dtpInPanel = 1;
 
             if (!button.menu._boxPointer.vfunc_get_preferred_height) {
                 button.menu._boxPointer._dtpGetPreferredHeightId = button.menu._boxPointer._container.connect('get-preferred-height', (actor, forWidth, alloc) => {
