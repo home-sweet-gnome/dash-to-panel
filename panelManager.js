@@ -91,7 +91,7 @@ var dtpPanelManager = new Lang.Class({
         let panelPosition = Taskbar.getPosition();
         this.allPanels.forEach(p => {
             p.panelBox.set_size(p.monitor.width, -1);
-            this._findPanelBoxPointers(p.panelBox).forEach(bp => this._adjustBoxPointer(bp, p.monitor, panelPosition));
+            this._findPanelMenuButtons(p.panelBox).forEach(pmb => this._adjustPanelMenuButton(pmb, p.monitor, panelPosition));
         });
 
         //in 3.32, BoxPointer now inherits St.Widget
@@ -174,7 +174,7 @@ var dtpPanelManager = new Lang.Class({
         );
 
         ['_leftBox', '_centerBox', '_rightBox'].forEach(c => this._signalsHandler.add(
-            [Main.panel[c], 'actor-added', (parent, child) => this._adjustBoxPointer(this._getPanelButtonBoxPointer(child), this.primaryPanel.monitor, Taskbar.getPosition())]
+            [Main.panel[c], 'actor-added', (parent, child) => this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, Taskbar.getPosition())]
         ));
 
         this._setKeyBindings(true);
@@ -185,12 +185,14 @@ var dtpPanelManager = new Lang.Class({
         this.proximityManager.destroy();
 
         this.allPanels.forEach(p => {
-            this._findPanelBoxPointers(p.panelBox).forEach(bp => {
-                if (bp._dtpGetPreferredHeightId) {
-                    bp._container.disconnect(bp._dtpGetPreferredHeightId);
+            this._findPanelMenuButtons(p.panelBox).forEach(pmb => {
+                if (pmb.menu._boxPointer._dtpGetPreferredHeightId) {
+                    pmb.menu._boxPointer._container.disconnect(pmb.menu._boxPointer._dtpGetPreferredHeightId);
                 }
 
-                bp._userArrowSide = St.Side.TOP;
+                pmb.menu._boxPointer.sourceActor = pmb.menu._boxPointer._dtpSourceActor;
+                delete pmb.menu._boxPointer._dtpSourceActor;
+                pmb.menu._boxPointer._userArrowSide = St.Side.TOP;
             })
 
             this._removePanelBarriers(p);
@@ -249,21 +251,24 @@ var dtpPanelManager = new Lang.Class({
         this.enable(true);
     },
 
-    _adjustBoxPointer: function(boxPointer, monitor, arrowSide) {
-        if (boxPointer) {
-            boxPointer._userArrowSide = arrowSide;
-            boxPointer._dtpInPanel = 1;
+    _adjustPanelMenuButton: function(button, monitor, arrowSide) {
+        if (button) {
+            button.menu._boxPointer._dtpSourceActor = button.menu._boxPointer.sourceActor;
+            button.menu._boxPointer.sourceActor = button.actor;
+            button.menu._boxPointer._userArrowSide = arrowSide;
+            button.menu._boxPointer_dtpInPanel = 1;
 
-            if (!boxPointer.vfunc_get_preferred_height) {
-                boxPointer._dtpGetPreferredHeightId = boxPointer._container.connect('get-preferred-height', (actor, forWidth, alloc) => {
-                    this._getBoxPointerPreferredHeight(boxPointer, alloc);
+            if (!button.menu._boxPointer.vfunc_get_preferred_height) {
+                button.menu._boxPointer._dtpGetPreferredHeightId = button.menu._boxPointer._container.connect('get-preferred-height', (actor, forWidth, alloc) => {
+                    this._getBoxPointerPreferredHeight(button.menu._boxPointer, alloc, monitor);
                 });
             }
         }
     },
 
-    _getBoxPointerPreferredHeight: function(boxPointer, alloc) {
+    _getBoxPointerPreferredHeight: function(boxPointer, alloc, monitor) {
         if (boxPointer._dtpInPanel && this._dtpSettings.get_boolean('intellihide')) {
+            monitor = monitor || Main.layoutManager.findMonitorForActor(boxPointer.sourceActor);
             let excess = alloc.natural_size + this._dtpSettings.get_int('panel-size') + 10 - monitor.height; // 10 is arbitrary
 
             if (excess > 0) {
@@ -274,13 +279,13 @@ var dtpPanelManager = new Lang.Class({
         return [alloc.min_size, alloc.natural_size];
     },
 
-    _findPanelBoxPointers: function(container) {
-        let panelBoxPointers = [];
-        let boxPointer;
+    _findPanelMenuButtons: function(container) {
+        let panelMenuButtons = [];
+        let panelMenuButton;
 
         let find = parent => parent.get_children().forEach(c => {
-            if ((boxPointer = this._getPanelButtonBoxPointer(c))) {
-                panelBoxPointers.push(boxPointer);
+            if ((panelMenuButton = this._getPanelMenuButton(c))) {
+                panelMenuButtons.push(panelMenuButton);
             }
 
             find(c);
@@ -288,7 +293,7 @@ var dtpPanelManager = new Lang.Class({
 
         find(container);
 
-        return panelBoxPointers;
+        return panelMenuButtons;
     },
 
     _removePanelBarriers: function(panel) {
@@ -301,8 +306,8 @@ var dtpPanelManager = new Lang.Class({
         }
     },
 
-    _getPanelButtonBoxPointer: function(obj) {
-        return obj._delegate && obj._delegate instanceof PanelMenu.Button ? obj._delegate.menu._boxPointer : 0;
+    _getPanelMenuButton: function(obj) {
+        return obj._delegate && obj._delegate instanceof PanelMenu.Button ? obj._delegate : 0;
     },
 
     _setKeyBindings: function(enable) {
