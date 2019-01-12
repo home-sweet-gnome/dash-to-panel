@@ -144,7 +144,7 @@ var dtpPanelWrapper = new Lang.Class({
         this.taskbar = new Taskbar.taskbar(this._dtpSettings, this);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
-        this.container.insert_child_at_index( this.taskbar.actor, 2 );
+        this.container.insert_child_above(this.taskbar.actor, null);
         
         this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
         this._setAppmenuVisible(this._dtpSettings.get_boolean('show-appmenu'));
