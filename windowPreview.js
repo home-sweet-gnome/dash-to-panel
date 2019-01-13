@@ -68,7 +68,7 @@ var thumbnailPreviewMenu = new Lang.Class({
         this._app = this._source.app;
 
         this.actor.add_style_class_name('app-well-menu');
-        this.actor.set_style("max-width: " + (Main.layoutManager.primaryMonitor.width - 22) + "px;");
+        this.actor.set_style("max-width: " + (this._source.panelWrapper.monitor.width - 22) + "px;");
         this.actor.hide();
 
         // Chain our visibility and lifecycle to that of the source
