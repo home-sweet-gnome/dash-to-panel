@@ -717,9 +717,6 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     activate: function(button, handleAsGrouped) {
-        if (this.windowPreview)
-            this.windowPreview.requestCloseMenu();
-
         let event = Clutter.get_current_event();
         let modifiers = event ? event.get_state() : 0;
         let focusedApp = tracker.focus_app;
@@ -753,21 +750,24 @@ var taskbarAppIcon = new Lang.Class({
             else
                 buttonAction = this._dtpSettings.get_string('click-action');
         }
-        
+
+        let appCount = this.getAppIconInterestingWindows().length;
+        if (this.windowPreview && (!(buttonAction == "TOGGLE-SHOWPREVIEW") || (appCount <= 1)))
+            this.windowPreview.requestCloseMenu();
+
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
-        let appIsRunning = this.app.state == Shell.AppState.RUNNING
-            && this.getAppIconInterestingWindows().length > 0
+        let appIsRunning = this.app.state == Shell.AppState.RUNNING && appCount > 0;
 
         // We customize the action only when the application is already running
         if (appIsRunning && !this.isLauncher) {
             if (this.window && !handleAsGrouped) {
                 //ungrouped applications behaviors
                 switch (buttonAction) {
-                    case 'RAISE': case 'CYCLE': case 'CYCLE-MIN': case 'MINIMIZE':
+                    case 'RAISE': case 'CYCLE': case 'CYCLE-MIN': case 'MINIMIZE': case 'TOGGLE-SHOWPREVIEW':
                         if (!Main.overview._shown && 
-                            (buttonAction == 'MINIMIZE' || 
-                             (buttonAction == 'CYCLE-MIN' && this._isFocusedWindow()))) {
+                            (buttonAction == 'MINIMIZE' || buttonAction == 'TOGGLE-SHOWPREVIEW' || buttonAction == 'CYCLE-MIN') && 
+                            (this._isFocusedWindow() || (buttonAction == 'MINIMIZE' && (button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK)))) {
                                 this.window.minimize();
                         } else {
                             Main.activateWindow(this.window);
@@ -834,6 +834,26 @@ var taskbarAppIcon = new Lang.Class({
                                 cycleThroughWindows(this.app, this._dtpSettings, false, true);
                             else {
                                 activateFirstWindow(this.app, this._dtpSettings);
+                            }
+                        }
+                        else
+                            this.app.activate();
+                        break;
+                    case "TOGGLE-SHOWPREVIEW":
+                        if (!Main.overview._shown) {
+                            if (appCount == 1) {
+                                if (this.app == focusedApp)
+                                    minimizeWindow(this.app, false, this._dtpSettings);
+                                else
+                                    activateFirstWindow(this.app, this._dtpSettings);
+                            } else {
+                                // minimize all windows if double clicked
+                                if (Clutter.EventType.CLUTTER_BUTTON_PRESS) {
+                                    let click_count = event.get_click_count();
+                                    if(click_count > 1) {
+                                        minimizeWindow(this.app, true, this._dtpSettings);
+                                    }
+                                }
                             }
                         }
                         else
