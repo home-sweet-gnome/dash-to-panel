@@ -21,6 +21,7 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
+const Gi = imports._gi;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
@@ -193,5 +194,14 @@ var DisplayWrapper = {
 
     getMonitorManager: function() {
         return global.screen || Meta.MonitorManager.get();
+    }
+};
+
+var hookVfunc = function(proto, symbol, func) {
+    if (Gi.hook_up_vfunc_symbol) {
+        //gjs > 1.53.3
+        proto[Gi.hook_up_vfunc_symbol](symbol, func);
+    } else {
+        Gi.hook_up_vfunc(proto, symbol, func);
     }
 };

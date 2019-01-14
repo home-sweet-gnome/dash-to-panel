@@ -100,7 +100,7 @@ var dtpPanelManager = new Lang.Class({
         if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
             let panelManager = this;
 
-            BoxPointer.BoxPointer.prototype[Gi.hook_up_vfunc_symbol]('get_preferred_height', function(forWidth) {
+            Utils.hookVfunc(BoxPointer.BoxPointer.prototype, 'get_preferred_height', function(forWidth) {
                 let alloc = { min_size: 0, natural_size: 0 };
                 
                 [alloc.min_size, alloc.natural_size] = this.vfunc_get_preferred_height(forWidth);
@@ -140,14 +140,14 @@ var dtpPanelManager = new Lang.Class({
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
         
         if (Dash.DashItemContainer.prototype.vfunc_allocate) {
-            Dash.DashItemContainer.prototype[Gi.hook_up_vfunc_symbol]('allocate', this._newDashItemContainerAllocate);
-            Dash.ShowAppsIcon.prototype[Gi.hook_up_vfunc_symbol]('allocate', function(box, flags) { St.Widget.prototype.vfunc_allocate.call(this, box, flags); });
+            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', this._newDashItemContainerAllocate);
+            Utils.hookVfunc(Dash.ShowAppsIcon.prototype, 'allocate', function(box, flags) { St.Widget.prototype.vfunc_allocate.call(this, box, flags); });
         }
 
         this._needsIconAllocate = new IconGrid.BaseIcon('') instanceof St.Bin;
         
         if (this._needsIconAllocate) {
-            IconGrid.BaseIcon.prototype[Gi.hook_up_vfunc_symbol]('allocate', this._newBaseIconAllocate);
+            Utils.hookVfunc(IconGrid.BaseIcon.prototype, 'allocate', this._newBaseIconAllocate);
         }
             
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
@@ -214,7 +214,7 @@ var dtpPanelManager = new Lang.Class({
         });
 
         if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
-            BoxPointer.BoxPointer.prototype[Gi.hook_up_vfunc_symbol]('get_preferred_height', BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height);
+            Utils.hookVfunc(BoxPointer.BoxPointer.prototype, 'get_preferred_height', BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height);
         }
 
         if (reset) return;
@@ -242,12 +242,12 @@ var dtpPanelManager = new Lang.Class({
         Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
 
         if (Dash.DashItemContainer.prototype.vfunc_allocate) {
-            Dash.DashItemContainer.prototype[Gi.hook_up_vfunc_symbol]('allocate', Dash.DashItemContainer.prototype.vfunc_allocate);
-            Dash.ShowAppsIcon.prototype[Gi.hook_up_vfunc_symbol]('allocate', Dash.ShowAppsIcon.prototype.vfunc_allocate);
+            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', Dash.DashItemContainer.prototype.vfunc_allocate);
+            Utils.hookVfunc(Dash.ShowAppsIcon.prototype, 'allocate', Dash.ShowAppsIcon.prototype.vfunc_allocate);
         }
 
         if (this._needsIconAllocate) {
-            IconGrid.BaseIcon.prototype[Gi.hook_up_vfunc_symbol]('allocate', IconGrid.BaseIcon.prototype.vfunc_allocate);
+            Utils.hookVfunc(IconGrid.BaseIcon.prototype, 'allocate', IconGrid.BaseIcon.prototype.vfunc_allocate);
         }
     },
 
