@@ -232,6 +232,11 @@ var taskbar = new Lang.Class({
                                                   pivot_point: new Clutter.Point({ x: .5, y: .5 }), 
                                                   rotation_angle_z: 180 }));
 
+        this.showAppsButton.add_constraint(new Clutter.BindConstraint({
+            source: this._container,
+            coordinate: Clutter.BindCoordinate.HEIGHT
+        }));
+
         if (!this._dtpSettings.get_boolean('show-show-apps-button'))
             this.hideShowAppsButton();
 
@@ -728,7 +733,6 @@ var taskbar = new Lang.Class({
         // Getting the panel height and making sure that the icon padding is at
         // least the size of the app running indicator on both the top and bottom.
         let availSize = (this.panelWrapper.panel.actor.get_height() - 
-                         (this._dtpSettings.get_int('dot-size') * scaleFactor * 2) - 
                          (this._dtpSettings.get_int('appicon-padding') * 2)) / scaleFactor;
         
         if (availSize == this.iconSize)

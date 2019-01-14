@@ -130,7 +130,6 @@ var dtpPanelWrapper = new Lang.Class({
         if (!this.isSecondary) {
             if (this.panel.vfunc_allocate) {
                 this._panelConnectId = 0;
-                this.panel.__proto__._dtpOldAllocate = this.panel.__proto__.vfunc_allocate;
                 this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', (box, flags) => this._allocate(null, box, flags));
             } else {
                 this._panelConnectId = this.panel.actor.connect('allocate', (actor,box,flags) => this._allocate(actor,box,flags));
@@ -310,8 +309,7 @@ var dtpPanelWrapper = new Lang.Class({
             if (this._panelConnectId) {
                 this.panel.actor.disconnect(this._panelConnectId);
             } else {
-                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this.panel.__proto__._dtpOldAllocate);
-                delete this.panel.__proto__._dtpOldAllocate;
+                this.panel.__proto__[Gi.hook_up_vfunc_symbol]('allocate', this.panel.__proto__.vfunc_allocate);
             }
 
             this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;

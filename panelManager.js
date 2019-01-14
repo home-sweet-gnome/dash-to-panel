@@ -35,6 +35,8 @@ const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
 const BoxPointer = imports.ui.boxpointer;
+const Clutter = imports.gi.Clutter;
+const Dash = imports.ui.dash;
 const Gi = imports._gi;
 const IconGrid = imports.ui.iconGrid;
 const Main = imports.ui.main;
@@ -137,6 +139,17 @@ var dtpPanelManager = new Lang.Class({
         this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
         
+        if (Dash.DashItemContainer.prototype.vfunc_allocate) {
+            Dash.DashItemContainer.prototype[Gi.hook_up_vfunc_symbol]('allocate', this._newDashItemContainerAllocate);
+            Dash.ShowAppsIcon.prototype[Gi.hook_up_vfunc_symbol]('allocate', function(box, flags) { St.Widget.prototype.vfunc_allocate.call(this, box, flags); });
+        }
+
+        this._needsIconAllocate = new IconGrid.BaseIcon('') instanceof St.Bin;
+        
+        if (this._needsIconAllocate) {
+            IconGrid.BaseIcon.prototype[Gi.hook_up_vfunc_symbol]('allocate', this._newBaseIconAllocate);
+        }
+            
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
         if(Main.overview.viewSelector._activePage == null)
@@ -227,6 +240,15 @@ var dtpPanelManager = new Lang.Class({
 
         Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
         Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
+
+        if (Dash.DashItemContainer.prototype.vfunc_allocate) {
+            Dash.DashItemContainer.prototype[Gi.hook_up_vfunc_symbol]('allocate', Dash.DashItemContainer.prototype.vfunc_allocate);
+            Dash.ShowAppsIcon.prototype[Gi.hook_up_vfunc_symbol]('allocate', Dash.ShowAppsIcon.prototype.vfunc_allocate);
+        }
+
+        if (this._needsIconAllocate) {
+            IconGrid.BaseIcon.prototype[Gi.hook_up_vfunc_symbol]('allocate', IconGrid.BaseIcon.prototype.vfunc_allocate);
+        }
     },
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {
@@ -370,6 +392,45 @@ var dtpPanelManager = new Lang.Class({
         let focusedMonitorIndex = Taskbar.findIndex(this.allPanels, p => this.checkIfFocusedMonitor(p.monitor));
         
         return this.allPanels[focusedMonitorIndex].taskbar.showAppsButton;
+    },
+
+    _newDashItemContainerAllocate: function(box, flags) {
+        if (this.child == null)
+            return;
+
+        this.set_allocation(box, flags);
+
+        let availWidth = box.x2 - box.x1;
+        let availHeight = box.y2 - box.y1;
+        let [minChildWidth, minChildHeight, natChildWidth, natChildHeight] = this.child.get_preferred_size();
+        let [childScaleX, childScaleY] = this.child.get_scale();
+
+        let childWidth = Math.min(natChildWidth * childScaleX, availWidth);
+        let childHeight = Math.min(natChildHeight * childScaleY, availHeight);
+        let childBox = new Clutter.ActorBox();
+
+        childBox.x1 = (availWidth - childWidth) / 2;
+        childBox.y1 = (availHeight - childHeight) / 2;
+        childBox.x2 = childBox.x1 + childWidth;
+        childBox.y2 = childBox.y1 + childHeight;
+
+        this.child.allocate(childBox, flags);
+    },
+
+    _newBaseIconAllocate: function(box, flags) {
+        this.set_allocation(box, flags);
+        
+        let contentBox = this.get_theme_node().get_content_box(box);
+        let [iconMinHeight, iconNatHeight] = this._iconBin.get_preferred_height(-1);
+        let [iconMinWidth, iconNatWidth] = this._iconBin.get_preferred_width(-1);
+        let childBox = new Clutter.ActorBox();
+
+        childBox.x1 = (contentBox.x2 - contentBox.x1 - iconNatWidth) * .5;
+        childBox.x2 = contentBox.x1 + iconNatWidth;
+        childBox.y1 = (contentBox.y2 - contentBox.y1 - iconNatHeight) * .5;
+        childBox.y2 = contentBox.y1 + iconNatHeight;
+
+        this._iconBin.allocate(childBox, flags);
     }
 });
 

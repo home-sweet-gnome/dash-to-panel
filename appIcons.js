@@ -133,12 +133,11 @@ var taskbarAppIcon = new Lang.Class({
         this._focused = tracker.focus_app == this.app;
         this._isGroupApps = this._dtpSettings.get_boolean('group-apps');
 
-        this._container = new St.Widget({ layout_manager: new Clutter.BinLayout() });
+        this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
+        this._dtpIconContainer = new St.Widget({ style_class: 'dtp-icon-container', layout_manager: new Clutter.BinLayout()});
 
         this.actor.remove_actor(this._iconContainer);
-        
-        this._dtpIconContainer = new St.Widget({ name: 'dtp-icon-container', layout_manager: new Clutter.BinLayout() });
         
         this._dtpIconContainer.add_child(this._iconContainer);
 
@@ -174,6 +173,9 @@ var taskbarAppIcon = new Lang.Class({
             this._stateChangedId = 0;
         }
 
+        this._setAppIconPadding();
+        this._showDots();
+
         this._focusWindowChangedId = global.display.connect('notify::focus-window', 
                                                             Lang.bind(this, this._onFocusAppChanged));
 
@@ -193,9 +195,6 @@ var taskbarAppIcon = new Lang.Class({
         this._switchWorkspaceId = global.window_manager.connect('switch-workspace',
                                                 Lang.bind(this, this._onSwitchWorkspace));
         
-        this._setAppIconPadding();
-        this._showDots();
-
         this._dtpSettingsSignalIds = [
             this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._updateDotSize)),
@@ -535,7 +534,7 @@ var taskbarAppIcon = new Lang.Class({
         }
         
         this.actor.set_style('padding: 0 ' + margin + 'px;');
-        this._dtpIconContainer.set_style('padding: ' + padding + 'px;');
+        this._iconContainer.set_style('padding: ' + padding + 'px;');
     },
 
     popupMenu: function() {
@@ -1461,7 +1460,6 @@ var ShowAppsIconWrapper = new Lang.Class({
         /* the variable equivalent to toggleButton has a different name in the appIcon class
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
-        this.actor.name = 'show-apps-btn';
 
         // Re-use appIcon methods
         this._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
@@ -1508,13 +1506,6 @@ var ShowAppsIconWrapper = new Lang.Class({
             customIconPath = this._dtpSettings.get_string('show-apps-icon-file');
             this.realShowAppsIcon.icon._createIconTexture(this.realShowAppsIcon.icon.iconSize);
         });
-
-        this._dtpSettings.connect('changed::appicon-padding', () => this.setShowAppsPadding());
-        this.setShowAppsPadding();
-    },
-
-    setShowAppsPadding: function() {
-        this.actor.set_style('padding:' + (this._dtpSettings.get_int('appicon-padding') + 2) + 'px;');
     },
 
     popupMenu: function() {
