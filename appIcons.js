@@ -1460,6 +1460,7 @@ var ShowAppsIconWrapper = new Lang.Class({
         /* the variable equivalent to toggleButton has a different name in the appIcon class
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
+        (this.realShowAppsIcon.actor || this.realShowAppsIcon).y_align = Clutter.ActorAlign.START;
 
         // Re-use appIcon methods
         this._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;

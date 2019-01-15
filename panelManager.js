@@ -139,15 +139,10 @@ var dtpPanelManager = new Lang.Class({
         this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
         
-        if (Dash.DashItemContainer.prototype.vfunc_allocate) {
-            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', this._newDashItemContainerAllocate);
-            Utils.hookVfunc(Dash.ShowAppsIcon.prototype, 'allocate', function(box, flags) { St.Widget.prototype.vfunc_allocate.call(this, box, flags); });
-        }
+        this._needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');
 
-        this._needsIconAllocate = new IconGrid.BaseIcon('') instanceof St.Bin;
-        
-        if (this._needsIconAllocate) {
-            Utils.hookVfunc(IconGrid.BaseIcon.prototype, 'allocate', this._newBaseIconAllocate);
+        if (this._needsDashItemContainerAllocate) {
+            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', this._newDashItemContainerAllocate);
         }
             
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
@@ -241,13 +236,8 @@ var dtpPanelManager = new Lang.Class({
         Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
         Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
 
-        if (Dash.DashItemContainer.prototype.vfunc_allocate) {
+        if (this._needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', Dash.DashItemContainer.prototype.vfunc_allocate);
-            Utils.hookVfunc(Dash.ShowAppsIcon.prototype, 'allocate', Dash.ShowAppsIcon.prototype.vfunc_allocate);
-        }
-
-        if (this._needsIconAllocate) {
-            Utils.hookVfunc(IconGrid.BaseIcon.prototype, 'allocate', IconGrid.BaseIcon.prototype.vfunc_allocate);
         }
     },
 
@@ -416,22 +406,6 @@ var dtpPanelManager = new Lang.Class({
 
         this.child.allocate(childBox, flags);
     },
-
-    _newBaseIconAllocate: function(box, flags) {
-        this.set_allocation(box, flags);
-        
-        let contentBox = this.get_theme_node().get_content_box(box);
-        let [iconMinHeight, iconNatHeight] = this._iconBin.get_preferred_height(-1);
-        let [iconMinWidth, iconNatWidth] = this._iconBin.get_preferred_width(-1);
-        let childBox = new Clutter.ActorBox();
-
-        childBox.x1 = (contentBox.x2 - contentBox.x1 - iconNatWidth) * .5;
-        childBox.x2 = contentBox.x1 + iconNatWidth;
-        childBox.y1 = (contentBox.y2 - contentBox.y1 - iconNatHeight) * .5;
-        childBox.y2 = contentBox.y1 + iconNatHeight;
-
-        this._iconBin.allocate(childBox, flags);
-    }
 });
 
 function newViewSelectorAnimateIn(oldPage) {
