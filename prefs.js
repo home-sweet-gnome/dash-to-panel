@@ -780,6 +780,11 @@ const Settings = new Lang.Class({
                             this._builder.get_object('show_application_options_button'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+        
+        this._builder.get_object('show_applications_side_padding_spinbutton').set_value(this._settings.get_int('show-apps-icon-side-padding'));
+        this._builder.get_object('show_applications_side_padding_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('show-apps-icon-side-padding', widget.get_value());
+        }));
 
         this._builder.get_object('show_application_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Show Applications options'),
@@ -823,6 +828,8 @@ const Settings = new Lang.Class({
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
+                    this._settings.set_value('show-apps-icon-side-padding', this._settings.get_default_value('show-apps-icon-side-padding'));
+                    this._builder.get_object('show_applications_side_padding_spinbutton').set_value(this._settings.get_int('show-apps-icon-side-padding'));
                     handleIconChange.call(this, null);
                 } else {
                     // remove the settings box so it doesn't get destroyed;

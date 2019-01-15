@@ -370,6 +370,7 @@ var taskbar = new Lang.Class({
     destroy: function() {
         this._signalsHandler.destroy();
         this._signalsHandler = 0;
+        this._showAppsIconWrapper.destroy();
 
         this._container.destroy();
         this._disconnectWorkspaceSignals();

@@ -1503,10 +1503,22 @@ var ShowAppsIconWrapper = new Lang.Class({
             return this._iconActor;
         };
 
-        this._dtpSettings.connect('changed::show-apps-icon-file', () => {
+        this._changedShowAppsIconId = this._dtpSettings.connect('changed::show-apps-icon-file', () => {
             customIconPath = this._dtpSettings.get_string('show-apps-icon-file');
             this.realShowAppsIcon.icon._createIconTexture(this.realShowAppsIcon.icon.iconSize);
         });
+
+        this._changedAppIconPaddingId = this._dtpSettings.connect('changed::appicon-padding', () => this.setShowAppsPadding());
+        this._changedAppIconSidePaddingId = this._dtpSettings.connect('changed::show-apps-icon-side-padding', () => this.setShowAppsPadding());
+        
+        this.setShowAppsPadding();
+    },
+
+    setShowAppsPadding: function() {
+        let padding = this._dtpSettings.get_int('appicon-padding');
+        let sidePadding = this._dtpSettings.get_int('show-apps-icon-side-padding')
+
+        this.actor.set_style('padding:' + padding + 'px ' + (padding + sidePadding) + 'px;');
     },
 
     popupMenu: function() {
@@ -1540,6 +1552,12 @@ var ShowAppsIconWrapper = new Lang.Class({
 
     shouldShowTooltip: function() {
         return this.actor.hover && (!this._menu || !this._menu.isOpen);
+    },
+
+    destroy: function() {
+        this._dtpSettings.disconnect(this._changedShowAppsIconId);
+        this._dtpSettings.disconnect(this._changedAppIconSidePaddingId);
+        this._dtpSettings.disconnect(this._changedAppIconPaddingId);
     }
 });
 Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
