@@ -233,8 +233,10 @@ var dtpPanelManager = new Lang.Class({
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
         Main.overview.getShowAppsButton = this._oldGetShowAppsButton;
 
-        Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
-        Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
+        if (Main.layoutManager.primaryMonitor) {
+            Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
+            Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
+        }
 
         if (this._needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', Dash.DashItemContainer.prototype.vfunc_allocate);
