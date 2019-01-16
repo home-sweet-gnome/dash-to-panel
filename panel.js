@@ -91,7 +91,7 @@ var dtpPanelWrapper = new Lang.Class({
             reactive: false,
             opacity: 0 
         });
-
+        Main.overview._overview.add_actor(this._myPanelGhost)
         this._adjustForOverview();
 
         this._setPanelPosition();
@@ -195,11 +195,6 @@ var dtpPanelWrapper = new Lang.Class({
             ],
             [
                 Main.overview,
-                'hidden',
-                () => this._removePanelGhost()
-            ],
-            [
-                Main.overview,
                 [
                     'showing',
                     'hiding'
@@ -255,8 +250,7 @@ var dtpPanelWrapper = new Lang.Class({
 
     disable: function () {
         this.panelStyle.disable();
-
-        this._removePanelGhost();
+        Main.overview._overview.remove_actor(this._myPanelGhost);
 
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
@@ -377,18 +371,8 @@ var dtpPanelWrapper = new Lang.Class({
         let isShown = !isOverview || (isOverview && isFocusedMonitor);
 
         this.panelBox[isShown ? 'show' : 'hide']();
-        
-        if (isOverview && isFocusedMonitor) {
-            Main.overview._overview.add_actor(this._myPanelGhost);
-        }
     },
     
-    _removePanelGhost: function() {
-        if (this._myPanelGhost.get_parent()) {
-            Main.overview._overview.remove_actor(this._myPanelGhost);
-        }
-    },
-
     _allocate: function(actor, box, flags) {
         let panelAllocWidth = box.x2 - box.x1;
         let panelAllocHeight = box.y2 - box.y1;
