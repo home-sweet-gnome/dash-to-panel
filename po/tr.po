@@ -31,7 +31,7 @@ msgstr "Varsayılanlara dön"
 
 #: prefs.js:431
 msgid "Default (Primary monitor)"
-msgstr "Default (Birincil ekran)"
+msgstr "Varsayılan (Birincil ekran)"
 
 #: prefs.js:434
 msgid "Monitor "
