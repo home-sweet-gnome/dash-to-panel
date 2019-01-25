@@ -456,6 +456,12 @@ var taskbar = new Lang.Class({
     },
 
     _endDrag: function() {
+        if (this._dragInfo && this._dragInfo[1]._dashItemContainer instanceof DragPlaceholderItem) {
+            this._box.remove_child(this._dragInfo[1]._dashItemContainer);
+            this._dragInfo[1]._dashItemContainer.destroy();
+            delete this._dragInfo[1]._dashItemContainer;
+        }
+
         this._dragInfo = null;
         this._clearEmptyDropTarget();
         this._showAppsIcon.setDragApp(null);
@@ -662,7 +668,8 @@ var taskbar = new Lang.Class({
 
     _updateAppIconsGeometry: function() {
         let appIcons = this._getAppIcons();
-        appIcons.forEach(function(icon){
+
+        appIcons.filter(icon => icon.constructor === AppIcons.taskbarAppIcon).forEach(function(icon) {
             icon.updateIconGeometry();
         });
     },
@@ -960,7 +967,7 @@ var taskbar = new Lang.Class({
         }
     },
 
-    handleDragOver : function(source, actor, x, y, time) {
+    handleDragOver: function(source, actor, x, y, time) {
         if (source == Main.xdndHandler)
             return DND.DragMotionResult.CONTINUE;
 
@@ -970,6 +977,14 @@ var taskbar = new Lang.Class({
 
         if (!this._settings.is_writable('favorite-apps'))
             return DND.DragMotionResult.NO_DROP;
+
+        if (!this._box.contains(source.actor) && !source._dashItemContainer) {
+            //not an appIcon of the taskbar, probably from the applications view
+            source._dashItemContainer = new DragPlaceholderItem(source, this.iconSize);
+            this._box.insert_child_above(source._dashItemContainer, null);
+        }
+        
+        x -= this.showAppsButton.width;
 
         let currentAppIcons = this._getAppIcons();
         let sourceIndex = currentAppIcons.indexOf(source);
@@ -986,12 +1001,12 @@ var taskbar = new Lang.Class({
 
             // Don't allow positioning before or after self and between icons of same app
             if (!(hoveredIndex === sourceIndex ||
-                 (isLeft && hoveredIndex - 1 == sourceIndex) ||
-                 (isLeft && hoveredIndex - 1 >= 0 && source.app != currentAppIcons[hoveredIndex - 1].app && 
-                  currentAppIcons[hoveredIndex - 1].app == currentAppIcons[hoveredIndex].app) ||
-                 (!isLeft && hoveredIndex + 1 == sourceIndex) ||
-                 (!isLeft && hoveredIndex + 1 < currentAppIcons.length && source.app != currentAppIcons[hoveredIndex + 1].app && 
-                  currentAppIcons[hoveredIndex + 1].app == currentAppIcons[hoveredIndex].app))) {
+                  (isLeft && hoveredIndex - 1 == sourceIndex) ||
+                  (isLeft && hoveredIndex - 1 >= 0 && source.app != currentAppIcons[hoveredIndex - 1].app && 
+                   currentAppIcons[hoveredIndex - 1].app == currentAppIcons[hoveredIndex].app) ||
+                  (!isLeft && hoveredIndex + 1 == sourceIndex) ||
+                  (!isLeft && hoveredIndex + 1 < currentAppIcons.length && source.app != currentAppIcons[hoveredIndex + 1].app && 
+                   currentAppIcons[hoveredIndex + 1].app == currentAppIcons[hoveredIndex].app))) {
                     this._box.set_child_at_index(source._dashItemContainer, hoveredIndex);
     
                     // Ensure the next and previous icon are visible when moving the icon
@@ -1213,6 +1228,30 @@ var taskbar = new Lang.Class({
 });
 
 Signals.addSignalMethods(taskbar.prototype);
+
+var DragPlaceholderItem = new Lang.Class({
+    Name: 'DashToPanel-DragPlaceholderItem',
+    Extends: St.Widget,
+
+    _init: function(appIcon, iconSize) {
+        this.parent({ style_class: 'dtp-icon-container', layout_manager: new Clutter.BinLayout() });
+
+        this.child = { _delegate: appIcon };
+
+        this._clone = new Clutter.Clone({ 
+            source: appIcon.icon._iconBin,
+            width: iconSize,
+            height: iconSize
+        });
+
+        this.add_actor(this._clone);
+    },
+
+    destroy: function() {
+        this._clone.destroy();
+        this.parent();
+    },
+});
 
 function getAppStableSequence(app, settings, monitor) {
     let windows = AppIcons.getInterestingWindows(app, settings, monitor);

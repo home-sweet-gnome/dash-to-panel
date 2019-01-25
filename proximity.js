@@ -118,11 +118,6 @@ var ProximityManager = new Lang.Class({
     _bindSignals: function() {
         this._signalsHandler.add(
             [
-                Utils.DisplayWrapper.getScreen(),
-                'restacked',
-                () => this._queueUpdate()
-            ],
-            [
                 global.window_manager,
                 'switch-workspace', 
                 () => Object.keys(this._watches).forEach(id => this._watches[id].overlap = 0)
