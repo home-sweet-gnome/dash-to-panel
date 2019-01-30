@@ -769,7 +769,7 @@ var dtpSecondaryAggregateMenu = new Lang.Class({
         this._indicators = new St.BoxLayout({ style_class: 'panel-status-indicators-box' });
         this.actor.add_child(this._indicators);
 
-        if (Config.HAVE_NETWORKMANAGER) {
+        if (Config.HAVE_NETWORKMANAGER && Config.PACKAGE_VERSION >= '3.24') {
             this._network = new imports.ui.status.network.NMApplet();
         } else {
             this._network = null;
