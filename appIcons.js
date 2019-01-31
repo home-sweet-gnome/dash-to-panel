@@ -371,7 +371,7 @@ var taskbarAppIcon = new Lang.Class({
         [rect.x, rect.y] = this.actor.get_transformed_position();
         [rect.width, rect.height] = this.actor.get_transformed_size();
 
-        let windows = this.window ? [this.window] : this.getAppIconInterestingWindows();
+        let windows = this.window ? [this.window] : this.getAppIconInterestingWindows(true);
         windows.forEach(function(w) {
             w.set_icon_geometry(rect);
         });
@@ -1108,8 +1108,8 @@ var taskbarAppIcon = new Lang.Class({
         return DND.DragMotionResult.CONTINUE;
     },
 
-    getAppIconInterestingWindows: function() {
-        return getInterestingWindows(this.app, this._dtpSettings, this.panelWrapper.monitor);
+    getAppIconInterestingWindows: function(isolateMonitors) {
+        return getInterestingWindows(this.app, this._dtpSettings, this.panelWrapper.monitor, isolateMonitors);
     }
 
 });
@@ -1216,7 +1216,7 @@ function closeAllWindows(app, settings) {
 
 // Filter out unnecessary windows, for instance
 // nautilus desktop window.
-function getInterestingWindows(app, settings, monitor) {
+function getInterestingWindows(app, settings, monitor, isolateMonitors) {
     let windows = app.get_windows().filter(function(w) {
         return !w.skip_taskbar;
     });
@@ -1228,7 +1228,7 @@ function getInterestingWindows(app, settings, monitor) {
             return w.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index();
         });
 
-    if (monitor && settings.get_boolean('multi-monitors') && settings.get_boolean('isolate-monitors')) {
+    if (monitor && settings.get_boolean('multi-monitors') && (isolateMonitors || settings.get_boolean('isolate-monitors'))) {
         windows = windows.filter(function(w) {
             return w.get_monitor() == monitor.index;
         });
