@@ -1409,6 +1409,11 @@ const Settings = new Lang.Class({
                             this._builder.get_object('stockgs_dash_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('stockgs-panelbtn-click-only',
+                            this._builder.get_object('stockgs_panelbtn_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
         
         // About Panel
 

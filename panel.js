@@ -136,6 +136,13 @@ var dtpPanelWrapper = new Lang.Class({
             }
         }
 
+        this.panel.menuManager._oldChangeMenu = this.panel.menuManager._changeMenu;
+        this.panel.menuManager._changeMenu = (menu) => {
+            if (!this._dtpSettings.get_boolean('stockgs-panelbtn-click-only')) {
+                this.panel.menuManager._oldChangeMenu(menu);
+            }
+        };
+
         if(this.appMenu)
             this.panel._leftBox.remove_child(this.appMenu.container);
 
@@ -291,6 +298,8 @@ var dtpPanelWrapper = new Lang.Class({
             this._injectionsHandler.removeWithLabel('transparency');
             this._injectionsHandler.destroy();
         }
+
+        this.panel.menuManager._changeMenu = this.panel.menuManager._oldChangeMenu;
 
         if (!this.isSecondary) {
             this.panel.actor.set_height(this._oldPanelHeight);
