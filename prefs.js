@@ -695,7 +695,22 @@ const Settings = new Lang.Class({
         this._settings.bind('intellihide-show-in-fullscreen',
                             this._builder.get_object('intellihide_show_in_fullscreen_switch'),
                             'active',
-                            Gio.SettingsBindFlags.DEFAULT); 
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('intellihide-only-secondary',
+                            this._builder.get_object('intellihide_only_secondary_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('multi-monitors',
+                            this._builder.get_object('grid_intellihide_only_secondary'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._builder.get_object('multimon_multi_switch').connect('notify::active', (widget) => {
+            if (!widget.get_active())
+                this._builder.get_object('intellihide_only_secondary_switch').set_active(false);
+        });
 
         this._builder.get_object('intellihide_pressure_threshold_spinbutton').set_value(this._settings.get_int('intellihide-pressure-threshold'));
         this._builder.get_object('intellihide_pressure_threshold_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
@@ -743,6 +758,7 @@ const Settings = new Lang.Class({
                     this._settings.set_value('intellihide-behaviour', this._settings.get_default_value('intellihide-behaviour'));
                     this._settings.set_value('intellihide-use-pressure', this._settings.get_default_value('intellihide-use-pressure'));
                     this._settings.set_value('intellihide-show-in-fullscreen', this._settings.get_default_value('intellihide-show-in-fullscreen'));
+                    this._settings.set_value('intellihide-only-secondary', this._settings.get_default_value('intellihide-only-secondary'));
 
                     this._settings.set_value('intellihide-pressure-threshold', this._settings.get_default_value('intellihide-pressure-threshold'));
                     this._builder.get_object('intellihide_pressure_threshold_spinbutton').set_value(this._settings.get_int('intellihide-pressure-threshold'));

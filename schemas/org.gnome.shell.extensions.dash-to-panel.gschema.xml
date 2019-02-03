@@ -290,6 +290,11 @@
       <summary>Intellihide pressure</summary>
       <description>Allow the panel to be revealed while an application is in fullscreen mode</description>
     </key>
+    <key type="b" name="intellihide-only-secondary">
+      <default>false</default>
+      <summary>Intellihide only secondary</summary>
+      <description>Whether to only hide secondary panels</description>
+    </key>
     <key type="i" name="intellihide-animation-time">
       <default>200</default>
       <summary>Intellihide animation time</summary>

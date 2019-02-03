@@ -61,10 +61,10 @@ var Intellihide = new Lang.Class({
         this._timeoutsHandler = new Utils.TimeoutsHandler();
 
         this._intellihideChangedId = this._dtpSettings.connect('changed::intellihide', () => this._changeEnabledStatus());
+        this._intellihideOnlySecondaryChangedId = this._dtpSettings.connect('changed::intellihide-only-secondary', () => this._changeEnabledStatus());
 
-        if (this._dtpSettings.get_boolean('intellihide')) {
-            this.enable();
-        }
+        this._enabled = false;
+        this._changeEnabledStatus();
     },
 
     enable: function(reset) {
@@ -121,6 +121,7 @@ var Intellihide = new Lang.Class({
 
     destroy: function() {
         this._dtpSettings.disconnect(this._intellihideChangedId);
+        this._dtpSettings.disconnect(this._intellihideOnlySecondaryChangedId);
         this.disable();
     },
 
@@ -150,7 +151,13 @@ var Intellihide = new Lang.Class({
     },
 
     _changeEnabledStatus: function() {
-        this[this._dtpSettings.get_boolean('intellihide') ? 'enable' : 'disable']();
+        let intellihide = this._dtpSettings.get_boolean('intellihide');
+        let onlySecondary = this._dtpSettings.get_boolean('intellihide-only-secondary');
+        let enabled = intellihide && (this._dtpPanel.isSecondary || !onlySecondary);
+
+        if (this._enabled !== enabled) {
+            this[enabled ? 'enable' : 'disable']();
+        }
     },
 
     _bindGeneralSignals: function() {
