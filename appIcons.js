@@ -314,8 +314,9 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     shouldShowTooltip: function() {
-        if (!this.isLauncher && this._dtpSettings.get_boolean("show-window-previews") &&
-            this.getAppIconInterestingWindows().length > 0) {
+        if (!this._dtpSettings.get_boolean('show-tooltip') || 
+            (!this.isLauncher && this._dtpSettings.get_boolean("show-window-previews") &&
+             this.getAppIconInterestingWindows().length > 0)) {
             return false;
         } else {
             return this.actor.hover && !this.window && 
@@ -1551,7 +1552,8 @@ var ShowAppsIconWrapper = new Lang.Class({
     },
 
     shouldShowTooltip: function() {
-        return this.actor.hover && (!this._menu || !this._menu.isOpen);
+        return this._dtpSettings.get_boolean('show-tooltip') && 
+               (this.actor.hover && (!this._menu || !this._menu.isOpen));
     },
 
     destroy: function() {

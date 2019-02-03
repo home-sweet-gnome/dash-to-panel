@@ -918,14 +918,22 @@ const Settings = new Lang.Class({
                             this._builder.get_object('show_appmenu_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+
         this._settings.bind('show-window-previews',
                             this._builder.get_object('show_window_previews_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
-       this._settings.bind('show-window-previews',
+
+        this._settings.bind('show-window-previews',
                             this._builder.get_object('show_window_previews_button'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('show-tooltip',
+                            this._builder.get_object('show_tooltip_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         this._settings.bind('show-favorites',
                             this._builder.get_object('show_favorite_switch'),
                             'active',

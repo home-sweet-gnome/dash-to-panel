@@ -360,6 +360,11 @@
       <summary>Show window preview</summary>
       <description>Show preview of running window on hover of app icon</description>
     </key>
+    <key type="b" name="show-tooltip">
+      <default>true</default>
+      <summary>Show tooltip</summary>
+      <description>Show tooltip on hover of app icon</description>
+    </key>
     <key type="b" name="show-favorites">
       <default>true</default>
       <summary>Show favorites apps</summary>
