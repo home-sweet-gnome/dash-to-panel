@@ -879,6 +879,16 @@ const Settings = new Lang.Class({
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('show-showdesktop-hover',
+                            this._builder.get_object('show_showdesktop_hide_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('show-showdesktop-hover',
+                            this._builder.get_object('grid_show_showdesktop_hide_options'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         this._builder.get_object('show_showdesktop_options_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Show Desktop options'),
@@ -898,11 +908,23 @@ const Settings = new Lang.Class({
                 this._settings.set_int('showdesktop-button-width', widget.get_value());
             }));
 
+            this._builder.get_object('show_showdesktop_delay_spinbutton').set_value(this._settings.get_int('show-showdesktop-delay'));
+            this._builder.get_object('show_showdesktop_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('show-showdesktop-delay', widget.get_value());
+            }));
+
+            this._builder.get_object('show_showdesktop_time_spinbutton').set_value(this._settings.get_int('show-showdesktop-time'));
+            this._builder.get_object('show_showdesktop_time_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('show-showdesktop-time', widget.get_value());
+            }));
+
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
                     this._settings.set_value('showdesktop-button-width', this._settings.get_default_value('showdesktop-button-width'));
                     this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
+                    this._builder.get_object('show_showdesktop_delay_spinbutton').set_value(this._settings.get_int('show-showdesktop-delay'));
+                    this._builder.get_object('show_showdesktop_time_spinbutton').set_value(this._settings.get_int('show-showdesktop-time'));
                 } else {
                     // remove the settings box so it doesn't get destroyed;
                     dialog.get_content_area().remove(box);

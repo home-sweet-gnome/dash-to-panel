@@ -50,6 +50,7 @@ const PopupMenu = imports.ui.popupMenu;
 const IconGrid = imports.ui.iconGrid;
 const ViewSelector = imports.ui.viewSelector;
 const DateMenu = imports.ui.dateMenu;
+const Tweener = imports.ui.tweener;
 
 const Intellihide = Me.imports.intellihide;
 const Transparency = Me.imports.transparency;
@@ -271,6 +272,11 @@ var dtpPanelWrapper = new Lang.Class({
             this.startIntellihideId = 0;
         } else {
             this.intellihide.destroy();
+        }
+
+        if (this._showDesktopTimeoutId) {
+            Mainloop.source_remove(this._showDesktopTimeoutId);
+            this._showDesktopTimeoutId = 0;
         }
 
         this.dynamicTransparency.destroy();
@@ -606,10 +612,27 @@ var dtpPanelWrapper = new Lang.Class({
 
             this._showDesktopButton.connect('enter-event', Lang.bind(this, function(){
                 this._showDesktopButton.add_style_class_name('showdesktop-button-hovered');
+
+                if (this._dtpSettings.get_boolean('show-showdesktop-hover')) {
+                    this._showDesktopTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('show-showdesktop-delay'), () => {
+                        this._hiddenDesktopWorkspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
+                        this._toggleWorkspaceWindows(true, this._hiddenDesktopWorkspace);
+                        this._showDesktopTimeoutId = 0;
+                    });
+                }
             }));
             
             this._showDesktopButton.connect('leave-event', Lang.bind(this, function(){
                 this._showDesktopButton.remove_style_class_name('showdesktop-button-hovered');
+
+                if (this._dtpSettings.get_boolean('show-showdesktop-hover')) {
+                    if (this._showDesktopTimeoutId) {
+                        Mainloop.source_remove(this._showDesktopTimeoutId);
+                        this._showDesktopTimeoutId = 0;
+                    } else {
+                        this._toggleWorkspaceWindows(false, this._hiddenDesktopWorkspace);
+                    }
+                 }
             }));
 
             this.panel._rightBox.insert_child_at_index(this._showDesktopButton, this.panel._rightBox.get_children().length);
@@ -629,6 +652,16 @@ var dtpPanelWrapper = new Lang.Class({
         }
     },
 
+    _toggleWorkspaceWindows: function(hide, workspace) {
+        workspace.list_windows().forEach(w => 
+            Tweener.addTween(w.get_compositor_private(), {
+                opacity: hide ? 0 : 255,
+                time: this._dtpSettings.get_int('show-showdesktop-time') * .001,
+                transition: 'easeOutQuad'
+            })
+        );
+    },
+
     _onShowDesktopButtonPress: function() {
         if(this._focusAppChangeId){
             tracker.disconnect(this._focusAppChangeId);
@@ -636,6 +669,11 @@ var dtpPanelWrapper = new Lang.Class({
         }
 
         if(this._restoreWindowList && this._restoreWindowList.length) {
+            if (this._showDesktopTimeoutId) {
+                Mainloop.source_remove(this._showDesktopTimeoutId);
+                this._showDesktopTimeoutId = 0;
+            }
+            
             let current_workspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
             let windows = current_workspace.list_windows();
             this._restoreWindowList.forEach(function(w) {
@@ -643,8 +681,6 @@ var dtpPanelWrapper = new Lang.Class({
                     Main.activateWindow(w);
             });
             this._restoreWindowList = null;
-
-            Main.overview.hide();
         } else {
             let current_workspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
             let windows = current_workspace.list_windows().filter(function (w) {
@@ -663,9 +699,9 @@ var dtpPanelWrapper = new Lang.Class({
                     this._restoreWindowList = null;
                 }));
             }));
-
-            Main.overview.hide();
         }
+
+        Main.overview.hide();
     },
 });
 

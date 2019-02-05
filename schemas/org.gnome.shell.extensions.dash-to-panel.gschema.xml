@@ -350,6 +350,21 @@
       <summary>Width of show Desktop button</summary>
       <description>Customize the width of the show Desktop button</description>
     </key>
+    <key type="b" name="show-showdesktop-hover">
+      <default>false</default>
+      <summary>Show desktop on hover</summary>
+      <description>Show the desktop on mouse hover</description>
+    </key>
+    <key type="i" name="show-showdesktop-delay">
+      <default>1000</default>
+      <summary>Delay show desktop</summary>
+      <description>Delay before showing the desktop</description>
+    </key>
+    <key type="i" name="show-showdesktop-time">
+      <default>300</default>
+      <summary>Show desktop animation time</summary>
+      <description>Window fade animation time when showing the destop</description>
+    </key>
     <key type="b" name="show-appmenu">
       <default>false</default>
       <summary>Show appMenu button</summary>
