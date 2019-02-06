@@ -34,19 +34,24 @@ const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
-const BoxPointer = imports.ui.boxpointer;
-const Clutter = imports.gi.Clutter;
-const Dash = imports.ui.dash;
+const Lang = imports.lang;
 const Gi = imports._gi;
+const Atspi = imports.gi.Atspi;
+const Clutter = imports.gi.Clutter;
+const Meta = imports.gi.Meta;
+const Shell = imports.gi.Shell;
+const St = imports.gi.St;
+
+const BoxPointer = imports.ui.boxpointer;
+const Dash = imports.ui.dash;
 const IconGrid = imports.ui.iconGrid;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
-const Lang = imports.lang;
-const St = imports.gi.St;
-const Meta = imports.gi.Meta;
 const Layout = imports.ui.layout;
-const Shell = imports.gi.Shell;
 const WorkspacesView = imports.ui.workspacesView;
+
+const ATSPI_MOUSE = 'mouse:button:';
+const ATSPI_MOUSE_EVENTS = ['1p', '1r'];
 
 var dtpPanelManager = new Lang.Class({
     Name: 'DashToPanel.PanelManager',
@@ -54,6 +59,7 @@ var dtpPanelManager = new Lang.Class({
     _init: function(settings) {
         this._dtpSettings = settings;
         this.overview = new Overview.dtpOverview(settings);
+        this.mouseBtnPressed = false;
     },
 
     enable: function(reset) {
@@ -140,6 +146,9 @@ var dtpPanelManager = new Lang.Class({
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
         
         this._needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');
+
+        this._mouseListener = Atspi.EventListener.new(e => this.mouseBtnPressed = e.type.slice(-1) == 'p');
+        ATSPI_MOUSE_EVENTS.forEach(e => this._mouseListener.register(ATSPI_MOUSE + e));
 
         if (this._needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', this._newDashItemContainerAllocate);
@@ -241,6 +250,8 @@ var dtpPanelManager = new Lang.Class({
         if (this._needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', Dash.DashItemContainer.prototype.vfunc_allocate);
         }
+
+        ATSPI_MOUSE_EVENTS.forEach(e => this._mouseListener.deregister(ATSPI_MOUSE + e));
     },
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {

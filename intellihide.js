@@ -54,7 +54,8 @@ var Intellihide = new Lang.Class({
         this._dtpPanel = dtpPanel;
         this._dtpSettings = dtpPanel._dtpSettings;
         this._panelBox = dtpPanel.panelBox;
-        this._proximityManager = dtpPanel.panelManager.proximityManager;
+        this._panelManager = dtpPanel.panelManager;
+        this._proximityManager = this._panelManager.proximityManager;
         this._holdStatus = Hold.NONE;
         
         this._signalsHandler = new Utils.GlobalSignalsHandler();
@@ -72,7 +73,6 @@ var Intellihide = new Lang.Class({
         this._monitor = this._dtpPanel.monitor;
         this._animationDestination = -1;
         this._pendingUpdate = false;
-        this._dragging = false;
         this._hoveredOut = false;
         this._windowOverlap = false;
         this._panelAtTop = this._dtpSettings.get_string('panel-position') === 'TOP';
@@ -182,16 +182,6 @@ var Intellihide = new Lang.Class({
                 Main.layoutManager,
                 'monitors-changed',
                 () => this._reset()
-            ],
-            [
-                global.display,
-                'grab-op-begin',
-                () => this._dragging = true
-            ],
-            [
-                global.display,
-                'grab-op-end',
-                () => this._dragging = false
             ],
             [
                 this._panelBox,
@@ -306,11 +296,11 @@ var Intellihide = new Lang.Class({
 
         if (fromRevealMechanism) {
             //the user is trying to reveal the panel
-            if (this._monitor.inFullscreen && !this._dragging) {
+            if (this._monitor.inFullscreen && !this._panelManager.mouseBtnPressed) {
                 return this._dtpSettings.get_boolean('intellihide-show-in-fullscreen');
             }
 
-            return !this._dragging;
+            return !this._panelManager.mouseBtnPressed;
         }
 
         if (!this._dtpSettings.get_boolean('intellihide-hide-from-windows')) {
