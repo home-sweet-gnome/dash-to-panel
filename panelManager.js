@@ -218,7 +218,7 @@ var dtpPanelManager = new Lang.Class({
         });
 
         if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
-            Utils.hookVfunc(BoxPointer.BoxPointer.prototype, 'get_preferred_height', BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height);
+            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });
         }
 
         if (reset) return;
