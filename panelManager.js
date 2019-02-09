@@ -218,7 +218,7 @@ var dtpPanelManager = new Lang.Class({
         });
 
         if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
-            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });
+            Utils.hookVfunc(BoxPointer.BoxPointer.prototype, 'get_preferred_height', BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height);
         }
 
         if (reset) return;
@@ -248,7 +248,7 @@ var dtpPanelManager = new Lang.Class({
         }
 
         if (this._needsDashItemContainerAllocate) {
-            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', Dash.DashItemContainer.prototype.vfunc_allocate);
+            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });
         }
 
         ATSPI_MOUSE_EVENTS.forEach(e => this._mouseListener.deregister(ATSPI_MOUSE + e));
