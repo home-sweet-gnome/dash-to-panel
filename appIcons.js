@@ -41,7 +41,6 @@ const DND = imports.ui.dnd;
 const IconGrid = imports.ui.iconGrid;
 const Main = imports.ui.main;
 const PopupMenu = imports.ui.popupMenu;
-const RemoteMenu = imports.ui.remoteMenu;
 const Tweener = imports.ui.tweener;
 const Util = imports.misc.util;
 const Workspace = imports.ui.workspace;
@@ -1300,7 +1299,7 @@ var taskbarSecondaryMenu = new Lang.Class({
         if(this._dtpSettings.get_boolean('secondarymenu-contains-appmenu')) {
             let appMenu = this._source.app.menu;
             if(appMenu) {
-                let remoteMenu = new RemoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
+                let remoteMenu = new imports.ui.remoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
                 let appMenuItems = remoteMenu._getMenuItems();
                 let itemPosition = 0;
                 for(let appMenuIdx in appMenuItems){
