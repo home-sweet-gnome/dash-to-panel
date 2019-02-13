@@ -26,7 +26,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Proximity = Me.imports.proximity;
 const Utils = Me.imports.utils;
 
-var DynamicTransparency = new Lang.Class({
+var DynamicTransparency = Utils.defineClass({
     Name: 'DashToPanel.DynamicTransparency',
 
     _init: function(dtpPanel) {

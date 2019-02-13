@@ -53,7 +53,7 @@ const WorkspacesView = imports.ui.workspacesView;
 const ATSPI_MOUSE = 'mouse:button:';
 const ATSPI_MOUSE_EVENTS = ['1p', '1r'];
 
-var dtpPanelManager = new Lang.Class({
+var dtpPanelManager = Utils.defineClass({
     Name: 'DashToPanel.PanelManager',
 
     _init: function(settings) {

@@ -36,7 +36,7 @@ var Mode = {
     MAXIMIZED_WINDOWS: 2
 };
 
-var ProximityWatch = new Lang.Class({
+var ProximityWatch = Utils.defineClass({
     Name: 'DashToPanel.ProximityWatch',
 
     _init: function(actor, mode, xThreshold, yThreshold, handler) {
@@ -73,7 +73,7 @@ var ProximityWatch = new Lang.Class({
     },
 });
 
-var ProximityManager = new Lang.Class({
+var ProximityManager = Utils.defineClass({
     Name: 'DashToPanel.ProximityManager',
 
     _init: function() {

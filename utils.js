@@ -26,9 +26,76 @@ const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
 
+let es6Support = imports.misc.config.PACKAGE_VERSION >= '3.31.9';
+
+var defineClass = function (classDef) {
+    let parentProto = !!classDef.Extends ? classDef.Extends.prototype : null;
+    let isGObject = parentProto instanceof imports.gi.GObject.Object;
+    let needsSuper = es6Support && !!parentProto && !isGObject;
+
+    if (!es6Support) {
+        if (parentProto && classDef.Extends.name.indexOf('DashToPanel') < 0) {
+            classDef.callParent = function() {
+                let args = Array.prototype.slice.call(arguments);
+                let func = args.shift();
+
+                this.__caller__._owner.__super__.prototype[func].apply(this, args);
+            };
+        }
+
+        return new imports.lang.Class(classDef);
+    }
+
+    let getParentArgs = function(args) {
+        let parentArgs = [];
+
+        (classDef.ParentConstrParams || parentArgs).forEach(p => {
+            if (p.constructor === Array) {
+                let param = args[p[0]];
+                
+                parentArgs.push(p[1] ? param[p[1]] : param);
+            } else {
+                parentArgs.push(p);
+            }
+        });
+
+        return parentArgs;
+    };
+    
+    let C = eval(
+        '(class C ' + (needsSuper ? 'extends Object' : '') + ' { ' +
+        '     constructor(...args) { ' +
+                  (needsSuper ? 'super(...getParentArgs(args));' : '') +
+                  (needsSuper || !parentProto ? 'this._init(...args);' : '') +
+        '     }' +
+        '     callParent(...args) { ' +
+        '         let func = args.shift(); ' +
+        '         if (!(func === \'_init\' && needsSuper))' +
+        '             super[func](...args); ' +
+        '     }' +    
+        '})'
+    );
+
+    if (parentProto) {
+        Object.setPrototypeOf(C.prototype, parentProto);
+        Object.setPrototypeOf(C, classDef.Extends);
+    } 
+    
+    Object.defineProperty(C, 'name', { value: classDef.Name });
+    Object.keys(classDef)
+          .filter(k => classDef.hasOwnProperty(k) && classDef[k] instanceof Function)
+          .forEach(k => C.prototype[k] = classDef[k]);
+
+    if (isGObject) { 
+        C = imports.gi.GObject.registerClass(C);
+    }
+    
+    return C;
+};
+
 // simplify global signals and function injections handling
 // abstract class
-var BasicHandler = new Lang.Class({
+var BasicHandler = defineClass({
     Name: 'DashToPanel.BasicHandler',
 
     _init: function(){
@@ -89,7 +156,7 @@ var BasicHandler = new Lang.Class({
 });
 
 // Manage global signals
-var GlobalSignalsHandler = new Lang.Class({
+var GlobalSignalsHandler = defineClass({
     Name: 'DashToPanel.GlobalSignalsHandler',
     Extends: BasicHandler,
 
@@ -119,7 +186,7 @@ var GlobalSignalsHandler = new Lang.Class({
  * Manage function injection: both instances and prototype can be overridden
  * and restored
  */
-var InjectionsHandler = new Lang.Class({
+var InjectionsHandler = defineClass({
     Name: 'DashToPanel.InjectionsHandler',
     Extends: BasicHandler,
 
@@ -144,7 +211,7 @@ var InjectionsHandler = new Lang.Class({
 /**
  * Manage timeouts: the added timeouts have their id reset on completion
  */
-var TimeoutsHandler = new Lang.Class({
+var TimeoutsHandler = defineClass({
     Name: 'DashToPanel.TimeoutsHandler',
     Extends: BasicHandler,
 

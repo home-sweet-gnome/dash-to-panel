@@ -49,16 +49,17 @@ let HOVER_APP_BLACKLIST = [
                            "Remmina"
                           ]
 
-var thumbnailPreviewMenu = new Lang.Class({
+var thumbnailPreviewMenu = Utils.defineClass({
     Name: 'DashToPanel.ThumbnailPreviewMenu',
     Extends: PopupMenu.PopupMenu,
+    ParentConstrParams: [[0, 'actor'], 0.5, Taskbar.getPosition()],
 
     _init: function(source, settings) {
         this._dtpSettings = settings;
 
         let side = Taskbar.getPosition();
 
-        this.parent(source.actor, 0.5, side);
+        this.callParent('_init', source.actor, 0.5, side);
 
         // We want to keep the item hovered while the menu is up
         this.blockSourceEvents = false;
@@ -244,7 +245,7 @@ var thumbnailPreviewMenu = new Lang.Class({
         if (this._leaveMenuId)
             this.actor.disconnect(this._leaveMenuId);
 
-        this.parent();
+        this.callParent('destroy');
     },
 
     close: function(animate) {
@@ -503,9 +504,10 @@ var thumbnailPreviewMenu = new Lang.Class({
     }
 });
 
-var thumbnailPreview = new Lang.Class({
+var thumbnailPreview = Utils.defineClass({
     Name: 'DashToPanel.ThumbnailPreview',
     Extends: PopupMenu.PopupBaseMenuItem,
+    ParentConstrParams: [{ reactive: true }],
 
     _init: function(window, settings) {
         this._dtpSettings = settings;
@@ -518,7 +520,8 @@ var thumbnailPreview = new Lang.Class({
         this._thumbnailWidth = this._dtpSettings.get_int('window-preview-width')*scaleFactor;
         this._thumbnailHeight = this._dtpSettings.get_int('window-preview-height')*scaleFactor;
 
-        this.parent({reactive: true});
+        this.callParent('_init', {reactive: true});
+
         this._workId = Main.initializeDeferredWork(this.actor, Lang.bind(this, this._onResize));
 
         this.preview = this.getThumbnail();
@@ -857,18 +860,18 @@ var thumbnailPreview = new Lang.Class({
             }
         }
 
-        this.parent();
+        this.callParent('destroy');
     }
 });
 
-var thumbnailPreviewList = new Lang.Class({
+var thumbnailPreviewList = Utils.defineClass({
     Name: 'DashToPanel.ThumbnailPreviewList',
     Extends: PopupMenu.PopupMenuSection,
 
     _init: function(app, source, settings) {
         this._dtpSettings = settings;
 
-  	    this.parent();
+        this.callParent('_init');
 
         this._ensurePreviewVisibilityTimeoutId = 0;
 
@@ -1151,12 +1154,13 @@ var thumbnailPreviewList = new Lang.Class({
     }
 });
 
-var previewMenuPopup = new Lang.Class({
+var previewMenuPopup = Utils.defineClass({
     Name: 'previewMenuPopup',
     Extends: WindowMenu.WindowMenu,
+    ParentConstrParams: [[0], [1]],
 
     _init: function(window, sourceActor) {
-        this.parent(window, sourceActor);
+        this.callParent('_init', window, sourceActor);
 
         let side = Taskbar.getPosition();
         this._arrowSide = side;
@@ -1167,7 +1171,7 @@ var previewMenuPopup = new Lang.Class({
     // Otherwise, just let the parent do its thing?
 });
 
-var previewMenuPopupManager = new Lang.Class({
+var previewMenuPopupManager = Utils.defineClass({
     Name: 'previewMenuPopupManagerTest',
     
     _init: function(window, source) {

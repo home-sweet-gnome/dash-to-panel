@@ -98,16 +98,16 @@ function findIndex(array, predicate) {
     return -1;
 };
 
-var taskbarActor = new Lang.Class({
+var taskbarActor = Utils.defineClass({
     Name: 'DashToPanel-TaskbarActor',
     Extends: St.Widget,
 
     _init: function(delegate) {
         this._delegate = delegate;
         this._currentBackgroundColor = 0;
-        this.parent({ name: 'dashtopanelTaskbar',
-                      layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL }),
-                      clip_to_allocation: true });
+        this.callParent('_init', { name: 'dashtopanelTaskbar',
+                                   layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL }),
+                                   clip_to_allocation: true });
     },
 
     vfunc_allocate: function(box, flags)  {
@@ -148,11 +148,11 @@ var taskbarActor = new Lang.Class({
         rightFade.allocate(childBox, flags);
     },
 
-    vfunc_get_preferred_width: function(actor, forHeight) {
+    vfunc_get_preferred_width: function(forHeight) {
         // We want to request the natural width of all our children
         // as our natural width, so we chain up to StWidget (which
         // then calls BoxLayout)
-        let [, natWidth] = this.parent(forHeight);
+        let [, natWidth] = St.Widget.prototype.vfunc_get_preferred_width.call(this, forHeight);
         
         return [0, natWidth];
     },
@@ -172,7 +172,7 @@ var taskbarActor = new Lang.Class({
  * - Sync minimization application target position.
  */
 
-var taskbar = new Lang.Class({
+var taskbar = Utils.defineClass({
     Name: 'DashToPanel.Taskbar',
 
     _init : function(settings, panelWrapper) {
@@ -1229,12 +1229,12 @@ var taskbar = new Lang.Class({
 
 Signals.addSignalMethods(taskbar.prototype);
 
-var DragPlaceholderItem = new Lang.Class({
+var DragPlaceholderItem = Utils.defineClass({
     Name: 'DashToPanel-DragPlaceholderItem',
     Extends: St.Widget,
 
     _init: function(appIcon, iconSize) {
-        this.parent({ style_class: 'dtp-icon-container', layout_manager: new Clutter.BinLayout() });
+        this.callParent('_init', { style_class: 'dtp-icon-container', layout_manager: new Clutter.BinLayout() });
 
         this.child = { _delegate: appIcon };
 
@@ -1249,7 +1249,7 @@ var DragPlaceholderItem = new Lang.Class({
 
     destroy: function() {
         this._clone.destroy();
-        this.parent();
+        this.callParent('destroy');
     },
 });
 

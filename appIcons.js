@@ -92,11 +92,12 @@ let tracker = Shell.WindowTracker.get_default();
  *
  */
 
-var taskbarAppIcon = new Lang.Class({
+var taskbarAppIcon = Utils.defineClass({
     Name: 'DashToPanel.TaskbarAppIcon',
     Extends: AppDisplay.AppIcon,
+    ParentConstrParams: [[1, 'app'], [3]],
 
-    _init: function(settings, appInfo, panelWrapper, iconParams, onActivateOverride) {
+    _init: function(settings, appInfo, panelWrapper, iconParams) {
 
         // a prefix is required to avoid conflicting with the parent class variable
         this._dtpSettings = settings;
@@ -126,7 +127,7 @@ var taskbarAppIcon = new Lang.Class({
             this._removeMenuTimeout();
         };
 
-        this.parent(appInfo.app, iconParams, onActivateOverride);
+        this.callParent('_init', appInfo.app, iconParams);
 
         this._dot.set_width(0);
         this._focused = tracker.focus_app == this.app;
@@ -325,7 +326,7 @@ var taskbarAppIcon = new Lang.Class({
     },
 
     _onDestroy: function() {
-        this.parent();
+        this.callParent('_onDestroy');
         this._destroyed = true;
 
         // Disconect global signals
@@ -730,7 +731,7 @@ var taskbarAppIcon = new Lang.Class({
                 // Keep default behaviour: launch new window
                 // By calling the parent method I make it compatible
                 // with other extensions tweaking ctrl + click
-                this.parent(button);
+                this.callParent('activate', button);
                 return;
         }
 
@@ -1255,20 +1256,20 @@ function cssHexTocssRgba(cssHex, opacity) {
  *   (https://github.com/deuill/shell-extension-quitfromdash)
  */
 
-var taskbarSecondaryMenu = new Lang.Class({
+var taskbarSecondaryMenu = Utils.defineClass({
     Name: 'DashToPanel.SecondaryMenu',
     Extends: AppDisplay.AppIconMenu,
+    ParentConstrParams: [[0]],
 
     _init: function(source, settings) {
         this._dtpSettings = settings;
 
-        let side = Taskbar.getPosition();
-
         // Damm it, there has to be a proper way of doing this...
         // As I can't call the parent parent constructor (?) passing the side
         // parameter, I overwite what I need later
-        this.parent(source);
+        this.callParent('_init', source);
 
+        let side = Taskbar.getPosition();
         // Change the initialized side where required.
         this._arrowSide = side;
         this._boxPointer._arrowSide = side;
@@ -1281,7 +1282,7 @@ var taskbarSecondaryMenu = new Lang.Class({
     },
 
     _redisplay: function() {
-        this.parent();
+        this.callParent('_redisplay');
 
         // Remove "Show Details" menu item
         if(!this._dtpSettings.get_boolean('secondarymenu-contains-showdetails')) {
@@ -1451,7 +1452,7 @@ function ItemShowLabel()  {
  * use of this class in place of the original showAppsButton.
  *
  */
-var ShowAppsIconWrapper = new Lang.Class({
+var ShowAppsIconWrapper = Utils.defineClass({
     Name: 'DashToDock.ShowAppsIconWrapper',
 
     _init: function(settings) {
@@ -1567,14 +1568,10 @@ Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
 /**
  * A menu for the showAppsIcon
  */
-var MyShowAppsIconMenu = new Lang.Class({
+var MyShowAppsIconMenu = Utils.defineClass({
     Name: 'DashToPanel.ShowAppsIconMenu',
     Extends: taskbarSecondaryMenu,
-
-    _init: function(showAppsIconWrapper, settings) {
-        this.parent(showAppsIconWrapper);
-        this._dtpSettings = settings;
-    },
+    ParentConstrParams: [[0]],
 
     _redisplay: function() {
         this.removeAll();

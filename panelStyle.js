@@ -30,8 +30,9 @@ const St = imports.gi.St;
 const Shell = imports.gi.Shell;
 
 const Taskbar = Me.imports.taskbar;
+const Utils = Me.imports.utils;
 
-var dtpPanelStyle = new Lang.Class({
+var dtpPanelStyle = Utils.defineClass({
     Name: 'DashToPanel.PanelStyle',
 
     _init: function(settings) {

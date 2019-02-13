@@ -47,7 +47,7 @@ var Hold = {
     PERMANENT: 2
 };
 
-var Intellihide = new Lang.Class({
+var Intellihide = Utils.defineClass({
     Name: 'DashToPanel.Intellihide',
 
     _init: function(dtpPanel) {

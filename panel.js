@@ -57,7 +57,7 @@ const Transparency = Me.imports.transparency;
 
 let tracker = Shell.WindowTracker.get_default();
 
-var dtpPanelWrapper = new Lang.Class({
+var dtpPanelWrapper = Utils.defineClass({
     Name: 'DashToPanel.PanelWrapper',
 
     _init: function(panelManager, monitor, panel, panelBox, isSecondary) {
@@ -131,7 +131,7 @@ var dtpPanelWrapper = new Lang.Class({
         if (!this.isSecondary) {
             if (this.panel.vfunc_allocate) {
                 this._panelConnectId = 0;
-                Utils.hookVfunc(this.panel.__proto__, 'allocate', (box, flags) => this._allocate(null, box, flags));
+                Utils.hookVfunc(this.panel.__proto__, 'allocate', (box, flags) => this._vfunc_allocate(box, flags));
             } else {
                 this._panelConnectId = this.panel.actor.connect('allocate', (actor,box,flags) => this._allocate(actor,box,flags));
             }
@@ -386,6 +386,11 @@ var dtpPanelWrapper = new Lang.Class({
         let isShown = !isOverview || (isOverview && isFocusedMonitor);
 
         this.panelBox[isShown ? 'show' : 'hide']();
+    },
+
+    _vfunc_allocate: function(box, flags) {
+        this.panel.set_allocation(box, flags);
+        this._allocate(null, box, flags);
     },
     
     _allocate: function(actor, box, flags) {
@@ -705,12 +710,13 @@ var dtpPanelWrapper = new Lang.Class({
     },
 });
 
-var dtpSecondaryPanel = new Lang.Class({
+var dtpSecondaryPanel = Utils.defineClass({
     Name: 'DashToPanel-SecondaryPanel',
     Extends: St.Widget,
 
     _init: function(settings, monitor) {
-        this.parent({ name: 'panel', reactive: true });
+        this.callParent('_init', { name: 'panel', reactive: true });
+        
         this._dtpSettings = settings;
        
         this.actor = this;
@@ -757,7 +763,7 @@ var dtpSecondaryPanel = new Lang.Class({
 
     vfunc_allocate: function(box, flags) {
         if(this.delegate) {
-            this.delegate._allocate(null, box, flags);
+            this.delegate._vfunc_allocate(box, flags);
         }
     },
     
@@ -800,12 +806,13 @@ var dtpSecondaryPanel = new Lang.Class({
     },
 });
 
-var dtpSecondaryAggregateMenu = new Lang.Class({
+var dtpSecondaryAggregateMenu = Utils.defineClass({
     Name: 'dtpSecondaryAggregateMenu',
     Extends: PanelMenu.Button,
 
     _init: function() {
-        this.parent(0.0, C_("System menu in the top bar", "System"), false);
+        this.callParent('_init', 0.0, C_("System menu in the top bar", "System"), false);
+
         this.menu.actor.add_style_class_name('aggregate-menu');
 
         let menuLayout = new Panel.AggregateLayout();
