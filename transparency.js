@@ -197,7 +197,7 @@ var DynamicTransparency = Utils.defineClass({
 
     _setGradient: function() {
         this._dtpPanel.panel.actor.set_style(
-            'background-color: none; ' + 
+            'background: none; ' + 
             'border-image: none; ' + 
             'background-image: none; ' +
             this._gradientStyle +
