@@ -1,0 +1,883 @@
+# Dash to Panel Simplified Chinese Translation.
+# This file is distributed under the same license as the Dash to Panel package.
+# Boyuan Yang <073plan@gmail.com>, 2017, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dash-to-panel 17\n"
+"Report-Msgid-Bugs-To: https://github.com/jderose9/dash-to-panel/issues\n"
+"POT-Creation-Date: 2018-12-10 16:23-0500\n"
+"PO-Revision-Date: 2019-2-24 17:45+0800\n"
+"Last-Translator: OriginCode <origincoder@yahoo.com>\n"
+"Language-Team: Chinese (Traditional)\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: prefs.js:312
+msgid "Running Indicator Options"
+msgstr "執行指示器選項"
+
+#: prefs.js:319 prefs.js:486 prefs.js:629 prefs.js:734 prefs.js:792
+#: prefs.js:868 prefs.js:920 prefs.js:1059 prefs.js:1143 prefs.js:1254
+#: prefs.js:1288 prefs.js:1330
+msgid "Reset to defaults"
+msgstr "恢復預設值"
+
+#: prefs.js:431
+msgid "Default (Primary monitor)"
+msgstr "主顯示器"
+
+#: prefs.js:434
+msgid "Monitor "
+msgstr "顯示器 "
+
+#: prefs.js:479
+msgid "Multi-monitors options"
+msgstr "多顯示器選項"
+
+#: prefs.js:622
+msgid "Dynamic opacity options"
+msgstr "動態半透明選項"
+
+#: prefs.js:727
+msgid "Intellihide options"
+msgstr "智慧隱藏選項"
+
+#: prefs.js:785
+msgid "Show Applications options"
+msgstr "“顯示應用程式”選項"
+
+#: prefs.js:861
+msgid "Show Desktop options"
+msgstr "“顯示桌面”選項"
+
+#: prefs.js:913
+msgid "Window preview options"
+msgstr "視窗預覽選項"
+
+#: prefs.js:1052
+msgid "Ungrouped application options"
+msgstr "未分組的應用程式選項"
+
+#: prefs.js:1136
+msgid "Customize middle-click behavior"
+msgstr "自定義中鍵點選行為"
+
+#: prefs.js:1247
+msgid "Advanced hotkeys options"
+msgstr "高階熱鍵選項"
+
+#: prefs.js:1281
+msgid "Secondary Menu Options"
+msgstr "次級選單選項"
+
+#: prefs.js:1323 Settings.ui.h:174
+msgid "Advanced Options"
+msgstr "高階選項"
+
+#: prefs.js:1412
+msgid "Export settings"
+msgstr "匯出設定"
+
+#: prefs.js:1429
+msgid "Import settings"
+msgstr "匯入設定"
+
+#: appIcons.js:1259
+msgid "Show Details"
+msgstr "顯示細節"
+
+#: appIcons.js:1278
+msgid "New Window"
+msgstr "新建視窗"
+
+#: appIcons.js:1278 appIcons.js:1340 appIcons.js:1342 Settings.ui.h:8
+msgid "Quit"
+msgstr "退出"
+
+#: appIcons.js:1342
+msgid "Windows"
+msgstr "視窗"
+
+#: appIcons.js:1539
+msgid "Unlock taskbar"
+msgstr "解鎖工作列"
+
+#: appIcons.js:1539
+msgid "Lock taskbar"
+msgstr "鎖定工作列"
+
+#: appIcons.js:1544
+msgid "Dash to Panel Settings"
+msgstr "Dash to Panel 設定"
+
+#: appIcons.js:1551
+msgid "Restore Windows"
+msgstr "恢復視窗"
+
+#: appIcons.js:1551
+msgid "Show Desktop"
+msgstr "顯示桌面"
+
+#: Settings.ui.h:1
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr "設定為最小化時，雙擊將最小化該應用程式的所有視窗。"
+
+#: Settings.ui.h:2
+msgid "Shift+Click action"
+msgstr "Shift+點選動作"
+
+#: Settings.ui.h:3
+msgid "Raise window"
+msgstr "提升視窗"
+
+#: Settings.ui.h:4
+msgid "Minimize window"
+msgstr "最小化視窗"
+
+#: Settings.ui.h:5
+msgid "Launch new instance"
+msgstr "啟動新例項"
+
+#: Settings.ui.h:6
+msgid "Cycle through windows"
+msgstr "在視窗間迴圈切換"
+
+#: Settings.ui.h:7
+msgid "Cycle windows + minimize"
+msgstr "迴圈視窗 + 最小化"
+
+#: Settings.ui.h:9
+msgid "Behavior for Middle-Click."
+msgstr "中鍵點選行為。"
+
+#: Settings.ui.h:10
+msgid "Middle-Click action"
+msgstr "中鍵點選動作"
+
+#: Settings.ui.h:11
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Shift+中鍵點選的行為。"
+
+#: Settings.ui.h:12
+msgid "Shift+Middle-Click action"
+msgstr "Shift+中鍵點選動作"
+
+#: Settings.ui.h:13
+msgid "Isolate monitors"
+msgstr "隔離顯示器"
+
+#: Settings.ui.h:14
+msgid "Display favorite applications on all monitors"
+msgstr "在所有顯示器上顯示收藏的應用程式"
+
+#: Settings.ui.h:15
+msgid "Display the clock on all monitors"
+msgstr "在所有顯示器上顯示時鐘"
+
+#: Settings.ui.h:16
+msgid "Display the status menu on all monitors"
+msgstr "在所有顯示器上顯示狀態選單"
+
+#: Settings.ui.h:17
+msgid "Integrate <i>AppMenu</i> items"
+msgstr "整合<b>應用選單</b>項"
+
+#: Settings.ui.h:18
+msgid "<i>Show Details</i> menu item"
+msgstr "<b>顯示細節</b>選單項"
+
+#: Settings.ui.h:19
+msgid "Highlight focused application"
+msgstr "高亮顯示取得焦點的應用程式"
+
+#: Settings.ui.h:20
+msgid "Highlight color"
+msgstr "高亮顏色"
+
+#: Settings.ui.h:21
+msgid "Highlight opacity"
+msgstr "高亮不透明度"
+
+#: Settings.ui.h:22
+msgid "Indicator height (px)"
+msgstr "指示器高度（畫素）"
+
+#: Settings.ui.h:23
+msgid "Indicator color - Override Theme"
+msgstr "指示器顏色 - 覆蓋主題"
+
+#: Settings.ui.h:24
+msgid "1 window open (or ungrouped)"
+msgstr "1 視窗開啟（或未分組）"
+
+#: Settings.ui.h:25
+msgid "Apply to all"
+msgstr "應用至全部"
+
+#: Settings.ui.h:26
+msgid "2 windows open"
+msgstr "2 視窗開啟"
+
+#: Settings.ui.h:27
+msgid "3 windows open"
+msgstr "3 視窗開啟"
+
+#: Settings.ui.h:28
+msgid "4+ windows open"
+msgstr "4+ 視窗開啟"
+
+#: Settings.ui.h:29
+msgid "Use different for unfocused"
+msgstr "為未取得焦點的程式使用不同方案"
+
+#: Settings.ui.h:30
+msgid "Font size (px) of the application titles (default is 14)"
+msgstr "應用程式標題字型大小（畫素）（預設值為 14）"
+
+#: Settings.ui.h:31
+msgid "Font weight of application titles"
+msgstr "應用程式標題字型粗細"
+
+#: Settings.ui.h:32
+msgid "inherit from theme"
+msgstr "繼承自主題"
+
+#: Settings.ui.h:33
+msgid "normal"
+msgstr "正常"
+
+#: Settings.ui.h:34
+msgid "lighter"
+msgstr "較細"
+
+#: Settings.ui.h:35
+msgid "bold"
+msgstr "粗體"
+
+#: Settings.ui.h:36
+msgid "bolder"
+msgstr "更粗"
+
+#: Settings.ui.h:37
+msgid "Font color of the application titles"
+msgstr "應用程式標題字型顏色"
+
+#: Settings.ui.h:38
+msgid "Maximum width (px) of the application titles (default is 160)"
+msgstr "應用程式最大寬度（畫素）（預設值為 160）"
+
+#: Settings.ui.h:39
+msgid "Use a fixed width for the application titles"
+msgstr "為應用程式標題使用固定寬度"
+
+#: Settings.ui.h:40
+msgid ""
+"The application titles all have the same width, even if their texts are "
+"shorter than the maximum width. The maximum width value is used as the fixed "
+"width."
+msgstr ""
+"應用程式標題都將使用相同寬度，即使其文字寬度無法達到最大寬度。最大寬度值將被"
+"用於固定寬度值。"
+
+#: Settings.ui.h:41
+msgid "Display running indicators on unfocused applications"
+msgstr "在未取得焦點的應用上顯示執行指示器"
+
+#: Settings.ui.h:42
+msgid "Use the favorite icons as application launchers"
+msgstr "使用收藏的圖示作為應用程式啟動器"
+
+#: Settings.ui.h:43
+msgid "Only hide the panel when it is obstructed by windows "
+msgstr "僅在面板被視窗阻擋時隱藏"
+
+#: Settings.ui.h:44
+msgid "The panel hides from"
+msgstr "觸發面板隱藏的物件"
+
+#: Settings.ui.h:45
+msgid "All windows"
+msgstr "所有視窗"
+
+#: Settings.ui.h:46
+msgid "Focused windows"
+msgstr "獲得焦點的視窗"
+
+#: Settings.ui.h:47
+msgid "Maximized windows"
+msgstr "最大化視窗"
+
+#: Settings.ui.h:48
+msgid "Require pressure at the edge of the screen to reveal the panel"
+msgstr "在螢幕邊緣受到一定游標壓力時顯示面板"
+
+#: Settings.ui.h:49
+msgid "Required pressure threshold (px)"
+msgstr "所需壓力閾值（畫素）"
+
+#: Settings.ui.h:50
+msgid "Required pressure timeout (ms)"
+msgstr "所需壓力超時（毫秒）"
+
+#: Settings.ui.h:51
+msgid "Allow the panel to be revealed while in fullscreen mode"
+msgstr "允許面板在全螢幕模式下顯示"
+
+#: Settings.ui.h:52
+msgid "e.g. <Super>i"
+msgstr "例如 <Super>i"
+
+#: Settings.ui.h:53
+msgid "Keyboard shortcut to reveal and hold the panel"
+msgstr "顯示並保持面板的鍵盤快捷鍵"
+
+#: Settings.ui.h:54
+msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+msgstr "語法：<Shift>, <Ctrl>, <Alt>, <Super>"
+
+#: Settings.ui.h:55
+msgid "Hide and reveal animation duration (ms)"
+msgstr "隱藏與顯示動畫持續時間（毫秒）"
+
+#: Settings.ui.h:56
+msgid "Delay before hiding the panel (ms)"
+msgstr "隱藏面板之前的延時（毫秒）"
+
+#: Settings.ui.h:57
+msgid "Preview timeout on icon leave (ms)"
+msgstr "離開圖示時的預覽延時（毫秒）"
+
+#: Settings.ui.h:58
+msgid ""
+"If set too low, the window preview of running applications may seem to close "
+"too quickly when trying to enter the popup. If set too high, the preview may "
+"linger too long when moving to an adjacent icon."
+msgstr ""
+"如果設定過低，在嘗試進入彈出選單時正在執行程式的視窗預覽可能會關閉得過快。如"
+"果設定過高，在移動至臨接圖示時預覽可能滯留過長時間。"
+
+#: Settings.ui.h:59
+msgid "Time (ms) before showing (100 is default)"
+msgstr "顯示前的延時（毫秒，預設為 100）"
+
+#: Settings.ui.h:60
+msgid "Enable window peeking"
+msgstr "啟用視窗概覽功能"
+
+#: Settings.ui.h:61
+msgid ""
+"When hovering over a window preview for some time, the window gets "
+"distinguished."
+msgstr "在視窗預覽上懸浮一定時間後，該視窗將被區別顯示。"
+
+#: Settings.ui.h:62
+msgid "Enter window peeking mode timeout (ms)"
+msgstr "進入視窗概覽模式延時（毫秒）"
+
+#: Settings.ui.h:63
+msgid ""
+"Time of inactivity while hovering over a window preview needed to enter the "
+"window peeking mode."
+msgstr "為進入視窗概覽模式，需要游標懸浮在預覽視窗上不活動的時間。"
+
+#: Settings.ui.h:64
+msgid "Window peeking mode opacity"
+msgstr "視窗概覽模式不透明度"
+
+#: Settings.ui.h:65
+msgid ""
+"All windows except for the peeked one have their opacity set to the same "
+"value."
+msgstr "除正在處於概覽狀態的視窗外，其它所有視窗的不透明度將被設定為同一個值。"
+
+#: Settings.ui.h:66
+msgid "Middle click to close window"
+msgstr "中鍵點選以關閉視窗"
+
+#: Settings.ui.h:67
+msgid "Middle click on the preview to close the window."
+msgstr "在預覽內容上中鍵點選以關閉視窗。"
+
+#: Settings.ui.h:68
+msgid "Display window title in previews"
+msgstr "在預覽中顯示視窗標題"
+
+#: Settings.ui.h:69
+msgid "Width of the window previews (px)"
+msgstr "視窗預覽寬度（畫素）"
+
+#: Settings.ui.h:70
+msgid "Height of the window previews (px)"
+msgstr "視窗預覽高度（畫素）"
+
+#: Settings.ui.h:71
+msgid "Padding of the window previews (px)"
+msgstr "視窗預覽邊緣寬度（畫素）"
+
+#: Settings.ui.h:72
+msgid "Super"
+msgstr "Super"
+
+#: Settings.ui.h:73
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+#: Settings.ui.h:74
+msgid "Hotkeys prefix"
+msgstr "熱鍵字首"
+
+#: Settings.ui.h:75
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr "熱鍵可以是 Super+數字 或者 Super+Alt+數字"
+
+#: Settings.ui.h:76
+msgid "Never"
+msgstr "從不"
+
+#: Settings.ui.h:77
+msgid "Show temporarily"
+msgstr "暫時顯示"
+
+#: Settings.ui.h:78
+msgid "Always visible"
+msgstr "總是可見"
+
+#: Settings.ui.h:79
+msgid "Number overlay"
+msgstr "數字附加顯示"
+
+#: Settings.ui.h:80
+msgid ""
+"Temporarily show the application numbers over the icons when using the "
+"hotkeys."
+msgstr "使用熱鍵時在應用圖示上臨時顯示其對應數字。"
+
+#: Settings.ui.h:81
+msgid "Hide timeout (ms)"
+msgstr "隱藏延時（毫秒）"
+
+#: Settings.ui.h:82
+msgid "e.g. <Super>q"
+msgstr "例如 <Super>q"
+
+#: Settings.ui.h:83
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr "顯示兩秒鐘附加數字的快捷鍵"
+
+#: Settings.ui.h:84
+msgid "Show window previews on hotkey"
+msgstr "按下熱鍵時顯示視窗預覽"
+
+#: Settings.ui.h:85
+msgid "Show previews when the application have multiple instances"
+msgstr "應用程式有多個例項時顯示預覽"
+
+#: Settings.ui.h:86
+msgid "Current Show Applications icon"
+msgstr "當前“顯示應用程式”圖示"
+
+#: Settings.ui.h:87
+msgid "Select a Show Applications image icon"
+msgstr "選擇一個“顯示應用程式”圖示影象"
+
+#: Settings.ui.h:88
+msgid "Custom Show Applications image icon"
+msgstr "自定義“顯示應用程式”圖示影象"
+
+#: Settings.ui.h:89
+msgid "Show Desktop button width (px)"
+msgstr "“顯示桌面”按鈕圖示寬度（畫素）"
+
+#: Settings.ui.h:90
+msgid "The panel background opacity is affected by"
+msgstr "面板背景不透明度的影響因素"
+
+#: Settings.ui.h:91
+msgid "Change opacity when a window gets closer than (px)"
+msgstr "在視窗多靠近時修改不透明度（畫素 px）"
+
+#: Settings.ui.h:93
+#, no-c-format
+msgid "Change opacity to (%)"
+msgstr "將不透明度修改為（%）"
+
+#: Settings.ui.h:94
+msgid "0"
+msgstr "0"
+
+#: Settings.ui.h:95
+msgid "Opacity change animation duration (ms)"
+msgstr "不透明度變更動畫持續時間（毫秒）"
+
+#: Settings.ui.h:96
+msgid "Panel screen position"
+msgstr "面板螢幕位置"
+
+#: Settings.ui.h:97
+msgid "Bottom"
+msgstr "底部"
+
+#: Settings.ui.h:98
+msgid "Top"
+msgstr "頂部"
+
+#: Settings.ui.h:99
+msgid "Taskbar position"
+msgstr "工作列位置"
+
+#: Settings.ui.h:100
+msgid "Left, with plugin icons collapsed to right"
+msgstr "左側，並且外掛圖示收縮到右側"
+
+#: Settings.ui.h:101
+msgid "Left, with fixed center plugin icons"
+msgstr "左側，並且固定居中外掛圖示"
+
+#: Settings.ui.h:102
+msgid "Left, with floating center plugin icons"
+msgstr "左側，並且浮動居中外掛圖示"
+
+#: Settings.ui.h:103
+msgid "Center, fixed in middle of monitor"
+msgstr "中間，固定在顯示屏中間"
+
+#: Settings.ui.h:104
+msgid "Center, floating between left and right elements"
+msgstr "中間，在左側元素和右側元素之間浮動"
+
+#: Settings.ui.h:105
+msgid "Clock location"
+msgstr "時鐘位置"
+
+#: Settings.ui.h:106
+msgid "Left of plugin icons"
+msgstr "外掛圖示左側"
+
+#: Settings.ui.h:107
+msgid "Right of plugin icons"
+msgstr "外掛圖示右側"
+
+#: Settings.ui.h:108
+msgid "Left of system indicators"
+msgstr "系統指示器左側"
+
+#: Settings.ui.h:109
+msgid "Right of system indicators"
+msgstr "系統指示器右側"
+
+#: Settings.ui.h:110
+msgid "Left of taskbar"
+msgstr "工作列左側"
+
+#: Settings.ui.h:111
+msgid "Right of taskbar"
+msgstr "工作列右側"
+
+#: Settings.ui.h:112
+msgid "Display the main panel on"
+msgstr "將主面板顯示於"
+
+#: Settings.ui.h:113
+msgid "Display panels on all monitors"
+msgstr "在所有顯示器上顯示面板"
+
+#: Settings.ui.h:114
+msgid "Panel Intellihide"
+msgstr "面板智慧隱藏"
+
+#: Settings.ui.h:115
+msgid "Hide and reveal the panel according to preferences"
+msgstr "按照配置隱藏和顯示面板"
+
+#: Settings.ui.h:116
+msgid "Position"
+msgstr "位置"
+
+#: Settings.ui.h:117
+msgid ""
+"Panel Size\n"
+"(default is 48)"
+msgstr ""
+"面板大小\n"
+"（預設為 48）"
+
+#: Settings.ui.h:119
+msgid ""
+"App Icon Margin\n"
+"(default is 8)"
+msgstr ""
+"應用圖示邊緣空白\n"
+"（預設為 8）"
+
+#: Settings.ui.h:121
+msgid ""
+"App Icon Padding\n"
+"(default is 4)"
+msgstr ""
+"應用圖示邊緣空白\n"
+"（預設為 4）"
+
+#: Settings.ui.h:123
+msgid "Running indicator position"
+msgstr "執行指示器位置"
+
+#: Settings.ui.h:124
+msgid "Running indicator style (Focused app)"
+msgstr "執行指示器風格（取得焦點的應用）"
+
+#: Settings.ui.h:125
+msgid "Dots"
+msgstr "點"
+
+#: Settings.ui.h:126
+msgid "Squares"
+msgstr "方塊"
+
+#: Settings.ui.h:127
+msgid "Dashes"
+msgstr "橫線"
+
+#: Settings.ui.h:128
+msgid "Segmented"
+msgstr "間斷線"
+
+#: Settings.ui.h:129
+msgid "Solid"
+msgstr "實心"
+
+#: Settings.ui.h:130
+msgid "Ciliora"
+msgstr "Ciliora"
+
+#: Settings.ui.h:131
+msgid "Metro"
+msgstr "Metro"
+
+#: Settings.ui.h:132
+msgid "Running indicator style (Unfocused apps)"
+msgstr "執行指示器風格（未取得焦點的應用）"
+
+#: Settings.ui.h:133
+msgid "Override panel theme background color "
+msgstr "覆蓋面板主題背景顏色 "
+
+#: Settings.ui.h:134
+msgid "Override panel theme background opacity"
+msgstr "覆蓋面板主題背景不透明度"
+
+#: Settings.ui.h:136
+#, no-c-format
+msgid "Panel background opacity (%)"
+msgstr "面板背景不透明度（%）"
+
+#: Settings.ui.h:137
+msgid "Dynamic background opacity"
+msgstr "動態背景不透明度"
+
+#: Settings.ui.h:138
+msgid "Change opacity when a window gets close to the panel"
+msgstr "在有視窗接近面板時修改不透明度"
+
+#: Settings.ui.h:139
+msgid "Override panel theme gradient "
+msgstr "覆蓋面板主題漸變 "
+
+#: Settings.ui.h:141
+#, no-c-format
+msgid "Gradient top color and opacity (%)"
+msgstr "漸變頂部顏色和不透明度（%）"
+
+#: Settings.ui.h:143
+#, no-c-format
+msgid "Gradient bottom color and opacity (%)"
+msgstr "漸變底部顏色和不透明度（%）"
+
+#: Settings.ui.h:144
+msgid "Style"
+msgstr "風格"
+
+#: Settings.ui.h:145
+msgid "Show favorite applications"
+msgstr "顯示收藏的應用程式"
+
+#: Settings.ui.h:146
+msgid "Show <i>Applications</i> icon"
+msgstr "顯示<b>應用</b>圖示"
+
+#: Settings.ui.h:147
+msgid "Animate <i>Show Applications</i>."
+msgstr "動畫化<b>顯示應用程式</b>。"
+
+#: Settings.ui.h:148
+msgid "Show <i>Activities</i> button"
+msgstr "顯示<b>活動</b>按鈕"
+
+#: Settings.ui.h:149
+msgid "Show <i>Desktop</i> button"
+msgstr "顯示<b>桌面</b>按鈕"
+
+#: Settings.ui.h:150
+msgid "Show <i>AppMenu</i> button"
+msgstr "顯示<b>應用選單</b>按鈕"
+
+#: Settings.ui.h:151
+msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
+msgstr "必須在優化工具中啟用頂欄 > 顯示應用選單"
+
+#: Settings.ui.h:152
+msgid "Show window previews on hover"
+msgstr "懸停時顯示視窗預覽"
+
+#: Settings.ui.h:153
+msgid "Isolate Workspaces"
+msgstr "隔離工作區"
+
+#: Settings.ui.h:154
+msgid "Ungroup applications"
+msgstr "取消應用程式分組"
+
+#: Settings.ui.h:155
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr "點選正在執行應用程式圖示時的行為。"
+
+#: Settings.ui.h:156
+msgid "Click action"
+msgstr "點選行為"
+
+#: Settings.ui.h:157
+msgid ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
+"together with Shift and Ctrl."
+msgstr ""
+"將 Super+(0-9) 作為啟用應用程式的快捷鍵。它也可以和 Shift 或 Ctrl 共同使用。"
+
+#: Settings.ui.h:158
+msgid "Use hotkeys to activate apps"
+msgstr "使用熱鍵啟用應用"
+
+#: Settings.ui.h:159
+msgid "Behavior"
+msgstr "行為"
+
+#: Settings.ui.h:160
+msgid ""
+"Tray Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"托盤字型大小\n"
+"（0 = 主題預設）"
+
+#: Settings.ui.h:162
+msgid ""
+"LeftBox Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"LeftBox 字型大小\n"
+"（0 = 主題預設）"
+
+#: Settings.ui.h:164
+msgid ""
+"Tray Item Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"托盤項邊緣空白\n"
+"（-1 = 主題預設）"
+
+#: Settings.ui.h:166
+msgid ""
+"Status Icon Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"狀態圖示邊緣空白\n"
+"（-1 = 主題預設）"
+
+#: Settings.ui.h:168
+msgid ""
+"LeftBox Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"LeftBox 邊緣空白\n"
+"（-1 = 主題預設）"
+
+#: Settings.ui.h:170
+msgid "Animate switching applications"
+msgstr "動畫切換應用程式"
+
+#: Settings.ui.h:171
+msgid "Animate launching new windows"
+msgstr "動畫啟動新視窗"
+
+#: Settings.ui.h:172
+msgid "Keep original gnome-shell dash (overview)"
+msgstr "保持原始 gnome-shell dash（預覽）"
+
+#: Settings.ui.h:173
+msgid "App icon secondary (right-click) menu"
+msgstr "應用圖示次級（右鍵點選）選單"
+
+#: Settings.ui.h:175
+msgid "Fine-Tune"
+msgstr "微調"
+
+#: Settings.ui.h:176
+msgid "version: "
+msgstr "版本："
+
+#: Settings.ui.h:177
+msgid "GitHub"
+msgstr "GitHub"
+
+#: Settings.ui.h:178
+msgid ""
+"Use the buttons below to create a settings file from your current "
+"preferences that can be imported on a different machine."
+msgstr ""
+"使用下面的按鈕以基於您當前的首選項建立一個設定檔案；您稍後可使用該檔案在其他"
+"機器上匯入設定。"
+
+#: Settings.ui.h:179
+msgid "Export and import settings"
+msgstr "匯入匯出設定"
+
+#: Settings.ui.h:180
+msgid "Export to file"
+msgstr "匯出至檔案"
+
+#: Settings.ui.h:181
+msgid "Import from file"
+msgstr "從檔案匯入"
+
+#: Settings.ui.h:182
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">本程式不提供任何擔保。\n"
+"請檢視 <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU 通用公共許可證，第二版或更新版本</a> 以瞭解詳情。</span>"
+
+#: Settings.ui.h:184
+msgid "About"
+msgstr "關於"
+
+#~ msgid "Natural"
+#~ msgstr "自然"
+
+#~ msgid "Left side of panel"
+#~ msgstr "面板左側"
+
+#~ msgid "Centered in content"
+#~ msgstr "內容居中"
+
+#~ msgid "Github"
+#~ msgstr "Github"
+
+#~ msgid "5"
+#~ msgstr "5"
