@@ -16,6 +16,7 @@
  */
 
 const Lang = imports.lang;
+const Clutter = imports.gi.Clutter;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
 
@@ -295,12 +296,14 @@ var Intellihide = Utils.defineClass({
         }
 
         if (fromRevealMechanism) {
+            let mouseBtnIsPressed = global.get_pointer()[2] & Clutter.ModifierType.BUTTON1_MASK;
+            
             //the user is trying to reveal the panel
-            if (this._monitor.inFullscreen && !this._panelManager.mouseBtnPressed) {
+            if (this._monitor.inFullscreen && !mouseBtnIsPressed) {
                 return this._dtpSettings.get_boolean('intellihide-show-in-fullscreen');
             }
 
-            return !this._panelManager.mouseBtnPressed;
+            return !mouseBtnIsPressed;
         }
 
         if (!this._dtpSettings.get_boolean('intellihide-hide-from-windows')) {
