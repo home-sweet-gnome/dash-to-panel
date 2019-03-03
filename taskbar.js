@@ -277,6 +277,11 @@ var taskbar = Utils.defineClass({
                 })
             ],
             [
+           	    this._appSystem,
+           	    'app-state-changed',
+          	    Lang.bind(this, this._queueRedisplay)
+            ],
+            [
                 AppFavorites.getAppFavorites(),
                 'changed',
                 Lang.bind(this, this._queueRedisplay)
