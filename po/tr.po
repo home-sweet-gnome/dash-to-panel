@@ -1,33 +1,32 @@
 # Dash to Panel Türkçe çeviri
 # Copyright (C) 2017
 # This file is distributed under the same license as the PACKAGE package.
-# Serdar Sağlam <teknomobil@yandex.com>, 2018.
+# Serdar Sağlam <teknomobil@yandex.com>, 2018, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-12 08:24+0300\n"
-"PO-Revision-Date: 2018-12-12 08:41+0300\n"
+"POT-Creation-Date: 2019-03-07 12:15+0300\n"
+"PO-Revision-Date: 2019-03-07 14:10+0300\n"
 "Last-Translator: Serdar Sağlam <teknomobil@yandex.com>\n"
-"Language-Team: \n"
+"Language-Team: Serdar Sağlam <teknomobil@yandex.com>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 2.2.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: prefs.js:312
 msgid "Running Indicator Options"
-msgstr "Çalışan gösterge seçenekleri"
+msgstr "Çalışan Gösterge Seçenekleri"
 
-#: prefs.js:319 prefs.js:486 prefs.js:629 prefs.js:734 prefs.js:792
-#: prefs.js:868 prefs.js:920 prefs.js:1059 prefs.js:1143 prefs.js:1254
-#: prefs.js:1288 prefs.js:1330
+#: prefs.js:319 prefs.js:486 prefs.js:629 prefs.js:749 prefs.js:813
+#: prefs.js:901 prefs.js:973 prefs.js:1112 prefs.js:1196 prefs.js:1307
+#: prefs.js:1341 prefs.js:1383
 msgid "Reset to defaults"
-msgstr "Varsayılanlara dön"
+msgstr "Varsayılanlara Dön"
 
 #: prefs.js:431
 msgid "Default (Primary monitor)"
@@ -39,89 +38,89 @@ msgstr "Ekran "
 
 #: prefs.js:479
 msgid "Multi-monitors options"
-msgstr "Çoklu ekran seçenekleri"
+msgstr "Çoklu Ekran Seçenekleri"
 
 #: prefs.js:622
 msgid "Dynamic opacity options"
-msgstr "Dinamik saydamlık seçenekleri"
+msgstr "Dinamik Saydamlık Seçenekleri"
 
-#: prefs.js:727
+#: prefs.js:742
 msgid "Intellihide options"
 msgstr "Otomatik gizleme seçenekleri"
 
-#: prefs.js:785
+#: prefs.js:806
 msgid "Show Applications options"
-msgstr "Uygulama seçeneklerini göster"
+msgstr "Tüm Uygulamalar Seçenekleri"
 
-#: prefs.js:861
+#: prefs.js:894
 msgid "Show Desktop options"
-msgstr "Masaüstü seçeneklerini göster"
+msgstr "Masaüstü Göster Seçenekleri"
 
-#: prefs.js:913
+#: prefs.js:966
 msgid "Window preview options"
-msgstr "Pencere Önizleme seçenekleri"
+msgstr "Pencere Önizleme Seçenekleri"
 
-#: prefs.js:1052
+#: prefs.js:1105
 msgid "Ungrouped application options"
-msgstr "Gruplanmamış uygulama seçenekleri"
+msgstr "Gruplanmamış Uygulama Seçenekleri"
 
-#: prefs.js:1136
+#: prefs.js:1189
 msgid "Customize middle-click behavior"
-msgstr "Orta tıklatma davranışları"
+msgstr "Orta Tıklatma Davranışları"
 
-#: prefs.js:1247
+#: prefs.js:1300
 msgid "Advanced hotkeys options"
 msgstr "Gelişmiş kısayol tuş seçenekleri"
 
-#: prefs.js:1281
+#: prefs.js:1334
 msgid "Secondary Menu Options"
 msgstr "İkincil Menü Seçenekleri"
 
-#: prefs.js:1323 Settings.ui.h:174
+#: prefs.js:1376 Settings.ui.h:183
 msgid "Advanced Options"
 msgstr "Gelişmiş Seçenekler"
 
-#: prefs.js:1412
+#: prefs.js:1470
 msgid "Export settings"
 msgstr "Dışarı aktarma ayarları"
 
-#: prefs.js:1429
+#: prefs.js:1487
 msgid "Import settings"
 msgstr "İçeri alma ayarları"
 
-#: appIcons.js:1259
+#: appIcons.js:1291
 msgid "Show Details"
 msgstr "Detayları Göster"
 
-#: appIcons.js:1278
+#: appIcons.js:1310
 msgid "New Window"
 msgstr "Yeni Pencere"
 
-#: appIcons.js:1278 appIcons.js:1340 appIcons.js:1342 Settings.ui.h:8
+#: appIcons.js:1310 appIcons.js:1372 appIcons.js:1374 Settings.ui.h:9
 msgid "Quit"
 msgstr "Ayrıl"
 
-#: appIcons.js:1342
+#: appIcons.js:1374
 msgid "Windows"
 msgstr "Pencere"
 
-#: appIcons.js:1539
+#: appIcons.js:1579
 msgid "Unlock taskbar"
-msgstr "Görev çubuğu kilidini aç"
+msgstr "Görev Çubuğu Kilidini Aç"
 
-#: appIcons.js:1539
+#: appIcons.js:1579
 msgid "Lock taskbar"
-msgstr "Görev çubuğunu kilitle"
+msgstr "Görev Çubuğunu Kilitle"
 
-#: appIcons.js:1544
+#: appIcons.js:1584
 msgid "Dash to Panel Settings"
 msgstr "Dash to Panel Ayarları"
 
-#: appIcons.js:1551
+#: appIcons.js:1591
 msgid "Restore Windows"
 msgstr "Pencereleri Onar"
 
-#: appIcons.js:1551
+#: appIcons.js:1591
 msgid "Show Desktop"
 msgstr "Masaüstünü Göster"
 
@@ -138,8 +137,8 @@ msgid "Shift+Click action"
 msgstr "Shift+Tıklama eylemi"
 
 #: Settings.ui.h:3
-msgid "Raise window"
-msgstr "Pencereyi büyült"
+msgid "Raise windows"
+msgstr "Pencereleri yükselt"
 
 #: Settings.ui.h:4
 msgid "Minimize window"
@@ -157,460 +156,487 @@ msgstr "Pencereler döngüsü"
 msgid "Cycle windows + minimize"
 msgstr "Uygulama başlat ve küçült"
 
-#: Settings.ui.h:9
+#: Settings.ui.h:8
+msgid "Toggle single / Preview multiple"
+msgstr "Tek geçiş/çoklu önizleme"
+
+#: Settings.ui.h:10
 msgid "Behavior for Middle-Click."
 msgstr "Orta tıklama davranışı."
 
-#: Settings.ui.h:10
+#: Settings.ui.h:11
 msgid "Middle-Click action"
 msgstr "Orta tıklama eylemi"
 
-#: Settings.ui.h:11
+#: Settings.ui.h:12
 msgid "Behavior for Shift+Middle-Click."
 msgstr "Shift + Orta tıklama davranışı."
 
-#: Settings.ui.h:12
+#: Settings.ui.h:13
 msgid "Shift+Middle-Click action"
 msgstr "Shift+Orta Tıklama eylemi"
 
-#: Settings.ui.h:13
+#: Settings.ui.h:14
 msgid "Isolate monitors"
 msgstr "Ekranları izole et"
 
-#: Settings.ui.h:14
-msgid "Display favorite applications on all monitors"
-msgstr "Tüm ekranlarda sık kullanılan uygulamaları görüntüle"
-
 #: Settings.ui.h:15
-msgid "Display the clock on all monitors"
-msgstr "Saati tüm ekranlarda görüntüle"
+msgid "Display favorite applications on all monitors"
+msgstr "Tüm ekranlarda sık kullanılan uygulamaları göster"
 
 #: Settings.ui.h:16
-msgid "Display the status menu on all monitors"
-msgstr "Durum menüsünü tüm ekranlarda görüntüle"
+msgid "Display the clock on all monitors"
+msgstr "Tüm ekranlarda saati göster"
 
 #: Settings.ui.h:17
+msgid "Display the status menu on all monitors"
+msgstr "Tüm ekranlarda durum menüsünü göster"
+
+#: Settings.ui.h:18
 msgid "Integrate <i>AppMenu</i> items"
 msgstr "Entegre <i>Program menüsü</i>"
 
-#: Settings.ui.h:18
+#: Settings.ui.h:19
 msgid "<i>Show Details</i> menu item"
 msgstr "Ayrıntıları Göster <i>menü seçeneği</i>"
 
-#: Settings.ui.h:19
+#: Settings.ui.h:20
+msgid "Show Desktop button width (px)"
+msgstr "Düğme genişliği (piksel)"
+
+#: Settings.ui.h:21
+msgid "Reveal the desktop when hovering the Show Desktop button"
+msgstr "Masaüstünü göster düğmesinin üstüne gelince masaüstü görünsün"
+
+#: Settings.ui.h:22
+msgid "Delay before revealing the desktop (ms)"
+msgstr "Masaüstünü ortaya çıkarmadan önce gecikme (ms)"
+
+#: Settings.ui.h:23
+msgid "Fade duration (ms)"
+msgstr "Solma süresi (ms)"
+
+#: Settings.ui.h:24
 msgid "Highlight focused application"
 msgstr "Vurgu odaklı uygulamalar"
 
-#: Settings.ui.h:20
+#: Settings.ui.h:25
 msgid "Highlight color"
 msgstr "Arka ışık rengi"
 
-#: Settings.ui.h:21
+#: Settings.ui.h:26
 msgid "Highlight opacity"
 msgstr "Arka ışık saydamlığı"
 
-#: Settings.ui.h:22
+#: Settings.ui.h:27
 msgid "Indicator height (px)"
-msgstr "Yükseklik (px)"
+msgstr "Yükseklik (piksel)"
 
-#: Settings.ui.h:23
+#: Settings.ui.h:28
 msgid "Indicator color - Override Theme"
-msgstr "Gösterge rengi - Temada Geçersiz"
+msgstr "Gösterge rengi - temayı geçersiz kıl"
 
-#: Settings.ui.h:24
+#: Settings.ui.h:29
 msgid "1 window open (or ungrouped)"
 msgstr "Bir pencere açık olduğunda (gruplandırılmadığında)"
 
-#: Settings.ui.h:25
+#: Settings.ui.h:30
 msgid "Apply to all"
 msgstr "Tümüne uygula"
 
-#: Settings.ui.h:26
+#: Settings.ui.h:31
 msgid "2 windows open"
 msgstr "İki pencere açık olduğunda"
 
-#: Settings.ui.h:27
+#: Settings.ui.h:32
 msgid "3 windows open"
 msgstr "Üç pencere açık olduğunda"
 
-#: Settings.ui.h:28
+#: Settings.ui.h:33
 msgid "4+ windows open"
 msgstr "Dört + pencere açık olduğunda"
 
-#: Settings.ui.h:29
+#: Settings.ui.h:34
 msgid "Use different for unfocused"
 msgstr "Odakta değilken diğerini kullan"
 
-#: Settings.ui.h:30
+#: Settings.ui.h:35
 msgid "Font size (px) of the application titles (default is 14)"
-msgstr "Uygulama başlığının yazı tipi boyutu (px) (varsayılan 14)"
+msgstr "Uygulama başlığı yazı tipi boyutu (piksel) (varsayılan 14)"
 
-#: Settings.ui.h:31
+#: Settings.ui.h:36
 msgid "Font weight of application titles"
-msgstr "Uygulama başlıklarının yazı tipi"
+msgstr "Uygulama başlığı yazı tipi"
 
-#: Settings.ui.h:32
+#: Settings.ui.h:37
 msgid "inherit from theme"
 msgstr "mevcut tema"
 
-#: Settings.ui.h:33
+#: Settings.ui.h:38
 msgid "normal"
 msgstr "normal"
 
-#: Settings.ui.h:34
+#: Settings.ui.h:39
 msgid "lighter"
 msgstr "hafif"
 
-#: Settings.ui.h:35
+#: Settings.ui.h:40
 msgid "bold"
 msgstr "kalın"
 
-#: Settings.ui.h:36
+#: Settings.ui.h:41
 msgid "bolder"
 msgstr "çok kalın"
 
-#: Settings.ui.h:37
+#: Settings.ui.h:42
 msgid "Font color of the application titles"
 msgstr "Uygulama başlığı yazı tipi rengi"
 
-#: Settings.ui.h:38
+#: Settings.ui.h:43
 msgid "Maximum width (px) of the application titles (default is 160)"
-msgstr ""
-"Uygulama başlığının azami genişliği (px) (varsayılan olarak 160)"
+msgstr "Uygulama başlığı azami genişliği (piksel) (varsayılan 160)"
 
-#: Settings.ui.h:39
+#: Settings.ui.h:44
 msgid "Use a fixed width for the application titles"
 msgstr "Sabit başlık genişliğini kullan"
 
-#: Settings.ui.h:40
+#: Settings.ui.h:45
 msgid ""
 "The application titles all have the same width, even if their texts are "
 "shorter than the maximum width. The maximum width value is used as the fixed "
 "width."
 msgstr ""
-"Uygulama başlıklarının daha kısa olsalar bile aynı genişliğe sahip olması "
-"başlatıcı azami genişliği varsayılan azami genişlik değeri olarak kullanılır "
-"sabit genişlik."
+"Uygulama başlıkları, metinleri azami genişlikten daha kısa olsa bile, aynı "
+"genişliğe sahiptir. Azami genişlik değeri sabit genişlik olarak kullanılır."
 
-#: Settings.ui.h:41
+#: Settings.ui.h:46
 msgid "Display running indicators on unfocused applications"
-msgstr "Çalışan uygulamalar odaklanmamış görüntü göstergeleri"
+msgstr "Odaklanmamış uygulamalarda çalışan göstergeleri görüntüle"
 
-#: Settings.ui.h:42
+#: Settings.ui.h:47
 msgid "Use the favorite icons as application launchers"
-msgstr "Uygulama başlatıcı sık kullanılan simgeleri kullanın"
+msgstr "Sık kullanılanlar simgelerini başlatıcı olarak kullanma"
 
-#: Settings.ui.h:43
+#: Settings.ui.h:48
 msgid "Only hide the panel when it is obstructed by windows "
-msgstr "Sadece pencere tarafından engellendiğinde paneli gizleyin"
+msgstr "Sadece pencere tarafından engellendiğinde paneli gizle"
 
-#: Settings.ui.h:44
+#: Settings.ui.h:49
 msgid "The panel hides from"
 msgstr "Panel gizlenir"
 
-#: Settings.ui.h:45
+#: Settings.ui.h:50
 msgid "All windows"
 msgstr "Tüm pencereler"
 
-#: Settings.ui.h:46
+#: Settings.ui.h:51
 msgid "Focused windows"
 msgstr "Odaklanmış pencereler"
 
-#: Settings.ui.h:47
+#: Settings.ui.h:52
 msgid "Maximized windows"
 msgstr "Büyütülmüş pencereler"
 
-#: Settings.ui.h:48
+#: Settings.ui.h:53
 msgid "Require pressure at the edge of the screen to reveal the panel"
 msgstr "Paneli ortaya çıkarmak için ekranın kenarında beklemek gerektirir"
 
-#: Settings.ui.h:49
+#: Settings.ui.h:54
 msgid "Required pressure threshold (px)"
-msgstr "Başlatma için gereken alan eşiği (px)"
+msgstr "Başlatma için gereken alan eşiği (piksel)"
 
-#: Settings.ui.h:50
+#: Settings.ui.h:55
 msgid "Required pressure timeout (ms)"
 msgstr "Bekleme için gerekli zaman aşımı (ms)"
 
-#: Settings.ui.h:51
+#: Settings.ui.h:56
 msgid "Allow the panel to be revealed while in fullscreen mode"
-msgstr "Panelin tam ekran modunda iken ortaya çıkmasına izin ver"
+msgstr "Panelin tam ekran kipinde ortaya çıkmasına izin ver"
 
-#: Settings.ui.h:52
+#: Settings.ui.h:57
+msgid "Only hide secondary panels (requires multi-monitors option)"
+msgstr "Yalnızca ikincil panelleri gizle (çoklu monitör seçeneği gerekir)"
+
+#: Settings.ui.h:58
 msgid "e.g. <Super>i"
-msgstr ""
+msgstr "örneğin. <Super>i"
 
-#: Settings.ui.h:53
+#: Settings.ui.h:59
 msgid "Keyboard shortcut to reveal and hold the panel"
-msgstr "Klavye kısayol ortaya çıkarmak ve paneli tutmak için"
+msgstr "Paneli tutmak ve ortaya çıkarmak için klavye kısayolu"
 
-#: Settings.ui.h:54
+#: Settings.ui.h:60
 msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
 msgstr "Sözdizimi: <Shift>, <Ctrl>, <Alt>, <Super>"
 
-#: Settings.ui.h:55
+#: Settings.ui.h:61
 msgid "Hide and reveal animation duration (ms)"
 msgstr "Canlandırma süresini gizle ve göster (ms)"
 
-#: Settings.ui.h:56
+#: Settings.ui.h:62
 msgid "Delay before hiding the panel (ms)"
-msgstr "Paneli gizlemeden önce gecikme (ms)"
+msgstr "Paneli gizlemeden önce gecikme süresi (ms)"
 
-#: Settings.ui.h:57
+#: Settings.ui.h:63
 msgid "Preview timeout on icon leave (ms)"
 msgstr "Önizleme zaman aşımı simgesi (ms)"
 
-#: Settings.ui.h:58
+#: Settings.ui.h:64
 msgid ""
 "If set too low, the window preview of running applications may seem to close "
 "too quickly when trying to enter the popup. If set too high, the preview may "
 "linger too long when moving to an adjacent icon."
 msgstr ""
-"çok düşük ayarlanırsa, çalışan uygulamaların pencere önizlemesi kapanıyor gibi görünebilir "
-"hızlı açılır pencere çok yüksek ayarlarsanız, önizleme olabilir "
-"bitişik bir simgeye taşınırken çok uzun süre bekler"
+"Çok düşük ayarlanırsa, çalışan uygulamaların pencere önizlemesi kapanıyor "
+"gibi görünebilir hızlı açılır pencere. Çok yüksek ayarlarsanız, önizleme "
+"olabilir bitişik bir simgeye taşınırken çok uzun süre bekler."
 
-#: Settings.ui.h:59
+#: Settings.ui.h:65
 msgid "Time (ms) before showing (100 is default)"
-msgstr "Zaman (ms) göstermeden önce (100 varsayılan)"
+msgstr "Göstermeden önce geçen süre (ms) (varsayılan 100)"
 
-#: Settings.ui.h:60
+#: Settings.ui.h:66
 msgid "Enable window peeking"
-msgstr "Pencere göz atmayı etkinleştir"
+msgstr "Pencereye göz atmayı etkinleştir"
 
-#: Settings.ui.h:61
+#: Settings.ui.h:67
 msgid ""
 "When hovering over a window preview for some time, the window gets "
 "distinguished."
-msgstr "Önizleme simgesinin üzerine gelindiğinde, bazen pencere göze çarpar."
+msgstr ""
+"Bir süre boyunca bir pencere önizlemesinin üzerine gelindiğinde, pencere "
+"ayırt edilir."
 
-#: Settings.ui.h:62
+#: Settings.ui.h:68
 msgid "Enter window peeking mode timeout (ms)"
-msgstr "Pencere gözatma modu zaman aşımı girin (ms)"
+msgstr "Pencere gözatma kipi zaman aşımı (ms)"
 
-#: Settings.ui.h:63
+#: Settings.ui.h:69
 msgid ""
 "Time of inactivity while hovering over a window preview needed to enter the "
 "window peeking mode."
 msgstr ""
-"Bir pencere önizleme üzerinde vurgulama sırasında etkinlik dışı zaman girmek için gerekli "
-"pencere göz atma modu"
+"Bir pencere önizleme üzerinde vurgulama sırasında etkinlik dışı zaman girmek "
+"için gerekli pencere göz atma kipi."
 
-#: Settings.ui.h:64
+#: Settings.ui.h:70
 msgid "Window peeking mode opacity"
-msgstr "Pencere gözetleme modu saydamlık"
+msgstr "Pencere gözatma kipi saydamlığı"
 
-#: Settings.ui.h:65
+#: Settings.ui.h:71
 msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
-msgstr "Peeked one dışındaki tüm pencerelerin opaklıkları aynı şekilde ayarlanır"
+msgstr ""
+"Bakılan pencerenin dışındaki tüm pencerelerin opaklıkları aynı değere "
+"ayarlanmıştır."
 
-#: Settings.ui.h:66
+#: Settings.ui.h:72
 msgid "Middle click to close window"
-msgstr "Pencereyi kapatmak için orta tıklama"
+msgstr "Pencereyi kapatmak için orta tık"
 
-#: Settings.ui.h:67
+#: Settings.ui.h:73
 msgid "Middle click on the preview to close the window."
-msgstr "Pencereyi önizlemeyi kapatmak için orta tıklama."
+msgstr "Pencereyi kapatmak için önizlemeye orta tıkla."
 
-#: Settings.ui.h:68
+#: Settings.ui.h:74
 msgid "Display window title in previews"
 msgstr "Önizlemede pencere başlığını görüntüle"
 
-#: Settings.ui.h:69
+#: Settings.ui.h:75
 msgid "Width of the window previews (px)"
-msgstr "Pencere önizlemeleri genişliği (px)"
+msgstr "Pencere önizleme genişliği (piksel)"
 
-#: Settings.ui.h:70
+#: Settings.ui.h:76
 msgid "Height of the window previews (px)"
-msgstr "Pencere önizlemeleri yüksekliği (px)"
+msgstr "Pencere önizleme yüksekliği (piksel)"
 
-#: Settings.ui.h:71
+#: Settings.ui.h:77
 msgid "Padding of the window previews (px)"
-msgstr "Pencere önizlemeleri dolgusu (px)"
+msgstr "Pencere önizleme dolgusu (piksel)"
 
-#: Settings.ui.h:72
+#: Settings.ui.h:78
 msgid "Super"
 msgstr "Super"
 
-#: Settings.ui.h:73
+#: Settings.ui.h:79
 msgid "Super + Alt"
 msgstr "Super + Alt"
 
-#: Settings.ui.h:74
+#: Settings.ui.h:80
 msgid "Hotkeys prefix"
 msgstr "Kısayol tuşları"
 
-#: Settings.ui.h:75
+#: Settings.ui.h:81
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
 msgstr "Kısayol Super+Numaralar, yada Super+Alt"
 
-#: Settings.ui.h:76
+#: Settings.ui.h:82
 msgid "Never"
 msgstr "Asla"
 
-#: Settings.ui.h:77
+#: Settings.ui.h:83
 msgid "Show temporarily"
 msgstr "Geçici olarak göster"
 
-#: Settings.ui.h:78
+#: Settings.ui.h:84
 msgid "Always visible"
 msgstr "Sürekli görünür"
 
-#: Settings.ui.h:79
+#: Settings.ui.h:85
 msgid "Number overlay"
 msgstr "Numara yerleşimi"
 
-#: Settings.ui.h:80
+#: Settings.ui.h:86
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
 msgstr ""
-"Kısayol tuşlarını kullanırken uygulama numaralarını simgeler üzerinde geçici gösterin"
+"Kısayol tuşlarını kullanırken uygulama numaralarını simgeler üzerinde geçici "
+"olarak göster."
 
-#: Settings.ui.h:81
+#: Settings.ui.h:87
 msgid "Hide timeout (ms)"
 msgstr "Gizleme sonlanma (ms)"
 
-#: Settings.ui.h:82
+#: Settings.ui.h:88
 msgid "e.g. <Super>q"
-msgstr ""
+msgstr "örneğin. <Super>q"
 
-#: Settings.ui.h:83
+#: Settings.ui.h:89
 msgid "Shortcut to show the overlay for 2 seconds"
-msgstr  "2 saniye kaplama göstermek için kısayol"
+msgstr "2 saniye kaplama göstermek için kısayol"
 
-#: Settings.ui.h:84
+#: Settings.ui.h:90
 msgid "Show window previews on hotkey"
 msgstr "Uygulama önizleme kısayol"
 
-#: Settings.ui.h:85
+#: Settings.ui.h:91
 msgid "Show previews when the application have multiple instances"
 msgstr "Uygulamanın birden çok örneği açık olduğunda önizlemeleri göster"
 
-#: Settings.ui.h:86
+#: Settings.ui.h:92
 msgid "Current Show Applications icon"
-msgstr "Mevcut uygulama simgesini göster"
+msgstr "Mevcut simgeyi göster"
 
-#: Settings.ui.h:87
+#: Settings.ui.h:93
 msgid "Select a Show Applications image icon"
-msgstr "Görünmesini istediğiniz simgeyi seçin"
+msgstr "Görünmesini istediğin simgeyi seç"
 
-#: Settings.ui.h:88
+#: Settings.ui.h:94
 msgid "Custom Show Applications image icon"
-msgstr "Görünmesini istediğiniz simgeyi seçin"
+msgstr "Görünmesini istediğin simgeyi seç"
 
-#: Settings.ui.h:89
-msgid "Show Desktop button width (px)"
-msgstr "Buton genişliği (px)"
+#: Settings.ui.h:95
+msgid "0"
+msgstr "0"
 
-#: Settings.ui.h:90
+#: Settings.ui.h:96
+msgid "Show Applications icon side padding (px)"
+msgstr "Simge yan dolgu (piksel)"
+
+#: Settings.ui.h:97
 msgid "The panel background opacity is affected by"
 msgstr "Panelin saydamlık üzerindeki etkisi"
 
-#: Settings.ui.h:91
+#: Settings.ui.h:98
 msgid "Change opacity when a window gets closer than (px)"
-msgstr "Bir pencere yaklaştığında saydamlığı değiştirin (px)"
+msgstr "Bir pencere yaklaştığında saydamlığı değiştir (piksel)"
 
-#: Settings.ui.h:93
+#: Settings.ui.h:100
 #, no-c-format
 msgid "Change opacity to (%)"
 msgstr "Saydamlığı değiştir (%)"
 
-#: Settings.ui.h:94
-msgid "0"
-msgstr "0"
-
-#: Settings.ui.h:95
+#: Settings.ui.h:101
 msgid "Opacity change animation duration (ms)"
 msgstr "Saydamlık değişimi canlandırma süresi (ms)"
 
-#: Settings.ui.h:96
+#: Settings.ui.h:102
 msgid "Panel screen position"
 msgstr "Panelin Ekrandaki Konumu"
 
-#: Settings.ui.h:97
+#: Settings.ui.h:103
 msgid "Bottom"
 msgstr "Alt"
 
-#: Settings.ui.h:98
+#: Settings.ui.h:104
 msgid "Top"
 msgstr "Üst"
 
-#: Settings.ui.h:99
+#: Settings.ui.h:105
 msgid "Taskbar position"
 msgstr "Görev çubuğu konumu"
 
-#: Settings.ui.h:100
+#: Settings.ui.h:106
 msgid "Left, with plugin icons collapsed to right"
-msgstr "Sol, eklenti simgeleri sağa kaydırıldı"
+msgstr "Sol, eklenti simgeleri sağa kaydırılır"
 
-#: Settings.ui.h:101
+#: Settings.ui.h:107
 msgid "Left, with fixed center plugin icons"
-msgstr "Sol, eklenti simgeleri ortada sabit"
+msgstr "Sol, eklenti simgeleri ortada sabit kalır"
 
-#: Settings.ui.h:102
+#: Settings.ui.h:108
 msgid "Left, with floating center plugin icons"
-msgstr "Sol, eklenti simgeleri ortada değişgen"
+msgstr "Sol, eklenti simgeleri ortada değişken"
 
-#: Settings.ui.h:103
+#: Settings.ui.h:109
 msgid "Center, fixed in middle of monitor"
-msgstr "Merkez, ekranın ortasında sabit"
+msgstr "Merkez, ekranın ortasında sabit kalır"
 
-#: Settings.ui.h:104
+#: Settings.ui.h:110
 msgid "Center, floating between left and right elements"
 msgstr "Merkez, sol ve sağ değişken"
 
-#: Settings.ui.h:105
+#: Settings.ui.h:111
 msgid "Clock location"
 msgstr "Saat konumu"
 
-#: Settings.ui.h:106
+#: Settings.ui.h:112
 msgid "Left of plugin icons"
 msgstr "Eklenti simgelerinin solunda"
 
-#: Settings.ui.h:107
+#: Settings.ui.h:113
 msgid "Right of plugin icons"
 msgstr "Eklenti simgelerinin sağında"
 
-#: Settings.ui.h:108
+#: Settings.ui.h:114
 msgid "Left of system indicators"
 msgstr "Sistem tepsisinin solunda"
 
-#: Settings.ui.h:109
+#: Settings.ui.h:115
 msgid "Right of system indicators"
 msgstr "Sistem tepsisinin sağında"
 
-#: Settings.ui.h:110
+#: Settings.ui.h:116
 msgid "Left of taskbar"
 msgstr "Görev çubuğunun solunda"
 
-#: Settings.ui.h:111
+#: Settings.ui.h:117
 msgid "Right of taskbar"
 msgstr "Görev çubuğunun sağında"
 
-#: Settings.ui.h:112
+#: Settings.ui.h:118
 msgid "Display the main panel on"
 msgstr "Paneli ana ekranda göster"
 
-#: Settings.ui.h:113
+#: Settings.ui.h:119
 msgid "Display panels on all monitors"
 msgstr "Paneli tüm ekranlarda göster"
 
-#: Settings.ui.h:114
+#: Settings.ui.h:120
 msgid "Panel Intellihide"
 msgstr "Paneli gizle"
 
-#: Settings.ui.h:115
+#: Settings.ui.h:121
 msgid "Hide and reveal the panel according to preferences"
 msgstr "Paneli gizleme ve geri getirme seçenekleri"
 
-#: Settings.ui.h:116
+#: Settings.ui.h:122
 msgid "Position"
 msgstr "Konum"
 
-#: Settings.ui.h:117
+#: Settings.ui.h:123
 msgid ""
 "Panel Size\n"
 "(default is 48)"
@@ -618,7 +644,7 @@ msgstr ""
 "Panel Boyutu\n"
 "(varsayılan 48)"
 
-#: Settings.ui.h:119
+#: Settings.ui.h:125
 msgid ""
 "App Icon Margin\n"
 "(default is 8)"
@@ -626,159 +652,166 @@ msgstr ""
 "Uygulama Simge Marjı\n"
 "(varsayılan 8)"
 
-#: Settings.ui.h:121
+#: Settings.ui.h:127
 msgid ""
 "App Icon Padding\n"
 "(default is 4)"
 msgstr ""
-"Uygulama Simge Dolgu\n"
+"Uygulama Simge Dolgusu\n"
 "(varsayılan 4)"
 
-#: Settings.ui.h:123
+#: Settings.ui.h:129
 msgid "Running indicator position"
 msgstr "Çalışan uygulamaların gösterge konumu"
 
-#: Settings.ui.h:124
+#: Settings.ui.h:130
 msgid "Running indicator style (Focused app)"
-msgstr "Çalışan uygulama tarzı (Aktif olan)"
+msgstr "Çalışan uygulamaların gösterge biçimi (Odakta olan)"
 
-#: Settings.ui.h:125
+#: Settings.ui.h:131
 msgid "Dots"
 msgstr "Noktalar"
 
-#: Settings.ui.h:126
+#: Settings.ui.h:132
 msgid "Squares"
 msgstr "Kareler"
 
-#: Settings.ui.h:127
+#: Settings.ui.h:133
 msgid "Dashes"
 msgstr "Tireler"
 
-#: Settings.ui.h:128
+#: Settings.ui.h:134
 msgid "Segmented"
 msgstr "Segmentler"
 
-#: Settings.ui.h:129
+#: Settings.ui.h:135
 msgid "Solid"
 msgstr "Kalın çizgi"
 
-#: Settings.ui.h:130
+#: Settings.ui.h:136
 msgid "Ciliora"
 msgstr "Nokta ve çizgi"
 
-#: Settings.ui.h:131
+#: Settings.ui.h:137
 msgid "Metro"
 msgstr "Metro"
 
-#: Settings.ui.h:132
+#: Settings.ui.h:138
 msgid "Running indicator style (Unfocused apps)"
-msgstr "Çalışan uygulama tarzı (Aktif olmayan)"
+msgstr "Çalışan uygulamaların gösterge biçimi (Odakta olmayan)"
 
-#: Settings.ui.h:133
+#: Settings.ui.h:139
 msgid "Override panel theme background color "
 msgstr "Panel tema arka plan rengini geçersiz kıl"
 
-#: Settings.ui.h:134
+#: Settings.ui.h:140
 msgid "Override panel theme background opacity"
 msgstr "Panel tema arka plan saydamlığını geçersiz kıl"
 
-#: Settings.ui.h:136
+#: Settings.ui.h:142
 #, no-c-format
 msgid "Panel background opacity (%)"
 msgstr "Panel arka plan saydamlığı (%)"
 
-#: Settings.ui.h:137
-msgid "Dynamic background opacity"
-msgstr "Dinamik arkaplan saydamlığı"
-
-#: Settings.ui.h:138
-msgid "Change opacity when a window gets close to the panel"
-msgstr "Bir pencere panele yaklaştığında saydamlığı değiştirin"
-
-#: Settings.ui.h:139
-msgid "Override panel theme gradient "
-msgstr "Panel temasını geçersiz kıl"
-
-#: Settings.ui.h:141
-#, no-c-format
-msgid "Gradient top color and opacity (%)"
-msgstr "Renk ve saydamlık değeri (%) üst"
-
 #: Settings.ui.h:143
-#, no-c-format
-msgid "Gradient bottom color and opacity (%)"
-msgstr "Renk ve saydamlık değeri (%) alt"
+msgid "Dynamic background opacity"
+msgstr "Dinamik arka plan saydamlığı"
 
 #: Settings.ui.h:144
-msgid "Style"
-msgstr "Tarz"
+msgid "Change opacity when a window gets close to the panel"
+msgstr "Bir pencere panele yaklaştığında saydamlığı değişir"
 
 #: Settings.ui.h:145
+msgid "Override panel theme gradient "
+msgstr "Panel temasında değişken renkler kullan"
+
+#: Settings.ui.h:147
+#, no-c-format
+msgid "Gradient top color and opacity (%)"
+msgstr "Değişken renk ve saydamlık değeri (%) üst"
+
+#: Settings.ui.h:149
+#, no-c-format
+msgid "Gradient bottom color and opacity (%)"
+msgstr "Değişken renk ve saydamlık değeri (%) alt"
+
+#: Settings.ui.h:150
+msgid "Style"
+msgstr "Biçim"
+
+#: Settings.ui.h:151
 msgid "Show favorite applications"
 msgstr "Sık kullanılan uygulamaları göster"
 
-#: Settings.ui.h:146
-msgid "Show <i>Applications</i> icon"
-msgstr "Uygulamalar simgesi butonu <i>Aktif</i>"
-
-#: Settings.ui.h:147
-msgid "Animate <i>Show Applications</i>."
-msgstr "Canlandırma <i>uygulamalar menüsünde göster</i>."
-
-#: Settings.ui.h:148
-msgid "Show <i>Activities</i> button"
-msgstr "Etkinlikler butonu <i>Aktif</i>"
-
-#: Settings.ui.h:149
-msgid "Show <i>Desktop</i> button"
-msgstr "Masaüstünü göster butonu <i>Aktif</i>"
-
-#: Settings.ui.h:150
-msgid "Show <i>AppMenu</i> button"
-msgstr "Tüm uygulamar butonu <i>Aktif</i>"
-
-#: Settings.ui.h:151
-msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
-msgstr ""
-"Gnome İnce Ayarlar/Tepe Çubuğu/Uygulama Menüsü etkin olmalıdır"
-
 #: Settings.ui.h:152
+msgid "Show <i>Applications</i> icon"
+msgstr "Tüm Uygulamalar simgesi <i>Aktif</i>"
+
+#: Settings.ui.h:153
+msgid "Animate <i>Show Applications</i>."
+msgstr "Canlandırma <i>menü açılışlarında göster</i>."
+
+#: Settings.ui.h:154
+msgid "Show <i>Activities</i> button"
+msgstr "Etkinlikler düğmesi <i>Aktif</i>"
+
+#: Settings.ui.h:155
+msgid "Show <i>Desktop</i> button"
+msgstr "Masaüstünü göster düğmesi <i>Aktif</i>"
+
+#: Settings.ui.h:156
+msgid "Show <i>AppMenu</i> button"
+msgstr "Uygulama menüleri düğmesi <i>Aktif</i>"
+
+#: Settings.ui.h:157
+msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
+msgstr "Gnome İnce Ayarlar/Tepe Çubuğu/Uygulama Menüsü etkin olmalıdır"
+
+#: Settings.ui.h:158
 msgid "Show window previews on hover"
 msgstr "Pencere önizlemelerini göster"
 
-#: Settings.ui.h:153
+#: Settings.ui.h:159
+msgid "Show tooltip on hover"
+msgstr "Vurgulu araç ipucunu göster"
+
+#: Settings.ui.h:160
 msgid "Isolate Workspaces"
 msgstr "Çalışma alanlarını ayır"
 
-#: Settings.ui.h:154
+#: Settings.ui.h:161
 msgid "Ungroup applications"
 msgstr "Gruplandırılmamış uygulamalar"
 
-#: Settings.ui.h:155
+#: Settings.ui.h:162
 msgid "Behaviour when clicking on the icon of a running application."
 msgstr "Çalışan bir uygulamanın simgesine tıkladığınızda davranış."
 
-#: Settings.ui.h:156
+#: Settings.ui.h:163
 msgid "Click action"
 msgstr "Tıklama eylemi"
 
-#: Settings.ui.h:157
+#: Settings.ui.h:164
+msgid "Toggle windows"
+msgstr "Pencereleri aç/kapat"
+
+#: Settings.ui.h:165
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
 msgstr ""
-"Uygulamaları etkinleştirmek için kısayollar ctrl +(0-9) etkinleştirin  "
-"Shift ve Ctrl ile birlikte."
+"Uygulamaları etkinleştirmek için kısayollar ctrl +(0-9) etkinleştirin  Shift "
+"ve Ctrl ile birlikte."
 
-#: Settings.ui.h:158
+#: Settings.ui.h:166
 msgid "Use hotkeys to activate apps"
-msgstr "Uygulamaları başlatma kısayolları"
+msgstr "Uygulamaları etkinleştirmek için kısayol tuşlarını kullan"
 
-#: Settings.ui.h:159
+#: Settings.ui.h:167
 msgid "Behavior"
 msgstr "Davranış"
 
-#: Settings.ui.h:160
+#: Settings.ui.h:168
 msgid ""
 "Tray Font Size\n"
 "(0 = theme default)"
@@ -786,7 +819,7 @@ msgstr ""
 "Simge Font Boyutu\n"
 "(0 = varsayılan)"
 
-#: Settings.ui.h:162
+#: Settings.ui.h:170
 msgid ""
 "LeftBox Font Size\n"
 "(0 = theme default)"
@@ -794,7 +827,7 @@ msgstr ""
 "SolKutu Yazı Boyutu\n"
 "(0 = varsayılan)"
 
-#: Settings.ui.h:164
+#: Settings.ui.h:172
 msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
@@ -802,7 +835,7 @@ msgstr ""
 "Simge Dolgusu\n"
 "(-1 = varsayılan)"
 
-#: Settings.ui.h:166
+#: Settings.ui.h:174
 msgid ""
 "Status Icon Padding\n"
 "(-1 = theme default)"
@@ -810,7 +843,7 @@ msgstr ""
 "Durum Simge Dolgusu\n"
 "(-1 = varsayılan)"
 
-#: Settings.ui.h:168
+#: Settings.ui.h:176
 msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
@@ -818,64 +851,69 @@ msgstr ""
 "SolKutu Dolgusu\n"
 "(-1 = varsayılan)"
 
-#: Settings.ui.h:170
+#: Settings.ui.h:178
 msgid "Animate switching applications"
-msgstr "Canlandırmaları değiştiren uygulamalar"
+msgstr "Uygulama geçişlerinde canlandırma kullan"
 
-#: Settings.ui.h:171
+#: Settings.ui.h:179
 msgid "Animate launching new windows"
 msgstr "Açılan pencerelerde canlandırma kullan"
 
-#: Settings.ui.h:172
+#: Settings.ui.h:180
 msgid "Keep original gnome-shell dash (overview)"
-msgstr "Orijinal gnome-shell dash (genel bakış)"
+msgstr "Orijinal gnome-shell rıhtımını kullan (genel bakış)"
 
-#: Settings.ui.h:173
+#: Settings.ui.h:181
+msgid "Activate panel menu buttons (e.g. date menu) on click only"
+msgstr ""
+"Sadece tıklandığında panel menü düğmelerini (ör. tarih menüsü) etkinleştir"
+
+#: Settings.ui.h:182
 msgid "App icon secondary (right-click) menu"
 msgstr "Uygulama simgesi ikincil (sağ tık) menüsü"
 
-#: Settings.ui.h:175
+#: Settings.ui.h:184
 msgid "Fine-Tune"
 msgstr "İnce Ayarlar"
 
-#: Settings.ui.h:176
+#: Settings.ui.h:185
 msgid "version: "
 msgstr "sürüm: "
 
-#: Settings.ui.h:177
+#: Settings.ui.h:186
 msgid "GitHub"
 msgstr "GitHub"
 
-#: Settings.ui.h:178
+#: Settings.ui.h:187
 msgid ""
 "Use the buttons below to create a settings file from your current "
 "preferences that can be imported on a different machine."
 msgstr ""
-"Geçerli ayarlarınızı yedeklemek için aşağıdaki düğmeleri kullanın "
-"farklı bir makinede içe aktarılabilen tercihler."
+"Geçerli ayarlarınızı yedeklemek için aşağıdaki düğmeleri kullanın farklı bir "
+"makinede içe aktarılabilen tercihler."
 
-#: Settings.ui.h:179
+#: Settings.ui.h:188
 msgid "Export and import settings"
-msgstr "Ayarları içeri ve dışarı aktarma"
+msgstr "Ayarları içeri ve dışarı aktar"
 
-#: Settings.ui.h:180
+#: Settings.ui.h:189
 msgid "Export to file"
 msgstr "Dışarı aktar"
 
-#: Settings.ui.h:181
+#: Settings.ui.h:190
 msgid "Import from file"
 msgstr "İçeri aktar"
 
-#: Settings.ui.h:182
+#: Settings.ui.h:191
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">GNU General Public License, version 2 or later</a> for details.</span>"
 msgstr ""
 "<span size=\"small\">Bu program KESİNLİKLE HİÇBİR GARANTİ vermez.\n"
-"Bakın <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
-"\">GNU Genel Kamu Lisansı, sürüm 2 veya üstü</a> detaylar için.</span>"
+"Bakın <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\">GNU "
+"Genel Kamu Lisansı, sürüm 2 veya üstü</a> detaylar için.</span>"
 
-#: Settings.ui.h:184
+#: Settings.ui.h:193
 msgid "About"
 msgstr "Hakkında"
