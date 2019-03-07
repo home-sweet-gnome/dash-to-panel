@@ -163,10 +163,10 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @quasoft for changing of font weight of ungrouped application titles
 
 #### Bug Fixes: 
-@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan
+@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan, @Zkdc
 
 #### Translations: 
-@frnogueira (pt_BR), @zeten30 (cs), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / MartinPL (pl), @AlexGluck / @GoodNike (ru), @sicklylife-jp (jp), @oltulu / @TeknoMobil / @daenney (tr), @sbadux (it)
+@frnogueira (pt_BR), @zeten30 (cs), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / MartinPL (pl), @AlexGluck / @GoodNike (ru), @sicklylife-jp (jp), @oltulu / @TeknoMobil / @daenney (tr), @sbadux (it), @OriginCode (zh\_TW)
 
 
 ## 
