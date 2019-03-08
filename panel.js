@@ -80,7 +80,8 @@ var dtpPanelWrapper = Utils.defineClass({
         }
         this.appMenu = this.panel.statusArea.appMenu;
         
-        
+        this._oldPanelActorDelegate = this.panel.actor._delegate;
+        this.panel.actor._delegate = this;
 
         this._oldPanelHeight = this.panel.actor.get_height();
 
@@ -227,18 +228,6 @@ var dtpPanelWrapper = Utils.defineClass({
 
         this.panelStyle.enable(this.panel);
         
-        this.panel.handleDragOver = Lang.bind(this.panel, function(source, actor, x, y, time) {
-            if (source == Main.xdndHandler) {
-                
-                // open overview so they can choose a window for focusing
-                // and ultimately dropping dragged item onto
-                if(Main.overview.shouldToggleByCornerOrButton())
-                    Main.overview.show();
-            }
-            
-            return DND.DragMotionResult.CONTINUE;
-        });
-
         // Dynamic transparency is available on Gnome 3.26
         if (this.panel._updateSolidStyle) {
             this._injectionsHandler = new Utils.InjectionsHandler();
@@ -306,6 +295,7 @@ var dtpPanelWrapper = Utils.defineClass({
         }
 
         this.panel.menuManager._changeMenu = this.panel.menuManager._oldChangeMenu;
+        this.panel.actor._delegate = this._oldPanelActorDelegate;
 
         if (!this.isSecondary) {
             this.panel.actor.set_height(this._oldPanelHeight);
@@ -343,6 +333,18 @@ var dtpPanelWrapper = Utils.defineClass({
         this._panelConnectId = null;
         this._signalsHandler = null;
         this._HeightNotifyListener = null;
+    },
+
+    handleDragOver: function(source, actor, x, y, time) {
+        if (source == Main.xdndHandler) {
+            
+            // open overview so they can choose a window for focusing
+            // and ultimately dropping dragged item onto
+            if(Main.overview.shouldToggleByCornerOrButton())
+                Main.overview.show();
+        }
+        
+        return DND.DragMotionResult.CONTINUE;
     },
 
     _bindSettingsChanges: function() {
