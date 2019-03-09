@@ -34,7 +34,7 @@ var defineClass = function (classDef) {
     let needsSuper = es6Support && !!parentProto && !isGObject;
 
     if (!es6Support) {
-        if (parentProto && classDef.Extends.name.indexOf('DashToPanel') < 0) {
+        if (parentProto && (classDef.Extends.name || classDef.Extends.toString()).indexOf('DashToPanel.') < 0) {
             classDef.callParent = function() {
                 let args = Array.prototype.slice.call(arguments);
                 let func = args.shift();
