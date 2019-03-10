@@ -27,7 +27,7 @@ const Mainloop = imports.mainloop;
 
 let es6Support = imports.misc.config.PACKAGE_VERSION >= '3.31.9';
 
-var TRANSLATION_DOMAIN = 'dash-to-panel';
+var TRANSLATION_DOMAIN = imports.misc.extensionUtils.getCurrentExtension().metadata['gettext-domain'];
 
 var defineClass = function (classDef) {
     let parentProto = !!classDef.Extends ? classDef.Extends.prototype : null;

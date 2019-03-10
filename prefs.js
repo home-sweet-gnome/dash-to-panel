@@ -43,7 +43,6 @@ const DEFAULT_PADDING_SIZES = [ 32, 24, 16, 12, 8, 4, 0, -1 ];
 const MAX_WINDOW_INDICATOR = 4;
 
 const SCHEMA_PATH = '/org/gnome/shell/extensions/dash-to-panel/';
-const UUID = 'dash-to-panel@jderose9.github.com';
 const GSET = 'gnome-shell-extension-tool';
 
 /**
@@ -1501,10 +1500,10 @@ const Settings = new Lang.Class({
                     GLib.close(stdout);
                     GLib.close(stderr);
                                         
-                    let [ , , , retCode] = GLib.spawn_command_line_sync(GSET + ' -d ' + UUID);
+                    let [ , , , retCode] = GLib.spawn_command_line_sync(GSET + ' -d ' + Me.uuid);
                                         
                     if (retCode == 0) {
-                        GLib.child_watch_add(GLib.PRIORITY_DEFAULT, pid, () => GLib.spawn_command_line_sync(GSET + ' -e ' + UUID));
+                        GLib.child_watch_add(GLib.PRIORITY_DEFAULT, pid, () => GLib.spawn_command_line_sync(GSET + ' -e ' + Me.uuid));
                     }
 
                     stdin.splice(settingsFile.read(null), Gio.OutputStreamSpliceFlags.CLOSE_SOURCE | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, null);
