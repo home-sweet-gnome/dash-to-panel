@@ -54,6 +54,7 @@ const Tweener = imports.ui.tweener;
 
 const Intellihide = Me.imports.intellihide;
 const Transparency = Me.imports.transparency;
+const _ = imports.gettext.domain(Me.imports.utils.TRANSLATION_DOMAIN).gettext;
 
 let tracker = Shell.WindowTracker.get_default();
 

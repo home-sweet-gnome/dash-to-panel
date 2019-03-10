@@ -28,6 +28,8 @@ const Meta = imports.gi.Meta;
 
 let es6Support = imports.misc.config.PACKAGE_VERSION >= '3.31.9';
 
+var TRANSLATION_DOMAIN = 'dash-to-panel';
+
 var defineClass = function (classDef) {
     let parentProto = !!classDef.Extends ? classDef.Extends.prototype : null;
     let isGObject = parentProto instanceof imports.gi.GObject.Object;

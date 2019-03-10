@@ -49,6 +49,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Me.imports.utils;
 const WindowPreview = Me.imports.windowPreview;
 const Taskbar = Me.imports.taskbar;
+const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
 let DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME;
 let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;

@@ -43,6 +43,7 @@ let extensionChangedHandler;
 let disabledUbuntuDock;
 
 function init() {
+    Convenience.initTranslations(Me.imports.utils.TRANSLATION_DOMAIN);
 }
 
 function enable() {
