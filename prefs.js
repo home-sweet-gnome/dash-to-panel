@@ -29,12 +29,11 @@ const Gdk = imports.gi.Gdk;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 
-const Gettext = imports.gettext.domain('dash-to-panel');
-const _ = Gettext.gettext;
-const N_ = function(e) { return e };
-
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
+const Gettext = imports.gettext.domain(Me.imports.utils.TRANSLATION_DOMAIN);
+const _ = Gettext.gettext;
+const N_ = function(e) { return e };
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];

@@ -24,7 +24,6 @@
 const Gi = imports._gi;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
-const Meta = imports.gi.Meta;
 
 let es6Support = imports.misc.config.PACKAGE_VERSION >= '3.31.9';
 
@@ -262,7 +261,7 @@ var DisplayWrapper = {
     },
 
     getMonitorManager: function() {
-        return global.screen || Meta.MonitorManager.get();
+        return global.screen || imports.gi.Meta.MonitorManager.get();
     }
 };
 
