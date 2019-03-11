@@ -527,15 +527,9 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _setAppIconPadding: function() {
-        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        let availSize = this.panelWrapper.panel.actor.get_height() - this._dtpSettings.get_int('dot-size') * scaleFactor * 2;
-        let padding = this._dtpSettings.get_int('appicon-padding'); 
+        let padding = getIconPadding(this._dtpSettings);
         let margin = this._dtpSettings.get_int('appicon-margin');
 
-        if (padding * 2 > availSize) {
-            padding = (availSize - 1) * .5;
-        }
-        
         this.actor.set_style('padding: 0 ' + margin + 'px;');
         this._iconContainer.set_style('padding: ' + padding + 'px;');
     },
@@ -1249,6 +1243,18 @@ function cssHexTocssRgba(cssHex, opacity) {
     return 'rgba(' + [r, g, b].join(',') + ',' + opacity + ')';
 }
 
+function getIconPadding(dtpSettings) {
+    let panelSize = dtpSettings.get_int('panel-size');
+    let padding = dtpSettings.get_int('appicon-padding');
+    let availSize = panelSize - Taskbar.MIN_ICON_SIZE - panelSize % 2;
+
+    if (padding * 2 > availSize) {
+        padding = availSize * .5;
+    }
+
+    return padding;
+}
+
 /**
  * Extend AppIconMenu
  *
@@ -1454,7 +1460,7 @@ function ItemShowLabel()  {
  *
  */
 var ShowAppsIconWrapper = Utils.defineClass({
-    Name: 'DashToDock.ShowAppsIconWrapper',
+    Name: 'DashToPanel.ShowAppsIconWrapper',
 
     _init: function(settings) {
         this._dtpSettings = settings;
@@ -1518,7 +1524,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
     },
 
     setShowAppsPadding: function() {
-        let padding = this._dtpSettings.get_int('appicon-padding');
+        let padding = getIconPadding(this._dtpSettings); 
         let sidePadding = this._dtpSettings.get_int('show-apps-icon-side-padding')
 
         this.actor.set_style('padding:' + padding + 'px ' + (padding + sidePadding) + 'px;');

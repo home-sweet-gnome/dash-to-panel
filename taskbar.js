@@ -53,6 +53,7 @@ var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME;
 let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;
 let DASH_ITEM_LABEL_HIDE_TIME = Dash.DASH_ITEM_LABEL_HIDE_TIME;
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
+var MIN_ICON_SIZE = 4;
 
 function getPosition() {
     let position = St.Side.BOTTOM;
@@ -734,32 +735,26 @@ var taskbar = Utils.defineClass({
     },
 
     _adjustIconSize: function() {
-        // For the icon size, we only consider children which are "proper"
-        // icons and which are not animating out (which means they will be 
-        // destroyed at the end of the animation)
-        let iconChildren = this._getTaskbarIcons();
+        let panelSize = this._dtpSettings.get_int('panel-size');
+        let availSize = panelSize - this._dtpSettings.get_int('appicon-padding') * 2;
+        let minIconSize = MIN_ICON_SIZE + panelSize % 2;
 
-        iconChildren.push(this._showAppsIcon);
-
-        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-
-        // Getting the panel height and making sure that the icon padding is at
-        // least the size of the app running indicator on both the top and bottom.
-        let availSize = (this.panelWrapper.panel.actor.get_height() / scaleFactor) - 
-                        (this._dtpSettings.get_int('appicon-padding') * 2);
-        
         if (availSize == this.iconSize)
             return;
 
-        if (availSize < 1) {
-            availSize = 1;
+        if (availSize < minIconSize) {
+            availSize = minIconSize;
         }
         
-        let oldIconSize = this.iconSize;
+        // For the icon size, we only consider children which are "proper"
+        // icons and which are not animating out (which means they will be 
+        // destroyed at the end of the animation)
+        let iconChildren = this._getTaskbarIcons().concat([this._showAppsIcon]);
+        let scale = this.iconSize / availSize;
+        
         this.iconSize = availSize;
         this.emit('icon-size-changed');
 
-        let scale = oldIconSize / this.iconSize;
         for (let i = 0; i < iconChildren.length; i++) {
             let icon = iconChildren[i].child._delegate.icon;
 
@@ -778,8 +773,7 @@ var taskbar = Utils.defineClass({
 
             // Scale the icon's texture to the previous size and
             // tween to the new size
-            icon.icon.set_size(icon.icon.width * scale,
-                                icon.icon.height * scale);
+            icon.icon.set_size(icon.icon.width * scale, icon.icon.height * scale);
 
             Tweener.addTween(icon.icon,
                         { width: targetWidth,
