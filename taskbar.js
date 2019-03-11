@@ -745,8 +745,8 @@ var taskbar = Utils.defineClass({
 
         // Getting the panel height and making sure that the icon padding is at
         // least the size of the app running indicator on both the top and bottom.
-        let availSize = (this.panelWrapper.panel.actor.get_height() - 
-                         (this._dtpSettings.get_int('appicon-padding') * 2 * scaleFactor)) / scaleFactor;
+        let availSize = (this.panelWrapper.panel.actor.get_height() / scaleFactor) - 
+                        (this._dtpSettings.get_int('appicon-padding') * 2);
         
         if (availSize == this.iconSize)
             return;
