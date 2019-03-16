@@ -37,9 +37,8 @@ const Meta = imports.gi.Meta;
 var dtpOverview = Utils.defineClass({
     Name: 'DashToPanel.Overview',
 
-    _numHotkeys: 10,
-
     _init: function(settings) {
+        this._numHotkeys = 10;
         this._dtpSettings = settings;
     },
 
