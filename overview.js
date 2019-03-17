@@ -185,7 +185,7 @@ var dtpOverview = Utils.defineClass({
                 let windowIndex = 0;
                 let currentWindow = appIcon.window;
                 let hotkeyPrefix = this._dtpSettings.get_string('hotkey-prefix-text');
-                let shortcutKeys = (hotkeyPrefix == 'Super' ? [Clutter.Meta_L] : [Clutter.Meta_L, Clutter.Alt_L]).concat([Clutter['KEY_' + (appIndex + 1)]]);
+                let shortcutKeys = (hotkeyPrefix == 'Super' ? [Clutter.Super_L] : [Clutter.Super_L, Clutter.Alt_L]).concat([Clutter['KEY_' + (appIndex + 1)]]);
                 let currentKeys = shortcutKeys.slice();
                 let setFocus = windowIndex => global.stage.set_key_focus(appIcon.windowPreview._previewBox.box.get_children()[windowIndex]);
                 let capturedEventId = global.stage.connect('captured-event', (actor, event) => {
@@ -201,9 +201,15 @@ var dtpOverview = Utils.defineClass({
                             }
                         } 
                     } else if (event.type() == Clutter.EventType.KEY_RELEASE) {
-                        let keyIndex = currentKeys.indexOf(event.get_key_symbol());
+                        let releasedKey = event.get_key_symbol();
+                        let keyIndex = currentKeys.indexOf(releasedKey);
 
-                        if (keyIndex >= 0) {
+                        if (releasedKey == Clutter.Super_L) {
+                            let thumbnails = appIcon.windowPreview._previewBox.box.get_children();
+                            let focusedThumbnail = thumbnails.filter(c => c.has_key_focus())[0];
+
+                            focusedThumbnail._delegate.activate();
+                        } else if (keyIndex >= 0) {
                             currentKeys.splice(keyIndex, 1);
                         }
                     }
