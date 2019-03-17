@@ -344,6 +344,11 @@ var dtpOverview = Utils.defineClass({
     },
 
     _showOverlay: function(overlayFromShortcut) {
+        //wait for intellihide timeout initialization
+        if (!this._panel.intellihide) {
+            return;
+        }
+
         // Restart the counting if the shortcut is pressed again
         if (this._numberOverlayTimeoutId) {
             Mainloop.source_remove(this._numberOverlayTimeoutId);

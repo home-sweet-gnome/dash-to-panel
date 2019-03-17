@@ -792,9 +792,9 @@ var thumbnailPreview = Utils.defineClass({
             }
         }
 
-        Main.activateWindow(this.window);
-
         topMenu.close(~0);
+
+        Main.activateWindow(this.window);
     },
 
     _onMotionEvent: function() {
