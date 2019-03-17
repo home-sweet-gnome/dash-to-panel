@@ -22,8 +22,12 @@
  */
 
 const Gi = imports._gi;
+const GObject = imports.gi.GObject;
+const Meta = imports.gi.Meta;
+const Shell = imports.gi.Shell;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
+const Main = imports.ui.main;
 
 let es6Support = imports.misc.config.PACKAGE_VERSION >= '3.31.9';
 
@@ -42,10 +46,10 @@ var defineClass = function (classDef) {
             };
         }
 
-        return new imports.lang.Class(classDef);
+        return new Lang.Class(classDef);
     }
 
-    let isGObject = parentProto instanceof imports.gi.GObject.Object;
+    let isGObject = parentProto instanceof GObject.Object;
     let needsSuper = es6Support && parentProto && !isGObject;
     let getParentArgs = function(args) {
         let parentArgs = [];
@@ -88,7 +92,7 @@ var defineClass = function (classDef) {
           .forEach(k => C.prototype[k] = classDef[k]);
 
     if (isGObject) { 
-        C = imports.gi.GObject.registerClass(C);
+        C = GObject.registerClass(C);
     }
     
     return C;
@@ -261,7 +265,7 @@ var DisplayWrapper = {
     },
 
     getMonitorManager: function() {
-        return global.screen || imports.gi.Meta.MonitorManager.get();
+        return global.screen || Meta.MonitorManager.get();
     }
 };
 
@@ -271,5 +275,23 @@ var hookVfunc = function(proto, symbol, func) {
         proto[Gi.hook_up_vfunc_symbol](symbol, func);
     } else {
         Gi.hook_up_vfunc(proto, symbol, func);
+    }
+};
+
+var addKeybinding = function(key, settings, handler, modes) {
+    if (!Main.wm._allowedKeybindings[key]) {
+        Main.wm.addKeybinding(
+            key, 
+            settings,
+            Meta.KeyBindingFlags.NONE,
+            modes || (Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW),
+            handler
+        );
+    }
+};
+
+var removeKeybinding = function(key) {
+    if (Main.wm._allowedKeybindings[key]) {
+        Main.wm.removeKeybinding(key);
     }
 };

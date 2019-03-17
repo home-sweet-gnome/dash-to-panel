@@ -31,7 +31,7 @@ const Mainloop = imports.mainloop;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
-const Gettext = imports.gettext.domain(Me.imports.utils.TRANSLATION_DOMAIN);
+const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 const N_ = function(e) { return e };
 

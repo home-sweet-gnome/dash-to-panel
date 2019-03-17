@@ -331,12 +331,10 @@ var dtpPanelManager = Utils.defineClass({
         };
 
         Object.keys(keys).forEach(k => {
-            if (Main.wm._allowedKeybindings[k]) {
-                Main.wm.removeKeybinding(k);
-            }
+            Utils.removeKeybinding(k);
 
             if (enable) {
-                Main.wm.addKeybinding(k, this._dtpSettings, Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL, keys[k]);
+                Utils.addKeybinding(k, this._dtpSettings, keys[k], Shell.ActionMode.NORMAL);
             }
         });
     },

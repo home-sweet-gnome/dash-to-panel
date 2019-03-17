@@ -30,9 +30,12 @@ const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
 const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
+const Gio = imports.gi.Gio;
 const Mainloop = imports.mainloop;
 
 const Meta = imports.gi.Meta;
+
+const GS_HOTKEYS_KEY = 'switch-to-application-';
 
 var dtpOverview = Utils.defineClass({
     Name: 'DashToPanel.Overview',
@@ -172,6 +175,8 @@ var dtpOverview = Utils.defineClass({
             seenApps[appIcon.app] = (seenApps[appIcon.app] || 0) + 1;
         });
 
+        this._showOverlay();
+
         if (appIndex < apps.length) {
             let appIcon = apps[appIndex];
             let windowCount = !appIcon.window ? appIcon._nWindows : seenApps[appIcon.app];
@@ -247,6 +252,13 @@ var dtpOverview = Utils.defineClass({
         if (this._hotKeysEnabled)
             return;
 
+        //3.32 introduced app hotkeys, disable them to prevent conflicts
+        if (Main.wm._switchToApplication) {
+            for (let i = 1; i < 10; ++i) {
+                Utils.removeKeybinding(GS_HOTKEYS_KEY + i);
+            }
+        }
+
         // Setup keyboard bindings for taskbar elements
         let keys = ['app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-',  // Regular numbers
                     'app-hotkey-kp-', 'app-shift-hotkey-kp-', 'app-ctrl-hotkey-kp-']; // Key-pad numbers
@@ -254,15 +266,7 @@ var dtpOverview = Utils.defineClass({
             for (let i = 0; i < this._numHotkeys; i++) {
                 let appNum = i;
 
-                if (!Main.wm._allowedKeybindings[key + (i + 1)]) {
-                    Main.wm.addKeybinding(key + (i + 1), this._dtpSettings,
-                                        Meta.KeyBindingFlags.NONE,
-                                        Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW,
-                                        Lang.bind(this, function() {
-                                            this._activateApp(appNum);
-                                            this._showOverlay();
-                                        }));
-                }
+                Utils.addKeybinding(key + (i + 1), this._dtpSettings, () => this._activateApp(appNum));
             }
         }, this);
 
@@ -280,11 +284,17 @@ var dtpOverview = Utils.defineClass({
                     'app-hotkey-kp-', 'app-shift-hotkey-kp-', 'app-ctrl-hotkey-kp-']; // Key-pad numbers
         keys.forEach( function(key) {
             for (let i = 0; i < this._numHotkeys; i++) {
-                if (Main.wm._allowedKeybindings[key + (i + 1)]) {
-                    Main.wm.removeKeybinding(key + (i + 1));
-                }
+                Utils.removeKeybinding(key + (i + 1));
             }
         }, this);
+        
+        if (Main.wm._switchToApplication) {
+            let gsSettings = new Gio.Settings({ schema_id: imports.ui.windowManager.SHELL_KEYBINDINGS_SCHEMA });
+
+            for (let i = 1; i < 10; ++i) {
+                Utils.addKeybinding(GS_HOTKEYS_KEY + i, gsSettings, Main.wm._switchToApplication.bind(Main.wm));
+            }
+        }
 
         this._hotKeysEnabled = false;
 
@@ -320,20 +330,11 @@ var dtpOverview = Utils.defineClass({
     },
 
     _enableExtraShortcut: function() {
-        if (!Main.wm._allowedKeybindings['shortcut']) {
-            Main.wm.addKeybinding('shortcut', this._dtpSettings,
-                                  Meta.KeyBindingFlags.NONE,
-                                  Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW,
-                                  Lang.bind(this, function() {
-                                      this._showOverlay(true);
-                                  }));
-        }
+        Utils.addKeybinding('shortcut', this._dtpSettings, () => this._showOverlay(true));
     },
 
     _disableExtraShortcut: function() {
-        if (Main.wm._allowedKeybindings['shortcut']) {
-            Main.wm.removeKeybinding('shortcut');
-        }
+        Utils.removeKeybinding('shortcut');
     },
 
     _showOverlay: function(overlayFromShortcut) {

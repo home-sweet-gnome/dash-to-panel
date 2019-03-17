@@ -21,6 +21,7 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 const PanelManager = Me.imports.panelManager;
+const Utils = Me.imports.utils;
 
 const Main = imports.ui.main;
 const Meta = imports.gi.Meta;
@@ -43,7 +44,7 @@ let extensionChangedHandler;
 let disabledUbuntuDock;
 
 function init() {
-    Convenience.initTranslations(Me.imports.utils.TRANSLATION_DOMAIN);
+    Convenience.initTranslations(Utils.TRANSLATION_DOMAIN);
 }
 
 function enable() {
@@ -80,18 +81,17 @@ function _enable() {
     panelManager = new PanelManager.dtpPanelManager(settings);
     panelManager.enable();
     
-    Main.wm.removeKeybinding('open-application-menu');
-    Main.wm.addKeybinding('open-application-menu',
+    Utils.removeKeybinding('open-application-menu');
+    Utils.addKeybinding(
+        'open-application-menu',
         new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
-        Meta.KeyBindingFlags.NONE,
-        Shell.ActionMode.NORMAL |
-        Shell.ActionMode.POPUP,
         Lang.bind(this, function() {
             if(settings.get_boolean('show-appmenu'))
                 Main.wm._toggleAppMenu();
             else
                 panelManager.primaryPanel.taskbar.popupFocusedAppSecondaryMenu();
-        })
+        }),
+        Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
     );
 
     // Pretend I'm the dash: meant to make appgrd swarm animation come from the
@@ -109,13 +109,13 @@ function disable(reset) {
     oldDash = null;
     panelManager = null;
     
-    Main.wm.removeKeybinding('open-application-menu');
-    Main.wm.addKeybinding('open-application-menu',
-                           new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
-                           Meta.KeyBindingFlags.NONE,
-                           Shell.ActionMode.NORMAL |
-                           Shell.ActionMode.POPUP,
-                           Lang.bind(Main.wm, Main.wm._toggleAppMenu));
+    Utils.removeKeybinding('open-application-menu');
+    Utils.addKeybinding(
+        'open-application-menu',
+        new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
+        Lang.bind(Main.wm, Main.wm._toggleAppMenu),
+        Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP,
+    );
 
     if (!reset) {
         ExtensionSystem.disconnect(extensionChangedHandler);
