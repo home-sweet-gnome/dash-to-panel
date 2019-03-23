@@ -25,18 +25,15 @@ const Gi = imports._gi;
 const GObject = imports.gi.GObject;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
-const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Main = imports.ui.main;
-
-let es6Support = imports.misc.config.PACKAGE_VERSION >= '3.31.9';
 
 var TRANSLATION_DOMAIN = imports.misc.extensionUtils.getCurrentExtension().metadata['gettext-domain'];
 
 var defineClass = function (classDef) {
     let parentProto = classDef.Extends ? classDef.Extends.prototype : null;
     
-    if (!es6Support) {
+    if (imports.misc.config.PACKAGE_VERSION < '3.31.9') {
         if (parentProto && (classDef.Extends.name || classDef.Extends.toString()).indexOf('DashToPanel.') < 0) {
             classDef.callParent = function() {
                 let args = Array.prototype.slice.call(arguments);
@@ -46,11 +43,11 @@ var defineClass = function (classDef) {
             };
         }
 
-        return new Lang.Class(classDef);
+        return new imports.lang.Class(classDef);
     }
 
     let isGObject = parentProto instanceof GObject.Object;
-    let needsSuper = es6Support && parentProto && !isGObject;
+    let needsSuper = parentProto && !isGObject;
     let getParentArgs = function(args) {
         let parentArgs = [];
 

@@ -114,7 +114,7 @@ function disable(reset) {
         'open-application-menu',
         new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
         Lang.bind(Main.wm, Main.wm._toggleAppMenu),
-        Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP,
+        Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
     );
 
     if (!reset) {
