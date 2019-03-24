@@ -24,6 +24,7 @@
 
 const BoxPointer = imports.ui.boxpointer;
 const Clutter = imports.gi.Clutter;
+const Config = imports.misc.config;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
@@ -538,6 +539,11 @@ var thumbnailPreview = Utils.defineClass({
                                              vertical: true });
 
         this._closeButton = new St.Button({ style_class: 'window-close', accessible_name: "Close window" });
+        
+        if (Config.PACKAGE_VERSION >= '3.31.9') {
+            this._closeButton.add_actor(new St.Icon({ icon_name: 'window-close-symbolic' }));
+        }
+        
         this._closeButton.opacity = 0;
         this._closeButton.connect('clicked', Lang.bind(this, this._closeWindow));
         this._closeButton.connect('style-changed', () => this._isLeftButtons = null);
