@@ -138,7 +138,7 @@ This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other ext
 
 Dash-to-Panel is provided free of charge. If it has improved your workflow, or you had a great support experience, feel free to say thanks by making a donation to the developers. (If you would like your donation to go to a specific developer, you may mention it in the note field during payment)
 
-[![Donate via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7QL24SZQZGNQ8&source=url)
+[![Donate via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5PBB2CRJ6F2W&source=url)
 
 ##
 ### Volunteers needed!
