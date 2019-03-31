@@ -21,6 +21,11 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
+#dashtopanelTaskbar .dash-item-container > StWidget {
+	margin: 0;
+	padding: 0; 
+}
+
  #dashtopanelScrollview .app-well-app .overview-icon,
  #dashtopanelTaskbar .show-apps .overview-icon {
 	border: none;
