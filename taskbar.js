@@ -798,12 +798,10 @@ var taskbar = Utils.defineClass({
             return;
         }
 
-        let showFavorites = this._dtpSettings.get_boolean('show-favorites') && 
-                            (!this.panelWrapper.isSecondary || this._dtpSettings.get_boolean('show-favorites-all-monitors'));
         //get the currently displayed appIcons
         let currentAppIcons = this._getTaskbarIcons();
         //get the user's favorite apps
-        let favoriteApps = showFavorites ? AppFavorites.getAppFavorites().getFavorites() : [];
+        let favoriteApps = this._checkIfShowingFavorites() ? AppFavorites.getAppFavorites().getFavorites() : [];
 
         //find the apps that should be in the taskbar: the favorites first, then add the running apps
         // When using isolation, we filter out apps that have no windows in
@@ -885,6 +883,11 @@ var taskbar = Utils.defineClass({
         this._toggleWindowPreview();
 
         this._shownInitially = true;
+    },
+
+    _checkIfShowingFavorites: function() {
+        return this._dtpSettings.get_boolean('show-favorites') && 
+               (!this.panelWrapper.isSecondary || this._dtpSettings.get_boolean('show-favorites-all-monitors'));
     },
 
     _getRunningApps: function() {
@@ -1042,6 +1045,7 @@ var taskbar = Utils.defineClass({
         let replacingIndex = sourceIndex + (sourceIndex > this._dragInfo[0] ? -1 : 1);
         let favoriteIndex = replacingIndex >= 0 ? appFavorites.getFavorites().indexOf(appIcons[replacingIndex].app) : 0;
         let sameApps = appIcons.filter(a => a != source && a.app == source.app);
+        let showingFavorites = this._checkIfShowingFavorites();
         let favoritesCount = 0;
         let position = 0;
         let interestingWindows = {};
@@ -1070,8 +1074,9 @@ var taskbar = Utils.defineClass({
 
             windows.forEach(w => w._dtpPosition = position++);
 
-            if ((usingLaunchers && appIcons[i].isLauncher) || 
-                (!usingLaunchers && appFavorites.isFavorite(appIcons[i].app.get_id()))) {
+            if (showingFavorites && 
+                ((usingLaunchers && appIcons[i].isLauncher) || 
+                 (!usingLaunchers && appFavorites.isFavorite(appIcons[i].app.get_id())))) {
                 ++favoritesCount;
             }
         }
@@ -1082,7 +1087,7 @@ var taskbar = Utils.defineClass({
             } else {
                 appFavorites.addFavoriteAtPos(sourceAppId, favoriteIndex);
             }
-        } else if (appIsFavorite && (!usingLaunchers || source.isLauncher)) {
+        } else if (appIsFavorite && showingFavorites && (!usingLaunchers || source.isLauncher)) {
             appFavorites.removeFavorite(sourceAppId);
         }
 
