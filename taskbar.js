@@ -499,13 +499,6 @@ var taskbar = Utils.defineClass({
                            .forEach(fav => fav._container[cssFuncName]('favorite'));
     },
 
-    _appIdListToHash: function(apps) {
-        let ids = {};
-        for (let i = 0; i < apps.length; i++)
-            ids[apps[i].get_id()] = apps[i];
-        return ids;
-    },
-
     handleIsolatedWorkspaceSwitch: function() {
         if (this.isGroupApps) {
             this._queueRedisplay();

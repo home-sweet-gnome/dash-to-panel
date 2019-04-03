@@ -372,8 +372,9 @@ var dtpPanelManager = Utils.defineClass({
             }
 
             this._workspacesViews.push(view);
-            Main.layoutManager.overviewGroup.add_actor(view.actor);
         }
+
+        this._workspacesViews.forEach(wv => Main.layoutManager.overviewGroup.add_actor(wv.actor));
 
         this._updateWorkspacesFullGeometry();
         this._updateWorkspacesActualGeometry();
