@@ -77,6 +77,7 @@ let recentlyClickedAppLoopId = 0;
 let recentlyClickedApp = null;
 let recentlyClickedAppWindows = null;
 let recentlyClickedAppIndex = 0;
+let recentlyClickedAppMonitorIndex;
 
 let tracker = Shell.WindowTracker.get_default();
 
@@ -715,7 +716,6 @@ var taskbarAppIcon = Utils.defineClass({
     activate: function(button, handleAsGrouped) {
         let event = Clutter.get_current_event();
         let modifiers = event ? event.get_state() : 0;
-        let focusedApp = tracker.focus_app;
 
         // Only consider SHIFT and CONTROL as modifiers (exclude SUPER, CAPS-LOCK, etc.)
         modifiers = modifiers & (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK);
@@ -781,9 +781,12 @@ var taskbarAppIcon = Utils.defineClass({
                 }
             } else {
                 //grouped application behaviors
+                let monitor = this.panelWrapper.monitor;
+                let appHasFocus = tracker.focus_app == this.app && this._checkIfMonitorHasFocus();
+
                 switch (buttonAction) {
                     case "RAISE":
-                        activateAllWindows(this.app, this._dtpSettings);
+                        activateAllWindows(this.app, this._dtpSettings, monitor);
                         break;
         
                     case "LAUNCH":
@@ -796,17 +799,17 @@ var taskbarAppIcon = Utils.defineClass({
                         if (!Main.overview._shown || modifiers){
                             // If we have button=2 or a modifier, allow minimization even if
                             // the app is not focused
-                            if (this.app == focusedApp || button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK) {
+                            if (appHasFocus || button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK) {
                                 // minimize all windows on double click and always in the case of primary click without
                                 // additional modifiers
                                 let click_count = 0;
                                 if (Clutter.EventType.CLUTTER_BUTTON_PRESS)
                                     click_count = event.get_click_count();
                                 let all_windows = (button == 1 && ! modifiers) || click_count > 1;
-                                minimizeWindow(this.app, all_windows, this._dtpSettings);
+                                minimizeWindow(this.app, all_windows, this._dtpSettings, monitor);
                             }
                             else
-                                activateAllWindows(this.app, this._dtpSettings);
+                                activateAllWindows(this.app, this._dtpSettings, monitor);
                         }
                         else
                             this.app.activate();
@@ -814,10 +817,10 @@ var taskbarAppIcon = Utils.defineClass({
         
                     case "CYCLE":
                         if (!Main.overview._shown){
-                            if (this.app == focusedApp) 
-                                cycleThroughWindows(this.app, this._dtpSettings, false, false);
+                            if (appHasFocus) 
+                                cycleThroughWindows(this.app, this._dtpSettings, false, false, monitor);
                             else {
-                                activateFirstWindow(this.app, this._dtpSettings);
+                                activateFirstWindow(this.app, this._dtpSettings, monitor);
                             }
                         }
                         else
@@ -825,11 +828,10 @@ var taskbarAppIcon = Utils.defineClass({
                         break;
                     case "CYCLE-MIN":
                         if (!Main.overview._shown){
-                            if (this.app == focusedApp || 
-                                 (recentlyClickedApp == this.app && recentlyClickedAppWindows[recentlyClickedAppIndex % recentlyClickedAppWindows.length] == "MINIMIZE")) 
-                                cycleThroughWindows(this.app, this._dtpSettings, false, true);
+                            if (appHasFocus || (recentlyClickedApp == this.app && recentlyClickedAppWindows[recentlyClickedAppIndex % recentlyClickedAppWindows.length] == "MINIMIZE")) 
+                                cycleThroughWindows(this.app, this._dtpSettings, false, true, monitor);
                             else {
-                                activateFirstWindow(this.app, this._dtpSettings);
+                                activateFirstWindow(this.app, this._dtpSettings, monitor);
                             }
                         }
                         else
@@ -838,16 +840,16 @@ var taskbarAppIcon = Utils.defineClass({
                     case "TOGGLE-SHOWPREVIEW":
                         if (!Main.overview._shown) {
                             if (appCount == 1) {
-                                if (this.app == focusedApp)
-                                    minimizeWindow(this.app, false, this._dtpSettings);
+                                if (appHasFocus)
+                                    minimizeWindow(this.app, false, this._dtpSettings, monitor);
                                 else
-                                    activateFirstWindow(this.app, this._dtpSettings);
+                                    activateFirstWindow(this.app, this._dtpSettings, monitor);
                             } else {
                                 // minimize all windows if double clicked
                                 if (Clutter.EventType.CLUTTER_BUTTON_PRESS) {
                                     let click_count = event.get_click_count();
                                     if(click_count > 1) {
-                                        minimizeWindow(this.app, true, this._dtpSettings);
+                                        minimizeWindow(this.app, true, this._dtpSettings, monitor);
                                     }
                                 }
                             }
@@ -857,7 +859,7 @@ var taskbarAppIcon = Utils.defineClass({
                         break;
         
                     case "QUIT":
-                        closeAllWindows(this.app, this._dtpSettings);
+                        closeAllWindows(this.app, this._dtpSettings, monitor);
                         break;
                 }
             }
@@ -1111,9 +1113,9 @@ var taskbarAppIcon = Utils.defineClass({
 
 });
 
-function minimizeWindow(app, param, settings){
+function minimizeWindow(app, param, settings, monitor){
     // Param true make all app windows minimize
-    let windows = getInterestingWindows(app, settings);
+    let windows = getInterestingWindows(app, settings, monitor);
     let current_workspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
     for (let i = 0; i < windows.length; i++) {
         let w = windows[i];
@@ -1131,11 +1133,11 @@ function minimizeWindow(app, param, settings){
  * By default only non minimized windows are activated.
  * This activates all windows in the current workspace.
  */
-function activateAllWindows(app, settings){
+function activateAllWindows(app, settings, monitor){
 
     // First activate first window so workspace is switched if needed,
     // then activate all other app windows in the current workspace.
-    let windows = getInterestingWindows(app, settings);
+    let windows = getInterestingWindows(app, settings, monitor);
     let w = windows[0];
     Main.activateWindow(w);
     let activeWorkspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index();
@@ -1150,18 +1152,18 @@ function activateAllWindows(app, settings){
     }
 }
 
-function activateFirstWindow(app, settings){
+function activateFirstWindow(app, settings, monitor){
 
-    let windows = getInterestingWindows(app, settings);
+    let windows = getInterestingWindows(app, settings, monitor);
     Main.activateWindow(windows[0]);
 }
 
-function cycleThroughWindows(app, settings, reversed, shouldMinimize) {
+function cycleThroughWindows(app, settings, reversed, shouldMinimize, monitor) {
     // Store for a little amount of time last clicked app and its windows
     // since the order changes upon window interaction
     let MEMORY_TIME=3000;
 
-    let app_windows = getInterestingWindows(app, settings);
+    let app_windows = getInterestingWindows(app, settings, monitor);
 
     if(shouldMinimize)
         app_windows.push("MINIMIZE");
@@ -1174,10 +1176,12 @@ function cycleThroughWindows(app, settings, reversed, shouldMinimize) {
     // or the stored list is outdated, use the current windows list.
     if (!recentlyClickedApp ||
         recentlyClickedApp.get_id() != app.get_id() ||
-        recentlyClickedAppWindows.length != app_windows.length) {
+        recentlyClickedAppWindows.length != app_windows.length ||
+        recentlyClickedAppMonitorIndex != monitor.index) {
         recentlyClickedApp = app;
         recentlyClickedAppWindows = app_windows;
         recentlyClickedAppIndex = 0;
+        recentlyClickedAppMonitorIndex = monitor.index;
     }
 
     if (reversed) {
@@ -1189,7 +1193,7 @@ function cycleThroughWindows(app, settings, reversed, shouldMinimize) {
     let index = recentlyClickedAppIndex % recentlyClickedAppWindows.length;
     
     if(recentlyClickedAppWindows[index] === "MINIMIZE")
-        minimizeWindow(app, true, settings);
+        minimizeWindow(app, true, settings, monitor);
     else
         Main.activateWindow(recentlyClickedAppWindows[index]);
 }
@@ -1201,12 +1205,13 @@ function resetRecentlyClickedApp() {
     recentlyClickedApp =null;
     recentlyClickedAppWindows = null;
     recentlyClickedAppIndex = 0;
+    recentlyClickedAppMonitorIndex = null;
 
     return false;
 }
 
-function closeAllWindows(app, settings) {
-    let windows = getInterestingWindows(app, settings);
+function closeAllWindows(app, settings, monitor) {
+    let windows = getInterestingWindows(app, settings, monitor);
     for (let i = 0; i < windows.length; i++)
         windows[i].delete(global.get_current_time());
 }
