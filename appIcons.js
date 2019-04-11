@@ -356,11 +356,11 @@ var taskbarAppIcon = Utils.defineClass({
 
     onWindowsChanged: function() {
         this._updateCounterClass();
-        this.updateIconGeometry();
+        this.updateIcon();
     },
 
-    // Update taraget for minimization animation
-    updateIconGeometry: function() {
+    // Update indicator and target for minimization animation
+    updateIcon: function(updateIndicators) {
 
         // If (for unknown reason) the actor is not on the stage the reported size
         // and position are random values, which might exceeds the integer range
@@ -378,6 +378,10 @@ var taskbarAppIcon = Utils.defineClass({
         windows.forEach(function(w) {
             w.set_icon_geometry(rect);
         });
+
+        if (updateIndicators) {
+            this._displayProperIndicator();
+        }
     },
 
     _showDots: function() {

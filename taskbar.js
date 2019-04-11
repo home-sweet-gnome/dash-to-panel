@@ -184,6 +184,7 @@ var taskbar = Utils.defineClass({
         this.iconSize = 16;
 
         this._shownInitially = false;
+        this._updateIndicators = false;
 
         this._position = getPosition();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
@@ -248,9 +249,9 @@ var taskbar = Utils.defineClass({
 
         // Update minimization animation target position on allocation of the
         // container and on scrollview change.
-        this._box.connect('notify::allocation', Lang.bind(this, this._updateAppIconsGeometry));
+        this._box.connect('notify::allocation', Lang.bind(this, this._updateAppIcons));
         let scrollViewAdjustment = this._scrollView.hscroll.adjustment;
-        scrollViewAdjustment.connect('notify::value', Lang.bind(this, this._updateAppIconsGeometry));
+        scrollViewAdjustment.connect('notify::value', Lang.bind(this, this._updateAppIcons));
 
         this._workId = Main.initializeDeferredWork(this._box, Lang.bind(this, this._redisplay));
 
@@ -300,6 +301,7 @@ var taskbar = Utils.defineClass({
                 ],
                 () => {
                     if (this._dtpSettings.get_boolean('isolate-monitors')) {
+                        this._updateIndicators = this.isGroupApps && !this.panelWrapper.panelManager.needsDashItemContainerAllocate;
                         this._queueRedisplay();
                     }
                 }
@@ -665,12 +667,14 @@ var taskbar = Utils.defineClass({
         });
     },
 
-    _updateAppIconsGeometry: function() {
+    _updateAppIcons: function() {
         let appIcons = this._getAppIcons();
 
-        appIcons.filter(icon => icon.constructor === AppIcons.taskbarAppIcon).forEach(function(icon) {
-            icon.updateIconGeometry();
+        appIcons.filter(icon => icon.constructor === AppIcons.taskbarAppIcon).forEach(icon => {
+            icon.updateIcon(this._updateIndicators);
         });
+
+        this._updateIndicators = false;
     },
 
     _itemMenuStateChanged: function(item, opened) {
@@ -865,7 +869,7 @@ var taskbar = Utils.defineClass({
         this._box.queue_relayout();
 
         // This is required for icon reordering when the scrollview is used.
-        this._updateAppIconsGeometry();
+        this._updateAppIcons();
 
         // This will update the size, and the corresponding number for each icon on the primary panel
         if (!this.panelWrapper.isSecondary) {

@@ -140,9 +140,9 @@ var dtpPanelManager = Utils.defineClass({
         this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
         
-        this._needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');
+        this.needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');
 
-        if (this._needsDashItemContainerAllocate) {
+        if (this.needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', this._newDashItemContainerAllocate);
         }
             
@@ -239,7 +239,7 @@ var dtpPanelManager = Utils.defineClass({
             Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
         }
 
-        if (this._needsDashItemContainerAllocate) {
+        if (this.needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });
         }
     },
