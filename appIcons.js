@@ -475,7 +475,7 @@ var taskbarAppIcon = Utils.defineClass({
 
     _updateWindowTitle: function() {
         if (this._windowTitle.text != this.window.title) {
-            this._windowTitle.text = this.window.title ? this.window.title : this.app.get_name();
+            this._windowTitle.text = (this.window.title ? this.window.title : this.app.get_name()).replace(/\r?\n|\r/g, '').trim();
             
             if (this._focusedDots) {
                 this._displayProperIndicator();
