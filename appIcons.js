@@ -923,7 +923,11 @@ var taskbarAppIcon = Utils.defineClass({
     _getRunningIndicatorColor: function(isFocused) {
         let color;
 
-        if(this._dtpSettings.get_boolean('dot-color-override')) {
+        if (true) { // dominant color
+            let dce = new Utils.DominantColorExtractor(this.app);
+
+            color = Clutter.color_from_string(dce._getColorPalette().original)[1]; // initial test
+        } else if(this._dtpSettings.get_boolean('dot-color-override')) {
             let dotColorSettingPrefix = 'dot-color-';
             
             if(!isFocused && this._dtpSettings.get_boolean('dot-color-unfocused-different'))
