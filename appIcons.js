@@ -202,6 +202,7 @@ var taskbarAppIcon = Utils.defineClass({
             this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._updateDotSize)),
             this._dtpSettings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-dominant', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-color-override', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-color-1', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-color-2', Lang.bind(this, this._settingsChangeRefresh)),
@@ -922,8 +923,21 @@ var taskbarAppIcon = Utils.defineClass({
 
     _getRunningIndicatorColor: function(isFocused) {
         let color;
+        const fallbackColor = new Clutter.Color({ red: 82, green: 148, blue: 226, alpha: 255 });
 
-        if(this._dtpSettings.get_boolean('dot-color-override')) {
+        if (this._dtpSettings.get_boolean('dot-color-dominant')) {
+            let dce = new Utils.DominantColorExtractor(this.app);
+            let palette = dce._getColorPalette();
+            if (palette) {
+                color = Clutter.color_from_string(palette.original)[1];
+            } else { // unable to determine color, fall back to theme
+                let themeNode = this._dot.get_theme_node();
+                color = themeNode.get_background_color();
+
+                // theme didn't provide one, use a default
+                if(color.alpha == 0) color = fallbackColor;
+            }
+        } else if(this._dtpSettings.get_boolean('dot-color-override')) {
             let dotColorSettingPrefix = 'dot-color-';
             
             if(!isFocused && this._dtpSettings.get_boolean('dot-color-unfocused-different'))
@@ -936,8 +950,8 @@ var taskbarAppIcon = Utils.defineClass({
             let themeNode = this._dot.get_theme_node();
             color = themeNode.get_background_color();
 
-            if(color.alpha == 0) // theme didn't provide one, use a default
-                color = new Clutter.Color({ red: 82, green: 148, blue: 226, alpha: 255 });
+            // theme didn't provide one, use a default
+            if(color.alpha == 0) color = fallbackColor;
         }
 
         return color;
