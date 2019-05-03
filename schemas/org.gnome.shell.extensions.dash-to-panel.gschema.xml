@@ -155,6 +155,11 @@
       <summary>Highlight icon of focused application</summary>
       <description>Whether to highlight the background of the currently focused application's icon</description>
     </key>
+    <key type="b" name="focus-highlight-dominant">
+      <default>false</default>
+      <summary>Highlight icon dominant color</summary>
+      <description>Base the active window highlight color on that application's icon</description>
+    </key>
     <key type="s" name="focus-highlight-color">
       <default>"#EEEEEE"</default>
       <summary>Color of highlight of focused application</summary>

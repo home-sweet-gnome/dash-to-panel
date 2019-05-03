@@ -377,6 +377,22 @@ const Settings = new Lang.Class({
                     'sensitive',
                     Gio.SettingsBindFlags.DEFAULT);
 
+            this._settings.bind('focus-highlight-dominant',
+                    this._builder.get_object('focus_highlight_dominant_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('focus-highlight-dominant',
+                    this._builder.get_object('focus_highlight_color_label'),
+                    'sensitive',
+                    Gio.SettingsBindFlags.INVERT_BOOLEAN);
+
+            this._settings.bind('focus-highlight-dominant',
+                    this._builder.get_object('focus_highlight_color_colorbutton'),
+                    'sensitive',
+                    Gio.SettingsBindFlags.INVERT_BOOLEAN);
+
+
             (function() {
                 let rgba = new Gdk.RGBA();
                 rgba.parse(this._settings.get_string('focus-highlight-color'));
@@ -424,6 +440,7 @@ const Settings = new Lang.Class({
                     this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));
                    
                     this._settings.set_value('focus-highlight', this._settings.get_default_value('focus-highlight'));
+                    this._settings.set_value('focus-highlight-dominant', this._settings.get_default_value('focus-highlight-dominant'));
 
                 } else {
                     // remove the settings box so it doesn't get destroyed;

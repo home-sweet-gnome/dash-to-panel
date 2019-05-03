@@ -214,6 +214,7 @@ var taskbarAppIcon = Utils.defineClass({
             this._dtpSettings.connect('changed::dot-color-unfocused-3', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::focus-highlight-dominant', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::focus-highlight-color', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::focus-highlight-opacity', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::group-apps-label-font-size', Lang.bind(this, this._updateWindowTitleStyle)),
@@ -510,8 +511,8 @@ var taskbarAppIcon = Utils.defineClass({
                 }
             }
 
-            inlineStyle += "background-color: " + cssHexTocssRgba(this._dtpSettings.get_string('focus-highlight-color'), 
-                                                                  this._dtpSettings.get_int('focus-highlight-opacity') * 0.01);
+            let highlightColor = this._getFocusHighlightColor();
+            inlineStyle += "background-color: " + cssHexTocssRgba(highlightColor, this._dtpSettings.get_int('focus-highlight-opacity') * 0.01);
         }
         
         if(this._dotsContainer.get_style() != inlineStyle) {
@@ -955,6 +956,15 @@ var taskbarAppIcon = Utils.defineClass({
         }
 
         return color;
+    },
+
+    _getFocusHighlightColor: function() {
+        if (this._dtpSettings.get_boolean('focus-highlight-dominant')) {
+            let dce = new Utils.DominantColorExtractor(this.app);
+            let palette = dce._getColorPalette();
+            if (palette) return palette.original;
+        }
+        return this._dtpSettings.get_string('focus-highlight-color');
     },
 
     _drawRunningIndicator: function(area, type, isFocused) {
