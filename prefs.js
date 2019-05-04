@@ -319,10 +319,23 @@ const Settings = new Lang.Class({
             let box = this._builder.get_object('box_dots_options');
             dialog.get_content_area().add(box);
 
+            this._settings.bind('dot-color-dominant',
+                            this._builder.get_object('dot_color_dominant_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
             this._settings.bind('dot-color-override',
                             this._builder.get_object('dot_color_override_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+
+            // when either becomes active, turn the other off
+            this._builder.get_object('dot_color_dominant_switch').connect('state-set', Lang.bind (this, function(widget) {
+                if (widget.get_active()) this._settings.set_boolean('dot-color-override', false);
+            }));
+            this._builder.get_object('dot_color_override_switch').connect('state-set', Lang.bind (this, function(widget) {
+                if (widget.get_active()) this._settings.set_boolean('dot-color-dominant', false);
+            }));
 
             this._settings.bind('dot-color-unfocused-different',
                             this._builder.get_object('dot_color_unfocused_different_switch'),
@@ -364,6 +377,22 @@ const Settings = new Lang.Class({
                     'sensitive',
                     Gio.SettingsBindFlags.DEFAULT);
 
+            this._settings.bind('focus-highlight-dominant',
+                    this._builder.get_object('focus_highlight_dominant_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('focus-highlight-dominant',
+                    this._builder.get_object('focus_highlight_color_label'),
+                    'sensitive',
+                    Gio.SettingsBindFlags.INVERT_BOOLEAN);
+
+            this._settings.bind('focus-highlight-dominant',
+                    this._builder.get_object('focus_highlight_color_colorbutton'),
+                    'sensitive',
+                    Gio.SettingsBindFlags.INVERT_BOOLEAN);
+
+
             (function() {
                 let rgba = new Gdk.RGBA();
                 rgba.parse(this._settings.get_string('focus-highlight-color'));
@@ -383,6 +412,7 @@ const Settings = new Lang.Class({
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
+                    this._settings.set_value('dot-color-dominant', this._settings.get_default_value('dot-color-dominant'));
                     this._settings.set_value('dot-color-override', this._settings.get_default_value('dot-color-override'));
                     this._settings.set_value('dot-color-unfocused-different', this._settings.get_default_value('dot-color-unfocused-different'));
 
@@ -410,6 +440,7 @@ const Settings = new Lang.Class({
                     this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));
                    
                     this._settings.set_value('focus-highlight', this._settings.get_default_value('focus-highlight'));
+                    this._settings.set_value('focus-highlight-dominant', this._settings.get_default_value('focus-highlight-dominant'));
 
                 } else {
                     // remove the settings box so it doesn't get destroyed;

@@ -202,6 +202,7 @@ var taskbarAppIcon = Utils.defineClass({
             this._dtpSettings.connect('changed::dot-size', Lang.bind(this, this._updateDotSize)),
             this._dtpSettings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::dot-color-dominant', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-color-override', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-color-1', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-color-2', Lang.bind(this, this._settingsChangeRefresh)),
@@ -213,6 +214,7 @@ var taskbarAppIcon = Utils.defineClass({
             this._dtpSettings.connect('changed::dot-color-unfocused-3', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh)),
+            this._dtpSettings.connect('changed::focus-highlight-dominant', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::focus-highlight-color', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::focus-highlight-opacity', Lang.bind(this, this._settingsChangeRefresh)),
             this._dtpSettings.connect('changed::group-apps-label-font-size', Lang.bind(this, this._updateWindowTitleStyle)),
@@ -509,8 +511,8 @@ var taskbarAppIcon = Utils.defineClass({
                 }
             }
 
-            inlineStyle += "background-color: " + cssHexTocssRgba(this._dtpSettings.get_string('focus-highlight-color'), 
-                                                                  this._dtpSettings.get_int('focus-highlight-opacity') * 0.01);
+            let highlightColor = this._getFocusHighlightColor();
+            inlineStyle += "background-color: " + cssHexTocssRgba(highlightColor, this._dtpSettings.get_int('focus-highlight-opacity') * 0.01);
         }
         
         if(this._dotsContainer.get_style() != inlineStyle) {
@@ -922,8 +924,21 @@ var taskbarAppIcon = Utils.defineClass({
 
     _getRunningIndicatorColor: function(isFocused) {
         let color;
+        const fallbackColor = new Clutter.Color({ red: 82, green: 148, blue: 226, alpha: 255 });
 
-        if(this._dtpSettings.get_boolean('dot-color-override')) {
+        if (this._dtpSettings.get_boolean('dot-color-dominant')) {
+            let dce = new Utils.DominantColorExtractor(this.app);
+            let palette = dce._getColorPalette();
+            if (palette) {
+                color = Clutter.color_from_string(palette.original)[1];
+            } else { // unable to determine color, fall back to theme
+                let themeNode = this._dot.get_theme_node();
+                color = themeNode.get_background_color();
+
+                // theme didn't provide one, use a default
+                if(color.alpha == 0) color = fallbackColor;
+            }
+        } else if(this._dtpSettings.get_boolean('dot-color-override')) {
             let dotColorSettingPrefix = 'dot-color-';
             
             if(!isFocused && this._dtpSettings.get_boolean('dot-color-unfocused-different'))
@@ -936,11 +951,20 @@ var taskbarAppIcon = Utils.defineClass({
             let themeNode = this._dot.get_theme_node();
             color = themeNode.get_background_color();
 
-            if(color.alpha == 0) // theme didn't provide one, use a default
-                color = new Clutter.Color({ red: 82, green: 148, blue: 226, alpha: 255 });
+            // theme didn't provide one, use a default
+            if(color.alpha == 0) color = fallbackColor;
         }
 
         return color;
+    },
+
+    _getFocusHighlightColor: function() {
+        if (this._dtpSettings.get_boolean('focus-highlight-dominant')) {
+            let dce = new Utils.DominantColorExtractor(this.app);
+            let palette = dce._getColorPalette();
+            if (palette) return palette.original;
+        }
+        return this._dtpSettings.get_string('focus-highlight-color');
     },
 
     _drawRunningIndicator: function(area, type, isFocused) {

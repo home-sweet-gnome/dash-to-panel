@@ -90,6 +90,11 @@
       <summary>Style of the running indicator (unfocused)</summary>
       <description>Style of the running indicator for the icon for applications which are not currently focused</description>
     </key>
+    <key type="b" name="dot-color-dominant">
+      <default>false</default>
+      <summary>Running indicator dominant color</summary>
+      <description>Whether to use the app icon's dominant color for .app-well-running-dot</description>
+    </key>
     <key type="b" name="dot-color-override">
       <default>false</default>
       <summary>Running indicator color override</summary>
@@ -149,6 +154,11 @@
       <default>true</default>
       <summary>Highlight icon of focused application</summary>
       <description>Whether to highlight the background of the currently focused application's icon</description>
+    </key>
+    <key type="b" name="focus-highlight-dominant">
+      <default>false</default>
+      <summary>Highlight icon dominant color</summary>
+      <description>Base the active window highlight color on that application's icon</description>
     </key>
     <key type="s" name="focus-highlight-color">
       <default>"#EEEEEE"</default>
