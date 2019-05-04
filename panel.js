@@ -86,6 +86,13 @@ var dtpPanelWrapper = Utils.defineClass({
 
         this._oldPanelHeight = this.panel.actor.get_height();
 
+        this.panelBg = new St.Widget({ layout_manager: new Clutter.BinLayout() });
+        this.panelBox.remove_actor(this.panel.actor);
+        this.panelBg.add_child(this.panel.actor);
+        this.panelBox.add(this.panelBg);
+
+        this.panelBg.styles = 'border-radius: ' + this.panel.actor.get_theme_node().get_border_radius(0) + 'px;';
+        
         // The overview uses the this.panel height as a margin by way of a "ghost" transparent Clone
         // This pushes everything down, which isn't desired when the this.panel is moved to the bottom
         // I'm adding a 2nd ghost this.panel and will resize the top or bottom ghost depending on the this.panel position
@@ -273,6 +280,9 @@ var dtpPanelWrapper = Utils.defineClass({
 
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
+
+        this.panelBg.remove_actor(this.panel.actor);
+        this.panelBox.add(this.panel.actor);
 
         this.panel.actor.remove_style_class_name('dashtopanelMainPanel');
 
@@ -765,9 +775,17 @@ var dtpSecondaryPanel = Utils.defineClass({
     },
 
     vfunc_allocate: function(box, flags) {
-        if(this.delegate) {
+        if (this.delegate) {
             this.delegate._vfunc_allocate(box, flags);
         }
+    },
+
+    vfunc_get_preferred_width(forHeight) {
+        if (this.delegate) {
+            return [0, this.delegate.monitor.width];
+        }
+
+        return [0, 0];
     },
     
     _setPanelMenu: function(settingName, propName, constr, container, isInit) {

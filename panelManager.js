@@ -77,7 +77,7 @@ var dtpPanelManager = Utils.defineClass({
                 if (monitor == dtpPrimaryMonitor)
                     return;
 
-                let panelBox = new St.BoxLayout({ name: 'dashtopanelSecondaryPanelBox', vertical: true });
+                let panelBox = new St.BoxLayout({ name: 'panelBox', vertical: true });
                 Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
 
                 let panel = new Panel.dtpSecondaryPanel(this._dtpSettings, monitor);
