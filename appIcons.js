@@ -356,7 +356,7 @@ var taskbarAppIcon = Utils.defineClass({
 
     onWindowsChanged: function() {
         this._updateCounterClass();
-        this.updateIcon();
+        this.updateIcon(true);
     },
 
     // Update indicator and target for minimization animation
