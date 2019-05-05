@@ -780,7 +780,7 @@ var dtpSecondaryPanel = Utils.defineClass({
         }
     },
 
-    vfunc_get_preferred_width(forHeight) {
+    vfunc_get_preferred_width: function(forHeight) {
         if (this.delegate) {
             return [0, this.delegate.monitor.width];
         }

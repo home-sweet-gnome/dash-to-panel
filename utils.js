@@ -398,7 +398,7 @@ var ColorUtils = {
         else
             s = 0;
 
-        return {h, s, v};
+        return {h: h, s: s, v: v};
     }
 };
 
@@ -568,7 +568,7 @@ var DominantColorExtractor = defineClass({
      *
      * @return [];
      */
-    _resamplePixels (pixels, resampleX, resampleY) {
+    _resamplePixels: function (pixels, resampleX, resampleY) {
         let resampledPixels = [];
         // computing the limit outside the for (where it would be repeated at each iteration)
         // for performance reasons
