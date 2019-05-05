@@ -132,7 +132,6 @@ var taskbarAppIcon = Utils.defineClass({
         this.callParent('_init', appInfo.app, iconParams);
 
         this._dot.set_width(0);
-        this._focused = tracker.focus_app == this.app;
         this._isGroupApps = this._dtpSettings.get_boolean('group-apps');
 
         this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
@@ -181,9 +180,16 @@ var taskbarAppIcon = Utils.defineClass({
         this._focusWindowChangedId = global.display.connect('notify::focus-window', 
                                                             Lang.bind(this, this._onFocusAppChanged));
 
+        this._windowEnteredMonitorId = this._windowLeftMonitorId = 0;
+
         if (!this.window) {
             this._stateChangedId = this.app.connect('windows-changed',
                                                 Lang.bind(this, this.onWindowsChanged));
+
+            if (this._dtpSettings.get_boolean('isolate-monitors')) {
+                this._windowEnteredMonitorId = Utils.DisplayWrapper.getScreen().connect('window-entered-monitor', this.onWindowEnteredOrLeft.bind(this));
+                this._windowLeftMonitorId = Utils.DisplayWrapper.getScreen().connect('window-left-monitor', this.onWindowEnteredOrLeft.bind(this));
+            }
             
             this._titleWindowChangeId = 0;
         } else {
@@ -344,6 +350,11 @@ var taskbarAppIcon = Utils.defineClass({
 
         if(this._titleWindowChangeId)
             this.window.disconnect(this._titleWindowChangeId);
+
+        if (this._windowEnteredMonitorId) {
+            Utils.DisplayWrapper.getScreen().disconnect(this._windowEnteredMonitorId);
+            Utils.DisplayWrapper.getScreen().disconnect(this._windowLeftMonitorId);
+        }
         
         if(this._switchWorkspaceId)
             global.window_manager.disconnect(this._switchWorkspaceId);
@@ -358,11 +369,18 @@ var taskbarAppIcon = Utils.defineClass({
 
     onWindowsChanged: function() {
         this._updateCounterClass();
-        this.updateIcon(true);
+        this.updateIcon();
+    },
+
+    onWindowEnteredOrLeft: function() {
+        if (this._checkIfFocusedApp()) {
+            this._updateCounterClass();
+            this._displayProperIndicator();
+        }
     },
 
     // Update indicator and target for minimization animation
-    updateIcon: function(updateIndicators) {
+    updateIcon: function() {
 
         // If (for unknown reason) the actor is not on the stage the reported size
         // and position are random values, which might exceeds the integer range
@@ -380,10 +398,6 @@ var taskbarAppIcon = Utils.defineClass({
         windows.forEach(function(w) {
             w.set_icon_geometry(rect);
         });
-
-        if (updateIndicators) {
-            this._displayProperIndicator();
-        }
     },
 
     _showDots: function() {
@@ -489,7 +503,7 @@ var taskbarAppIcon = Utils.defineClass({
         let inlineStyle = 'margin: 0;';
 
         if(this._dtpSettings.get_boolean('focus-highlight') && 
-           tracker.focus_app == this.app && !this.isLauncher &&  
+           this._checkIfFocusedApp() && !this.isLauncher &&  
            (!this.window || isFocused) && !this._isThemeProvidingIndicator() && this._checkIfMonitorHasFocus()) {
             let focusedDotStyle = this._dtpSettings.get_string('dot-style-focused');
             let isWide = this._isWideDotStyle(focusedDotStyle);
@@ -524,6 +538,10 @@ var taskbarAppIcon = Utils.defineClass({
                 Mainloop.timeout_add(0, Lang.bind(this, function() { this._dotsContainer.set_style(inlineStyle); }));
             }
         }
+    },
+
+    _checkIfFocusedApp: function() {
+        return tracker.focus_app == this.app;
     },
 
     _checkIfMonitorHasFocus: function() {
@@ -625,7 +643,7 @@ var taskbarAppIcon = Utils.defineClass({
             let newUnfocusedDotsWidth = 0;
             let newUnfocusedDotsOpacity = 0;
             
-            isFocused = (tracker.focus_app == this.app) && this._checkIfMonitorHasFocus();
+            isFocused = this._checkIfFocusedApp() && this._checkIfMonitorHasFocus();
 
             Mainloop.timeout_add(0, () => {
                 if (!this._destroyed) {
@@ -788,7 +806,7 @@ var taskbarAppIcon = Utils.defineClass({
             } else {
                 //grouped application behaviors
                 let monitor = this.panelWrapper.monitor;
-                let appHasFocus = tracker.focus_app == this.app && this._checkIfMonitorHasFocus();
+                let appHasFocus = this._checkIfFocusedApp() && this._checkIfMonitorHasFocus();
 
                 switch (buttonAction) {
                     case "RAISE":

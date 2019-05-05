@@ -184,7 +184,6 @@ var taskbar = Utils.defineClass({
         this.iconSize = 16;
 
         this._shownInitially = false;
-        this._updateIndicators = false;
 
         this._position = getPosition();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
@@ -301,7 +300,6 @@ var taskbar = Utils.defineClass({
                 ],
                 () => {
                     if (this._dtpSettings.get_boolean('isolate-monitors')) {
-                        this._updateIndicators = this.isGroupApps && !this.panelWrapper.panelManager.needsDashItemContainerAllocate;
                         this._queueRedisplay();
                     }
                 }
@@ -671,10 +669,8 @@ var taskbar = Utils.defineClass({
         let appIcons = this._getAppIcons();
 
         appIcons.filter(icon => icon.constructor === AppIcons.taskbarAppIcon).forEach(icon => {
-            icon.updateIcon(this._updateIndicators);
+            icon.updateIcon();
         });
-
-        this._updateIndicators = false;
     },
 
     _itemMenuStateChanged: function(item, opened) {
