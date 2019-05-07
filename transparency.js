@@ -144,6 +144,7 @@ var DynamicTransparency = Utils.defineClass({
 
         this._updateColor(themeBackground);
         this._updateAlpha(themeBackground);
+        this._updateComplementaryStyles();
         this._updateGradient();
         this._setBackground();
         this._setGradient();
@@ -162,6 +163,12 @@ var DynamicTransparency = Utils.defineClass({
     _updateGradientAndSet: function() {
         this._updateGradient();
         this._setGradient();
+    },
+
+    _updateComplementaryStyles: function() {
+        let panelThemeNode = this._dtpPanel.panel.actor.get_theme_node();
+
+        this._complementaryStyles = 'border-radius: ' + panelThemeNode.get_border_radius(0) + 'px;';
     },
 
     _updateColor: function(themeBackground) {
@@ -198,7 +205,7 @@ var DynamicTransparency = Utils.defineClass({
         let transition = 'transition-duration:' + this._animationDuration;
         let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
 
-        this._dtpPanel.panelBg.set_style('background-color: ' + this.currentBackgroundColor + transition + this._dtpPanel.panelBg.styles);
+        this._dtpPanel.panelBg.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles);
         this._dtpPanel.panel._leftCorner.actor.set_style(cornerStyle);
         this._dtpPanel.panel._rightCorner.actor.set_style(cornerStyle);
     },

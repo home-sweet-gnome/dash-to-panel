@@ -133,7 +133,8 @@ var taskbarActor = Utils.defineClass({
         hupper = Math.floor(hupper);
         scrollview._dtpFadeSize = hupper > hpageSize ? this._delegate.iconSize : 0;
 
-        if (this._currentBackgroundColor !== this._delegate.panelWrapper.dynamicTransparency.currentBackgroundColor) {
+        if (this._delegate.panelWrapper.dynamicTransparency &&
+            this._currentBackgroundColor !== this._delegate.panelWrapper.dynamicTransparency.currentBackgroundColor) {
             this._currentBackgroundColor = this._delegate.panelWrapper.dynamicTransparency.currentBackgroundColor;
             let gradientStart = 'background-gradient-start: ' + this._currentBackgroundColor;
             leftFade.set_style(gradientStart);
