@@ -157,7 +157,7 @@ var dtpPanelWrapper = Utils.defineClass({
             this.panel._leftBox.remove_child(this.appMenu.container);
 
         //the timeout makes sure the theme's styles are computed before initially applying the transparency
-        Mainloop.timeout_add(0, () => {
+        this.startDynamicTransparencyId = Mainloop.timeout_add(0, () => {
             this.dynamicTransparency = new Transparency.DynamicTransparency(this);
         });
         
@@ -280,7 +280,12 @@ var dtpPanelWrapper = Utils.defineClass({
             this._showDesktopTimeoutId = 0;
         }
 
-        this.dynamicTransparency.destroy();
+        if (this.startDynamicTransparencyId) {
+            Mainloop.source_remove(this.startDynamicTransparencyId);
+            this.startDynamicTransparencyId = 0;
+        } else {
+            this.dynamicTransparency.destroy();
+        }
 
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
