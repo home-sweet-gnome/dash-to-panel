@@ -565,7 +565,6 @@ var taskbar = Utils.defineClass({
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 255;
                                            this._enableWindowPreview();
-                                           appIcon.syncWindowPreview(this._getAppIcons());
                                        }));
         }
 
@@ -635,7 +634,7 @@ var taskbar = Utils.defineClass({
         
         appIcons.filter(appIcon => !appIcon.isLauncher)
                 .forEach(function (appIcon) {
-            appIcon.enableWindowPreview(appIcons);
+            appIcon.enableWindowPreview();
         });
     },
 

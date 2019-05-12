@@ -238,89 +238,19 @@ var taskbarAppIcon = Utils.defineClass({
         this._signalsHandler = new Utils.GlobalSignalsHandler();
     },
 
-    _createWindowPreview: function() {
-        // Abort if already activated
-        if (this.menuManagerWindowPreview)
-            return;
-
-        // Creating a new menu manager for window previews as adding it to the
-        // using the secondary menu's menu manager (which uses the "ignoreRelease"
-        // function) caused the extension to crash.
-        this.menuManagerWindowPreview = new PopupMenu.PopupMenuManager(this);
-
-        this.windowPreview = new WindowPreview.thumbnailPreviewMenu(this, this._dtpSettings, this.menuManagerWindowPreview);
-
-        this.windowPreview.connect('open-state-changed', Lang.bind(this, function (menu, isPoppedUp) {
-            if (!isPoppedUp)
-                this._onMenuPoppedDown();
-        }));
-        this.menuManagerWindowPreview.addMenu(this.windowPreview);
-
-        // grabHelper.grab() is usually called when the menu is opened. However, there seems to be a bug in the 
-        // underlying gnome-shell that causes all window contents to freeze if the grab and ungrab occur
-        // in quick succession in timeouts from the Mainloop (for example, clicking the icon as the preview window is opening)
-        // So, instead wait until the mouse is leaving the icon (and might be moving toward the open window) to trigger the grab
-        // in windowPreview.js
-        let windowPreviewMenuData = this.menuManagerWindowPreview._menus[this.menuManagerWindowPreview._findMenu(this.windowPreview)];
-        this.windowPreview.disconnect(windowPreviewMenuData.openStateChangeId);
-        windowPreviewMenuData.openStateChangeId = this.windowPreview.connect('open-state-changed', Lang.bind(this.menuManagerWindowPreview, function(menu, open) {
-            if (open) {
-                if (this.activeMenu)
-                    this.activeMenu.close(BoxPointer.PopupAnimation.FADE);
-
-                // don't grab here, we are grabbing in onLeave in windowPreview.js
-                //this._grabHelper.grab({ actor: menu.actor, focus: menu.sourceActor, onUngrab: Lang.bind(this, this._closeMenu, menu) });
-            } else {
-                this._grabHelper.ungrab({ actor: menu.actor });
-            }
-        }));
-    },
-
-    enableWindowPreview: function(appIcons) {
-        this._createWindowPreview();
-
-        // We first remove to ensure there are no duplicates
-        this._signalsHandler.removeWithLabel('window-preview');
-        this._signalsHandler.addWithLabel('window-preview', [
-            this.windowPreview,
-            'menu-closed',
-            // enter-event doesn't fire on an app icon when the popup menu from a previously
-            // hovered app icon is still open, so when a preview menu closes we need to
-            // see if a new app icon is hovered and open its preview menu now.
-            // also, for some reason actor doesn't report being hovered by get_hover()
-            // if the hover started when a popup was opened. So, look for the actor by mouse position.
-            menu => this.syncWindowPreview(appIcons, menu)
-        ]);
-
-        this.windowPreview.enableWindowPreview();
-    },
-
-    syncWindowPreview: function(appIcons, menu) {
-        let [x, y,] = global.get_pointer();
-        let hoveredActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
-        let appIconToOpen;
-
-        appIcons.forEach(function (appIcon) {
-            if(appIcon.actor == hoveredActor) {
-                appIconToOpen = appIcon;
-            } else if(appIcon.windowPreview && appIcon.windowPreview.isOpen) {
-                appIcon.windowPreview.close();
-            }
-        });
-
-        if(appIconToOpen) {
-            appIconToOpen.actor.sync_hover();
-            if(appIconToOpen.windowPreview && appIconToOpen.windowPreview != menu)
-                appIconToOpen.windowPreview._onEnter();
+    enableWindowPreview: function() {
+        if (!this.windowPreview) {
+            this.windowPreview = new WindowPreview.PreviewMenu(this);
+            this.windowPreview.enable();
+            this._updateWindows();
         }
-
-        return GLib.SOURCE_REMOVE;
     },
 
     disableWindowPreview: function() {
-        this._signalsHandler.removeWithLabel('window-preview');
-        if (this.windowPreview)
-            this.windowPreview.disableWindowPreview();
+        if (this.windowPreview) {
+            this.windowPreview.disable();
+            this.windowPreview = null;
+        }
     },
 
     shouldShowTooltip: function() {
@@ -368,13 +298,13 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     onWindowsChanged: function() {
-        this._updateCounterClass();
+        this._updateWindows();
         this.updateIcon();
     },
 
     onWindowEnteredOrLeft: function() {
         if (this._checkIfFocusedApp()) {
-            this._updateCounterClass();
+            this._updateWindows();
             this._displayProperIndicator();
         }
     },
@@ -403,7 +333,7 @@ var taskbarAppIcon = Utils.defineClass({
     _showDots: function() {
         // Just update style if dots already exist
         if (this._focusedDots && this._unfocusedDots) {
-            this._updateCounterClass();
+            this._updateWindows();
             return;
         }
 
@@ -447,7 +377,7 @@ var taskbarAppIcon = Utils.defineClass({
                 
             this._dotsContainer.add_child(this._unfocusedDots);
     
-            this._updateCounterClass();
+            this._updateWindows();
         }
 
         this._dotsContainer.add_child(this._focusedDots);
@@ -463,7 +393,7 @@ var taskbarAppIcon = Utils.defineClass({
 
     _settingsChangeRefresh: function() {
         if (this._isGroupApps) {
-            this._updateCounterClass();
+            this._updateWindows();
             this._focusedDots.queue_repaint();
             this._unfocusedDots.queue_repaint();
         }
@@ -773,7 +703,7 @@ var taskbarAppIcon = Utils.defineClass({
 
         let appCount = this.getAppIconInterestingWindows().length;
         if (this.windowPreview && (!(buttonAction == "TOGGLE-SHOWPREVIEW") || (appCount <= 1)))
-            this.windowPreview.requestCloseMenu();
+            this.windowPreview.close();
 
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
@@ -920,8 +850,10 @@ var taskbarAppIcon = Utils.defineClass({
         }
     },
 
-    _updateCounterClass: function() {
-        this._nWindows = this.getAppIconInterestingWindows().length;
+    _updateWindows: function() {
+        let windows = this.getAppIconInterestingWindows();
+        
+        this._nWindows = windows.length;
 
         for (let i = 1; i <= MAX_INDICATORS; i++){
             let className = 'running'+i;
@@ -929,6 +861,10 @@ var taskbarAppIcon = Utils.defineClass({
                 this.actor.remove_style_class_name(className);
             else
                 this.actor.add_style_class_name(className);
+        }
+
+        if (this.windowPreview) {
+            this.windowPreview.updateWindows(windows);
         }
     },
 
