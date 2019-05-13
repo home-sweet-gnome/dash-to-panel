@@ -47,7 +47,6 @@ const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Me.imports.utils;
-const WindowPreview = Me.imports.windowPreview;
 const Taskbar = Me.imports.taskbar;
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
@@ -99,7 +98,7 @@ var taskbarAppIcon = Utils.defineClass({
     Extends: AppDisplay.AppIcon,
     ParentConstrParams: [[1, 'app'], [3]],
 
-    _init: function(settings, appInfo, panelWrapper, iconParams) {
+    _init: function(settings, appInfo, panelWrapper, iconParams, previewMenu) {
 
         // a prefix is required to avoid conflicting with the parent class variable
         this._dtpSettings = settings;
@@ -107,6 +106,7 @@ var taskbarAppIcon = Utils.defineClass({
         this._nWindows = 0;
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
+        this._previewMenu = previewMenu;
 
 		// Fix touchscreen issues before the listener is added by the parent constructor.
         this._onTouchEvent = function(actor, event) {
@@ -202,6 +202,8 @@ var taskbarAppIcon = Utils.defineClass({
 
         this._switchWorkspaceId = global.window_manager.connect('switch-workspace',
                                                 Lang.bind(this, this._onSwitchWorkspace));
+
+        this._hoverChangeId = this.actor.connect('notify::hover', () => this._onAppIconHoverChanged());
         
         this._dtpSettingsSignalIds = [
             this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh)),
@@ -234,23 +236,6 @@ var taskbarAppIcon = Utils.defineClass({
         this.forcedOverview = false;
 
         this._numberOverlay();
-
-        this._signalsHandler = new Utils.GlobalSignalsHandler();
-    },
-
-    enableWindowPreview: function() {
-        if (!this.windowPreview) {
-            this.windowPreview = new WindowPreview.PreviewMenu(this);
-            this.windowPreview.enable();
-            this._updateWindows();
-        }
-    },
-
-    disableWindowPreview: function() {
-        if (this.windowPreview) {
-            this.windowPreview.disable();
-            this.windowPreview = null;
-        }
     },
 
     shouldShowTooltip: function() {
@@ -261,7 +246,20 @@ var taskbarAppIcon = Utils.defineClass({
         } else {
             return this.actor.hover && !this.window && 
                    (!this._menu || !this._menu.isOpen) && 
-                   (!this.windowPreview || !this.windowPreview.isOpen);
+                   (this._previewMenu.getCurrentAppIcon() !== this);
+        }
+    },
+
+    _onAppIconHoverChanged: function() {
+        if (!this._dtpSettings.get_boolean('show-window-previews') || 
+            (!this.window && !this._nWindows)) {
+            return;
+        }
+
+        if (this.actor.hover) {
+            this._previewMenu.requestOpen(this);
+        } else {
+            this._previewMenu.requestClose();
         }
     },
 
@@ -291,6 +289,10 @@ var taskbarAppIcon = Utils.defineClass({
 
         if(this._scaleFactorChangedId)
             St.ThemeContext.get_for_stage(global.stage).disconnect(this._scaleFactorChangedId);
+
+        if (this._hoverChangeId) {
+            this.actor.disconnect(this._hoverChangeId);
+        }
 
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
             this._dtpSettings.disconnect(this._dtpSettingsSignalIds[i]);
@@ -516,8 +518,7 @@ var taskbarAppIcon = Utils.defineClass({
 
         this.emit('menu-state-changed', true);
 
-        if (this.windowPreview)
-            this.windowPreview.close();
+        this._previewMenu.close(true);
 
         this.actor.set_hover(true);
         this._menu.actor.add_style_class_name('dashtopanelSecondaryMenu');
@@ -702,8 +703,8 @@ var taskbarAppIcon = Utils.defineClass({
         }
 
         let appCount = this.getAppIconInterestingWindows().length;
-        if (this.windowPreview && (!(buttonAction == "TOGGLE-SHOWPREVIEW") || (appCount <= 1)))
-            this.windowPreview.close();
+        if (!(buttonAction == "TOGGLE-SHOWPREVIEW") || (appCount <= 1))
+            this._previewMenu.close(true);
 
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
@@ -863,9 +864,7 @@ var taskbarAppIcon = Utils.defineClass({
                 this.actor.add_style_class_name(className);
         }
 
-        if (this.windowPreview) {
-            this.windowPreview.updateWindows(windows);
-        }
+        this._previewMenu.updateWindows(this, windows);
     },
 
     _getRunningIndicatorCount: function() {
@@ -1083,7 +1082,7 @@ var taskbarAppIcon = Utils.defineClass({
 
     handleDragOver: function(source, actor, x, y, time) {
         if (source == Main.xdndHandler) {
-            this.windowPreview.close();
+            this._previewMenu.close(true);
         }
             
         return DND.DragMotionResult.CONTINUE;

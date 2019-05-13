@@ -238,6 +238,9 @@ var taskbar = Utils.defineClass({
             coordinate: Clutter.BindCoordinate.HEIGHT
         }));
 
+        this.previewMenu = new WindowPreview.PreviewMenu(settings, panelWrapper);
+        this.previewMenu.enable();
+
         if (!this._dtpSettings.get_boolean('show-show-apps-button'))
             this.hideShowAppsButton();
 
@@ -327,11 +330,6 @@ var taskbar = Utils.defineClass({
             ],
             [
                 this._dtpSettings,
-                'changed::show-window-previews',
-                Lang.bind(this, this._toggleWindowPreview)
-            ],
-            [
-                this._dtpSettings,
                 'changed::show-show-apps-button',
                 Lang.bind(this, function() {
                     if (this._dtpSettings.get_boolean('show-show-apps-button'))
@@ -379,6 +377,7 @@ var taskbar = Utils.defineClass({
         this._showAppsIconWrapper.destroy();
 
         this._container.destroy();
+        this.previewMenu.disable();
         this._disconnectWorkspaceSignals();
     },
 
@@ -552,7 +551,8 @@ var taskbar = Utils.defineClass({
                 setSizeManually: true,
                 showLabel: false,
                 isDraggable: !this._dtpSettings.get_boolean('taskbar-locked'),
-            }
+            },
+            this.previewMenu
         );
 
         if (appIcon._draggable) {
@@ -622,27 +622,12 @@ var taskbar = Utils.defineClass({
         return item;
     },
 
-    _toggleWindowPreview: function() {
-        if (this._dtpSettings.get_boolean('show-window-previews'))
-            this._enableWindowPreview();
-        else
-            this._disableWindowPreview();
-    },
-
     _enableWindowPreview: function() {
-        let appIcons = this._getAppIcons();
-        
-        appIcons.filter(appIcon => !appIcon.isLauncher)
-                .forEach(function (appIcon) {
-            appIcon.enableWindowPreview();
-        });
+        this.previewMenu.enable();
     },
 
     _disableWindowPreview: function() {
-        let appIcons = this._getAppIcons();
-        appIcons.forEach(function (appIcon) {
-            appIcon.disableWindowPreview();
-        });
+        this.previewMenu.disable();
     },
 
     // Return an array with the "proper" appIcons currently in the taskbar
@@ -870,9 +855,6 @@ var taskbar = Utils.defineClass({
         if (!this.panelWrapper.isSecondary) {
             this._updateNumberOverlay();
         }
-
-        // Connect windows previews to hover events
-        this._toggleWindowPreview();
 
         this._shownInitially = true;
     },

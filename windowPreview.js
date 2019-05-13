@@ -26,6 +26,7 @@ const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
 const TRANSLATION_OFFSET = 50;
+const MONITOR_PADDING = 10;
 
 //timeout intervals
 
@@ -37,14 +38,16 @@ var PreviewMenu = Utils.defineClass({
     Name: 'DashToPanel.PreviewMenu',
     Extends: St.Widget,
 
-    _init: function(appIcon) {
+    _init: function(dtpSettings, panelWrapper) {
         this.callParent('_init', { name: 'preview-menu', reactive: true });
 
-        this.isOpen = false;
+        this._dtpSettings = dtpSettings;
+        this._panelWrapper = panelWrapper;
 
-        this._appIcon = appIcon;
-        this._app = appIcon.app;
-        this._dtpSettings = appIcon._dtpSettings;
+        this._currentAppIcon = null;
+        this._position = Taskbar.getPosition();
+        this._translationProp = 'translation_' + (this._position == St.Side.LEFT || this._position == St.Side.RIGHT ? 'x' : 'y');
+        this[this._translationProp] = TRANSLATION_OFFSET;
 
 
 
@@ -65,47 +68,63 @@ var PreviewMenu = Utils.defineClass({
         this.visible = false;
         this.opacity = 0;
 
-        Main.uiGroup.insert_child_below(this, this._appIcon.panelWrapper.panelBox);
+        Main.uiGroup.insert_child_below(this, this._panelWrapper.panelBox);
 
-        this._signalsHandler.add(
-            [
-                this._appIcon.actor,
-                'notify::hover',
-                () => this._onAppIconHoverChanged()
-            ],
-        );
+        // this._signalsHandler.add(
+        //     [
+                
+        //     ],
+        // );
     },
 
     disable: function() {
         this._signalsHandler.destroy();
         this._timeoutsHandler.destroy();
 
-        this.close();
+        this.close(true);
         Main.uiGroup.remove_child(this);
     },
 
-    open: function() {
-        if (!this.isOpen) {
-            this.isOpen = true;
+    requestOpen: function(appIcon) {
+        this._endOpenCloseTimeouts();
 
-            this._updatePosition();
-            this.show();
-            this._animateOpenOrClose(true);
+        if (this._currentAppIcon) {
+            return this.open(appIcon);
         }
+        
+        this._timeoutsHandler.add([T1, this._dtpSettings.get_int('show-window-previews-timeout'), () => this.open(appIcon)]);
     },
 
-    close: function() {
-        if (this.isOpen) {
-            this.isOpen = false;
+    requestClose: function() {
+        this._endOpenCloseTimeouts();
+        this._timeoutsHandler.add([T2, this._dtpSettings.get_int('leave-timeout'), () => this.close()]);
+    },
 
-            this._animateOpenOrClose(false, () => {
+    open: function(appIcon) {
+        this._currentAppIcon = appIcon;
+        this._updatePosition();
+        this.show();
+        this._animateOpenOrClose(true);
+    },
+
+    close: function(immediate) {
+        this._currentAppIcon = null;
+
+        if (this.visible) {
+            this._animateOpenOrClose(false, immediate, () => {
                 this.hide();
             });
         }
     },
 
-    updateWindows: function(windows) {
+    updateWindows: function(appIcon, windows) {
+        if (this._currentAppIcon == appIcon) {
 
+        }
+    },
+
+    getCurrentAppIcon: function() {
+        return this._currentAppIcon;
     },
 
     vfunc_allocate: function(box, flags) {
@@ -120,62 +139,61 @@ var PreviewMenu = Utils.defineClass({
         return [0, 200];
     },
 
-    _onAppIconHoverChanged: function() {
-        if (this._appIcon.actor.hover) {
-            this._timeoutsHandler.remove(T2);
-            this._timeoutsHandler.add([T1, this._dtpSettings.get_int('show-window-previews-timeout'), () => this.open()]);
-        } else {
-            this._timeoutsHandler.remove(T1);
-            this._timeoutsHandler.add([T2, this._dtpSettings.get_int('leave-timeout'), () => this.close()]);
-        }
+    _endOpenCloseTimeouts: function() {
+        this._timeoutsHandler.remove(T1);
+        this._timeoutsHandler.remove(T2);
     },
 
     _updatePosition: function() {
-        let sourceNode = this._appIcon.actor.get_theme_node();
-        let sourceContentBox = sourceNode.get_content_box(this._appIcon.actor.get_allocation_box());
-        let sourceAllocation = Shell.util_get_transformed_allocation(this._appIcon.actor);
+        let sourceNode = this._currentAppIcon.actor.get_theme_node();
+        let sourceContentBox = sourceNode.get_content_box(this._currentAppIcon.actor.get_allocation_box());
+        let sourceAllocation = Shell.util_get_transformed_allocation(this._currentAppIcon.actor);
         let [minWidth, minHeight, natWidth, natHeight] = this.get_preferred_size();
-        let position = Taskbar.getPosition();
-        let isLeftOrRight = position == St.Side.LEFT || position == St.Side.RIGHT;
         let x, y;
 
-        if (position == St.Side.TOP || position == St.Side.BOTTOM) {
+        if (this._position == St.Side.TOP || this._position == St.Side.BOTTOM) {
             x = sourceAllocation.x1 + (sourceContentBox.x2 - sourceContentBox.x1) * .5 - natWidth * .5;
-        } else if (position == St.Side.LEFT) {
+        } else if (this._position == St.Side.LEFT) {
             x = sourceAllocation.x2;
         } else { //St.Side.RIGHT
             x = sourceAllocation.x1 - natWidth;
         }
 
-        if (isLeftOrRight) {
+        if (this._position == St.Side.LEFT || this._position == St.Side.RIGHT) {
             y = sourceAllocation.y1 + (sourceContentBox.y2 - sourceContentBox.y1) * .5 - natHeight * .5;
-        } else if (position == St.Side.TOP) {
+        } else if (this._position == St.Side.TOP) {
             y = sourceAllocation.y2;
         } else { //St.Side.BOTTOM
             y = sourceAllocation.y1 - natHeight;
         }
 
-        x = Math.max(x, this._appIcon.panelWrapper.monitor.x);
-        y = Math.max(y, this._appIcon.panelWrapper.monitor.y);
+        x = Math.max(x, this._panelWrapper.monitor.x + MONITOR_PADDING);
+        y = Math.max(y, this._panelWrapper.monitor.y + MONITOR_PADDING);
 
-        this.set_position(x, y);
-        this._translationProp = 'translation_' + (isLeftOrRight ? 'x' : 'y');
-        this[this._translationProp] = TRANSLATION_OFFSET;
+        if (this[this._translationProp] > 0) {
+            this.set_position(x, y);
+            this[this._translationProp] = TRANSLATION_OFFSET;
+        } else {
+            Tweener.addTween(this, {
+                x: x, y: y,
+                time: Taskbar.DASH_ANIMATION_TIME,
+                transition: 'easeInOutQuad'
+            });
+        }
     },
 
-    _animateOpenOrClose: function(show, onComplete) {
-        Tweener.removeTweens(this);
-
+    _animateOpenOrClose: function(show, immediate, onComplete) {
         let tweenOpts = {
             opacity: show ? 255 : 0,
-            time: Taskbar.DASH_ANIMATION_TIME,
-            transition: 'easeOutQuad',
-            onComplete: () => {
-                (onComplete || (() => {}))();
-            }
+            time: immediate ? 0 : Taskbar.DASH_ANIMATION_TIME,
+            transition: show ? 'easeInOutQuad' : 'easeInCubic'
         };
 
         tweenOpts[this._translationProp] = show ? 0 : TRANSLATION_OFFSET;
+
+        if (onComplete) {
+            tweenOpts.onComplete = onComplete;
+        }
 
         Tweener.addTween(this, tweenOpts);
     },
