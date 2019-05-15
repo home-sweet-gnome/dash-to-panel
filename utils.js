@@ -270,6 +270,16 @@ var DisplayWrapper = {
     }
 };
 
+var mergeObjects = function(main, bck) {
+    for (var prop in bck) {
+        if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
+            main[prop] = bck[prop];
+        }
+    }
+
+    return main;
+};
+
 var hookVfunc = function(proto, symbol, func) {
     if (Gi.hook_up_vfunc_symbol) {
         //gjs > 1.53.3
