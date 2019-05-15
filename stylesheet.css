@@ -42,8 +42,8 @@
 }
 
 #dashtopanelPreviewScrollview {
-	-st-hfade-offset: 48px;
-	-st-vfade-offset: 48px;
+	-st-hfade-offset: 24px;
+	-st-vfade-offset: 24px;
 }
 
 #dashtopanelScrollview .app-well-app:hover .overview-icon,
