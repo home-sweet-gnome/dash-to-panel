@@ -33,6 +33,8 @@ const Utils = Me.imports.utils;
 const T1 = 'openMenuTimeout';
 const T2 = 'closeMenuTimeout';
 
+const MAX_TRANSITION_WINDOWS = 2;
+
 var PreviewMenu = Utils.defineClass({
     Name: 'DashToPanel.PreviewMenu',
     Extends: St.Widget,
@@ -44,6 +46,7 @@ var PreviewMenu = Utils.defineClass({
         this._panelWrapper = panelWrapper;
 
         this._currentAppIcon = null;
+        this.opened = false;
         this._position = Taskbar.getPosition();
         let isLeftOrRight = this._position == St.Side.LEFT || this._position == St.Side.RIGHT;
         this._translationProp = 'translation_' + (isLeftOrRight ? 'x' : 'y');
@@ -70,6 +73,15 @@ var PreviewMenu = Utils.defineClass({
         //'menu-closed'
         //'sync-tooltip'
         //this.add_style_class_name('app-well-menu');
+
+        // add fixed size limitations
+
+        // adjust intellihide depending on grabs
+
+        // move closing delay setting from "advanced"
+
+        // this._titleWindowChangeId = this.window.connect('notify::title', 
+        //                                         Lang.bind(this, this._updateWindowTitle));
     },
 
     enable: function() {
@@ -116,13 +128,17 @@ var PreviewMenu = Utils.defineClass({
 
     open: function(appIcon) {
         if (this._currentAppIcon != appIcon) {
-            this.set_style('background: ' + this._panelWrapper.dynamicTransparency.currentBackgroundColor);
-            let isHidden = this[this._translationProp] != 0;
-
             this._currentAppIcon = appIcon;
-            this.updateWindows(appIcon, null, isHidden);
-            this._updatePosition(isHidden);
-            this.visible = true;
+
+            this.updateWindows(appIcon);
+            this._updatePosition();
+
+            if (!this.opened) {
+                this.set_style('background: ' + this._panelWrapper.dynamicTransparency.currentBackgroundColor);
+                this.show();
+                this.opened = true;
+            }
+            
             this._animateOpenOrClose(true);
         }
     },
@@ -137,13 +153,14 @@ var PreviewMenu = Utils.defineClass({
         }
     },
 
-    updateWindows: function(appIcon, windows, immediate) {
+    updateWindows: function(appIcon, windows) {
         if (this._currentAppIcon == appIcon) {
             windows = windows || (appIcon.window ? [appIcon.window] : appIcon.getAppIconInterestingWindows());
         
             let currentPreviews = this._box.get_children();
             let l = Math.max(windows.length, currentPreviews.length);
-            let ii = 0;
+            let added = 0;
+            let deleted = 0;
 
             for (let i = 0; i < l; ++i) {
                 if (currentPreviews[i] && windows[i] && windows[i] != currentPreviews[i].window) {
@@ -152,9 +169,9 @@ var PreviewMenu = Utils.defineClass({
                     let preview = new Preview(this._panelWrapper, this);
 
                     this._box.add_child(preview);
-                    preview.assignWindow(windows[i], immediate);
+                    preview.assignWindow(windows[i], this.opened, added++ > MAX_TRANSITION_WINDOWS);
                 } else if (!windows[i]) {
-                    currentPreviews[i][++ii > 3 || immediate ? 'destroy' : 'animateOut']();
+                    currentPreviews[i][deleted++ > MAX_TRANSITION_WINDOWS || !this.opened ? 'destroy' : 'animateOut']();
                 }
             }
         }
@@ -220,18 +237,18 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _resetHiddenState: function() {
-        this.visible = false;
+        this.hide();
+        this.opened = false;
         this.opacity = 0;
         this[this._translationProp] = this._translationOffset;
         this._box.get_children().forEach(c => c.destroy());
     },
 
-    _updatePosition: function(immediate) {
+    _updatePosition: function() {
         let monitorArea = Main.layoutManager.getWorkAreaForMonitor(this._panelWrapper.monitor.index);
         let sourceNode = this._currentAppIcon.actor.get_theme_node();
         let sourceContentBox = sourceNode.get_content_box(this._currentAppIcon.actor.get_allocation_box());
         let sourceAllocation = Shell.util_get_transformed_allocation(this._currentAppIcon.actor);
-        let [ , , natWidth, natHeight] = this.get_preferred_size();
         let isLeftOrRight = this._position == St.Side.LEFT || this._position == St.Side.RIGHT;
         let [previewsWidth, previewsHeight] = this._getPreviewsSize(isLeftOrRight);
         let x, y;
@@ -240,7 +257,7 @@ var PreviewMenu = Utils.defineClass({
         previewsHeight = Math.min(previewsHeight, monitorArea.height);
         
         if (this._position == St.Side.TOP || this._position == St.Side.BOTTOM) {
-            x = sourceAllocation.x1 + (sourceContentBox.x2 - sourceContentBox.x1) * .5 - previewsWidth * .5 ;
+            x = sourceAllocation.x1 + (sourceContentBox.x2 - sourceContentBox.x1 - previewsWidth) * .5 ;
             x = Math.max(x, monitorArea.x);
             x = Math.min(x, monitorArea.x + monitorArea.width - previewsWidth);
         } else if (this._position == St.Side.LEFT) {
@@ -250,7 +267,7 @@ var PreviewMenu = Utils.defineClass({
         }
 
         if (isLeftOrRight) {
-            y = sourceAllocation.y1 + (sourceContentBox.y2 - sourceContentBox.y1) * .5 - previewsHeight * .5;
+            y = sourceAllocation.y1 + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
             y = Math.max(y, monitorArea.y);
             y = Math.min(y, monitorArea.y + monitorArea.height - previewsHeight);
         } else if (this._position == St.Side.TOP) {
@@ -259,9 +276,7 @@ var PreviewMenu = Utils.defineClass({
             y = sourceAllocation.y1 - previewsHeight;
         }
 
-        if (immediate || Math.abs(this.x - x) > 320 || 
-            (!isLeftOrRight && this.x + natWidth > monitorArea.x + monitorArea.width) || 
-            (isLeftOrRight && this.y + natHeight > monitorArea.y + monitorArea.height)) {
+        if (!this.opened) {
             this.set_position(x, y);
         } else {
             Tweener.addTween(this, getTweenOpts({ x: x, y: y }));
@@ -290,7 +305,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _animateOpenOrClose: function(show, onComplete) {
-        let isTranslationAnimation = this[this._translationProp] !=0;
+        let isTranslationAnimation = this[this._translationProp] != 0;
         let tweenOpts = {
             opacity: show ? 255 : 0,
             transition: show ? 'easeInOutQuad' : 'easeInCubic',
@@ -341,11 +356,11 @@ var Preview = Utils.defineClass({
         this.add_actor(this._previewBin);
     },
 
-    assignWindow: function(window, immediate) {
+    assignWindow: function(window, animateSize, delay) {
         let clone = this._getWindowClone(window);
 
         this._resizeClone(clone);
-        this._addClone(clone, immediate);
+        this._addClone(clone, animateSize, delay);
     },
 
     animateOut: function() {
@@ -366,7 +381,7 @@ var Preview = Utils.defineClass({
         return [binWidth, binHeight];
     },
 
-    _addClone: function(newClone, immediate) {
+    _addClone: function(newClone, animateSize, delay) {
         let currentClones = this._previewBin.get_children();
         let newCloneOpts = getTweenOpts({ opacity: 255 });
         
@@ -390,13 +405,17 @@ var Preview = Utils.defineClass({
 
             currentClones.forEach(c => c.destroy());
             Tweener.addTween(currentClone, currentCloneOpts);
-        } else if (!immediate) {
+        } else if (animateSize) {
             if (this._checkIfLeftOrRight()) {
                 newClone.height = 0;
                 newCloneOpts.height = this.cloneHeight;
             } else {
                 newClone.width = 0;
                 newCloneOpts.width = this.cloneWidth;
+            }
+
+            if (delay) {
+                newCloneOpts.delay = newCloneOpts.time * .5; 
             }
         }
 
