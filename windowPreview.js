@@ -80,8 +80,6 @@ var PreviewMenu = Utils.defineClass({
         Main.layoutManager._trackActor(this, { affectsStruts: false, trackFullscreen: true });
         this._resetHiddenState();
 
-        this.set_style('background: ' + this._panelWrapper.dynamicTransparency.currentBackgroundColor );
-        
         this._signalsHandler.add(
             [
                 this,
@@ -118,6 +116,7 @@ var PreviewMenu = Utils.defineClass({
 
     open: function(appIcon) {
         if (this._currentAppIcon != appIcon) {
+            this.set_style('background: ' + this._panelWrapper.dynamicTransparency.currentBackgroundColor);
             let isHidden = this[this._translationProp] != 0;
 
             this._currentAppIcon = appIcon;
@@ -150,7 +149,10 @@ var PreviewMenu = Utils.defineClass({
                 if (currentPreviews[i] && windows[i] && windows[i] != currentPreviews[i].window) {
                     currentPreviews[i].assignWindow(windows[i]);
                 } else if (!currentPreviews[i]) {
-                    this._box.add_child(new Preview(this._panelWrapper, this, windows[i]));
+                    let preview = new Preview(this._panelWrapper, this);
+
+                    this._box.add_child(preview);
+                    preview.assignWindow(windows[i], immediate);
                 } else if (!windows[i]) {
                     currentPreviews[i][++ii > 3 || immediate ? 'destroy' : 'animateOut']();
                 }
@@ -194,16 +196,15 @@ var PreviewMenu = Utils.defineClass({
 
             switch (event.get_scroll_direction()) {
                 case Clutter.ScrollDirection.UP:
-                    delta = -increment;
+                        delta = -increment;
                     break;
                 case Clutter.ScrollDirection.DOWN:
-                    delta = +increment;
+                        delta = +increment;
                     break;
                 case Clutter.ScrollDirection.SMOOTH:
-                    let [dx, dy] = event.get_scroll_delta();
-
-                    delta = dy*increment;
-                    delta += dx*increment;
+                        let [dx, dy] = event.get_scroll_delta();
+                        delta = dy * increment;
+                        delta += dx * increment;
                     break;
             }
             
@@ -276,11 +277,11 @@ var PreviewMenu = Utils.defineClass({
                 let [width, height] = c.getSize();
 
                 if (isLeftOrRight) {
-                    previewsWidth = width;
+                    previewsWidth = Math.max(width, previewsWidth);
                     previewsHeight += height;
                 } else {
                     previewsWidth += width;
-                    previewsHeight = height;
+                    previewsHeight = Math.max(height, previewsHeight);
                 }
             }
         });
@@ -312,8 +313,13 @@ var Preview = Utils.defineClass({
     Name: 'DashToPanel.Preview',
     Extends: St.Widget,
 
-    _init: function(panelWrapper, previewMenu, window) {
-        this.callParent('_init', { style_class: 'preview-menu', reactive: true });
+    _init: function(panelWrapper, previewMenu) {
+        this.callParent('_init', { 
+            style_class: 'preview-menu', 
+            reactive: true, 
+            y_align: Clutter.ActorAlign.CENTER, 
+            x_align: Clutter.ActorAlign.CENTER 
+        });
 
         this._panelWrapper = panelWrapper;
         this._previewMenu = previewMenu;
@@ -333,18 +339,13 @@ var Preview = Utils.defineClass({
         this._previewBin.set_style('padding: ' + this._padding + 'px');
         this._resizeBin();
         this.add_actor(this._previewBin);
-
-        this.assignWindow(window);
     },
 
-    assignWindow: function(window) {
+    assignWindow: function(window, immediate) {
         let clone = this._getWindowClone(window);
 
         this._resizeClone(clone);
-        this._removeCurrentClone(clone);
-        this._previewBin.add_child(clone);
-        
-        Tweener.addTween(clone, getTweenOpts({ opacity: 255 }));
+        this._addClone(clone, immediate);
     },
 
     animateOut: function() {
@@ -358,30 +359,57 @@ var Preview = Utils.defineClass({
 
     getSize: function() {
         let [binWidth, binHeight] = this._getBinSize();
-        let currentClone = this._previewBin.get_last_child();
 
-        binWidth = Math.max(binWidth, currentClone.width + this._padding * 2);
-        binHeight = Math.max(binHeight, currentClone.height + this._padding * 2);
+        binWidth = Math.max(binWidth, this.cloneWidth + this._padding * 2);
+        binHeight = Math.max(binHeight, this.cloneHeight + this._padding * 2);
 
         return [binWidth, binHeight];
     },
 
-    _removeCurrentClone: function(newClone) {
-        this._previewBin.get_children().forEach(c =>{
-            Tweener.addTween(c, getTweenOpts({ 
-                opacity: 0,
-                width: newClone.width,
-                height: newClone.height,
-                onComplete: () => c.destroy() 
-            }));
-        });
+    _addClone: function(newClone, immediate) {
+        let currentClones = this._previewBin.get_children();
+        let newCloneOpts = getTweenOpts({ opacity: 255 });
+        
+        if (currentClones.length) {
+            let currentClone = currentClones.pop();
+            let currentCloneOpts = getTweenOpts({ opacity: 0, onComplete: () => currentClone.destroy() });
+
+            if (newClone.width > currentClone.width) {
+                newCloneOpts.width = newClone.width;
+                newClone.width = currentClone.width;
+            } else {
+                currentCloneOpts.width = newClone.width;
+            }
+
+            if (newClone.height > currentClone.height) {
+                newCloneOpts.height = newClone.height;
+                newClone.height = currentClone.height;
+            } else {
+                currentCloneOpts.height = newClone.height;
+            }
+
+            currentClones.forEach(c => c.destroy());
+            Tweener.addTween(currentClone, currentCloneOpts);
+        } else if (!immediate) {
+            if (this._checkIfLeftOrRight()) {
+                newClone.height = 0;
+                newCloneOpts.height = this.cloneHeight;
+            } else {
+                newClone.width = 0;
+                newCloneOpts.width = this.cloneWidth;
+            }
+        }
+
+        this._previewBin.add_child(newClone);
+        
+        Tweener.addTween(newClone, newCloneOpts);
     },
     
     _getWindowClone: function(window) {
         return new Clutter.Clone({ 
             source: window.get_compositor_private(), 
             reactive: true,
-            opacity: 60,
+            opacity: 0,
             y_align: Clutter.ActorAlign.CENTER, 
             x_align: Clutter.ActorAlign.CENTER
         });
@@ -417,7 +445,10 @@ var Preview = Utils.defineClass({
         
         ratio = ratio < 1 ? ratio : 1;
 
-        clone.set_size(Math.floor(width * ratio), Math.floor(height * ratio));
+        this.cloneWidth = Math.floor(width * ratio);
+        this.cloneHeight = Math.floor(height * ratio);
+
+        clone.set_size(this.cloneWidth, this.cloneHeight);
     },
 
     _getPreviewDimensions: function() {
