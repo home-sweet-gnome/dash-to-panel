@@ -20,7 +20,6 @@ const Clutter = imports.gi.Clutter;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
 
-const GrabHelper = imports.ui.grabHelper;
 const Layout = imports.ui.layout;
 const Main = imports.ui.main;
 const OverviewControls = imports.ui.overviewControls;
@@ -33,12 +32,10 @@ const Utils = Me.imports.utils;
 
 //timeout intervals
 const CHECK_POINTER_MS = 200;
-const CHECK_GRAB_MS = 400;
 const POST_ANIMATE_MS = 50; 
 const MIN_UPDATE_MS = 250;
 
 //timeout names
-const T1 = 'checkGrabTimeout';
 const T2 = 'limitUpdateTimeout';
 const T3 = 'postAnimateTimeout';
 
@@ -187,10 +184,12 @@ var Intellihide = Utils.defineClass({
             [
                 this._panelBox,
                 'notify::hover',
-                () => {
-                    this._hoveredOut = !this._panelBox.hover;
-                    this._queueUpdatePanelPosition();
-                }
+                () => this._onHoverChanged()
+            ],
+            [
+                this._dtpPanel.taskbar.previewMenu,
+                'notify::hover',
+                () => this._onHoverChanged()
             ],
             [
                 Main.overview,
@@ -201,6 +200,11 @@ var Intellihide = Utils.defineClass({
                 () => this._queueUpdatePanelPosition()
             ]
         );
+    },
+
+    _onHoverChanged: function() {
+        this._hoveredOut = !this._panelBox.hover && !this._dtpPanel.taskbar.previewMenu.hover;
+        this._queueUpdatePanelPosition();
     },
 
     _setTrackPanel: function(reset, enable) {
@@ -291,7 +295,7 @@ var Intellihide = Utils.defineClass({
     },
 
     _checkIfShouldBeVisible: function(fromRevealMechanism) {
-        if (Main.overview.visibleTarget || this._checkIfGrab() || this._panelBox.get_hover()) {
+        if (Main.overview.visibleTarget || this._dtpPanel.taskbar.previewMenu.get_hover() || this._panelBox.get_hover()) {
             return true;
         }
 
@@ -311,17 +315,6 @@ var Intellihide = Utils.defineClass({
         }
 
         return !this._windowOverlap;
-    },
-
-    _checkIfGrab: function() {
-        if (GrabHelper._grabHelperStack.some(gh => this._panelBox.contains(gh._owner))) {
-            //there currently is a grab on a child of the panel, check again soon to catch its release
-            this._timeoutsHandler.add([T1, CHECK_GRAB_MS, () => this._queueUpdatePanelPosition()]);
-
-            return true;
-        }
-
-        return false;
     },
 
     _revealPanel: function(immediate) {
