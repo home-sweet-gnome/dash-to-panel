@@ -41,10 +41,10 @@
 	padding-right: 8px;
 }
 
-/* #dashtopanelPreviewScrollview {
+#dashtopanelPreviewScrollview {
 	-st-hfade-offset: 24px;
 	-st-vfade-offset: 24px;
-} */
+}
 
 #dashtopanelScrollview .app-well-app:hover .overview-icon,
 #dashtopanelScrollview .app-well-app:focus .overview-icon {

@@ -33,27 +33,27 @@ const Utils = Me.imports.utils;
 const T1 = 'openMenuTimeout';
 const T2 = 'closeMenuTimeout';
 
-const MAX_TRANSITION_WINDOWS = 2;
+const HEADER_HEIGHT = 0;
 
 var PreviewMenu = Utils.defineClass({
     Name: 'DashToPanel.PreviewMenu',
     Extends: St.Widget,
 
     _init: function(dtpSettings, panelWrapper) {
-        this.callParent('_init', { name: 'preview-menu', layout_manager: new Clutter.BinLayout(), reactive: true, track_hover: true });
+        this.callParent('_init', { layout_manager: new Clutter.BinLayout() });
 
         this._dtpSettings = dtpSettings;
         this._panelWrapper = panelWrapper;
-
         this._currentAppIcon = null;
         this.opened = false;
         this._position = Taskbar.getPosition();
-        let isLeftOrRight = this._position == St.Side.LEFT || this._position == St.Side.RIGHT;
+        let isLeftOrRight = this._checkIfLeftOrRight();
         this._translationProp = 'translation_' + (isLeftOrRight ? 'x' : 'y');
-        this._translationOffset = Math.min(this._dtpSettings.get_int('panel-size'), 40) * (this._position == St.Side.TOP || this._position == St.Side.LEFT ? -1 : 1);
+        this._translationOffset = Math.min(this._dtpSettings.get_int('panel-size'), 40) * 
+                                  (this._position == St.Side.TOP || this._position == St.Side.LEFT ? -1 : 1);
 
-        this._box = new St.BoxLayout({ vertical: isLeftOrRight, clip_to_allocation: false });
-
+        this.menu = new St.Widget({ name: 'preview-menu', layout_manager: new Clutter.BinLayout(), reactive: true, track_hover: true });
+        this._box = new St.BoxLayout({ vertical: isLeftOrRight });
         this._scrollView = new St.ScrollView({
             name: 'dashtopanelPreviewScrollview',
             hscrollbar_policy: Gtk.PolicyType.NEVER,
@@ -62,7 +62,8 @@ var PreviewMenu = Utils.defineClass({
         });
 
         this._scrollView.add_actor(this._box);
-        this.add_child(this._scrollView);
+        this.menu.add_child(this._scrollView);
+        this.add_child(this.menu);
 
 
 
@@ -76,8 +77,6 @@ var PreviewMenu = Utils.defineClass({
 
         // add fixed size limitations
 
-        // adjust intellihide depending on grabs
-
         // move closing delay setting from "advanced"
 
         // this._titleWindowChangeId = this.window.connect('notify::title', 
@@ -89,12 +88,15 @@ var PreviewMenu = Utils.defineClass({
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
         Main.uiGroup.insert_child_below(this, this._panelWrapper.panelBox);
-        Main.layoutManager._trackActor(this, { affectsStruts: false, trackFullscreen: true });
+        Main.layoutManager._trackActor(this, { trackFullscreen: true, affectsInputRegion: false });
+        Main.layoutManager.trackChrome(this.menu, { affectsInputRegion: true });
+        
         this._resetHiddenState();
+        this._updateClip();
 
         this._signalsHandler.add(
             [
-                this,
+                this.menu,
                 'notify::hover',
                 () => this._onHoverChanged()
             ],
@@ -102,6 +104,15 @@ var PreviewMenu = Utils.defineClass({
                 this._scrollView,
                 'scroll-event', 
                 this._onScrollEvent.bind(this)
+            ],
+            [
+                this._dtpSettings,
+                [
+                    'changed::panel-size',
+                    'changed::window-preview-size',
+                    'changed::window-preview-padding'
+                ],
+                () => this._updateClip()
             ]
         );
     },
@@ -114,6 +125,8 @@ var PreviewMenu = Utils.defineClass({
 
         Main.layoutManager._untrackActor(this);
         Main.uiGroup.remove_child(this);
+
+        this.destroy();
     },
 
     requestOpen: function(appIcon) {
@@ -134,8 +147,8 @@ var PreviewMenu = Utils.defineClass({
             this._updatePosition();
 
             if (!this.opened) {
-                this.set_style('background: ' + this._panelWrapper.dynamicTransparency.currentBackgroundColor);
-                this.show();
+                this.menu.set_style('background: ' + this._panelWrapper.dynamicTransparency.currentBackgroundColor);
+                this.menu.show();
                 this.opened = true;
             }
             
@@ -159,19 +172,17 @@ var PreviewMenu = Utils.defineClass({
         
             let currentPreviews = this._box.get_children();
             let l = Math.max(windows.length, currentPreviews.length);
-            let added = 0;
-            let deleted = 0;
 
             for (let i = 0; i < l; ++i) {
                 if (currentPreviews[i] && windows[i] && windows[i] != currentPreviews[i].window) {
-                    currentPreviews[i].assignWindow(windows[i]);
+                    currentPreviews[i].assignWindow(windows[i], this.opened);
                 } else if (!currentPreviews[i]) {
                     let preview = new Preview(this._panelWrapper, this);
 
                     this._box.add_child(preview);
-                    preview.assignWindow(windows[i], this.opened, added++ > MAX_TRANSITION_WINDOWS);
+                    preview.assignWindow(windows[i], this.opened);
                 } else if (!windows[i]) {
-                    currentPreviews[i][deleted++ > MAX_TRANSITION_WINDOWS || !this.opened ? 'destroy' : 'animateOut']();
+                    currentPreviews[i][!this.opened ? 'destroy' : 'animateOut']();
                 }
             }
         }
@@ -200,23 +211,21 @@ var PreviewMenu = Utils.defineClass({
     _onHoverChanged: function() {
         this._endOpenCloseTimeouts();
 
-        if (!this.hover) {
+        if (!this.menu.hover) {
             this._addCloseTimeout();
         }
     },
 
     _onScrollEvent: function(actor, event) {
         if (!event.is_pointer_emulated()) {
-            let adjustment = this._scrollView.get_hscroll_bar().get_adjustment(); 
+            let vOrh = this._checkIfLeftOrRight() ? 'v' : 'h';
+            let adjustment = this._scrollView['get_' + vOrh + 'scroll_bar']().get_adjustment(); 
             let increment = adjustment.step_increment;
-            let delta;
+            let delta = increment;
 
             switch (event.get_scroll_direction()) {
                 case Clutter.ScrollDirection.UP:
                         delta = -increment;
-                    break;
-                case Clutter.ScrollDirection.DOWN:
-                        delta = +increment;
                     break;
                 case Clutter.ScrollDirection.SMOOTH:
                         let [dx, dy] = event.get_scroll_delta();
@@ -237,53 +246,73 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _resetHiddenState: function() {
-        this.hide();
+        this.menu.hide();
         this.opened = false;
-        this.opacity = 0;
-        this[this._translationProp] = this._translationOffset;
+        this.menu.opacity = 0;
+        this.menu[this._translationProp] = this._translationOffset;
         this._box.get_children().forEach(c => c.destroy());
     },
 
+    _updateClip: function() {
+        let x, y, w, h;
+        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        let panelSize = this._dtpSettings.get_int('panel-size');
+        let previewSize = this._dtpSettings.get_int('window-preview-size') + 
+                          this._dtpSettings.get_int('window-preview-padding') * 2;
+        
+        if (this._checkIfLeftOrRight()) {
+            w = previewSize * scaleFactor;
+            h = this._panelWrapper.monitor.height;
+            y = this._panelWrapper.monitor.y;
+        } else {
+            w = this._panelWrapper.monitor.width;
+            h = (previewSize + HEADER_HEIGHT) * scaleFactor;
+            x = this._panelWrapper.monitor.x;
+        }
+
+        if (this._position == St.Side.LEFT) {
+            x = this._panelWrapper.monitor.x + panelSize * scaleFactor;
+        } else if (this._position == St.Side.RIGHT) {
+            x = this._panelWrapper.monitor.x + this._panelWrapper.monitor.width - (panelSize + previewSize) * scaleFactor;
+        } else if (this._position == St.Side.TOP) {
+            y = this._panelWrapper.monitor.y + panelSize * scaleFactor;
+        } else { //St.Side.BOTTOM
+            y = this._panelWrapper.monitor.y + this._panelWrapper.monitor.height - (panelSize + previewSize + HEADER_HEIGHT) * scaleFactor;
+        }
+
+        this.set_clip(0, 0, w, h);
+        this.set_position(x, y);
+        this.set_size(w, h);
+    },
+
     _updatePosition: function() {
-        let monitorArea = Main.layoutManager.getWorkAreaForMonitor(this._panelWrapper.monitor.index);
         let sourceNode = this._currentAppIcon.actor.get_theme_node();
         let sourceContentBox = sourceNode.get_content_box(this._currentAppIcon.actor.get_allocation_box());
         let sourceAllocation = Shell.util_get_transformed_allocation(this._currentAppIcon.actor);
-        let isLeftOrRight = this._position == St.Side.LEFT || this._position == St.Side.RIGHT;
-        let [previewsWidth, previewsHeight] = this._getPreviewsSize(isLeftOrRight);
-        let x, y;
+        let [previewsWidth, previewsHeight] = this._getPreviewsSize();
+        let x = 0, y = 0;
 
-        previewsWidth = Math.min(previewsWidth, monitorArea.width);
-        previewsHeight = Math.min(previewsHeight, monitorArea.height);
+        previewsWidth = Math.min(previewsWidth, this._panelWrapper.monitor.width);
+        previewsHeight = Math.min(previewsHeight, this._panelWrapper.monitor.height);
         
-        if (this._position == St.Side.TOP || this._position == St.Side.BOTTOM) {
-            x = sourceAllocation.x1 + (sourceContentBox.x2 - sourceContentBox.x1 - previewsWidth) * .5 ;
-            x = Math.max(x, monitorArea.x);
-            x = Math.min(x, monitorArea.x + monitorArea.width - previewsWidth);
-        } else if (this._position == St.Side.LEFT) {
-            x = sourceAllocation.x2;
-        } else { //St.Side.RIGHT
-            x = sourceAllocation.x1 - previewsWidth;
-        }
-
-        if (isLeftOrRight) {
-            y = sourceAllocation.y1 + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
-            y = Math.max(y, monitorArea.y);
-            y = Math.min(y, monitorArea.y + monitorArea.height - previewsHeight);
-        } else if (this._position == St.Side.TOP) {
-            y = sourceAllocation.y2;
-        } else { //St.Side.BOTTOM
-            y = sourceAllocation.y1 - previewsHeight;
+        if (this._checkIfLeftOrRight()) {
+            y = sourceAllocation.y1 - this._panelWrapper.monitor.y + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
+            y = Math.max(y, 0);
+            y = Math.min(y, this._panelWrapper.monitor.height - previewsHeight);
+        } else {
+            x = sourceAllocation.x1 - this._panelWrapper.monitor.x + (sourceContentBox.x2 - sourceContentBox.x1 - previewsWidth) * .5;
+            x = Math.max(x, 0);
+            x = Math.min(x, this._panelWrapper.monitor.width - previewsWidth);
         }
 
         if (!this.opened) {
-            this.set_position(x, y);
+            this.menu.set_position(x, y);
         } else {
-            Tweener.addTween(this, getTweenOpts({ x: x, y: y }));
+            Tweener.addTween(this.menu, getTweenOpts({ x: x, y: y }));
         }
     },
 
-    _getPreviewsSize: function(isLeftOrRight) {
+    _getPreviewsSize: function() {
         let previewsWidth = 0;
         let previewsHeight = 0;
 
@@ -291,7 +320,7 @@ var PreviewMenu = Utils.defineClass({
             if (!c.animatingOut) {
                 let [width, height] = c.getSize();
 
-                if (isLeftOrRight) {
+                if (this._checkIfLeftOrRight()) {
                     previewsWidth = Math.max(width, previewsWidth);
                     previewsHeight += height;
                 } else {
@@ -305,7 +334,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _animateOpenOrClose: function(show, onComplete) {
-        let isTranslationAnimation = this[this._translationProp] != 0;
+        let isTranslationAnimation = this.menu[this._translationProp] != 0;
         let tweenOpts = {
             opacity: show ? 255 : 0,
             transition: show ? 'easeInOutQuad' : 'easeInCubic',
@@ -320,8 +349,12 @@ var PreviewMenu = Utils.defineClass({
 
         tweenOpts[this._translationProp] = show ? 0 : this._translationOffset;
 
-        Tweener.addTween(this, getTweenOpts(tweenOpts));
+        Tweener.addTween(this.menu, getTweenOpts(tweenOpts));
     },
+
+    _checkIfLeftOrRight: function() {
+        return this._position == St.Side.LEFT || this._position == St.Side.RIGHT; 
+    }
 });
 
 var Preview = Utils.defineClass({
@@ -330,10 +363,11 @@ var Preview = Utils.defineClass({
 
     _init: function(panelWrapper, previewMenu) {
         this.callParent('_init', { 
-            style_class: 'preview-menu', 
+            style_class: 'preview-container', 
             reactive: true, 
             y_align: Clutter.ActorAlign.CENTER, 
-            x_align: Clutter.ActorAlign.CENTER 
+            x_align: Clutter.ActorAlign.CENTER,
+            layout_manager: new Clutter.BoxLayout({ vertical: false })
         });
 
         this._panelWrapper = panelWrapper;
@@ -341,7 +375,7 @@ var Preview = Utils.defineClass({
         this._padding = previewMenu._dtpSettings.get_int('window-preview-padding');
         this.animatingOut = false;
 
-        this._titleBox = new St.BoxLayout({  });
+        this._titleBox = new St.BoxLayout({ height: HEADER_HEIGHT });
 
         this._windowTitle = new St.Label({ y_align: Clutter.ActorAlign.CENTER, style_class: 'preview-label' });
 
@@ -356,17 +390,17 @@ var Preview = Utils.defineClass({
         this.add_actor(this._previewBin);
     },
 
-    assignWindow: function(window, animateSize, delay) {
+    assignWindow: function(window, animateSize) {
         let clone = this._getWindowClone(window);
 
         this._resizeClone(clone);
-        this._addClone(clone, animateSize, delay);
+        this._addClone(clone, animateSize);
     },
 
     animateOut: function() {
         let tweenOpts = getTweenOpts({ opacity: 0, onComplete: () => this.destroy() });
 
-        tweenOpts[this._checkIfLeftOrRight() ? 'height' : 'width'] = 0;
+        tweenOpts[this._previewMenu._checkIfLeftOrRight() ? 'height' : 'width'] = 0;
         this.animatingOut = true;
 
         Tweener.addTween(this, tweenOpts);
@@ -381,7 +415,7 @@ var Preview = Utils.defineClass({
         return [binWidth, binHeight];
     },
 
-    _addClone: function(newClone, animateSize, delay) {
+    _addClone: function(newClone, animateSize) {
         let currentClones = this._previewBin.get_children();
         let newCloneOpts = getTweenOpts({ opacity: 255 });
         
@@ -406,16 +440,12 @@ var Preview = Utils.defineClass({
             currentClones.forEach(c => c.destroy());
             Tweener.addTween(currentClone, currentCloneOpts);
         } else if (animateSize) {
-            if (this._checkIfLeftOrRight()) {
+            if (this._previewMenu._checkIfLeftOrRight()) {
                 newClone.height = 0;
                 newCloneOpts.height = this.cloneHeight;
             } else {
                 newClone.width = 0;
                 newCloneOpts.width = this.cloneWidth;
-            }
-
-            if (delay) {
-                newCloneOpts.delay = newCloneOpts.time * .5; 
             }
         }
 
@@ -446,12 +476,10 @@ var Preview = Utils.defineClass({
         width += this._padding * 2;
         height += this._padding * 2;
 
-        if (!this._previewMenu._dtpSettings.get_boolean('window-preview-fixed-size')) {
-            if (this._checkIfLeftOrRight()) {
-                height = -1;
-            } else {
-                width = -1;
-            }
+        if (this._previewMenu._checkIfLeftOrRight()) {
+            height = -1;
+        } else {
+            width = -1;
         }
 
         return [width, height];
@@ -471,14 +499,17 @@ var Preview = Utils.defineClass({
     },
 
     _getPreviewDimensions: function() {
+        let size = this._previewMenu._dtpSettings.get_int('window-preview-size');
+        let w, h;
+
+        if (this._previewMenu._checkIfLeftOrRight()) {
+
+        }
+
         return [
             this._previewMenu._dtpSettings.get_int('window-preview-width'),
             this._previewMenu._dtpSettings.get_int('window-preview-height')
         ];
-    },
-
-    _checkIfLeftOrRight: function() {
-        return this._previewMenu._position == St.Side.LEFT || this._previewMenu._position == St.Side.RIGHT; 
     }
 });
 

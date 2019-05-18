@@ -410,10 +410,10 @@
       <summary>Display title in preview</summary>
       <description>Display window title in preview</description>
     </key>
-    <key type="b" name="window-preview-fixed-size">
-      <default>false</default>
-      <summary>Use previews fixed size</summary>
-      <description>Previews always have the same size or they scale to the aspect ratio of their window clone</description>
+    <key type="i" name="window-preview-size">
+      <default>200</default>
+      <summary>Window previews size</summary>
+      <description>Preferred window previews size</description>
     </key>
     <key type="i" name="window-preview-width">
       <default>350</default>
