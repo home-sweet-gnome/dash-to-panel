@@ -33,7 +33,9 @@ const Utils = Me.imports.utils;
 const T1 = 'openMenuTimeout';
 const T2 = 'closeMenuTimeout';
 
+const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 0;
+const DEFAULT_RATIO = { w: 160, h: 90 };
 
 var PreviewMenu = Utils.defineClass({
     Name: 'DashToPanel.PreviewMenu',
@@ -49,7 +51,7 @@ var PreviewMenu = Utils.defineClass({
         this._position = Taskbar.getPosition();
         let isLeftOrRight = this._checkIfLeftOrRight();
         this._translationProp = 'translation_' + (isLeftOrRight ? 'x' : 'y');
-        this._translationOffset = Math.min(this._dtpSettings.get_int('panel-size'), 40) * 
+        this._translationOffset = Math.min(this._dtpSettings.get_int('panel-size'), MAX_TRANSLATION) * 
                                   (this._position == St.Side.TOP || this._position == St.Side.LEFT ? -1 : 1);
 
         this.menu = new St.Widget({ name: 'preview-menu', layout_manager: new Clutter.BinLayout(), reactive: true, track_hover: true });
@@ -75,12 +77,14 @@ var PreviewMenu = Utils.defineClass({
         //'sync-tooltip'
         //this.add_style_class_name('app-well-menu');
 
-        // add fixed size limitations
+        // add middle click
 
         // move closing delay setting from "advanced"
 
         // this._titleWindowChangeId = this.window.connect('notify::title', 
         //                                         Lang.bind(this, this._updateWindowTitle));
+
+        // hook settings
     },
 
     enable: function() {
@@ -190,18 +194,6 @@ var PreviewMenu = Utils.defineClass({
 
     getCurrentAppIcon: function() {
         return this._currentAppIcon;
-    },
-
-    vfunc_get_preferred_width: function(forHeight) {
-        let [, width] = St.Widget.prototype.vfunc_get_preferred_width.call(this, forHeight);
-
-        return [0, Math.min(width, this._panelWrapper.monitor.width)];
-    },
-
-    vfunc_get_preferred_height: function(forWidth) {
-        let [, height] = St.Widget.prototype.vfunc_get_preferred_height.call(this, forWidth);
-        
-        return [0, Math.min(height, this._panelWrapper.monitor.height)];
     },
 
     _addCloseTimeout: function() {
@@ -372,7 +364,8 @@ var Preview = Utils.defineClass({
 
         this._panelWrapper = panelWrapper;
         this._previewMenu = previewMenu;
-        this._padding = previewMenu._dtpSettings.get_int('window-preview-padding');
+        this._padding = previewMenu._dtpSettings.get_int('window-preview-padding') * St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        this._previewDimensions = this._getPreviewDimensions();
         this.animatingOut = false;
 
         this._titleBox = new St.BoxLayout({ height: HEADER_HEIGHT });
@@ -386,7 +379,8 @@ var Preview = Utils.defineClass({
         this._previewBin = new St.Widget({ layout_manager: new Clutter.BinLayout() });
         
         this._previewBin.set_style('padding: ' + this._padding + 'px');
-        this._resizeBin();
+        this._previewBin.set_size.apply(this._previewBin, this._getBinSize());
+
         this.add_actor(this._previewBin);
     },
 
@@ -464,14 +458,8 @@ var Preview = Utils.defineClass({
         });
     },
 
-    _resizeBin: function() {
-        let [width, height] = this._getBinSize();
-
-        this._previewBin.set_size(width, height);
-    },
-
     _getBinSize: function() {
-        let [width, height] = this._getPreviewDimensions();
+        let [width, height] = this._previewDimensions;
 
         width += this._padding * 2;
         height += this._padding * 2;
@@ -487,7 +475,7 @@ var Preview = Utils.defineClass({
 
     _resizeClone: function(clone) {
         let [width, height] = clone.get_source().get_size();
-        let [maxWidth, maxHeight] = this._getPreviewDimensions();
+        let [maxWidth, maxHeight] = this._previewDimensions;
         let ratio = Math.min(maxWidth / width, maxHeight / height);
         
         ratio = ratio < 1 ? ratio : 1;
@@ -499,17 +487,18 @@ var Preview = Utils.defineClass({
     },
 
     _getPreviewDimensions: function() {
-        let size = this._previewMenu._dtpSettings.get_int('window-preview-size');
+        let size = this._previewMenu._dtpSettings.get_int('window-preview-size') * St.ThemeContext.get_for_stage(global.stage).scale_factor;
         let w, h;
 
         if (this._previewMenu._checkIfLeftOrRight()) {
-
+            w = Math.max(DEFAULT_RATIO.w, size);
+            h = w * DEFAULT_RATIO.h / DEFAULT_RATIO.w;
+        } else {
+            h = Math.max(DEFAULT_RATIO.h, size);
+            w = h * DEFAULT_RATIO.w / DEFAULT_RATIO.h;
         }
 
-        return [
-            this._previewMenu._dtpSettings.get_int('window-preview-width'),
-            this._previewMenu._dtpSettings.get_int('window-preview-height')
-        ];
+        return [w, h];
     }
 });
 

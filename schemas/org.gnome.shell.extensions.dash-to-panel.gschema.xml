@@ -411,7 +411,7 @@
       <description>Display window title in preview</description>
     </key>
     <key type="i" name="window-preview-size">
-      <default>200</default>
+      <default>240</default>
       <summary>Window previews size</summary>
       <description>Preferred window previews size</description>
     </key>
