@@ -21,6 +21,7 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
+const Clutter = imports.gi.Clutter;
 const GdkPixbuf = imports.gi.GdkPixbuf
 const Gi = imports._gi;
 const Gio = imports.gi.Gio;
@@ -319,6 +320,28 @@ var removeKeybinding = function(key) {
     if (Main.wm._allowedKeybindings[key]) {
         Main.wm.removeKeybinding(key);
     }
+};
+
+var getrgbaColor = function(color, alpha, offset) {
+    if (alpha <= 0) {
+        return 'transparent; ';
+    }
+
+    color = typeof color === 'string' ? Clutter.color_from_string(color)[1] : color;
+
+    let rgb = { red: color.red, green: color.green, blue: color.blue };
+
+    if (offset) {
+        ['red', 'green', 'blue'].forEach(k => {
+            rgb[k] = Math.min(255, Math.max(0, rgb[k] + offset));
+
+            if (rgb[k] == color[k]) {
+                rgb[k] = Math.min(255, Math.max(0, rgb[k] - offset));
+            }
+        });
+    }
+
+    return 'rgba(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + ',' + (Math.floor(alpha * 100) * 0.01) + '); ' ;
 };
  
 /**

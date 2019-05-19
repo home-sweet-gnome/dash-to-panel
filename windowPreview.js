@@ -39,6 +39,7 @@ const T2 = 'closeMenuTimeout';
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 40;
 const DEFAULT_RATIO = { w: 160, h: 90 };
+const HOVER_COLOR_OFFSET = 16;
 
 var headerHeight = 0;
 var isLeftButtons = false;
@@ -90,7 +91,7 @@ var PreviewMenu = Utils.defineClass({
         // this._titleWindowChangeId = this.window.connect('notify::title', 
         //                                         Lang.bind(this, this._updateWindowTitle));
 
-        // hook settings
+        // hook settings (animation time, size)
     },
 
     enable: function() {
@@ -171,6 +172,7 @@ var PreviewMenu = Utils.defineClass({
 
     close: function(immediate) {
         this._currentAppIcon = null;
+        this._endOpenCloseTimeouts();
 
         if (immediate) {
             this._resetHiddenState();
@@ -244,7 +246,7 @@ var PreviewMenu = Utils.defineClass({
     _onHoverChanged: function() {
         this._endOpenCloseTimeouts();
 
-        if (!this.menu.hover) {
+        if (this._currentAppIcon && !this.menu.hover) {
             this._addCloseTimeout();
         }
     },
@@ -424,8 +426,7 @@ var Preview = Utils.defineClass({
             x_expand: true, y_expand: true, 
             x_align: Clutter.ActorAlign[isLeftButtons ? 'START' : 'END'], 
             y_align: Clutter.ActorAlign.START,
-            style: 'padding: 4px; border-radius: 0 0 4px 4px;' +
-                   'background-color:' + panelWrapper.dynamicTransparency.currentBackgroundColor
+            style: 'padding: 4px; border-radius: ' + (isLeftButtons ? '0 0 4px 0;' : '0 0 0 4px;') + this._getBackgroundColor(true)
         })
 
         this._closeButtonBin.add_child(closeButton);
@@ -448,6 +449,9 @@ var Preview = Utils.defineClass({
         closeButton.connect('clicked', () => this._onCloseBtnClick());
         this.connect('notify::hover', () => this._onHoverChanged());
         this.connect('button-release-event', (actor, e) => this._onButtonReleaseEvent(e));
+
+        this.connect('key-focus-in', () => this._onKeyFocusChanged());
+        this.connect('key-focus-out', () => this._onKeyFocusChanged());
 
         this.add_actor(this._previewBin);
         this.add_child(this._closeButtonBin);
@@ -480,17 +484,23 @@ var Preview = Utils.defineClass({
     },
 
     _onHoverChanged: function() {
-        Tweener.addTween(this._closeButtonBin, getTweenOpts({ opacity: this.hover ? 255 : 0 }));
+        this._setFocus(this.hover);
+    },
+
+    _onKeyFocusChanged: function() {
+        this._setFocus(this.has_key_focus());
     },
 
     _onCloseBtnClick: function() {
         this.window.delete(global.get_current_time());
+        this._hideOrShowCloseButton(true);
     },
 
     _onButtonReleaseEvent: function(e) {
         switch (e.get_button()) {
             case 1: // Left click
                 Main.activateWindow(this.window);
+                this._hideOrShowCloseButton(true);
                 this._previewMenu.close();
                 break;
             case 2: // Middle click
@@ -501,6 +511,25 @@ var Preview = Utils.defineClass({
         }
 
         return Clutter.EVENT_STOP;
+    },
+
+    _setFocus: function(focused) {
+        this._hideOrShowCloseButton(!focused);
+        this.set_style(this._getBackgroundColor(focused));
+    },
+
+    _hideOrShowCloseButton: function(hide) {
+        Tweener.addTween(this._closeButtonBin, getTweenOpts({ opacity: hide ? 0 : 255 }));
+    },
+
+    _getBackgroundColor: function(focused) {
+        return 'background-color: ' +
+                Utils.getrgbaColor(
+                    this._panelWrapper.dynamicTransparency.backgroundColorRgb, 
+                    focused ? this._panelWrapper.dynamicTransparency.alpha : 0,
+                    HOVER_COLOR_OFFSET
+                ) +
+                'transition-duration:' + this._panelWrapper.dynamicTransparency.animationDuration;
     },
 
     _addClone: function(newClone, animateSize) {
@@ -598,7 +627,7 @@ var Preview = Utils.defineClass({
 
 function getTweenOpts(opts) {
     let defaults = {
-        time: Taskbar.DASH_ANIMATION_TIME * 2,
+        time: Taskbar.DASH_ANIMATION_TIME * 1.5,
         transition: 'easeInOutQuad'
     };
 
