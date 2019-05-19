@@ -864,7 +864,7 @@ var taskbarAppIcon = Utils.defineClass({
                 this.actor.add_style_class_name(className);
         }
 
-        this._previewMenu.updateWindows(this, windows);
+        this._previewMenu.update(this, windows);
     },
 
     _getRunningIndicatorCount: function() {

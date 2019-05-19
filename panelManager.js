@@ -385,7 +385,7 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     _newGetShowAppsButton: function() {
-        let focusedMonitorIndex = Taskbar.findIndex(this.allPanels, p => this.checkIfFocusedMonitor(p.monitor));
+        let focusedMonitorIndex = Utils.findIndex(this.allPanels, p => this.checkIfFocusedMonitor(p.monitor));
         
         return this.allPanels[focusedMonitorIndex].taskbar.showAppsButton;
     },

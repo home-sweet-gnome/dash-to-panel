@@ -84,21 +84,6 @@ function extendDashItemContainer(dashItemContainer) {
  * - modified chldBox calculations for when 'show-apps-at-top' option is checked
  * - handle horizontal dash
  */
-
-function findIndex(array, predicate) {
-    if (Array.prototype.findIndex) {
-        return array.findIndex(predicate);
-    }
-
-    for (let i = 0, l = array.length; i < l; ++i) {
-        if (predicate(array[i])) {
-            return i;
-        }
-    }
-
-    return -1;
-};
-
 var taskbarActor = Utils.defineClass({
     Name: 'DashToPanel-TaskbarActor',
     Extends: St.Widget,
@@ -766,10 +751,6 @@ var taskbar = Utils.defineClass({
                getAppStableSequence(appB, this._dtpSettings, this.panelWrapper.monitor);
     },
 
-    sortWindowsCompareFunction: function(windowA, windowB) {
-        return getWindowStableSequence(windowA) - getWindowStableSequence(windowB);
-    },
-
     _redisplay: function () {
         if (!this._signalsHandler) {
             return;
@@ -798,8 +779,8 @@ var taskbar = Utils.defineClass({
         //remove the appIcons which are not in the expected apps list
         for (let i = currentAppIcons.length - 1; i > -1; --i) {
             let appIcon = currentAppIcons[i].child._delegate;
-            let appIndex = findIndex(expectedAppInfos, appInfo => appInfo.app == appIcon.app &&
-                                                                  appInfo.isLauncher == appIcon.isLauncher);
+            let appIndex = Utils.findIndex(expectedAppInfos, appInfo => appInfo.app == appIcon.app &&
+                                                                        appInfo.isLauncher == appIcon.isLauncher);
 
             if (appIndex < 0 || 
                 (appIcon.window && (this.isGroupApps || expectedAppInfos[appIndex].windows.indexOf(appIcon.window) < 0)) ||
@@ -819,8 +800,8 @@ var taskbar = Utils.defineClass({
                                  
             for (let j = 0, ll = neededAppIcons.length; j < ll; ++j) {
                 //check if the icon already exists
-                let matchingAppIconIndex = findIndex(currentAppIcons, appIcon => appIcon.child._delegate.app == neededAppIcons[j].app && 
-                                                                                 appIcon.child._delegate.window == neededAppIcons[j].window);
+                let matchingAppIconIndex = Utils.findIndex(currentAppIcons, appIcon => appIcon.child._delegate.app == neededAppIcons[j].app && 
+                                                                                       appIcon.child._delegate.window == neededAppIcons[j].window);
 
                 if (matchingAppIconIndex > 0 && matchingAppIconIndex != currentPosition) {
                     //moved icon, reposition it
@@ -885,7 +866,7 @@ var taskbar = Utils.defineClass({
             app: app, 
             isLauncher: defaultIsLauncher || false,
             windows: defaultWindows || AppIcons.getInterestingWindows(app, this._dtpSettings, this.panelWrapper.monitor)
-                                               .sort(this.sortWindowsCompareFunction)
+                                               .sort(sortWindowsCompareFunction)
         }));
     },
 
@@ -964,9 +945,9 @@ var taskbar = Utils.defineClass({
 
         let currentAppIcons = this._getAppIcons();
         let sourceIndex = currentAppIcons.indexOf(source);
-        let hoveredIndex = findIndex(currentAppIcons, 
-                                     appIcon => x >= appIcon._dashItemContainer.x && 
-                                                x <= (appIcon._dashItemContainer.x + appIcon._dashItemContainer.width));
+        let hoveredIndex = Utils.findIndex(currentAppIcons, 
+                                           appIcon => x >= appIcon._dashItemContainer.x && 
+                                                      x <= (appIcon._dashItemContainer.x + appIcon._dashItemContainer.width));
         
         if (!this._dragInfo) {
             this._dragInfo = [sourceIndex, source];
@@ -1237,6 +1218,10 @@ function getAppStableSequence(app, settings, monitor) {
     return windows.reduce((prevWindow, window) => {
         return Math.min(prevWindow, getWindowStableSequence(window));
     }, Infinity);
+}
+
+function sortWindowsCompareFunction(windowA, windowB) {
+    return getWindowStableSequence(windowA) - getWindowStableSequence(windowB);
 }
 
 function getWindowStableSequence(window) {

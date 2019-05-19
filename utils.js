@@ -270,6 +270,20 @@ var DisplayWrapper = {
     }
 };
 
+var findIndex = function(array, predicate) {
+    if (Array.prototype.findIndex) {
+        return array.findIndex(predicate);
+    }
+
+    for (let i = 0, l = array.length; i < l; ++i) {
+        if (predicate(array[i])) {
+            return i;
+        }
+    }
+
+    return -1;
+};
+
 var mergeObjects = function(main, bck) {
     for (var prop in bck) {
         if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
