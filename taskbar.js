@@ -544,12 +544,10 @@ var taskbar = Utils.defineClass({
             appIcon._draggable.connect('drag-begin',
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 50;
-                                           this._disableWindowPreview();
                                        }));
             appIcon._draggable.connect('drag-end',
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 255;
-                                           this._enableWindowPreview();
                                        }));
         }
 
@@ -605,14 +603,6 @@ var taskbar = Utils.defineClass({
         this._hookUpLabel(item, appIcon);
 
         return item;
-    },
-
-    _enableWindowPreview: function() {
-        this.previewMenu.enable();
-    },
-
-    _disableWindowPreview: function() {
-        this.previewMenu.disable();
     },
 
     // Return an array with the "proper" appIcons currently in the taskbar

@@ -258,12 +258,12 @@ var PreviewMenu = Utils.defineClass({
 
             switch (event.get_scroll_direction()) {
                 case Clutter.ScrollDirection.UP:
-                        delta = -increment;
+                    delta = -increment;
                     break;
                 case Clutter.ScrollDirection.SMOOTH:
-                        let [dx, dy] = event.get_scroll_delta();
-                        delta = dy * increment;
-                        delta += dx * increment;
+                    let [dx, dy] = event.get_scroll_delta();
+                    delta = dy * increment;
+                    delta += dx * increment;
                     break;
             }
             
@@ -447,6 +447,7 @@ var Preview = Utils.defineClass({
 
         closeButton.connect('clicked', () => this._onCloseBtnClick());
         this.connect('notify::hover', () => this._onHoverChanged());
+        this.connect('button-release-event', (actor, e) => this._onButtonReleaseEvent(e));
 
         this.add_actor(this._previewBin);
         this.add_child(this._closeButtonBin);
@@ -484,6 +485,22 @@ var Preview = Utils.defineClass({
 
     _onCloseBtnClick: function() {
         this.window.delete(global.get_current_time());
+    },
+
+    _onButtonReleaseEvent: function(e) {
+        switch (e.get_button()) {
+            case 1: // Left click
+                Main.activateWindow(this.window);
+                this._previewMenu.close();
+                break;
+            case 2: // Middle click
+                if (this._previewMenu._dtpSettings.get_boolean('preview-middle-click-close')) {
+                    this._onCloseBtnClick();
+                }
+                break;
+        }
+
+        return Clutter.EVENT_STOP;
     },
 
     _addClone: function(newClone, animateSize) {
