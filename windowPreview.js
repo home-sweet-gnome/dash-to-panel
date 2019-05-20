@@ -37,9 +37,10 @@ const T1 = 'openMenuTimeout';
 const T2 = 'closeMenuTimeout';
 
 const MAX_TRANSLATION = 40;
-const HEADER_HEIGHT = 40;
+const HEADER_HEIGHT = 38;
 const DEFAULT_RATIO = { w: 160, h: 90 };
-const HOVER_COLOR_OFFSET = 16;
+const FOCUSED_COLOR_OFFSET = 24;
+const HEADER_COLOR_OFFSET = -12;
 
 var headerHeight = 0;
 var isLeftButtons = false;
@@ -53,7 +54,7 @@ var PreviewMenu = Utils.defineClass({
 
         this._dtpSettings = dtpSettings;
         this._panelWrapper = panelWrapper;
-        this._currentAppIcon = null;
+        this.currentAppIcon = null;
         this.opened = false;
         this._position = Taskbar.getPosition();
         let isLeftOrRight = this._checkIfLeftOrRight();
@@ -84,14 +85,11 @@ var PreviewMenu = Utils.defineClass({
         //'sync-tooltip'
         //this.add_style_class_name('app-well-menu');
 
-        // add middle click
+        //peek
 
         // move closing delay setting from "advanced"
 
-        // this._titleWindowChangeId = this.window.connect('notify::title', 
-        //                                         Lang.bind(this, this._updateWindowTitle));
-
-        // hook settings (animation time, size)
+        // hook settings (animation time, size, label color)
     },
 
     enable: function() {
@@ -122,9 +120,13 @@ var PreviewMenu = Utils.defineClass({
                 [
                     'changed::panel-size',
                     'changed::window-preview-size',
-                    'changed::window-preview-padding'
+                    'changed::window-preview-padding',
+                    'changed::window-preview-show-title'
                 ],
-                () => this._updateClip()
+                () => {
+                    this._refreshGlobals();
+                    this._updateClip();
+                }
             ]
         );
     },
@@ -152,8 +154,8 @@ var PreviewMenu = Utils.defineClass({
     },
 
     open: function(appIcon) {
-        if (this._currentAppIcon != appIcon) {
-            this._currentAppIcon = appIcon;
+        if (this.currentAppIcon != appIcon) {
+            this.currentAppIcon = appIcon;
 
             if (!this.opened) {
                 this.menu.set_style('background: ' + this._panelWrapper.dynamicTransparency.currentBackgroundColor);
@@ -171,7 +173,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     close: function(immediate) {
-        this._currentAppIcon = null;
+        this.currentAppIcon = null;
         this._endOpenCloseTimeouts();
 
         if (immediate) {
@@ -182,7 +184,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     update: function(appIcon, windows) {
-        if (this._currentAppIcon == appIcon) {
+        if (this.currentAppIcon == appIcon) {
             if (windows && !windows.length) {
                 this.close();
             } else {
@@ -232,11 +234,12 @@ var PreviewMenu = Utils.defineClass({
         let preview = new Preview(this._panelWrapper, this);
 
         this._box.add_child(preview);
+        preview.adjustOnStage();
         preview.assignWindow(window, this.opened);
     },
 
     getCurrentAppIcon: function() {
-        return this._currentAppIcon;
+        return this.currentAppIcon;
     },
 
     _addCloseTimeout: function() {
@@ -246,7 +249,7 @@ var PreviewMenu = Utils.defineClass({
     _onHoverChanged: function() {
         this._endOpenCloseTimeouts();
 
-        if (this._currentAppIcon && !this.menu.hover) {
+        if (this.currentAppIcon && !this.menu.hover) {
             this._addCloseTimeout();
         }
     },
@@ -326,9 +329,9 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _updatePosition: function() {
-        let sourceNode = this._currentAppIcon.actor.get_theme_node();
-        let sourceContentBox = sourceNode.get_content_box(this._currentAppIcon.actor.get_allocation_box());
-        let sourceAllocation = Shell.util_get_transformed_allocation(this._currentAppIcon.actor);
+        let sourceNode = this.currentAppIcon.actor.get_theme_node();
+        let sourceContentBox = sourceNode.get_content_box(this.currentAppIcon.actor.get_allocation_box());
+        let sourceAllocation = Shell.util_get_transformed_allocation(this.currentAppIcon.actor);
         let [previewsWidth, previewsHeight] = this._getPreviewsSize();
         let x = 0, y = 0;
 
@@ -415,36 +418,47 @@ var Preview = Utils.defineClass({
         this._previewDimensions = this._getPreviewDimensions();
         this.animatingOut = false;
 
+        let [previewBinWidth, previewBinHeight] = this._getBinSize();
         this._previewBin = new St.Widget({ layout_manager: new Clutter.BinLayout() });
         this._previewBin.set_style('padding: ' + this._padding + 'px;');
-        this._previewBin.set_size.apply(this._previewBin, this._getBinSize());
+        this._previewBin.set_size(previewBinWidth, previewBinHeight);
 
         let closeButton = new St.Button({ style_class: 'window-close', accessible_name: 'Close window' });
-        this._closeButtonBin = new St.Widget({ 
-            layout_manager: new Clutter.BinLayout(), 
-            opacity: 0, 
-            x_expand: true, y_expand: true, 
-            x_align: Clutter.ActorAlign[isLeftButtons ? 'START' : 'END'], 
-            y_align: Clutter.ActorAlign.START,
-            style: 'padding: 4px; border-radius: ' + (isLeftButtons ? '0 0 4px 0;' : '0 0 0 4px;') + this._getBackgroundColor(true)
-        })
-
-        this._closeButtonBin.add_child(closeButton);
 
         if (Config.PACKAGE_VERSION >= '3.31.9') {
             closeButton.add_actor(new St.Icon({ icon_name: 'window-close-symbolic' }));
         }
 
-        // if (headerHeight) {
-        //     this._titleBox = new St.BoxLayout({ height: headerHeight });
+        this._closeButtonBin = new St.Widget({ 
+            layout_manager: new Clutter.BinLayout(), 
+            opacity: 0, 
+            x_expand: true, y_expand: true, 
+            x_align: Clutter.ActorAlign[isLeftButtons ? 'START' : 'END'], 
+            y_align: Clutter.ActorAlign.START
+        })
 
-        //     this._windowTitle = new St.Label({ y_align: Clutter.ActorAlign.CENTER, style_class: 'preview-label' });
+        this._closeButtonBin.add_child(closeButton);
+
+        if (headerHeight) {
+            let headerBox = new St.Widget({ 
+                layout_manager: new Clutter.BoxLayout(), 
+                y_align: Clutter.ActorAlign.START, 
+                y_expand: true, 
+                style: this._getBackgroundColor(HEADER_COLOR_OFFSET, 255) 
+            });
+            
+            this._windowTitle = new St.Label({ y_align: Clutter.ActorAlign.CENTER, x_expand: true });
+
+            this._iconBin = new St.Widget({ layout_manager: new Clutter.BinLayout() });
+            this._iconBin.set_size(headerHeight, headerHeight);
     
-        //     this._titleBox.add_child(this._windowTitle);
-        //     this.add_actor(this._titleBox);
-        // }
+            headerBox.add_child(this._iconBin);
+            headerBox.insert_child_at_index(this._windowTitle, isLeftButtons ? 0 : 1);
 
-        //this.set_size
+            this.add_child(headerBox);
+            
+            this._previewBin.set_position(0, headerHeight);
+        }
 
         closeButton.connect('clicked', () => this._onCloseBtnClick());
         this.connect('notify::hover', () => this._onHoverChanged());
@@ -453,14 +467,31 @@ var Preview = Utils.defineClass({
         this.connect('key-focus-in', () => this._onKeyFocusChanged());
         this.connect('key-focus-out', () => this._onKeyFocusChanged());
 
-        this.add_actor(this._previewBin);
+        this.connect('destroy', () => this._onDestroy());
+
+        this.add_child(this._previewBin);
         this.add_child(this._closeButtonBin);
+
+        this.set_size(-1, previewBinHeight + headerHeight);
+    },
+
+    adjustOnStage: function() {
+        let closeButtonPadding = headerHeight ? Math.round((headerHeight - this._closeButtonBin.height) * .5) : 4;
+        
+        this._closeButtonBin.set_style(
+            'padding: ' + closeButtonPadding + 'px; ' + 
+            this._getBackgroundColor(HEADER_COLOR_OFFSET, headerHeight ? 255 : '-') +
+            'border-radius: ' + (isLeftButtons ? '0 0 4px 0;' : '0 0 0 4px;') 
+        );
     },
 
     assignWindow: function(window, animateSize) {
         let clone = this._getWindowClone(window);
 
+        this._removeWindowSignals();
         this.window = window;
+        
+        this._updateHeader();
         this._resizeClone(clone);
         this._addClone(clone, animateSize);
     },
@@ -483,6 +514,10 @@ var Preview = Utils.defineClass({
         return [binWidth, binHeight];
     },
 
+    _onDestroy: function() {
+        this._removeWindowSignals();
+    },
+
     _onHoverChanged: function() {
         this._setFocus(this.hover);
     },
@@ -494,6 +529,10 @@ var Preview = Utils.defineClass({
     _onCloseBtnClick: function() {
         this.window.delete(global.get_current_time());
         this._hideOrShowCloseButton(true);
+
+        if (!this._previewMenu._dtpSettings.get_boolean('group-apps')) {
+            this._previewMenu.close();
+        }
     },
 
     _onButtonReleaseEvent: function(e) {
@@ -513,21 +552,59 @@ var Preview = Utils.defineClass({
         return Clutter.EVENT_STOP;
     },
 
+    _removeWindowSignals: function() {
+        if (this._titleWindowChangeId) {
+            this.window.disconnect(this._titleWindowChangeId);
+            this._titleWindowChangeId = 0;
+        }
+    },
+
+    _updateHeader: function() {
+        if (headerHeight) {
+            let icon = this._previewMenu.getCurrentAppIcon().app.create_icon_texture(headerHeight * .6);
+            let windowTitleStyle = 'max-width: 0px;';
+            
+            this._iconBin.destroy_all_children();
+            this._iconBin.add_child(icon);
+
+            if (isLeftButtons) {
+                windowTitleStyle += 'padding-left:' + (headerHeight - icon.width) * .5 + 'px;';
+            }
+
+            this._titleWindowChangeId = this.window.connect('notify::title', () => this._updateWindowTitle());
+
+            this._windowTitle.set_style(windowTitleStyle);
+            this._updateWindowTitle();
+        }
+    },
+
+    _updateWindowTitle: function() {
+        this._windowTitle.text = (!this._previewMenu._dtpSettings.get_boolean('isolate-workspaces') ? 
+                                  '[' + this.window.get_workspace().index() + '] ' : '') + 
+                                 this.window.title;
+    },
+
     _setFocus: function(focused) {
         this._hideOrShowCloseButton(!focused);
-        this.set_style(this._getBackgroundColor(focused));
+        this.set_style(this._getBackgroundColor(FOCUSED_COLOR_OFFSET, focused ? '-' : 0));
     },
 
     _hideOrShowCloseButton: function(hide) {
         Tweener.addTween(this._closeButtonBin, getTweenOpts({ opacity: hide ? 0 : 255 }));
     },
 
-    _getBackgroundColor: function(focused) {
+    _getBackgroundColor: function(offset, alpha) {
+        alpha = Math.abs(alpha);
+
+        if (isNaN(alpha)) {
+            alpha = this._panelWrapper.dynamicTransparency.alpha;
+        }
+
         return 'background-color: ' +
                 Utils.getrgbaColor(
                     this._panelWrapper.dynamicTransparency.backgroundColorRgb, 
-                    focused ? this._panelWrapper.dynamicTransparency.alpha : 0,
-                    HOVER_COLOR_OFFSET
+                    alpha,
+                    offset
                 ) +
                 'transition-duration:' + this._panelWrapper.dynamicTransparency.animationDuration;
     },

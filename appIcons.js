@@ -541,6 +541,8 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _onSwitchWorkspace: function(windowTracker) {
+        this._previewMenu.close();
+        
         Mainloop.timeout_add(0, Lang.bind(this, function () {
              this._displayProperIndicator();
              return GLib.SOURCE_REMOVE;
