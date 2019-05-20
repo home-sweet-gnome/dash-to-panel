@@ -55,6 +55,7 @@ var PreviewMenu = Utils.defineClass({
         this._dtpSettings = dtpSettings;
         this._panelWrapper = panelWrapper;
         this.currentAppIcon = null;
+        this._focusedPreview = null;
         this.opened = false;
         this._position = Taskbar.getPosition();
         let isLeftOrRight = this._checkIfLeftOrRight();
@@ -96,13 +97,13 @@ var PreviewMenu = Utils.defineClass({
         this._timeoutsHandler = new Utils.TimeoutsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
-        Main.uiGroup.insert_child_below(this, this._panelWrapper.panelBox);
-        Main.layoutManager._trackActor(this, { trackFullscreen: true, affectsInputRegion: false });
+        Main.layoutManager.addChrome(this, { trackFullscreen: true, affectsInputRegion: false });
         Main.layoutManager.trackChrome(this.menu, { affectsInputRegion: true });
         
         this._resetHiddenState();
         this._refreshGlobals();
         this._updateClip();
+        this.menu.set_position(1, 1);
 
         this._signalsHandler.add(
             [
@@ -174,6 +175,7 @@ var PreviewMenu = Utils.defineClass({
 
     close: function(immediate) {
         this.currentAppIcon = null;
+        this.removeFocus();
         this._endOpenCloseTimeouts();
 
         if (immediate) {
@@ -191,6 +193,33 @@ var PreviewMenu = Utils.defineClass({
                 this._addAndRemoveWindows(windows);
                 this._updatePosition();
             }
+        }
+    },
+
+    focusNext: function() {
+        let previews = this._box.get_children();
+        let currentIndex = this._focusedPreview ? previews.indexOf(this._focusedPreview) : -1;
+        let nextIndex = currentIndex + 1;
+        
+        nextIndex = previews[nextIndex] ? nextIndex : 0;
+
+        this.removeFocus();
+        previews[nextIndex].setFocus(true);
+        this._focusedPreview = previews[nextIndex];
+
+        return nextIndex;
+    },
+
+    activateFocused: function() {
+        if (this.opened && this._focusedPreview) {
+            this._focusedPreview.activate();
+        }
+    },
+
+    removeFocus: function() {
+        if (this._focusedPreview) {
+            this._focusedPreview.setFocus(false);
+            this._focusedPreview = null;
         }
     },
 
@@ -444,7 +473,7 @@ var Preview = Utils.defineClass({
                 layout_manager: new Clutter.BoxLayout(), 
                 y_align: Clutter.ActorAlign.START, 
                 y_expand: true, 
-                style: this._getBackgroundColor(HEADER_COLOR_OFFSET, 255) 
+                style: this._getBackgroundColor(HEADER_COLOR_OFFSET, .8) 
             });
             
             this._windowTitle = new St.Label({ y_align: Clutter.ActorAlign.CENTER, x_expand: true });
@@ -464,9 +493,6 @@ var Preview = Utils.defineClass({
         this.connect('notify::hover', () => this._onHoverChanged());
         this.connect('button-release-event', (actor, e) => this._onButtonReleaseEvent(e));
 
-        this.connect('key-focus-in', () => this._onKeyFocusChanged());
-        this.connect('key-focus-out', () => this._onKeyFocusChanged());
-
         this.connect('destroy', () => this._onDestroy());
 
         this.add_child(this._previewBin);
@@ -477,11 +503,16 @@ var Preview = Utils.defineClass({
 
     adjustOnStage: function() {
         let closeButtonPadding = headerHeight ? Math.round((headerHeight - this._closeButtonBin.height) * .5) : 4;
-        
+        let closeButtonBorderRadius = '';
+
+        if (!headerHeight) {
+            closeButtonBorderRadius = 'border-radius: ' + (isLeftButtons ? '0 0 4px 0;' : '0 0 0 4px;');
+        }
+
         this._closeButtonBin.set_style(
             'padding: ' + closeButtonPadding + 'px; ' + 
-            this._getBackgroundColor(HEADER_COLOR_OFFSET, headerHeight ? 255 : '-') +
-            'border-radius: ' + (isLeftButtons ? '0 0 4px 0;' : '0 0 0 4px;') 
+            this._getBackgroundColor(HEADER_COLOR_OFFSET, .8) +
+            closeButtonBorderRadius
         );
     },
 
@@ -514,16 +545,23 @@ var Preview = Utils.defineClass({
         return [binWidth, binHeight];
     },
 
+    setFocus: function(focused) {
+        this._hideOrShowCloseButton(!focused);
+        this.set_style(this._getBackgroundColor(FOCUSED_COLOR_OFFSET, focused ? '-' : 0));
+    },
+
+    activate: function() {
+        Main.activateWindow(this.window);
+        this._hideOrShowCloseButton(true);
+        this._previewMenu.close();
+    },
+
     _onDestroy: function() {
         this._removeWindowSignals();
     },
 
     _onHoverChanged: function() {
-        this._setFocus(this.hover);
-    },
-
-    _onKeyFocusChanged: function() {
-        this._setFocus(this.has_key_focus());
+        this.setFocus(this.hover);
     },
 
     _onCloseBtnClick: function() {
@@ -538,9 +576,7 @@ var Preview = Utils.defineClass({
     _onButtonReleaseEvent: function(e) {
         switch (e.get_button()) {
             case 1: // Left click
-                Main.activateWindow(this.window);
-                this._hideOrShowCloseButton(true);
-                this._previewMenu.close();
+                this.activate();
                 break;
             case 2: // Middle click
                 if (this._previewMenu._dtpSettings.get_boolean('preview-middle-click-close')) {
@@ -582,11 +618,6 @@ var Preview = Utils.defineClass({
         this._windowTitle.text = (!this._previewMenu._dtpSettings.get_boolean('isolate-workspaces') ? 
                                   '[' + this.window.get_workspace().index() + '] ' : '') + 
                                  this.window.title;
-    },
-
-    _setFocus: function(focused) {
-        this._hideOrShowCloseButton(!focused);
-        this.set_style(this._getBackgroundColor(FOCUSED_COLOR_OFFSET, focused ? '-' : 0));
     },
 
     _hideOrShowCloseButton: function(hide) {
