@@ -476,13 +476,15 @@ var Preview = Utils.defineClass({
                 style: this._getBackgroundColor(HEADER_COLOR_OFFSET, .8) 
             });
             
+            this._workspaceIndicator = new St.Label({ y_align: Clutter.ActorAlign.CENTER });
             this._windowTitle = new St.Label({ y_align: Clutter.ActorAlign.CENTER, x_expand: true });
 
             this._iconBin = new St.Widget({ layout_manager: new Clutter.BinLayout() });
             this._iconBin.set_size(headerHeight, headerHeight);
     
             headerBox.add_child(this._iconBin);
-            headerBox.insert_child_at_index(this._windowTitle, isLeftButtons ? 0 : 1);
+            headerBox.insert_child_at_index(this._workspaceIndicator, isLeftButtons ? 0 : 1);
+            headerBox.insert_child_at_index(this._windowTitle, isLeftButtons ? 1 : 2);
 
             this.add_child(headerBox);
             
@@ -600,6 +602,7 @@ var Preview = Utils.defineClass({
             let icon = this._previewMenu.getCurrentAppIcon().app.create_icon_texture(headerHeight * .6);
             let windowTitleStyle = 'max-width: 0px;';
             
+            icon.y_align = Clutter.ActorAlign.CENTER;
             this._iconBin.destroy_all_children();
             this._iconBin.add_child(icon);
 
@@ -615,9 +618,19 @@ var Preview = Utils.defineClass({
     },
 
     _updateWindowTitle: function() {
-        this._windowTitle.text = (!this._previewMenu._dtpSettings.get_boolean('isolate-workspaces') ? 
-                                  '[' + this.window.get_workspace().index() + '] ' : '') + 
-                                 this.window.title;
+        let workspaceIndex = '';
+        let workspaceStyle = null;
+
+        if (!this._previewMenu._dtpSettings.get_boolean('isolate-workspaces')) {
+            workspaceIndex = this.window.get_workspace().index().toString();
+            workspaceStyle = 'padding: 0 4px; border: 2px solid ' + this._getRgbaColor(FOCUSED_COLOR_OFFSET, .8) + 
+                             'border-radius: 2px; margin-right: 4px;';
+        }
+
+        this._workspaceIndicator.text = workspaceIndex; 
+        this._workspaceIndicator.set_style(workspaceStyle);
+
+        this._windowTitle.text = this.window.title;
     },
 
     _hideOrShowCloseButton: function(hide) {
@@ -625,19 +638,18 @@ var Preview = Utils.defineClass({
     },
 
     _getBackgroundColor: function(offset, alpha) {
+        return 'background-color: ' + this._getRgbaColor(offset, alpha) + 
+               'transition-duration:' + this._panelWrapper.dynamicTransparency.animationDuration;
+    },
+
+    _getRgbaColor: function(offset, alpha) {
         alpha = Math.abs(alpha);
 
         if (isNaN(alpha)) {
             alpha = this._panelWrapper.dynamicTransparency.alpha;
         }
 
-        return 'background-color: ' +
-                Utils.getrgbaColor(
-                    this._panelWrapper.dynamicTransparency.backgroundColorRgb, 
-                    alpha,
-                    offset
-                ) +
-                'transition-duration:' + this._panelWrapper.dynamicTransparency.animationDuration;
+        return Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, alpha, offset);
     },
 
     _addClone: function(newClone, animateSize) {
