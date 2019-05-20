@@ -44,6 +44,7 @@ const HEADER_COLOR_OFFSET = -12;
 
 var headerHeight = 0;
 var isLeftButtons = false;
+var scaleFactor = 1;
 
 var PreviewMenu = Utils.defineClass({
     Name: 'DashToPanel.PreviewMenu',
@@ -313,8 +314,9 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _refreshGlobals: function() {
-        headerHeight = this._dtpSettings.get_boolean('window-preview-show-title') ? HEADER_HEIGHT : 0;
         isLeftButtons = Meta.prefs_get_button_layout().left_buttons.indexOf(Meta.ButtonFunction.CLOSE) >= 0;
+        scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        headerHeight = this._dtpSettings.get_boolean('window-preview-show-title') ? HEADER_HEIGHT * scaleFactor : 0;
     },
 
     _resetHiddenState: function() {
@@ -327,29 +329,28 @@ var PreviewMenu = Utils.defineClass({
 
     _updateClip: function() {
         let x, y, w, h;
-        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        let panelSize = this._dtpSettings.get_int('panel-size');
-        let previewSize = this._dtpSettings.get_int('window-preview-size') + 
-                          this._dtpSettings.get_int('window-preview-padding') * 2;
+        let panelSize = this._dtpSettings.get_int('panel-size') * scaleFactor;
+        let previewSize = (this._dtpSettings.get_int('window-preview-size') + 
+                           this._dtpSettings.get_int('window-preview-padding') * 2) * scaleFactor;
         
         if (this._checkIfLeftOrRight()) {
-            w = previewSize * scaleFactor;
+            w = previewSize;
             h = this._panelWrapper.monitor.height;
             y = this._panelWrapper.monitor.y;
         } else {
             w = this._panelWrapper.monitor.width;
-            h = (previewSize + headerHeight) * scaleFactor;
+            h = (previewSize + headerHeight);
             x = this._panelWrapper.monitor.x;
         }
 
         if (this._position == St.Side.LEFT) {
-            x = this._panelWrapper.monitor.x + panelSize * scaleFactor;
+            x = this._panelWrapper.monitor.x + panelSize;
         } else if (this._position == St.Side.RIGHT) {
-            x = this._panelWrapper.monitor.x + this._panelWrapper.monitor.width - (panelSize + previewSize) * scaleFactor;
+            x = this._panelWrapper.monitor.x + this._panelWrapper.monitor.width - (panelSize + previewSize) ;
         } else if (this._position == St.Side.TOP) {
-            y = this._panelWrapper.monitor.y + panelSize * scaleFactor;
+            y = this._panelWrapper.monitor.y + panelSize;
         } else { //St.Side.BOTTOM
-            y = this._panelWrapper.monitor.y + this._panelWrapper.monitor.height - (panelSize + previewSize + headerHeight) * scaleFactor;
+            y = this._panelWrapper.monitor.y + this._panelWrapper.monitor.height - (panelSize + previewSize + headerHeight);
         }
 
         this.set_clip(0, 0, w, h);
@@ -443,7 +444,7 @@ var Preview = Utils.defineClass({
 
         this._panelWrapper = panelWrapper;
         this._previewMenu = previewMenu;
-        this._padding = previewMenu._dtpSettings.get_int('window-preview-padding') * St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        this._padding = previewMenu._dtpSettings.get_int('window-preview-padding') * scaleFactor;
         this._previewDimensions = this._getPreviewDimensions();
         this.animatingOut = false;
 
@@ -464,7 +465,7 @@ var Preview = Utils.defineClass({
             x_expand: true, y_expand: true, 
             x_align: Clutter.ActorAlign[isLeftButtons ? 'START' : 'END'], 
             y_align: Clutter.ActorAlign.START
-        })
+        });
 
         this._closeButtonBin.add_child(closeButton);
 
@@ -504,7 +505,7 @@ var Preview = Utils.defineClass({
     },
 
     adjustOnStage: function() {
-        let closeButtonPadding = headerHeight ? Math.round((headerHeight - this._closeButtonBin.height) * .5) : 4;
+        let closeButtonPadding = headerHeight ? Math.round((headerHeight - this._closeButtonBin.height) * .5 / scaleFactor) : 4;
         let closeButtonBorderRadius = '';
 
         if (!headerHeight) {
@@ -599,10 +600,10 @@ var Preview = Utils.defineClass({
 
     _updateHeader: function() {
         if (headerHeight) {
-            let icon = this._previewMenu.getCurrentAppIcon().app.create_icon_texture(headerHeight * .6);
+            let iconTextureSize = headerHeight / scaleFactor * .6;
+            let icon = this._previewMenu.getCurrentAppIcon().app.create_icon_texture(iconTextureSize);
             let windowTitleStyle = 'max-width: 0px;';
             
-            icon.y_align = Clutter.ActorAlign.CENTER;
             this._iconBin.destroy_all_children();
             this._iconBin.add_child(icon);
 
@@ -730,7 +731,7 @@ var Preview = Utils.defineClass({
     },
 
     _getPreviewDimensions: function() {
-        let size = this._previewMenu._dtpSettings.get_int('window-preview-size') * St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        let size = this._previewMenu._dtpSettings.get_int('window-preview-size') * scaleFactor;
         let w, h;
 
         if (this._previewMenu._checkIfLeftOrRight()) {
