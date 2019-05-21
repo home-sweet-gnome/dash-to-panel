@@ -186,9 +186,12 @@ var dtpOverview = Utils.defineClass({
             if (this._dtpSettings.get_boolean('shortcut-previews') && windowCount > 1) {
                 if (this._currentHotkeyFocusIndex < 0) {
                     let currentWindow = appIcon.window;
+                    let keyFocusOutId = appIcon.actor.connect('key-focus-out', () => appIcon.actor.grab_key_focus());
                     let capturedEventId = global.stage.connect('captured-event', (actor, e) => {
                         if (e.type() == Clutter.EventType.KEY_RELEASE && e.get_key_symbol() == Clutter.Super_L) {
                             global.stage.disconnect(capturedEventId);
+                            appIcon.actor.disconnect(keyFocusOutId);
+
                             appIcon._previewMenu.activateFocused();
                             appIcon.window = currentWindow;
                             delete appIcon._hotkeysCycle;
@@ -201,7 +204,7 @@ var dtpOverview = Utils.defineClass({
                     appIcon._hotkeysCycle = appIcon.window;
                     appIcon.window = null;
                     appIcon._previewMenu.open(appIcon);
-                    global.stage.set_key_focus(appIcon.actor);
+                    appIcon.actor.grab_key_focus();
                 }
                 
                 this._currentHotkeyFocusIndex = appIcon._previewMenu.focusNext();

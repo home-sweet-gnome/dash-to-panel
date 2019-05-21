@@ -30,17 +30,17 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
-//timeout intervals
-
 //timeout names
 const T1 = 'openMenuTimeout';
 const T2 = 'closeMenuTimeout';
+const T3 = 'enterPeekTimeout';
 
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
 const DEFAULT_RATIO = { w: 160, h: 90 };
 const FOCUSED_COLOR_OFFSET = 24;
 const HEADER_COLOR_OFFSET = -12;
+const WORKSPACE_SWITCH_TIME = 120;
 
 var headerHeight = 0;
 var isLeftButtons = false;
@@ -57,6 +57,8 @@ var PreviewMenu = Utils.defineClass({
         this._panelWrapper = panelWrapper;
         this.currentAppIcon = null;
         this._focusedPreview = null;
+        this._peekedWorkspace = null;
+        this._peekInitialWorkspace = null;
         this.opened = false;
         this._position = Taskbar.getPosition();
         let isLeftOrRight = this._checkIfLeftOrRight();
@@ -91,7 +93,7 @@ var PreviewMenu = Utils.defineClass({
 
         // move closing delay setting from "advanced"
 
-        // hook settings (animation time, size, label color)
+        // hook settings (animation time, size, label color, header location)
     },
 
     enable: function() {
@@ -175,15 +177,17 @@ var PreviewMenu = Utils.defineClass({
     },
 
     close: function(immediate) {
-        this.currentAppIcon = null;
-        this.removeFocus();
         this._endOpenCloseTimeouts();
+        this._removeFocus();
+        this._endPeek();
 
         if (immediate) {
             this._resetHiddenState();
         } else {
             this._animateOpenOrClose(false, () => this._resetHiddenState());
         }
+
+        this.currentAppIcon = null;
     },
 
     update: function(appIcon, windows) {
@@ -204,9 +208,11 @@ var PreviewMenu = Utils.defineClass({
         
         nextIndex = previews[nextIndex] ? nextIndex : 0;
 
-        this.removeFocus();
-        previews[nextIndex].setFocus(true);
-        this._focusedPreview = previews[nextIndex];
+        if (previews[nextIndex]) {
+            this._removeFocus();
+            previews[nextIndex].setFocus(true);
+            this._focusedPreview = previews[nextIndex];
+        }
 
         return nextIndex;
     },
@@ -217,7 +223,23 @@ var PreviewMenu = Utils.defineClass({
         }
     },
 
-    removeFocus: function() {
+    requestPeek(window) {
+        this._timeoutsHandler.remove(T3);
+
+        if (this._dtpSettings.get_boolean('peek-mode')) {
+            if (!this._peekInitialWorkspace) {
+                this._timeoutsHandler.add([T3, this._dtpSettings.get_int('enter-peek-mode-timeout'), () => this._peek(window)]);
+            } else {
+                this._peek(window);
+            }
+        }
+    },
+
+    endPeekHere: function() {
+        this._endPeek(true);
+    },
+
+    _removeFocus: function() {
         if (this._focusedPreview) {
             this._focusedPreview.setFocus(false);
             this._focusedPreview = null;
@@ -427,7 +449,71 @@ var PreviewMenu = Utils.defineClass({
 
     _checkIfLeftOrRight: function() {
         return this._position == St.Side.LEFT || this._position == St.Side.RIGHT; 
-    }
+    },
+
+    _peek: function(window) {
+        let currentWorkspace = this._getCurrentWorkspace();
+        let windowWorkspace = window.get_workspace();
+        let needsWorspaceChange = currentWorkspace != windowWorkspace;
+        
+        this._timeoutsHandler.remove(T3);
+
+        if (this._peekedWorkspace) {
+            if (needsWorspaceChange) {
+                this._timeoutsHandler.add([T3, WORKSPACE_SWITCH_TIME, () => this._changeWorkspaceWindows(currentWorkspace, 255, true)]);
+            } else {
+                this._changeWorkspaceWindows(this._peekedWorkspace, 255, false);
+            }
+        }
+
+        this._changeWorkspaceWindows(windowWorkspace, 0, needsWorspaceChange, window);
+        this._peekedWorkspace = windowWorkspace;
+
+        if (needsWorspaceChange) {
+            this._switchToWorkspace(windowWorkspace);
+        }
+
+        if (!this._peekInitialWorkspace) {
+            this._peekInitialWorkspace = currentWorkspace;
+        }
+    }, 
+
+    _endPeek: function(stayHere) {
+        this._timeoutsHandler.remove(T3);
+
+        if (this._peekedWorkspace) {
+            this._changeWorkspaceWindows(this._peekedWorkspace, 255, this._peekedWorkspace != this._peekInitialWorkspace);
+
+            if (!stayHere) {
+                this._switchToWorkspace(this._peekInitialWorkspace);
+            } 
+        }
+
+        this._peekedWorkspace = null;
+        this._peekInitialWorkspace = null;
+    },
+
+    _changeWorkspaceWindows: function(workspace, opacity, immediate, ignoredWindow) {
+        workspace.list_windows()
+                 .filter(mw => !mw.minimized && !mw.is_on_all_workspaces() && mw != ignoredWindow)
+                 .forEach(mw => {
+            let windowActor = mw.get_compositor_private();
+            
+            if (immediate) {
+                windowActor.opacity = opacity;
+            } else {
+                Tweener.addTween(windowActor, getTweenOpts({ opacity: opacity }));
+            }
+        });
+    },
+
+    _getCurrentWorkspace: function() {
+        return Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
+    },
+
+    _switchToWorkspace: function(workspace) {
+        workspace.activate(1);
+    },
 });
 
 var Preview = Utils.defineClass({
@@ -551,11 +637,16 @@ var Preview = Utils.defineClass({
     setFocus: function(focused) {
         this._hideOrShowCloseButton(!focused);
         this.set_style(this._getBackgroundColor(FOCUSED_COLOR_OFFSET, focused ? '-' : 0));
+
+        if (focused) {
+            this._previewMenu.requestPeek(this.window);
+        }
     },
 
     activate: function() {
         Main.activateWindow(this.window);
         this._hideOrShowCloseButton(true);
+        this._previewMenu.endPeekHere();
         this._previewMenu.close();
     },
 
@@ -623,7 +714,7 @@ var Preview = Utils.defineClass({
         let workspaceStyle = null;
 
         if (!this._previewMenu._dtpSettings.get_boolean('isolate-workspaces')) {
-            workspaceIndex = this.window.get_workspace().index().toString();
+            workspaceIndex = (this.window.get_workspace().index() + 1).toString();
             workspaceStyle = 'padding: 0 4px; border: 2px solid ' + this._getRgbaColor(FOCUSED_COLOR_OFFSET, .8) + 
                              'border-radius: 2px; margin-right: 4px;';
         }
