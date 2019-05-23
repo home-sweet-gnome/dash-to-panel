@@ -24,6 +24,7 @@ const Signals = imports.signals;
 const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const Tweener = imports.ui.tweener;
+const WindowManager = imports.ui.windowManager;
 const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -34,17 +35,19 @@ const Utils = Me.imports.utils;
 const T1 = 'openMenuTimeout';
 const T2 = 'closeMenuTimeout';
 const T3 = 'enterPeekTimeout';
+const T4 = 'switchWorkspaceTimeout';
 
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
 const DEFAULT_RATIO = { w: 160, h: 90 };
 const FOCUSED_COLOR_OFFSET = 24;
 const HEADER_COLOR_OFFSET = -12;
-const WORKSPACE_SWITCH_TIME = 120;
+const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
 
 var headerHeight = 0;
 var isLeftButtons = false;
 var scaleFactor = 1;
+var workspaceSwitchTime = WindowManager.WINDOW_ANIMATION_TIME * 1020;
 
 var PreviewMenu = Utils.defineClass({
     Name: 'DashToPanel.PreviewMenu',
@@ -59,6 +62,7 @@ var PreviewMenu = Utils.defineClass({
         this._focusedPreview = null;
         this._peekedWorkspace = null;
         this._peekInitialWorkspace = null;
+        this._onWorkspaceSwitchComplete = null;
         this.opened = false;
         this._position = Taskbar.getPosition();
         let isLeftOrRight = this._checkIfLeftOrRight();
@@ -454,24 +458,28 @@ var PreviewMenu = Utils.defineClass({
     _peek: function(window) {
         let currentWorkspace = this._getCurrentWorkspace();
         let windowWorkspace = window.get_workspace();
-        let needsWorspaceChange = currentWorkspace != windowWorkspace;
-        
-        this._timeoutsHandler.remove(T3);
-
-        if (this._peekedWorkspace) {
-            if (needsWorspaceChange) {
-                this._timeoutsHandler.add([T3, WORKSPACE_SWITCH_TIME, () => this._changeWorkspaceWindows(currentWorkspace, 255, true)]);
-            } else {
-                this._changeWorkspaceWindows(this._peekedWorkspace, 255, false);
+        let targetOpacity = this._dtpSettings.get_int('peek-mode-opacity');
+        let wasPeeked = !!this._peekedWorkspace;
+        this._onWorkspaceSwitchComplete = () => {
+            if (wasPeeked) {
+                this._changeWorkspaceWindows(currentWorkspace, 255, true);
             }
+
+            this._changeWorkspaceWindows(windowWorkspace, targetOpacity, false, window);
+        };
+        
+        if (currentWorkspace != windowWorkspace) {
+            this._changeWorkspaceWindows(windowWorkspace, targetOpacity, true, null, true);
+            windowWorkspace.activate(1);
+            this._timeoutsHandler.add([T4, workspaceSwitchTime, () => this._onWorkspaceSwitchComplete()]);
+        } else if (this._timeoutsHandler.getId(T4)) {
+            //the window opacity animation doesn't work while the workspace is switching, do it when it completes instead 
+            return this._onWorkspaceSwitchComplete = () => this._peek(window);
+        } else {
+            this._changeWorkspaceWindows(windowWorkspace, targetOpacity, false, window);
         }
 
-        this._changeWorkspaceWindows(windowWorkspace, 0, needsWorspaceChange, window);
         this._peekedWorkspace = windowWorkspace;
-
-        if (needsWorspaceChange) {
-            this._switchToWorkspace(windowWorkspace);
-        }
 
         if (!this._peekInitialWorkspace) {
             this._peekInitialWorkspace = currentWorkspace;
@@ -480,39 +488,60 @@ var PreviewMenu = Utils.defineClass({
 
     _endPeek: function(stayHere) {
         this._timeoutsHandler.remove(T3);
+        this._timeoutsHandler.remove(T4);
 
         if (this._peekedWorkspace) {
             this._changeWorkspaceWindows(this._peekedWorkspace, 255, this._peekedWorkspace != this._peekInitialWorkspace);
 
             if (!stayHere) {
-                this._switchToWorkspace(this._peekInitialWorkspace);
-            } 
+                this._peekInitialWorkspace.activate(1);
+            }
         }
 
         this._peekedWorkspace = null;
         this._peekInitialWorkspace = null;
+        this._onWorkspaceSwitchComplete = null;
     },
 
-    _changeWorkspaceWindows: function(workspace, opacity, immediate, ignoredWindow) {
-        workspace.list_windows()
-                 .filter(mw => !mw.minimized && !mw.is_on_all_workspaces() && mw != ignoredWindow)
-                 .forEach(mw => {
+    _changeWorkspaceWindows: function(workspace, opacity, immediate, focusedWindow, ignoreRestack) {
+        if (Main.overview.visibleTarget) {
+            return;
+        }
+
+        workspace.list_windows().filter(mw => !mw.is_on_all_workspaces()).forEach(mw => {
             let windowActor = mw.get_compositor_private();
+            let isFocusedWindow = mw == focusedWindow;
+            let targetOpacity = isFocusedWindow ? 255 : opacity;
+
+            if (!ignoreRestack && (isFocusedWindow || mw.hasOwnProperty(PEEK_INDEX_PROP))) {
+                let windowActorIndex = global.window_group.get_children().indexOf(windowActor);
+
+                if (windowActorIndex >= 0) {
+                    if (isFocusedWindow) {
+                        mw[PEEK_INDEX_PROP] = windowActorIndex;
+                        global.window_group.set_child_above_sibling(windowActor, null);
+                    } else {
+                        global.window_group.set_child_at_index(windowActor, mw[PEEK_INDEX_PROP]);
+                        delete mw[PEEK_INDEX_PROP];
+                    }
+                }
+            }
+
+            if (isFocusedWindow && mw.minimized) {
+                windowActor.opacity = 0;
+                windowActor.show();
+            }
             
             if (immediate) {
-                windowActor.opacity = opacity;
+                windowActor.opacity = targetOpacity;
             } else {
-                Tweener.addTween(windowActor, getTweenOpts({ opacity: opacity }));
+                Tweener.addTween(windowActor, getTweenOpts({ opacity: targetOpacity }));
             }
         });
     },
 
     _getCurrentWorkspace: function() {
         return Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
-    },
-
-    _switchToWorkspace: function(workspace) {
-        workspace.activate(1);
     },
 });
 
@@ -644,10 +673,10 @@ var Preview = Utils.defineClass({
     },
 
     activate: function() {
-        Main.activateWindow(this.window);
         this._hideOrShowCloseButton(true);
         this._previewMenu.endPeekHere();
         this._previewMenu.close();
+        Main.activateWindow(this.window);
     },
 
     _onDestroy: function() {
@@ -661,6 +690,7 @@ var Preview = Utils.defineClass({
     _onCloseBtnClick: function() {
         this.window.delete(global.get_current_time());
         this._hideOrShowCloseButton(true);
+        this.reactive = false;
 
         if (!this._previewMenu._dtpSettings.get_boolean('group-apps')) {
             this._previewMenu.close();
