@@ -34,8 +34,7 @@ const Utils = Me.imports.utils;
 //timeout names
 const T1 = 'openMenuTimeout';
 const T2 = 'closeMenuTimeout';
-const T3 = 'enterPeekTimeout';
-const T4 = 'switchWorkspaceTimeout';
+const T3 = 'peekTimeout';
 
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
@@ -60,9 +59,8 @@ var PreviewMenu = Utils.defineClass({
         this._panelWrapper = panelWrapper;
         this.currentAppIcon = null;
         this._focusedPreview = null;
-        this._peekedWorkspace = null;
+        this._peekedWindow = null;
         this._peekInitialWorkspace = null;
-        this._onWorkspaceSwitchComplete = null;
         this.opened = false;
         this._position = Taskbar.getPosition();
         let isLeftOrRight = this._checkIfLeftOrRight();
@@ -176,6 +174,7 @@ var PreviewMenu = Utils.defineClass({
             this._updatePosition();
             this._animateOpenOrClose(true);
 
+            this.menu.reactive = true;
             this.opened = true;
         }
     },
@@ -184,13 +183,15 @@ var PreviewMenu = Utils.defineClass({
         this._endOpenCloseTimeouts();
         this._removeFocus();
         this._endPeek();
-
+        
         if (immediate) {
             this._resetHiddenState();
         } else {
             this._animateOpenOrClose(false, () => this._resetHiddenState());
         }
 
+        this._box.get_children().forEach(c => c.reactive = false);
+        this.menu.reactive = false;
         this.currentAppIcon = null;
     },
 
@@ -458,28 +459,16 @@ var PreviewMenu = Utils.defineClass({
     _peek: function(window) {
         let currentWorkspace = this._getCurrentWorkspace();
         let windowWorkspace = window.get_workspace();
-        let targetOpacity = this._dtpSettings.get_int('peek-mode-opacity');
-        let wasPeeked = !!this._peekedWorkspace;
-        this._onWorkspaceSwitchComplete = () => {
-            if (wasPeeked) {
-                this._changeWorkspaceWindows(currentWorkspace, 255, true);
-            }
-
-            this._changeWorkspaceWindows(windowWorkspace, targetOpacity, false, window);
-        };
+        let focusWindow = () => this._focusMetaWindow(this._dtpSettings.get_int('peek-mode-opacity'), window);
+        
+        this._restorePeekedWindowStack();
         
         if (currentWorkspace != windowWorkspace) {
-            this._changeWorkspaceWindows(windowWorkspace, targetOpacity, true, null, true);
-            windowWorkspace.activate(1);
-            this._timeoutsHandler.add([T4, workspaceSwitchTime, () => this._onWorkspaceSwitchComplete()]);
-        } else if (this._timeoutsHandler.getId(T4)) {
-            //the window opacity animation doesn't work while the workspace is switching, do it when it completes instead 
-            return this._onWorkspaceSwitchComplete = () => this._peek(window);
+            this._switchToWorkspaceImmediate(windowWorkspace);
+            this._timeoutsHandler.add([T3, 100, focusWindow]);
         } else {
-            this._changeWorkspaceWindows(windowWorkspace, targetOpacity, false, window);
+            focusWindow();
         }
-
-        this._peekedWorkspace = windowWorkspace;
 
         if (!this._peekInitialWorkspace) {
             this._peekInitialWorkspace = currentWorkspace;
@@ -488,56 +477,65 @@ var PreviewMenu = Utils.defineClass({
 
     _endPeek: function(stayHere) {
         this._timeoutsHandler.remove(T3);
-        this._timeoutsHandler.remove(T4);
 
-        if (this._peekedWorkspace) {
-            this._changeWorkspaceWindows(this._peekedWorkspace, 255, this._peekedWorkspace != this._peekInitialWorkspace);
+        if (this._peekedWindow) {
+            this._restorePeekedWindowStack();
 
             if (!stayHere) {
-                this._peekInitialWorkspace.activate(1);
+                this._switchToWorkspaceImmediate(this._peekInitialWorkspace);
             }
-        }
 
-        this._peekedWorkspace = null;
-        this._peekInitialWorkspace = null;
-        this._onWorkspaceSwitchComplete = null;
+            this._focusMetaWindow(255);
+            this._peekedWindow = null;
+            this._peekInitialWorkspace = null;
+        }
     },
 
-    _changeWorkspaceWindows: function(workspace, opacity, immediate, focusedWindow, ignoreRestack) {
+    _switchToWorkspaceImmediate: function(workspace) {
+        Main.wm._blockAnimations = true;
+        workspace.activate(1);
+        Main.wm._blockAnimations = false;
+    },
+
+    _focusMetaWindow: function(dimOpacity, metaWindow) {
         if (Main.overview.visibleTarget) {
             return;
         }
 
-        workspace.list_windows().filter(mw => !mw.is_on_all_workspaces()).forEach(mw => {
-            let windowActor = mw.get_compositor_private();
-            let isFocusedWindow = mw == focusedWindow;
-            let targetOpacity = isFocusedWindow ? 255 : opacity;
+        this._peekedWindow = metaWindow;
 
-            if (!ignoreRestack && (isFocusedWindow || mw.hasOwnProperty(PEEK_INDEX_PROP))) {
-                let windowActorIndex = global.window_group.get_children().indexOf(windowActor);
+        global.get_window_actors().forEach(wa => {
+            let mw = wa.meta_window;
+            let isFocused = mw == metaWindow;
 
-                if (windowActorIndex >= 0) {
-                    if (isFocusedWindow) {
-                        mw[PEEK_INDEX_PROP] = windowActorIndex;
-                        global.window_group.set_child_above_sibling(windowActor, null);
-                    } else {
-                        global.window_group.set_child_at_index(windowActor, mw[PEEK_INDEX_PROP]);
-                        delete mw[PEEK_INDEX_PROP];
-                    }
+            if (mw) {
+                if (isFocused) {
+                    mw[PEEK_INDEX_PROP] = wa.get_parent().get_children().indexOf(wa);
+                    wa.get_parent().set_child_above_sibling(wa, null);
                 }
-            }
 
-            if (isFocusedWindow && mw.minimized) {
-                windowActor.opacity = 0;
-                windowActor.show();
-            }
-            
-            if (immediate) {
-                windowActor.opacity = targetOpacity;
-            } else {
-                Tweener.addTween(windowActor, getTweenOpts({ opacity: targetOpacity }));
+                if (isFocused && mw.minimized) {
+                    wa.show();
+                }
+                
+                Tweener.addTween(wa, getTweenOpts({ opacity: isFocused ? 255 : dimOpacity }));
             }
         });
+    },
+
+    _restorePeekedWindowStack: function() {
+        let windowActor = this._peekedWindow ? this._peekedWindow.get_compositor_private() : null;
+
+        if (windowActor) {
+            if (this._peekedWindow.hasOwnProperty(PEEK_INDEX_PROP)) {
+                windowActor.get_parent().set_child_at_index(windowActor, this._peekedWindow[PEEK_INDEX_PROP]);
+                delete this._peekedWindow[PEEK_INDEX_PROP];
+            }
+
+            if(this._peekedWindow.minimized) {
+                windowActor.hide();
+            }
+        }
     },
 
     _getCurrentWorkspace: function() {
@@ -673,7 +671,6 @@ var Preview = Utils.defineClass({
     },
 
     activate: function() {
-        this._hideOrShowCloseButton(true);
         this._previewMenu.endPeekHere();
         this._previewMenu.close();
         Main.activateWindow(this.window);
@@ -816,7 +813,6 @@ var Preview = Utils.defineClass({
     _getWindowClone: function(window) {
         return new Clutter.Clone({ 
             source: window.get_compositor_private(), 
-            reactive: true,
             opacity: 0,
             y_align: Clutter.ActorAlign.CENTER, 
             x_align: Clutter.ActorAlign.CENTER
