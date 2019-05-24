@@ -17,8 +17,10 @@
 
 const Clutter = imports.gi.Clutter;
 const Config = imports.misc.config;
+const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const Main = imports.ui.main;
+const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
 const Signals = imports.signals;
 const Shell = imports.gi.Shell;
@@ -46,7 +48,6 @@ const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
 var headerHeight = 0;
 var isLeftButtons = false;
 var scaleFactor = 1;
-var workspaceSwitchTime = WindowManager.WINDOW_ANIMATION_TIME * 1020;
 
 var PreviewMenu = Utils.defineClass({
     Name: 'DashToPanel-PreviewMenu',
@@ -188,6 +189,10 @@ var PreviewMenu = Utils.defineClass({
                 this._updatePosition();
             }
         }
+    },
+
+    updatePosition: function() {
+        this._updatePosition();
     },
 
     focusNext: function() {
@@ -476,9 +481,11 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _switchToWorkspaceImmediate: function(workspace) {
-        Main.wm._blockAnimations = true;
-        workspace.activate(1);
-        Main.wm._blockAnimations = false;
+        if (workspace) {
+            Main.wm._blockAnimations = true;
+            workspace.activate(1);
+            Main.wm._blockAnimations = false;
+        }
     },
 
     _focusMetaWindow: function(dimOpacity, metaWindow) {
@@ -539,6 +546,7 @@ var Preview = Utils.defineClass({
             layout_manager: new Clutter.BinLayout()
         });
 
+        this.cloneWidth = this.cloneHeight = 0;
         this._panelWrapper = panelWrapper;
         this._previewMenu = previewMenu;
         this._padding = previewMenu._dtpSettings.get_int('window-preview-padding') * scaleFactor;
@@ -617,14 +625,23 @@ var Preview = Utils.defineClass({
     },
 
     assignWindow: function(window, animateSize) {
-        let clone = this._getWindowClone(window);
+        let _assignWindow = () => {
+            if (window.get_compositor_private()) {
+                let clone = this._getWindowClone(window);
+                
+                this._updateHeader();
+                this._resizeClone(clone);
+                this._addClone(clone, animateSize);
+                this._previewMenu.updatePosition();
+            } else {
+                Mainloop.idle_add(() => _assignWindow());
+            }
+        };
 
         this._removeWindowSignals();
         this.window = window;
-        
-        this._updateHeader();
-        this._resizeClone(clone);
-        this._addClone(clone, animateSize);
+
+        _assignWindow();
     },
 
     animateOut: function() {
