@@ -80,22 +80,6 @@ var PreviewMenu = Utils.defineClass({
         this._scrollView.add_actor(this._box);
         this.menu.add_child(this._scrollView);
         this.add_child(this.menu);
-
-
-
-
-        
-        //TODO
-        //'open-state-changed'
-        //'menu-closed'
-        //'sync-tooltip'
-        //this.add_style_class_name('app-well-menu');
-
-        //peek
-
-        // move closing delay setting from "advanced"
-
-        // hook settings (animation time, size, label color, header location)
     },
 
     enable: function() {
