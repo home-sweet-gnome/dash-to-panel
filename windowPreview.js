@@ -49,7 +49,7 @@ var scaleFactor = 1;
 var workspaceSwitchTime = WindowManager.WINDOW_ANIMATION_TIME * 1020;
 
 var PreviewMenu = Utils.defineClass({
-    Name: 'DashToPanel.PreviewMenu',
+    Name: 'DashToPanel-PreviewMenu',
     Extends: St.Widget,
 
     _init: function(dtpSettings, panelWrapper) {
@@ -528,7 +528,7 @@ var PreviewMenu = Utils.defineClass({
 });
 
 var Preview = Utils.defineClass({
-    Name: 'DashToPanel.Preview',
+    Name: 'DashToPanel-Preview',
     Extends: St.Widget,
 
     _init: function(panelWrapper, previewMenu) {
