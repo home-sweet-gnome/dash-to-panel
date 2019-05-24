@@ -410,23 +410,28 @@
       <summary>Display title in preview</summary>
       <description>Display window title in preview</description>
     </key>
+    <key type="s" name="window-preview-title-font-color">
+      <default>"#dddddd"</default>
+      <summary>Window previews title font color</summary>
+      <description>This defines the Window previews titles font color.</description>
+    </key>
+    <key type="i" name="window-preview-title-font-size">
+      <default>14</default>
+      <summary>Window previews title font size</summary>
+      <description>This defines the Window previews titles font size.</description>
+    </key>
+    <key name="window-preview-title-font-weight" enum="org.gnome.shell.extensions.dash-to-panel.fontWeight">
+      <default>'inherit'</default>
+      <summary>Font weight of window preview titles</summary>
+      <description>This defines the font weight of window preview titles. Supported values: inherit (from theme), normal, lighter, bold and bolder.</description>
+    </key>
     <key type="i" name="window-preview-size">
       <default>240</default>
       <summary>Window previews size</summary>
       <description>Preferred window previews size</description>
     </key>
-    <key type="i" name="window-preview-width">
-      <default>350</default>
-      <summary>Window previews width</summary>
-      <description>The width of the window previews</description>
-    </key>
-    <key type="i" name="window-preview-height">
-      <default>200</default>
-      <summary>Window previews height</summary>
-      <description>The height of the window previews</description>
-    </key>
     <key type="i" name="window-preview-padding">
-      <default>20</default>
+      <default>8</default>
       <summary>Window previews padding</summary>
       <description>The padding of the window previews</description>
     </key>

@@ -990,6 +990,13 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._builder.get_object('grid_preview_title_font_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            let hexString = cssHexString(css);
+            this._settings.set_string('window-preview-title-font-color', hexString);
+        }));
+
         this._builder.get_object('show_window_previews_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Window preview options'),
@@ -1009,47 +1016,59 @@ const Settings = new Lang.Class({
                 this._settings.set_int('show-window-previews-timeout', widget.get_value());
             }));
 
-            this._settings.bind('peek-mode',
-                            this._builder.get_object('peek_mode_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-            this._settings.bind('window-preview-show-title',
-                            this._builder.get_object('preview_show_title_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-            this._settings.bind('peek-mode',
-                            this._builder.get_object('listboxrow_enter_peek_mode_timeout'),
-                            'sensitive',
-                            Gio.SettingsBindFlags.DEFAULT);
-            this._settings.bind('peek-mode',
-                            this._builder.get_object('listboxrow_peek_mode_opacity'),
-                            'sensitive',
-                            Gio.SettingsBindFlags.DEFAULT);
             this._settings.bind('preview-middle-click-close',
                             this._builder.get_object('preview_middle_click_close_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
-            this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
+            this._settings.bind('peek-mode',
+                            this._builder.get_object('peek_mode_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('peek-mode',
+                            this._builder.get_object('grid_enter_peek_mode_timeout'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('peek-mode',
+                            this._builder.get_object('grid_peek_mode_opacity'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+            
+            this._settings.bind('window-preview-show-title',
+                            this._builder.get_object('preview_show_title_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('window-preview-show-title',
+                            this._builder.get_object('grid_preview_title_size'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('window-preview-show-title',
+                            this._builder.get_object('grid_preview_title_weight'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('window-preview-show-title',
+                            this._builder.get_object('grid_preview_title_font_color'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
 
+            this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
             this._builder.get_object('enter_peek_mode_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
                 this._settings.set_int('enter-peek-mode-timeout', widget.get_value());
             }));
 
-            this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
+            this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
+            this._builder.get_object('leave_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('leave-timeout', widget.get_value());
+            }));
 
+            this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
             this._builder.get_object('peek_mode_opacity_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
                 this._settings.set_int('peek-mode-opacity', widget.get_value());
             }));
 
-            this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-preview-width'));
-            this._builder.get_object('preview_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
-                this._settings.set_int('window-preview-width', widget.get_value());
-            }));
-
-            this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-preview-height'));
-            this._builder.get_object('preview_height_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
-                this._settings.set_int('window-preview-height', widget.get_value());
+            this._builder.get_object('preview_size_spinbutton').set_value(this._settings.get_int('window-preview-size'));
+            this._builder.get_object('preview_size_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-size', widget.get_value());
             }));
 
             this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
@@ -1057,11 +1076,30 @@ const Settings = new Lang.Class({
                 this._settings.set_int('window-preview-padding', widget.get_value());
             }));
 
+            this._builder.get_object('preview_title_size_spinbutton').set_value(this._settings.get_int('window-preview-title-font-size'));
+            this._builder.get_object('preview_title_size_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-title-font-size', widget.get_value());
+            }));
+
+            this._builder.get_object('grid_preview_title_weight_combo').set_active_id(this._settings.get_string('window-preview-title-font-weight'));
+            this._builder.get_object('grid_preview_title_weight_combo').connect('changed', Lang.bind (this, function(widget) {
+                this._settings.set_string('window-preview-title-font-weight', widget.get_active_id());
+            }));
+
+            (function() {
+                let rgba = new Gdk.RGBA();
+                rgba.parse(this._settings.get_string('window-preview-title-font-color'));
+                this._builder.get_object('grid_preview_title_font_color_colorbutton').set_rgba(rgba);
+            }).apply(this);
+
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
                     this._settings.set_value('show-window-previews-timeout', this._settings.get_default_value('show-window-previews-timeout'));
                     this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
+
+                    this._settings.set_value('leave-timeout', this._settings.get_default_value('leave-timeout'));
+                    this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));   
 
                     this._settings.set_value('peek-mode', this._settings.get_default_value('peek-mode'));
                     this._settings.set_value('window-preview-show-title', this._settings.get_default_value('window-preview-show-title'));
@@ -1070,16 +1108,24 @@ const Settings = new Lang.Class({
                     this._settings.set_value('peek-mode-opacity', this._settings.get_default_value('peek-mode-opacity'));
                     this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
 
-                    this._settings.set_value('window-preview-width', this._settings.get_default_value('window-preview-width'));
-                    this._builder.get_object('preview_width_spinbutton').set_value(this._settings.get_int('window-preview-width'));
+                    this._settings.set_value('window-preview-size', this._settings.get_default_value('window-preview-size'));
+                    this._builder.get_object('preview_size_spinbutton').set_value(this._settings.get_int('window-preview-size'));
                     
-                    this._settings.set_value('window-preview-height', this._settings.get_default_value('window-preview-height'));
-                    this._builder.get_object('preview_height_spinbutton').set_value(this._settings.get_int('window-preview-height'));
-
                     this._settings.set_value('window-preview-padding', this._settings.get_default_value('window-preview-padding'));
                     this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
 
                     this._settings.set_value('preview-middle-click-close', this._settings.get_default_value('preview-middle-click-close'));
+
+                    this._settings.set_value('window-preview-title-font-size', this._settings.get_default_value('window-preview-title-font-size'));
+                    this._builder.get_object('preview_title_size_spinbutton').set_value(this._settings.get_int('window-preview-title-font-size'));
+
+                    this._settings.set_value('window-preview-title-font-weight', this._settings.get_default_value('window-preview-title-font-weight'));
+                    this._builder.get_object('grid_preview_title_weight_combo').set_active_id(this._settings.get_string('window-preview-title-font-weight'));
+
+                    this._settings.set_value('window-preview-title-font-color', this._settings.get_default_value('window-preview-title-font-color'));
+                    let rgba = new Gdk.RGBA();
+                    rgba.parse(this._settings.get_string('window-preview-title-font-color'));
+                    this._builder.get_object('grid_preview_title_font_color_colorbutton').set_rgba(rgba);
 
                 } else {
                     // remove the settings box so it doesn't get destroyed;
@@ -1414,17 +1460,10 @@ const Settings = new Lang.Class({
             let box = this._builder.get_object('box_advanced_options');
             dialog.get_content_area().add(box);
 
-            this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
-
-            this._builder.get_object('leave_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
-                this._settings.set_int('leave-timeout', widget.get_value());
-            }));
-            
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings  
-                    this._settings.set_value('leave-timeout', this._settings.get_default_value('leave-timeout'));
-                    this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));                
+                                 
                 } else {
                     // remove the settings box so it doesn't get destroyed;
                     dialog.get_content_area().remove(box);

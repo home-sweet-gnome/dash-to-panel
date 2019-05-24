@@ -720,35 +720,31 @@ var Preview = Utils.defineClass({
         if (headerHeight) {
             let iconTextureSize = headerHeight / scaleFactor * .6;
             let icon = this._previewMenu.getCurrentAppIcon().app.create_icon_texture(iconTextureSize);
-            let windowTitleStyle = 'max-width: 0px;';
+            let workspaceIndex = '';
+            let workspaceStyle = null;
+            let commonTitleStyles = 'color: ' + this._previewMenu._dtpSettings.get_string('window-preview-title-font-color') + ';' +
+                                    'font-size: ' + this._previewMenu._dtpSettings.get_int('window-preview-title-font-size') + 'px;' +
+                                    'font-weight: ' + this._previewMenu._dtpSettings.get_string('window-preview-title-font-weight') + ';';
             
             this._iconBin.destroy_all_children();
             this._iconBin.add_child(icon);
 
-            if (isLeftButtons) {
-                windowTitleStyle += 'padding-left:' + (headerHeight - icon.width) * .5 + 'px;';
+            if (!this._previewMenu._dtpSettings.get_boolean('isolate-workspaces')) {
+                workspaceIndex = (this.window.get_workspace().index() + 1).toString();
+                workspaceStyle = 'margin: 0 4px 0 ' + (isLeftButtons ? Math.round((headerHeight - icon.width) * .5) + 'px' : '0') + '; padding: 0 4px;' +  
+                                 'border: 2px solid ' + this._getRgbaColor(FOCUSED_COLOR_OFFSET, .8) + 'border-radius: 2px;' + commonTitleStyles;
             }
+    
+            this._workspaceIndicator.text = workspaceIndex; 
+            this._workspaceIndicator.set_style(workspaceStyle);
 
             this._titleWindowChangeId = this.window.connect('notify::title', () => this._updateWindowTitle());
-
-            this._windowTitle.set_style(windowTitleStyle);
+            this._windowTitle.set_style('max-width: 0px; padding-right: 4px;' + commonTitleStyles);
             this._updateWindowTitle();
         }
     },
 
     _updateWindowTitle: function() {
-        let workspaceIndex = '';
-        let workspaceStyle = null;
-
-        if (!this._previewMenu._dtpSettings.get_boolean('isolate-workspaces')) {
-            workspaceIndex = (this.window.get_workspace().index() + 1).toString();
-            workspaceStyle = 'padding: 0 4px; border: 2px solid ' + this._getRgbaColor(FOCUSED_COLOR_OFFSET, .8) + 
-                             'border-radius: 2px; margin-right: 4px;';
-        }
-
-        this._workspaceIndicator.text = workspaceIndex; 
-        this._workspaceIndicator.set_style(workspaceStyle);
-
         this._windowTitle.text = this.window.title;
     },
 
