@@ -1061,6 +1061,11 @@ const Settings = new Lang.Class({
                 this._settings.set_int('leave-timeout', widget.get_value());
             }));
 
+            this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));
+            this._builder.get_object('animation_time_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-animation-time', widget.get_value());
+            }));
+
             this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
             this._builder.get_object('peek_mode_opacity_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
                 this._settings.set_int('peek-mode-opacity', widget.get_value());
@@ -1099,7 +1104,10 @@ const Settings = new Lang.Class({
                     this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
 
                     this._settings.set_value('leave-timeout', this._settings.get_default_value('leave-timeout'));
-                    this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));   
+                    this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
+
+                    this._settings.set_value('window-preview-animation-time', this._settings.get_default_value('window-preview-animation-time'));
+                    this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));
 
                     this._settings.set_value('peek-mode', this._settings.get_default_value('peek-mode'));
                     this._settings.set_value('window-preview-show-title', this._settings.get_default_value('window-preview-show-title'));

@@ -17,7 +17,6 @@
 
 const Clutter = imports.gi.Clutter;
 const Config = imports.misc.config;
-const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
@@ -48,6 +47,7 @@ const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
 var headerHeight = 0;
 var isLeftButtons = false;
 var scaleFactor = 1;
+var animationTime = 0;
 
 var PreviewMenu = Utils.defineClass({
     Name: 'DashToPanel-PreviewMenu',
@@ -333,6 +333,7 @@ var PreviewMenu = Utils.defineClass({
         isLeftButtons = Meta.prefs_get_button_layout().left_buttons.indexOf(Meta.ButtonFunction.CLOSE) >= 0;
         scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         headerHeight = this._dtpSettings.get_boolean('window-preview-show-title') ? HEADER_HEIGHT * scaleFactor : 0;
+        animationTime = this._dtpSettings.get_int('window-preview-animation-time') * .001;
     },
 
     _resetHiddenState: function() {
@@ -862,7 +863,7 @@ var Preview = Utils.defineClass({
 
 function getTweenOpts(opts) {
     let defaults = {
-        time: Taskbar.DASH_ANIMATION_TIME * 1.5,
+        time: animationTime,
         transition: 'easeInOutQuad'
     };
 
