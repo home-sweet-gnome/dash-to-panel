@@ -212,7 +212,7 @@ var PreviewMenu = Utils.defineClass({
         }
     },
 
-    requestPeek(window) {
+    requestPeek: function(window) {
         this._timeoutsHandler.remove(T3);
 
         if (this._dtpSettings.get_boolean('peek-mode')) {
