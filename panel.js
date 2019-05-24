@@ -156,7 +156,11 @@ var dtpPanelWrapper = Utils.defineClass({
         if(this.appMenu)
             this.panel._leftBox.remove_child(this.appMenu.container);
 
-        this.dynamicTransparency = new Transparency.DynamicTransparency(this);
+        //the timeout makes sure the theme's styles are computed before initially applying the transparency
+        this.startDynamicTransparencyId = Mainloop.timeout_add(0, () => {
+            this.dynamicTransparency = new Transparency.DynamicTransparency(this);
+        });
+        
         this.taskbar = new Taskbar.taskbar(this._dtpSettings, this);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
@@ -276,7 +280,12 @@ var dtpPanelWrapper = Utils.defineClass({
             this._showDesktopTimeoutId = 0;
         }
 
-        this.dynamicTransparency.destroy();
+        if (this.startDynamicTransparencyId) {
+            Mainloop.source_remove(this.startDynamicTransparencyId);
+            this.startDynamicTransparencyId = 0;
+        } else {
+            this.dynamicTransparency.destroy();
+        }
 
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
