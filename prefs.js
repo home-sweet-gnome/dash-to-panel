@@ -990,6 +990,15 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        switch (this._settings.get_string('window-preview-title-position')) {
+            case 'BOTTOM':
+                this._builder.get_object('preview_title_position_bottom_button').set_active(true);
+                break;
+            case 'TOP':
+                this._builder.get_object('preview_title_position_top_button').set_active(true);
+                break;
+        }
+
         this._builder.get_object('grid_preview_title_font_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
@@ -1630,6 +1639,16 @@ const Settings = new Lang.Class({
 		dots_top_button_toggled_cb: function(button) {
             if (button.get_active())
                 this._settings.set_string('dot-position', "TOP");
+        },
+
+        preview_title_position_bottom_button_toggled_cb: function(button) {
+            if (button.get_active())
+                this._settings.set_string('window-preview-title-position', 'BOTTOM');
+        },
+		
+		preview_title_position_top_button_toggled_cb: function(button) {
+            if (button.get_active())
+                this._settings.set_string('window-preview-title-position', 'TOP');
         },
 
         panel_size_scale_format_value_cb: function(scale, value) {

@@ -46,6 +46,7 @@ const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
 
 var headerHeight = 0;
 var isLeftButtons = false;
+var isTopHeader = true;
 var scaleFactor = 1;
 var animationTime = 0;
 
@@ -331,6 +332,7 @@ var PreviewMenu = Utils.defineClass({
 
     _refreshGlobals: function() {
         isLeftButtons = Meta.prefs_get_button_layout().left_buttons.indexOf(Meta.ButtonFunction.CLOSE) >= 0;
+        isTopHeader = this._dtpSettings.get_string('window-preview-title-position') == 'TOP';
         scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         headerHeight = this._dtpSettings.get_boolean('window-preview-show-title') ? HEADER_HEIGHT * scaleFactor : 0;
         animationTime = this._dtpSettings.get_int('window-preview-animation-time') * .001;
@@ -555,11 +557,15 @@ var Preview = Utils.defineClass({
         this.animatingOut = false;
 
         let [previewBinWidth, previewBinHeight] = this._getBinSize();
-        this._previewBin = new St.Widget({ layout_manager: new Clutter.BinLayout() });
-        this._previewBin.set_style('padding: ' + this._padding + 'px;');
-        this._previewBin.set_size(previewBinWidth, previewBinHeight);
-
         let closeButton = new St.Button({ style_class: 'window-close', accessible_name: 'Close window' });
+
+        this._previewBin = new St.Widget({ 
+            layout_manager: new Clutter.BinLayout(),
+            y_align: Clutter.ActorAlign[!isTopHeader ? 'START' : 'END'],
+            y_expand: true, 
+            style: 'padding: ' + this._padding + 'px;'
+        });
+        this._previewBin.set_size(previewBinWidth, previewBinHeight);
 
         if (Config.PACKAGE_VERSION >= '3.31.9') {
             closeButton.add_actor(new St.Icon({ icon_name: 'window-close-symbolic' }));
@@ -570,7 +576,7 @@ var Preview = Utils.defineClass({
             opacity: 0, 
             x_expand: true, y_expand: true, 
             x_align: Clutter.ActorAlign[isLeftButtons ? 'START' : 'END'], 
-            y_align: Clutter.ActorAlign.START
+            y_align: Clutter.ActorAlign[isTopHeader ? 'START' : 'END']
         });
 
         this._closeButtonBin.add_child(closeButton);
@@ -578,7 +584,7 @@ var Preview = Utils.defineClass({
         if (headerHeight) {
             let headerBox = new St.Widget({ 
                 layout_manager: new Clutter.BoxLayout(), 
-                y_align: Clutter.ActorAlign.START, 
+                y_align: Clutter.ActorAlign[isTopHeader ? 'START' : 'END'], 
                 y_expand: true, 
                 style: this._getBackgroundColor(HEADER_COLOR_OFFSET, .8) 
             });
@@ -594,8 +600,6 @@ var Preview = Utils.defineClass({
             headerBox.insert_child_at_index(this._windowTitle, isLeftButtons ? 1 : 2);
 
             this.add_child(headerBox);
-            
-            this._previewBin.set_position(0, headerHeight);
         }
 
         closeButton.connect('clicked', () => this._onCloseBtnClick());
@@ -615,7 +619,13 @@ var Preview = Utils.defineClass({
         let closeButtonBorderRadius = '';
 
         if (!headerHeight) {
-            closeButtonBorderRadius = 'border-radius: ' + (isLeftButtons ? '0 0 4px 0;' : '0 0 0 4px;');
+            closeButtonBorderRadius = 'border-radius: ';
+            
+            if (isTopHeader) {
+                closeButtonBorderRadius += (isLeftButtons ? '0 0 4px 0;' : '0 0 0 4px;');
+            } else {
+                closeButtonBorderRadius += (isLeftButtons ? '0 4px 0 0;' : '4px 0 0 0;');
+            }
         }
 
         this._closeButtonBin.set_style(

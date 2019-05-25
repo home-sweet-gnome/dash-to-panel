@@ -44,11 +44,7 @@
   </enum>
   <!-- this is mean to Match StSide. LEFT and RIGHT actual position in reversed in
        rtl languages -->
-  <enum id='org.gnome.shell.extensions.dash-to-panel.panelPosition'>
-    <value value='0' nick='BOTTOM'/>
-    <value value='1' nick='TOP'/>
-  </enum>
-  <enum id='org.gnome.shell.extensions.dash-to-panel.dotPosition'>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.position'>
     <value value='0' nick='BOTTOM'/>
     <value value='1' nick='TOP'/>
   </enum>
@@ -65,7 +61,7 @@
     <value value='4' nick='bolder'/>
   </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
-    <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.panelPosition">
+    <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
       <summary>Panel position</summary>
       <description>Panel is shown on the Bottom or Top of the screen.</description>
@@ -75,7 +71,7 @@
       <summary>Panel size</summary>
       <description>Set the size of the panel.</description>
     </key>
-    <key name="dot-position" enum="org.gnome.shell.extensions.dash-to-panel.dotPosition">
+    <key name="dot-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
       <summary>Dot position</summary>
       <description>Running indicators are shown on the Bottom or Top of the screen.</description>
@@ -409,6 +405,11 @@
       <default>true</default>
       <summary>Display title in preview</summary>
       <description>Display window title in preview</description>
+    </key>
+    <key name="window-preview-title-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
+      <default>'TOP'</default>
+      <summary>Title position</summary>
+      <description>Position of the window title, close button and icon in preview.</description>
     </key>
     <key type="s" name="window-preview-title-font-color">
       <default>"#dddddd"</default>
