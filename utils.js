@@ -271,6 +271,18 @@ var DisplayWrapper = {
     }
 };
 
+var getCurrentWorkspace = function() {
+    return DisplayWrapper.getWorkspaceManager().get_active_workspace();
+};
+
+var getWorkspaceByIndex = function(index) {
+    return DisplayWrapper.getWorkspaceManager().get_workspace_by_index(index);
+};
+
+var getWorkspaceCount = function() {
+    return DisplayWrapper.getWorkspaceManager().n_workspaces;
+};
+
 var findIndex = function(array, predicate) {
     if (Array.prototype.findIndex) {
         return array.findIndex(predicate);

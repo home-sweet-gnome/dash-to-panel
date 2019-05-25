@@ -21,6 +21,7 @@ const Gtk = imports.gi.Gtk;
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
+const PopupMenu = imports.ui.popupMenu;
 const Signals = imports.signals;
 const Shell = imports.gi.Shell;
 const St = imports.gi.St;
@@ -62,7 +63,7 @@ var PreviewMenu = Utils.defineClass({
         this.currentAppIcon = null;
         this._focusedPreview = null;
         this._peekedWindow = null;
-        this._peekInitialWorkspace = null;
+        this.peekInitialWorkspaceIndex = -1;
         this.opened = false;
         this._position = Taskbar.getPosition();
         let isLeftOrRight = this._checkIfLeftOrRight();
@@ -222,7 +223,7 @@ var PreviewMenu = Utils.defineClass({
         this._timeoutsHandler.remove(T3);
 
         if (this._dtpSettings.get_boolean('peek-mode')) {
-            if (!this._peekInitialWorkspace) {
+            if (this.peekInitialWorkspaceIndex < 0) {
                 this._timeoutsHandler.add([T3, this._dtpSettings.get_int('enter-peek-mode-timeout'), () => this._peek(window)]);
             } else {
                 this._peek(window);
@@ -270,7 +271,13 @@ var PreviewMenu = Utils.defineClass({
             if (currentIndex < 0) {
                 this._addNewPreview(windows[i]);
             } else {
+                currentPreviews[currentIndex].cancelAnimateOut();
+                currentPreviews[currentIndex].assignWindow(windows[i]);
                 currentPreviews.splice(currentIndex, 1);
+
+                if (this._peekedWindow && this._peekedWindow == windows[i]) {
+                    this.requestPeek(windows[i]);
+                }
             }
         }
 
@@ -449,21 +456,22 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _peek: function(window) {
-        let currentWorkspace = this._getCurrentWorkspace();
+        let currentWorkspace = Utils.getCurrentWorkspace();
         let windowWorkspace = window.get_workspace();
         let focusWindow = () => this._focusMetaWindow(this._dtpSettings.get_int('peek-mode-opacity'), window);
         
         this._restorePeekedWindowStack();
+        this._peekedWindow = window;
         
         if (currentWorkspace != windowWorkspace) {
-            this._switchToWorkspaceImmediate(windowWorkspace);
+            this._switchToWorkspaceImmediate(windowWorkspace.index());
             this._timeoutsHandler.add([T3, 100, focusWindow]);
         } else {
             focusWindow();
         }
 
-        if (!this._peekInitialWorkspace) {
-            this._peekInitialWorkspace = currentWorkspace;
+        if (this.peekInitialWorkspaceIndex < 0) {
+            this.peekInitialWorkspaceIndex = currentWorkspace.index();
         }
     }, 
 
@@ -474,33 +482,36 @@ var PreviewMenu = Utils.defineClass({
             this._restorePeekedWindowStack();
 
             if (!stayHere) {
-                this._switchToWorkspaceImmediate(this._peekInitialWorkspace);
+                this._switchToWorkspaceImmediate(this.peekInitialWorkspaceIndex);
             }
 
             this._focusMetaWindow(255);
             this._peekedWindow = null;
-            this._peekInitialWorkspace = null;
+            this.peekInitialWorkspaceIndex = -1;
         }
     },
 
-    _switchToWorkspaceImmediate: function(workspace) {
-        if (workspace) {
-            Main.wm._blockAnimations = true;
-            workspace.activate(1);
-            Main.wm._blockAnimations = false;
+    _switchToWorkspaceImmediate: function(workspaceIndex) {
+        let workspace = Utils.getWorkspaceByIndex(workspaceIndex);
+
+        if (!workspace || (!workspace.list_windows().length && 
+            workspaceIndex < Utils.getWorkspaceCount() -1)) {
+            workspace = Utils.getCurrentWorkspace();
         }
+
+        Main.wm._blockAnimations = true;
+        workspace.activate(1);
+        Main.wm._blockAnimations = false;
     },
 
-    _focusMetaWindow: function(dimOpacity, metaWindow) {
+    _focusMetaWindow: function(dimOpacity, window) {
         if (Main.overview.visibleTarget) {
             return;
         }
 
-        this._peekedWindow = metaWindow;
-
         global.get_window_actors().forEach(wa => {
             let mw = wa.meta_window;
-            let isFocused = mw == metaWindow;
+            let isFocused = mw == window;
 
             if (mw) {
                 if (isFocused) {
@@ -531,10 +542,6 @@ var PreviewMenu = Utils.defineClass({
             }
         }
     },
-
-    _getCurrentWorkspace: function() {
-        return Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
-    },
 });
 
 var Preview = Utils.defineClass({
@@ -549,6 +556,7 @@ var Preview = Utils.defineClass({
             layout_manager: new Clutter.BinLayout()
         });
 
+        this.window = null;
         this.cloneWidth = this.cloneHeight = 0;
         this._panelWrapper = panelWrapper;
         this._previewMenu = previewMenu;
@@ -636,32 +644,46 @@ var Preview = Utils.defineClass({
     },
 
     assignWindow: function(window, animateSize) {
-        let _assignWindow = () => {
-            if (window.get_compositor_private()) {
-                let clone = this._getWindowClone(window);
-                
-                this._updateHeader();
-                this._resizeClone(clone);
-                this._addClone(clone, animateSize);
-                this._previewMenu.updatePosition();
-            } else {
-                Mainloop.idle_add(() => _assignWindow());
-            }
-        };
+        if (this.window != window) {
+            let _assignWindowClone = () => {
+                if (window.get_compositor_private()) {
+                    let clone = this._getWindowClone(window);
+                    
+                    this._resizeClone(clone);
+                    this._addClone(clone, animateSize);
+                    this._previewMenu.updatePosition();
+                } else {
+                    Mainloop.idle_add(() => _assignWindowClone());
+                }
+            };
+
+            _assignWindowClone();
+        }
 
         this._removeWindowSignals();
         this.window = window;
-
-        _assignWindow();
+        this._updateHeader();
     },
 
     animateOut: function() {
-        let tweenOpts = getTweenOpts({ opacity: 0, onComplete: () => this.destroy() });
+        if (!this.animatingOut) {
+            let tweenOpts = getTweenOpts({ opacity: 0, onComplete: () => this.destroy() });
 
-        tweenOpts[this._previewMenu._checkIfLeftOrRight() ? 'height' : 'width'] = 0;
-        this.animatingOut = true;
+            tweenOpts[this._previewMenu._checkIfLeftOrRight() ? 'height' : 'width'] = 0;
+            this.animatingOut = true;
 
-        Tweener.addTween(this, tweenOpts);
+            Tweener.removeTweens(this);
+            Tweener.addTween(this, tweenOpts);
+        }
+    },
+
+    cancelAnimateOut: function() {
+        if (this.animatingOut) {
+            this.animatingOut = false;
+
+            Tweener.removeTweens(this);
+            Tweener.addTween(this, getTweenOpts({ opacity: 255 }));
+        }
     },
 
     getSize: function() {
@@ -716,9 +738,40 @@ var Preview = Utils.defineClass({
                     this._onCloseBtnClick();
                 }
                 break;
+            case 3: // Right click
+                this._showContextMenu(e);
+                break;
         }
 
         return Clutter.EVENT_STOP;
+    },
+
+    _showContextMenu: function(e) {
+        let coords = e.get_coords();
+        let currentWorkspace = this._previewMenu.peekInitialWorkspaceIndex < 0 ? 
+                               Utils.getCurrentWorkspace() : 
+                               Utils.getWorkspaceByIndex(this._previewMenu.peekInitialWorkspaceIndex);
+
+        Main.wm._showWindowMenu(null, this.window, Meta.WindowMenuType.WM, {
+            x: coords[0],
+            y: coords[1],
+            width: 0,
+            height: 0
+        });
+
+        let ctxMenuData = Main.wm._windowMenuManager._manager._menus[0];
+
+        ctxMenuData.menu.connect('open-state-changed', () => this._previewMenu.menu.sync_hover());
+
+        if (this.window.get_workspace() != currentWorkspace) {
+            let menuItem = new PopupMenu.PopupMenuItem(_('Move to current Workspace') + ' [' + (currentWorkspace.index() + 1) + ']');
+            let menuItems = ctxMenuData.menu.box.get_children();
+            let insertIndex = Utils.findIndex(menuItems, c => c._delegate instanceof PopupMenu.PopupSeparatorMenuItem);
+
+            insertIndex = insertIndex >= 0 ? insertIndex : menuItems.length - 1;
+            ctxMenuData.menu.addMenuItem(menuItem, insertIndex);
+            menuItem.connect('activate', () => this.window.change_workspace(currentWorkspace));
+        }
     },
 
     _removeWindowSignals: function() {

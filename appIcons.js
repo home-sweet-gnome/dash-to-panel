@@ -181,10 +181,10 @@ var taskbarAppIcon = Utils.defineClass({
                                                             Lang.bind(this, this._onFocusAppChanged));
 
         this._windowEnteredMonitorId = this._windowLeftMonitorId = 0;
-
+        this._stateChangedId = this.app.connect('windows-changed',
+        Lang.bind(this, this.onWindowsChanged));
         if (!this.window) {
-            this._stateChangedId = this.app.connect('windows-changed',
-                                                Lang.bind(this, this.onWindowsChanged));
+            
 
             if (this._dtpSettings.get_boolean('isolate-monitors')) {
                 this._windowEnteredMonitorId = Utils.DisplayWrapper.getScreen().connect('window-entered-monitor', this.onWindowEnteredOrLeft.bind(this));
@@ -266,6 +266,8 @@ var taskbarAppIcon = Utils.defineClass({
     _onDestroy: function() {
         this.callParent('_onDestroy');
         this._destroyed = true;
+
+        this._previewMenu.close(true);
 
         // Disconect global signals
         // stateChangedId is already handled by parent)
@@ -849,16 +851,20 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _updateWindows: function() {
-        let windows = this.getAppIconInterestingWindows();
+        let windows = [this.window];
         
-        this._nWindows = windows.length;
-
-        for (let i = 1; i <= MAX_INDICATORS; i++){
-            let className = 'running'+i;
-            if(i != this._nWindows)
-                this.actor.remove_style_class_name(className);
-            else
-                this.actor.add_style_class_name(className);
+        if (!this.window) {
+            windows = this.getAppIconInterestingWindows();
+        
+            this._nWindows = windows.length;
+    
+            for (let i = 1; i <= MAX_INDICATORS; i++){
+                let className = 'running'+i;
+                if(i != this._nWindows)
+                    this.actor.remove_style_class_name(className);
+                else
+                    this.actor.add_style_class_name(className);
+            }
         }
 
         this._previewMenu.update(this, windows);
