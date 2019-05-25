@@ -630,7 +630,7 @@ var Preview = Utils.defineClass({
 
         this._closeButtonBin.set_style(
             'padding: ' + closeButtonPadding + 'px; ' + 
-            this._getBackgroundColor(HEADER_COLOR_OFFSET, .8) +
+            this._getBackgroundColor(Math.abs(HEADER_COLOR_OFFSET), .8) +
             closeButtonBorderRadius
         );
     },
