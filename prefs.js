@@ -1030,6 +1030,11 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
+            this._settings.bind('window-preview-fixed-size',
+                            this._builder.get_object('preview_fixed_size_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+                            
             this._settings.bind('peek-mode',
                             this._builder.get_object('peek_mode_switch'),
                             'active',
@@ -1132,6 +1137,8 @@ const Settings = new Lang.Class({
                     this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
 
                     this._settings.set_value('preview-middle-click-close', this._settings.get_default_value('preview-middle-click-close'));
+
+                    this._settings.set_value('window-preview-fixed-size', this._settings.get_default_value('window-preview-fixed-size'));
 
                     this._settings.set_value('window-preview-title-font-size', this._settings.get_default_value('window-preview-title-font-size'));
                     this._builder.get_object('preview_title_size_spinbutton').set_value(this._settings.get_int('window-preview-title-font-size'));

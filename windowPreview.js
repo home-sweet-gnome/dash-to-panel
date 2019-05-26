@@ -69,16 +69,25 @@ var PreviewMenu = Utils.defineClass({
         this._position = Taskbar.getPosition();
         let isLeftOrRight = this._checkIfLeftOrRight();
         this._translationProp = 'translation_' + (isLeftOrRight ? 'x' : 'y');
-        this._translationOffset = Math.min(this._dtpSettings.get_int('panel-size'), MAX_TRANSLATION) * 
-                                  (this._position == St.Side.TOP || this._position == St.Side.LEFT ? -1 : 1);
+        this._translationDirection = (this._position == St.Side.TOP || this._position == St.Side.LEFT ? -1 : 1);
+        this._translationOffset = Math.min(this._dtpSettings.get_int('panel-size'), MAX_TRANSLATION) * this._translationDirection;
 
-        this.menu = new St.Widget({ name: 'preview-menu', layout_manager: new Clutter.BinLayout(), reactive: true, track_hover: true });
+        this.menu = new St.Widget({ 
+            name: 'preview-menu', 
+            layout_manager: new Clutter.BinLayout(), 
+            reactive: true, 
+            track_hover: true,
+            y_expand: true, 
+            y_align: Clutter.ActorAlign.END
+        });
         this._box = new St.BoxLayout({ vertical: isLeftOrRight });
         this._scrollView = new St.ScrollView({
             name: 'dashtopanelPreviewScrollview',
             hscrollbar_policy: Gtk.PolicyType.NEVER,
             vscrollbar_policy: Gtk.PolicyType.NEVER,
-            enable_mouse_scrolling: true
+            enable_mouse_scrolling: true,
+            y_expand: !isLeftOrRight, 
+            x_expand: isLeftOrRight
         });
 
         this._scrollView.add_actor(this._box);
@@ -400,7 +409,7 @@ var PreviewMenu = Utils.defineClass({
         let x = 0, y = 0;
 
         previewsWidth = Math.min(previewsWidth, this._panelWrapper.monitor.width);
-        previewsHeight = Math.min(previewsHeight, this._panelWrapper.monitor.height);
+        previewsHeight = Math.min(previewsHeight, this._panelWrapper.monitor.height) + headerHeight;
         
         if (this._checkIfLeftOrRight()) {
             y = sourceAllocation.y1 - this._panelWrapper.monitor.y + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
@@ -414,8 +423,9 @@ var PreviewMenu = Utils.defineClass({
 
         if (!this.opened) {
             this.menu.set_position(x, y);
+            this.menu.set_size(previewsWidth, previewsHeight);
         } else {
-            Tweener.addTween(this.menu, getTweenOpts({ x: x, y: y }));
+            Tweener.addTween(this.menu, getTweenOpts({ x: x, y: y, width: previewsWidth, height: previewsHeight }));
         }
     },
 
@@ -454,7 +464,7 @@ var PreviewMenu = Utils.defineClass({
             }
         };
 
-        tweenOpts[this._translationProp] = show ? 0 : this._translationOffset;
+        tweenOpts[this._translationProp] = show ? 1 * this._translationDirection : this._translationOffset;
 
         Tweener.addTween(this.menu, getTweenOpts(tweenOpts));
     },
@@ -575,16 +585,9 @@ var Preview = Utils.defineClass({
         this._previewDimensions = this._getPreviewDimensions();
         this.animatingOut = false;
 
+        let box = new St.Widget({ layout_manager: new Clutter.BoxLayout({ vertical: true }), y_expand: true });
         let [previewBinWidth, previewBinHeight] = this._getBinSize();
         let closeButton = new St.Button({ style_class: 'window-close', accessible_name: 'Close window' });
-
-        this._previewBin = new St.Widget({ 
-            layout_manager: new Clutter.BinLayout(),
-            y_align: Clutter.ActorAlign[!isTopHeader ? 'START' : 'END'],
-            y_expand: true, 
-            style: 'padding: ' + this._padding + 'px;'
-        });
-        this._previewBin.set_size(previewBinWidth, previewBinHeight);
 
         if (Config.PACKAGE_VERSION >= '3.31.9') {
             closeButton.add_actor(new St.Icon({ icon_name: 'window-close-symbolic' }));
@@ -600,11 +603,21 @@ var Preview = Utils.defineClass({
 
         this._closeButtonBin.add_child(closeButton);
 
+        this._previewBin = new St.Widget({ 
+            layout_manager: new Clutter.BinLayout(),
+            x_expand: true, y_expand: true, 
+            style: 'padding: ' + this._padding + 'px;'
+        });
+
+        this._previewBin.set_size(previewBinWidth, previewBinHeight);
+
+        box.add_child(this._previewBin);
+        
         if (headerHeight) {
             let headerBox = new St.Widget({ 
                 layout_manager: new Clutter.BoxLayout(), 
-                y_align: Clutter.ActorAlign[isTopHeader ? 'START' : 'END'], 
-                y_expand: true, 
+                x_expand: true, 
+                y_align: Clutter.ActorAlign[isTopHeader ? 'START' : 'END'],
                 style: this._getBackgroundColor(HEADER_COLOR_OFFSET, .8) 
             });
             
@@ -618,19 +631,16 @@ var Preview = Utils.defineClass({
             headerBox.insert_child_at_index(this._workspaceIndicator, isLeftButtons ? 0 : 1);
             headerBox.insert_child_at_index(this._windowTitle, isLeftButtons ? 1 : 2);
 
-            this.add_child(headerBox);
+            box.insert_child_at_index(headerBox, isTopHeader ? 0 : 1);
         }
+
+        this.add_child(box);
+        this.add_child(this._closeButtonBin);
 
         closeButton.connect('clicked', () => this._onCloseBtnClick());
         this.connect('notify::hover', () => this._onHoverChanged());
         this.connect('button-release-event', (actor, e) => this._onButtonReleaseEvent(e));
-
         this.connect('destroy', () => this._onDestroy());
-
-        this.add_child(this._previewBin);
-        this.add_child(this._closeButtonBin);
-
-        this.set_size(-1, previewBinHeight + headerHeight);
     },
 
     adjustOnStage: function() {
@@ -678,9 +688,8 @@ var Preview = Utils.defineClass({
 
     animateOut: function() {
         if (!this.animatingOut) {
-            let tweenOpts = getTweenOpts({ opacity: 0, onComplete: () => this.destroy() });
+            let tweenOpts = getTweenOpts({ opacity: 0, width: 0, height: 0, onComplete: () => this.destroy() });
 
-            tweenOpts[this._previewMenu._checkIfLeftOrRight() ? 'height' : 'width'] = 0;
             this.animatingOut = true;
 
             Tweener.removeTweens(this);
@@ -868,13 +877,10 @@ var Preview = Utils.defineClass({
             currentClones.forEach(c => c.destroy());
             Tweener.addTween(currentClone, currentCloneOpts);
         } else if (animateSize) {
-            if (this._previewMenu._checkIfLeftOrRight()) {
-                newClone.height = 0;
-                newCloneOpts.height = this.cloneHeight;
-            } else {
-                newClone.width = 0;
-                newCloneOpts.width = this.cloneWidth;
-            }
+            newClone.width = 0;
+            newClone.height = 0;
+            newCloneOpts.width = this.cloneWidth;
+            newCloneOpts.height = this.cloneHeight;
         }
 
         this._previewBin.add_child(newClone);
@@ -892,15 +898,17 @@ var Preview = Utils.defineClass({
     },
 
     _getBinSize: function() {
-        let [width, height] = this._previewDimensions;
+        let width = -1;
+        let height = -1;
 
-        width += this._padding * 2;
-        height += this._padding * 2;
+        if (this._previewMenu._dtpSettings.get_boolean('window-preview-fixed-size')) {
+            let [fixedWidth, fixedHeight] = this._previewDimensions;
 
-        if (this._previewMenu._checkIfLeftOrRight()) {
-            height = -1;
-        } else {
-            width = -1;
+            if (this._previewMenu._checkIfLeftOrRight()) {
+                width = fixedWidth + this._padding * 2;
+            } else {
+                height = fixedHeight + this._padding * 2;
+            }
         }
 
         return [width, height];

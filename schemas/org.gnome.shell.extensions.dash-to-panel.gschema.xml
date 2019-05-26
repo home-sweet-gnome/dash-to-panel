@@ -436,6 +436,11 @@
       <summary>Window previews size</summary>
       <description>Preferred window previews size</description>
     </key>
+    <key type="b" name="window-preview-fixed-size">
+      <default>true</default>
+      <summary>Window previews fixed size</summary>
+      <description>This defines if the window previews use a fixed or dynamic size.</description>
+    </key>
     <key type="i" name="window-preview-padding">
       <default>8</default>
       <summary>Window previews padding</summary>
