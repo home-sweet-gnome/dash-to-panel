@@ -155,6 +155,7 @@ var PreviewMenu = Utils.defineClass({
                 this.menu.show();
 
                 this._refreshGlobals();
+                this.grab_key_focus();
             }
 
             this._mergeWindows(appIcon);
@@ -177,6 +178,7 @@ var PreviewMenu = Utils.defineClass({
             this._animateOpenOrClose(false, () => this._resetHiddenState());
         }
 
+        global.display.focus_default_window(1);
         this._box.get_children().forEach(c => c.reactive = false);
         this.menu.reactive = false;
         this.currentAppIcon = null;
@@ -503,6 +505,8 @@ var PreviewMenu = Utils.defineClass({
         Main.wm._blockAnimations = true;
         workspace.activate(1);
         Main.wm._blockAnimations = false;
+
+        this.grab_key_focus();
     },
 
     _focusMetaWindow: function(dimOpacity, window) {
