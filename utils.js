@@ -94,7 +94,7 @@ var defineClass = function (classDef) {
           .forEach(k => C.prototype[k] = classDef[k]);
 
     if (isGObject) { 
-        C = GObject.registerClass(C);
+        C = GObject.registerClass({ Signals: classDef.Signals || {} }, C);
     }
     
     return C;

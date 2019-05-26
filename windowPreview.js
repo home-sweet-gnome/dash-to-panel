@@ -54,6 +54,7 @@ var animationTime = 0;
 var PreviewMenu = Utils.defineClass({
     Name: 'DashToPanel-PreviewMenu',
     Extends: St.Widget,
+    Signals: { 'open-state-changed': {} },
 
     _init: function(dtpSettings, panelWrapper) {
         this.callParent('_init', { layout_manager: new Clutter.BinLayout() });
@@ -163,7 +164,7 @@ var PreviewMenu = Utils.defineClass({
             this._animateOpenOrClose(true);
 
             this.menu.reactive = true;
-            this.opened = true;
+            this._setOpenedState(true);
         }
     },
 
@@ -235,6 +236,11 @@ var PreviewMenu = Utils.defineClass({
 
     endPeekHere: function() {
         this._endPeek(true);
+    },
+
+    _setOpenedState: function(opened) {
+        this.opened = opened;
+        this.emit('open-state-changed');
     },
 
     _removeFocus: function() {
@@ -349,7 +355,7 @@ var PreviewMenu = Utils.defineClass({
 
     _resetHiddenState: function() {
         this.menu.hide();
-        this.opened = false;
+        this._setOpenedState(false);
         this.menu.opacity = 0;
         this.menu[this._translationProp] = this._translationOffset;
         this._box.get_children().forEach(c => c.destroy());
