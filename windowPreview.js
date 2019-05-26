@@ -179,7 +179,7 @@ var PreviewMenu = Utils.defineClass({
             this._animateOpenOrClose(false, () => this._resetHiddenState());
         }
 
-        global.display.focus_default_window(1);
+        Utils.DisplayWrapper.getScreen().focus_default_window(1);
         this._box.get_children().forEach(c => c.reactive = false);
         this.menu.reactive = false;
         this.currentAppIcon = null;
