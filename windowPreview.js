@@ -483,11 +483,12 @@ var PreviewMenu = Utils.defineClass({
 
             this._focusMetaWindow(255);
             this._peekedWindow = null;
-            this.peekInitialWorkspaceIndex = -1;
 
             if (!stayHere) {
                 this._switchToWorkspaceImmediate(this.peekInitialWorkspaceIndex);
             }
+
+            this.peekInitialWorkspaceIndex = -1;
         }
     },
 
