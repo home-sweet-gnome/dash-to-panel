@@ -41,6 +41,7 @@ const T3 = 'peekTimeout';
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
 const DEFAULT_RATIO = { w: 160, h: 90 };
+const MIN_MENU_ALPHA = .5;
 const FOCUSED_COLOR_OFFSET = 24;
 const HEADER_COLOR_OFFSET = -12;
 const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
@@ -78,7 +79,7 @@ var PreviewMenu = Utils.defineClass({
             reactive: true, 
             track_hover: true,
             y_expand: true, 
-            y_align: Clutter.ActorAlign.END
+            y_align: Clutter.ActorAlign[this._translationDirection > 0 ? 'END' : 'START']
         });
         this._box = new St.BoxLayout({ vertical: isLeftOrRight });
         this._scrollView = new St.ScrollView({
@@ -161,7 +162,9 @@ var PreviewMenu = Utils.defineClass({
             this.currentAppIcon = appIcon;
 
             if (!this.opened) {
-                this.menu.set_style('background: ' + this._panelWrapper.dynamicTransparency.currentBackgroundColor);
+                let alpha = Math.max(MIN_MENU_ALPHA, this._panelWrapper.dynamicTransparency.alpha);
+    
+                this.menu.set_style('background: ' + Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, alpha));
                 this.menu.show();
 
                 this._refreshGlobals();
@@ -618,7 +621,7 @@ var Preview = Utils.defineClass({
                 layout_manager: new Clutter.BoxLayout(), 
                 x_expand: true, 
                 y_align: Clutter.ActorAlign[isTopHeader ? 'START' : 'END'],
-                style: this._getBackgroundColor(HEADER_COLOR_OFFSET, .8) 
+                style: this._getBackgroundColor(HEADER_COLOR_OFFSET, 1) 
             });
             
             this._workspaceIndicator = new St.Label({ y_align: Clutter.ActorAlign.CENTER });
@@ -659,7 +662,7 @@ var Preview = Utils.defineClass({
 
         this._closeButtonBin.set_style(
             'padding: ' + closeButtonPadding + 'px; ' + 
-            this._getBackgroundColor(Math.abs(HEADER_COLOR_OFFSET), .8) +
+            this._getBackgroundColor(HEADER_COLOR_OFFSET, headerHeight ? 1 : MIN_MENU_ALPHA) +
             closeButtonBorderRadius
         );
     },
@@ -846,7 +849,7 @@ var Preview = Utils.defineClass({
         alpha = Math.abs(alpha);
 
         if (isNaN(alpha)) {
-            alpha = this._panelWrapper.dynamicTransparency.alpha;
+            alpha = Math.max(MIN_MENU_ALPHA, this._panelWrapper.dynamicTransparency.alpha);
         }
 
         return Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, alpha, offset);

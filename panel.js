@@ -158,6 +158,7 @@ var dtpPanelWrapper = Utils.defineClass({
 
         //the timeout makes sure the theme's styles are computed before initially applying the transparency
         this.startDynamicTransparencyId = Mainloop.timeout_add(0, () => {
+            this.startDynamicTransparencyId = 0;
             this.dynamicTransparency = new Transparency.DynamicTransparency(this);
         });
         
