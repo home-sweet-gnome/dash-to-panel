@@ -422,7 +422,7 @@
       <description>This defines the window preview titles font size.</description>
     </key>
     <key type="i" name="window-preview-animation-time">
-      <default>300</default>
+      <default>260</default>
       <summary>Window previews animation time</summary>
       <description>This defines the window previews animation time.</description>
     </key>
