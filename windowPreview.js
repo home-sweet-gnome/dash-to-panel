@@ -40,7 +40,6 @@ const T3 = 'peekTimeout';
 
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
-const DEFAULT_RATIO = { w: 160, h: 90 };
 const MIN_DIMENSION = 100;
 const MIN_MENU_ALPHA = .5;
 const FOCUSED_COLOR_OFFSET = 24;
@@ -920,8 +919,8 @@ var Preview = Utils.defineClass({
 
     _resizeClone: function(cloneBin) {
         let [width, height] = cloneBin.child.get_source().get_size();
-        let [maxWidth, maxHeight] = this._previewDimensions;
-        let ratio = Math.min(maxWidth / width, maxHeight / height, 1);
+        let [fixedWidth, fixedHeight] = this._previewDimensions;
+        let ratio = Math.min(fixedWidth / width, fixedHeight / height, 1);
         let cloneWidth = Math.floor(width * ratio);
         let cloneHeight = Math.floor(height * ratio);
         let clonePaddingTB = cloneHeight < MIN_DIMENSION ? MIN_DIMENSION - cloneHeight : 0;
@@ -935,15 +934,16 @@ var Preview = Utils.defineClass({
     },
 
     _getPreviewDimensions: function() {
+        let primaryMonitor = Main.layoutManager.primaryMonitor;
         let size = this._previewMenu._dtpSettings.get_int('window-preview-size') * scaleFactor;
         let w, h;
 
         if (this._previewMenu._checkIfLeftOrRight()) {
-            w = Math.max(DEFAULT_RATIO.w, size);
-            h = w * DEFAULT_RATIO.h / DEFAULT_RATIO.w;
+            w = size;
+            h = w * primaryMonitor.height / primaryMonitor.width;
         } else {
-            h = Math.max(DEFAULT_RATIO.h, size);
-            w = h * DEFAULT_RATIO.w / DEFAULT_RATIO.h;
+            h = size;
+            w = h * primaryMonitor.width / primaryMonitor.height;
         }
 
         return [w, h];
