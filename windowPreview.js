@@ -409,17 +409,18 @@ var PreviewMenu = Utils.defineClass({
         let sourceContentBox = sourceNode.get_content_box(this.currentAppIcon.actor.get_allocation_box());
         let sourceAllocation = Shell.util_get_transformed_allocation(this.currentAppIcon.actor);
         let [previewsWidth, previewsHeight] = this._getPreviewsSize();
+        let appIconMargin = this._dtpSettings.get_int('appicon-margin') / scaleFactor;
         let x = 0, y = 0;
 
         previewsWidth = Math.min(previewsWidth, this._panelWrapper.monitor.width);
         previewsHeight = Math.min(previewsHeight, this._panelWrapper.monitor.height) + headerHeight;
         
         if (this._checkIfLeftOrRight()) {
-            y = sourceAllocation.y1 - this._panelWrapper.monitor.y + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
+            y = sourceAllocation.y1 + appIconMargin - this._panelWrapper.monitor.y + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
             y = Math.max(y, 0);
             y = Math.min(y, this._panelWrapper.monitor.height - previewsHeight);
         } else {
-            x = sourceAllocation.x1 - this._panelWrapper.monitor.x + (sourceContentBox.x2 - sourceContentBox.x1 - previewsWidth) * .5;
+            x = sourceAllocation.x1 + appIconMargin - this._panelWrapper.monitor.x + (sourceContentBox.x2 - sourceContentBox.x1 - previewsWidth) * .5;
             x = Math.max(x, 0);
             x = Math.min(x, this._panelWrapper.monitor.width - previewsWidth);
         }
