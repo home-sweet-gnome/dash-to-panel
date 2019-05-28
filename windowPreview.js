@@ -41,6 +41,7 @@ const T3 = 'peekTimeout';
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
 const DEFAULT_RATIO = { w: 160, h: 90 };
+const MIN_DIMENSION = 100;
 const MIN_MENU_ALPHA = .5;
 const FOCUSED_COLOR_OFFSET = 24;
 const HEADER_COLOR_OFFSET = -12;
@@ -609,7 +610,7 @@ var Preview = Utils.defineClass({
         this._previewBin = new St.Widget({ 
             layout_manager: new Clutter.BinLayout(),
             x_expand: true, y_expand: true, 
-            style: 'padding: ' + this._padding + 'px;'
+            style: 'padding: ' + this._padding / scaleFactor + 'px;'
         });
 
         this._previewBin.set_size(previewBinWidth, previewBinHeight);
@@ -671,10 +672,10 @@ var Preview = Utils.defineClass({
         if (this.window != window) {
             let _assignWindowClone = () => {
                 if (window.get_compositor_private()) {
-                    let clone = this._getWindowClone(window);
+                    let cloneBin = this._getWindowCloneBin(window);
                     
-                    this._resizeClone(clone);
-                    this._addClone(clone, animateSize);
+                    this._resizeClone(cloneBin);
+                    this._addClone(cloneBin, animateSize);
                     this._previewMenu.updatePosition();
                 } else {
                     Mainloop.idle_add(() => _assignWindowClone());
@@ -855,48 +856,48 @@ var Preview = Utils.defineClass({
         return Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, alpha, offset);
     },
 
-    _addClone: function(newClone, animateSize) {
+    _addClone: function(newCloneBin, animateSize) {
         let currentClones = this._previewBin.get_children();
         let newCloneOpts = getTweenOpts({ opacity: 255 });
         
-        if (currentClones.length) {
-            let currentClone = currentClones.pop();
-            let currentCloneOpts = getTweenOpts({ opacity: 0, onComplete: () => currentClone.destroy() });
+        this._previewBin.add_child(newCloneBin);
 
-            if (newClone.width > currentClone.width) {
-                newCloneOpts.width = newClone.width;
-                newClone.width = currentClone.width;
+        if (currentClones.length) {
+            let currentCloneBin = currentClones.pop();
+            let currentCloneOpts = getTweenOpts({ opacity: 0, onComplete: () => currentCloneBin.destroy() });
+
+            if (newCloneBin.width > currentCloneBin.width) {
+                newCloneOpts.width = newCloneBin.width;
+                newCloneBin.width = currentCloneBin.width;
             } else {
-                currentCloneOpts.width = newClone.width;
+                currentCloneOpts.width = newCloneBin.width;
             }
 
-            if (newClone.height > currentClone.height) {
-                newCloneOpts.height = newClone.height;
-                newClone.height = currentClone.height;
+            if (newCloneBin.height > currentCloneBin.height) {
+                newCloneOpts.height = newCloneBin.height;
+                newCloneBin.height = currentCloneBin.height;
             } else {
-                currentCloneOpts.height = newClone.height;
+                currentCloneOpts.height = newCloneBin.height;
             }
 
             currentClones.forEach(c => c.destroy());
-            Tweener.addTween(currentClone, currentCloneOpts);
+            Tweener.addTween(currentCloneBin, currentCloneOpts);
         } else if (animateSize) {
-            newClone.width = 0;
-            newClone.height = 0;
+            newCloneBin.width = 0;
+            newCloneBin.height = 0;
             newCloneOpts.width = this.cloneWidth;
             newCloneOpts.height = this.cloneHeight;
         }
 
-        this._previewBin.add_child(newClone);
-        
-        Tweener.addTween(newClone, newCloneOpts);
+        Tweener.addTween(newCloneBin, newCloneOpts);
     },
     
-    _getWindowClone: function(window) {
-        return new Clutter.Clone({ 
-            source: window.get_compositor_private(), 
-            opacity: 0,
+    _getWindowCloneBin: function(window) {
+        return new St.Bin({ 
+            child: new Clutter.Clone({ source: window.get_compositor_private() }),
             y_align: Clutter.ActorAlign.CENTER, 
-            x_align: Clutter.ActorAlign.CENTER
+            x_align: Clutter.ActorAlign.CENTER,
+            opacity: 0,
         });
     },
 
@@ -917,17 +918,20 @@ var Preview = Utils.defineClass({
         return [width, height];
     },
 
-    _resizeClone: function(clone) {
-        let [width, height] = clone.get_source().get_size();
+    _resizeClone: function(cloneBin) {
+        let [width, height] = cloneBin.child.get_source().get_size();
         let [maxWidth, maxHeight] = this._previewDimensions;
-        let ratio = Math.min(maxWidth / width, maxHeight / height);
+        let ratio = Math.min(maxWidth / width, maxHeight / height, 1);
+        let cloneWidth = Math.floor(width * ratio);
+        let cloneHeight = Math.floor(height * ratio);
+        let clonePaddingTB = cloneHeight < MIN_DIMENSION ? MIN_DIMENSION - cloneHeight : 0;
+        let clonePaddingLR = cloneWidth < MIN_DIMENSION ? MIN_DIMENSION - cloneWidth : 0;
         
-        ratio = ratio < 1 ? ratio : 1;
+        this.cloneWidth = cloneWidth + clonePaddingLR * scaleFactor;
+        this.cloneHeight = cloneHeight + clonePaddingTB * scaleFactor;
 
-        this.cloneWidth = Math.floor(width * ratio);
-        this.cloneHeight = Math.floor(height * ratio);
-
-        clone.set_size(this.cloneWidth, this.cloneHeight);
+        cloneBin.set_style('padding: ' + Math.floor(clonePaddingTB * .5) + 'px ' + Math.floor(clonePaddingLR * .5) + 'px;');
+        cloneBin.child.set_size(cloneWidth, cloneHeight);
     },
 
     _getPreviewDimensions: function() {
