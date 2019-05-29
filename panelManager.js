@@ -282,7 +282,7 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     _getBoxPointerPreferredHeight: function(boxPointer, alloc, monitor) {
-        if (boxPointer._dtpInPanel && this._dtpSettings.get_boolean('intellihide')) {
+        if (boxPointer._dtpInPanel && boxPointer.sourceActor && this._dtpSettings.get_boolean('intellihide')) {
             monitor = monitor || Main.layoutManager.findMonitorForActor(boxPointer.sourceActor);
             let excess = alloc.natural_size + this._dtpSettings.get_int('panel-size') + 10 - monitor.height; // 10 is arbitrary
 
