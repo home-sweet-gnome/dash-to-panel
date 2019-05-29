@@ -1634,6 +1634,55 @@ var MyShowAppsIconMenu = Utils.defineClass({
     _redisplay: function() {
         this.removeAll();
 
+        let powerSettingsMenuItem = this._appendMenuItem(_('Power options'));
+        powerSettingsMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-control-center', 'power']);
+        });
+
+        let logsMenuItem = this._appendMenuItem(_('Event logs'));
+        logsMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-logs']);
+        });
+
+        let systemSettingsMenuItem = this._appendMenuItem(_('System'));
+        systemSettingsMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-control-center', 'info-overview']);
+        });
+
+        let devicesSettingsMenuItem = this._appendMenuItem(_('Device Management'));
+        devicesSettingsMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-control-center', 'display']);
+        });
+
+        let disksMenuItem = this._appendMenuItem(_('Disk Management'));
+        disksMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-disks']);
+        });
+
+        this._appendSeparator();
+
+        let terminalMenuItem = this._appendMenuItem(_('Terminal'));
+        terminalMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-terminal']);
+        });
+
+        let systemMonitorMenuItem = this._appendMenuItem(_('System monitor'));
+        systemMonitorMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-system-monitor']);
+        });
+
+        let filesMenuItem = this._appendMenuItem(_('Files'));
+        filesMenuItem.connect('activate', function () {
+            Util.spawn(['nautilus']);
+        });
+
+        let gsSettingsMenuItem = this._appendMenuItem(_('Settings'));
+        gsSettingsMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-control-center', 'wifi']);
+        });     
+
+        this._appendSeparator();
+
         let lockTaskbarMenuItem = this._appendMenuItem(this._dtpSettings.get_boolean('taskbar-locked') ? _('Unlock taskbar') : _('Lock taskbar'));
         lockTaskbarMenuItem.connect('activate', () => {
             this._dtpSettings.set_boolean('taskbar-locked', !this._dtpSettings.get_boolean('taskbar-locked'));
