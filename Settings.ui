@@ -2383,6 +2383,7 @@
                       <object class="GtkSpinButton" id="preview_size_spinbutton">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="halign">end</property>
                         <property name="width_chars">4</property>
                         <property name="text">0</property>
                         <property name="adjustment">preview_size_adjustment</property>
@@ -2427,6 +2428,7 @@
                       <object class="GtkSpinButton" id="preview_padding_spinbutton">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="halign">end</property>
                         <property name="width_chars">4</property>
                         <property name="text">50</property>
                         <property name="adjustment">preview_padding_adjustment</property>

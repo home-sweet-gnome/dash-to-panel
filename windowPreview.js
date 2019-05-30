@@ -101,7 +101,7 @@ var PreviewMenu = Utils.defineClass({
         this._timeoutsHandler = new Utils.TimeoutsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
-        Main.layoutManager.addChrome(this, { trackFullscreen: true, affectsInputRegion: false });
+        Main.layoutManager.addChrome(this, { affectsInputRegion: false });
         Main.layoutManager.trackChrome(this.menu, { affectsInputRegion: true });
         
         this._resetHiddenState();
@@ -166,7 +166,7 @@ var PreviewMenu = Utils.defineClass({
                 let alpha = Math.max(MIN_MENU_ALPHA, this._panelWrapper.dynamicTransparency.alpha);
     
                 this.menu.set_style('background: ' + Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, alpha));
-                this.menu.show();
+                this.show();
 
                 this._refreshGlobals();
                 this.grab_key_focus();
@@ -375,7 +375,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _resetHiddenState: function() {
-        this.menu.hide();
+        this.hide();
         this._setOpenedState(false);
         this.menu.opacity = 0;
         this.menu[this._translationProp] = this._translationOffset;
