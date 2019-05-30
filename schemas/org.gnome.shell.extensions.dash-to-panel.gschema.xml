@@ -436,15 +436,30 @@
       <summary>Window previews size</summary>
       <description>Preferred window previews size</description>
     </key>
-    <key type="b" name="window-preview-fixed-size">
+    <key type="b" name="window-preview-fixed-x">
+      <default>false</default>
+      <summary>Fixed aspect ratio X</summary>
+      <description>This defines if the window previews use a fixed aspect ratio X.</description>
+    </key>
+    <key type="b" name="window-preview-fixed-y">
       <default>true</default>
-      <summary>Window previews fixed size</summary>
-      <description>This defines if the window previews use a fixed or dynamic size.</description>
+      <summary>Fixed aspect ratio Y</summary>
+      <description>This defines if the window previews use a fixed aspect ratio Y.</description>
     </key>
     <key type="i" name="window-preview-padding">
       <default>8</default>
       <summary>Window previews padding</summary>
       <description>The padding of the window previews</description>
+    </key>
+    <key type="i" name="window-preview-aspect-ratio-x">
+      <default>16</default>
+      <summary>Aspect ratio X</summary>
+      <description>The window previews respected aspect ratio X.</description>
+    </key>
+    <key type="i" name="window-preview-aspect-ratio-y">
+      <default>9</default>
+      <summary>Aspect ratio Y</summary>
+      <description>The window previews respected aspect ratio Y.</description>
     </key>
     <key type="b" name="isolate-workspaces">
       <default>false</default>

@@ -46,11 +46,12 @@ const FOCUSED_COLOR_OFFSET = 24;
 const HEADER_COLOR_OFFSET = -12;
 const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
 
-var headerHeight = 0;
-var isLeftButtons = false;
-var isTopHeader = true;
-var scaleFactor = 1;
-var animationTime = 0;
+let headerHeight = 0;
+let isLeftButtons = false;
+let isTopHeader = true;
+let scaleFactor = 1;
+let animationTime = 0;
+let aspectRatio = {};
 
 var PreviewMenu = Utils.defineClass({
     Name: 'DashToPanel-PreviewMenu',
@@ -363,6 +364,14 @@ var PreviewMenu = Utils.defineClass({
         scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         headerHeight = this._dtpSettings.get_boolean('window-preview-show-title') ? HEADER_HEIGHT * scaleFactor : 0;
         animationTime = this._dtpSettings.get_int('window-preview-animation-time') * .001;
+        aspectRatio.x = {
+            size: this._dtpSettings.get_int('window-preview-aspect-ratio-x'),
+            fixed: this._dtpSettings.get_boolean('window-preview-fixed-x')
+        };
+        aspectRatio.y = {
+            size: this._dtpSettings.get_int('window-preview-aspect-ratio-y'),
+            fixed: this._dtpSettings.get_boolean('window-preview-fixed-y')
+        };
     },
 
     _resetHiddenState: function() {
@@ -902,20 +911,12 @@ var Preview = Utils.defineClass({
     },
 
     _getBinSize: function() {
-        let width = -1;
-        let height = -1;
+        let [fixedWidth, fixedHeight] = this._previewDimensions;
 
-        if (this._previewMenu._dtpSettings.get_boolean('window-preview-fixed-size')) {
-            let [fixedWidth, fixedHeight] = this._previewDimensions;
-
-            if (this._previewMenu._checkIfLeftOrRight()) {
-                width = fixedWidth + this._padding * 2;
-            } else {
-                height = fixedHeight + this._padding * 2;
-            }
-        }
-
-        return [width, height];
+        return [
+            aspectRatio.x.fixed ? fixedWidth + this._padding * 2 : -1,
+            aspectRatio.y.fixed ? fixedHeight + this._padding * 2 : -1
+        ];
     },
 
     _resizeClone: function(cloneBin) {
@@ -935,16 +936,15 @@ var Preview = Utils.defineClass({
     },
 
     _getPreviewDimensions: function() {
-        let primaryMonitor = Main.layoutManager.primaryMonitor;
         let size = this._previewMenu._dtpSettings.get_int('window-preview-size') * scaleFactor;
         let w, h;
 
         if (this._previewMenu._checkIfLeftOrRight()) {
             w = size;
-            h = w * primaryMonitor.height / primaryMonitor.width;
+            h = w * aspectRatio.y.size / aspectRatio.x.size;
         } else {
             h = size;
-            w = h * primaryMonitor.width / primaryMonitor.height;
+            w = h * aspectRatio.x.size / aspectRatio.y.size;
         }
 
         return [w, h];

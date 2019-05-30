@@ -1030,8 +1030,13 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
-            this._settings.bind('window-preview-fixed-size',
-                            this._builder.get_object('preview_fixed_size_switch'),
+            this._settings.bind('window-preview-fixed-x',
+                            this._builder.get_object('preview_aspect_ratio_x_fixed_togglebutton'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('window-preview-fixed-y',
+                            this._builder.get_object('preview_aspect_ratio_y_fixed_togglebutton'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
                             
@@ -1090,6 +1095,16 @@ const Settings = new Lang.Class({
                 this._settings.set_int('window-preview-size', widget.get_value());
             }));
 
+            this._builder.get_object('preview_aspect_ratio_x_combo').set_active_id(this._settings.get_int('window-preview-aspect-ratio-x').toString());
+            this._builder.get_object('preview_aspect_ratio_x_combo').connect('changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-aspect-ratio-x', parseInt(widget.get_active_id(), 10));
+            }));
+
+            this._builder.get_object('preview_aspect_ratio_y_combo').set_active_id(this._settings.get_int('window-preview-aspect-ratio-y').toString());
+            this._builder.get_object('preview_aspect_ratio_y_combo').connect('changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-aspect-ratio-y', parseInt(widget.get_active_id(), 10));
+            }));
+
             this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
             this._builder.get_object('preview_padding_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
                 this._settings.set_int('window-preview-padding', widget.get_value());
@@ -1132,13 +1147,20 @@ const Settings = new Lang.Class({
 
                     this._settings.set_value('window-preview-size', this._settings.get_default_value('window-preview-size'));
                     this._builder.get_object('preview_size_spinbutton').set_value(this._settings.get_int('window-preview-size'));
+
+                    this._settings.set_value('window-preview-fixed-x', this._settings.get_default_value('window-preview-fixed-x'));
+                    this._settings.set_value('window-preview-fixed-y', this._settings.get_default_value('window-preview-fixed-y'));
+
+                    this._settings.set_value('window-preview-aspect-ratio-x', this._settings.get_default_value('window-preview-aspect-ratio-x'));
+                    this._builder.get_object('preview_aspect_ratio_x_combo').set_active_id(this._settings.get_int('window-preview-aspect-ratio-x').toString());
+
+                    this._settings.set_value('window-preview-aspect-ratio-y', this._settings.get_default_value('window-preview-aspect-ratio-y'));
+                    this._builder.get_object('preview_aspect_ratio_y_combo').set_active_id(this._settings.get_int('window-preview-aspect-ratio-y').toString());
                     
                     this._settings.set_value('window-preview-padding', this._settings.get_default_value('window-preview-padding'));
                     this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
 
                     this._settings.set_value('preview-middle-click-close', this._settings.get_default_value('preview-middle-click-close'));
-
-                    this._settings.set_value('window-preview-fixed-size', this._settings.get_default_value('window-preview-fixed-size'));
 
                     this._settings.set_value('window-preview-title-font-size', this._settings.get_default_value('window-preview-title-font-size'));
                     this._builder.get_object('preview_title_size_spinbutton').set_value(this._settings.get_int('window-preview-title-font-size'));
