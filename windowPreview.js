@@ -121,6 +121,11 @@ var PreviewMenu = Utils.defineClass({
                 this._onScrollEvent.bind(this)
             ],
             [
+                this._panelWrapper.panelBox,
+                'style-changed',
+                () => this._updateClip()
+            ],
+            [
                 this._dtpSettings,
                 [
                     'changed::panel-size',
@@ -384,6 +389,7 @@ var PreviewMenu = Utils.defineClass({
 
     _updateClip: function() {
         let x, y, w, h;
+        let panelBoxTheme = this._panelWrapper.panelBox.get_theme_node();
         let panelSize = this._dtpSettings.get_int('panel-size') * scaleFactor;
         let previewSize = (this._dtpSettings.get_int('window-preview-size') + 
                            this._dtpSettings.get_int('window-preview-padding') * 2) * scaleFactor;
@@ -399,13 +405,13 @@ var PreviewMenu = Utils.defineClass({
         }
 
         if (this._position == St.Side.LEFT) {
-            x = this._panelWrapper.monitor.x + panelSize;
+            x = this._panelWrapper.monitor.x + panelSize + panelBoxTheme.get_padding(St.Side.LEFT);
         } else if (this._position == St.Side.RIGHT) {
-            x = this._panelWrapper.monitor.x + this._panelWrapper.monitor.width - (panelSize + previewSize) ;
+            x = this._panelWrapper.monitor.x + this._panelWrapper.monitor.width - (panelSize + previewSize) - panelBoxTheme.get_padding(St.Side.RIGHT);
         } else if (this._position == St.Side.TOP) {
-            y = this._panelWrapper.monitor.y + panelSize;
+            y = this._panelWrapper.monitor.y + panelSize + panelBoxTheme.get_padding(St.Side.TOP);
         } else { //St.Side.BOTTOM
-            y = this._panelWrapper.monitor.y + this._panelWrapper.monitor.height - (panelSize + previewSize + headerHeight);
+            y = this._panelWrapper.monitor.y + this._panelWrapper.monitor.height - (panelSize + panelBoxTheme.get_padding(St.Side.BOTTOM) + previewSize + headerHeight);
         }
 
         this.set_clip(0, 0, w, h);
