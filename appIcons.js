@@ -181,11 +181,9 @@ var taskbarAppIcon = Utils.defineClass({
                                                             Lang.bind(this, this._onFocusAppChanged));
 
         this._windowEnteredMonitorId = this._windowLeftMonitorId = 0;
-        this._stateChangedId = this.app.connect('windows-changed',
-        Lang.bind(this, this.onWindowsChanged));
-        if (!this.window) {
-            
+        this._stateChangedId = this.app.connect('windows-changed', Lang.bind(this, this.onWindowsChanged));
 
+        if (!this.window) {
             if (this._dtpSettings.get_boolean('isolate-monitors')) {
                 this._windowEnteredMonitorId = Utils.DisplayWrapper.getScreen().connect('window-entered-monitor', this.onWindowEnteredOrLeft.bind(this));
                 this._windowLeftMonitorId = Utils.DisplayWrapper.getScreen().connect('window-left-monitor', this.onWindowEnteredOrLeft.bind(this));

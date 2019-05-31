@@ -174,7 +174,6 @@ var PreviewMenu = Utils.defineClass({
                 this.show();
 
                 this._refreshGlobals();
-                this.grab_key_focus();
             }
 
             this._mergeWindows(appIcon);
@@ -197,7 +196,6 @@ var PreviewMenu = Utils.defineClass({
             this._animateOpenOrClose(false, () => this._resetHiddenState());
         }
 
-        Utils.DisplayWrapper.getScreen().focus_default_window(1);
         this._box.get_children().forEach(c => c.reactive = false);
         this.menu.reactive = false;
         this.currentAppIcon = null;
@@ -538,10 +536,8 @@ var PreviewMenu = Utils.defineClass({
         }
 
         Main.wm._blockAnimations = true;
-        workspace.activate(1);
+        workspace.activate(global.display.get_current_time_roundtrip());
         Main.wm._blockAnimations = false;
-
-        this.grab_key_focus();
     },
 
     _focusMetaWindow: function(dimOpacity, window) {
