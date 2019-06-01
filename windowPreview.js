@@ -180,7 +180,7 @@ var PreviewMenu = Utils.defineClass({
             this._updatePosition();
             this._animateOpenOrClose(true);
 
-            this.menu.reactive = true;
+            this._setReactive(true);
             this._setOpenedState(true);
         }
     },
@@ -196,8 +196,7 @@ var PreviewMenu = Utils.defineClass({
             this._animateOpenOrClose(false, () => this._resetHiddenState());
         }
 
-        this._box.get_children().forEach(c => c.reactive = false);
-        this.menu.reactive = false;
+        this._setReactive(false);
         this.currentAppIcon = null;
     },
 
@@ -252,6 +251,11 @@ var PreviewMenu = Utils.defineClass({
 
     endPeekHere: function() {
         this._endPeek(true);
+    },
+
+    _setReactive: function(reactive) { 
+        this._box.get_children().forEach(c => c.reactive = reactive);
+        this.menu.reactive = reactive;
     },
 
     _setOpenedState: function(opened) {
