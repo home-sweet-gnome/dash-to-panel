@@ -2369,7 +2369,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Window previews size (px)</property>
+                        <property name="label" translatable="yes">Window previews preferred size (px)</property>
                         <property name="use_markup">True</property>
                         <property name="xalign">0</property>
                       </object>
@@ -2399,7 +2399,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Window aspect ratio Y (height)</property>
+                        <property name="label" translatable="yes">Window previews aspect ratio Y (height)</property>
                         <property name="use_markup">True</property>
                         <property name="xalign">0</property>
                       </object>
@@ -2506,7 +2506,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Window aspect ratio X (width)</property>
+                        <property name="label" translatable="yes">Window previews aspect ratio X (width)</property>
                         <property name="use_markup">True</property>
                         <property name="xalign">0</property>
                       </object>
