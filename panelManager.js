@@ -268,6 +268,7 @@ var dtpPanelManager = Utils.defineClass({
 
     _adjustPanelMenuButton: function(button, monitor, arrowSide) {
         if (button) {
+            Utils.wrapActor(button);
             button.menu._boxPointer._dtpSourceActor = button.menu._boxPointer.sourceActor;
             button.menu._boxPointer.sourceActor = button.actor;
             button.menu._boxPointer._userArrowSide = arrowSide;

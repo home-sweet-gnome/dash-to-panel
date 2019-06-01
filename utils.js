@@ -21,6 +21,7 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
+const Clutter = imports.gi.Clutter;
 const GdkPixbuf = imports.gi.GdkPixbuf
 const Gi = imports._gi;
 const Gio = imports.gi.Gio;
@@ -276,6 +277,14 @@ var hookVfunc = function(proto, symbol, func) {
         proto[Gi.hook_up_vfunc_symbol](symbol, func);
     } else {
         Gi.hook_up_vfunc(proto, symbol, func);
+    }
+};
+
+var wrapActor = function(actor) {
+    if (actor) {
+        Object.defineProperty(actor, 'actor', {
+            value: actor instanceof Clutter.Actor ? actor : actor.actor
+        });
     }
 };
 

@@ -70,6 +70,9 @@ var dtpPanelWrapper = Utils.defineClass({
         this.panel = panel;
         this.panelBox = panelBox;
         this.isSecondary = isSecondary;
+
+        Utils.wrapActor(this.panel);
+        Utils.wrapActor(this.panel.statusArea.activities || 0);
     },
 
     enable : function() {

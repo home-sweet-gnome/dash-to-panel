@@ -131,6 +131,8 @@ var taskbarAppIcon = Utils.defineClass({
 
         this.callParent('_init', appInfo.app, iconParams);
 
+        Utils.wrapActor(this.icon);
+        
         this._dot.set_width(0);
         this._isGroupApps = this._dtpSettings.get_boolean('group-apps');
 
@@ -1517,10 +1519,13 @@ var ShowAppsIconWrapper = Utils.defineClass({
         this._dtpSettings = settings;
         this.realShowAppsIcon = new Dash.ShowAppsIcon();
 
+        Utils.wrapActor(this.realShowAppsIcon);
+        Utils.wrapActor(this.realShowAppsIcon.toggleButton);
+
         /* the variable equivalent to toggleButton has a different name in the appIcon class
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
-        (this.realShowAppsIcon.actor || this.realShowAppsIcon).y_align = Clutter.ActorAlign.START;
+        this.realShowAppsIcon.actor.y_align = Clutter.ActorAlign.START;
 
         // Re-use appIcon methods
         this._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
@@ -1543,7 +1548,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         this.actor.connect('popup-menu', Lang.bind(this, this._onKeyboardPopupMenu));
 
         this._menu = null;
-        this._menuManager = new PopupMenu.PopupMenuManager(this);
+        this._menuManager = new PopupMenu.PopupMenuManager(this.actor);
         this._menuTimeoutId = 0;
 
         this.realShowAppsIcon.showLabel = ItemShowLabel;
