@@ -131,6 +131,8 @@ var taskbarAppIcon = Utils.defineClass({
 
         this.callParent('_init', appInfo.app, iconParams);
 
+        Utils.wrapActor(this.icon);
+        
         this._dot.set_width(0);
         this._isGroupApps = this._dtpSettings.get_boolean('group-apps');
 
@@ -1453,10 +1455,13 @@ var ShowAppsIconWrapper = Utils.defineClass({
         this._dtpSettings = settings;
         this.realShowAppsIcon = new Dash.ShowAppsIcon();
 
+        Utils.wrapActor(this.realShowAppsIcon);
+        Utils.wrapActor(this.realShowAppsIcon.toggleButton);
+
         /* the variable equivalent to toggleButton has a different name in the appIcon class
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
-        (this.realShowAppsIcon.actor || this.realShowAppsIcon).y_align = Clutter.ActorAlign.START;
+        this.realShowAppsIcon.actor.y_align = Clutter.ActorAlign.START;
 
         // Re-use appIcon methods
         this._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
@@ -1479,7 +1484,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         this.actor.connect('popup-menu', Lang.bind(this, this._onKeyboardPopupMenu));
 
         this._menu = null;
-        this._menuManager = new PopupMenu.PopupMenuManager(this);
+        this._menuManager = new PopupMenu.PopupMenuManager(this.actor);
         this._menuTimeoutId = 0;
 
         this.realShowAppsIcon.showLabel = ItemShowLabel;
@@ -1569,6 +1574,55 @@ var MyShowAppsIconMenu = Utils.defineClass({
 
     _redisplay: function() {
         this.removeAll();
+
+        let powerSettingsMenuItem = this._appendMenuItem(_('Power options'));
+        powerSettingsMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-control-center', 'power']);
+        });
+
+        let logsMenuItem = this._appendMenuItem(_('Event logs'));
+        logsMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-logs']);
+        });
+
+        let systemSettingsMenuItem = this._appendMenuItem(_('System'));
+        systemSettingsMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-control-center', 'info-overview']);
+        });
+
+        let devicesSettingsMenuItem = this._appendMenuItem(_('Device Management'));
+        devicesSettingsMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-control-center', 'display']);
+        });
+
+        let disksMenuItem = this._appendMenuItem(_('Disk Management'));
+        disksMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-disks']);
+        });
+
+        this._appendSeparator();
+
+        let terminalMenuItem = this._appendMenuItem(_('Terminal'));
+        terminalMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-terminal']);
+        });
+
+        let systemMonitorMenuItem = this._appendMenuItem(_('System monitor'));
+        systemMonitorMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-system-monitor']);
+        });
+
+        let filesMenuItem = this._appendMenuItem(_('Files'));
+        filesMenuItem.connect('activate', function () {
+            Util.spawn(['nautilus']);
+        });
+
+        let gsSettingsMenuItem = this._appendMenuItem(_('Settings'));
+        gsSettingsMenuItem.connect('activate', function () {
+            Util.spawn(['gnome-control-center', 'wifi']);
+        });     
+
+        this._appendSeparator();
 
         let lockTaskbarMenuItem = this._appendMenuItem(this._dtpSettings.get_boolean('taskbar-locked') ? _('Unlock taskbar') : _('Lock taskbar'));
         lockTaskbarMenuItem.connect('activate', () => {

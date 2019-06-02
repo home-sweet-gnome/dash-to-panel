@@ -316,6 +316,14 @@ var hookVfunc = function(proto, symbol, func) {
     }
 };
 
+var wrapActor = function(actor) {
+    if (actor) {
+        Object.defineProperty(actor, 'actor', {
+            value: actor instanceof Clutter.Actor ? actor : actor.actor
+        });
+    }
+};
+
 var addKeybinding = function(key, settings, handler, modes) {
     if (!Main.wm._allowedKeybindings[key]) {
         Main.wm.addKeybinding(
