@@ -1017,8 +1017,11 @@ const Settings = new Lang.Class({
             // Use +1 for the reset action
             dialog.add_button(_('Reset to defaults'), 1);
 
-            let box = this._builder.get_object('box_window_preview_options');
-            dialog.get_content_area().add(box);
+            let scrolledWindow = this._builder.get_object('box_window_preview_options');
+
+            adjustScrollableHeight(this._builder.get_object('viewport_window_preview_options'), scrolledWindow);
+            
+            dialog.get_content_area().add(scrolledWindow);
 
             this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
             this._builder.get_object('preview_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
@@ -1175,7 +1178,7 @@ const Settings = new Lang.Class({
 
                 } else {
                     // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
+                    dialog.get_content_area().remove(scrolledWindow);
                     dialog.destroy();
                 }
                 return;
@@ -1821,10 +1824,14 @@ function buildPrefsWidget() {
     // I'd like the scrolled window to default to a size large enough to show all without scrolling, if it fits on the screen
     // But, it doesn't seem possible, so I'm setting a minimum size if there seems to be enough screen real estate
     widget.show_all();
-    let viewportSize = settings.viewport.size_request();
-    let screenHeight = widget.get_screen().get_height() - 120;
-    
-    widget.set_size_request(viewportSize.width, viewportSize.height > screenHeight ? screenHeight : viewportSize.height);   
+    adjustScrollableHeight(settings.viewport, widget);
     
     return widget;
+}
+
+function adjustScrollableHeight(viewport, scrollableWindow) {
+    let viewportSize = viewport.size_request();
+    let screenHeight = scrollableWindow.get_screen().get_height() - 120;
+    
+    scrollableWindow.set_size_request(viewportSize.width, viewportSize.height > screenHeight ? screenHeight : viewportSize.height);  
 }
