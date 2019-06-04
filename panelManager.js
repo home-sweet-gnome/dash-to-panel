@@ -364,9 +364,10 @@ var dtpPanelManager = Utils.defineClass({
 
         for (let i = 0; i < monitors.length; i++) {
             let view;
-            if (this._workspacesOnlyOnPrimary && i != Main.layoutManager.primaryIndex)
+            if (this._workspacesOnlyOnPrimary && i != Main.layoutManager.primaryIndex) {
                 view = new WorkspacesView.ExtraWorkspaceView(i);
-            else
+                view.getActiveWorkspace = view.getActiveWorkspace || function() { return this._workspace; };
+            } else
                 view = new WorkspacesView.WorkspacesView(i);
 
             view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
