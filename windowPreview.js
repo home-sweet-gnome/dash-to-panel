@@ -597,6 +597,7 @@ var Preview = Utils.defineClass({
         });
 
         this.window = null;
+        this._needsCloseButton = true;
         this.cloneWidth = this.cloneHeight = 0;
         this._panelWrapper = panelWrapper;
         this._previewMenu = previewMenu;
@@ -702,6 +703,7 @@ var Preview = Utils.defineClass({
 
         this._removeWindowSignals();
         this.window = window;
+        this._needsCloseButton = window.can_close() && !Utils.checkIfWindowHasTransient(window);
         this._updateHeader();
     },
 
@@ -853,7 +855,9 @@ var Preview = Utils.defineClass({
     },
 
     _hideOrShowCloseButton: function(hide) {
-        Tweener.addTween(this._closeButtonBin, getTweenOpts({ opacity: hide ? 0 : 255 }));
+        if (this._needsCloseButton) {
+            Tweener.addTween(this._closeButtonBin, getTweenOpts({ opacity: hide ? 0 : 255 }));
+        }
     },
 
     _getBackgroundColor: function(offset, alpha) {

@@ -283,6 +283,14 @@ var getWorkspaceCount = function() {
     return DisplayWrapper.getWorkspaceManager().n_workspaces;
 };
 
+var checkIfWindowHasTransient = function(window) {
+    let hasTransient;
+
+    window.foreach_transient(t => !(hasTransient = true));
+
+    return hasTransient;
+};
+
 var findIndex = function(array, predicate) {
     if (Array.prototype.findIndex) {
         return array.findIndex(predicate);
