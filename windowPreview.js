@@ -41,7 +41,7 @@ const T3 = 'peekTimeout';
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
 const MIN_DIMENSION = 100;
-const MIN_MENU_ALPHA = .5;
+const MIN_MENU_ALPHA = .6;
 const FOCUSED_COLOR_OFFSET = 24;
 const HEADER_COLOR_OFFSET = -12;
 const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
@@ -333,6 +333,7 @@ var PreviewMenu = Utils.defineClass({
 
         if (this.currentAppIcon && !this.menu.hover) {
             this._addCloseTimeout();
+            this._endPeek();
         }
     },
 
@@ -485,7 +486,7 @@ var PreviewMenu = Utils.defineClass({
             }
         };
 
-        tweenOpts[this._translationProp] = show ? 1 * this._translationDirection : this._translationOffset;
+        tweenOpts[this._translationProp] = show ? this._translationDirection : this._translationOffset;
 
         Tweener.addTween(this.menu, getTweenOpts(tweenOpts));
     },
