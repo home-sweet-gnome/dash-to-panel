@@ -41,12 +41,12 @@ const T3 = 'peekTimeout';
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
 const MIN_DIMENSION = 100;
-const MIN_MENU_ALPHA = .6;
 const FOCUSED_COLOR_OFFSET = 24;
 const HEADER_COLOR_OFFSET = -12;
 const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
 
 let headerHeight = 0;
+let alphaBg = 0;
 let isLeftButtons = false;
 let isTopHeader = true;
 let scaleFactor = 1;
@@ -168,12 +168,10 @@ var PreviewMenu = Utils.defineClass({
             this.currentAppIcon = appIcon;
 
             if (!this.opened) {
-                let alpha = Math.max(MIN_MENU_ALPHA, this._panelWrapper.dynamicTransparency.alpha);
-    
-                this.menu.set_style('background: ' + Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, alpha));
-                this.show();
-
                 this._refreshGlobals();
+                this.menu.set_style('background: ' + Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, alphaBg));
+                
+                this.show();
             }
 
             this._mergeWindows(appIcon);
@@ -380,6 +378,12 @@ var PreviewMenu = Utils.defineClass({
             size: this._dtpSettings.get_int('window-preview-aspect-ratio-y'),
             fixed: this._dtpSettings.get_boolean('window-preview-fixed-y')
         };
+        
+        if (this._panelWrapper.dynamicTransparency) {
+            alphaBg = this._dtpSettings.get_boolean('preview-use-custom-opacity') ? 
+                      this._dtpSettings.get_int('preview-custom-opacity') * .01 : 
+                      this._panelWrapper.dynamicTransparency.alpha;
+        }
     },
 
     _resetHiddenState: function() {
@@ -680,7 +684,7 @@ var Preview = Utils.defineClass({
 
         this._closeButtonBin.set_style(
             'padding: ' + closeButtonPadding + 'px; ' + 
-            this._getBackgroundColor(HEADER_COLOR_OFFSET, headerHeight ? 1 : MIN_MENU_ALPHA) +
+            this._getBackgroundColor(HEADER_COLOR_OFFSET, headerHeight ? 1 : .6) +
             closeButtonBorderRadius
         );
     },
@@ -870,7 +874,7 @@ var Preview = Utils.defineClass({
         alpha = Math.abs(alpha);
 
         if (isNaN(alpha)) {
-            alpha = Math.max(MIN_MENU_ALPHA, this._panelWrapper.dynamicTransparency.alpha);
+            alpha = alphaBg;
         }
 
         return Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, alpha, offset);

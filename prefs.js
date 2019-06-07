@@ -1042,6 +1042,20 @@ const Settings = new Lang.Class({
                             this._builder.get_object('preview_aspect_ratio_y_fixed_togglebutton'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+
+            this._settings.bind('preview-use-custom-opacity',
+                            this._builder.get_object('preview_custom_opacity_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('preview-use-custom-opacity',
+                            this._builder.get_object('preview_custom_opacity_spinbutton'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+            this._builder.get_object('preview_custom_opacity_spinbutton').set_value(this._settings.get_int('preview-custom-opacity'));
+            this._builder.get_object('preview_custom_opacity_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('preview-custom-opacity', widget.get_value());
+            }));
                             
             this._settings.bind('peek-mode',
                             this._builder.get_object('peek_mode_switch'),
@@ -1140,6 +1154,11 @@ const Settings = new Lang.Class({
 
                     this._settings.set_value('window-preview-animation-time', this._settings.get_default_value('window-preview-animation-time'));
                     this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));
+
+                    this._settings.set_value('preview-use-custom-opacity', this._settings.get_default_value('preview-use-custom-opacity'));
+
+                    this._settings.set_value('preview-custom-opacity', this._settings.get_default_value('preview-custom-opacity'));
+                    this._builder.get_object('preview_custom_opacity_spinbutton').set_value(this._settings.get_int('preview-custom-opacity'));
 
                     this._settings.set_value('peek-mode', this._settings.get_default_value('peek-mode'));
                     this._settings.set_value('window-preview-show-title', this._settings.get_default_value('window-preview-show-title'));

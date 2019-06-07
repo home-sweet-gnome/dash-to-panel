@@ -589,6 +589,16 @@
       <summary>Middle click preview to close window</summary>
       <description>Middle click on the window preview to close that window</description>
     </key>
+    <key type="b" name="preview-use-custom-opacity">
+      <default>true</default>
+      <summary>Window previews use custom opacity</summary>
+      <description>Window previews background use a different opacity from the panel</description>
+    </key>
+    <key type="i" name="preview-custom-opacity">
+      <default>60</default>
+      <summary>Window previews background opacity</summary>
+      <description>Window previews use this custom background opacity.</description>
+    </key>
     <key type="i" name="tray-size">
       <default>0</default>
       <summary>Tray font size</summary>
