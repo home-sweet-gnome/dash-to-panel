@@ -33,10 +33,14 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
+//timeout intervals
+const ENSURE_VISIBLE_MS = 200;
+
 //timeout names
 const T1 = 'openMenuTimeout';
 const T2 = 'closeMenuTimeout';
 const T3 = 'peekTimeout';
+const T4 = 'ensureVisibleTimeout';
 
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
@@ -69,8 +73,8 @@ var PreviewMenu = Utils.defineClass({
         this.peekInitialWorkspaceIndex = -1;
         this.opened = false;
         this._position = Taskbar.getPosition();
-        let isLeftOrRight = this._checkIfLeftOrRight();
-        this._translationProp = 'translation_' + (isLeftOrRight ? 'x' : 'y');
+        this.isLeftOrRight = this._position == St.Side.LEFT || this._position == St.Side.RIGHT;
+        this._translationProp = 'translation_' + (this.isLeftOrRight ? 'x' : 'y');
         this._translationDirection = (this._position == St.Side.TOP || this._position == St.Side.LEFT ? -1 : 1);
         this._translationOffset = Math.min(this._dtpSettings.get_int('panel-size'), MAX_TRANSLATION) * this._translationDirection;
 
@@ -82,14 +86,12 @@ var PreviewMenu = Utils.defineClass({
             y_expand: true, 
             y_align: Clutter.ActorAlign[this._translationDirection > 0 ? 'END' : 'START']
         });
-        this._box = new St.BoxLayout({ vertical: isLeftOrRight });
+        this._box = new St.BoxLayout({ vertical: this.isLeftOrRight });
         this._scrollView = new St.ScrollView({
             name: 'dashtopanelPreviewScrollview',
             hscrollbar_policy: Gtk.PolicyType.NEVER,
             vscrollbar_policy: Gtk.PolicyType.NEVER,
-            enable_mouse_scrolling: true,
-            y_expand: !isLeftOrRight, 
-            x_expand: isLeftOrRight
+            enable_mouse_scrolling: true
         });
 
         this._scrollView.add_actor(this._box);
@@ -251,6 +253,18 @@ var PreviewMenu = Utils.defineClass({
         this._endPeek(true);
     },
 
+    ensureVisible: function(preview) {
+        let [ , , upper, , , pageSize] = this._scrollView[this.isLeftOrRight ? 'v' : 'h' + 'scroll'].adjustment.get_values();
+        
+        if (upper > pageSize) {
+            this._timeoutsHandler.add([
+                T4, 
+                ENSURE_VISIBLE_MS, 
+                () => Utils.ensureActorVisibleInScrollView(this._scrollView, preview, MIN_DIMENSION)
+            ]);
+        }
+    },
+
     _setReactive: function(reactive) { 
         this._box.get_children().forEach(c => c.reactive = reactive);
         this.menu.reactive = reactive;
@@ -337,7 +351,7 @@ var PreviewMenu = Utils.defineClass({
 
     _onScrollEvent: function(actor, event) {
         if (!event.is_pointer_emulated()) {
-            let vOrh = this._checkIfLeftOrRight() ? 'v' : 'h';
+            let vOrh = this.isLeftOrRight ? 'v' : 'h';
             let adjustment = this._scrollView['get_' + vOrh + 'scroll_bar']().get_adjustment(); 
             let increment = adjustment.step_increment;
             let delta = increment;
@@ -362,6 +376,7 @@ var PreviewMenu = Utils.defineClass({
     _endOpenCloseTimeouts: function() {
         this._timeoutsHandler.remove(T1);
         this._timeoutsHandler.remove(T2);
+        this._timeoutsHandler.remove(T4);
     },
 
     _refreshGlobals: function() {
@@ -401,7 +416,7 @@ var PreviewMenu = Utils.defineClass({
         let previewSize = (this._dtpSettings.get_int('window-preview-size') + 
                            this._dtpSettings.get_int('window-preview-padding') * 2) * scaleFactor;
         
-        if (this._checkIfLeftOrRight()) {
+        if (this.isLeftOrRight) {
             w = previewSize;
             h = this._panelWrapper.monitor.height;
             y = this._panelWrapper.monitor.y;
@@ -437,7 +452,7 @@ var PreviewMenu = Utils.defineClass({
         previewsWidth = Math.min(previewsWidth, this._panelWrapper.monitor.width);
         previewsHeight = Math.min(previewsHeight, this._panelWrapper.monitor.height) + headerHeight;
         
-        if (this._checkIfLeftOrRight()) {
+        if (this.isLeftOrRight) {
             y = sourceAllocation.y1 + appIconMargin - this._panelWrapper.monitor.y + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
             y = Math.max(y, 0);
             y = Math.min(y, this._panelWrapper.monitor.height - previewsHeight);
@@ -463,7 +478,7 @@ var PreviewMenu = Utils.defineClass({
             if (!c.animatingOut) {
                 let [width, height] = c.getSize();
 
-                if (this._checkIfLeftOrRight()) {
+                if (this.isLeftOrRight) {
                     previewsWidth = Math.max(width, previewsWidth);
                     previewsHeight += height;
                 } else {
@@ -493,10 +508,6 @@ var PreviewMenu = Utils.defineClass({
         tweenOpts[this._translationProp] = show ? this._translationDirection : this._translationOffset;
 
         Tweener.addTween(this.menu, getTweenOpts(tweenOpts));
-    },
-
-    _checkIfLeftOrRight: function() {
-        return this._position == St.Side.LEFT || this._position == St.Side.RIGHT; 
     },
 
     _peek: function(window) {
@@ -746,6 +757,7 @@ var Preview = Utils.defineClass({
         this.set_style(this._getBackgroundColor(FOCUSED_COLOR_OFFSET, focused ? '-' : 0));
 
         if (focused) {
+            this._previewMenu.ensureVisible(this);
             this._previewMenu.requestPeek(this.window);
         }
     },
@@ -954,7 +966,7 @@ var Preview = Utils.defineClass({
         let size = this._previewMenu._dtpSettings.get_int('window-preview-size') * scaleFactor;
         let w, h;
 
-        if (this._previewMenu._checkIfLeftOrRight()) {
+        if (this._previewMenu.isLeftOrRight) {
             w = size;
             h = w * aspectRatio.y.size / aspectRatio.x.size;
         } else {

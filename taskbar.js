@@ -41,7 +41,6 @@ const IconGrid = imports.ui.iconGrid;
 const Main = imports.ui.main;
 const PopupMenu = imports.ui.popupMenu;
 const Tweener = imports.ui.tweener;
-const Util = imports.misc.util;
 const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -567,7 +566,7 @@ var taskbar = Utils.defineClass({
         appIcon.actor.connect('notify::hover', Lang.bind(this, function() {
             if (appIcon.actor.hover){
                 this._ensureAppIconVisibilityTimeoutId = Mainloop.timeout_add(100, Lang.bind(this, function(){
-                    ensureActorVisibleInScrollView(this._scrollView, appIcon.actor);
+                    Utils.ensureActorVisibleInScrollView(this._scrollView, appIcon.actor, this._scrollView._dtpFadeSize);
                     this._ensureAppIconVisibilityTimeoutId = 0;
                     return GLib.SOURCE_REMOVE;
                 }));
@@ -581,11 +580,11 @@ var taskbar = Utils.defineClass({
 
         appIcon.actor.connect('clicked',
             Lang.bind(this, function(actor) {
-                ensureActorVisibleInScrollView(this._scrollView, actor);
+                Utils.ensureActorVisibleInScrollView(this._scrollView, actor, this._scrollView._dtpFadeSize);
         }));
 
         appIcon.actor.connect('key-focus-in', Lang.bind(this, function(actor) {
-                let [x_shift, y_shift] = ensureActorVisibleInScrollView(this._scrollView, actor);
+                let [x_shift, y_shift] = Utils.ensureActorVisibleInScrollView(this._scrollView, actor, this._scrollView._dtpFadeSize);
 
                 // This signal is triggered also by mouse click. The popup menu is opened at the original
                 // coordinates. Thus correct for the shift which is going to be applied to the scrollview.
@@ -960,9 +959,9 @@ var taskbar = Utils.defineClass({
                     // Ensure the next and previous icon are visible when moving the icon
                     // (I assume there's room for both of them)
                     if (hoveredIndex > 1)
-                        ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[hoveredIndex-1]);
+                        ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[hoveredIndex-1], this._scrollView._dtpFadeSize);
                     if (hoveredIndex < this._box.get_children().length-1)
-                        ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[hoveredIndex+1]);
+                        ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[hoveredIndex+1], this._scrollView._dtpFadeSize);
             }
         }
         
@@ -1217,68 +1216,4 @@ function sortWindowsCompareFunction(windowA, windowB) {
 
 function getWindowStableSequence(window) {
     return ('_dtpPosition' in window ? window._dtpPosition : window.get_stable_sequence()); 
-}
-
-/*
- * This is a copy of the same function in utils.js, but also adjust horizontal scrolling
- * and perform few further cheks on the current value to avoid changing the values when
- * it would be clamp to the current one in any case.
- * Return the amount of shift applied
-*/
-function ensureActorVisibleInScrollView(scrollView, actor) {
-
-    let adjust_v = true;
-    let adjust_h = true;
-
-    let vadjustment = scrollView.vscroll.adjustment;
-    let hadjustment = scrollView.hscroll.adjustment;
-    let [vvalue, vlower, vupper, vstepIncrement, vpageIncrement, vpageSize] = vadjustment.get_values();
-    let [hvalue, hlower, hupper, hstepIncrement, hpageIncrement, hpageSize] = hadjustment.get_values();
-
-    let [hvalue0, vvalue0] = [hvalue, vvalue];
-
-    let voffset = 0;
-    let hoffset = scrollView._dtpFadeSize;
-    
-    let box = actor.get_allocation_box();
-    let y1 = box.y1, y2 = box.y2, x1 = box.x1, x2 = box.x2;
-
-    let parent = actor.get_parent();
-    while (parent != scrollView) {
-        if (!parent)
-            throw new Error("actor not in scroll view");
-
-        let box = parent.get_allocation_box();
-        y1 += box.y1;
-        y2 += box.y1;
-        x1 += box.x1;
-        x2 += box.x1;
-        parent = parent.get_parent();
-    }
-
-    if (y1 < vvalue + voffset)
-        vvalue = Math.max(0, y1 - voffset);
-    else if (vvalue < vupper - vpageSize && y2 > vvalue + vpageSize - voffset)
-        vvalue = Math.min(vupper -vpageSize, y2 + voffset - vpageSize);
-
-    if (x1 < hvalue + hoffset)
-        hvalue = Math.max(0, x1 - hoffset);
-    else if (hvalue < hupper - hpageSize && x2 > hvalue + hpageSize - hoffset)
-        hvalue = Math.min(hupper - hpageSize, x2 + hoffset - hpageSize);
-
-    if (vvalue !== vvalue0) {
-        Tweener.addTween(vadjustment,
-                         { value: vvalue,
-                           time: Util.SCROLL_TIME,
-                           transition: 'easeOutQuad' });
-    }
-
-    if (hvalue !== hvalue0) {
-        Tweener.addTween(hadjustment,
-                         { value: hvalue,
-                           time: Util.SCROLL_TIME,
-                           transition: 'easeOutQuad' });
-    }
-
-    return [hvalue- hvalue0, vvalue - vvalue0];
 }
