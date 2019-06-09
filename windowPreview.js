@@ -91,7 +91,9 @@ var PreviewMenu = Utils.defineClass({
             name: 'dashtopanelPreviewScrollview',
             hscrollbar_policy: Gtk.PolicyType.NEVER,
             vscrollbar_policy: Gtk.PolicyType.NEVER,
-            enable_mouse_scrolling: true
+            enable_mouse_scrolling: true,
+            y_expand: !this.isLeftOrRight, 
+            x_expand: this.isLeftOrRight
         });
 
         this._scrollView.add_actor(this._box);
@@ -325,7 +327,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _addNewPreview: function(window) {
-        let preview = new Preview(this._panelWrapper, this);
+        let preview = new Preview(this);
 
         this._box.add_child(preview);
         preview.adjustOnStage();
@@ -604,7 +606,7 @@ var Preview = Utils.defineClass({
     Name: 'DashToPanel-Preview',
     Extends: St.Widget,
 
-    _init: function(panelWrapper, previewMenu) {
+    _init: function(previewMenu) {
         this.callParent('_init', { 
             style_class: 'preview-container', 
             reactive: true, 
@@ -615,7 +617,7 @@ var Preview = Utils.defineClass({
         this.window = null;
         this._needsCloseButton = true;
         this.cloneWidth = this.cloneHeight = 0;
-        this._panelWrapper = panelWrapper;
+        this._panelWrapper = previewMenu._panelWrapper;
         this._previewMenu = previewMenu;
         this._padding = previewMenu._dtpSettings.get_int('window-preview-padding') * scaleFactor;
         this._previewDimensions = this._getPreviewDimensions();
@@ -706,7 +708,7 @@ var Preview = Utils.defineClass({
                 if (window.get_compositor_private()) {
                     let cloneBin = this._getWindowCloneBin(window);
                     
-                    this._resizeClone(cloneBin);
+                    this._resizeClone(cloneBin, window);
                     this._addClone(cloneBin, animateSize);
                     this._previewMenu.updatePosition();
                 } else {
@@ -929,12 +931,17 @@ var Preview = Utils.defineClass({
     },
     
     _getWindowCloneBin: function(window) {
-        return new St.Bin({ 
-            child: new Clutter.Clone({ source: window.get_compositor_private() }),
-            y_align: Clutter.ActorAlign.CENTER, 
-            x_align: Clutter.ActorAlign.CENTER,
+        let clone = new Clutter.Clone({ source: window.get_compositor_private() });
+        let cloneBin = new St.Widget({ 
             opacity: 0,
+            layout_manager: window.is_client_decorated() ?
+                            new WindowCloneLayout(window) :
+                            new Clutter.BinLayout()
         });
+        
+        cloneBin.add_child(clone);
+
+        return cloneBin;
     },
 
     _getBinSize: function() {
@@ -946,20 +953,27 @@ var Preview = Utils.defineClass({
         ];
     },
 
-    _resizeClone: function(cloneBin) {
-        let [width, height] = cloneBin.child.get_source().get_size();
+    _resizeClone: function(cloneBin, window) {
+        let frameRect = window.get_frame_rect();
         let [fixedWidth, fixedHeight] = this._previewDimensions;
-        let ratio = Math.min(fixedWidth / width, fixedHeight / height, 1);
-        let cloneWidth = Math.floor(width * ratio);
-        let cloneHeight = Math.floor(height * ratio);
+        let ratio = Math.min(fixedWidth / frameRect.width, fixedHeight / frameRect.height, 1);
+        let cloneWidth = frameRect.width * ratio;
+        let cloneHeight = frameRect.height * ratio;
+        
         let clonePaddingTB = cloneHeight < MIN_DIMENSION ? MIN_DIMENSION - cloneHeight : 0;
         let clonePaddingLR = cloneWidth < MIN_DIMENSION ? MIN_DIMENSION - cloneWidth : 0;
+        let clonePaddingTop = clonePaddingTB * .5;
+        let clonePaddingLeft = clonePaddingLR * .5;
         
         this.cloneWidth = cloneWidth + clonePaddingLR * scaleFactor;
         this.cloneHeight = cloneHeight + clonePaddingTB * scaleFactor;
 
-        cloneBin.set_style('padding: ' + Math.floor(clonePaddingTB * .5) + 'px ' + Math.floor(clonePaddingLR * .5) + 'px;');
-        cloneBin.child.set_size(cloneWidth, cloneHeight);
+        cloneBin.set_style('padding: ' + clonePaddingTop + 'px ' + clonePaddingLeft + 'px;');
+        cloneBin.layout_manager.ratio = ratio;
+        cloneBin.layout_manager.padding = [clonePaddingLeft * scaleFactor, clonePaddingTop * scaleFactor];
+        cloneBin.layout_manager.frameRect = frameRect;
+
+        cloneBin.get_first_child().set_size(cloneWidth, cloneHeight);
     },
 
     _getPreviewDimensions: function() {
@@ -975,6 +989,34 @@ var Preview = Utils.defineClass({
         }
 
         return [w, h];
+    }
+});
+
+var WindowCloneLayout = Utils.defineClass({
+    Name: 'DashToPanel-WindowCloneLayout',
+    Extends: Clutter.BinLayout,
+
+    _init: function(window) {
+        this.callParent('_init');
+
+        //the buffer_rect contains the CSD transparent padding that must be removed
+        this.bufferRect = window.get_buffer_rect();
+    },
+
+    vfunc_allocate: function(actor, box, flags) {
+        let [width, height] = box.get_size();
+
+        box.set_origin(
+            (this.bufferRect.x - this.frameRect.x) * this.ratio + this.padding[0], 
+            (this.bufferRect.y - this.frameRect.y) * this.ratio + this.padding[1]
+        );
+
+        box.set_size(
+            width + (this.bufferRect.width - this.frameRect.width) * this.ratio, 
+            height + (this.bufferRect.height - this.frameRect.height) * this.ratio
+        );
+
+        actor.get_first_child().allocate(box, flags);
     }
 });
 
