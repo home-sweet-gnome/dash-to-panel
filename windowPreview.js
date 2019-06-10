@@ -993,11 +993,14 @@ var Preview = Utils.defineClass({
     },
     
     _getWindowCloneBin: function(window) {
+        let frameRect = window.get_frame_rect();
+        let bufferRect = window.get_buffer_rect();
         let clone = new Clutter.Clone({ source: window.get_compositor_private() });
         let cloneBin = new St.Widget({ 
             opacity: 0,
-            layout_manager: window.is_client_decorated() ?
-                            new WindowCloneLayout(window) :
+            layout_manager: frameRect.width != bufferRect.width || 
+                            frameRect.height != bufferRect.height ?
+                            new WindowCloneLayout(frameRect, bufferRect) :
                             new Clutter.BinLayout()
         });
         
@@ -1016,7 +1019,7 @@ var Preview = Utils.defineClass({
     },
 
     _resizeClone: function(cloneBin, window) {
-        let frameRect = window.get_frame_rect();
+        let frameRect = cloneBin.layout_manager.frameRect || window.get_frame_rect();
         let [fixedWidth, fixedHeight] = this._previewDimensions;
         let ratio = Math.min(fixedWidth / frameRect.width, fixedHeight / frameRect.height, 1);
         let cloneWidth = frameRect.width * ratio;
@@ -1033,7 +1036,6 @@ var Preview = Utils.defineClass({
         cloneBin.set_style('padding: ' + clonePaddingTop + 'px ' + clonePaddingLeft + 'px;');
         cloneBin.layout_manager.ratio = ratio;
         cloneBin.layout_manager.padding = [clonePaddingLeft * scaleFactor, clonePaddingTop * scaleFactor];
-        cloneBin.layout_manager.frameRect = frameRect;
 
         cloneBin.get_first_child().set_size(cloneWidth, cloneHeight);
     },
@@ -1058,11 +1060,12 @@ var WindowCloneLayout = Utils.defineClass({
     Name: 'DashToPanel-WindowCloneLayout',
     Extends: Clutter.BinLayout,
 
-    _init: function(window) {
+    _init: function(frameRect, bufferRect) {
         this.callParent('_init');
 
-        //the buffer_rect contains the CSD transparent padding that must be removed
-        this.bufferRect = window.get_buffer_rect();
+        //the buffer_rect contains the transparent padding that must be removed
+        this.frameRect = frameRect;
+        this.bufferRect = bufferRect;
     },
 
     vfunc_allocate: function(actor, box, flags) {
