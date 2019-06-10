@@ -380,7 +380,7 @@ var getrgbaColor = function(color, alpha, offset) {
  * it would be clamp to the current one in any case.
  * Return the amount of shift applied
 */
-var ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize) {
+var ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize, onComplete) {
     let vadjustment = scrollView.vscroll.adjustment;
     let hadjustment = scrollView.hscroll.adjustment;
     let [vvalue, vlower, vupper, vstepIncrement, vpageIncrement, vpageSize] = vadjustment.get_values();
@@ -417,18 +417,18 @@ var ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize) {
     else if (hvalue < hupper - hpageSize && x2 > hvalue + hpageSize - hoffset)
         hvalue = Math.min(hupper - hpageSize, x2 + hoffset - hpageSize);
 
+    let tweenOpts = {
+        time: Util.SCROLL_TIME,
+        onComplete: onComplete || (() => {}),
+        transition: 'easeOutQuad'
+    };
+
     if (vvalue !== vvalue0) {
-        Tweener.addTween(vadjustment,
-                         { value: vvalue,
-                           time: Util.SCROLL_TIME,
-                           transition: 'easeOutQuad' });
+        Tweener.addTween(vadjustment, mergeObjects(tweenOpts, { value: vvalue }));
     }
 
     if (hvalue !== hvalue0) {
-        Tweener.addTween(hadjustment,
-                         { value: hvalue,
-                           time: Util.SCROLL_TIME,
-                           transition: 'easeOutQuad' });
+        Tweener.addTween(hadjustment, mergeObjects(tweenOpts, { value: hvalue }));
     }
 
     return [hvalue- hvalue0, vvalue - vvalue0];

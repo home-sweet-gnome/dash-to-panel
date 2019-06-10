@@ -47,6 +47,7 @@ const HEADER_HEIGHT = 38;
 const MIN_DIMENSION = 100;
 const FOCUSED_COLOR_OFFSET = 24;
 const HEADER_COLOR_OFFSET = -12;
+const FADE_SIZE = 36;
 const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
 
 let headerHeight = 0;
@@ -256,13 +257,13 @@ var PreviewMenu = Utils.defineClass({
     },
 
     ensureVisible: function(preview) {
-        let [ , , upper, , , pageSize] = this._scrollView[this.isLeftOrRight ? 'v' : 'h' + 'scroll'].adjustment.get_values();
+        let [ , upper, pageSize] = this._getScrollAdjustmentValues();
         
         if (upper > pageSize) {
             this._timeoutsHandler.add([
                 T4, 
                 ENSURE_VISIBLE_MS, 
-                () => Utils.ensureActorVisibleInScrollView(this._scrollView, preview, MIN_DIMENSION)
+                () => Utils.ensureActorVisibleInScrollView(this._scrollView, preview, MIN_DIMENSION, () => this._updateScrollFade())
             ]);
         }
     },
@@ -370,6 +371,7 @@ var PreviewMenu = Utils.defineClass({
             }
             
             adjustment.set_value(adjustment.get_value() + delta);
+            this._updateScrollFade();
         }
 
         return Clutter.EVENT_STOP;
@@ -452,7 +454,8 @@ var PreviewMenu = Utils.defineClass({
         let x = 0, y = 0;
 
         previewsWidth = Math.min(previewsWidth, this._panelWrapper.monitor.width);
-        previewsHeight = Math.min(previewsHeight, this._panelWrapper.monitor.height) + headerHeight;
+        previewsHeight = Math.min(previewsHeight, this._panelWrapper.monitor.height);
+        this._updateScrollFade(previewsWidth < this._panelWrapper.monitor.width && previewsHeight < this._panelWrapper.monitor.height);
         
         if (this.isLeftOrRight) {
             y = sourceAllocation.y1 + appIconMargin - this._panelWrapper.monitor.y + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
@@ -470,6 +473,65 @@ var PreviewMenu = Utils.defineClass({
         } else {
             Tweener.addTween(this.menu, getTweenOpts({ x: x, y: y, width: previewsWidth, height: previewsHeight }));
         }
+    },
+
+    _updateScrollFade: function(remove) {
+        let [value, upper, pageSize] = this._getScrollAdjustmentValues();
+        let needsFade = upper > pageSize;
+        let fadeWidgets = this.menu.get_children().filter(c => c != this._scrollView);
+        
+        if (!remove && needsFade) {
+            if (!fadeWidgets.length) {
+                fadeWidgets.push(this._getFadeWidget());
+                fadeWidgets.push(this._getFadeWidget(true));
+    
+                this.menu.add_child(fadeWidgets[0]);
+                this.menu.add_child(fadeWidgets[1]);
+            }
+            
+            fadeWidgets[0].visible = value > 0;
+            fadeWidgets[1].visible = value + pageSize < upper;
+        } else if (remove || (!needsFade && fadeWidgets.length)) {
+            fadeWidgets.forEach(fw => fw.destroy());
+        }
+    },
+
+    _getScrollAdjustmentValues: function() {
+        let [value , , upper, , , pageSize] = this._scrollView[this.isLeftOrRight ? 'v' : 'h' + 'scroll'].adjustment.get_values();
+
+        return [value, upper, pageSize];
+    },
+
+    _getFadeWidget: function(end) {
+        let rotation = 0;
+        let size = 0;
+        let x = 0, y = 0;
+        let startBg = Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, Math.min(alphaBg + .1, 1));
+        let endBg = Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, 0)
+        let fadeStyle = 'background-gradient-start:' + startBg + 'background-gradient-end: ' + endBg + ' background-gradient-direction:';
+
+        if (this.isLeftOrRight) {
+            fadeStyle += 'vertical;'
+            rotation = end ? 270 : 90;
+            y = end ? this._panelWrapper.monitor.height - FADE_SIZE : 0;
+            size = this.width;
+        } else {
+            fadeStyle += 'horizontal;'
+            rotation = end ? 180 : 0;
+            x = end ? this._panelWrapper.monitor.width - FADE_SIZE : 0;
+            size = this.height;
+        }
+
+        let fadeWidget = new St.Widget({ 
+            reactive: false, 
+            pivot_point: new Clutter.Point({ x: .5, y: .5 }), 
+            rotation_angle_z: rotation,
+            style: fadeStyle,
+            x: x, y: y,
+            width: FADE_SIZE, height: size
+        });
+
+        return fadeWidget;
     },
 
     _getPreviewsSize: function() {
@@ -749,7 +811,7 @@ var Preview = Utils.defineClass({
         let [binWidth, binHeight] = this._getBinSize();
 
         binWidth = Math.max(binWidth, this.cloneWidth + this._padding * 2);
-        binHeight = Math.max(binHeight, this.cloneHeight + this._padding * 2);
+        binHeight = Math.max(binHeight, this.cloneHeight + this._padding * 2) + headerHeight;
 
         return [binWidth, binHeight];
     },
