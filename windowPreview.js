@@ -44,6 +44,7 @@ const T4 = 'ensureVisibleTimeout';
 
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
+const MAX_CLOSE_BUTTON_SIZE = 30;
 const MIN_DIMENSION = 100;
 const FOCUSED_COLOR_OFFSET = 24;
 const HEADER_COLOR_OFFSET = -12;
@@ -744,8 +745,14 @@ var Preview = Utils.defineClass({
     },
 
     adjustOnStage: function() {
+        let closeButton = this._closeButtonBin.get_first_child();
         let closeButtonPadding = headerHeight ? Math.round((headerHeight - this._closeButtonBin.height) * .5 / scaleFactor) : 4;
         let closeButtonBorderRadius = '';
+
+        if (closeButton.height > MAX_CLOSE_BUTTON_SIZE) {
+            closeButton.set_size(MAX_CLOSE_BUTTON_SIZE, MAX_CLOSE_BUTTON_SIZE);
+            closeButtonPadding = 4;
+        }
 
         if (!headerHeight) {
             closeButtonBorderRadius = 'border-radius: ';
@@ -757,8 +764,9 @@ var Preview = Utils.defineClass({
             }
         }
 
+        closeButton.set_style('padding: ' + Math.max(closeButtonPadding, 0) + 'px;');
+
         this._closeButtonBin.set_style(
-            'padding: ' + closeButtonPadding + 'px; ' + 
             this._getBackgroundColor(HEADER_COLOR_OFFSET, headerHeight ? 1 : .6) +
             closeButtonBorderRadius
         );
