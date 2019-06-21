@@ -595,7 +595,7 @@
       <description>Window previews background use a different opacity from the panel</description>
     </key>
     <key type="i" name="preview-custom-opacity">
-      <default>60</default>
+      <default>80</default>
       <summary>Window previews background opacity</summary>
       <description>Window previews use this custom background opacity.</description>
     </key>
