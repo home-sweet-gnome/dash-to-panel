@@ -764,9 +764,8 @@ var Preview = Utils.defineClass({
             }
         }
 
-        closeButton.set_style('padding: ' + Math.max(closeButtonPadding, 0) + 'px;');
-
         this._closeButtonBin.set_style(
+            'padding: ' + Math.max(closeButtonPadding, 0) + 'px; ' +
             this._getBackgroundColor(HEADER_COLOR_OFFSET, headerHeight ? 1 : .6) +
             closeButtonBorderRadius
         );
