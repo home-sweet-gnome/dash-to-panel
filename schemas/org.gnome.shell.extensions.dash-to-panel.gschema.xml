@@ -44,11 +44,7 @@
   </enum>
   <!-- this is mean to Match StSide. LEFT and RIGHT actual position in reversed in
        rtl languages -->
-  <enum id='org.gnome.shell.extensions.dash-to-panel.panelPosition'>
-    <value value='0' nick='BOTTOM'/>
-    <value value='1' nick='TOP'/>
-  </enum>
-  <enum id='org.gnome.shell.extensions.dash-to-panel.dotPosition'>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.position'>
     <value value='0' nick='BOTTOM'/>
     <value value='1' nick='TOP'/>
   </enum>
@@ -65,7 +61,7 @@
     <value value='4' nick='bolder'/>
   </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
-    <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.panelPosition">
+    <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
       <summary>Panel position</summary>
       <description>Panel is shown on the Bottom or Top of the screen.</description>
@@ -75,7 +71,7 @@
       <summary>Panel size</summary>
       <description>Set the size of the panel.</description>
     </key>
-    <key name="dot-position" enum="org.gnome.shell.extensions.dash-to-panel.dotPosition">
+    <key name="dot-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
       <summary>Dot position</summary>
       <description>Running indicators are shown on the Bottom or Top of the screen.</description>
@@ -410,20 +406,60 @@
       <summary>Display title in preview</summary>
       <description>Display window title in preview</description>
     </key>
-    <key type="i" name="window-preview-width">
-      <default>350</default>
-      <summary>Window previews width</summary>
-      <description>The width of the window previews</description>
+    <key name="window-preview-title-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
+      <default>'TOP'</default>
+      <summary>Title position</summary>
+      <description>Position of the window title, close button and icon in preview.</description>
     </key>
-    <key type="i" name="window-preview-height">
-      <default>200</default>
-      <summary>Window previews height</summary>
-      <description>The height of the window previews</description>
+    <key type="s" name="window-preview-title-font-color">
+      <default>"#dddddd"</default>
+      <summary>Window previews title font color</summary>
+      <description>This defines the window preview titles font color.</description>
+    </key>
+    <key type="i" name="window-preview-title-font-size">
+      <default>14</default>
+      <summary>Window previews title font size</summary>
+      <description>This defines the window preview titles font size.</description>
+    </key>
+    <key type="i" name="window-preview-animation-time">
+      <default>260</default>
+      <summary>Window previews animation time</summary>
+      <description>This defines the window previews animation time.</description>
+    </key>
+    <key name="window-preview-title-font-weight" enum="org.gnome.shell.extensions.dash-to-panel.fontWeight">
+      <default>'inherit'</default>
+      <summary>Font weight of window preview titles</summary>
+      <description>This defines the font weight of window preview titles. Supported values: inherit (from theme), normal, lighter, bold and bolder.</description>
+    </key>
+    <key type="i" name="window-preview-size">
+      <default>240</default>
+      <summary>Window previews size</summary>
+      <description>Preferred window previews size</description>
+    </key>
+    <key type="b" name="window-preview-fixed-x">
+      <default>false</default>
+      <summary>Fixed aspect ratio X</summary>
+      <description>This defines if the window previews use a fixed aspect ratio X.</description>
+    </key>
+    <key type="b" name="window-preview-fixed-y">
+      <default>true</default>
+      <summary>Fixed aspect ratio Y</summary>
+      <description>This defines if the window previews use a fixed aspect ratio Y.</description>
     </key>
     <key type="i" name="window-preview-padding">
-      <default>20</default>
+      <default>8</default>
       <summary>Window previews padding</summary>
       <description>The padding of the window previews</description>
+    </key>
+    <key type="i" name="window-preview-aspect-ratio-x">
+      <default>16</default>
+      <summary>Aspect ratio X</summary>
+      <description>The window previews respected aspect ratio X.</description>
+    </key>
+    <key type="i" name="window-preview-aspect-ratio-y">
+      <default>9</default>
+      <summary>Aspect ratio Y</summary>
+      <description>The window previews respected aspect ratio Y.</description>
     </key>
     <key type="b" name="isolate-workspaces">
       <default>false</default>
@@ -552,6 +588,16 @@
       <default>true</default>
       <summary>Middle click preview to close window</summary>
       <description>Middle click on the window preview to close that window</description>
+    </key>
+    <key type="b" name="preview-use-custom-opacity">
+      <default>true</default>
+      <summary>Window previews use custom opacity</summary>
+      <description>Window previews background use a different opacity from the panel</description>
+    </key>
+    <key type="i" name="preview-custom-opacity">
+      <default>80</default>
+      <summary>Window previews background opacity</summary>
+      <description>Window previews use this custom background opacity.</description>
     </key>
     <key type="i" name="tray-size">
       <default>0</default>

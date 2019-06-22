@@ -136,7 +136,7 @@ var DynamicTransparency = Utils.defineClass({
     },
 
     _updateAnimationDuration: function() {
-        this._animationDuration = (this._dtpSettings.get_int('trans-dynamic-anim-time') * 0.001) + 's;';
+        this.animationDuration = (this._dtpSettings.get_int('trans-dynamic-anim-time') * 0.001) + 's;';
     },
 
     _updateAllAndSet: function() {
@@ -172,18 +172,18 @@ var DynamicTransparency = Utils.defineClass({
     },
 
     _updateColor: function(themeBackground) {
-        this._backgroundColor = this._dtpSettings.get_boolean('trans-use-custom-bg') ?
-                                this._dtpSettings.get_string('trans-bg-color') :
-                                (themeBackground || this._getThemeBackground());
+        this.backgroundColorRgb = this._dtpSettings.get_boolean('trans-use-custom-bg') ?
+                                  this._dtpSettings.get_string('trans-bg-color') :
+                                  (themeBackground || this._getThemeBackground());
     },
 
     _updateAlpha: function(themeBackground) {
         if (this._windowOverlap && !Main.overview.visibleTarget && this._dtpSettings.get_boolean('trans-use-dynamic-opacity')) {
-            this._alpha = this._dtpSettings.get_double('trans-dynamic-anim-target');
+            this.alpha = this._dtpSettings.get_double('trans-dynamic-anim-target');
         } else {
-            this._alpha = this._dtpSettings.get_boolean('trans-use-custom-opacity') ?
-                          this._dtpSettings.get_double('trans-panel-opacity') : 
-                          (themeBackground || this._getThemeBackground()).alpha * 0.003921569; // 1 / 255 = 0.003921569
+            this.alpha = this._dtpSettings.get_boolean('trans-use-custom-opacity') ?
+                         this._dtpSettings.get_double('trans-panel-opacity') : 
+                         (themeBackground || this._getThemeBackground()).alpha * 0.003921569; // 1 / 255 = 0.003921569
         }
     },
 
@@ -192,17 +192,17 @@ var DynamicTransparency = Utils.defineClass({
 
         if (this._dtpSettings.get_boolean('trans-use-custom-gradient')) {
             this._gradientStyle += 'background-gradient-direction: vertical; ' +
-                                   'background-gradient-start: ' + this._getrgbaColor(this._dtpSettings.get_string('trans-gradient-top-color'), 
+                                   'background-gradient-start: ' + Utils.getrgbaColor(this._dtpSettings.get_string('trans-gradient-top-color'), 
                                                                                       this._dtpSettings.get_double('trans-gradient-top-opacity')) + 
-                                   'background-gradient-end: ' + this._getrgbaColor(this._dtpSettings.get_string('trans-gradient-bottom-color'), 
+                                   'background-gradient-end: ' + Utils.getrgbaColor(this._dtpSettings.get_string('trans-gradient-bottom-color'), 
                                                                                     this._dtpSettings.get_double('trans-gradient-bottom-opacity'));
         }
     },
 
     _setBackground: function() {
-        this.currentBackgroundColor = this._getrgbaColor(this._backgroundColor, this._alpha);
+        this.currentBackgroundColor = Utils.getrgbaColor(this.backgroundColorRgb, this.alpha);
 
-        let transition = 'transition-duration:' + this._animationDuration;
+        let transition = 'transition-duration:' + this.animationDuration;
         let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
 
         this._dtpPanel.panelBg.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles);
@@ -216,20 +216,8 @@ var DynamicTransparency = Utils.defineClass({
             'border-image: none; ' + 
             'background-image: none; ' +
             this._gradientStyle +
-            'transition-duration:' + this._animationDuration
+            'transition-duration:' + this.animationDuration
         );
-    },
-
-    _getrgbaColor: function(color, alpha) {
-        if (alpha <= 0) {
-            return 'transparent; ';
-        }
-
-        if (typeof color === 'string') {
-            color = Clutter.color_from_string(color)[1];
-        }
-
-        return 'rgba(' + color.red + ',' + color.green + ',' + color.blue + ',' + (Math.floor(alpha * 100) * 0.01) + '); ' ;
     },
 
     _getThemeBackground: function(reload) {

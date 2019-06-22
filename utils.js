@@ -32,6 +32,8 @@ const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const Mainloop = imports.mainloop;
 const Main = imports.ui.main;
+const Tweener = imports.ui.tweener;
+const Util = imports.misc.util;
 
 var TRANSLATION_DOMAIN = imports.misc.extensionUtils.getCurrentExtension().metadata['gettext-domain'];
 
@@ -94,7 +96,7 @@ var defineClass = function (classDef) {
           .forEach(k => C.prototype[k] = classDef[k]);
 
     if (isGObject) { 
-        C = GObject.registerClass(C);
+        C = GObject.registerClass({ Signals: classDef.Signals || {} }, C);
     }
     
     return C;
@@ -271,6 +273,50 @@ var DisplayWrapper = {
     }
 };
 
+var getCurrentWorkspace = function() {
+    return DisplayWrapper.getWorkspaceManager().get_active_workspace();
+};
+
+var getWorkspaceByIndex = function(index) {
+    return DisplayWrapper.getWorkspaceManager().get_workspace_by_index(index);
+};
+
+var getWorkspaceCount = function() {
+    return DisplayWrapper.getWorkspaceManager().n_workspaces;
+};
+
+var checkIfWindowHasTransient = function(window) {
+    let hasTransient;
+
+    window.foreach_transient(t => !(hasTransient = true));
+
+    return hasTransient;
+};
+
+var findIndex = function(array, predicate) {
+    if (Array.prototype.findIndex) {
+        return array.findIndex(predicate);
+    }
+
+    for (let i = 0, l = array.length; i < l; ++i) {
+        if (predicate(array[i])) {
+            return i;
+        }
+    }
+
+    return -1;
+};
+
+var mergeObjects = function(main, bck) {
+    for (var prop in bck) {
+        if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
+            main[prop] = bck[prop];
+        }
+    }
+
+    return main;
+};
+
 var hookVfunc = function(proto, symbol, func) {
     if (Gi.hook_up_vfunc_symbol) {
         //gjs > 1.53.3
@@ -305,6 +351,88 @@ var removeKeybinding = function(key) {
         Main.wm.removeKeybinding(key);
     }
 };
+
+var getrgbaColor = function(color, alpha, offset) {
+    if (alpha <= 0) {
+        return 'transparent; ';
+    }
+
+    color = typeof color === 'string' ? Clutter.color_from_string(color)[1] : color;
+
+    let rgb = { red: color.red, green: color.green, blue: color.blue };
+
+    if (offset) {
+        ['red', 'green', 'blue'].forEach(k => {
+            rgb[k] = Math.min(255, Math.max(0, rgb[k] + offset));
+
+            if (rgb[k] == color[k]) {
+                rgb[k] = Math.min(255, Math.max(0, rgb[k] - offset));
+            }
+        });
+    }
+
+    return 'rgba(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + ',' + (Math.floor(alpha * 100) * 0.01) + '); ' ;
+};
+
+/*
+ * This is a copy of the same function in utils.js, but also adjust horizontal scrolling
+ * and perform few further cheks on the current value to avoid changing the values when
+ * it would be clamp to the current one in any case.
+ * Return the amount of shift applied
+*/
+var ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize, onComplete) {
+    let vadjustment = scrollView.vscroll.adjustment;
+    let hadjustment = scrollView.hscroll.adjustment;
+    let [vvalue, vlower, vupper, vstepIncrement, vpageIncrement, vpageSize] = vadjustment.get_values();
+    let [hvalue, hlower, hupper, hstepIncrement, hpageIncrement, hpageSize] = hadjustment.get_values();
+
+    let [hvalue0, vvalue0] = [hvalue, vvalue];
+
+    let voffset = fadeSize;
+    let hoffset = fadeSize;
+    
+    let box = actor.get_allocation_box();
+    let y1 = box.y1, y2 = box.y2, x1 = box.x1, x2 = box.x2;
+
+    let parent = actor.get_parent();
+    while (parent != scrollView) {
+        if (!parent)
+            throw new Error("actor not in scroll view");
+
+        let box = parent.get_allocation_box();
+        y1 += box.y1;
+        y2 += box.y1;
+        x1 += box.x1;
+        x2 += box.x1;
+        parent = parent.get_parent();
+    }
+
+    if (y1 < vvalue + voffset)
+        vvalue = Math.max(0, y1 - voffset);
+    else if (vvalue < vupper - vpageSize && y2 > vvalue + vpageSize - voffset)
+        vvalue = Math.min(vupper -vpageSize, y2 + voffset - vpageSize);
+
+    if (x1 < hvalue + hoffset)
+        hvalue = Math.max(0, x1 - hoffset);
+    else if (hvalue < hupper - hpageSize && x2 > hvalue + hpageSize - hoffset)
+        hvalue = Math.min(hupper - hpageSize, x2 + hoffset - hpageSize);
+
+    let tweenOpts = {
+        time: Util.SCROLL_TIME,
+        onComplete: onComplete || (() => {}),
+        transition: 'easeOutQuad'
+    };
+
+    if (vvalue !== vvalue0) {
+        Tweener.addTween(vadjustment, mergeObjects(tweenOpts, { value: vvalue }));
+    }
+
+    if (hvalue !== hvalue0) {
+        Tweener.addTween(hadjustment, mergeObjects(tweenOpts, { value: hvalue }));
+    }
+
+    return [hvalue- hvalue0, vvalue - vvalue0];
+}
  
 /**
  *  ColorUtils is adapted from https://github.com/micheleg/dash-to-dock

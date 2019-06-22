@@ -41,10 +41,6 @@
 	padding-right: 8px;
 }
 
-#dashtopanelThumbnailScrollview {
-	-st-hfade-offset: 48px;
-}
-
 #dashtopanelScrollview .app-well-app:hover .overview-icon,
 #dashtopanelScrollview .app-well-app:focus .overview-icon {
 	background: none;

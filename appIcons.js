@@ -47,7 +47,6 @@ const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Me.imports.utils;
-const WindowPreview = Me.imports.windowPreview;
 const Taskbar = Me.imports.taskbar;
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
@@ -99,7 +98,7 @@ var taskbarAppIcon = Utils.defineClass({
     Extends: AppDisplay.AppIcon,
     ParentConstrParams: [[1, 'app'], [3]],
 
-    _init: function(settings, appInfo, panelWrapper, iconParams) {
+    _init: function(settings, appInfo, panelWrapper, iconParams, previewMenu) {
 
         // a prefix is required to avoid conflicting with the parent class variable
         this._dtpSettings = settings;
@@ -107,6 +106,7 @@ var taskbarAppIcon = Utils.defineClass({
         this._nWindows = 0;
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
+        this._previewMenu = previewMenu;
 
 		// Fix touchscreen issues before the listener is added by the parent constructor.
         this._onTouchEvent = function(actor, event) {
@@ -183,11 +183,9 @@ var taskbarAppIcon = Utils.defineClass({
                                                             Lang.bind(this, this._onFocusAppChanged));
 
         this._windowEnteredMonitorId = this._windowLeftMonitorId = 0;
+        this._stateChangedId = this.app.connect('windows-changed', Lang.bind(this, this.onWindowsChanged));
 
         if (!this.window) {
-            this._stateChangedId = this.app.connect('windows-changed',
-                                                Lang.bind(this, this.onWindowsChanged));
-
             if (this._dtpSettings.get_boolean('isolate-monitors')) {
                 this._windowEnteredMonitorId = Utils.DisplayWrapper.getScreen().connect('window-entered-monitor', this.onWindowEnteredOrLeft.bind(this));
                 this._windowLeftMonitorId = Utils.DisplayWrapper.getScreen().connect('window-left-monitor', this.onWindowEnteredOrLeft.bind(this));
@@ -204,6 +202,8 @@ var taskbarAppIcon = Utils.defineClass({
 
         this._switchWorkspaceId = global.window_manager.connect('switch-workspace',
                                                 Lang.bind(this, this._onSwitchWorkspace));
+
+        this._hoverChangeId = this.actor.connect('notify::hover', () => this._onAppIconHoverChanged());
         
         this._dtpSettingsSignalIds = [
             this._dtpSettings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh)),
@@ -236,93 +236,6 @@ var taskbarAppIcon = Utils.defineClass({
         this.forcedOverview = false;
 
         this._numberOverlay();
-
-        this._signalsHandler = new Utils.GlobalSignalsHandler();
-    },
-
-    _createWindowPreview: function() {
-        // Abort if already activated
-        if (this.menuManagerWindowPreview)
-            return;
-
-        // Creating a new menu manager for window previews as adding it to the
-        // using the secondary menu's menu manager (which uses the "ignoreRelease"
-        // function) caused the extension to crash.
-        this.menuManagerWindowPreview = new PopupMenu.PopupMenuManager(this);
-
-        this.windowPreview = new WindowPreview.thumbnailPreviewMenu(this, this._dtpSettings, this.menuManagerWindowPreview);
-
-        this.windowPreview.connect('open-state-changed', Lang.bind(this, function (menu, isPoppedUp) {
-            if (!isPoppedUp)
-                this._onMenuPoppedDown();
-        }));
-        this.menuManagerWindowPreview.addMenu(this.windowPreview);
-
-        // grabHelper.grab() is usually called when the menu is opened. However, there seems to be a bug in the 
-        // underlying gnome-shell that causes all window contents to freeze if the grab and ungrab occur
-        // in quick succession in timeouts from the Mainloop (for example, clicking the icon as the preview window is opening)
-        // So, instead wait until the mouse is leaving the icon (and might be moving toward the open window) to trigger the grab
-        // in windowPreview.js
-        let windowPreviewMenuData = this.menuManagerWindowPreview._menus[this.menuManagerWindowPreview._findMenu(this.windowPreview)];
-        this.windowPreview.disconnect(windowPreviewMenuData.openStateChangeId);
-        windowPreviewMenuData.openStateChangeId = this.windowPreview.connect('open-state-changed', Lang.bind(this.menuManagerWindowPreview, function(menu, open) {
-            if (open) {
-                if (this.activeMenu)
-                    this.activeMenu.close(BoxPointer.PopupAnimation.FADE);
-
-                // don't grab here, we are grabbing in onLeave in windowPreview.js
-                //this._grabHelper.grab({ actor: menu.actor, focus: menu.sourceActor, onUngrab: Lang.bind(this, this._closeMenu, menu) });
-            } else {
-                this._grabHelper.ungrab({ actor: menu.actor });
-            }
-        }));
-    },
-
-    enableWindowPreview: function(appIcons) {
-        this._createWindowPreview();
-
-        // We first remove to ensure there are no duplicates
-        this._signalsHandler.removeWithLabel('window-preview');
-        this._signalsHandler.addWithLabel('window-preview', [
-            this.windowPreview,
-            'menu-closed',
-            // enter-event doesn't fire on an app icon when the popup menu from a previously
-            // hovered app icon is still open, so when a preview menu closes we need to
-            // see if a new app icon is hovered and open its preview menu now.
-            // also, for some reason actor doesn't report being hovered by get_hover()
-            // if the hover started when a popup was opened. So, look for the actor by mouse position.
-            menu => this.syncWindowPreview(appIcons, menu)
-        ]);
-
-        this.windowPreview.enableWindowPreview();
-    },
-
-    syncWindowPreview: function(appIcons, menu) {
-        let [x, y,] = global.get_pointer();
-        let hoveredActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
-        let appIconToOpen;
-
-        appIcons.forEach(function (appIcon) {
-            if(appIcon.actor == hoveredActor) {
-                appIconToOpen = appIcon;
-            } else if(appIcon.windowPreview && appIcon.windowPreview.isOpen) {
-                appIcon.windowPreview.close();
-            }
-        });
-
-        if(appIconToOpen) {
-            appIconToOpen.actor.sync_hover();
-            if(appIconToOpen.windowPreview && appIconToOpen.windowPreview != menu)
-                appIconToOpen.windowPreview._onEnter();
-        }
-
-        return GLib.SOURCE_REMOVE;
-    },
-
-    disableWindowPreview: function() {
-        this._signalsHandler.removeWithLabel('window-preview');
-        if (this.windowPreview)
-            this.windowPreview.disableWindowPreview();
     },
 
     shouldShowTooltip: function() {
@@ -333,13 +246,28 @@ var taskbarAppIcon = Utils.defineClass({
         } else {
             return this.actor.hover && !this.window && 
                    (!this._menu || !this._menu.isOpen) && 
-                   (!this.windowPreview || !this.windowPreview.isOpen);
+                   (this._previewMenu.getCurrentAppIcon() !== this);
+        }
+    },
+
+    _onAppIconHoverChanged: function() {
+        if (!this._dtpSettings.get_boolean('show-window-previews') || 
+            (!this.window && !this._nWindows)) {
+            return;
+        }
+
+        if (this.actor.hover) {
+            this._previewMenu.requestOpen(this);
+        } else {
+            this._previewMenu.requestClose();
         }
     },
 
     _onDestroy: function() {
         this.callParent('_onDestroy');
         this._destroyed = true;
+
+        this._previewMenu.close(true);
 
         // Disconect global signals
         // stateChangedId is already handled by parent)
@@ -364,19 +292,23 @@ var taskbarAppIcon = Utils.defineClass({
         if(this._scaleFactorChangedId)
             St.ThemeContext.get_for_stage(global.stage).disconnect(this._scaleFactorChangedId);
 
+        if (this._hoverChangeId) {
+            this.actor.disconnect(this._hoverChangeId);
+        }
+
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
             this._dtpSettings.disconnect(this._dtpSettingsSignalIds[i]);
         }
     },
 
     onWindowsChanged: function() {
-        this._updateCounterClass();
+        this._updateWindows();
         this.updateIcon();
     },
 
     onWindowEnteredOrLeft: function() {
         if (this._checkIfFocusedApp()) {
-            this._updateCounterClass();
+            this._updateWindows();
             this._displayProperIndicator();
         }
     },
@@ -405,7 +337,7 @@ var taskbarAppIcon = Utils.defineClass({
     _showDots: function() {
         // Just update style if dots already exist
         if (this._focusedDots && this._unfocusedDots) {
-            this._updateCounterClass();
+            this._updateWindows();
             return;
         }
 
@@ -449,7 +381,7 @@ var taskbarAppIcon = Utils.defineClass({
                 
             this._dotsContainer.add_child(this._unfocusedDots);
     
-            this._updateCounterClass();
+            this._updateWindows();
         }
 
         this._dotsContainer.add_child(this._focusedDots);
@@ -465,7 +397,7 @@ var taskbarAppIcon = Utils.defineClass({
 
     _settingsChangeRefresh: function() {
         if (this._isGroupApps) {
-            this._updateCounterClass();
+            this._updateWindows();
             this._focusedDots.queue_repaint();
             this._unfocusedDots.queue_repaint();
         }
@@ -588,8 +520,7 @@ var taskbarAppIcon = Utils.defineClass({
 
         this.emit('menu-state-changed', true);
 
-        if (this.windowPreview)
-            this.windowPreview.close();
+        this._previewMenu.close(true);
 
         this.actor.set_hover(true);
         this._menu.actor.add_style_class_name('dashtopanelSecondaryMenu');
@@ -612,10 +543,7 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _onSwitchWorkspace: function(windowTracker) {
-        Mainloop.timeout_add(0, Lang.bind(this, function () {
-             this._displayProperIndicator();
-             return GLib.SOURCE_REMOVE;
-         }));
+        this._displayProperIndicator();
     },
 
     _displayProperIndicator: function (force) {
@@ -774,8 +702,8 @@ var taskbarAppIcon = Utils.defineClass({
         }
 
         let appCount = this.getAppIconInterestingWindows().length;
-        if (this.windowPreview && (!(buttonAction == "TOGGLE-SHOWPREVIEW") || (appCount <= 1)))
-            this.windowPreview.requestCloseMenu();
+        if (!(buttonAction == "TOGGLE-SHOWPREVIEW") || (appCount <= 1))
+            this._previewMenu.close(true);
 
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
@@ -922,16 +850,24 @@ var taskbarAppIcon = Utils.defineClass({
         }
     },
 
-    _updateCounterClass: function() {
-        this._nWindows = this.getAppIconInterestingWindows().length;
-
-        for (let i = 1; i <= MAX_INDICATORS; i++){
-            let className = 'running'+i;
-            if(i != this._nWindows)
-                this.actor.remove_style_class_name(className);
-            else
-                this.actor.add_style_class_name(className);
+    _updateWindows: function() {
+        let windows = [this.window];
+        
+        if (!this.window) {
+            windows = this.getAppIconInterestingWindows();
+        
+            this._nWindows = windows.length;
+    
+            for (let i = 1; i <= MAX_INDICATORS; i++){
+                let className = 'running'+i;
+                if(i != this._nWindows)
+                    this.actor.remove_style_class_name(className);
+                else
+                    this.actor.add_style_class_name(className);
+            }
         }
+
+        this._previewMenu.update(this, windows);
     },
 
     _getRunningIndicatorCount: function() {
@@ -1149,7 +1085,7 @@ var taskbarAppIcon = Utils.defineClass({
 
     handleDragOver: function(source, actor, x, y, time) {
         if (source == Main.xdndHandler) {
-            this.windowPreview.close();
+            this._previewMenu.close(true);
         }
             
         return DND.DragMotionResult.CONTINUE;

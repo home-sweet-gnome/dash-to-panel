@@ -42,6 +42,7 @@ var dtpOverview = Utils.defineClass({
 
     _init: function(settings) {
         this._numHotkeys = 10;
+        this._currentHotkeyFocusIndex = -1;
         this._dtpSettings = settings;
     },
 
@@ -179,56 +180,34 @@ var dtpOverview = Utils.defineClass({
 
         if (appIndex < apps.length) {
             let appIcon = apps[appIndex];
-            let windowCount = !appIcon.window ? appIcon._nWindows : seenApps[appIcon.app];
+            let seenAppCount = seenApps[appIcon.app];
+            let windowCount = appIcon.window || appIcon._hotkeysCycle ? seenAppCount : appIcon._nWindows;
 
             if (this._dtpSettings.get_boolean('shortcut-previews') && windowCount > 1) {
-                let windowIndex = 0;
-                let currentWindow = appIcon.window;
-                let hotkeyPrefix = this._dtpSettings.get_string('hotkey-prefix-text');
-                let shortcutKeys = (hotkeyPrefix == 'Super' ? [Clutter.Super_L] : [Clutter.Super_L, Clutter.Alt_L]).concat([Clutter['KEY_' + (appIndex + 1)]]);
-                let currentKeys = shortcutKeys.slice();
-                let setFocus = windowIndex => global.stage.set_key_focus(appIcon.windowPreview._previewBox.box.get_children()[windowIndex]);
-                let capturedEventId = global.stage.connect('captured-event', (actor, event) => {
-                    if (event.type() == Clutter.EventType.KEY_PRESS) {
-                        let pressedKey = event.get_key_symbol();
+                if (this._currentHotkeyFocusIndex < 0) {
+                    let currentWindow = appIcon.window;
+                    let keyFocusOutId = appIcon.actor.connect('key-focus-out', () => appIcon.actor.grab_key_focus());
+                    let capturedEventId = global.stage.connect('captured-event', (actor, e) => {
+                        if (e.type() == Clutter.EventType.KEY_RELEASE && e.get_key_symbol() == Clutter.Super_L) {
+                            global.stage.disconnect(capturedEventId);
+                            appIcon.actor.disconnect(keyFocusOutId);
 
-                        if (shortcutKeys.indexOf(pressedKey) >= 0 && currentKeys.indexOf(pressedKey) < 0) {
-                            currentKeys.push(pressedKey);
-
-                            if (shortcutKeys.length === currentKeys.length) {
-                                windowIndex = windowIndex < windowCount - 1 ? windowIndex + 1 : 0;
-                                setFocus(windowIndex);
-                            }
-                        } 
-                    } else if (event.type() == Clutter.EventType.KEY_RELEASE) {
-                        let releasedKey = event.get_key_symbol();
-                        let keyIndex = currentKeys.indexOf(releasedKey);
-
-                        if (releasedKey == Clutter.Super_L) {
-                            let thumbnails = appIcon.windowPreview._previewBox.box.get_children();
-                            let focusedThumbnail = thumbnails.filter(c => c.has_key_focus())[0];
-
-                            focusedThumbnail._delegate.activate();
-                        } else if (keyIndex >= 0) {
-                            currentKeys.splice(keyIndex, 1);
+                            appIcon._previewMenu.activateFocused();
+                            appIcon.window = currentWindow;
+                            delete appIcon._hotkeysCycle;
+                            this._currentHotkeyFocusIndex = -1;
                         }
-                    }
+    
+                        return Clutter.EVENT_PROPAGATE;
+                    });
 
-                    return Clutter.EVENT_PROPAGATE;
-                });
-                let hotkeyOpenStateChangedId = appIcon.windowPreview.connect('open-state-changed', (menu, isOpen) => {
-                    if (!isOpen) {
-                        global.stage.disconnect(capturedEventId);
-                        appIcon.windowPreview.disconnect(hotkeyOpenStateChangedId);
-                        appIcon.windowPreview._previewBox._resetPreviews();
-                        appIcon.window = currentWindow;
-                    }
-                });
-
-                appIcon.window = null;
-                appIcon.windowPreview.popup();
-                appIcon.menuManagerWindowPreview._onMenuOpenState(appIcon.windowPreview, true);
-                setFocus(windowIndex);
+                    appIcon._hotkeysCycle = appIcon.window;
+                    appIcon.window = null;
+                    appIcon._previewMenu.open(appIcon);
+                    appIcon.actor.grab_key_focus();
+                }
+                
+                this._currentHotkeyFocusIndex = appIcon._previewMenu.focusNext();
             } else {
                 // Activate with button = 1, i.e. same as left click
                 let button = 1;

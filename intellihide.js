@@ -187,10 +187,12 @@ var Intellihide = Utils.defineClass({
             [
                 this._panelBox,
                 'notify::hover',
-                () => {
-                    this._hoveredOut = !this._panelBox.hover;
-                    this._queueUpdatePanelPosition();
-                }
+                () => this._onHoverChanged()
+            ],
+            [
+                this._dtpPanel.taskbar.previewMenu,
+                'open-state-changed',
+                () => this._queueUpdatePanelPosition()
             ],
             [
                 Main.overview,
@@ -201,6 +203,11 @@ var Intellihide = Utils.defineClass({
                 () => this._queueUpdatePanelPosition()
             ]
         );
+    },
+
+    _onHoverChanged: function() {
+        this._hoveredOut = !this._panelBox.hover;
+        this._queueUpdatePanelPosition();
     },
 
     _setTrackPanel: function(reset, enable) {
@@ -291,7 +298,8 @@ var Intellihide = Utils.defineClass({
     },
 
     _checkIfShouldBeVisible: function(fromRevealMechanism) {
-        if (Main.overview.visibleTarget || this._checkIfGrab() || this._panelBox.get_hover()) {
+        if (Main.overview.visibleTarget || this._dtpPanel.taskbar.previewMenu.opened || 
+            this._panelBox.get_hover() || this._checkIfGrab()) {
             return true;
         }
 
