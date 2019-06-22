@@ -746,12 +746,12 @@ var Preview = Utils.defineClass({
 
     adjustOnStage: function() {
         let closeButton = this._closeButtonBin.get_first_child();
-        let closeButtonPadding = headerHeight ? Math.round((headerHeight - this._closeButtonBin.height) * .5 / scaleFactor) : 4;
+        let closeButtonHeight = closeButton.height;
         let closeButtonBorderRadius = '';
 
         if (closeButton.height > MAX_CLOSE_BUTTON_SIZE) {
-            closeButton.set_size(MAX_CLOSE_BUTTON_SIZE, MAX_CLOSE_BUTTON_SIZE);
-            closeButtonPadding = 4;
+            closeButtonHeight = MAX_CLOSE_BUTTON_SIZE;
+            closeButton.set_size(closeButtonHeight, closeButtonHeight);
         }
 
         if (!headerHeight) {
@@ -765,7 +765,7 @@ var Preview = Utils.defineClass({
         }
 
         this._closeButtonBin.set_style(
-            'padding: ' + Math.max(closeButtonPadding, 0) + 'px; ' +
+            'padding: ' + (headerHeight ? Math.round((headerHeight - closeButtonHeight) * .5 / scaleFactor) : 4) + 'px;' +
             this._getBackgroundColor(HEADER_COLOR_OFFSET, headerHeight ? 1 : .6) +
             closeButtonBorderRadius
         );
