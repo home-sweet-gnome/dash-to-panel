@@ -441,9 +441,7 @@ var PreviewMenu = Utils.defineClass({
             y = this._panelWrapper.monitor.y + this._panelWrapper.monitor.height - (panelSize + panelBoxTheme.get_padding(St.Side.BOTTOM) + previewSize + headerHeight);
         }
 
-        this.set_clip(0, 0, w, h);
-        this.set_position(x, y);
-        this.set_size(w, h);
+        Utils.setClip(this, x, y, w, h);
     },
 
     _updatePosition: function() {

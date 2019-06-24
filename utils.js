@@ -334,6 +334,12 @@ var wrapActor = function(actor) {
     }
 };
 
+var setClip = function(actor, x, y, width, height) {
+    actor.set_clip(0, 0, width, height);
+    actor.set_position(x, y);
+    actor.set_size(width, height);
+};
+
 var addKeybinding = function(key, settings, handler, modes) {
     if (!Main.wm._allowedKeybindings[key]) {
         Main.wm.addKeybinding(

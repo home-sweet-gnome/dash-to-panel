@@ -89,7 +89,7 @@ var Intellihide = Utils.defineClass({
 
         if (this._dtpSettings.get_boolean('intellihide-hide-from-windows')) {
             this._proximityWatchId = this._proximityManager.createWatch(
-                this._panelBox, 
+                this._clipContainer, 
                 Proximity.Mode[this._dtpSettings.get_string('intellihide-behaviour')], 
                 0, 0,
                 overlap => { 
@@ -123,7 +123,10 @@ var Intellihide = Utils.defineClass({
     destroy: function() {
         this._dtpSettings.disconnect(this._intellihideChangedId);
         this._dtpSettings.disconnect(this._intellihideOnlySecondaryChangedId);
-        this.disable();
+        
+        if (this._enabled) {
+            this.disable();
+        }
     },
 
     toggle: function() {
@@ -213,8 +216,25 @@ var Intellihide = Utils.defineClass({
     _setTrackPanel: function(reset, enable) {
         if (!reset) {
             Main.layoutManager._untrackActor(this._panelBox);
-            Main.layoutManager._trackActor(this._panelBox, { affectsStruts: !enable, trackFullscreen: !enable });
-    
+            
+            if (enable) {
+                this._clipContainer = new Clutter.Actor();
+                Utils.setClip(this._clipContainer, this._panelBox.x, this._panelBox.y, this._panelBox.width, this._panelBox.height);
+
+                Main.layoutManager.uiGroup.remove_actor(this._panelBox);
+                this._clipContainer.add_child(this._panelBox);
+                this._panelBox.set_position(0, 0);
+
+                Main.layoutManager.addChrome(this._clipContainer, { affectsInputRegion: false });
+                Main.layoutManager.trackChrome(this._panelBox, { affectsInputRegion: true, affectsStruts: false, trackFullscreen: false });
+            } else {
+                this._panelBox.set_position(this._clipContainer.x, this._clipContainer.y);
+                Main.layoutManager.removeChrome(this._clipContainer);
+
+                this._clipContainer.remove_child(this._panelBox);
+                Main.layoutManager.addChrome(this._panelBox, { affectsStruts: true, trackFullscreen: true });
+            }
+            
             this._panelBox.track_hover = enable;
             this._panelBox.reactive = enable;
             this._panelBox.visible = enable ? enable : this._panelBox.visible;
@@ -274,7 +294,8 @@ var Intellihide = Utils.defineClass({
         if (!this._panelBox.hover && !Main.overview.visible &&
             ((this._panelAtTop && y <= this._monitor.y + 1) || 
              (!this._panelAtTop && y >= this._monitor.y + this._monitor.height - 1)) &&
-            (x > this._monitor.x && x < this._monitor.x + this._monitor.width)) {
+            ((x > this._monitor.x && x < this._monitor.x + this._monitor.width) && 
+             (y > this._monitor.y && y < this._monitor.y + this._monitor.height))) {
             this._queueUpdatePanelPosition(true);
         }
     },
