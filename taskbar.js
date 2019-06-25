@@ -328,6 +328,7 @@ var taskbar = Utils.defineClass({
                 [
                     'changed::dot-size',
                     'changed::show-favorites',
+                    'changed::show-running-apps',
                     'changed::show-favorites-all-monitors'
                 ],
                 Lang.bind(this, this._redisplay)
@@ -754,7 +755,7 @@ var taskbar = Utils.defineClass({
         //find the apps that should be in the taskbar: the favorites first, then add the running apps
         // When using isolation, we filter out apps that have no windows in
         // the current workspace (this check is done in AppIcons.getInterestingWindows)
-        let runningApps = this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this));
+        let runningApps = this._checkIfShowingRunningApps() ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this)) : [];
         let expectedAppInfos;
         
         if (!this.isGroupApps && this._dtpSettings.get_boolean('group-apps-use-launchers')) {
@@ -830,6 +831,10 @@ var taskbar = Utils.defineClass({
         this._shownInitially = true;
     },
 
+    _checkIfShowingRunningApps: function() {
+        return this._dtpSettings.get_boolean('show-running-apps');
+    },
+    
     _checkIfShowingFavorites: function() {
         return this._dtpSettings.get_boolean('show-favorites') && 
                (!this.panelWrapper.isSecondary || this._dtpSettings.get_boolean('show-favorites-all-monitors'));

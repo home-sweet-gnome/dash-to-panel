@@ -990,6 +990,11 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('show-running-apps',
+                            this._builder.get_object('show_runnning_apps_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT); 
+
         switch (this._settings.get_string('window-preview-title-position')) {
             case 'BOTTOM':
                 this._builder.get_object('preview_title_position_bottom_button').set_active(true);

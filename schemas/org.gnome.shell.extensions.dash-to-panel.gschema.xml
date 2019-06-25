@@ -386,10 +386,15 @@
       <summary>Show tooltip</summary>
       <description>Show tooltip on hover of app icon</description>
     </key>
+    <key type="b" name="show-running-apps">
+      <default>true</default>
+      <summary>Show running apps</summary>
+      <description>Show or hide running application icons in the dash</description>
+    </key>
     <key type="b" name="show-favorites">
       <default>true</default>
       <summary>Show favorites apps</summary>
-      <description>Show or hide favorite appplications icons in the dash</description>
+      <description>Show or hide favorite application icons in the dash</description>
     </key>
     <key type="i" name="show-window-previews-timeout">
       <default>100</default>
