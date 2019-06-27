@@ -745,10 +745,11 @@ var Preview = Utils.defineClass({
     adjustOnStage: function() {
         let closeButton = this._closeButtonBin.get_first_child();
         let closeButtonHeight = closeButton.height;
+        let maxCloseButtonSize = MAX_CLOSE_BUTTON_SIZE * scaleFactor;
         let closeButtonBorderRadius = '';
 
-        if (closeButton.height > MAX_CLOSE_BUTTON_SIZE) {
-            closeButtonHeight = MAX_CLOSE_BUTTON_SIZE;
+        if (closeButtonHeight > maxCloseButtonSize) {
+            closeButtonHeight = maxCloseButtonSize;
             closeButton.set_size(closeButtonHeight, closeButtonHeight);
         }
 
