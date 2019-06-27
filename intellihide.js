@@ -222,11 +222,12 @@ var Intellihide = Utils.defineClass({
                 Utils.setClip(this._clipContainer, this._panelBox.x, this._panelBox.y, this._panelBox.width, this._panelBox.height);
 
                 Main.layoutManager.uiGroup.remove_actor(this._panelBox);
+                this._panelBox.show();
                 this._clipContainer.add_child(this._panelBox);
                 this._panelBox.set_position(0, 0);
 
                 Main.layoutManager.addChrome(this._clipContainer, { affectsInputRegion: false });
-                Main.layoutManager.trackChrome(this._panelBox, { affectsInputRegion: true, affectsStruts: false, trackFullscreen: false });
+                Main.layoutManager.trackChrome(this._panelBox, { affectsInputRegion: true });
             } else {
                 this._panelBox.set_position(this._clipContainer.x, this._clipContainer.y);
                 Main.layoutManager.removeChrome(this._clipContainer);
@@ -271,8 +272,8 @@ var Intellihide = Utils.defineClass({
     _createBarrier: function() {
         let opts = { 
             display: global.display,
-            x1: this._monitor.x + 1,
-            x2: this._monitor.x + this._monitor.width - 1 
+            x1: this._monitor.x,
+            x2: this._monitor.x + this._monitor.width
         };
 
         if (this._panelAtTop) {
@@ -294,8 +295,8 @@ var Intellihide = Utils.defineClass({
         if (!this._panelBox.hover && !Main.overview.visible &&
             ((this._panelAtTop && y <= this._monitor.y + 1) || 
              (!this._panelAtTop && y >= this._monitor.y + this._monitor.height - 1)) &&
-            ((x > this._monitor.x && x < this._monitor.x + this._monitor.width) && 
-             (y > this._monitor.y && y < this._monitor.y + this._monitor.height))) {
+            ((x >= this._monitor.x && x < this._monitor.x + this._monitor.width) && 
+             (y >= this._monitor.y && y < this._monitor.y + this._monitor.height))) {
             this._queueUpdatePanelPosition(true);
         }
     },
