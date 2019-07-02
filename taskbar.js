@@ -485,11 +485,8 @@ var taskbar = Utils.defineClass({
     },
 
     handleIsolatedWorkspaceSwitch: function() {
-        if (this.isGroupApps) {
-            this._queueRedisplay();
-        } else {
-            this.resetAppIcons();
-        }
+        this._shownInitially = this.isGroupApps;
+        this._queueRedisplay();
     },
 
     _connectWorkspaceSignals: function() {
@@ -777,7 +774,7 @@ var taskbar = Utils.defineClass({
                 (appIcon.window && (this.isGroupApps || expectedAppInfos[appIndex].windows.indexOf(appIcon.window) < 0)) ||
                 (!appIcon.window && !appIcon.isLauncher && 
                  !this.isGroupApps && expectedAppInfos[appIndex].windows.length)) {
-                currentAppIcons[i].animateOutAndDestroy();
+                currentAppIcons[i][this._shownInitially ? 'animateOutAndDestroy' : 'destroy']();
                 currentAppIcons.splice(i, 1);
             }
         }
