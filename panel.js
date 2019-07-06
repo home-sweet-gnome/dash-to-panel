@@ -839,6 +839,19 @@ var dtpSecondaryPanel = Utils.defineClass({
         this._removePanelMenu('dateMenu');
         this._removePanelMenu('aggregateMenu');
     },
+
+    //next 3 functions are needed by other extensions to add elements to the secondary panel
+    addToStatusArea(role, indicator, position, box) {
+        return Main.panel.addToStatusArea.call(this, role, indicator, position, box);
+    },
+
+    _addToPanelBox(role, indicator, position, box) {
+        Main.panel._addToPanelBox.call(this, role, indicator, position, box);
+    },
+
+    _onMenuSet(indicator) {
+        Main.panel._onMenuSet.call(this, indicator);
+    },
 });
 
 var dtpSecondaryAggregateMenu = Utils.defineClass({

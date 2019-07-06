@@ -98,6 +98,12 @@ function _enable() {
     // right position of the appShowButton.
     oldDash = Main.overview._dash;
     Main.overview._dash = panelManager.primaryPanel.taskbar;
+
+    //expose an object so other extensions can easily use dash to panel functionalities and know it is enabled
+    global.dashToPanel = {
+        panelManager: panelManager,
+        panels: panelManager.allPanels.map(pw => pw.panel)
+    };
 }
 
 function disable(reset) {
@@ -119,6 +125,7 @@ function disable(reset) {
 
     if (!reset) {
         ExtensionSystem.disconnect(extensionChangedHandler);
+        delete global.dashToPanel;
 
         // Re-enable Ubuntu Dock if it exists and if it was disabled by dash to panel
         if (disabledUbuntuDock && ExtensionUtils.extensions[UBUNTU_DOCK_UUID] && Main.sessionMode.allowExtensions) {
