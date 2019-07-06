@@ -91,6 +91,8 @@ var dtpPanelManager = Utils.defineClass({
             });
         }
 
+        global.dashToPanel.panels = this.allPanels;
+
         let panelPosition = Taskbar.getPosition();
         this.allPanels.forEach(p => {
             p.panelBox.set_size(p.monitor.width, -1);
@@ -264,6 +266,7 @@ var dtpPanelManager = Utils.defineClass({
     _reset: function() {
         this.disable(true);
         this.enable(true);
+        global.dashToPanel.emit('panel-reset');
     },
 
     _adjustPanelMenuButton: function(button, monitor, arrowSide) {

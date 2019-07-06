@@ -34,6 +34,7 @@ const WindowManager = imports.ui.windowManager;
 const ExtensionUtils = imports.misc.extensionUtils;
 const ExtensionSystem = imports.ui.extensionSystem;
 const Mainloop = imports.mainloop;
+const Signals = imports.signals;
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
@@ -77,6 +78,10 @@ function _enable() {
 
     if (panelManager) return; //already initialized
 
+    //create a global object that can emit signals and conveniently expose functionalities to other extensions 
+    global.dashToPanel = {};
+    Signals.addSignalMethods(global.dashToPanel);
+    
     settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     panelManager = new PanelManager.dtpPanelManager(settings);
     panelManager.enable();
@@ -98,12 +103,6 @@ function _enable() {
     // right position of the appShowButton.
     oldDash = Main.overview._dash;
     Main.overview._dash = panelManager.primaryPanel.taskbar;
-
-    //expose an object so other extensions can easily use dash to panel functionalities and know it is enabled
-    global.dashToPanel = {
-        panelManager: panelManager,
-        panels: panelManager.allPanels.map(pw => pw.panel)
-    };
 }
 
 function disable(reset) {
