@@ -56,6 +56,10 @@ function enable() {
         }
     });
 
+    //create a global object that can emit signals and conveniently expose functionalities to other extensions 
+    global.dashToPanel = {};
+    Signals.addSignalMethods(global.dashToPanel);
+    
     _enable();
 }
 
@@ -78,10 +82,6 @@ function _enable() {
 
     if (panelManager) return; //already initialized
 
-    //create a global object that can emit signals and conveniently expose functionalities to other extensions 
-    global.dashToPanel = {};
-    Signals.addSignalMethods(global.dashToPanel);
-    
     settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     panelManager = new PanelManager.dtpPanelManager(settings);
     panelManager.enable();
