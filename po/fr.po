@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-07-11 19:25+0200\n"
-"PO-Revision-Date: 2019-07-11 20:28+0200\n"
+"PO-Revision-Date: 2019-07-11 20:35+0200\n"
 "Last-Translator: Laurent Tréguier <laurent@treguier.org>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -110,7 +110,7 @@ msgstr "Options d'énergie"
 
 #: appIcons.js:1583
 msgid "Event logs"
-msgstr "Journaux dévènements"
+msgstr "Journaux d'évènements"
 
 #: appIcons.js:1588
 msgid "System"
