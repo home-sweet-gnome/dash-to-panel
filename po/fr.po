@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-07-11 19:25+0200\n"
-"PO-Revision-Date: 2019-07-11 20:37+0200\n"
+"PO-Revision-Date: 2019-07-13 21:28+0200\n"
 "Last-Translator: Laurent Tréguier <laurent@treguier.org>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -428,7 +428,7 @@ msgstr "Cliquez avec la molette sur la prévisualisation pour fermer la fenêtre
 
 #: Settings.ui.h:66
 msgid "Window previews preferred size (px)"
-msgstr "Taille des prévisualisation de fenêtres (px)"
+msgstr "Taille des prévisualisations de fenêtres (px)"
 
 #: Settings.ui.h:67
 msgid "Window previews aspect ratio Y (height)"
@@ -524,7 +524,7 @@ msgstr "21"
 
 #: Settings.ui.h:90
 msgid "Fixed"
-msgstr "FIxé"
+msgstr "Fixé"
 
 #: Settings.ui.h:91
 msgid "Window previews aspect ratio X (width)"
@@ -685,7 +685,7 @@ msgstr "Icône d'affichage des applications personnalisée"
 
 #: Settings.ui.h:126
 msgid "Show Applications icon side padding (px)"
-msgstr "Marge Interne du bouton \"Afficher les Applications\""
+msgstr "Marge interne du bouton \"Afficher les Applications\""
 
 #: Settings.ui.h:127
 msgid "Show Desktop button width (px)"
@@ -1031,7 +1031,7 @@ msgstr "Garder le lanceur d'origine de gnome-shell (activités)"
 
 #: Settings.ui.h:214
 msgid "Activate panel menu buttons (e.g. date menu) on click only"
-msgstr "Activer les menu du panneau seulement au clic"
+msgstr "Activer les menus du panneau seulement au clic"
 
 #: Settings.ui.h:215
 msgid "App icon secondary (right-click) menu"
