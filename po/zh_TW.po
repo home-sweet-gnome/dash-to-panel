@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Dash To Panel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-07-19 20:51+0800\n"
-"PO-Revision-Date: 2019-07-19 21:13+0800\n"
+"PO-Revision-Date: 2019-07-19 21:55+0800\n"
 "Last-Translator: Jack Wu <origincoder@yahoo.com>\n"
 "Language-Team: Chinese (Traditional)\n"
 "Language: zh_TW\n"
@@ -29,7 +29,7 @@ msgstr "恢復預設值"
 
 #: prefs.js:460
 msgid "Default (Primary monitor)"
-msgstr "默認（主顯示器）"
+msgstr "預設（主顯示器）"
 
 #: prefs.js:463
 msgid "Monitor "
@@ -65,11 +65,11 @@ msgstr "未分組的應用程式選項"
 
 #: prefs.js:1337
 msgid "Customize middle-click behavior"
-msgstr "自定義滑鼠中鍵點選行爲"
+msgstr "自訂滑鼠中鍵點選行爲"
 
 #: prefs.js:1448
 msgid "Advanced hotkeys options"
-msgstr "進階熱鍵選項"
+msgstr "進階快捷鍵選項"
 
 #: prefs.js:1482
 msgid "Secondary Menu Options"
@@ -117,7 +117,7 @@ msgstr "系統"
 
 #: appIcons.js:1593
 msgid "Device Management"
-msgstr "設備管理"
+msgstr "裝置管理"
 
 #: appIcons.js:1598
 msgid "Disk Management"
