@@ -168,6 +168,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @jackwickham for thumbnail middle and right click actions
 - @abakkk for centering the taskbar icons in the panel
 - @quasoft for changing of font weight of ungrouped application titles
+- @jordanribera for using icon's dominant color as running indicator color
 
 #### Bug Fixes: 
 @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan, @Zkdc
