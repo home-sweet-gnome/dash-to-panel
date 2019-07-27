@@ -50,7 +50,7 @@ function init() {
 
 function enable() {
     // The Ubuntu Dock extension might get enabled after this extension
-    extensionChangedHandler = ExtensionSystem.connect('extension-state-changed', (data, extension) => {
+    extensionChangedHandler = (Main.extensionManager || ExtensionSystem).connect('extension-state-changed', (data, extension) => {
         if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
             _enable();
         }
@@ -64,7 +64,9 @@ function enable() {
 }
 
 function _enable() {
-    let ubuntuDock = ExtensionUtils.extensions[UBUNTU_DOCK_UUID];
+    let ubuntuDock = Main.extensionManager ?
+                     Main.extensionManager.lookup(UBUNTU_DOCK_UUID) : //gnome-shell >= 3.33.4
+                     ExtensionUtils.extensions[UBUNTU_DOCK_UUID];
 
     if (ubuntuDock && ubuntuDock.stateObj && ubuntuDock.stateObj.dockManager) {
         // Disable Ubuntu Dock
