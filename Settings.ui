@@ -4125,7 +4125,7 @@
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
-                                <property name="position">1</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -4145,7 +4145,47 @@
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkRadioButton" id="position_left_button">
+                                <property name="label" translatable="yes">Left</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                                <property name="xalign">0</property>
+                                <property name="image_position">bottom</property>
+                                <property name="draw_indicator">True</property>
+                                <property name="group">position_bottom_button</property>
+                                <signal name="toggled" handler="position_left_button_toggled_cb" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
                                 <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkRadioButton" id="position_right_button">
+                                <property name="label" translatable="yes">Right</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="halign">center</property>
+                                <property name="valign">center</property>
+                                <property name="xalign">0</property>
+                                <property name="image_position">bottom</property>
+                                <property name="draw_indicator">True</property>
+                                <property name="group">position_bottom_button</property>
+                                <signal name="toggled" handler="position_right_button_toggled_cb" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">3</property>
                               </packing>
                             </child>
                           </object>

@@ -209,6 +209,12 @@ const Settings = new Lang.Class({
             case 'TOP':
                 this._builder.get_object('position_top_button').set_active(true);
                 break;
+            case 'LEFT':
+                this._builder.get_object('position_left_button').set_active(true);
+                break;
+            case 'RIGHT':
+                this._builder.get_object('position_right_button').set_active(true);
+                break;
 
         }
 
@@ -1685,7 +1691,17 @@ const Settings = new Lang.Class({
 		position_top_button_toggled_cb: function(button) {
             if (button.get_active())
                 this._settings.set_string('panel-position', "TOP");
-        },        
+        },
+        
+        position_left_button_toggled_cb: function(button) {
+            if (button.get_active())
+                this._settings.set_string('panel-position', "LEFT");
+        },
+		
+		position_right_button_toggled_cb: function(button) {
+            if (button.get_active())
+                this._settings.set_string('panel-position', "RIGHT");
+        },
 
         dots_bottom_button_toggled_cb: function(button) {
             if (button.get_active())

@@ -42,11 +42,11 @@
     <value value='1' nick='TEMPORARILY'/>
     <value value='2' nick='ALWAYS'/>
   </enum>
-  <!-- this is mean to Match StSide. LEFT and RIGHT actual position in reversed in
-       rtl languages -->
   <enum id='org.gnome.shell.extensions.dash-to-panel.position'>
     <value value='0' nick='BOTTOM'/>
     <value value='1' nick='TOP'/>
+    <value value='2' nick='LEFT'/>
+    <value value='3' nick='RIGHT'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.proximityBehavior'>
     <value value='0' nick='ALL_WINDOWS'/>
