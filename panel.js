@@ -517,6 +517,7 @@ var dtpPanelWrapper = Utils.defineClass({
     _setPanelPosition: function() {
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         let size = this._dtpSettings.get_int('panel-size');
+        let container = this.intellihide && this.intellihide.enabled ? this.panelBox.get_parent() : this.panelBox;
         
         if(scaleFactor)
             size = size*scaleFactor;
@@ -530,7 +531,7 @@ var dtpPanelWrapper = Utils.defineClass({
         this._myPanelGhost.set_height(isTop ? 0 : size);
 
         if(isTop) {
-            this.panelBox.set_position(this.monitor.x, this.monitor.y);
+            container.set_position(this.monitor.x, this.monitor.y);
 
             this._removeTopLimit();
             
@@ -541,7 +542,7 @@ var dtpPanelWrapper = Utils.defineClass({
             if(!this.panel.actor.has_style_class_name('dashtopanelTop'))
                 this.panel.actor.add_style_class_name('dashtopanelTop');
         } else {
-            this.panelBox.set_position(this.monitor.x, this.monitor.y + this.monitor.height - this.panelBox.height);
+            container.set_position(this.monitor.x, this.monitor.y + this.monitor.height - this.panelBox.height);
 
             if (!this._topLimit) {
                 this._topLimit = new St.BoxLayout({ name: 'topLimit', vertical: true });
@@ -841,15 +842,15 @@ var dtpSecondaryPanel = Utils.defineClass({
     },
 
     //next 3 functions are needed by other extensions to add elements to the secondary panel
-    addToStatusArea(role, indicator, position, box) {
+    addToStatusArea: function(role, indicator, position, box) {
         return Main.panel.addToStatusArea.call(this, role, indicator, position, box);
     },
 
-    _addToPanelBox(role, indicator, position, box) {
+    _addToPanelBox: function(role, indicator, position, box) {
         Main.panel._addToPanelBox.call(this, role, indicator, position, box);
     },
 
-    _onMenuSet(indicator) {
+    _onMenuSet: function(indicator) {
         Main.panel._onMenuSet.call(this, indicator);
     },
 });

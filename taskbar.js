@@ -363,7 +363,10 @@ var taskbar = Utils.defineClass({
         this._showAppsIconWrapper.destroy();
 
         this._container.destroy();
+        
         this.previewMenu.disable();
+        this.previewMenu.destroy();
+
         this._disconnectWorkspaceSignals();
     },
 
