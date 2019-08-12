@@ -184,7 +184,8 @@ var PreviewMenu = Utils.defineClass({
 
             this._setReactive(true);
             this._setOpenedState(true);
-        }
+        } else
+            this.close();
     },
 
     close: function(immediate) {
@@ -275,6 +276,10 @@ var PreviewMenu = Utils.defineClass({
     _setOpenedState: function(opened) {
         this.opened = opened;
         this.emit('open-state-changed');
+    },
+
+    getOpenedState: function() {
+        return this.opened;
     },
 
     _removeFocus: function() {

@@ -253,16 +253,33 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _onAppIconHoverChanged: function() {
-        if (!this._dtpSettings.get_boolean('show-window-previews') || 
-            (!this.window && !this._nWindows)) {
+        if (this._dtpSettings.get_boolean('show-window-previews') || 
+            (this.window && this._nWindows)) {
+            this._openClosePreviewWindow(true);
             return;
         }
 
-        if (this.actor.hover) {
-            this._previewMenu.requestOpen(this);
-        } else {
-            this._previewMenu.requestClose();
+        if ((this._dtpSettings.get_string('click-action') == 'TOGGLE-SHOWPREVIEW') ||
+            (this._dtpSettings.get_string('shift-click-action') == 'TOGGLE-SHOWPREVIEW') ||
+            (this._dtpSettings.get_string('middle-click-action') == 'TOGGLE-SHOWPREVIEW') ||
+            (this._dtpSettings.get_string('shift-middle-click-action') == 'TOGGLE-SHOWPREVIEW')) {
+            // If opening, only allow opening of the preview window, if the preview window is already opened
+            // This is necessary in combination with the TOGGLE-SHOWPREVIEW action
+            this._openClosePreviewWindow(this._previewMenu.getOpenedState());
         }
+    },
+
+    /*
+    * Open (if allowed) or close the window overview
+    */    
+    _openClosePreviewWindow: function(allowOpening) {
+        if (this.actor.hover) {
+            if (allowOpening)
+                this._previewMenu.requestOpen(this);
+            else
+                return;
+        } else
+            this._previewMenu.requestClose();
     },
 
     _onDestroy: function() {
@@ -840,6 +857,9 @@ var taskbarAppIcon = Utils.defineClass({
                                     if(click_count > 1) {
                                         minimizeWindow(this.app, true, this._dtpSettings, monitor);
                                     }
+                                } else {
+                                    // Open the preview window
+                                    this._previewMenu.requestOpen(this);
                                 }
                             }
                         }
