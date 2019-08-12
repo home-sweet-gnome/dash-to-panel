@@ -743,18 +743,7 @@ var dtpPanelWrapper = Utils.defineClass({
     },
 
     _onPanelMouseScroll: function(actor, event) {
-        let direction = 0;
-
-        switch (event.get_scroll_direction()) {
-            case Clutter.ScrollDirection.UP:
-            case Clutter.ScrollDirection.LEFT:
-                direction = 'up';
-                break;
-            case Clutter.ScrollDirection.DOWN:
-            case Clutter.ScrollDirection.RIGHT:
-                direction = 'down';
-                break;
-        }
+        let direction = Utils.getMouseScrollDirection(event);
 
         if (direction) {
             Main.wm._showWorkspaceSwitcher(global.display, 0, { get_name: () => 'switch---' + direction });

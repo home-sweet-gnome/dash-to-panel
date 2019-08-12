@@ -380,6 +380,23 @@ var getrgbaColor = function(color, alpha, offset) {
     return 'rgba(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + ',' + (Math.floor(alpha * 100) * 0.01) + '); ' ;
 };
 
+var getMouseScrollDirection = function(event) {
+    let direction;
+
+    switch (event.get_scroll_direction()) {
+        case Clutter.ScrollDirection.UP:
+        case Clutter.ScrollDirection.LEFT:
+            direction = 'up';
+            break;
+        case Clutter.ScrollDirection.DOWN:
+        case Clutter.ScrollDirection.RIGHT:
+            direction = 'down';
+            break;
+    }
+
+    return direction;
+};
+
 /*
  * This is a copy of the same function in utils.js, but also adjust horizontal scrolling
  * and perform few further cheks on the current value to avoid changing the values when

@@ -197,6 +197,8 @@ var taskbarAppIcon = Utils.defineClass({
                                                 Lang.bind(this, this._updateWindowTitle));
         }
         
+        this._scrollEventId = this.actor.connect('scroll-event', this._onMouseScroll.bind(this));
+
         this._overviewWindowDragEndId = Main.overview.connect('window-drag-end',
                                                 Lang.bind(this, this._onOverviewWindowDragEnd));
 
@@ -296,6 +298,10 @@ var taskbarAppIcon = Utils.defineClass({
             this.actor.disconnect(this._hoverChangeId);
         }
 
+        if (this._scrollEventId) {
+            this.actor.disconnect(this._scrollEventId);
+        }
+
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
             this._dtpSettings.disconnect(this._dtpSettingsSignalIds[i]);
         }
@@ -334,6 +340,35 @@ var taskbarAppIcon = Utils.defineClass({
         });
     },
 
+    _onMouseScroll: function(actor, event) {
+        if (!this.window && !this._nWindows) {
+            return;
+        }
+
+        let direction = Utils.getMouseScrollDirection(event);
+
+        if (direction) {
+            let windows = this.getAppIconInterestingWindows();
+            
+            windows.sort(Taskbar.sortWindowsCompareFunction);
+
+            let windowIndex = windows.indexOf(global.display.focus_window);
+            let nextWindowIndex = windowIndex < 0 ?
+                                  this.window ? windows.indexOf(this.window) : 0 : 
+                                  windowIndex + (direction == 'up' ? 1 : -1);
+
+            if (nextWindowIndex == windows.length) {
+                nextWindowIndex = 0;
+            } else if (nextWindowIndex < 0) {
+                nextWindowIndex = windows.length - 1;
+            }
+
+            if (windowIndex != nextWindowIndex) {
+                Main.activateWindow(windows[nextWindowIndex]);
+            }
+        }
+    },
+    
     _showDots: function() {
         // Just update style if dots already exist
         if (this._focusedDots && this._unfocusedDots) {
