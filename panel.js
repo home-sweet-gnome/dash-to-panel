@@ -237,6 +237,11 @@ var dtpPanelWrapper = Utils.defineClass({
                 this.panel._centerBox,
                 'actor-added',
                 () => this._setClockLocation(this._dtpSettings.get_string('location-clock'))
+            ],
+            [
+                this.panel.actor,
+                'scroll-event',
+                this._onPanelMouseScroll.bind(this)
             ]
         );
 
@@ -735,6 +740,25 @@ var dtpPanelWrapper = Utils.defineClass({
         }
 
         Main.overview.hide();
+    },
+
+    _onPanelMouseScroll: function(actor, event) {
+        let direction = 0;
+
+        switch (event.get_scroll_direction()) {
+            case Clutter.ScrollDirection.UP:
+            case Clutter.ScrollDirection.LEFT:
+                direction = 'up';
+                break;
+            case Clutter.ScrollDirection.DOWN:
+            case Clutter.ScrollDirection.RIGHT:
+                direction = 'down';
+                break;
+        }
+
+        if (direction) {
+            Main.wm._showWorkspaceSwitcher(global.display, 0, { get_name: () => 'switch---' + direction });
+        }
     },
 });
 
