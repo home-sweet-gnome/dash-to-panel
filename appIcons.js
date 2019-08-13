@@ -737,8 +737,8 @@ var taskbarAppIcon = Utils.defineClass({
         }
 
         let appCount = this.getAppIconInterestingWindows().length;
-        if (!(buttonAction == "TOGGLE-SHOWPREVIEW") || (appCount <= 1))
-            this._previewMenu.close(true);
+        let previewedAppIcon = this._previewMenu.getCurrentAppIcon();
+        this._previewMenu.close();
 
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
@@ -791,10 +791,7 @@ var taskbarAppIcon = Utils.defineClass({
                             if (appHasFocus || button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK) {
                                 // minimize all windows on double click and always in the case of primary click without
                                 // additional modifiers
-                                let click_count = 0;
-                                if (Clutter.EventType.CLUTTER_BUTTON_PRESS)
-                                    click_count = event.get_click_count();
-                                let all_windows = (button == 1 && ! modifiers) || click_count > 1;
+                                let all_windows = (button == 1 && ! modifiers) || event.get_click_count() > 1;
                                 minimizeWindow(this.app, all_windows, this._dtpSettings, monitor);
                             }
                             else
@@ -834,14 +831,15 @@ var taskbarAppIcon = Utils.defineClass({
                                 else
                                     activateFirstWindow(this.app, this._dtpSettings, monitor);
                             } else {
-                                // minimize all windows if double clicked
-                                if (Clutter.EventType.CLUTTER_BUTTON_PRESS) {
-                                    let click_count = event.get_click_count();
-                                    if(click_count > 1) {
-                                        minimizeWindow(this.app, true, this._dtpSettings, monitor);
-                                    }
+                                if (event.get_click_count() > 1) {
+                                    // minimize all windows if double clicked
+                                    minimizeWindow(this.app, true, this._dtpSettings, monitor);
+                                } else if (previewedAppIcon != this) {
+                                    this._previewMenu.open(this);
                                 }
-                            }
+    
+                                this.emit('sync-tooltip');
+                            } 
                         }
                         else
                             this.app.activate();
