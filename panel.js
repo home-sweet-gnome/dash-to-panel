@@ -83,6 +83,10 @@ var dtpPanelWrapper = Utils.defineClass({
             this.container = this.panel._leftBox;
         }
         this.appMenu = this.panel.statusArea.appMenu;
+
+        if (this.panel.statusArea.aggregateMenu) {
+            this.panel.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll = 1;
+        }
         
         this._oldPanelActorDelegate = this.panel.actor._delegate;
         this.panel.actor._delegate = this;
@@ -745,7 +749,7 @@ var dtpPanelWrapper = Utils.defineClass({
     _onPanelMouseScroll: function(actor, event) {
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (direction) {
+        if (!event.get_source()._dtpIgnoreScroll && direction) {
             Main.wm._showWorkspaceSwitcher(global.display, 0, { get_name: () => 'switch---' + direction });
         }
     },
