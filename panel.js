@@ -345,6 +345,10 @@ var dtpPanelWrapper = Utils.defineClass({
                 Utils.hookVfunc(this.panel.__proto__, 'allocate', this.panel.__proto__.vfunc_allocate);
             }
 
+            if (this.panel.statusArea.aggregateMenu) {
+                delete this.panel.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll;
+            }
+
             this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
             delete this.panel._leftBox.oldLeftBoxAllocate;
 
