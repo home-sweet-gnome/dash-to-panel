@@ -176,7 +176,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan, @Zkdc
 
 #### Translations: 
-@frnogueira (pt_BR), @zeten30 (cs), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / @MartinPL (pl), @AlexGluck / @GoodNike (ru), @sicklylife-jp (jp), @oltulu / @TeknoMobil / @daenney (tr), @sbadux (it), @OriginCode / @pan93412 (zh\_TW)
+@frnogueira (pt_BR), @zeten30 (cs), @franglais125 (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / @MartinPL / @alex4401 (pl), @AlexGluck / @GoodNike (ru), @sicklylife-jp (jp), @oltulu / @TeknoMobil / @daenney (tr), @sbadux (it), @OriginCode / @pan93412 (zh\_TW)
 
 
 ## 
