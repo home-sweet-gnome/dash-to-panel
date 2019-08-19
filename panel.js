@@ -754,7 +754,12 @@ var dtpPanelWrapper = Utils.defineClass({
         let direction = Utils.getMouseScrollDirection(event);
 
         if (!event.get_source()._dtpIgnoreScroll && direction) {
-            Main.wm._showWorkspaceSwitcher(global.display, 0, { get_name: () => 'switch---' + direction });
+            let args = [global.display];
+
+            //gnome-shell < 3.30 needs an additional "screen" param
+            global.screen ? args.push(global.screen) : 0;
+
+            Main.wm._showWorkspaceSwitcher.apply(Main.wm, args.concat([0, { get_name: () => 'switch---' + direction }]));
         }
     },
 });
