@@ -127,7 +127,10 @@ var taskbarAppIcon = Utils.defineClass({
 
         this.callParent('_init', appInfo.app, iconParams);
 
-        this.icon.label = {};
+        if (!IconGrid.BaseIcon.prototype._allocate) {
+            this.icon.label = {};
+        }
+        
         Utils.wrapActor(this.icon);
         
         this._dot.set_width(0);
