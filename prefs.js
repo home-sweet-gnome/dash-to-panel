@@ -1387,6 +1387,88 @@ const Settings = new Lang.Class({
 
         }));
 
+        this._builder.get_object('scroll_panel_combo').set_active_id(this._settings.get_string('scroll-panel-action'));
+        this._builder.get_object('scroll_panel_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('scroll-panel-action', widget.get_active_id());
+        }));
+
+        this._builder.get_object('scroll_icon_combo').set_active_id(this._settings.get_string('scroll-icon-action'));
+        this._builder.get_object('scroll_icon_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('scroll-icon-action', widget.get_active_id());
+        }));
+
+        // Create dialog for panel scroll options
+        this._builder.get_object('scroll_panel_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Customize panel scroll behavior'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('scroll_panel_options_box');
+            dialog.get_content_area().add(box);
+
+            this._builder.get_object('scroll_panel_options_delay_spinbutton').set_value(this._settings.get_int('scroll-panel-delay'));
+            this._builder.get_object('scroll_panel_options_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('scroll-panel-delay', widget.get_value());
+            }));
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('scroll-panel-delay', this._settings.get_default_value('scroll-panel-delay'));
+                    this._builder.get_object('scroll_panel_options_delay_spinbutton').set_value(this._settings.get_int('scroll-panel-delay'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
+
+        // Create dialog for icon scroll options
+        this._builder.get_object('scroll_icon_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Customize icon scroll behavior'),
+                                            transient_for: this.widget.get_toplevel(),
+                                            use_header_bar: true,
+                                            modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('scroll_icon_options_box');
+            dialog.get_content_area().add(box);
+
+            this._builder.get_object('scroll_icon_options_delay_spinbutton').set_value(this._settings.get_int('scroll-icon-delay'));
+            this._builder.get_object('scroll_icon_options_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('scroll-icon-delay', widget.get_value());
+            }));
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('scroll-icon-delay', this._settings.get_default_value('scroll-icon-delay'));
+                    this._builder.get_object('scroll_icon_options_delay_spinbutton').set_value(this._settings.get_int('scroll-icon-delay'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
+
         this._settings.bind('hot-keys',
                             this._builder.get_object('hot_keys_switch'),
                             'active',

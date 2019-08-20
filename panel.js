@@ -292,6 +292,11 @@ var dtpPanelWrapper = Utils.defineClass({
             this._showDesktopTimeoutId = 0;
         }
 
+        if (this._scrollPanelDelayTimeoutId) {
+            Mainloop.source_remove(this._scrollPanelDelayTimeoutId);
+            this._scrollPanelDelayTimeoutId = 0;
+        }
+
         if (this.startDynamicTransparencyId) {
             Mainloop.source_remove(this.startDynamicTransparencyId);
             this.startDynamicTransparencyId = 0;
@@ -751,15 +756,21 @@ var dtpPanelWrapper = Utils.defineClass({
     },
 
     _onPanelMouseScroll: function(actor, event) {
-        let direction = Utils.getMouseScrollDirection(event);
+        if (this._dtpSettings.get_string('scroll-panel-action') === 'SWITCH_WORKSPACE') {
+            let direction = Utils.getMouseScrollDirection(event);
+            
+            if (!event.get_source()._dtpIgnoreScroll && direction && !this._scrollPanelDelayTimeoutId) {
+                this._scrollPanelDelayTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('scroll-panel-delay'), () => {
+                    this._scrollPanelDelayTimeoutId = 0;
+                });
 
-        if (!event.get_source()._dtpIgnoreScroll && direction) {
-            let args = [global.display];
+                let args = [global.display];
 
-            //gnome-shell < 3.30 needs an additional "screen" param
-            global.screen ? args.push(global.screen) : 0;
+                //gnome-shell < 3.30 needs an additional "screen" param
+                global.screen ? args.push(global.screen) : 0;
 
-            Main.wm._showWorkspaceSwitcher.apply(Main.wm, args.concat([0, { get_name: () => 'switch---' + direction }]));
+                Main.wm._showWorkspaceSwitcher.apply(Main.wm, args.concat([0, { get_name: () => 'switch---' + direction }]));
+            }
         }
     },
 });

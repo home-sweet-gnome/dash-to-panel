@@ -302,6 +302,11 @@ var taskbarAppIcon = Utils.defineClass({
             this.actor.disconnect(this._scrollEventId);
         }
 
+        if (this._scrollIconDelayTimeoutId) {
+            Mainloop.source_remove(this._scrollIconDelayTimeoutId);
+            this._scrollIconDelayTimeoutId = 0;
+        }
+
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
             this._dtpSettings.disconnect(this._dtpSettingsSignalIds[i]);
         }
@@ -341,13 +346,18 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _onMouseScroll: function(actor, event) {
-        if (!this.window && !this._nWindows) {
+        if (this._dtpSettings.get_string('scroll-icon-action') === 'NOTHING' || 
+            (!this.window && !this._nWindows)) {
             return;
         }
 
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (direction) {
+        if (direction && !this._scrollIconDelayTimeoutId) {
+            this._scrollIconDelayTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('scroll-icon-delay'), () => {
+                this._scrollIconDelayTimeoutId = 0;
+            });
+
             let windows = this.getAppIconInterestingWindows();
             
             windows.sort(Taskbar.sortWindowsCompareFunction);
