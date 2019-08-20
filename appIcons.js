@@ -50,10 +50,6 @@ const Utils = Me.imports.utils;
 const Taskbar = Me.imports.taskbar;
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
-let DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME;
-let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;
-let DASH_ITEM_LABEL_HIDE_TIME = Dash.DASH_ITEM_LABEL_HIDE_TIME;
-let DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
 
@@ -131,6 +127,7 @@ var taskbarAppIcon = Utils.defineClass({
 
         this.callParent('_init', appInfo.app, iconParams);
 
+        this.icon.label = {};
         Utils.wrapActor(this.icon);
         
         this._dot.set_width(0);
@@ -668,7 +665,7 @@ var taskbarAppIcon = Utils.defineClass({
                 dots._tweeningToWidth = newWidth;
                 Tweener.addTween(dots,
                                 { width: newWidth,
-                                time: DASH_ANIMATION_TIME,
+                                time: Taskbar.DASH_ANIMATION_TIME,
                                 transition: 'easeInOutCubic',
                                 onStart: Lang.bind(this, function() { 
                                     if(newOtherOpacity == 0)
@@ -1139,6 +1136,7 @@ var taskbarAppIcon = Utils.defineClass({
     }
 
 });
+taskbarAppIcon.prototype.scaleAndFade = taskbarAppIcon.prototype.undoScaleAndFade = () => {};
 
 function minimizeWindow(app, param, settings, monitor){
     // Param true make all app windows minimize
@@ -1472,11 +1470,20 @@ function ItemShowLabel()  {
         x -= x + labelWidth -( monitor.x + monitor.width) + gap;
 
     this.label.set_position(x, y);
-    Tweener.addTween(this.label,
-      { opacity: 255,
-        time: DASH_ITEM_LABEL_SHOW_TIME,
-        transition: 'easeOutQuad',
-      });
+
+    if (Dash.DASH_ITEM_LABEL_SHOW_TIME < 1) {
+        Tweener.addTween(this.label, { 
+            opacity: 255,
+            time: Dash.DASH_ITEM_LABEL_SHOW_TIME,
+            transition: 'easeOutQuad',
+        });
+    } else {
+        this.label.ease({
+            opacity: 255,
+            duration: Dash.DASH_ITEM_LABEL_SHOW_TIME,
+            mode: Clutter.AnimationMode.EASE_OUT_QUAD
+        });
+    }
 };
 
 /**
@@ -1505,6 +1512,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
         this.realShowAppsIcon.actor.y_align = Clutter.ActorAlign.START;
+        this.realShowAppsIcon.show(false);
 
         // Re-use appIcon methods
         this._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
@@ -1530,7 +1538,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         this._menuManager = new PopupMenu.PopupMenuManager(this.actor);
         this._menuTimeoutId = 0;
 
-        this.realShowAppsIcon.showLabel = ItemShowLabel;
+        Taskbar.extendDashItemContainer(this.realShowAppsIcon);
 
         let customIconPath = this._dtpSettings.get_string('show-apps-icon-file');
 
