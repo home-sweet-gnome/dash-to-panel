@@ -1102,6 +1102,11 @@ const Settings = new Lang.Class({
                 this._settings.set_int('leave-timeout', widget.get_value());
             }));
 
+            this._settings.bind('window-preview-hide-immediate-click',
+                                this._builder.get_object('preview_immediate_click_button'),
+                                'active',
+                                Gio.SettingsBindFlags.DEFAULT);
+
             this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));
             this._builder.get_object('animation_time_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
                 this._settings.set_int('window-preview-animation-time', widget.get_value());
@@ -1156,6 +1161,8 @@ const Settings = new Lang.Class({
 
                     this._settings.set_value('leave-timeout', this._settings.get_default_value('leave-timeout'));
                     this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
+
+                    this._settings.set_value('window-preview-hide-immediate-click', this._settings.get_default_value('window-preview-hide-immediate-click'));
 
                     this._settings.set_value('window-preview-animation-time', this._settings.get_default_value('window-preview-animation-time'));
                     this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));

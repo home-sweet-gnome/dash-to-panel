@@ -471,6 +471,11 @@
       <summary>Aspect ratio Y</summary>
       <description>The window previews respected aspect ratio Y.</description>
     </key>
+    <key type="b" name="window-preview-hide-immediate-click">
+      <default>false</default>
+      <summary>Immediate hide on icon click</summary>
+      <description>The window previews immediately hide when an application icon is clicked.</description>
+    </key>
     <key type="b" name="isolate-workspaces">
       <default>false</default>
       <summary>Provide workspace isolation</summary>

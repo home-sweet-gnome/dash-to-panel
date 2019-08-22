@@ -748,7 +748,7 @@ var taskbarAppIcon = Utils.defineClass({
 
         let appCount = this.getAppIconInterestingWindows().length;
         let previewedAppIcon = this._previewMenu.getCurrentAppIcon();
-        this._previewMenu.close();
+        this._previewMenu.close(this._dtpSettings.get_boolean('window-preview-hide-immediate-click'));
 
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,

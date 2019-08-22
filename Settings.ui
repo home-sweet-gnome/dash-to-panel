@@ -2265,35 +2265,6 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="leave_timeout_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Time (ms) before hiding (100 is default)</property>
-                        <property name="xalign">0</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="leave_timeout_spinbutton">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="halign">end</property>
-                        <property name="width_chars">4</property>
-                        <property name="text">25</property>
-                        <property name="adjustment">leave_timeout_adjustment</property>
-                        <property name="numeric">True</property>
-                        <property name="value">25</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkLabel" id="animation_time_label">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
@@ -2319,6 +2290,74 @@
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="top_attach">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="preview_hide_box">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkLabel" id="leave_timeout_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Time (ms) before hiding (100 is default)</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="preview_immediate_click_button">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="margin_left">12</property>
+                            <property name="margin_top">4</property>
+                            <property name="draw_indicator">True</property>
+                            <child>
+                              <object class="GtkLabel" id="preview_immediate_click_label">
+                                <property name="name">4</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="margin_left">4</property>
+                                <property name="label" translatable="yes">Immediate on application icon click</property>
+                                <property name="use_markup">True</property>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="leave_timeout_spinbutton">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                        <property name="width_chars">4</property>
+                        <property name="text">25</property>
+                        <property name="adjustment">leave_timeout_adjustment</property>
+                        <property name="numeric">True</property>
+                        <property name="value">25</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">1</property>
                       </packing>
                     </child>
                   </object>
