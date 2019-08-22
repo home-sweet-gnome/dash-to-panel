@@ -995,14 +995,7 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT); 
 
-        switch (this._settings.get_string('window-preview-title-position')) {
-            case 'BOTTOM':
-                this._builder.get_object('preview_title_position_bottom_button').set_active(true);
-                break;
-            case 'TOP':
-                this._builder.get_object('preview_title_position_top_button').set_active(true);
-                break;
-        }
+        this._setPreviewTitlePosition();
 
         this._builder.get_object('grid_preview_title_font_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
@@ -1171,6 +1164,9 @@ const Settings = new Lang.Class({
 
                     this._settings.set_value('preview-custom-opacity', this._settings.get_default_value('preview-custom-opacity'));
                     this._builder.get_object('preview_custom_opacity_spinbutton').set_value(this._settings.get_int('preview-custom-opacity'));
+
+                    this._settings.set_value('window-preview-title-position', this._settings.get_default_value('window-preview-title-position'));
+                    this._setPreviewTitlePosition();
 
                     this._settings.set_value('peek-mode', this._settings.get_default_value('peek-mode'));
                     this._settings.set_value('window-preview-show-title', this._settings.get_default_value('window-preview-show-title'));
@@ -1742,6 +1738,17 @@ const Settings = new Lang.Class({
                 }
             );
         });
+    },
+
+    _setPreviewTitlePosition: function() {
+        switch (this._settings.get_string('window-preview-title-position')) {
+            case 'BOTTOM':
+                this._builder.get_object('preview_title_position_bottom_button').set_active(true);
+                break;
+            case 'TOP':
+                this._builder.get_object('preview_title_position_top_button').set_active(true);
+                break;
+        }
     },
 
     _showFileChooser: function(title, params, acceptBtn, acceptHandler) {
