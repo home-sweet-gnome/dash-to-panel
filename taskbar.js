@@ -487,7 +487,7 @@ var taskbar = Utils.defineClass({
 
     handleIsolatedWorkspaceSwitch: function() {
         this._shownInitially = this.isGroupApps;
-        this._queueRedisplay();
+        this._redisplay();
     },
 
     _connectWorkspaceSignals: function() {
