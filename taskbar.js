@@ -748,12 +748,11 @@ var taskbar = Utils.defineClass({
         // When using isolation, we filter out apps that have no windows in
         // the current workspace (this check is done in AppIcons.getInterestingWindows)
         let runningApps = this._checkIfShowingRunningApps() ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this)) : [];
-        
 
         if (!this.isGroupApps && this._dtpSettings.get_boolean('group-apps-use-launchers')) {
-            return expectedAppInfos = this._createAppInfos(favoriteApps, [], true)
-                                          .concat(this._createAppInfos(runningApps)
-                                          .filter(appInfo => appInfo.windows.length));
+            return this._createAppInfos(favoriteApps, [], true)
+                       .concat(this._createAppInfos(runningApps)
+                       .filter(appInfo => appInfo.windows.length));
         } else {
             return this._createAppInfos(favoriteApps.concat(runningApps.filter(app => favoriteApps.indexOf(app) < 0)))
                        .filter(appInfo => appInfo.windows.length || favoriteApps.indexOf(appInfo.app) >= 0);
