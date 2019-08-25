@@ -397,6 +397,23 @@ var getMouseScrollDirection = function(event) {
     return direction;
 };
 
+var activateSiblingWindow = function(windows, direction, startWindow) {
+    let windowIndex = windows.indexOf(global.display.focus_window);
+    let nextWindowIndex = windowIndex < 0 ?
+                          startWindow ? windows.indexOf(startWindow) : 0 : 
+                          windowIndex + (direction == 'up' ? 1 : -1);
+
+    if (nextWindowIndex == windows.length) {
+        nextWindowIndex = 0;
+    } else if (nextWindowIndex < 0) {
+        nextWindowIndex = windows.length - 1;
+    }
+
+    if (windowIndex != nextWindowIndex) {
+        Main.activateWindow(windows[nextWindowIndex]);
+    }
+}
+
 /*
  * This is a copy of the same function in utils.js, but also adjust horizontal scrolling
  * and perform few further cheks on the current value to avoid changing the values when

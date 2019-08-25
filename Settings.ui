@@ -6591,6 +6591,7 @@
                     <items>
                       <item id="NOTHING" translatable="yes">Do nothing</item>
                       <item id="SWITCH_WORKSPACE" translatable="yes">Switch workspace</item>
+                      <item id="CYCLE_WINDOWS" translatable="yes">Cycle windows</item>
                     </items>
                   </object>
                   <packing>

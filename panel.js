@@ -756,20 +756,25 @@ var dtpPanelWrapper = Utils.defineClass({
     },
 
     _onPanelMouseScroll: function(actor, event) {
-        if (this._dtpSettings.get_string('scroll-panel-action') === 'SWITCH_WORKSPACE') {
-            let direction = Utils.getMouseScrollDirection(event);
-            
-            if (!event.get_source()._dtpIgnoreScroll && direction && !this._scrollPanelDelayTimeoutId) {
-                this._scrollPanelDelayTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('scroll-panel-delay'), () => {
-                    this._scrollPanelDelayTimeoutId = 0;
-                });
+        let scrollAction = this._dtpSettings.get_string('scroll-panel-action');
+        let direction = Utils.getMouseScrollDirection(event);
 
+        if (!event.get_source()._dtpIgnoreScroll && direction && !this._scrollPanelDelayTimeoutId) {
+            this._scrollPanelDelayTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('scroll-panel-delay'), () => {
+                this._scrollPanelDelayTimeoutId = 0;
+            });
+
+            if (scrollAction === 'SWITCH_WORKSPACE') {
                 let args = [global.display];
 
                 //gnome-shell < 3.30 needs an additional "screen" param
                 global.screen ? args.push(global.screen) : 0;
 
                 Main.wm._showWorkspaceSwitcher.apply(Main.wm, args.concat([0, { get_name: () => 'switch---' + direction }]));
+            } else if (scrollAction === 'CYCLE_WINDOWS') {
+                let windows = this.taskbar.getAppInfos().reduce((ws, appInfo) => ws.concat(appInfo.windows), []);
+                
+                Utils.activateSiblingWindow(windows, direction);
             }
         }
     },

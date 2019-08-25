@@ -359,23 +359,9 @@ var taskbarAppIcon = Utils.defineClass({
             });
 
             let windows = this.getAppIconInterestingWindows();
-            
+
             windows.sort(Taskbar.sortWindowsCompareFunction);
-
-            let windowIndex = windows.indexOf(global.display.focus_window);
-            let nextWindowIndex = windowIndex < 0 ?
-                                  this.window ? windows.indexOf(this.window) : 0 : 
-                                  windowIndex + (direction == 'up' ? 1 : -1);
-
-            if (nextWindowIndex == windows.length) {
-                nextWindowIndex = 0;
-            } else if (nextWindowIndex < 0) {
-                nextWindowIndex = windows.length - 1;
-            }
-
-            if (windowIndex != nextWindowIndex) {
-                Main.activateWindow(windows[nextWindowIndex]);
-            }
+            Utils.activateSiblingWindow(windows, direction, this.window);
         }
     },
     
@@ -588,10 +574,7 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _onSwitchWorkspace: function(windowTracker) {
-        Mainloop.timeout_add(0, Lang.bind(this, function () {
-            this._displayProperIndicator();
-            return GLib.SOURCE_REMOVE;
-        }));
+        this._displayProperIndicator();
     },
 
     _displayProperIndicator: function (force) {

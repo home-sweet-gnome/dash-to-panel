@@ -740,13 +740,7 @@ var taskbar = Utils.defineClass({
                getAppStableSequence(appB, this._dtpSettings, this.panelWrapper.monitor);
     },
 
-    _redisplay: function () {
-        if (!this._signalsHandler) {
-            return;
-        }
-
-        //get the currently displayed appIcons
-        let currentAppIcons = this._getTaskbarIcons();
+    getAppInfos: function() {
         //get the user's favorite apps
         let favoriteApps = this._checkIfShowingFavorites() ? AppFavorites.getAppFavorites().getFavorites() : [];
 
@@ -754,16 +748,26 @@ var taskbar = Utils.defineClass({
         // When using isolation, we filter out apps that have no windows in
         // the current workspace (this check is done in AppIcons.getInterestingWindows)
         let runningApps = this._checkIfShowingRunningApps() ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this)) : [];
-        let expectedAppInfos;
         
+
         if (!this.isGroupApps && this._dtpSettings.get_boolean('group-apps-use-launchers')) {
-            expectedAppInfos = this._createAppInfos(favoriteApps, [], true)
-                                   .concat(this._createAppInfos(runningApps)
-                                               .filter(appInfo => appInfo.windows.length));
+            return expectedAppInfos = this._createAppInfos(favoriteApps, [], true)
+                                          .concat(this._createAppInfos(runningApps)
+                                          .filter(appInfo => appInfo.windows.length));
         } else {
-            expectedAppInfos = this._createAppInfos(favoriteApps.concat(runningApps.filter(app => favoriteApps.indexOf(app) < 0)))
-                                   .filter(appInfo => appInfo.windows.length || favoriteApps.indexOf(appInfo.app) >= 0);
+            return this._createAppInfos(favoriteApps.concat(runningApps.filter(app => favoriteApps.indexOf(app) < 0)))
+                       .filter(appInfo => appInfo.windows.length || favoriteApps.indexOf(appInfo.app) >= 0);
         }
+    },
+
+    _redisplay: function () {
+        if (!this._signalsHandler) {
+            return;
+        }
+
+        //get the currently displayed appIcons
+        let currentAppIcons = this._getTaskbarIcons();
+        let expectedAppInfos = this.getAppInfos();
 
         //remove the appIcons which are not in the expected apps list
         for (let i = currentAppIcons.length - 1; i > -1; --i) {
