@@ -91,7 +91,7 @@ let tracker = Shell.WindowTracker.get_default();
 
 var taskbarAppIcon = Utils.defineClass({
     Name: 'DashToPanel.TaskbarAppIcon',
-    Extends: AppDisplay.AppIcon,
+    Extends: (Dash.DashIcon || AppDisplay.AppIcon),
     ParentConstrParams: [[1, 'app'], [3]],
 
     _init: function(settings, appInfo, panelWrapper, iconParams, previewMenu) {
@@ -127,10 +127,6 @@ var taskbarAppIcon = Utils.defineClass({
 
         this.callParent('_init', appInfo.app, iconParams);
 
-        if (!IconGrid.BaseIcon.prototype._allocate) {
-            this.icon.label = {};
-        }
-        
         Utils.wrapActor(this.icon);
         
         this._dot.set_width(0);
