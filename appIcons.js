@@ -570,7 +570,14 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _onSwitchWorkspace: function(windowTracker) {
-        this._displayProperIndicator();
+        if (this._isGroupApps) {
+            Mainloop.timeout_add(0, Lang.bind(this, function () {
+                this._displayProperIndicator();
+                return GLib.SOURCE_REMOVE;
+            }));
+        } else {
+            this._displayProperIndicator();
+        }
     },
 
     _displayProperIndicator: function (force) {
