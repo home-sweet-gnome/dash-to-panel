@@ -66,6 +66,9 @@
     <value value='4' nick='bolder'/>
   </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
+    <key type="s" name="version-to-install">
+      <default>''</default>
+    </key>
     <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
       <summary>Panel position</summary>

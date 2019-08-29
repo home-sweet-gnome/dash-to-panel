@@ -32,6 +32,7 @@ const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const Mainloop = imports.mainloop;
 const Main = imports.ui.main;
+const MessageTray = imports.ui.messageTray;
 const Tweener = imports.ui.tweener;
 const Util = imports.misc.util;
 
@@ -412,7 +413,25 @@ var activateSiblingWindow = function(windows, direction, startWindow) {
     if (windowIndex != nextWindowIndex) {
         Main.activateWindow(windows[nextWindowIndex]);
     }
-}
+};
+
+var notify = function(title, text, iconName, action) {
+    let source = new MessageTray.SystemNotificationSource();
+    let notification = new MessageTray.Notification(source, title, text);
+    
+    if (iconName) {
+        source.createIcon = function() {
+            return new St.Icon({ icon_name: iconName });
+        };
+    }   
+
+    if (action) {
+        notification.addAction(action.text, action.func);
+    }
+
+    Main.messageTray.add(source);
+    source.notify(notification);
+};
 
 /*
  * This is a copy of the same function in utils.js, but also adjust horizontal scrolling

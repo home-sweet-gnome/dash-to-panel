@@ -33,6 +33,7 @@ const Signals = imports.signals;
 const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 const PanelManager = Me.imports.panelManager;
+const Update = Me.imports.update;
 const Utils = Me.imports.utils;
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
@@ -90,6 +91,8 @@ function _enable() {
     panelManager = new PanelManager.dtpPanelManager(settings);
     panelManager.enable();
     
+    settings.connect('changed::version-to-install', () => Update.installRelease(settings.get_string('version-to-install')));
+
     Utils.removeKeybinding('open-application-menu');
     Utils.addKeybinding(
         'open-application-menu',
