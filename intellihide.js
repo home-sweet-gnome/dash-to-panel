@@ -41,6 +41,7 @@ const MIN_UPDATE_MS = 250;
 const T1 = 'checkGrabTimeout';
 const T2 = 'limitUpdateTimeout';
 const T3 = 'postAnimateTimeout';
+const T4 = 'panelBoxClipTimeout';
 
 var Hold = {
     NONE: 0,
@@ -65,12 +66,12 @@ var Intellihide = Utils.defineClass({
         this._intellihideChangedId = this._dtpSettings.connect('changed::intellihide', () => this._changeEnabledStatus());
         this._intellihideOnlySecondaryChangedId = this._dtpSettings.connect('changed::intellihide-only-secondary', () => this._changeEnabledStatus());
 
-        this._enabled = false;
+        this.enabled = false;
         this._changeEnabledStatus();
     },
 
     enable: function(reset) {
-        this._enabled = true;
+        this.enabled = true;
         this._monitor = this._dtpPanel.monitor;
         this._animationDestination = -1;
         this._pendingUpdate = false;
@@ -117,14 +118,14 @@ var Intellihide = Utils.defineClass({
 
         this._revealPanel(!reset);
         
-        this._enabled = false;
+        this.enabled = false;
     },
 
     destroy: function() {
         this._dtpSettings.disconnect(this._intellihideChangedId);
         this._dtpSettings.disconnect(this._intellihideOnlySecondaryChangedId);
         
-        if (this._enabled) {
+        if (this.enabled) {
             this.disable();
         }
     },
@@ -134,7 +135,7 @@ var Intellihide = Utils.defineClass({
     },
 
     revealAndHold: function(holdStatus) {
-        if (this._enabled && !this._holdStatus) {
+        if (this.enabled && !this._holdStatus) {
             this._revealPanel();
         }
         
@@ -144,7 +145,7 @@ var Intellihide = Utils.defineClass({
     release: function(holdStatus) {
         this._holdStatus -= holdStatus;
 
-        if (this._enabled && !this._holdStatus) {
+        if (this.enabled && !this._holdStatus) {
             this._queueUpdatePanelPosition();
         }
     },
@@ -159,7 +160,7 @@ var Intellihide = Utils.defineClass({
         let onlySecondary = this._dtpSettings.get_boolean('intellihide-only-secondary');
         let enabled = intellihide && (this._dtpPanel.isSecondary || !onlySecondary);
 
-        if (this._enabled !== enabled) {
+        if (this.enabled !== enabled) {
             this[enabled ? 'enable' : 'disable']();
         }
     },
@@ -221,13 +222,13 @@ var Intellihide = Utils.defineClass({
                 this._clipContainer = new Clutter.Actor();
                 Utils.setClip(this._clipContainer, this._panelBox.x, this._panelBox.y, this._panelBox.width, this._panelBox.height);
 
-                Main.layoutManager.uiGroup.remove_actor(this._panelBox);
-                this._panelBox.show();
-                this._clipContainer.add_child(this._panelBox);
-                this._panelBox.set_position(0, 0);
-
+                Main.layoutManager.removeChrome(this._panelBox);
                 Main.layoutManager.addChrome(this._clipContainer, { affectsInputRegion: false });
+                
+                this._clipContainer.add_child(this._panelBox);
                 Main.layoutManager.trackChrome(this._panelBox, { affectsInputRegion: true });
+
+                this._timeoutsHandler.add([T4, 0, () => this._panelBox.set_position(0, 0)]);
             } else {
                 this._panelBox.set_position(this._clipContainer.x, this._clipContainer.y);
                 Main.layoutManager.removeChrome(this._clipContainer);

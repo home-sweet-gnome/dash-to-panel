@@ -153,10 +153,8 @@ var PreviewMenu = Utils.defineClass({
 
         this.close(true);
 
-        Main.layoutManager._untrackActor(this);
-        Main.uiGroup.remove_child(this);
-
-        this.destroy();
+        Main.layoutManager.untrackChrome(this.menu);
+        Main.layoutManager.removeChrome(this);
     },
 
     requestOpen: function(appIcon) {

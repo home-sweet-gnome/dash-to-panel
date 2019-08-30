@@ -50,10 +50,6 @@ const Utils = Me.imports.utils;
 const Taskbar = Me.imports.taskbar;
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
-let DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME;
-let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;
-let DASH_ITEM_LABEL_HIDE_TIME = Dash.DASH_ITEM_LABEL_HIDE_TIME;
-let DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
 
@@ -95,7 +91,7 @@ let tracker = Shell.WindowTracker.get_default();
 
 var taskbarAppIcon = Utils.defineClass({
     Name: 'DashToPanel.TaskbarAppIcon',
-    Extends: AppDisplay.AppIcon,
+    Extends: (Dash.DashIcon || AppDisplay.AppIcon),
     ParentConstrParams: [[1, 'app'], [3]],
 
     _init: function(settings, appInfo, panelWrapper, iconParams, previewMenu) {
@@ -197,6 +193,8 @@ var taskbarAppIcon = Utils.defineClass({
                                                 Lang.bind(this, this._updateWindowTitle));
         }
         
+        this._scrollEventId = this.actor.connect('scroll-event', this._onMouseScroll.bind(this));
+
         this._overviewWindowDragEndId = Main.overview.connect('window-drag-end',
                                                 Lang.bind(this, this._onOverviewWindowDragEnd));
 
@@ -296,6 +294,15 @@ var taskbarAppIcon = Utils.defineClass({
             this.actor.disconnect(this._hoverChangeId);
         }
 
+        if (this._scrollEventId) {
+            this.actor.disconnect(this._scrollEventId);
+        }
+
+        if (this._scrollIconDelayTimeoutId) {
+            Mainloop.source_remove(this._scrollIconDelayTimeoutId);
+            this._scrollIconDelayTimeoutId = 0;
+        }
+
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
             this._dtpSettings.disconnect(this._dtpSettingsSignalIds[i]);
         }
@@ -334,6 +341,26 @@ var taskbarAppIcon = Utils.defineClass({
         });
     },
 
+    _onMouseScroll: function(actor, event) {
+        if (this._dtpSettings.get_string('scroll-icon-action') === 'NOTHING' || 
+            (!this.window && !this._nWindows)) {
+            return;
+        }
+
+        let direction = Utils.getMouseScrollDirection(event);
+
+        if (direction && !this._scrollIconDelayTimeoutId) {
+            this._scrollIconDelayTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('scroll-icon-delay'), () => {
+                this._scrollIconDelayTimeoutId = 0;
+            });
+
+            let windows = this.getAppIconInterestingWindows();
+
+            windows.sort(Taskbar.sortWindowsCompareFunction);
+            Utils.activateSiblingWindow(windows, direction, this.window);
+        }
+    },
+    
     _showDots: function() {
         // Just update style if dots already exist
         if (this._focusedDots && this._unfocusedDots) {
@@ -543,7 +570,14 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _onSwitchWorkspace: function(windowTracker) {
-        this._displayProperIndicator();
+        if (this._isGroupApps) {
+            Mainloop.timeout_add(0, Lang.bind(this, function () {
+                this._displayProperIndicator();
+                return GLib.SOURCE_REMOVE;
+            }));
+        } else {
+            this._displayProperIndicator();
+        }
     },
 
     _displayProperIndicator: function (force) {
@@ -623,7 +657,7 @@ var taskbarAppIcon = Utils.defineClass({
                 dots._tweeningToWidth = newWidth;
                 Tweener.addTween(dots,
                                 { width: newWidth,
-                                time: DASH_ANIMATION_TIME,
+                                time: Taskbar.DASH_ANIMATION_TIME,
                                 transition: 'easeInOutCubic',
                                 onStart: Lang.bind(this, function() { 
                                     if(newOtherOpacity == 0)
@@ -702,8 +736,8 @@ var taskbarAppIcon = Utils.defineClass({
         }
 
         let appCount = this.getAppIconInterestingWindows().length;
-        if (!(buttonAction == "TOGGLE-SHOWPREVIEW") || (appCount <= 1))
-            this._previewMenu.close(true);
+        let previewedAppIcon = this._previewMenu.getCurrentAppIcon();
+        this._previewMenu.close(this._dtpSettings.get_boolean('window-preview-hide-immediate-click'));
 
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
@@ -756,10 +790,7 @@ var taskbarAppIcon = Utils.defineClass({
                             if (appHasFocus || button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK) {
                                 // minimize all windows on double click and always in the case of primary click without
                                 // additional modifiers
-                                let click_count = 0;
-                                if (Clutter.EventType.CLUTTER_BUTTON_PRESS)
-                                    click_count = event.get_click_count();
-                                let all_windows = (button == 1 && ! modifiers) || click_count > 1;
+                                let all_windows = (button == 1 && ! modifiers) || event.get_click_count() > 1;
                                 minimizeWindow(this.app, all_windows, this._dtpSettings, monitor);
                             }
                             else
@@ -799,14 +830,15 @@ var taskbarAppIcon = Utils.defineClass({
                                 else
                                     activateFirstWindow(this.app, this._dtpSettings, monitor);
                             } else {
-                                // minimize all windows if double clicked
-                                if (Clutter.EventType.CLUTTER_BUTTON_PRESS) {
-                                    let click_count = event.get_click_count();
-                                    if(click_count > 1) {
-                                        minimizeWindow(this.app, true, this._dtpSettings, monitor);
-                                    }
+                                if (event.get_click_count() > 1) {
+                                    // minimize all windows if double clicked
+                                    minimizeWindow(this.app, true, this._dtpSettings, monitor);
+                                } else if (previewedAppIcon != this) {
+                                    this._previewMenu.open(this);
                                 }
-                            }
+    
+                                this.emit('sync-tooltip');
+                            } 
                         }
                         else
                             this.app.activate();
@@ -1096,6 +1128,7 @@ var taskbarAppIcon = Utils.defineClass({
     }
 
 });
+taskbarAppIcon.prototype.scaleAndFade = taskbarAppIcon.prototype.undoScaleAndFade = () => {};
 
 function minimizeWindow(app, param, settings, monitor){
     // Param true make all app windows minimize
@@ -1429,11 +1462,20 @@ function ItemShowLabel()  {
         x -= x + labelWidth -( monitor.x + monitor.width) + gap;
 
     this.label.set_position(x, y);
-    Tweener.addTween(this.label,
-      { opacity: 255,
-        time: DASH_ITEM_LABEL_SHOW_TIME,
-        transition: 'easeOutQuad',
-      });
+
+    if (Dash.DASH_ITEM_LABEL_SHOW_TIME < 1) {
+        Tweener.addTween(this.label, { 
+            opacity: 255,
+            time: Dash.DASH_ITEM_LABEL_SHOW_TIME,
+            transition: 'easeOutQuad',
+        });
+    } else {
+        this.label.ease({
+            opacity: 255,
+            duration: Dash.DASH_ITEM_LABEL_SHOW_TIME,
+            mode: Clutter.AnimationMode.EASE_OUT_QUAD
+        });
+    }
 };
 
 /**
@@ -1462,6 +1504,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
         this.realShowAppsIcon.actor.y_align = Clutter.ActorAlign.START;
+        this.realShowAppsIcon.show(false);
 
         // Re-use appIcon methods
         this._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
@@ -1487,7 +1530,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         this._menuManager = new PopupMenu.PopupMenuManager(this.actor);
         this._menuTimeoutId = 0;
 
-        this.realShowAppsIcon.showLabel = ItemShowLabel;
+        Taskbar.extendDashItemContainer(this.realShowAppsIcon);
 
         let customIconPath = this._dtpSettings.get_string('show-apps-icon-file');
 

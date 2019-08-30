@@ -83,6 +83,10 @@ var dtpPanelWrapper = Utils.defineClass({
             this.container = this.panel._leftBox;
         }
         this.appMenu = this.panel.statusArea.appMenu;
+
+        if (this.panel.statusArea.aggregateMenu) {
+            this.panel.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll = 1;
+        }
         
         this._oldPanelActorDelegate = this.panel.actor._delegate;
         this.panel.actor._delegate = this;
@@ -237,6 +241,11 @@ var dtpPanelWrapper = Utils.defineClass({
                 this.panel._centerBox,
                 'actor-added',
                 () => this._setClockLocation(this._dtpSettings.get_string('location-clock'))
+            ],
+            [
+                this.panel.actor,
+                'scroll-event',
+                this._onPanelMouseScroll.bind(this)
             ]
         );
 
@@ -281,6 +290,11 @@ var dtpPanelWrapper = Utils.defineClass({
         if (this._showDesktopTimeoutId) {
             Mainloop.source_remove(this._showDesktopTimeoutId);
             this._showDesktopTimeoutId = 0;
+        }
+
+        if (this._scrollPanelDelayTimeoutId) {
+            Mainloop.source_remove(this._scrollPanelDelayTimeoutId);
+            this._scrollPanelDelayTimeoutId = 0;
         }
 
         if (this.startDynamicTransparencyId) {
@@ -334,6 +348,10 @@ var dtpPanelWrapper = Utils.defineClass({
                 this.panel.actor.disconnect(this._panelConnectId);
             } else {
                 Utils.hookVfunc(this.panel.__proto__, 'allocate', this.panel.__proto__.vfunc_allocate);
+            }
+
+            if (this.panel.statusArea.aggregateMenu) {
+                delete this.panel.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll;
             }
 
             this.panel._leftBox.allocate = this.panel._leftBox.oldLeftBoxAllocate;
@@ -517,6 +535,7 @@ var dtpPanelWrapper = Utils.defineClass({
     _setPanelPosition: function() {
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         let size = this._dtpSettings.get_int('panel-size');
+        let container = this.intellihide && this.intellihide.enabled ? this.panelBox.get_parent() : this.panelBox;
         
         if(scaleFactor)
             size = size*scaleFactor;
@@ -530,7 +549,7 @@ var dtpPanelWrapper = Utils.defineClass({
         this._myPanelGhost.set_height(isTop ? 0 : size);
 
         if(isTop) {
-            this.panelBox.set_position(this.monitor.x, this.monitor.y);
+            container.set_position(this.monitor.x, this.monitor.y);
 
             this._removeTopLimit();
             
@@ -541,7 +560,7 @@ var dtpPanelWrapper = Utils.defineClass({
             if(!this.panel.actor.has_style_class_name('dashtopanelTop'))
                 this.panel.actor.add_style_class_name('dashtopanelTop');
         } else {
-            this.panelBox.set_position(this.monitor.x, this.monitor.y + this.monitor.height - this.panelBox.height);
+            container.set_position(this.monitor.x, this.monitor.y + this.monitor.height - this.panelBox.height);
 
             if (!this._topLimit) {
                 this._topLimit = new St.BoxLayout({ name: 'topLimit', vertical: true });
@@ -735,6 +754,30 @@ var dtpPanelWrapper = Utils.defineClass({
 
         Main.overview.hide();
     },
+
+    _onPanelMouseScroll: function(actor, event) {
+        let scrollAction = this._dtpSettings.get_string('scroll-panel-action');
+        let direction = Utils.getMouseScrollDirection(event);
+
+        if (!event.get_source()._dtpIgnoreScroll && direction && !this._scrollPanelDelayTimeoutId) {
+            this._scrollPanelDelayTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('scroll-panel-delay'), () => {
+                this._scrollPanelDelayTimeoutId = 0;
+            });
+
+            if (scrollAction === 'SWITCH_WORKSPACE') {
+                let args = [global.display];
+
+                //gnome-shell < 3.30 needs an additional "screen" param
+                global.screen ? args.push(global.screen) : 0;
+
+                Main.wm._showWorkspaceSwitcher.apply(Main.wm, args.concat([0, { get_name: () => 'switch---' + direction }]));
+            } else if (scrollAction === 'CYCLE_WINDOWS') {
+                let windows = this.taskbar.getAppInfos().reduce((ws, appInfo) => ws.concat(appInfo.windows), []);
+                
+                Utils.activateSiblingWindow(windows, direction);
+            }
+        }
+    },
 });
 
 var dtpSecondaryPanel = Utils.defineClass({
@@ -841,15 +884,15 @@ var dtpSecondaryPanel = Utils.defineClass({
     },
 
     //next 3 functions are needed by other extensions to add elements to the secondary panel
-    addToStatusArea(role, indicator, position, box) {
+    addToStatusArea: function(role, indicator, position, box) {
         return Main.panel.addToStatusArea.call(this, role, indicator, position, box);
     },
 
-    _addToPanelBox(role, indicator, position, box) {
+    _addToPanelBox: function(role, indicator, position, box) {
         Main.panel._addToPanelBox.call(this, role, indicator, position, box);
     },
 
-    _onMenuSet(indicator) {
+    _onMenuSet: function(indicator) {
         Main.panel._onMenuSet.call(this, indicator);
     },
 });

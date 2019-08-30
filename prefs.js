@@ -1001,14 +1001,7 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT); 
 
-        switch (this._settings.get_string('window-preview-title-position')) {
-            case 'BOTTOM':
-                this._builder.get_object('preview_title_position_bottom_button').set_active(true);
-                break;
-            case 'TOP':
-                this._builder.get_object('preview_title_position_top_button').set_active(true);
-                break;
-        }
+        this._setPreviewTitlePosition();
 
         this._builder.get_object('grid_preview_title_font_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
@@ -1108,6 +1101,11 @@ const Settings = new Lang.Class({
                 this._settings.set_int('leave-timeout', widget.get_value());
             }));
 
+            this._settings.bind('window-preview-hide-immediate-click',
+                                this._builder.get_object('preview_immediate_click_button'),
+                                'active',
+                                Gio.SettingsBindFlags.DEFAULT);
+
             this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));
             this._builder.get_object('animation_time_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
                 this._settings.set_int('window-preview-animation-time', widget.get_value());
@@ -1163,6 +1161,8 @@ const Settings = new Lang.Class({
                     this._settings.set_value('leave-timeout', this._settings.get_default_value('leave-timeout'));
                     this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
 
+                    this._settings.set_value('window-preview-hide-immediate-click', this._settings.get_default_value('window-preview-hide-immediate-click'));
+
                     this._settings.set_value('window-preview-animation-time', this._settings.get_default_value('window-preview-animation-time'));
                     this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));
 
@@ -1170,6 +1170,9 @@ const Settings = new Lang.Class({
 
                     this._settings.set_value('preview-custom-opacity', this._settings.get_default_value('preview-custom-opacity'));
                     this._builder.get_object('preview_custom_opacity_spinbutton').set_value(this._settings.get_int('preview-custom-opacity'));
+
+                    this._settings.set_value('window-preview-title-position', this._settings.get_default_value('window-preview-title-position'));
+                    this._setPreviewTitlePosition();
 
                     this._settings.set_value('peek-mode', this._settings.get_default_value('peek-mode'));
                     this._settings.set_value('window-preview-show-title', this._settings.get_default_value('window-preview-show-title'));
@@ -1381,6 +1384,88 @@ const Settings = new Lang.Class({
                     this._builder.get_object('shift_click_action_combo').set_active_id(this._settings.get_string('shift-click-action'));
                     this._builder.get_object('middle_click_action_combo').set_active_id(this._settings.get_string('middle-click-action'));
                     this._builder.get_object('shift_middle_click_action_combo').set_active_id(this._settings.get_string('shift-middle-click-action'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
+
+        this._builder.get_object('scroll_panel_combo').set_active_id(this._settings.get_string('scroll-panel-action'));
+        this._builder.get_object('scroll_panel_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('scroll-panel-action', widget.get_active_id());
+        }));
+
+        this._builder.get_object('scroll_icon_combo').set_active_id(this._settings.get_string('scroll-icon-action'));
+        this._builder.get_object('scroll_icon_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('scroll-icon-action', widget.get_active_id());
+        }));
+
+        // Create dialog for panel scroll options
+        this._builder.get_object('scroll_panel_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Customize panel scroll behavior'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('scroll_panel_options_box');
+            dialog.get_content_area().add(box);
+
+            this._builder.get_object('scroll_panel_options_delay_spinbutton').set_value(this._settings.get_int('scroll-panel-delay'));
+            this._builder.get_object('scroll_panel_options_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('scroll-panel-delay', widget.get_value());
+            }));
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('scroll-panel-delay', this._settings.get_default_value('scroll-panel-delay'));
+                    this._builder.get_object('scroll_panel_options_delay_spinbutton').set_value(this._settings.get_int('scroll-panel-delay'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
+
+        // Create dialog for icon scroll options
+        this._builder.get_object('scroll_icon_options_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('Customize icon scroll behavior'),
+                                            transient_for: this.widget.get_toplevel(),
+                                            use_header_bar: true,
+                                            modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('scroll_icon_options_box');
+            dialog.get_content_area().add(box);
+
+            this._builder.get_object('scroll_icon_options_delay_spinbutton').set_value(this._settings.get_int('scroll-icon-delay'));
+            this._builder.get_object('scroll_icon_options_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('scroll-icon-delay', widget.get_value());
+            }));
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('scroll-icon-delay', this._settings.get_default_value('scroll-icon-delay'));
+                    this._builder.get_object('scroll_icon_options_delay_spinbutton').set_value(this._settings.get_int('scroll-icon-delay'));
                 } else {
                     // remove the settings box so it doesn't get destroyed;
                     dialog.get_content_area().remove(box);
@@ -1659,6 +1744,17 @@ const Settings = new Lang.Class({
                 }
             );
         });
+    },
+
+    _setPreviewTitlePosition: function() {
+        switch (this._settings.get_string('window-preview-title-position')) {
+            case 'BOTTOM':
+                this._builder.get_object('preview_title_position_bottom_button').set_active(true);
+                break;
+            case 'TOP':
+                this._builder.get_object('preview_title_position_top_button').set_active(true);
+                break;
+        }
     },
 
     _showFileChooser: function(title, params, acceptBtn, acceptHandler) {

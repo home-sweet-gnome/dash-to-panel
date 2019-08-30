@@ -48,9 +48,7 @@ const Utils = Me.imports.utils;
 const WindowPreview = Me.imports.windowPreview;
 const AppIcons = Me.imports.appIcons;
 
-var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME;
-let DASH_ITEM_LABEL_SHOW_TIME = Dash.DASH_ITEM_LABEL_SHOW_TIME;
-let DASH_ITEM_LABEL_HIDE_TIME = Dash.DASH_ITEM_LABEL_HIDE_TIME;
+var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 var MIN_ICON_SIZE = 4;
 
@@ -363,7 +361,10 @@ var taskbar = Utils.defineClass({
         this._showAppsIconWrapper.destroy();
 
         this._container.destroy();
+        
         this.previewMenu.disable();
+        this.previewMenu.destroy();
+
         this._disconnectWorkspaceSignals();
     },
 
@@ -739,13 +740,7 @@ var taskbar = Utils.defineClass({
                getAppStableSequence(appB, this._dtpSettings, this.panelWrapper.monitor);
     },
 
-    _redisplay: function () {
-        if (!this._signalsHandler) {
-            return;
-        }
-
-        //get the currently displayed appIcons
-        let currentAppIcons = this._getTaskbarIcons();
+    getAppInfos: function() {
         //get the user's favorite apps
         let favoriteApps = this._checkIfShowingFavorites() ? AppFavorites.getAppFavorites().getFavorites() : [];
 
@@ -753,16 +748,25 @@ var taskbar = Utils.defineClass({
         // When using isolation, we filter out apps that have no windows in
         // the current workspace (this check is done in AppIcons.getInterestingWindows)
         let runningApps = this._checkIfShowingRunningApps() ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this)) : [];
-        let expectedAppInfos;
-        
+
         if (!this.isGroupApps && this._dtpSettings.get_boolean('group-apps-use-launchers')) {
-            expectedAppInfos = this._createAppInfos(favoriteApps, [], true)
-                                   .concat(this._createAppInfos(runningApps)
-                                               .filter(appInfo => appInfo.windows.length));
+            return this._createAppInfos(favoriteApps, [], true)
+                       .concat(this._createAppInfos(runningApps)
+                       .filter(appInfo => appInfo.windows.length));
         } else {
-            expectedAppInfos = this._createAppInfos(favoriteApps.concat(runningApps.filter(app => favoriteApps.indexOf(app) < 0)))
-                                   .filter(appInfo => appInfo.windows.length || favoriteApps.indexOf(appInfo.app) >= 0);
+            return this._createAppInfos(favoriteApps.concat(runningApps.filter(app => favoriteApps.indexOf(app) < 0)))
+                       .filter(appInfo => appInfo.windows.length || favoriteApps.indexOf(appInfo.app) >= 0);
         }
+    },
+
+    _redisplay: function () {
+        if (!this._signalsHandler) {
+            return;
+        }
+
+        //get the currently displayed appIcons
+        let currentAppIcons = this._getTaskbarIcons();
+        let expectedAppInfos = this.getAppInfos();
 
         //remove the appIcons which are not in the expected apps list
         for (let i = currentAppIcons.length - 1; i > -1; --i) {
@@ -961,9 +965,9 @@ var taskbar = Utils.defineClass({
                     // Ensure the next and previous icon are visible when moving the icon
                     // (I assume there's room for both of them)
                     if (hoveredIndex > 1)
-                        ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[hoveredIndex-1], this._scrollView._dtpFadeSize);
+                        Utils.ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[hoveredIndex-1], this._scrollView._dtpFadeSize);
                     if (hoveredIndex < this._box.get_children().length-1)
-                        ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[hoveredIndex+1], this._scrollView._dtpFadeSize);
+                        Utils.ensureActorVisibleInScrollView(this._scrollView, this._box.get_children()[hoveredIndex+1], this._scrollView._dtpFadeSize);
             }
         }
         

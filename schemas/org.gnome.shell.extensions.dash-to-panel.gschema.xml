@@ -18,6 +18,11 @@
     <value value='5' nick='QUIT'/>
     <value value='6' nick='TOGGLE-SHOWPREVIEW'/>
   </enum>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.scrollAction'>
+    <value value='0' nick='NOTHING'/>
+    <value value='1' nick='SWITCH_WORKSPACE'/>
+    <value value='2' nick='CYCLE_WINDOWS'/>
+  </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.statusAreaPosition'>
     <value value='0' nick='BUTTONSLEFT'/>
     <value value='1' nick='STATUSLEFT'/>
@@ -466,6 +471,11 @@
       <summary>Aspect ratio Y</summary>
       <description>The window previews respected aspect ratio Y.</description>
     </key>
+    <key type="b" name="window-preview-hide-immediate-click">
+      <default>false</default>
+      <summary>Immediate hide on icon click</summary>
+      <description>The window previews immediately hide when an application icon is clicked.</description>
+    </key>
     <key type="b" name="isolate-workspaces">
       <default>false</default>
       <summary>Provide workspace isolation</summary>
@@ -573,6 +583,26 @@
       <default>'LAUNCH'</default>
       <summary>Action when clicking on a running app</summary>
       <description>Set the action that is executed when shift+middle-clicking on the icon of a running application</description>
+    </key>
+    <key name="scroll-panel-action" enum="org.gnome.shell.extensions.dash-to-panel.scrollAction">
+      <default>'SWITCH_WORKSPACE'</default>
+      <summary>Action when scrolling over the panel</summary>
+      <description>Set the action that is executed when scrolling over the panel</description>
+    </key>
+    <key type="i" name="scroll-panel-delay">
+      <default>0</default>
+      <summary>Delay between panel mouse scroll events</summary>
+      <description>Set the minimum delay between panel mouse scroll events</description>
+    </key>
+    <key name="scroll-icon-action" enum="org.gnome.shell.extensions.dash-to-panel.scrollAction">
+      <default>'CYCLE_WINDOWS'</default>
+      <summary>Action when scrolling over a running app</summary>
+      <description>Set the action that is executed when scrolling over a running application</description>
+    </key>
+    <key type="i" name="scroll-icon-delay">
+      <default>0</default>
+      <summary>Delay between icon mouse scroll events</summary>
+      <description>Set the minimum delay between icon mouse scroll events</description>
     </key>
     <key type="i" name="leave-timeout">
       <default>100</default>

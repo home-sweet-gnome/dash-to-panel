@@ -18,11 +18,6 @@
  */
 
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
-const PanelManager = Me.imports.panelManager;
-const Utils = Me.imports.utils;
-
 const Main = imports.ui.main;
 const Meta = imports.gi.Meta;
 const Gio = imports.gi.Gio;
@@ -32,9 +27,13 @@ const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const WindowManager = imports.ui.windowManager;
 const ExtensionUtils = imports.misc.extensionUtils;
-const ExtensionSystem = imports.ui.extensionSystem;
 const Mainloop = imports.mainloop;
 const Signals = imports.signals;
+
+const Me = ExtensionUtils.getCurrentExtension();
+const Convenience = Me.imports.convenience;
+const PanelManager = Me.imports.panelManager;
+const Utils = Me.imports.utils;
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
@@ -43,6 +42,7 @@ let settings;
 let oldDash;
 let extensionChangedHandler;
 let disabledUbuntuDock;
+let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
 
 function init() {
     Convenience.initTranslations(Utils.TRANSLATION_DOMAIN);
@@ -50,7 +50,7 @@ function init() {
 
 function enable() {
     // The Ubuntu Dock extension might get enabled after this extension
-    extensionChangedHandler = (Main.extensionManager || ExtensionSystem).connect('extension-state-changed', (data, extension) => {
+    extensionChangedHandler = extensionSystem.connect('extension-state-changed', (data, extension) => {
         if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
             _enable();
         }
@@ -70,11 +70,13 @@ function _enable() {
 
     if (ubuntuDock && ubuntuDock.stateObj && ubuntuDock.stateObj.dockManager) {
         // Disable Ubuntu Dock
+        let extensionOrder = (extensionSystem.extensionOrder || extensionSystem._extensionOrder);
+
         St.ThemeContext.get_for_stage(global.stage).get_theme().unload_stylesheet(ubuntuDock.stylesheet);
         ubuntuDock.stateObj.disable();
         disabledUbuntuDock = true;
-        ubuntuDock.state = ExtensionSystem.ExtensionState.DISABLED;
-        ExtensionSystem.extensionOrder.splice(ExtensionSystem.extensionOrder.indexOf(UBUNTU_DOCK_UUID), 1);
+        ubuntuDock.state = 2; //ExtensionState.DISABLED
+        extensionOrder.splice(extensionOrder.indexOf(UBUNTU_DOCK_UUID), 1);
 
         //reset to prevent conflicts with the ubuntu-dock
         if (panelManager) {
@@ -125,12 +127,12 @@ function disable(reset) {
     );
 
     if (!reset) {
-        ExtensionSystem.disconnect(extensionChangedHandler);
+        extensionSystem.disconnect(extensionChangedHandler);
         delete global.dashToPanel;
 
-        // Re-enable Ubuntu Dock if it exists and if it was disabled by dash to panel
-        if (disabledUbuntuDock && ExtensionUtils.extensions[UBUNTU_DOCK_UUID] && Main.sessionMode.allowExtensions) {
-            ExtensionSystem.enableExtension(UBUNTU_DOCK_UUID);
+        // Re-enable Ubuntu Dock if it was disabled by dash to panel
+        if (disabledUbuntuDock && Main.sessionMode.allowExtensions) {
+            extensionSystem.enableExtension(UBUNTU_DOCK_UUID);
         }
     }
 }

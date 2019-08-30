@@ -55,6 +55,8 @@ var dtpPanelManager = Utils.defineClass({
     _init: function(settings) {
         this._dtpSettings = settings;
         this.overview = new Overview.dtpOverview(settings);
+
+        Main.overview.viewSelector.appDisplay._views.forEach(v => Utils.wrapActor(v.view._grid));
     },
 
     enable: function(reset) {

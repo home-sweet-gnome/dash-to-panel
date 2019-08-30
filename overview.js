@@ -53,15 +53,21 @@ var dtpOverview = Utils.defineClass({
         this._injectionsHandler = new Utils.InjectionsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
-        this._isolation = this._optionalWorkspaceIsolation();
+        this._optionalWorkspaceIsolation();
         this._optionalHotKeys();
         this._optionalNumberOverlay();
         this._toggleDash();
-        this._stockgsKeepDashId = this._dtpSettings.connect('changed::stockgs-keep-dash', () => this._toggleDash());
+        
+        this._signalsHandler.add([
+            this._dtpSettings,
+            'changed::stockgs-keep-dash', 
+            () => this._toggleDash()
+        ]);
     },
 
     disable: function () {
-        this._dtpSettings.disconnect(this._stockgsKeepDashId);
+        this._signalsHandler.destroy();
+        this._injectionsHandler.destroy();
         
         this._toggleDash(true);
 
@@ -71,8 +77,6 @@ var dtpOverview = Utils.defineClass({
         // Remove key bindings
         this._disableHotKeys();
         this._disableExtraShortcut();
-
-        this._isolation.disable.apply(this);
     },
 
     _toggleDash: function(visible) {
@@ -101,10 +105,9 @@ var dtpOverview = Utils.defineClass({
      * Isolate overview to open new windows for inactive apps
      */
     _optionalWorkspaceIsolation: function() {
-
         let label = 'optionalWorkspaceIsolation';
-
-        this._signalsHandler.addWithLabel(label, [
+        
+        this._signalsHandler.add([
             this._dtpSettings,
             'changed::isolate-workspaces',
             Lang.bind(this, function() {
@@ -141,9 +144,6 @@ var dtpOverview = Utils.defineClass({
         function disable() {
             this._signalsHandler.removeWithLabel(label);
             this._injectionsHandler.removeWithLabel(label);
-
-            this._signalsHandler.destroy();
-            this._injectionsHandler.destroy();
         }
 
         function IsolatedOverview() {
@@ -159,8 +159,6 @@ var dtpOverview = Utils.defineClass({
                 return Main.activateWindow(windows[0]);
             return this.open_new_window(-1);
         }
-
-        return { disable: disable };
     },
 
     // Hotkeys
