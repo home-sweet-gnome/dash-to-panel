@@ -26,7 +26,7 @@ const _ = Gettext.gettext;
 
 const apiUrl = 'https://api.github.com/repos/home-sweet-gnome/dash-to-panel/';
 const tagsApiUrl = apiUrl + 'tags';
-const releaseApiUrl = apiUrl + 'releases';
+const releasesApiUrl = apiUrl + 'releases';
 
 let httpSession;
 
@@ -75,7 +75,7 @@ function getTaggedReleaseInfo(releaseTag, cb) {
 }
 
 function getReleaseInfo(suffix, cb) {
-    getHttpMessageResponseBody(createGet(releaseApiUrl + suffix), (err, body) => {
+    getHttpMessageResponseBody(createGet(releasesApiUrl + suffix), (err, body) => {
         if (err) {
             return cb(err);
         }
@@ -161,7 +161,7 @@ function notifyError(err) {
 }
 
 function notify(msg, action) {
-    Me.imports.utils.notify(msg, 'dialog-information', action, !!action);
+    Me.imports.utils.notify(msg, 'dialog-information', action, true);
 }
 
 function createTmp(name, isDir) {
