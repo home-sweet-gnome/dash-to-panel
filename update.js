@@ -24,22 +24,58 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 
-const releaseApiUrl = 'https://api.github.com/repos/home-sweet-gnome/dash-to-panel/releases/';
+const apiUrl = 'https://api.github.com/repos/home-sweet-gnome/dash-to-panel/';
+const tagsApiUrl = apiUrl + 'tags';
+const releaseApiUrl = apiUrl + 'releases';
 
 let httpSession;
 
+function init(settings) {
+    settings.connect('changed::version-to-install', () => installRelease(settings.get_string('version-to-install'), true));
+    settings.connect('changed::force-check-update', () => {
+        if (settings.get_boolean('force-check-update')) {
+            checkForUpdate(settings, true);
+            settings.set_boolean('force-check-update', false);
+        }
+    });
+
+    //check for update now, then every 4 hours
+    checkForUpdate(settings);
+    imports.mainloop.timeout_add(14400000, () => checkForUpdate(settings));
+}
+
+function checkForUpdate(settings, fromSettings) {
+    if (fromSettings || settings.get_boolean('check-update')) {
+        getLatestReleaseInfo((err, latestRelease) => {
+            if (err) {
+                return notifyError(err);
+            }
+            
+            let latestVersion = latestRelease.tag.substring(1);
+            
+            if (Me.metadata.version < latestVersion) {
+                notify(
+                    _('Version %s (%s) is available').format(latestVersion, latestRelease.name),
+                    [{ text: _('Details'), func: () => imports.misc.util.spawn(['xdg-open', latestRelease.url]) },
+                     { text: _('Update'), func: () => installRelease(latestRelease.zipUrl, fromSettings) }]
+                );
+            } else if (fromSettings) {
+                notify(_('Already up to date'));
+            }
+        });
+    }
+}
+
 function getLatestReleaseInfo(cb) {
-    getReleaseInfo('latest', cb);
+    getReleaseInfo('/latest', cb);
 }
 
 function getTaggedReleaseInfo(releaseTag, cb) {
-    getReleaseInfo('tags/' + releaseTag, cb);
+    getReleaseInfo('/tags/' + releaseTag, cb);
 }
 
 function getReleaseInfo(suffix, cb) {
-    let message = Soup.form_request_new_from_hash('GET', releaseApiUrl + suffix, {});
-
-    getHttpMessageResponseBody(message, (err, body) => {
+    getHttpMessageResponseBody(createGet(releaseApiUrl + suffix), (err, body) => {
         if (err) {
             return cb(err);
         }
@@ -49,6 +85,7 @@ function getReleaseInfo(suffix, cb) {
             let releaseInfo = {
                 name: release.name, 
                 tag: release.tag_name,
+                url: release.html_url,
                 zipUrl: (release.assets.length ? release.assets[0].browser_download_url : ''),
             };
 
@@ -59,8 +96,8 @@ function getReleaseInfo(suffix, cb) {
     });
 }
 
-function installRelease(releaseAssetUrl) {
-    getHttpMessageResponseBody(Soup.form_request_new_from_hash('GET', releaseAssetUrl, {}), (err, body) => {
+function installRelease(releaseAssetUrl, fromSettings) {
+    getHttpMessageResponseBody(createGet(releaseAssetUrl), (err, body) => {
         if (err) {
             return notifyInstallResult(err);
         }
@@ -81,13 +118,15 @@ function installRelease(releaseAssetUrl) {
             }
             
             try {
-                let [success, out, err, exitCode] = GLib.spawn_command_line_sync('pidof "gnome-shell-extension-prefs"');
-
                 FileUtils.recursivelyMoveDir(extDir, bckDir);
                 FileUtils.recursivelyMoveDir(tmpDir, extDir);
 
-                if (success && !exitCode) {
-                    GLib.spawn_command_line_sync('kill -9 ' + imports.byteArray.toString(out));
+                if (fromSettings) {
+                    let [success, out, err, exitCode] = GLib.spawn_command_line_sync('pidof "gnome-shell-extension-prefs"');
+
+                    if (success && !exitCode) {
+                        GLib.spawn_command_line_sync('kill -9 ' + imports.byteArray.toString(out));
+                    }
                 }
             } catch (e) {
                 FileUtils.recursivelyDeleteDir(extDir, false);
@@ -102,22 +141,27 @@ function installRelease(releaseAssetUrl) {
 }
 
 function notifyInstallResult(err) {
-    let Meta = imports.gi.Meta;
-    let icon = 'information';
-    let action = 0;
-
     if (err) {
-        var msg = _('Error: ') + err;
-        icon = 'error';
-    } else if (Meta.is_wayland_compositor()) {
-        msg = _('Update successful, please log out/in');
-        action = { text: _('Log out'), func: () => new imports.misc.systemActions.getDefault().activateLogout() };
+        notifyError(err);
+    } else if (imports.gi.Meta.is_wayland_compositor()) {
+        notify(
+            _('Update successful, please log out/in'),
+            { text: _('Log out'), func: () => new imports.misc.systemActions.getDefault().activateLogout() }
+        );
     } else {
-        msg = _('Update successful, please restart GNOME Shell');
-        action = { text: _('Restart GNOME Shell'), func: () => Meta.restart(_("Restarting GNOME Shell…")) };
+        notify(
+            _('Update successful, please restart GNOME Shell'), 
+            { text: _('Restart GNOME Shell'), func: () => imports.gi.Meta.restart(_("Restarting GNOME Shell…")) }
+        );
     }
+}
 
-    Me.imports.utils.notify('Dash to Panel', msg, 'dialog-' + icon, action);
+function notifyError(err) {
+    Me.imports.utils.notify(_('Error: ') + err, 'dialog-error', null, true);
+}
+
+function notify(msg, action) {
+    Me.imports.utils.notify(msg, 'dialog-information', action, !!action);
 }
 
 function createTmp(name, isDir) {
@@ -152,6 +196,10 @@ function unzipFile(zipFile, destDir, cb) {
         
         return cb(null);
     });
+}
+
+function createGet(url, params) {
+    return Soup.form_request_new_from_hash('GET', url, params || {});
 }
 
 function getHttpMessageResponseBody(message, cb) {

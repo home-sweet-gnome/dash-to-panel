@@ -415,9 +415,9 @@ var activateSiblingWindow = function(windows, direction, startWindow) {
     }
 };
 
-var notify = function(title, text, iconName, action) {
+var notify = function(text, iconName, action, isTransient) {
     let source = new MessageTray.SystemNotificationSource();
-    let notification = new MessageTray.Notification(source, title, text);
+    let notification = new MessageTray.Notification(source, 'Dash to Panel', text);
     
     if (iconName) {
         source.createIcon = function() {
@@ -426,10 +426,16 @@ var notify = function(title, text, iconName, action) {
     }   
 
     if (action) {
-        notification.addAction(action.text, action.func);
+        if (!(action instanceof Array)) {
+            action = [action];
+        }
+
+        action.forEach(a => notification.addAction(a.text, a.func));
     }
 
     Main.messageTray.add(source);
+
+    notification.setTransient(isTransient);
     source.notify(notification);
 };
 

@@ -88,11 +88,11 @@ function _enable() {
     if (panelManager) return; //already initialized
 
     settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
+    Update.init(settings);
+
     panelManager = new PanelManager.dtpPanelManager(settings);
     panelManager.enable();
     
-    settings.connect('changed::version-to-install', () => Update.installRelease(settings.get_string('version-to-install')));
-
     Utils.removeKeybinding('open-application-menu');
     Utils.addKeybinding(
         'open-application-menu',

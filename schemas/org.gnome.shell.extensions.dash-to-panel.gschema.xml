@@ -66,6 +66,12 @@
     <value value='4' nick='bolder'/>
   </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
+    <key type="b" name="check-update">
+      <default>false</default>
+    </key>
+    <key type="b" name="force-check-update">
+      <default>false</default>
+    </key>
     <key type="s" name="version-to-install">
       <default>''</default>
     </key>
