@@ -54,6 +54,7 @@ var dtpPanelManager = Utils.defineClass({
 
     _init: function(settings) {
         this._dtpSettings = settings;
+        Taskbar.dtpSettings = settings;
         this.overview = new Overview.dtpOverview(settings);
 
         Main.overview.viewSelector.appDisplay._views.forEach(v => Utils.wrapActor(v.view._grid));
@@ -98,7 +99,13 @@ var dtpPanelManager = Utils.defineClass({
 
         let panelPosition = Taskbar.getPosition();
         this.allPanels.forEach(p => {
-            p.panelBox.set_size(p.monitor.width, -1);
+            let leftOrRight = (panelPosition == St.Side.LEFT || panelPosition == St.Side.RIGHT);
+            
+            p.panelBox.set_size(
+                leftOrRight ? -1 : p.monitor.width, 
+                leftOrRight ? p.monitor.height : -1
+            );
+
             this._findPanelMenuButtons(p.panelBox).forEach(pmb => this._adjustPanelMenuButton(pmb, p.monitor, panelPosition));
         });
 

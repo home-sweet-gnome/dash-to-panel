@@ -169,7 +169,7 @@ var dtpPanelWrapper = Utils.defineClass({
             this.dynamicTransparency = new Transparency.DynamicTransparency(this);
         });
         
-        this.taskbar = new Taskbar.taskbar(this._dtpSettings, this);
+        this.taskbar = new Taskbar.taskbar(this);
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
         this.container.insert_child_above(this.taskbar.actor, null);
@@ -542,26 +542,15 @@ var dtpPanelWrapper = Utils.defineClass({
 
         this.panel.actor.set_height(size);
 
-        let position = this._dtpSettings.get_string('panel-position');
-        let isTop = position == "TOP";
+        let position = Taskbar.getPosition();
+        let isTop = position == St.Side.TOP;
 
         Main.overview._panelGhost.set_height(isTop ? size : 0);
         this._myPanelGhost.set_height(isTop ? 0 : size);
 
-        if(isTop) {
-            container.set_position(this.monitor.x, this.monitor.y);
-
+        if (isTop) {
             this._removeTopLimit();
-            
-            // styles for theming
-            if(this.panel.actor.has_style_class_name('dashtopanelBottom'))
-                this.panel.actor.remove_style_class_name('dashtopanelBottom');
-
-            if(!this.panel.actor.has_style_class_name('dashtopanelTop'))
-                this.panel.actor.add_style_class_name('dashtopanelTop');
         } else {
-            container.set_position(this.monitor.x, this.monitor.y + this.monitor.height - this.panelBox.height);
-
             if (!this._topLimit) {
                 this._topLimit = new St.BoxLayout({ name: 'topLimit', vertical: true });
                 Main.layoutManager.addChrome(this._topLimit, { affectsStruts: true, trackFullscreen: true });
@@ -569,14 +558,22 @@ var dtpPanelWrapper = Utils.defineClass({
 
             this._topLimit.set_position(this.monitor.x, this.monitor.y);
             this._topLimit.set_size(this.monitor.width, -1);
-
-            // styles for theming
-            if(this.panel.actor.has_style_class_name('dashtopanelTop'))
-                this.panel.actor.remove_style_class_name('dashtopanelTop');
-
-            if(!this.panel.actor.has_style_class_name('dashtopanelBottom'))
-                this.panel.actor.add_style_class_name('dashtopanelBottom');
         }
+
+        if (isTop || position == St.Side.LEFT) {
+            container.set_position(this.monitor.x, this.monitor.y);
+        } else if (position == St.Side.RIGHT) {
+            container.set_position(this.monitor.x + this.monitor.width - container.width, this.monitor.y);
+        } else { //BOTTOM
+            container.set_position(this.monitor.x, this.monitor.y + this.monitor.height - container.height);
+        }
+
+        // styles for theming
+        Object.keys(St.Side).forEach(p => {
+            let cssName = p.charAt(0) + p.slice(1).toLowerCase();
+            
+            this.panel.actor[(p == position ? 'add' : 'remove') + '_style_class_name']('dashtopanel' + cssName);
+        });
 
         Main.layoutManager._updateHotCorners();
         Main.layoutManager._updatePanelBarrier(this);
