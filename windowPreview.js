@@ -493,7 +493,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _getScrollAdjustmentValues: function() {
-        let [value , , upper, , , pageSize] = this._scrollView[this.isLeftOrRight ? 'v' : 'h' + 'scroll'].adjustment.get_values();
+        let [value , , upper, , , pageSize] = this._scrollView[(this.isLeftOrRight ? 'v' : 'h') + 'scroll'].adjustment.get_values();
 
         return [value, upper, pageSize];
     },
@@ -504,15 +504,15 @@ var PreviewMenu = Utils.defineClass({
         let x = 0, y = 0;
         let startBg = Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, Math.min(alphaBg + .1, 1));
         let endBg = Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, 0)
-        let fadeStyle = 'background-gradient-start:' + startBg + 'background-gradient-end: ' + endBg + ' background-gradient-direction:';
+        let fadeStyle = 'background-gradient-start:' + startBg + 
+                        'background-gradient-end:' + endBg + 
+                        'background-gradient-direction:' + Taskbar.getOrientation();
 
         if (this.isLeftOrRight) {
-            fadeStyle += 'vertical;'
             rotation = end ? 270 : 90;
             y = end ? this._panelWrapper.monitor.height - FADE_SIZE : 0;
             size = this.width;
         } else {
-            fadeStyle += 'horizontal;'
             rotation = end ? 180 : 0;
             x = end ? this._panelWrapper.monitor.width - FADE_SIZE : 0;
             size = this.height;

@@ -33,10 +33,6 @@
 	padding: 0;
 }
 
-#dashtopanelScrollview .dtp-icon-container {
-	padding: 0 4px;
-}
-
 #dashtopanelScrollview .app-well-app .overview-label {
 	padding-right: 8px;
 }
@@ -64,7 +60,6 @@
 }
 
 #dashtopanelTaskbar .scrollview-fade {
-	background-gradient-direction: horizontal;
     background-gradient-end: rgba(0, 0, 0, 0);
 }
 

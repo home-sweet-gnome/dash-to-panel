@@ -131,7 +131,7 @@ var taskbarAppIcon = Utils.defineClass({
 
         this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
-        this._dtpIconContainer = new St.Widget({ style_class: 'dtp-icon-container', layout_manager: new Clutter.BinLayout()});
+        this._dtpIconContainer = new St.Widget({ style: 'padding: ' + (Taskbar.checkIfVertical() ? '4px 0' : '0 4px'), layout_manager: new Clutter.BinLayout()});
 
         this.actor.remove_actor(this._iconContainer);
         
@@ -512,8 +512,8 @@ var taskbarAppIcon = Utils.defineClass({
     _setAppIconPadding: function() {
         let padding = getIconPadding(Me.settings);
         let margin = Me.settings.get_int('appicon-margin');
-
-        this.actor.set_style('padding: 0 ' + margin + 'px;');
+        
+        this.actor.set_style('padding:' + (Taskbar.checkIfVertical() ? margin + 'px 0' : '0 ' + margin + 'px;'));
         this._iconContainer.set_style('padding: ' + padding + 'px;');
     },
 
@@ -1434,7 +1434,8 @@ function ItemShowLabel()  {
     let labelOffset = node.get_length('-x-offset');
 
     let xOffset = Math.floor((itemWidth - labelWidth) / 2);
-    let x = stageX + xOffset, y;
+    let x = stageX + xOffset
+    let y = stageY + (itemHeight - labelHeight) * .5;
 
     switch(position) {
       case St.Side.TOP:
@@ -1442,6 +1443,12 @@ function ItemShowLabel()  {
           break;
       case St.Side.BOTTOM:
           y = stageY - labelHeight - labelOffset;
+          break;
+      case St.Side.LEFT:
+          x = stageX + labelOffset + itemWidth;
+          break;
+      case St.Side.RIGHT:
+          x = stageX - labelWidth - labelOffset;
           break;
     }
 
@@ -1497,6 +1504,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         /* the variable equivalent to toggleButton has a different name in the appIcon class
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
+        this.realShowAppsIcon.actor.x_align = Clutter.ActorAlign.START;
         this.realShowAppsIcon.actor.y_align = Clutter.ActorAlign.START;
         this.realShowAppsIcon.show(false);
 
@@ -1554,9 +1562,10 @@ var ShowAppsIconWrapper = Utils.defineClass({
 
     setShowAppsPadding: function() {
         let padding = getIconPadding(Me.settings); 
-        let sidePadding = Me.settings.get_int('show-apps-icon-side-padding')
+        let sidePadding = Me.settings.get_int('show-apps-icon-side-padding');
+        let isVertical = Taskbar.checkIfVertical();
 
-        this.actor.set_style('padding:' + padding + 'px ' + (padding + sidePadding) + 'px;');
+        this.actor.set_style('padding:' + (padding + (isVertical ? sidePadding : 0)) + 'px ' + (padding + (isVertical ? 0 : sidePadding)) + 'px;');
     },
 
     popupMenu: function() {

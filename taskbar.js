@@ -44,9 +44,10 @@ const Tweener = imports.ui.tweener;
 const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const AppIcons = Me.imports.appIcons;
+const Panel = Me.imports.panel;
 const Utils = Me.imports.utils;
 const WindowPreview = Me.imports.windowPreview;
-const AppIcons = Me.imports.appIcons;
 
 var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
@@ -65,6 +66,17 @@ function getPosition() {
     
     return St.Side.LEFT;
 }
+
+function checkIfVertical() {
+    let position = getPosition();
+
+    return (position == St.Side.LEFT || position == St.Side.RIGHT);
+}
+
+function getOrientation() {
+    return (checkIfVertical() ? 'vertical' : 'horizontal');
+}
+
 /**
  * Extend DashItemContainer
  *
@@ -92,56 +104,66 @@ var taskbarActor = Utils.defineClass({
         this._delegate = delegate;
         this._currentBackgroundColor = 0;
         this.callParent('_init', { name: 'dashtopanelTaskbar',
-                                   layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation.HORIZONTAL }),
+                                   layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation[getOrientation().toUpperCase()] }),
                                    clip_to_allocation: true });
     },
 
     vfunc_allocate: function(box, flags)  {
         this.set_allocation(box, flags);
 
-        let availHeight = box.y2 - box.y1;
+        let availSize = box[Panel.fixedCoord.c2] - box[Panel.fixedCoord.c1];
         let [, showAppsButton, scrollview, leftFade, rightFade] = this.get_children();
-        let [, showAppsNatWidth] = showAppsButton.get_preferred_width(availHeight);
+        let [, showAppsNatSize] = showAppsButton[Panel.sizeFunc](availSize);
         let childBox = new Clutter.ActorBox();
+        let orientation = getOrientation().toLowerCase();
 
-        childBox.x1 = box.x1;
-        childBox.x2 = box.x1 + showAppsNatWidth;
-        childBox.y1 = box.y1;
-        childBox.y2 = box.y2;
+        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1];
+        childBox[Panel.fixedCoord.c1] = box[Panel.fixedCoord.c1];
+
+        childBox[Panel.varCoord.c2] = box[Panel.varCoord.c1] + showAppsNatSize;
+        childBox[Panel.fixedCoord.c2] = box[Panel.fixedCoord.c2];
         showAppsButton.allocate(childBox, flags);
 
-        childBox.x1 = box.x1 + showAppsNatWidth;
-        childBox.x2 = box.x2;
+        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1] + showAppsNatSize;
+        childBox[Panel.varCoord.c2] = box[Panel.varCoord.c2];
         scrollview.allocate(childBox, flags);
 
-        let [hvalue, , hupper, , , hpageSize] = scrollview.hscroll.adjustment.get_values();
+        let [hvalue, , hupper, , , hpageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
         hupper = Math.floor(hupper);
         scrollview._dtpFadeSize = hupper > hpageSize ? this._delegate.iconSize : 0;
 
         if (this._delegate.panelWrapper.dynamicTransparency &&
             this._currentBackgroundColor !== this._delegate.panelWrapper.dynamicTransparency.currentBackgroundColor) {
             this._currentBackgroundColor = this._delegate.panelWrapper.dynamicTransparency.currentBackgroundColor;
-            let gradientStart = 'background-gradient-start: ' + this._currentBackgroundColor;
-            leftFade.set_style(gradientStart);
-            rightFade.set_style(gradientStart);
+            let gradientStyle = 'background-gradient-start: ' + this._currentBackgroundColor + ';' +
+                                'background-gradient-direction: ' + orientation;
+
+            leftFade.set_style(gradientStyle);
+            rightFade.set_style(gradientStyle);
         }
         
-        childBox.x1 = box.x1 + showAppsNatWidth;
-        childBox.x2 = childBox.x1 + (hvalue > 0 ? scrollview._dtpFadeSize : 0);
+        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1] + showAppsNatSize;
+        childBox[Panel.varCoord.c2] = childBox[Panel.varCoord.c1] + (hvalue > 0 ? scrollview._dtpFadeSize : 0);
         leftFade.allocate(childBox, flags);
 
-        childBox.x1 = box.x2 - (hvalue + hpageSize < hupper ? scrollview._dtpFadeSize : 0);
-        childBox.x2 = box.x2;
+        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c2] - (hvalue + hpageSize < hupper ? scrollview._dtpFadeSize : 0);
+        childBox[Panel.varCoord.c2] = box[Panel.varCoord.c2];
         rightFade.allocate(childBox, flags);
     },
 
+    // We want to request the natural size of all our children
+    // as our natural width, so we chain up to StWidget (which
+    // then calls BoxLayout)
     vfunc_get_preferred_width: function(forHeight) {
-        // We want to request the natural width of all our children
-        // as our natural width, so we chain up to StWidget (which
-        // then calls BoxLayout)
         let [, natWidth] = St.Widget.prototype.vfunc_get_preferred_width.call(this, forHeight);
         
         return [0, natWidth];
+    },
+
+    vfunc_get_preferred_height: function(forWidth) {
+        let [, natHeight] = St.Widget.prototype.vfunc_get_preferred_height.call(this, forWidth);
+        
+        return [0, natHeight];
     },
 });
 
@@ -170,7 +192,6 @@ var taskbar = Utils.defineClass({
 
         this._shownInitially = false;
 
-        this._position = getPosition();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
         this._showLabelTimeoutId = 0;
@@ -178,7 +199,7 @@ var taskbar = Utils.defineClass({
         this._ensureAppIconVisibilityTimeoutId = 0;
         this._labelShowing = false;
 
-        this._box = new St.BoxLayout({ vertical: false,
+        this._box = new St.BoxLayout({ vertical: checkIfVertical(),
                                        clip_to_allocation: false,
                                        x_align: Clutter.ActorAlign.START,
                                        y_align: Clutter.ActorAlign.START });
@@ -212,16 +233,19 @@ var taskbar = Utils.defineClass({
         this._container.add_child(new St.Widget({ width: 0, reactive: false }));
         this._container.add_actor(this._showAppsIcon);
         this._container.add_actor(this._scrollView);
-        this._container.add_actor(new St.Widget({ style_class: 'scrollview-fade', reactive: false }));
-        this._container.add_actor(new St.Widget({ style_class: 'scrollview-fade', 
-                                                  reactive: false,  
-                                                  pivot_point: new Clutter.Point({ x: .5, y: .5 }), 
-                                                  rotation_angle_z: 180 }));
+        
+        let fadeStyle = 'background-gradient-direction:' + getOrientation();
+        let fade1 = new St.Widget({ style_class: 'scrollview-fade', reactive: false });
+        let fade2 = new St.Widget({ style_class: 'scrollview-fade', 
+                                    reactive: false,  
+                                    pivot_point: new Clutter.Point({ x: .5, y: .5 }), 
+                                    rotation_angle_z: 180 });
 
-        this.showAppsButton.add_constraint(new Clutter.BindConstraint({
-            source: this._container,
-            coordinate: Clutter.BindCoordinate.HEIGHT
-        }));
+        fade1.set_style(fadeStyle);
+        fade2.set_style(fadeStyle);
+
+        this._container.add_actor(fade1);
+        this._container.add_actor(fade2);
 
         this.previewMenu = new WindowPreview.PreviewMenu(panelWrapper);
         this.previewMenu.enable();

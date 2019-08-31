@@ -57,6 +57,9 @@ const Transparency = Me.imports.transparency;
 const _ = imports.gettext.domain(Me.imports.utils.TRANSLATION_DOMAIN).gettext;
 
 let tracker = Shell.WindowTracker.get_default();
+var sizeFunc;
+var fixedCoord;
+var varCoord;
 
 var dtpPanelWrapper = Utils.defineClass({
     Name: 'DashToPanel.PanelWrapper',
@@ -72,6 +75,18 @@ var dtpPanelWrapper = Utils.defineClass({
 
         Utils.wrapActor(this.panel);
         Utils.wrapActor(this.panel.statusArea.activities || 0);
+
+        if (!isSecondary) {
+            if (Taskbar.checkIfVertical()) {
+                sizeFunc = 'get_preferred_height',
+                fixedCoord = { c1: 'x1', c2: 'x2' },
+                varCoord = { c1: 'y1', c2: 'y2' };
+            } else {
+                sizeFunc = 'get_preferred_width';
+                fixedCoord = { c1: 'y1', c2: 'y2' };
+                varCoord = { c1: 'x1', c2: 'x2' };
+            }
+        }
     },
 
     enable : function() {
@@ -337,6 +352,8 @@ var dtpPanelWrapper = Utils.defineClass({
 
         if (!this.isSecondary) {
             this.panel.actor.set_height(this._oldPanelHeight);
+            this.panel.actor.set_width(-1);
+            this._setVertical(this.panel.actor, false);
             
             Main.overview._panelGhost.set_height(this._oldPanelHeight);
             this._setActivitiesButtonVisible(true);
@@ -436,93 +453,91 @@ var dtpPanelWrapper = Utils.defineClass({
         this.panel.set_allocation(box, flags);
         this._allocate(null, box, flags);
     },
-    
-    _allocate: function(actor, box, flags) {
-        let panelAllocWidth = box.x2 - box.x1;
-        let panelAllocHeight = box.y2 - box.y1;
 
-        let [leftMinWidth, leftNaturalWidth] = this.panel._leftBox.get_preferred_width(-1);
-        let [centerMinWidth, centerNaturalWidth] = this.panel._centerBox.get_preferred_width(-1);
-        let [rightMinWidth, rightNaturalWidth] = this.panel._rightBox.get_preferred_width(-1);
+    _allocate: function(actor, box, flags) {
+        let panelAllocVarSize = box[varCoord.c2] - box[varCoord.c1];
+        let panelAllocFixedSize = box[fixedCoord.c2] - box[fixedCoord.c1];
+        let [, leftNaturalSize] = this.panel._leftBox[sizeFunc](-1);
+        let [, centerNaturalSize] = this.panel._centerBox[sizeFunc](-1);
+        let [, rightNaturalSize] = this.panel._rightBox[sizeFunc](-1);
         
         let taskbarPosition = Me.settings.get_string('taskbar-position');
 
         // The _rightBox is always allocated the same, regardless of taskbar position setting
-        let rightAllocWidth = rightNaturalWidth;
+        let rightAllocSize = rightNaturalSize;
         
         // Now figure out how large the _leftBox and _centerBox should be.
         // The box with the taskbar is always the one that is forced to be smaller as the other boxes grow
-        let leftAllocWidth, centerStartPosition, centerEndPosition;
-        if (taskbarPosition == 'CENTEREDMONITOR') {
-            leftAllocWidth = leftNaturalWidth;
-
-            centerStartPosition = Math.max(leftNaturalWidth, Math.floor((panelAllocWidth - centerNaturalWidth)/2));
-            centerEndPosition = Math.min(panelAllocWidth-rightNaturalWidth, Math.ceil((panelAllocWidth+centerNaturalWidth))/2);
-        } else if (taskbarPosition == 'CENTEREDCONTENT') {
-            leftAllocWidth = leftNaturalWidth;
-
-            centerStartPosition = Math.max(leftNaturalWidth, Math.floor((panelAllocWidth - centerNaturalWidth + leftNaturalWidth - rightNaturalWidth) / 2));
-            centerEndPosition = Math.min(panelAllocWidth-rightNaturalWidth, Math.ceil((panelAllocWidth + centerNaturalWidth + leftNaturalWidth - rightNaturalWidth) / 2));
-        } else if (taskbarPosition == 'LEFTPANEL_FIXEDCENTER') {
-            leftAllocWidth = Math.floor((panelAllocWidth - centerNaturalWidth) / 2);
-            centerStartPosition = leftAllocWidth;
-            centerEndPosition = centerStartPosition + centerNaturalWidth;
-        } else if (taskbarPosition == 'LEFTPANEL_FLOATCENTER') {
-            let leftAllocWidthMax = panelAllocWidth - rightNaturalWidth - centerNaturalWidth;
-            leftAllocWidth = Math.min(leftAllocWidthMax, leftNaturalWidth);
-
-            let freeSpace = panelAllocWidth - leftAllocWidth - rightAllocWidth - centerNaturalWidth;
-
-            centerStartPosition = leftAllocWidth + Math.floor(freeSpace / 2);
-            centerEndPosition = centerStartPosition + centerNaturalWidth;
-        } else { // LEFTPANEL
-            leftAllocWidth = panelAllocWidth - rightNaturalWidth - centerNaturalWidth;
-            centerStartPosition = leftAllocWidth;
-            centerEndPosition = centerStartPosition + centerNaturalWidth;
-        }
-
+        let leftAllocSize, centerStartPosition, centerEndPosition;
         let childBoxLeft = new Clutter.ActorBox();
         let childBoxCenter = new Clutter.ActorBox();
         let childBoxRight = new Clutter.ActorBox();
-        childBoxLeft.y1 = childBoxCenter.y1 = childBoxRight.y1 = 0;
-        childBoxLeft.y2 = childBoxCenter.y2 = childBoxRight.y2 = panelAllocHeight;
+
+        if (taskbarPosition == 'CENTEREDMONITOR') {
+            leftAllocSize = leftNaturalSize;
+
+            centerStartPosition = Math.max(leftNaturalSize, Math.floor((panelAllocVarSize - centerNaturalSize)/2));
+            centerEndPosition = Math.min(panelAllocVarSize-rightNaturalSize, Math.ceil((panelAllocVarSize+centerNaturalSize))/2);
+        } else if (taskbarPosition == 'CENTEREDCONTENT') {
+            leftAllocSize = leftNaturalSize;
+
+            centerStartPosition = Math.max(leftNaturalSize, Math.floor((panelAllocVarSize - centerNaturalSize + leftNaturalSize - rightNaturalSize) / 2));
+            centerEndPosition = Math.min(panelAllocVarSize-rightNaturalSize, Math.ceil((panelAllocVarSize + centerNaturalSize + leftNaturalSize - rightNaturalSize) / 2));
+        } else if (taskbarPosition == 'LEFTPANEL_FIXEDCENTER') {
+            leftAllocSize = Math.floor((panelAllocVarSize - centerNaturalSize) / 2);
+            centerStartPosition = leftAllocSize;
+            centerEndPosition = centerStartPosition + centerNaturalSize;
+        } else if (taskbarPosition == 'LEFTPANEL_FLOATCENTER') {
+            let leftAllocSizeMax = panelAllocVarSize - rightNaturalSize - centerNaturalSize;
+            leftAllocSize = Math.min(leftAllocSizeMax, leftNaturalSize);
+
+            let freeSpace = panelAllocVarSize - leftAllocSize - rightAllocSize - centerNaturalSize;
+
+            centerStartPosition = leftAllocSize + Math.floor(freeSpace / 2);
+            centerEndPosition = centerStartPosition + centerNaturalSize;
+        } else { // LEFTPANEL
+            leftAllocSize = panelAllocVarSize - rightNaturalSize - centerNaturalSize;
+            centerStartPosition = leftAllocSize;
+            centerEndPosition = centerStartPosition + centerNaturalSize;
+        }
+
+        childBoxLeft[fixedCoord.c1] = childBoxCenter[fixedCoord.c1] = childBoxRight[fixedCoord.c1] = 0;
+        childBoxLeft[fixedCoord.c2] = childBoxCenter[fixedCoord.c2] = childBoxRight[fixedCoord.c2] = panelAllocFixedSize;
 
         // if it is a RTL language, the boxes are switched around, and we need to invert the coordinates
         if (this.panel.actor.get_text_direction() == Clutter.TextDirection.RTL) {
-            childBoxLeft.x1 = panelAllocWidth - leftAllocWidth;
-            childBoxLeft.x2 = panelAllocWidth;
+            childBoxLeft[varCoord.c1] = panelAllocVarSize - leftAllocSize;
+            childBoxLeft[varCoord.c2] = panelAllocVarSize;
 
-            childBoxCenter.x1 = panelAllocWidth - centerEndPosition;
-            childBoxCenter.x2 = panelAllocWidth - centerStartPosition;
+            childBoxCenter[varCoord.c1] = panelAllocVarSize - centerEndPosition;
+            childBoxCenter[varCoord.c2] = panelAllocVarSize - centerStartPosition;
 
-            childBoxRight.x1 = 0;
-            childBoxRight.x2 = rightAllocWidth;
+            childBoxRight[varCoord.c1] = 0;
+            childBoxRight[varCoord.c2] = rightAllocSize;
         } else {
-            childBoxLeft.x1 = 0;
-            childBoxLeft.x2 = leftAllocWidth;
+            childBoxLeft[varCoord.c1] = 0;
+            childBoxLeft[varCoord.c2] = leftAllocSize;
 
-            childBoxCenter.x1 = centerStartPosition;
-            childBoxCenter.x2 = centerEndPosition;
+            childBoxCenter[varCoord.c1] = centerStartPosition;
+            childBoxCenter[varCoord.c2] = centerEndPosition;
 
-            childBoxRight.x1 = panelAllocWidth - rightAllocWidth;
-            childBoxRight.x2 = panelAllocWidth;            
+            childBoxRight[varCoord.c1] = panelAllocVarSize - rightAllocSize;
+            childBoxRight[varCoord.c2] = panelAllocVarSize;            
         }
-       
+
         let childBoxLeftCorner = new Clutter.ActorBox();
-        let [cornerMinWidth, cornerWidth] = this.panel._leftCorner.actor.get_preferred_width(-1);
-        let [cornerMinHeight, cornerHeight] = this.panel._leftCorner.actor.get_preferred_width(-1);
-        childBoxLeftCorner.x1 = 0;
-        childBoxLeftCorner.x2 = cornerWidth;
-        childBoxLeftCorner.y1 = panelAllocHeight;
-        childBoxLeftCorner.y2 = panelAllocHeight + cornerHeight;
+        let [ , cornerSize] = this.panel._leftCorner.actor[sizeFunc](-1);
+        childBoxLeftCorner[varCoord.c1] = 0;
+        childBoxLeftCorner[varCoord.c2] = cornerSize;
+        childBoxLeftCorner[fixedCoord.c1] = panelAllocFixedSize;
+        childBoxLeftCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
 
         let childBoxRightCorner = new Clutter.ActorBox();
-        [cornerMinWidth, cornerWidth] = this.panel._rightCorner.actor.get_preferred_width(-1);
-        [cornerMinHeight, cornerHeight] = this.panel._rightCorner.actor.get_preferred_width(-1);
-        childBoxRightCorner.x1 = panelAllocWidth - cornerWidth;
-        childBoxRightCorner.x2 = panelAllocWidth;
-        childBoxRightCorner.y1 = panelAllocHeight;
-        childBoxRightCorner.y2 = panelAllocHeight + cornerHeight;
+        [ , cornerSize] = this.panel._rightCorner.actor[sizeFunc](-1);
+        childBoxRightCorner[varCoord.c1] = panelAllocVarSize - cornerSize;
+        childBoxRightCorner[varCoord.c2] = panelAllocVarSize;
+        childBoxRightCorner[fixedCoord.c1] = panelAllocFixedSize;
+        childBoxRightCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
 
         this.panel._leftBox.allocate(childBoxLeft, flags, true);
         this.panel._centerBox.allocate(childBoxCenter, flags, true);
@@ -539,19 +554,22 @@ var dtpPanelWrapper = Utils.defineClass({
         if(scaleFactor)
             size = size*scaleFactor;
 
-        this.panel.actor.set_height(size);
-
         let position = Taskbar.getPosition();
+        let isLeftOrRight = position == St.Side.LEFT || position == St.Side.LEFT;
         let isTop = position == St.Side.TOP;
+
+        this.panel.actor.set_size(isLeftOrRight ? size : -1, isLeftOrRight ? -1 : size);
+
+        this._setVertical(this.panel.actor, isLeftOrRight);
 
         Main.overview._panelGhost.set_height(isTop ? size : 0);
         this._myPanelGhost.set_height(isTop ? 0 : size);
 
-        if (isTop) {
+        if (!isTop) {
             this._removeTopLimit();
         } else {
             if (!this._topLimit) {
-                this._topLimit = new St.BoxLayout({ name: 'topLimit', vertical: true });
+                this._topLimit = new St.BoxLayout({ name: 'topLimit' });
                 Main.layoutManager.addChrome(this._topLimit, { affectsStruts: true, trackFullscreen: true });
             }
 
@@ -576,6 +594,14 @@ var dtpPanelWrapper = Utils.defineClass({
 
         Main.layoutManager._updateHotCorners();
         Main.layoutManager._updatePanelBarrier(this);
+    },
+
+    _setVertical: function(actor, isVertical) {
+        if ('vertical' in actor) {
+            actor.vertical = isVertical;
+        }
+
+        actor.get_children().forEach(c => this._setVertical(c, isVertical));
     },
 
     _removeTopLimit: function() {
