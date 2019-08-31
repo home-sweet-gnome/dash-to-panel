@@ -40,10 +40,9 @@ const GS_HOTKEYS_KEY = 'switch-to-application-';
 var dtpOverview = Utils.defineClass({
     Name: 'DashToPanel.Overview',
 
-    _init: function(settings) {
+    _init: function() {
         this._numHotkeys = 10;
         this._currentHotkeyFocusIndex = -1;
-        this._dtpSettings = settings;
     },
 
     enable : function(panel) {
@@ -59,7 +58,7 @@ var dtpOverview = Utils.defineClass({
         this._toggleDash();
         
         this._signalsHandler.add([
-            this._dtpSettings,
+            Me.settings,
             'changed::stockgs-keep-dash', 
             () => this._toggleDash()
         ]);
@@ -88,7 +87,7 @@ var dtpOverview = Utils.defineClass({
         // 1 static workspace only)
 
         if (visible === undefined) {
-            visible = this._dtpSettings.get_boolean('stockgs-keep-dash');
+            visible = Me.settings.get_boolean('stockgs-keep-dash');
         }
 
         let visibilityFunc = visible ? 'show' : 'hide';
@@ -108,19 +107,19 @@ var dtpOverview = Utils.defineClass({
         let label = 'optionalWorkspaceIsolation';
         
         this._signalsHandler.add([
-            this._dtpSettings,
+            Me.settings,
             'changed::isolate-workspaces',
             Lang.bind(this, function() {
                 this._panel.panelManager.allPanels.forEach(p => p.taskbar.resetAppIcons());
 
-                if (this._dtpSettings.get_boolean('isolate-workspaces'))
+                if (Me.settings.get_boolean('isolate-workspaces'))
                     Lang.bind(this, enable)();
                 else
                     Lang.bind(this, disable)();
             })
         ]);
 
-        if (this._dtpSettings.get_boolean('isolate-workspaces'))
+        if (Me.settings.get_boolean('isolate-workspaces'))
             Lang.bind(this, enable)();
 
         function enable() {
@@ -181,7 +180,7 @@ var dtpOverview = Utils.defineClass({
             let seenAppCount = seenApps[appIcon.app];
             let windowCount = appIcon.window || appIcon._hotkeysCycle ? seenAppCount : appIcon._nWindows;
 
-            if (this._dtpSettings.get_boolean('shortcut-previews') && windowCount > 1) {
+            if (Me.settings.get_boolean('shortcut-previews') && windowCount > 1) {
                 if (this._currentHotkeyFocusIndex < 0) {
                     let currentWindow = appIcon.window;
                     let keyFocusOutId = appIcon.actor.connect('key-focus-out', () => appIcon.actor.grab_key_focus());
@@ -216,14 +215,14 @@ var dtpOverview = Utils.defineClass({
 
     _optionalHotKeys: function() {
         this._hotKeysEnabled = false;
-        if (this._dtpSettings.get_boolean('hot-keys'))
+        if (Me.settings.get_boolean('hot-keys'))
             this._enableHotKeys();
 
         this._signalsHandler.add([
-            this._dtpSettings,
+            Me.settings,
             'changed::hot-keys',
             Lang.bind(this, function() {
-                    if (this._dtpSettings.get_boolean('hot-keys'))
+                    if (Me.settings.get_boolean('hot-keys'))
                         Lang.bind(this, this._enableHotKeys)();
                     else
                         Lang.bind(this, this._disableHotKeys)();
@@ -249,13 +248,13 @@ var dtpOverview = Utils.defineClass({
             for (let i = 0; i < this._numHotkeys; i++) {
                 let appNum = i;
 
-                Utils.addKeybinding(key + (i + 1), this._dtpSettings, () => this._activateApp(appNum));
+                Utils.addKeybinding(key + (i + 1), Me.settings, () => this._activateApp(appNum));
             }
         }, this);
 
         this._hotKeysEnabled = true;
 
-        if (this._dtpSettings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+        if (Me.settings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
             this.taskbar.toggleNumberOverlay(true);
     },
 
@@ -286,18 +285,18 @@ var dtpOverview = Utils.defineClass({
 
     _optionalNumberOverlay: function() {
         // Enable extra shortcut
-        if (this._dtpSettings.get_boolean('hot-keys'))
+        if (Me.settings.get_boolean('hot-keys'))
             this._enableExtraShortcut();
 
         this._signalsHandler.add([
-            this._dtpSettings,
+            Me.settings,
             'changed::hot-keys',
             Lang.bind(this, this._checkHotkeysOptions)
         ], [
-            this._dtpSettings,
+            Me.settings,
             'changed::hotkeys-overlay-combo',
             Lang.bind(this, function() {
-                if (this._dtpSettings.get_boolean('hot-keys') && this._dtpSettings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+                if (Me.settings.get_boolean('hot-keys') && Me.settings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
                     this.taskbar.toggleNumberOverlay(true);
                 else
                     this.taskbar.toggleNumberOverlay(false);
@@ -306,14 +305,14 @@ var dtpOverview = Utils.defineClass({
     },
 
     _checkHotkeysOptions: function() {
-        if (this._dtpSettings.get_boolean('hot-keys'))
+        if (Me.settings.get_boolean('hot-keys'))
             this._enableExtraShortcut();
         else
             this._disableExtraShortcut();
     },
 
     _enableExtraShortcut: function() {
-        Utils.addKeybinding('shortcut', this._dtpSettings, () => this._showOverlay(true));
+        Utils.addKeybinding('shortcut', Me.settings, () => this._showOverlay(true));
     },
 
     _disableExtraShortcut: function() {
@@ -332,7 +331,7 @@ var dtpOverview = Utils.defineClass({
             this._numberOverlayTimeoutId = 0;
         }
 
-        let hotkey_option = this._dtpSettings.get_string('hotkeys-overlay-combo');
+        let hotkey_option = Me.settings.get_string('hotkeys-overlay-combo');
 
         if (hotkey_option === 'NEVER')
             return;
@@ -342,10 +341,10 @@ var dtpOverview = Utils.defineClass({
 
         this._panel.intellihide.revealAndHold(Intellihide.Hold.TEMPORARY);
 
-        let timeout = this._dtpSettings.get_int('overlay-timeout');
+        let timeout = Me.settings.get_int('overlay-timeout');
         
         if (overlayFromShortcut) {
-            timeout = this._dtpSettings.get_int('shortcut-timeout');
+            timeout = Me.settings.get_int('shortcut-timeout');
         }
 
         // Hide the overlay/dock after the timeout

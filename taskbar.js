@@ -51,10 +51,9 @@ const AppIcons = Me.imports.appIcons;
 var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 var MIN_ICON_SIZE = 4;
-var dtpSettings;
 
 function getPosition() {
-    let position = dtpSettings.get_string('panel-position');
+    let position = Me.settings.get_string('panel-position');
     
     if (position == 'TOP') {
         return St.Side.TOP;
@@ -194,7 +193,7 @@ var taskbar = Utils.defineClass({
         this._scrollView.add_actor(this._box);
 
         // Create a wrapper around the real showAppsIcon in order to add a popupMenu.
-        this._showAppsIconWrapper = new AppIcons.ShowAppsIconWrapper(dtpSettings);
+        this._showAppsIconWrapper = new AppIcons.ShowAppsIconWrapper();
         this._showAppsIconWrapper.connect('menu-state-changed', Lang.bind(this, function(showAppsIconWrapper, opened) {
             this._itemMenuStateChanged(showAppsIconWrapper, opened);
         }));
@@ -224,10 +223,10 @@ var taskbar = Utils.defineClass({
             coordinate: Clutter.BindCoordinate.HEIGHT
         }));
 
-        this.previewMenu = new WindowPreview.PreviewMenu(dtpSettings, panelWrapper);
+        this.previewMenu = new WindowPreview.PreviewMenu(panelWrapper);
         this.previewMenu.enable();
 
-        if (!dtpSettings.get_boolean('show-show-apps-button'))
+        if (!Me.settings.get_boolean('show-show-apps-button'))
             this.hideShowAppsButton();
 
         let rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
@@ -288,7 +287,7 @@ var taskbar = Utils.defineClass({
                     'window-left-monitor'
                 ],
                 () => {
-                    if (dtpSettings.get_boolean('isolate-monitors')) {
+                    if (Me.settings.get_boolean('isolate-monitors')) {
                         this._queueRedisplay();
                     }
                 }
@@ -315,17 +314,17 @@ var taskbar = Utils.defineClass({
                 Lang.bind(this, this._syncShowAppsButtonToggled)
             ],
             [
-                dtpSettings,
+                Me.settings,
                 'changed::show-show-apps-button',
                 Lang.bind(this, function() {
-                    if (dtpSettings.get_boolean('show-show-apps-button'))
+                    if (Me.settings.get_boolean('show-show-apps-button'))
                         this.showShowAppsButton();
                     else
                         this.hideShowAppsButton();
                 })
             ],
             [
-                dtpSettings,
+                Me.settings,
                 [
                     'changed::dot-size',
                     'changed::show-favorites',
@@ -335,16 +334,16 @@ var taskbar = Utils.defineClass({
                 Lang.bind(this, this._redisplay)
             ],
             [
-                dtpSettings,
+                Me.settings,
                 'changed::group-apps',
                 Lang.bind(this, function() {
-                    this.isGroupApps = dtpSettings.get_boolean('group-apps');
+                    this.isGroupApps = Me.settings.get_boolean('group-apps');
                     this._connectWorkspaceSignals();
                     this.resetAppIcons();
                 })
             ],
             [
-                dtpSettings,
+                Me.settings,
                 [
                     'changed::group-apps-use-launchers',
                     'changed::taskbar-locked'
@@ -353,7 +352,7 @@ var taskbar = Utils.defineClass({
             ]
         );
 
-        this.isGroupApps = dtpSettings.get_boolean('group-apps');
+        this.isGroupApps = Me.settings.get_boolean('group-apps');
 
         this._connectWorkspaceSignals();
     },
@@ -527,7 +526,6 @@ var taskbar = Utils.defineClass({
 
     _createAppItem: function(app, window, isLauncher) {
         let appIcon = new AppIcons.taskbarAppIcon(
-            dtpSettings, 
             {
                 app: app, 
                 window: window,
@@ -537,7 +535,7 @@ var taskbar = Utils.defineClass({
             { 
                 setSizeManually: true,
                 showLabel: false,
-                isDraggable: !dtpSettings.get_boolean('taskbar-locked'),
+                isDraggable: !Me.settings.get_boolean('taskbar-locked'),
             },
             this.previewMenu
         );
@@ -689,8 +687,8 @@ var taskbar = Utils.defineClass({
     },
 
     _adjustIconSize: function() {
-        let panelSize = dtpSettings.get_int('panel-size');
-        let availSize = panelSize - dtpSettings.get_int('appicon-padding') * 2;
+        let panelSize = Me.settings.get_int('panel-size');
+        let availSize = panelSize - Me.settings.get_int('appicon-padding') * 2;
         let minIconSize = MIN_ICON_SIZE + panelSize % 2;
 
         if (availSize == this.iconSize)
@@ -739,8 +737,8 @@ var taskbar = Utils.defineClass({
     },
 
     sortAppsCompareFunction: function(appA, appB) {
-        return getAppStableSequence(appA, dtpSettings, this.panelWrapper.monitor) - 
-               getAppStableSequence(appB, dtpSettings, this.panelWrapper.monitor);
+        return getAppStableSequence(appA, this.panelWrapper.monitor) - 
+               getAppStableSequence(appB, this.panelWrapper.monitor);
     },
 
     getAppInfos: function() {
@@ -752,7 +750,7 @@ var taskbar = Utils.defineClass({
         // the current workspace (this check is done in AppIcons.getInterestingWindows)
         let runningApps = this._checkIfShowingRunningApps() ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this)) : [];
 
-        if (!this.isGroupApps && dtpSettings.get_boolean('group-apps-use-launchers')) {
+        if (!this.isGroupApps && Me.settings.get_boolean('group-apps-use-launchers')) {
             return this._createAppInfos(favoriteApps, [], true)
                        .concat(this._createAppInfos(runningApps)
                        .filter(appInfo => appInfo.windows.length));
@@ -836,12 +834,12 @@ var taskbar = Utils.defineClass({
     },
 
     _checkIfShowingRunningApps: function() {
-        return dtpSettings.get_boolean('show-running-apps');
+        return Me.settings.get_boolean('show-running-apps');
     },
     
     _checkIfShowingFavorites: function() {
-        return dtpSettings.get_boolean('show-favorites') && 
-               (!this.panelWrapper.isSecondary || dtpSettings.get_boolean('show-favorites-all-monitors'));
+        return Me.settings.get_boolean('show-favorites') && 
+               (!this.panelWrapper.isSecondary || Me.settings.get_boolean('show-favorites-all-monitors'));
     },
 
     _getRunningApps: function() {
@@ -864,7 +862,7 @@ var taskbar = Utils.defineClass({
         return apps.map(app => ({ 
             app: app, 
             isLauncher: defaultIsLauncher || false,
-            windows: defaultWindows || AppIcons.getInterestingWindows(app, dtpSettings, this.panelWrapper.monitor)
+            windows: defaultWindows || AppIcons.getInterestingWindows(app, this.panelWrapper.monitor)
                                                .sort(sortWindowsCompareFunction)
         }));
     },
@@ -904,8 +902,8 @@ var taskbar = Utils.defineClass({
             icon.updateNumberOverlay();
         });
 
-        if (dtpSettings.get_boolean('hot-keys') &&
-            dtpSettings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+        if (Me.settings.get_boolean('hot-keys') &&
+            Me.settings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
             this.toggleNumberOverlay(true);
     },
 
@@ -986,7 +984,7 @@ var taskbar = Utils.defineClass({
 
         let appIcons = this._getAppIcons();
         let sourceIndex = appIcons.indexOf(source);
-        let usingLaunchers = !this.isGroupApps && dtpSettings.get_boolean('group-apps-use-launchers');
+        let usingLaunchers = !this.isGroupApps && Me.settings.get_boolean('group-apps-use-launchers');
 
         // dragging the icon to its original position
         if (this._dragInfo[0] === sourceIndex) {
@@ -1005,7 +1003,7 @@ var taskbar = Utils.defineClass({
         let interestingWindows = {};
         let getAppWindows = app => {
             if (!interestingWindows[app]) {
-                interestingWindows[app] = AppIcons.getInterestingWindows(app, dtpSettings, this.panelWrapper.monitor);
+                interestingWindows[app] = AppIcons.getInterestingWindows(app, this.panelWrapper.monitor);
             }
 
             let appWindows = interestingWindows[app]; //prevents "reference to undefined property Symbol.toPrimitive" warning
@@ -1057,7 +1055,7 @@ var taskbar = Utils.defineClass({
         // status (due to the _syncShowAppsButtonToggled function below) and it
         // has already performed the desired action.
 
-        let animate = dtpSettings.get_boolean('animate-show-apps');
+        let animate = Me.settings.get_boolean('animate-show-apps');
         let selector = Main.overview.viewSelector;
 
         if (selector._showAppsButton.checked !== this.showAppsButton.checked) {
@@ -1211,8 +1209,8 @@ var DragPlaceholderItem = Utils.defineClass({
     },
 });
 
-function getAppStableSequence(app, dtpSettings, monitor) {
-    let windows = AppIcons.getInterestingWindows(app, dtpSettings, monitor);
+function getAppStableSequence(app, monitor) {
+    let windows = AppIcons.getInterestingWindows(app, monitor);
     
     return windows.reduce((prevWindow, window) => {
         return Math.min(prevWindow, getWindowStableSequence(window));

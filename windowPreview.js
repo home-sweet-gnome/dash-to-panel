@@ -64,10 +64,9 @@ var PreviewMenu = Utils.defineClass({
     Extends: St.Widget,
     Signals: { 'open-state-changed': {} },
 
-    _init: function(dtpSettings, panelWrapper) {
+    _init: function(panelWrapper) {
         this.callParent('_init', { layout_manager: new Clutter.BinLayout() });
 
-        this._dtpSettings = dtpSettings;
         this._panelWrapper = panelWrapper;
         this.currentAppIcon = null;
         this._focusedPreview = null;
@@ -78,7 +77,7 @@ var PreviewMenu = Utils.defineClass({
         this.isLeftOrRight = this._position == St.Side.LEFT || this._position == St.Side.RIGHT;
         this._translationProp = 'translation_' + (this.isLeftOrRight ? 'x' : 'y');
         this._translationDirection = (this._position == St.Side.TOP || this._position == St.Side.LEFT ? -1 : 1);
-        this._translationOffset = Math.min(this._dtpSettings.get_int('panel-size'), MAX_TRANSLATION) * this._translationDirection;
+        this._translationOffset = Math.min(Me.settings.get_int('panel-size'), MAX_TRANSLATION) * this._translationDirection;
 
         this.menu = new St.Widget({ 
             name: 'preview-menu', 
@@ -132,7 +131,7 @@ var PreviewMenu = Utils.defineClass({
                 () => this._updateClip()
             ],
             [
-                this._dtpSettings,
+                Me.settings,
                 [
                     'changed::panel-size',
                     'changed::window-preview-size',
@@ -159,7 +158,7 @@ var PreviewMenu = Utils.defineClass({
 
     requestOpen: function(appIcon) {
         this._endOpenCloseTimeouts();
-        this._timeoutsHandler.add([T1, this._dtpSettings.get_int('show-window-previews-timeout'), () => this.open(appIcon)]);
+        this._timeoutsHandler.add([T1, Me.settings.get_int('show-window-previews-timeout'), () => this.open(appIcon)]);
     },
 
     requestClose: function() {
@@ -242,9 +241,9 @@ var PreviewMenu = Utils.defineClass({
     requestPeek: function(window) {
         this._timeoutsHandler.remove(T3);
 
-        if (this._dtpSettings.get_boolean('peek-mode')) {
+        if (Me.settings.get_boolean('peek-mode')) {
             if (this.peekInitialWorkspaceIndex < 0) {
-                this._timeoutsHandler.add([T3, this._dtpSettings.get_int('enter-peek-mode-timeout'), () => this._peek(window)]);
+                this._timeoutsHandler.add([T3, Me.settings.get_int('enter-peek-mode-timeout'), () => this._peek(window)]);
             } else {
                 this._peek(window);
             }
@@ -339,7 +338,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _addCloseTimeout: function() {
-        this._timeoutsHandler.add([T2, this._dtpSettings.get_int('leave-timeout'), () => this.close()]);
+        this._timeoutsHandler.add([T2, Me.settings.get_int('leave-timeout'), () => this.close()]);
     },
 
     _onHoverChanged: function() {
@@ -384,22 +383,22 @@ var PreviewMenu = Utils.defineClass({
 
     _refreshGlobals: function() {
         isLeftButtons = Meta.prefs_get_button_layout().left_buttons.indexOf(Meta.ButtonFunction.CLOSE) >= 0;
-        isTopHeader = this._dtpSettings.get_string('window-preview-title-position') == 'TOP';
+        isTopHeader = Me.settings.get_string('window-preview-title-position') == 'TOP';
         scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        headerHeight = this._dtpSettings.get_boolean('window-preview-show-title') ? HEADER_HEIGHT * scaleFactor : 0;
-        animationTime = this._dtpSettings.get_int('window-preview-animation-time') * .001;
+        headerHeight = Me.settings.get_boolean('window-preview-show-title') ? HEADER_HEIGHT * scaleFactor : 0;
+        animationTime = Me.settings.get_int('window-preview-animation-time') * .001;
         aspectRatio.x = {
-            size: this._dtpSettings.get_int('window-preview-aspect-ratio-x'),
-            fixed: this._dtpSettings.get_boolean('window-preview-fixed-x')
+            size: Me.settings.get_int('window-preview-aspect-ratio-x'),
+            fixed: Me.settings.get_boolean('window-preview-fixed-x')
         };
         aspectRatio.y = {
-            size: this._dtpSettings.get_int('window-preview-aspect-ratio-y'),
-            fixed: this._dtpSettings.get_boolean('window-preview-fixed-y')
+            size: Me.settings.get_int('window-preview-aspect-ratio-y'),
+            fixed: Me.settings.get_boolean('window-preview-fixed-y')
         };
         
         if (this._panelWrapper.dynamicTransparency) {
-            alphaBg = this._dtpSettings.get_boolean('preview-use-custom-opacity') ? 
-                      this._dtpSettings.get_int('preview-custom-opacity') * .01 : 
+            alphaBg = Me.settings.get_boolean('preview-use-custom-opacity') ? 
+                      Me.settings.get_int('preview-custom-opacity') * .01 : 
                       this._panelWrapper.dynamicTransparency.alpha;
         }
     },
@@ -415,9 +414,9 @@ var PreviewMenu = Utils.defineClass({
     _updateClip: function() {
         let x, y, w, h;
         let panelBoxTheme = this._panelWrapper.panelBox.get_theme_node();
-        let panelSize = this._dtpSettings.get_int('panel-size') * scaleFactor;
-        let previewSize = (this._dtpSettings.get_int('window-preview-size') + 
-                           this._dtpSettings.get_int('window-preview-padding') * 2) * scaleFactor;
+        let panelSize = Me.settings.get_int('panel-size') * scaleFactor;
+        let previewSize = (Me.settings.get_int('window-preview-size') + 
+                           Me.settings.get_int('window-preview-padding') * 2) * scaleFactor;
         
         if (this.isLeftOrRight) {
             w = previewSize;
@@ -447,7 +446,7 @@ var PreviewMenu = Utils.defineClass({
         let sourceContentBox = sourceNode.get_content_box(this.currentAppIcon.actor.get_allocation_box());
         let sourceAllocation = Shell.util_get_transformed_allocation(this.currentAppIcon.actor);
         let [previewsWidth, previewsHeight] = this._getPreviewsSize();
-        let appIconMargin = this._dtpSettings.get_int('appicon-margin') / scaleFactor;
+        let appIconMargin = Me.settings.get_int('appicon-margin') / scaleFactor;
         let x = 0, y = 0;
 
         previewsWidth = Math.min(previewsWidth, this._panelWrapper.monitor.width);
@@ -574,7 +573,7 @@ var PreviewMenu = Utils.defineClass({
     _peek: function(window) {
         let currentWorkspace = Utils.getCurrentWorkspace();
         let windowWorkspace = window.get_workspace();
-        let focusWindow = () => this._focusMetaWindow(this._dtpSettings.get_int('peek-mode-opacity'), window);
+        let focusWindow = () => this._focusMetaWindow(Me.settings.get_int('peek-mode-opacity'), window);
         
         this._restorePeekedWindowStack();
         this._peekedWindow = window;
@@ -678,7 +677,7 @@ var Preview = Utils.defineClass({
         this.cloneWidth = this.cloneHeight = 0;
         this._panelWrapper = previewMenu._panelWrapper;
         this._previewMenu = previewMenu;
-        this._padding = previewMenu._dtpSettings.get_int('window-preview-padding') * scaleFactor;
+        this._padding = Me.settings.get_int('window-preview-padding') * scaleFactor;
         this._previewDimensions = this._getPreviewDimensions();
         this.animatingOut = false;
 
@@ -849,7 +848,7 @@ var Preview = Utils.defineClass({
         this._hideOrShowCloseButton(true);
         this.reactive = false;
 
-        if (!this._previewMenu._dtpSettings.get_boolean('group-apps')) {
+        if (!Me.settings.get_boolean('group-apps')) {
             this._previewMenu.close();
         }
     },
@@ -860,7 +859,7 @@ var Preview = Utils.defineClass({
                 this.activate();
                 break;
             case 2: // Middle click
-                if (this._previewMenu._dtpSettings.get_boolean('preview-middle-click-close')) {
+                if (Me.settings.get_boolean('preview-middle-click-close')) {
                     this._onCloseBtnClick();
                 }
                 break;
@@ -913,14 +912,14 @@ var Preview = Utils.defineClass({
             let icon = this._previewMenu.getCurrentAppIcon().app.create_icon_texture(iconTextureSize);
             let workspaceIndex = '';
             let workspaceStyle = null;
-            let commonTitleStyles = 'color: ' + this._previewMenu._dtpSettings.get_string('window-preview-title-font-color') + ';' +
-                                    'font-size: ' + this._previewMenu._dtpSettings.get_int('window-preview-title-font-size') + 'px;' +
-                                    'font-weight: ' + this._previewMenu._dtpSettings.get_string('window-preview-title-font-weight') + ';';
+            let commonTitleStyles = 'color: ' + Me.settings.get_string('window-preview-title-font-color') + ';' +
+                                    'font-size: ' + Me.settings.get_int('window-preview-title-font-size') + 'px;' +
+                                    'font-weight: ' + Me.settings.get_string('window-preview-title-font-weight') + ';';
             
             this._iconBin.destroy_all_children();
             this._iconBin.add_child(icon);
 
-            if (!this._previewMenu._dtpSettings.get_boolean('isolate-workspaces')) {
+            if (!Me.settings.get_boolean('isolate-workspaces')) {
                 workspaceIndex = (this.window.get_workspace().index() + 1).toString();
                 workspaceStyle = 'margin: 0 4px 0 ' + (isLeftButtons ? Math.round((headerHeight - icon.width) * .5) + 'px' : '0') + '; padding: 0 4px;' +  
                                  'border: 2px solid ' + this._getRgbaColor(FOCUSED_COLOR_OFFSET, .8) + 'border-radius: 2px;' + commonTitleStyles;
@@ -1045,7 +1044,7 @@ var Preview = Utils.defineClass({
     },
 
     _getPreviewDimensions: function() {
-        let size = this._previewMenu._dtpSettings.get_int('window-preview-size') * scaleFactor;
+        let size = Me.settings.get_int('window-preview-size') * scaleFactor;
         let w, h;
 
         if (this._previewMenu.isLeftOrRight) {

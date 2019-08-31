@@ -63,8 +63,7 @@ var dtpPanelWrapper = Utils.defineClass({
 
     _init: function(panelManager, monitor, panel, panelBox, isSecondary) {
         this.panelManager = panelManager;
-        this._dtpSettings = panelManager._dtpSettings;
-        this.panelStyle = new PanelStyle.dtpPanelStyle(panelManager._dtpSettings);
+        this.panelStyle = new PanelStyle.dtpPanelStyle();
 
         this.monitor = monitor;
         this.panel = panel;
@@ -76,7 +75,7 @@ var dtpPanelWrapper = Utils.defineClass({
     },
 
     enable : function() {
-        let taskbarPosition = this._dtpSettings.get_string('taskbar-position');
+        let taskbarPosition = Me.settings.get_string('taskbar-position');
         if (taskbarPosition == 'CENTEREDCONTENT' || taskbarPosition == 'CENTEREDMONITOR') {
             this.container = this.panel._centerBox;
         } else {
@@ -155,7 +154,7 @@ var dtpPanelWrapper = Utils.defineClass({
 
         this.panel.menuManager._oldChangeMenu = this.panel.menuManager._changeMenu;
         this.panel.menuManager._changeMenu = (menu) => {
-            if (!this._dtpSettings.get_boolean('stockgs-panelbtn-click-only')) {
+            if (!Me.settings.get_boolean('stockgs-panelbtn-click-only')) {
                 this.panel.menuManager._oldChangeMenu(menu);
             }
         };
@@ -174,10 +173,10 @@ var dtpPanelWrapper = Utils.defineClass({
 
         this.container.insert_child_above(this.taskbar.actor, null);
         
-        this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
-        this._setAppmenuVisible(this._dtpSettings.get_boolean('show-appmenu'));
-        this._setClockLocation(this._dtpSettings.get_string('location-clock'));
-        this._displayShowDesktopButton(this._dtpSettings.get_boolean('show-showdesktop-button'));
+        this._setActivitiesButtonVisible(Me.settings.get_boolean('show-activities-button'));
+        this._setAppmenuVisible(Me.settings.get_boolean('show-appmenu'));
+        this._setClockLocation(Me.settings.get_string('location-clock'));
+        this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'));
         
         this.panel.actor.add_style_class_name('dashtopanelMainPanel');
 
@@ -234,13 +233,13 @@ var dtpPanelWrapper = Utils.defineClass({
                 this.panel._rightBox,
                 'actor-added',
                 Lang.bind(this, function() {
-                    this._setClockLocation(this._dtpSettings.get_string('location-clock'));
+                    this._setClockLocation(Me.settings.get_string('location-clock'));
                 })
             ],
             [
                 this.panel._centerBox,
                 'actor-added',
-                () => this._setClockLocation(this._dtpSettings.get_string('location-clock'))
+                () => this._setClockLocation(Me.settings.get_string('location-clock'))
             ],
             [
                 this.panel.actor,
@@ -323,7 +322,7 @@ var dtpPanelWrapper = Utils.defineClass({
         }
 
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
-            this._dtpSettings.disconnect(this._dtpSettingsSignalIds[i]);
+            Me.settings.disconnect(this._dtpSettingsSignalIds[i]);
         }
 
         this._removeTopLimit();
@@ -392,36 +391,36 @@ var dtpPanelWrapper = Utils.defineClass({
 
     _bindSettingsChanges: function() {
         this._dtpSettingsSignalIds = [
-            this._dtpSettings.connect('changed::panel-size', Lang.bind(this, function() {
+            Me.settings.connect('changed::panel-size', Lang.bind(this, function() {
                 this._setPanelPosition();
                 this.taskbar.resetAppIcons();
             })),
 
-            this._dtpSettings.connect('changed::appicon-margin', Lang.bind(this, function() {
+            Me.settings.connect('changed::appicon-margin', Lang.bind(this, function() {
                 this.taskbar.resetAppIcons();
             })),
 
-            this._dtpSettings.connect('changed::appicon-padding', Lang.bind(this, function() {
+            Me.settings.connect('changed::appicon-padding', Lang.bind(this, function() {
                 this.taskbar.resetAppIcons();
             })),
 
-            this._dtpSettings.connect('changed::show-activities-button', Lang.bind(this, function() {
-                this._setActivitiesButtonVisible(this._dtpSettings.get_boolean('show-activities-button'));
+            Me.settings.connect('changed::show-activities-button', Lang.bind(this, function() {
+                this._setActivitiesButtonVisible(Me.settings.get_boolean('show-activities-button'));
             })),
             
-            this._dtpSettings.connect('changed::show-appmenu', Lang.bind(this, function() {
-                this._setAppmenuVisible(this._dtpSettings.get_boolean('show-appmenu'));
+            Me.settings.connect('changed::show-appmenu', Lang.bind(this, function() {
+                this._setAppmenuVisible(Me.settings.get_boolean('show-appmenu'));
             })),
 
-            this._dtpSettings.connect('changed::location-clock', Lang.bind(this, function() {
-                this._setClockLocation(this._dtpSettings.get_string('location-clock'));
+            Me.settings.connect('changed::location-clock', Lang.bind(this, function() {
+                this._setClockLocation(Me.settings.get_string('location-clock'));
             })),
 
-            this._dtpSettings.connect('changed::show-showdesktop-button', Lang.bind(this, function() {
-                this._displayShowDesktopButton(this._dtpSettings.get_boolean('show-showdesktop-button'));
+            Me.settings.connect('changed::show-showdesktop-button', Lang.bind(this, function() {
+                this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'));
             })),
 
-            this._dtpSettings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonWidth())
+            Me.settings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonWidth())
         ];
     },
 
@@ -446,7 +445,7 @@ var dtpPanelWrapper = Utils.defineClass({
         let [centerMinWidth, centerNaturalWidth] = this.panel._centerBox.get_preferred_width(-1);
         let [rightMinWidth, rightNaturalWidth] = this.panel._rightBox.get_preferred_width(-1);
         
-        let taskbarPosition = this._dtpSettings.get_string('taskbar-position');
+        let taskbarPosition = Me.settings.get_string('taskbar-position');
 
         // The _rightBox is always allocated the same, regardless of taskbar position setting
         let rightAllocWidth = rightNaturalWidth;
@@ -534,7 +533,7 @@ var dtpPanelWrapper = Utils.defineClass({
 
     _setPanelPosition: function() {
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        let size = this._dtpSettings.get_int('panel-size');
+        let size = Me.settings.get_int('panel-size');
         let container = this.intellihide && this.intellihide.enabled ? this.panelBox.get_parent() : this.panelBox;
         
         if(scaleFactor)
@@ -602,7 +601,7 @@ var dtpPanelWrapper = Utils.defineClass({
         }
 
         if (isVisible && this.appMenu) {
-            let taskbarPosition = this._dtpSettings.get_string('taskbar-position');
+            let taskbarPosition = Me.settings.get_string('taskbar-position');
             if (taskbarPosition == 'CENTEREDCONTENT' || taskbarPosition == 'CENTEREDMONITOR') {
                 this.panel._leftBox.insert_child_above(this.appMenu.container, null);
             } else {
@@ -661,8 +660,8 @@ var dtpPanelWrapper = Utils.defineClass({
             this._showDesktopButton.connect('enter-event', Lang.bind(this, function(){
                 this._showDesktopButton.add_style_class_name('showdesktop-button-hovered');
 
-                if (this._dtpSettings.get_boolean('show-showdesktop-hover')) {
-                    this._showDesktopTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('show-showdesktop-delay'), () => {
+                if (Me.settings.get_boolean('show-showdesktop-hover')) {
+                    this._showDesktopTimeoutId = Mainloop.timeout_add(Me.settings.get_int('show-showdesktop-delay'), () => {
                         this._hiddenDesktopWorkspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
                         this._toggleWorkspaceWindows(true, this._hiddenDesktopWorkspace);
                         this._showDesktopTimeoutId = 0;
@@ -673,7 +672,7 @@ var dtpPanelWrapper = Utils.defineClass({
             this._showDesktopButton.connect('leave-event', Lang.bind(this, function(){
                 this._showDesktopButton.remove_style_class_name('showdesktop-button-hovered');
 
-                if (this._dtpSettings.get_boolean('show-showdesktop-hover')) {
+                if (Me.settings.get_boolean('show-showdesktop-hover')) {
                     if (this._showDesktopTimeoutId) {
                         Mainloop.source_remove(this._showDesktopTimeoutId);
                         this._showDesktopTimeoutId = 0;
@@ -696,7 +695,7 @@ var dtpPanelWrapper = Utils.defineClass({
 
     _setShowDesktopButtonWidth: function() {
         if (this._showDesktopButton) {
-            this._showDesktopButton.set_style('width: ' + this._dtpSettings.get_int('showdesktop-button-width') + 'px;');
+            this._showDesktopButton.set_style('width: ' + Me.settings.get_int('showdesktop-button-width') + 'px;');
         }
     },
 
@@ -704,7 +703,7 @@ var dtpPanelWrapper = Utils.defineClass({
         workspace.list_windows().forEach(w => 
             Tweener.addTween(w.get_compositor_private(), {
                 opacity: hide ? 0 : 255,
-                time: this._dtpSettings.get_int('show-showdesktop-time') * .001,
+                time: Me.settings.get_int('show-showdesktop-time') * .001,
                 transition: 'easeOutQuad'
             })
         );
@@ -753,11 +752,11 @@ var dtpPanelWrapper = Utils.defineClass({
     },
 
     _onPanelMouseScroll: function(actor, event) {
-        let scrollAction = this._dtpSettings.get_string('scroll-panel-action');
+        let scrollAction = Me.settings.get_string('scroll-panel-action');
         let direction = Utils.getMouseScrollDirection(event);
 
         if (!event.get_source()._dtpIgnoreScroll && direction && !this._scrollPanelDelayTimeoutId) {
-            this._scrollPanelDelayTimeoutId = Mainloop.timeout_add(this._dtpSettings.get_int('scroll-panel-delay'), () => {
+            this._scrollPanelDelayTimeoutId = Mainloop.timeout_add(Me.settings.get_int('scroll-panel-delay'), () => {
                 this._scrollPanelDelayTimeoutId = 0;
             });
 
@@ -784,7 +783,7 @@ var dtpSecondaryPanel = Utils.defineClass({
     _init: function(settings, monitor) {
         this.callParent('_init', { name: 'panel', reactive: true });
         
-        this._dtpSettings = settings;
+        Me.settings = settings;
        
         this.actor = this;
         this._sessionStyle = null;
@@ -844,11 +843,11 @@ var dtpSecondaryPanel = Utils.defineClass({
     
     _setPanelMenu: function(settingName, propName, constr, container, isInit) {
         if (isInit) {
-            this._panelMenuSignalIds.push(this._dtpSettings.connect(
+            this._panelMenuSignalIds.push(Me.settings.connect(
                 'changed::' + settingName, () => this._setPanelMenu(settingName, propName, constr, container)));
         }
         
-        if (!this._dtpSettings.get_boolean(settingName)) {
+        if (!Me.settings.get_boolean(settingName)) {
             this._removePanelMenu(propName);
         } else if (!this.statusArea[propName]) {
             this.statusArea[propName] = new constr();
@@ -874,7 +873,7 @@ var dtpSecondaryPanel = Utils.defineClass({
     _onDestroy: function() {
 	    Main.ctrlAltTabManager.removeGroup(this);
         
-        this._panelMenuSignalIds.forEach(id => this._dtpSettings.disconnect(id));
+        this._panelMenuSignalIds.forEach(id => Me.settings.disconnect(id));
         
         this._removePanelMenu('dateMenu');
         this._removePanelMenu('aggregateMenu');

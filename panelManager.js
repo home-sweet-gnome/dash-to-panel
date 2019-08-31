@@ -52,16 +52,14 @@ const WorkspacesView = imports.ui.workspacesView;
 var dtpPanelManager = Utils.defineClass({
     Name: 'DashToPanel.PanelManager',
 
-    _init: function(settings) {
-        this._dtpSettings = settings;
-        Taskbar.dtpSettings = settings;
-        this.overview = new Overview.dtpOverview(settings);
+    _init: function() {
+        this.overview = new Overview.dtpOverview();
 
         Main.overview.viewSelector.appDisplay._views.forEach(v => Utils.wrapActor(v.view._grid));
     },
 
     enable: function(reset) {
-        let dtpPrimaryIndex = this._dtpSettings.get_int('primary-monitor');
+        let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
         if(dtpPrimaryIndex < 0 || dtpPrimaryIndex >= Main.layoutManager.monitors.length)
             dtpPrimaryIndex = Main.layoutManager.primaryIndex;
         
@@ -75,7 +73,7 @@ var dtpPanelManager = Utils.defineClass({
         
         this.overview.enable(this.primaryPanel);
 
-        if (this._dtpSettings.get_boolean('multi-monitors')) {
+        if (Me.settings.get_boolean('multi-monitors')) {
             Main.layoutManager.monitors.forEach(monitor => {
                 if (monitor == dtpPrimaryMonitor)
                     return;
@@ -83,7 +81,7 @@ var dtpPanelManager = Utils.defineClass({
                 let panelBox = new St.BoxLayout({ name: 'panelBox', vertical: true });
                 Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
 
-                let panel = new Panel.dtpSecondaryPanel(this._dtpSettings, monitor);
+                let panel = new Panel.dtpSecondaryPanel(Me.settings, monitor);
                 panelBox.add(panel.actor);
                 
                 let panelWrapper = new Panel.dtpPanelWrapper(this, monitor, panel, panelBox, true);
@@ -135,7 +133,7 @@ var dtpPanelManager = Utils.defineClass({
         Main.layoutManager._updatePanelBarrier = (panel) => {
             let panelUpdates = panel ? [panel] : this.allPanels;
 
-            panelUpdates.forEach(p => newUpdatePanelBarrier.call(Main.layoutManager, p, this._dtpSettings));
+            panelUpdates.forEach(p => newUpdatePanelBarrier.call(Main.layoutManager, p, Me.settings));
         };
         Main.layoutManager._updatePanelBarrier();
 
@@ -168,7 +166,7 @@ var dtpPanelManager = Utils.defineClass({
 
         this._signalsHandler.add(
             [
-                this._dtpSettings,
+                Me.settings,
                 [
                     'changed::primary-monitor',
                     'changed::multi-monitors',
@@ -179,7 +177,7 @@ var dtpPanelManager = Utils.defineClass({
                 () => this._reset()
             ],
             [
-                this._dtpSettings,
+                Me.settings,
                 'changed::intellihide-key-toggle-text',
                 () => this._setKeyBindings(true)
             ],
@@ -295,9 +293,9 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     _getBoxPointerPreferredHeight: function(boxPointer, alloc, monitor) {
-        if (boxPointer._dtpInPanel && boxPointer.sourceActor && this._dtpSettings.get_boolean('intellihide')) {
+        if (boxPointer._dtpInPanel && boxPointer.sourceActor && Me.settings.get_boolean('intellihide')) {
             monitor = monitor || Main.layoutManager.findMonitorForActor(boxPointer.sourceActor);
-            let excess = alloc.natural_size + this._dtpSettings.get_int('panel-size') + 10 - monitor.height; // 10 is arbitrary
+            let excess = alloc.natural_size + Me.settings.get_int('panel-size') + 10 - monitor.height; // 10 is arbitrary
 
             if (excess > 0) {
                 alloc.natural_size -= excess;
@@ -347,7 +345,7 @@ var dtpPanelManager = Utils.defineClass({
             Utils.removeKeybinding(k);
 
             if (enable) {
-                Utils.addKeybinding(k, this._dtpSettings, keys[k], Shell.ActionMode.NORMAL);
+                Utils.addKeybinding(k, Me.settings, keys[k], Shell.ActionMode.NORMAL);
             }
         });
     },
@@ -441,7 +439,7 @@ function newViewSelectorAnimateIn(oldPage) {
     if (vs._activePage == vs._appsPage && oldPage == vs._workspacesPage) {
         // Restore opacity, in case we animated via _fadePageOut
         vs._activePage.opacity = 255;
-        let animate = this._dtpSettings.get_boolean('animate-show-apps');
+        let animate = Me.settings.get_boolean('animate-show-apps');
         if(animate)
             vs.appDisplay.animate(IconGrid.AnimationDirection.IN);
     } else {
@@ -457,7 +455,7 @@ function newViewSelectorAnimateOut(page) {
     if (page == vs._appsPage &&
         vs._activePage == vs._workspacesPage &&
         !Main.overview.animationInProgress) {
-        let animate = this._dtpSettings.get_boolean('animate-show-apps');
+        let animate = Me.settings.get_boolean('animate-show-apps');
         if(animate)
             vs.appDisplay.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this,
                 function() {

@@ -35,8 +35,8 @@ const Utils = Me.imports.utils;
 var dtpPanelStyle = Utils.defineClass({
     Name: 'DashToPanel.PanelStyle',
 
-    _init: function(settings) {
-        this._dtpSettings = settings;
+    _init: function() {
+
     },
 
     enable : function(panel) {
@@ -49,7 +49,7 @@ var dtpPanelStyle = Utils.defineClass({
 
     disable: function () {
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
-            this._dtpSettings.disconnect(this._dtpSettingsSignalIds[i]);
+            Me.settings.disconnect(this._dtpSettingsSignalIds[i]);
         }
 
         this._removeStyles();
@@ -67,7 +67,7 @@ var dtpPanelStyle = Utils.defineClass({
         this._dtpSettingsSignalIds = [];
         
         for(let i in configKeys) {
-            this._dtpSettingsSignalIds.push(this._dtpSettings.connect('changed::' + configKeys[i], Lang.bind(this, function () {
+            this._dtpSettingsSignalIds.push(Me.settings.connect('changed::' + configKeys[i], Lang.bind(this, function () {
                 this._removeStyles();
                 this._applyStyles();
             })));
@@ -77,7 +77,7 @@ var dtpPanelStyle = Utils.defineClass({
     _applyStyles: function() {
         this._rightBoxOperations = [];
         
-        let trayPadding = this._dtpSettings.get_int('tray-padding');
+        let trayPadding = Me.settings.get_int('tray-padding');
         if(trayPadding >= 0) {
             let trayPaddingStyleLine = '-natural-hpadding: %dpx'.format(trayPadding);
             if (trayPadding < 6) {
@@ -93,7 +93,7 @@ var dtpPanelStyle = Utils.defineClass({
             this._rightBoxOperations.push(operation);
         }
 
-        let statusIconPadding = this._dtpSettings.get_int('status-icon-padding');
+        let statusIconPadding = Me.settings.get_int('status-icon-padding');
         if(statusIconPadding >= 0) {
             let statusIconPaddingStyleLine = 'padding-left: %dpx; padding-right: %dpx'.format(statusIconPadding, statusIconPadding)
             let operation = {};
@@ -106,7 +106,7 @@ var dtpPanelStyle = Utils.defineClass({
             this._rightBoxOperations.push(operation);
         }
 
-        let trayContentSize = this._dtpSettings.get_int('tray-size');
+        let trayContentSize = Me.settings.get_int('tray-size');
         if(trayContentSize > 0) {
             let trayIconSizeStyleLine = 'icon-size: %dpx'.format(trayContentSize)
             let operation = {};
@@ -137,7 +137,7 @@ var dtpPanelStyle = Utils.defineClass({
 
         this._leftBoxOperations = [];
 
-        let leftboxPadding = this._dtpSettings.get_int('leftbox-padding');
+        let leftboxPadding = Me.settings.get_int('leftbox-padding');
         if(leftboxPadding >= 0) {
             let leftboxPaddingStyleLine = '-natural-hpadding: %dpx'.format(leftboxPadding);
             if (leftboxPadding < 6) {
@@ -153,7 +153,7 @@ var dtpPanelStyle = Utils.defineClass({
             this._leftBoxOperations.push(operation);
         }
 
-        let leftboxContentSize = this._dtpSettings.get_int('leftbox-size');
+        let leftboxContentSize = Me.settings.get_int('leftbox-size');
         if(leftboxContentSize > 0) {
             let leftboxIconSizeStyleLine = 'icon-size: %dpx'.format(leftboxContentSize)
             let operation = {};

@@ -54,7 +54,6 @@ var Intellihide = Utils.defineClass({
 
     _init: function(dtpPanel) {
         this._dtpPanel = dtpPanel;
-        this._dtpSettings = dtpPanel._dtpSettings;
         this._panelBox = dtpPanel.panelBox;
         this._panelManager = dtpPanel.panelManager;
         this._proximityManager = this._panelManager.proximityManager;
@@ -63,8 +62,8 @@ var Intellihide = Utils.defineClass({
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._timeoutsHandler = new Utils.TimeoutsHandler();
 
-        this._intellihideChangedId = this._dtpSettings.connect('changed::intellihide', () => this._changeEnabledStatus());
-        this._intellihideOnlySecondaryChangedId = this._dtpSettings.connect('changed::intellihide-only-secondary', () => this._changeEnabledStatus());
+        this._intellihideChangedId = Me.settings.connect('changed::intellihide', () => this._changeEnabledStatus());
+        this._intellihideOnlySecondaryChangedId = Me.settings.connect('changed::intellihide-only-secondary', () => this._changeEnabledStatus());
 
         this.enabled = false;
         this._changeEnabledStatus();
@@ -77,7 +76,7 @@ var Intellihide = Utils.defineClass({
         this._pendingUpdate = false;
         this._hoveredOut = false;
         this._windowOverlap = false;
-        this._panelAtTop = this._dtpSettings.get_string('panel-position') === 'TOP';
+        this._panelAtTop = Me.settings.get_string('panel-position') === 'TOP';
 
         if (this._panelAtTop && this._panelBox.translation_y > 0 || 
             !this._panelAtTop && this._panelBox.translation_y < 0) {
@@ -88,10 +87,10 @@ var Intellihide = Utils.defineClass({
         this._setTrackPanel(reset, true);
         this._bindGeneralSignals();
 
-        if (this._dtpSettings.get_boolean('intellihide-hide-from-windows')) {
+        if (Me.settings.get_boolean('intellihide-hide-from-windows')) {
             this._proximityWatchId = this._proximityManager.createWatch(
                 this._clipContainer, 
-                Proximity.Mode[this._dtpSettings.get_string('intellihide-behaviour')], 
+                Proximity.Mode[Me.settings.get_string('intellihide-behaviour')], 
                 0, 0,
                 overlap => { 
                     this._windowOverlap = overlap;
@@ -122,8 +121,8 @@ var Intellihide = Utils.defineClass({
     },
 
     destroy: function() {
-        this._dtpSettings.disconnect(this._intellihideChangedId);
-        this._dtpSettings.disconnect(this._intellihideOnlySecondaryChangedId);
+        Me.settings.disconnect(this._intellihideChangedId);
+        Me.settings.disconnect(this._intellihideOnlySecondaryChangedId);
         
         if (this.enabled) {
             this.disable();
@@ -156,8 +155,8 @@ var Intellihide = Utils.defineClass({
     },
 
     _changeEnabledStatus: function() {
-        let intellihide = this._dtpSettings.get_boolean('intellihide');
-        let onlySecondary = this._dtpSettings.get_boolean('intellihide-only-secondary');
+        let intellihide = Me.settings.get_boolean('intellihide');
+        let onlySecondary = Me.settings.get_boolean('intellihide-only-secondary');
         let enabled = intellihide && (this._dtpPanel.isSecondary || !onlySecondary);
 
         if (this.enabled !== enabled) {
@@ -173,7 +172,7 @@ var Intellihide = Utils.defineClass({
                 () => this._panelBox.sync_hover()
             ],
             [
-                this._dtpSettings, 
+                Me.settings, 
                 [
                     'changed::panel-position',
                     'changed::panel-size',
@@ -244,11 +243,11 @@ var Intellihide = Utils.defineClass({
     },
 
     _setRevealMechanism: function() {
-        if (global.display.supports_extended_barriers() && this._dtpSettings.get_boolean('intellihide-use-pressure')) {
+        if (global.display.supports_extended_barriers() && Me.settings.get_boolean('intellihide-use-pressure')) {
             this._edgeBarrier = this._createBarrier();
             this._pressureBarrier = new Layout.PressureBarrier(
-                this._dtpSettings.get_int('intellihide-pressure-threshold'), 
-                this._dtpSettings.get_int('intellihide-pressure-time'), 
+                Me.settings.get_int('intellihide-pressure-threshold'), 
+                Me.settings.get_int('intellihide-pressure-time'), 
                 Shell.ActionMode.NORMAL
             );
             this._pressureBarrier.addBarrier(this._edgeBarrier);
@@ -331,13 +330,13 @@ var Intellihide = Utils.defineClass({
             
             //the user is trying to reveal the panel
             if (this._monitor.inFullscreen && !mouseBtnIsPressed) {
-                return this._dtpSettings.get_boolean('intellihide-show-in-fullscreen');
+                return Me.settings.get_boolean('intellihide-show-in-fullscreen');
             }
 
             return !mouseBtnIsPressed;
         }
 
-        if (!this._dtpSettings.get_boolean('intellihide-hide-from-windows')) {
+        if (!Me.settings.get_boolean('intellihide-hide-from-windows')) {
             return this._panelBox.hover;
         }
 
@@ -384,9 +383,9 @@ var Intellihide = Utils.defineClass({
                     //when entering/leaving the overview, use its animation time instead of the one from the settings
                     time: Main.overview.visible ? 
                           OverviewControls.SIDE_CONTROLS_ANIMATION_TIME :
-                          this._dtpSettings.get_int('intellihide-animation-time') * 0.001,
+                          Me.settings.get_int('intellihide-animation-time') * 0.001,
                     //only delay the animation when hiding the panel after the user hovered out
-                    delay: destination != 0 && this._hoveredOut ? this._dtpSettings.get_int('intellihide-close-delay') * 0.001 : 0,
+                    delay: destination != 0 && this._hoveredOut ? Me.settings.get_int('intellihide-close-delay') * 0.001 : 0,
                     transition: 'easeOutQuad',
                     onComplete: () => {
                         this._invokeIfExists(onComplete);

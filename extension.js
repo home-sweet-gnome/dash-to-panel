@@ -38,7 +38,6 @@ const Utils = Me.imports.utils;
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
 let panelManager;
-let settings;
 let oldDash;
 let extensionChangedHandler;
 let disabledUbuntuDock;
@@ -86,8 +85,8 @@ function _enable() {
 
     if (panelManager) return; //already initialized
 
-    settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
-    panelManager = new PanelManager.dtpPanelManager(settings);
+    Me.settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
+    panelManager = new PanelManager.dtpPanelManager();
     panelManager.enable();
     
     Utils.removeKeybinding('open-application-menu');
@@ -112,9 +111,9 @@ function _enable() {
 function disable(reset) {
     panelManager.disable();
     Main.overview._dash = oldDash;
-    settings.run_dispose();
+    Me.settings.run_dispose();
 
-    settings = null;
+    delete Me.settings;
     oldDash = null;
     panelManager = null;
     
