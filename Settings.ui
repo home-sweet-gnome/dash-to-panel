@@ -7623,7 +7623,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_bottom">12</property>
-                            <property name="label" translatable="yes">&lt;span weight="bold" color="#B42B30"&gt;Be aware, these releases might be unreviewed!&lt;/span&gt;  &lt;a href="https://extensions.gnome.org/about/"&gt;Read more&lt;/a&gt;</property>
+                            <property name="label" translatable="yes">&lt;span weight="bold" color="#B42B30"&gt;Be aware, these official Dash to Panel releases might not be reviewed yet on extensions.gnome.org!&lt;/span&gt;  &lt;a href="https://extensions.gnome.org/about/"&gt;Read more&lt;/a&gt;</property>
                             <property name="use_markup">True</property>
                             <property name="wrap">True</property>
                             <property name="xalign">0</property>
