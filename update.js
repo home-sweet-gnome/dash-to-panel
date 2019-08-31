@@ -53,7 +53,7 @@ function checkForUpdate(settings, fromSettings) {
             
             let latestVersion = latestRelease.tag.substring(1);
             
-            if (Me.metadata.version < latestVersion) {
+            if (Me.metadata.version < latestVersion && latestRelease.zipUrl) {
                 notify(
                     _('Version %s (%s) is available').format(latestVersion, latestRelease.name),
                     [{ text: _('Details'), func: () => imports.misc.util.spawn(['xdg-open', latestRelease.url]) },
@@ -86,7 +86,7 @@ function getReleaseInfo(suffix, cb) {
                 name: release.name, 
                 tag: release.tag_name,
                 url: release.html_url,
-                zipUrl: (release.assets.length ? release.assets[0].browser_download_url : ''),
+                zipUrl: (release.assets.length ? release.assets[0].browser_download_url : 0),
             };
 
             cb(null, releaseInfo);
