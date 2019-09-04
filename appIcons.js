@@ -131,7 +131,7 @@ var taskbarAppIcon = Utils.defineClass({
 
         this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
-        this._dtpIconContainer = new St.Widget({ style: 'padding: ' + (Taskbar.checkIfVertical() ? '4px 0' : '0 4px'), layout_manager: new Clutter.BinLayout()});
+        this._dtpIconContainer = new St.Widget({ style: 'padding: ' + (Taskbar.checkIfVertical() ? '4px' : '0 4px'), layout_manager: new Clutter.BinLayout()});
 
         this.actor.remove_actor(this._iconContainer);
         

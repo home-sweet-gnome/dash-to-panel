@@ -84,8 +84,10 @@ var PreviewMenu = Utils.defineClass({
             layout_manager: new Clutter.BinLayout(), 
             reactive: true, 
             track_hover: true,
+            x_expand: true, 
             y_expand: true, 
-            y_align: Clutter.ActorAlign[this._translationDirection > 0 ? 'END' : 'START']
+            x_align: Clutter.ActorAlign[this._position != St.Side.RIGHT ? 'START' : 'END'],
+            y_align: Clutter.ActorAlign[this._position != St.Side.BOTTOM ? 'START' : 'END']
         });
         this._box = new St.BoxLayout({ vertical: this.isLeftOrRight });
         this._scrollView = new St.ScrollView({
@@ -93,8 +95,7 @@ var PreviewMenu = Utils.defineClass({
             hscrollbar_policy: Gtk.PolicyType.NEVER,
             vscrollbar_policy: Gtk.PolicyType.NEVER,
             enable_mouse_scrolling: true,
-            y_expand: !this.isLeftOrRight, 
-            x_expand: this.isLeftOrRight
+            y_expand: !this.isLeftOrRight
         });
 
         this._scrollView.add_actor(this._box);

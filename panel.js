@@ -555,7 +555,7 @@ var dtpPanelWrapper = Utils.defineClass({
             size = size*scaleFactor;
 
         let position = Taskbar.getPosition();
-        let isLeftOrRight = position == St.Side.LEFT || position == St.Side.LEFT;
+        let isLeftOrRight = position == St.Side.LEFT || position == St.Side.RIGHT;
         let isTop = position == St.Side.TOP;
 
         this.panel.actor.set_size(isLeftOrRight ? size : -1, isLeftOrRight ? -1 : size);
@@ -597,11 +597,13 @@ var dtpPanelWrapper = Utils.defineClass({
     },
 
     _setVertical: function(actor, isVertical) {
-        if ('vertical' in actor) {
-            actor.vertical = isVertical;
-        }
+        if (actor) {
+            if ('vertical' in actor) {
+                actor.vertical = isVertical;
+            }
 
-        actor.get_children().forEach(c => this._setVertical(c, isVertical));
+            actor.get_children().forEach(c => this._setVertical(c, isVertical));
+        }
     },
 
     _removeTopLimit: function() {

@@ -44,6 +44,7 @@ const St = imports.gi.St;
 const BoxPointer = imports.ui.boxpointer;
 const Dash = imports.ui.dash;
 const IconGrid = imports.ui.iconGrid;
+const LookingGlass = imports.ui.lookingGlass;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Layout = imports.ui.layout;
@@ -78,7 +79,7 @@ var dtpPanelManager = Utils.defineClass({
                 if (monitor == dtpPrimaryMonitor)
                     return;
 
-                let panelBox = new St.BoxLayout({ name: 'panelBox', vertical: true });
+                let panelBox = new St.BoxLayout({ name: 'panelBox' });
                 Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
 
                 let panel = new Panel.dtpSecondaryPanel(Me.settings, monitor);
@@ -133,12 +134,16 @@ var dtpPanelManager = Utils.defineClass({
         Main.layoutManager._updatePanelBarrier = (panel) => {
             let panelUpdates = panel ? [panel] : this.allPanels;
 
-            panelUpdates.forEach(p => newUpdatePanelBarrier.call(Main.layoutManager, p, Me.settings));
+            panelUpdates.forEach(p => newUpdatePanelBarrier.call(Main.layoutManager, p));
         };
         Main.layoutManager._updatePanelBarrier();
 
         this._oldUpdateHotCorners = Main.layoutManager._updateHotCorners;
         Main.layoutManager._updateHotCorners = Lang.bind(Main.layoutManager, newUpdateHotCorners);
+
+        Layout.HotCorner.prototype._oldSetBarrierSize = Layout.HotCorner.prototype.setBarrierSize;
+        Layout.HotCorner.prototype.setBarrierSize = newSetBarrierSize;
+
         Main.layoutManager._updateHotCorners();
 
         this._oldOverviewRelayout = Main.overview._relayout;
@@ -150,6 +155,9 @@ var dtpPanelManager = Utils.defineClass({
         this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
         
+        LookingGlass.LookingGlass.prototype._oldResize = LookingGlass.LookingGlass.prototype._resize;
+        LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize;
+
         this._needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');
 
         if (this._needsDashItemContainerAllocate) {
@@ -229,6 +237,9 @@ var dtpPanelManager = Utils.defineClass({
 
         this._signalsHandler.destroy();
 
+        Layout.HotCorner.prototype.setBarrierSize = Layout.HotCorner.prototype._oldSetBarrierSize;
+        delete Layout.HotCorner.prototype._oldSetBarrierSize;
+
         Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
         Main.layoutManager._updateHotCorners();
 
@@ -243,6 +254,9 @@ var dtpPanelManager = Utils.defineClass({
 
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
         Main.overview.getShowAppsButton = this._oldGetShowAppsButton;
+
+        LookingGlass.LookingGlass.prototype._resize = LookingGlass.LookingGlass.prototype._oldResize;
+        delete LookingGlass.LookingGlass.prototype._oldResize;
 
         if (Main.layoutManager.primaryMonitor) {
             Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
@@ -329,6 +343,7 @@ var dtpPanelManager = Utils.defineClass({
 
         if (panel._leftPanelBarrier) {
             panel._leftPanelBarrier.destroy();
+            delete panel._leftPanelBarrier;
         }
     },
 
@@ -498,7 +513,7 @@ function newUpdateHotCorners() {
         // a top left panel. Otherwise, it stops the mouse as you are dragging across
         // In the future, maybe we will automatically move the hotcorner to the bottom
         // when the panel is positioned at the bottom
-        if (i != this.primaryIndex || panelPosition == St.Side.BOTTOM) {
+        if (i != this.primaryIndex || panelPosition == St.Side.BOTTOM || panelPosition == St.Side.RIGHT) {
             // Check if we have a top left (right for RTL) corner.
             // I.e. if there is no monitor directly above or to the left(right)
             let besideX = this._rtl ? monitor.x + 1 : cornerX - 1;
@@ -539,10 +554,17 @@ function newUpdateHotCorners() {
     this.emit('hot-corners-changed');
 }
 
-function newUpdatePanelBarrier(panel, dtpSettings) {
+function newSetBarrierSize(size) {
+    //the hotcorner sizes are re-applied when the panelbox allocation changes and
+    //the used size is the panelbox height. To prevent giant barriers when the panelbox
+    //is vertical, set a max size here
+    this._oldSetBarrierSize(Math.min(size, 32));
+}
+
+function newUpdatePanelBarrier(panel) {
     let barriers = {
-        '_rightPanelBarrier': [(panel.isSecondary ? panel : this), panel.monitor.x + panel.monitor.width, Meta.BarrierDirection.NEGATIVE_X],
-        '_leftPanelBarrier': [panel, panel.monitor.x, Meta.BarrierDirection.POSITIVE_X]
+        _rightPanelBarrier: [(panel.isSecondary ? panel : this)],
+        _leftPanelBarrier: [panel]
     };
 
     Object.keys(barriers).forEach(k => {
@@ -558,15 +580,67 @@ function newUpdatePanelBarrier(panel, dtpSettings) {
         return;
     }
 
-    let barrierHeight = Math.min(10, panel.panelBox.height); 
-    let isTop = dtpSettings.get_string('panel-position') === 'TOP';
-    let y1 = isTop ? panel.monitor.y : panel.monitor.y + panel.monitor.height - barrierHeight;
-    let y2 = isTop ? panel.monitor.y + barrierHeight : panel.monitor.y + panel.monitor.height;
+    let barrierSize = Math.min(10, panel.panelBox.height); 
+    let fixed1 = panel.monitor.y;
+    let fixed2 = panel.monitor.y + barrierSize;
+    
+    if (Taskbar.checkIfVertical()) {
+        barriers._rightPanelBarrier.push(panel.monitor.y + panel.monitor.height, Meta.BarrierDirection.POSITIVE_Y);
+        barriers._leftPanelBarrier.push(panel.monitor.y, Meta.BarrierDirection.NEGATIVE_Y);
+    } else {
+        barriers._rightPanelBarrier.push(panel.monitor.x + panel.monitor.width, Meta.BarrierDirection.NEGATIVE_X);
+        barriers._leftPanelBarrier.push(panel.monitor.x, Meta.BarrierDirection.POSITIVE_X);
+    }
+
+    switch (Taskbar.getPosition()) {
+        //values are initialized as St.Side.TOP 
+        case St.Side.BOTTOM:
+            fixed1 = panel.monitor.y + panel.monitor.height - barrierSize;
+            fixed2 = panel.monitor.y + panel.monitor.height;
+            break;
+        case St.Side.LEFT:
+            fixed1 = panel.monitor.x;
+            fixed2 = panel.monitor.x + barrierSize;
+            break;
+        case St.Side.RIGHT:
+            fixed1 = panel.monitor.x + panel.monitor.width;
+            fixed2 = panel.monitor.x + panel.monitor.width - barrierSize;
+            break;
+    }
+
+    //remove left barrier if it overlaps one of the hotcorners
+    for (let k in this.hotCorners) {
+        let hc = this.hotCorners[k];
+
+        if (hc && hc._monitor == panel.monitor && 
+            ((fixed1 == hc._x || fixed2 == hc._x) || fixed1 == hc._y || fixed2 == hc._y)) {
+                delete barriers._leftPanelBarrier;
+                break;
+        }
+    }
 
     Object.keys(barriers).forEach(k => {
-        barriers[k][0][k] = new Meta.Barrier({ display: global.display,
-                                               x1: barriers[k][1], y1: y1,
-                                               x2: barriers[k][1], y2: y2,
-                                               directions: barriers[k][2] });
+        let barrierOptions = { 
+            display: global.display,
+            directions: barriers[k][2]
+        };
+        
+        barrierOptions[Panel.varCoord.c1] = barrierOptions[Panel.varCoord.c2] = barriers[k][1];
+        barrierOptions[Panel.fixedCoord.c1] = fixed1;
+        barrierOptions[Panel.fixedCoord.c2] = fixed2;
+
+        barriers[k][0][k] = new Meta.Barrier(barrierOptions);
     });
+}
+
+function _newLookingGlassResize() {
+    this._oldResize();
+    
+    if (Taskbar.checkIfVertical()) {
+        this._hiddenY = Main.layoutManager.primaryMonitor.y + 40 - this.actor.height;
+        this._targetY = this._hiddenY + this.actor.height;
+        this.actor.y = this._hiddenY;
+
+        this._objInspector.actor.set_position(this.actor.x + Math.floor(this.actor.width * 0.1), this._targetY + Math.floor(this.actor.height * 0.1));
+    }
 }
