@@ -61,6 +61,30 @@ var sizeFunc;
 var fixedCoord;
 var varCoord;
 
+function getPosition() {
+    let position = Me.settings.get_string('panel-position');
+    
+    if (position == 'TOP') {
+        return St.Side.TOP;
+    } else if (position == 'RIGHT') {
+        return St.Side.RIGHT;
+    } else if (position == 'BOTTOM') {
+        return St.Side.BOTTOM;
+    }
+    
+    return St.Side.LEFT;
+}
+
+function checkIfVertical() {
+    let position = getPosition();
+
+    return (position == St.Side.LEFT || position == St.Side.RIGHT);
+}
+
+function getOrientation() {
+    return (checkIfVertical() ? 'vertical' : 'horizontal');
+}
+
 var dtpPanelWrapper = Utils.defineClass({
     Name: 'DashToPanel.PanelWrapper',
 
@@ -77,7 +101,7 @@ var dtpPanelWrapper = Utils.defineClass({
         Utils.wrapActor(this.panel.statusArea.activities || 0);
 
         if (!isSecondary) {
-            if (Taskbar.checkIfVertical()) {
+            if (checkIfVertical()) {
                 sizeFunc = 'get_preferred_height',
                 fixedCoord = { c1: 'x1', c2: 'x2' },
                 varCoord = { c1: 'y1', c2: 'y2' };
@@ -101,6 +125,8 @@ var dtpPanelWrapper = Utils.defineClass({
         if (this.panel.statusArea.aggregateMenu) {
             this.panel.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll = 1;
         }
+
+        this.geom = this._getGeometry();
         
         this._oldPanelActorDelegate = this.panel.actor._delegate;
         this.panel.actor._delegate = this;
@@ -113,19 +139,10 @@ var dtpPanelWrapper = Utils.defineClass({
         this.panelBox.add(this.panelBg);
 
         this.panelBg.styles = 'border-radius: ' + this.panel.actor.get_theme_node().get_border_radius(0) + 'px;';
-        
-        // The overview uses the this.panel height as a margin by way of a "ghost" transparent Clone
-        // This pushes everything down, which isn't desired when the this.panel is moved to the bottom
-        // I'm adding a 2nd ghost this.panel and will resize the top or bottom ghost depending on the this.panel position
-        this._myPanelGhost = new St.Bin({ 
-            child: new Clutter.Clone({ source: this.panel.actor }),
-            reactive: false,
-            opacity: 0 
-        });
-        Main.overview._overview.add_actor(this._myPanelGhost)
+
         this._adjustForOverview();
 
-        this._setPanelPosition();
+        this._setPanelPosition(true);
         
         this._HeightNotifyListener = this.panelBox.connect("notify::height", Lang.bind(this, function(){
             this._setPanelPosition();
@@ -159,6 +176,30 @@ var dtpPanelWrapper = Utils.defineClass({
         });
 
         if (!this.isSecondary) {
+            // The overview uses the this.panel height as a margin by way of a "ghost" transparent Clone
+            // This pushes everything down, which isn't desired when the this.panel is moved to the bottom
+            // I'm adding a 2nd ghost this.panel and will resize the top or bottom ghost depending on the this.panel position
+            if (this.geom.position != St.Side.TOP) {
+                this._myPanelGhost = new Clutter.Actor({ 
+                    x: this.geom.x,
+                    y: this.geom.y ,
+                    width: this.geom.w,
+                    height: checkIfVertical() ? 1 : this.geom.h, 
+                    reactive: false, 
+                    opacity: 0
+                 });
+
+                if (this.geom.position == St.Side.BOTTOM) {
+                    Main.overview._overview.add_actor(this._myPanelGhost);
+                } else if (this.geom.position == St.Side.LEFT) {
+                    Main.overview._controls._group.insert_child_at_index(this._myPanelGhost, 0);
+                } else {
+                    Main.overview._controls._group.insert_child_above(this._myPanelGhost, null);
+                }
+
+                Main.overview._panelGhost.set_height(0);
+            }
+
             if (this.panel.vfunc_allocate) {
                 this._panelConnectId = 0;
                 Utils.hookVfunc(this.panel.__proto__, 'allocate', (box, flags) => this._vfunc_allocate(box, flags));
@@ -286,7 +327,6 @@ var dtpPanelWrapper = Utils.defineClass({
 
     disable: function () {
         this.panelStyle.disable();
-        Main.overview._overview.remove_actor(this._myPanelGhost);
 
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
@@ -355,7 +395,12 @@ var dtpPanelWrapper = Utils.defineClass({
             this.panel.actor.set_width(-1);
             this._setVertical(this.panel.actor, false);
             
-            Main.overview._panelGhost.set_height(this._oldPanelHeight);
+            Main.overview._panelGhost.set_size(this.monitor.width, this._oldPanelHeight);
+            
+            if (this._myPanelGhost) {
+                this._myPanelGhost.get_parent().remove_actor(this._myPanelGhost);
+            }
+
             this._setActivitiesButtonVisible(true);
             this._setClockLocation("BUTTONSLEFT");
             this._displayShowDesktopButton(false);
@@ -439,6 +484,13 @@ var dtpPanelWrapper = Utils.defineClass({
 
             Me.settings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonWidth())
         ];
+
+        if (checkIfVertical()) {
+            this._dtpSettingsSignalIds.push(
+                Me.settings.connect('changed::group-apps-label-max-width', () => this._resetGeometry()),
+                Me.settings.connect('changed::group-apps', () => this._resetGeometry()),
+            );
+        }
     },
 
     _adjustForOverview: function() {
@@ -447,6 +499,49 @@ var dtpPanelWrapper = Utils.defineClass({
         let isShown = !isOverview || (isOverview && isFocusedMonitor);
 
         this.panelBox[isShown ? 'show' : 'hide']();
+    },
+
+    _resetGeometry: function() {
+        this.geom = this._getGeometry();
+        this._setPanelPosition();
+        this.taskbar.resetAppIcons();
+    },
+
+    _getGeometry: function() {
+        let position = getPosition();
+        let size = Me.settings.get_int('panel-size');
+        let x = 0, y = 0;
+        let w = 0, h = 0;
+
+        if (checkIfVertical()) {
+            if (!Me.settings.get_boolean('group-apps')) {
+                size += Me.settings.get_int('group-apps-label-max-width');
+            }
+
+            w = size;
+            h = this.monitor.height;
+        } else {
+            w = this.monitor.width;
+            h = size;
+        }
+
+        if (position == St.Side.TOP || position == St.Side.LEFT) {
+            x = this.monitor.x;
+            y = this.monitor.y;
+        } else if (position == St.Side.RIGHT) {
+            x = this.monitor.x + this.monitor.width - size;
+            y = this.monitor.y;
+        } else { //BOTTOM
+            x = this.monitor.x; 
+            y = this.monitor.y + this.monitor.height - size;
+        }
+
+        return {
+            x: x, y: y, 
+            w: w, h: h,
+            position: position,
+            size: size * (St.ThemeContext.get_for_stage(global.stage).scale_factor || 1)
+        };
     },
 
     _vfunc_allocate: function(box, flags) {
@@ -546,26 +641,17 @@ var dtpPanelWrapper = Utils.defineClass({
         this.panel._rightCorner.actor.allocate(childBoxRightCorner, flags);
     },
 
-    _setPanelPosition: function() {
-        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        let size = Me.settings.get_int('panel-size');
+    _setPanelPosition: function(verticalize) {
         let container = this.intellihide && this.intellihide.enabled ? this.panelBox.get_parent() : this.panelBox;
-        
-        if(scaleFactor)
-            size = size*scaleFactor;
 
-        let position = Taskbar.getPosition();
-        let isLeftOrRight = position == St.Side.LEFT || position == St.Side.RIGHT;
-        let isTop = position == St.Side.TOP;
+        this.panel.actor.set_size(this.geom.w, this.geom.h);
+        container.set_position(this.geom.x, this.geom.y)
 
-        this.panel.actor.set_size(isLeftOrRight ? size : -1, isLeftOrRight ? -1 : size);
+        if (verticalize) {
+            this._setVertical(this.panel.actor, checkIfVertical());
+        }
 
-        this._setVertical(this.panel.actor, isLeftOrRight);
-
-        Main.overview._panelGhost.set_height(isTop ? size : 0);
-        this._myPanelGhost.set_height(isTop ? 0 : size);
-
-        if (!isTop) {
+        if (this.geom.position == St.Side.TOP) {
             this._removeTopLimit();
         } else {
             if (!this._topLimit) {
@@ -577,19 +663,11 @@ var dtpPanelWrapper = Utils.defineClass({
             this._topLimit.set_size(this.monitor.width, -1);
         }
 
-        if (isTop || position == St.Side.LEFT) {
-            container.set_position(this.monitor.x, this.monitor.y);
-        } else if (position == St.Side.RIGHT) {
-            container.set_position(this.monitor.x + this.monitor.width - container.width, this.monitor.y);
-        } else { //BOTTOM
-            container.set_position(this.monitor.x, this.monitor.y + this.monitor.height - container.height);
-        }
-
         // styles for theming
         Object.keys(St.Side).forEach(p => {
             let cssName = p.charAt(0) + p.slice(1).toLowerCase();
             
-            this.panel.actor[(p == position ? 'add' : 'remove') + '_style_class_name']('dashtopanel' + cssName);
+            this.panel.actor[(p == this.geom.position ? 'add' : 'remove') + '_style_class_name']('dashtopanel' + cssName);
         });
 
         Main.layoutManager._updateHotCorners();

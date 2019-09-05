@@ -96,7 +96,7 @@ var dtpPanelManager = Utils.defineClass({
         global.dashToPanel.panels = this.allPanels;
         global.dashToPanel.emit('panels-created');
 
-        let panelPosition = Taskbar.getPosition();
+        let panelPosition = Panel.getPosition();
         this.allPanels.forEach(p => {
             let leftOrRight = (panelPosition == St.Side.LEFT || panelPosition == St.Side.RIGHT);
             
@@ -201,7 +201,7 @@ var dtpPanelManager = Utils.defineClass({
         );
 
         ['_leftBox', '_centerBox', '_rightBox'].forEach(c => this._signalsHandler.add(
-            [Main.panel[c], 'actor-added', (parent, child) => this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, Taskbar.getPosition())]
+            [Main.panel[c], 'actor-added', (parent, child) => this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, Panel.getPosition())]
         ));
 
         this._setKeyBindings(true);
@@ -499,7 +499,7 @@ function newUpdateHotCorners() {
     }
 
     let size = this.panelBox.height;
-    let panelPosition = Taskbar.getPosition();
+    let panelPosition = Panel.getPosition();
 
     // build new hot corners
     for (let i = 0; i < this.monitors.length; i++) {
@@ -584,7 +584,7 @@ function newUpdatePanelBarrier(panel) {
     let fixed1 = panel.monitor.y;
     let fixed2 = panel.monitor.y + barrierSize;
     
-    if (Taskbar.checkIfVertical()) {
+    if (Panel.checkIfVertical()) {
         barriers._rightPanelBarrier.push(panel.monitor.y + panel.monitor.height, Meta.BarrierDirection.POSITIVE_Y);
         barriers._leftPanelBarrier.push(panel.monitor.y, Meta.BarrierDirection.NEGATIVE_Y);
     } else {
@@ -592,7 +592,7 @@ function newUpdatePanelBarrier(panel) {
         barriers._leftPanelBarrier.push(panel.monitor.x, Meta.BarrierDirection.POSITIVE_X);
     }
 
-    switch (Taskbar.getPosition()) {
+    switch (Panel.getPosition()) {
         //values are initialized as St.Side.TOP 
         case St.Side.BOTTOM:
             fixed1 = panel.monitor.y + panel.monitor.height - barrierSize;
@@ -636,7 +636,7 @@ function newUpdatePanelBarrier(panel) {
 function _newLookingGlassResize() {
     this._oldResize();
     
-    if (Taskbar.checkIfVertical()) {
+    if (Panel.checkIfVertical()) {
         this._hiddenY = Main.layoutManager.primaryMonitor.y + 40 - this.actor.height;
         this._targetY = this._hiddenY + this.actor.height;
         this.actor.y = this._hiddenY;

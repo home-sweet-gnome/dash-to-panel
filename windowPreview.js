@@ -30,6 +30,7 @@ const WindowManager = imports.ui.windowManager;
 const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const Panel = Me.imports.panel;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
@@ -67,16 +68,16 @@ var PreviewMenu = Utils.defineClass({
     _init: function(panelWrapper) {
         this.callParent('_init', { layout_manager: new Clutter.BinLayout() });
 
+        let geom = panelWrapper.geom;
         this._panelWrapper = panelWrapper;
         this.currentAppIcon = null;
         this._focusedPreview = null;
         this._peekedWindow = null;
         this.peekInitialWorkspaceIndex = -1;
         this.opened = false;
-        this._position = Taskbar.getPosition();
-        this.isLeftOrRight = this._position == St.Side.LEFT || this._position == St.Side.RIGHT;
-        this._translationProp = 'translation_' + (this.isLeftOrRight ? 'x' : 'y');
-        this._translationDirection = (this._position == St.Side.TOP || this._position == St.Side.LEFT ? -1 : 1);
+        this.isVertical = geom.position == St.Side.LEFT || geom.position == St.Side.RIGHT;
+        this._translationProp = 'translation_' + (this.isVertical ? 'x' : 'y');
+        this._translationDirection = (geom.position == St.Side.TOP || geom.position == St.Side.LEFT ? -1 : 1);
         this._translationOffset = Math.min(Me.settings.get_int('panel-size'), MAX_TRANSLATION) * this._translationDirection;
 
         this.menu = new St.Widget({ 
@@ -86,16 +87,16 @@ var PreviewMenu = Utils.defineClass({
             track_hover: true,
             x_expand: true, 
             y_expand: true, 
-            x_align: Clutter.ActorAlign[this._position != St.Side.RIGHT ? 'START' : 'END'],
-            y_align: Clutter.ActorAlign[this._position != St.Side.BOTTOM ? 'START' : 'END']
+            x_align: Clutter.ActorAlign[geom.position != St.Side.RIGHT ? 'START' : 'END'],
+            y_align: Clutter.ActorAlign[geom.position != St.Side.BOTTOM ? 'START' : 'END']
         });
-        this._box = new St.BoxLayout({ vertical: this.isLeftOrRight });
+        this._box = new St.BoxLayout({ vertical: this.isVertical });
         this._scrollView = new St.ScrollView({
             name: 'dashtopanelPreviewScrollview',
             hscrollbar_policy: Gtk.PolicyType.NEVER,
             vscrollbar_policy: Gtk.PolicyType.NEVER,
             enable_mouse_scrolling: true,
-            y_expand: !this.isLeftOrRight
+            y_expand: !this.isVertical
         });
 
         this._scrollView.add_actor(this._box);
@@ -353,7 +354,7 @@ var PreviewMenu = Utils.defineClass({
 
     _onScrollEvent: function(actor, event) {
         if (!event.is_pointer_emulated()) {
-            let vOrh = this.isLeftOrRight ? 'v' : 'h';
+            let vOrh = this.isVertical ? 'v' : 'h';
             let adjustment = this._scrollView['get_' + vOrh + 'scroll_bar']().get_adjustment(); 
             let increment = adjustment.step_increment;
             let delta = increment;
@@ -414,12 +415,13 @@ var PreviewMenu = Utils.defineClass({
 
     _updateClip: function() {
         let x, y, w, h;
+        let geom = this._panelWrapper.geom;
         let panelBoxTheme = this._panelWrapper.panelBox.get_theme_node();
-        let panelSize = Me.settings.get_int('panel-size') * scaleFactor;
+        let panelSize = geom.size;
         let previewSize = (Me.settings.get_int('window-preview-size') + 
                            Me.settings.get_int('window-preview-padding') * 2) * scaleFactor;
         
-        if (this.isLeftOrRight) {
+        if (this.isVertical) {
             w = previewSize;
             h = this._panelWrapper.monitor.height;
             y = this._panelWrapper.monitor.y;
@@ -429,11 +431,11 @@ var PreviewMenu = Utils.defineClass({
             x = this._panelWrapper.monitor.x;
         }
 
-        if (this._position == St.Side.LEFT) {
+        if (geom.position == St.Side.LEFT) {
             x = this._panelWrapper.monitor.x + panelSize + panelBoxTheme.get_padding(St.Side.LEFT);
-        } else if (this._position == St.Side.RIGHT) {
+        } else if (geom.position == St.Side.RIGHT) {
             x = this._panelWrapper.monitor.x + this._panelWrapper.monitor.width - (panelSize + previewSize) - panelBoxTheme.get_padding(St.Side.RIGHT);
-        } else if (this._position == St.Side.TOP) {
+        } else if (geom.position == St.Side.TOP) {
             y = this._panelWrapper.monitor.y + panelSize + panelBoxTheme.get_padding(St.Side.TOP);
         } else { //St.Side.BOTTOM
             y = this._panelWrapper.monitor.y + this._panelWrapper.monitor.height - (panelSize + panelBoxTheme.get_padding(St.Side.BOTTOM) + previewSize + headerHeight);
@@ -454,7 +456,7 @@ var PreviewMenu = Utils.defineClass({
         previewsHeight = Math.min(previewsHeight, this._panelWrapper.monitor.height);
         this._updateScrollFade(previewsWidth < this._panelWrapper.monitor.width && previewsHeight < this._panelWrapper.monitor.height);
         
-        if (this.isLeftOrRight) {
+        if (this.isVertical) {
             y = sourceAllocation.y1 + appIconMargin - this._panelWrapper.monitor.y + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
             y = Math.max(y, 0);
             y = Math.min(y, this._panelWrapper.monitor.height - previewsHeight);
@@ -494,7 +496,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _getScrollAdjustmentValues: function() {
-        let [value , , upper, , , pageSize] = this._scrollView[(this.isLeftOrRight ? 'v' : 'h') + 'scroll'].adjustment.get_values();
+        let [value , , upper, , , pageSize] = this._scrollView[(this.isVertical ? 'v' : 'h') + 'scroll'].adjustment.get_values();
 
         return [value, upper, pageSize];
     },
@@ -507,9 +509,9 @@ var PreviewMenu = Utils.defineClass({
         let endBg = Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, 0)
         let fadeStyle = 'background-gradient-start:' + startBg + 
                         'background-gradient-end:' + endBg + 
-                        'background-gradient-direction:' + Taskbar.getOrientation();
+                        'background-gradient-direction:' + Panel.getOrientation();
 
-        if (this.isLeftOrRight) {
+        if (this.isVertical) {
             rotation = end ? 270 : 90;
             y = end ? this._panelWrapper.monitor.height - FADE_SIZE : 0;
             size = this.width;
@@ -539,7 +541,7 @@ var PreviewMenu = Utils.defineClass({
             if (!c.animatingOut) {
                 let [width, height] = c.getSize();
 
-                if (this.isLeftOrRight) {
+                if (this.isVertical) {
                     previewsWidth = Math.max(width, previewsWidth);
                     previewsHeight += height;
                 } else {
@@ -1048,7 +1050,7 @@ var Preview = Utils.defineClass({
         let size = Me.settings.get_int('window-preview-size') * scaleFactor;
         let w, h;
 
-        if (this._previewMenu.isLeftOrRight) {
+        if (this._previewMenu.isVertical) {
             w = size;
             h = w * aspectRatio.y.size / aspectRatio.x.size;
         } else {

@@ -47,6 +47,7 @@ const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Me.imports.utils;
+const Panel = Me.imports.panel;
 const Taskbar = Me.imports.taskbar;
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
@@ -128,10 +129,12 @@ var taskbarAppIcon = Utils.defineClass({
         
         this._dot.set_width(0);
         this._isGroupApps = Me.settings.get_boolean('group-apps');
+        
+        let isVertical = Panel.checkIfVertical();
 
         this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
-        this._dtpIconContainer = new St.Widget({ style: 'padding: ' + (Taskbar.checkIfVertical() ? '4px' : '0 4px'), layout_manager: new Clutter.BinLayout()});
+        this._dtpIconContainer = new St.Widget({ style: 'padding: ' + (isVertical ? '4px 0' : '0 4px'), layout_manager: new Clutter.BinLayout() });
 
         this.actor.remove_actor(this._iconContainer);
         
@@ -139,7 +142,7 @@ var taskbarAppIcon = Utils.defineClass({
 
         if (appInfo.window) {
             let box = new St.BoxLayout();
-            
+
             this._windowTitle = new St.Label({ 
                 y_align: Clutter.ActorAlign.CENTER, 
                 x_align: Clutter.ActorAlign.START, 
@@ -161,6 +164,10 @@ var taskbarAppIcon = Utils.defineClass({
 
         this._container.add_child(this._dotsContainer);
         this.actor.set_child(this._container);
+
+        if (isVertical) {
+            this.actor.set_width(panelWrapper.geom.w);
+        }
 
         // Monitor windows-changes instead of app state.
         // Keep using the same Id and function callback (that is extended)
@@ -442,6 +449,7 @@ var taskbarAppIcon = Utils.defineClass({
             this._windowTitle.clutter_text.natural_width_set = useFixedWidth;
             this._windowTitle.set_style('font-size: ' + Me.settings.get_int('group-apps-label-font-size') + 'px;' +
                                         'font-weight: ' + fontWeight + ';' +
+                                        (Panel.checkIfVertical() ? 'padding-left: 4px;' : '') +
                                         (useFixedWidth ? '' : 'max-width: ' + maxLabelWidth + 'px;') + 
                                         'color: ' + Me.settings.get_string('group-apps-label-font-color'));
         }
@@ -510,10 +518,10 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _setAppIconPadding: function() {
-        let padding = getIconPadding(Me.settings);
+        let padding = getIconPadding();
         let margin = Me.settings.get_int('appicon-margin');
         
-        this.actor.set_style('padding:' + (Taskbar.checkIfVertical() ? margin + 'px 0' : '0 ' + margin + 'px;'));
+        this.actor.set_style('padding:' + (Panel.checkIfVertical() ? margin + 'px 0' : '0 ' + margin + 'px;'));
         this._iconContainer.set_style('padding: ' + padding + 'px;');
     },
 
@@ -1262,9 +1270,9 @@ function cssHexTocssRgba(cssHex, opacity) {
     return 'rgba(' + [r, g, b].join(',') + ',' + opacity + ')';
 }
 
-function getIconPadding(dtpSettings) {
-    let panelSize = dtpSettings.get_int('panel-size');
-    let padding = dtpSettings.get_int('appicon-padding');
+function getIconPadding() {
+    let panelSize = Me.settings.get_int('panel-size');
+    let padding = Me.settings.get_int('appicon-padding');
     let availSize = panelSize - Taskbar.MIN_ICON_SIZE - panelSize % 2;
 
     if (padding * 2 > availSize) {
@@ -1293,7 +1301,7 @@ var taskbarSecondaryMenu = Utils.defineClass({
         // parameter, I overwite what I need later
         this.callParent('_init', source);
 
-        let side = Taskbar.getPosition();
+        let side = Panel.getPosition();
         // Change the initialized side where required.
         this._arrowSide = side;
         this._boxPointer._arrowSide = side;
@@ -1430,7 +1438,7 @@ function ItemShowLabel()  {
     let labelWidth = this.label.get_width();
     let labelHeight = this.label.get_height();
 
-    let position = Taskbar.getPosition();
+    let position = Panel.getPosition();
     let labelOffset = node.get_length('-x-offset');
 
     let xOffset = Math.floor((itemWidth - labelWidth) / 2);
@@ -1504,8 +1512,6 @@ var ShowAppsIconWrapper = Utils.defineClass({
         /* the variable equivalent to toggleButton has a different name in the appIcon class
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
-        this.realShowAppsIcon.actor.x_align = Clutter.ActorAlign.START;
-        this.realShowAppsIcon.actor.y_align = Clutter.ActorAlign.START;
         this.realShowAppsIcon.show(false);
 
         // Re-use appIcon methods
@@ -1561,9 +1567,9 @@ var ShowAppsIconWrapper = Utils.defineClass({
     },
 
     setShowAppsPadding: function() {
-        let padding = getIconPadding(Me.settings); 
+        let padding = getIconPadding(); 
         let sidePadding = Me.settings.get_int('show-apps-icon-side-padding');
-        let isVertical = Taskbar.checkIfVertical();
+        let isVertical = Panel.checkIfVertical();
 
         this.actor.set_style('padding:' + (padding + (isVertical ? sidePadding : 0)) + 'px ' + (padding + (isVertical ? 0 : sidePadding)) + 'px;');
     },

@@ -53,30 +53,6 @@ var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME >
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 var MIN_ICON_SIZE = 4;
 
-function getPosition() {
-    let position = Me.settings.get_string('panel-position');
-    
-    if (position == 'TOP') {
-        return St.Side.TOP;
-    } else if (position == 'RIGHT') {
-        return St.Side.RIGHT;
-    } else if (position == 'BOTTOM') {
-        return St.Side.BOTTOM;
-    }
-    
-    return St.Side.LEFT;
-}
-
-function checkIfVertical() {
-    let position = getPosition();
-
-    return (position == St.Side.LEFT || position == St.Side.RIGHT);
-}
-
-function getOrientation() {
-    return (checkIfVertical() ? 'vertical' : 'horizontal');
-}
-
 /**
  * Extend DashItemContainer
  *
@@ -104,7 +80,7 @@ var taskbarActor = Utils.defineClass({
         this._delegate = delegate;
         this._currentBackgroundColor = 0;
         this.callParent('_init', { name: 'dashtopanelTaskbar',
-                                   layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation[getOrientation().toUpperCase()] }),
+                                   layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation[Panel.getOrientation().toUpperCase()] }),
                                    clip_to_allocation: true });
     },
 
@@ -115,7 +91,7 @@ var taskbarActor = Utils.defineClass({
         let [, showAppsButton, scrollview, leftFade, rightFade] = this.get_children();
         let [, showAppsNatSize] = showAppsButton[Panel.sizeFunc](availSize);
         let childBox = new Clutter.ActorBox();
-        let orientation = getOrientation().toLowerCase();
+        let orientation = Panel.getOrientation().toLowerCase();
 
         childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1];
         childBox[Panel.fixedCoord.c1] = box[Panel.fixedCoord.c1];
@@ -199,7 +175,9 @@ var taskbar = Utils.defineClass({
         this._ensureAppIconVisibilityTimeoutId = 0;
         this._labelShowing = false;
 
-        this._box = new St.BoxLayout({ vertical: checkIfVertical(),
+        let isVertical = Panel.checkIfVertical();
+
+        this._box = new St.BoxLayout({ vertical: isVertical,
                                        clip_to_allocation: false,
                                        x_align: Clutter.ActorAlign.START,
                                        y_align: Clutter.ActorAlign.START });
@@ -221,7 +199,11 @@ var taskbar = Utils.defineClass({
         // an instance of the showAppsIcon class is encapsulated in the wrapper
         this._showAppsIcon = this._showAppsIconWrapper.realShowAppsIcon;
         this.showAppsButton = this._showAppsIcon.toggleButton;
-             
+
+        if (isVertical) {
+            this.showAppsButton.set_width(panelWrapper.geom.w);
+        }
+
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
         this.showAppsButton.checked = Main.overview.viewSelector._showAppsButton.checked;
 
@@ -234,7 +216,7 @@ var taskbar = Utils.defineClass({
         this._container.add_actor(this._showAppsIcon);
         this._container.add_actor(this._scrollView);
         
-        let fadeStyle = 'background-gradient-direction:' + getOrientation();
+        let fadeStyle = 'background-gradient-direction:' + Panel.getOrientation();
         let fade1 = new St.Widget({ style_class: 'scrollview-fade', reactive: false });
         let fade2 = new St.Widget({ style_class: 'scrollview-fade', 
                                     reactive: false,  
@@ -345,6 +327,8 @@ var taskbar = Utils.defineClass({
                         this.showShowAppsButton();
                     else
                         this.hideShowAppsButton();
+
+                    this.resetAppIcons();
                 })
             ],
             [
@@ -904,6 +888,10 @@ var taskbar = Utils.defineClass({
         this._shownInitially = false;
         this._redisplay();
 
+        if (Panel.checkIfVertical()) {
+            this.showAppsButton.set_width(this.panelWrapper.geom.w);
+            this.previewMenu._updateClip();
+        }
     },
 
     _updateNumberOverlay: function() {
