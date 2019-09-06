@@ -105,7 +105,7 @@ msgstr "Fenster"
 
 #: appIcons.js:1578
 msgid "Power options"
-msgstr "Optionen Ausschalten"
+msgstr "Energieoptionen"
 
 #: appIcons.js:1583
 msgid "Event logs"
