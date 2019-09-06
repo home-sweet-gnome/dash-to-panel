@@ -66,7 +66,9 @@ let DOT_STYLE = {
 
 let DOT_POSITION = {
     TOP: "TOP",
-    BOTTOM: "BOTTOM"
+    BOTTOM: "BOTTOM",
+    LEFT: 'LEFT',
+    RIGHT: 'RIGHT'
 }
 
 let recentlyClickedAppLoopId = 0;
@@ -132,9 +134,15 @@ var taskbarAppIcon = Utils.defineClass({
         
         let isVertical = Panel.checkIfVertical();
 
+        let dtpIconContainerOpts = { layout_manager: new Clutter.BinLayout() };
+
+        if (!this._isGroupApps) {
+            dtpIconContainerOpts.style = 'padding: ' + (isVertical ? '4px' : '0 4px');
+        }
+
         this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
-        this._dtpIconContainer = new St.Widget({ style: 'padding: ' + (isVertical ? '4px 0' : '0 4px'), layout_manager: new Clutter.BinLayout() });
+        this._dtpIconContainer = new St.Widget(dtpIconContainerOpts);
 
         this.actor.remove_actor(this._iconContainer);
         
@@ -209,7 +217,7 @@ var taskbarAppIcon = Utils.defineClass({
         
         this._dtpSettingsSignalIds = [
             Me.settings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-size', Lang.bind(this, this._updateDotSize)),
+            Me.settings.connect('changed::dot-size', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::dot-color-dominant', Lang.bind(this, this._settingsChangeRefresh)),
@@ -376,7 +384,6 @@ var taskbarAppIcon = Utils.defineClass({
             this._focusedDots = new St.Widget({ 
                 layout_manager: new Clutter.BinLayout(),
                 x_expand: true, y_expand: true,
-                height: this._getRunningIndicatorHeight(),
                 visible: false
             });
 
@@ -385,9 +392,10 @@ var taskbarAppIcon = Utils.defineClass({
                 this.actor.disconnect(mappedId);
             });
         } else {
-            this._focusedDots = new St.DrawingArea({ width:1, y_expand: true });
+            let dotsOpts = { width: 1, y_expand: true, pivot_point: new Clutter.Point({ x: .5, y: .5 }) };
+            this._focusedDots = new St.DrawingArea(dotsOpts), 
             this._focusedDots._tweeningToWidth = null;
-            this._unfocusedDots = new St.DrawingArea({width:1, y_expand: true});
+            this._unfocusedDots = new St.DrawingArea(dotsOpts);
             this._unfocusedDots._tweeningToWidth = null;
             
             this._focusedDots.connect('repaint', Lang.bind(this, function() {
@@ -418,14 +426,6 @@ var taskbarAppIcon = Utils.defineClass({
         this._dotsContainer.add_child(this._focusedDots);
     },
 
-    _updateDotSize: function() {
-        if (!this._isGroupApps) {
-            this._focusedDots.height = this._getRunningIndicatorHeight();
-        }
-
-        this._settingsChangeRefresh();
-    },
-
     _settingsChangeRefresh: function() {
         if (this._isGroupApps) {
             this._updateWindows();
@@ -449,7 +449,6 @@ var taskbarAppIcon = Utils.defineClass({
             this._windowTitle.clutter_text.natural_width_set = useFixedWidth;
             this._windowTitle.set_style('font-size: ' + Me.settings.get_int('group-apps-label-font-size') + 'px;' +
                                         'font-weight: ' + fontWeight + ';' +
-                                        (Panel.checkIfVertical() ? 'padding-left: 4px;' : '') +
                                         (useFixedWidth ? '' : 'max-width: ' + maxLabelWidth + 'px;') + 
                                         'color: ' + Me.settings.get_string('group-apps-label-font-color'));
         }
@@ -587,20 +586,26 @@ var taskbarAppIcon = Utils.defineClass({
 
     _displayProperIndicator: function (force) {
         let isFocused = this._isFocusedWindow();
+        let position = Me.settings.get_string('dot-position');
 
         this._setIconStyle(isFocused);
 
         if(!this._isGroupApps) {
             if (this.window && (Me.settings.get_boolean('group-apps-underline-unfocused') || isFocused)) {
-                let dotPosition = Me.settings.get_string('dot-position');
+                let align = Clutter.ActorAlign[position == DOT_POSITION.TOP || position == DOT_POSITION.LEFT ? 'START' : 'END'];
                 
-                this._focusedDots.y_align = dotPosition == DOT_POSITION.TOP ? Clutter.ActorAlign.START : Clutter.ActorAlign.END;
+                this._focusedDots.set_size(0, 0);
+                this._focusedDots[position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM ? 'height' : 'width'] = this._getRunningIndicatorSize();
+
+                this._focusedDots.y_align = this._focusedDots.x_align = Clutter.ActorAlign.FILL;
+                this._focusedDots[(position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM ? 'y' : 'x') + '_align'] = align;
                 this._focusedDots.background_color = this._getRunningIndicatorColor(isFocused);
                 this._focusedDots.show();
             } else if (this._focusedDots.visible) {
                 this._focusedDots.hide();
             }
         } else {
+            let rotation = 0;
             let containerWidth = this._container.width;
             let focusedDotStyle = Me.settings.get_string('dot-style-focused');
             let unfocusedDotStyle = Me.settings.get_string('dot-style-unfocused');
@@ -622,6 +627,16 @@ var taskbarAppIcon = Utils.defineClass({
                         this.actor.remove_style_class_name('focused');
                 }
             });
+
+            if (position == DOT_POSITION.BOTTOM) {
+                rotation = 180;
+            } else if (position == DOT_POSITION.LEFT) {
+                rotation = 270;
+            } else if (position == DOT_POSITION.RIGHT) {
+                rotation = 90;
+            }
+
+            this._focusedDots.rotation_angle_z = this._unfocusedDots.rotation_angle_z = rotation;
             
             if(focusedIsWide) {
                 newFocusedDotsWidth = (isFocused && this._nWindows > 0) ? containerWidth : 0;
@@ -911,7 +926,7 @@ var taskbarAppIcon = Utils.defineClass({
         return Math.min(this._nWindows, MAX_INDICATORS);
     },
 
-    _getRunningIndicatorHeight: function() {
+    _getRunningIndicatorSize: function() {
         return Me.settings.get_int('dot-size') * St.ThemeContext.get_for_stage(global.stage).scale_factor;
     },
 
@@ -970,16 +985,14 @@ var taskbarAppIcon = Utils.defineClass({
         let bodyColor = this._getRunningIndicatorColor(isFocused);
         let [width, height] = area.get_surface_size();
         let cr = area.get_context();
-        let size = this._getRunningIndicatorHeight();
-        let padding = 0; // distance from the margin
-        let yOffset = Me.settings.get_string('dot-position') == DOT_POSITION.TOP ? 0 : (height - padding -  size);
+        let size = this._getRunningIndicatorSize();
 
         if(type == DOT_STYLE.DOTS) {
             // Draw the required numbers of dots
             let radius = size/2;
             let spacing = Math.ceil(width/18); // separation between the dots
         
-            cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, yOffset);
+            cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, 0);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
@@ -990,7 +1003,7 @@ var taskbarAppIcon = Utils.defineClass({
         } else if(type == DOT_STYLE.SQUARES) {
             let spacing = Math.ceil(width/18); // separation between the dots
         
-            cr.translate(Math.floor((width - n*size - (n-1)*spacing)/2), yOffset);
+            cr.translate(Math.floor((width - n*size - (n-1)*spacing)/2), 0);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
@@ -1002,7 +1015,7 @@ var taskbarAppIcon = Utils.defineClass({
             let spacing = Math.ceil(width/18); // separation between the dots
             let dashLength = Math.floor(width/4) - spacing;
         
-            cr.translate(Math.floor((width - n*dashLength - (n-1)*spacing)/2), yOffset);
+            cr.translate(Math.floor((width - n*dashLength - (n-1)*spacing)/2), 0);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
@@ -1014,7 +1027,7 @@ var taskbarAppIcon = Utils.defineClass({
             let spacing = Math.ceil(width/18); // separation between the dots
             let dashLength = Math.ceil((width - ((n-1)*spacing))/n);
         
-            cr.translate(0, yOffset);
+            cr.translate(0, 0);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
@@ -1026,7 +1039,7 @@ var taskbarAppIcon = Utils.defineClass({
             let spacing = size; // separation between the dots
             let lineLength = width - (size*(n-1)) - (spacing*(n-1));
         
-            cr.translate(0, yOffset);
+            cr.translate(0, 0);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             cr.newSubPath();
@@ -1038,7 +1051,7 @@ var taskbarAppIcon = Utils.defineClass({
             cr.fill();
         } else if (type == DOT_STYLE.METRO) {
             if(n <= 1) {
-                cr.translate(0, yOffset);
+                cr.translate(0, 0);
                 Clutter.cairo_set_source_color(cr, bodyColor);
                 cr.newSubPath();
                 cr.rectangle(0, 0, width, size);
@@ -1049,7 +1062,7 @@ var taskbarAppIcon = Utils.defineClass({
                 let blackenedColor = bodyColor.shade(.3);
                 let darkenedColor = bodyColor.shade(.7);
 
-                cr.translate(0, yOffset);
+                cr.translate(0, 0);
 
                 Clutter.cairo_set_source_color(cr, bodyColor);
                 cr.newSubPath();
@@ -1065,7 +1078,7 @@ var taskbarAppIcon = Utils.defineClass({
                 cr.fill();
             }
         } else { // solid
-            cr.translate(0, yOffset);
+            cr.translate(0, 0);
             Clutter.cairo_set_source_color(cr, bodyColor);
             cr.newSubPath();
             cr.rectangle(0, 0, width, size);

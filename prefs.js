@@ -256,7 +256,12 @@ const Settings = new Lang.Class({
             case 'TOP':
                 this._builder.get_object('dots_top_button').set_active(true);
                 break;
-
+            case 'LEFT':
+                this._builder.get_object('dots_left_button').set_active(true);
+                break;
+            case 'RIGHT':
+                this._builder.get_object('dots_right_button').set_active(true);
+                break;
         }
 
         this._builder.get_object('dot_style_focused_combo').set_active_id(this._settings.get_string('dot-style-focused'));
@@ -1807,6 +1812,16 @@ const Settings = new Lang.Class({
 		dots_top_button_toggled_cb: function(button) {
             if (button.get_active())
                 this._settings.set_string('dot-position', "TOP");
+        },
+
+        dots_left_button_toggled_cb: function(button) {
+            if (button.get_active())
+                this._settings.set_string('dot-position', "LEFT");
+        },
+		
+		dots_right_button_toggled_cb: function(button) {
+            if (button.get_active())
+                this._settings.set_string('dot-position', "RIGHT");
         },
 
         preview_title_position_bottom_button_toggled_cb: function(button) {

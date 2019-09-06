@@ -60,6 +60,7 @@ let tracker = Shell.WindowTracker.get_default();
 var sizeFunc;
 var fixedCoord;
 var varCoord;
+var size;
 
 function getPosition() {
     let position = Me.settings.get_string('panel-position');
@@ -99,18 +100,6 @@ var dtpPanelWrapper = Utils.defineClass({
 
         Utils.wrapActor(this.panel);
         Utils.wrapActor(this.panel.statusArea.activities || 0);
-
-        if (!isSecondary) {
-            if (checkIfVertical()) {
-                sizeFunc = 'get_preferred_height',
-                fixedCoord = { c1: 'x1', c2: 'x2' },
-                varCoord = { c1: 'y1', c2: 'y2' };
-            } else {
-                sizeFunc = 'get_preferred_width';
-                fixedCoord = { c1: 'y1', c2: 'y2' };
-                varCoord = { c1: 'x1', c2: 'x2' };
-            }
-        }
     },
 
     enable : function() {
@@ -454,8 +443,7 @@ var dtpPanelWrapper = Utils.defineClass({
     _bindSettingsChanges: function() {
         this._dtpSettingsSignalIds = [
             Me.settings.connect('changed::panel-size', Lang.bind(this, function() {
-                this._setPanelPosition();
-                this.taskbar.resetAppIcons();
+                this._resetGeometry();
             })),
 
             Me.settings.connect('changed::appicon-margin', Lang.bind(this, function() {
@@ -482,14 +470,13 @@ var dtpPanelWrapper = Utils.defineClass({
                 this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'));
             })),
 
-            Me.settings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonWidth())
+            Me.settings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonWidth()),
+
+            Me.settings.connect('changed::group-apps', () => this._resetGeometry())
         ];
 
         if (checkIfVertical()) {
-            this._dtpSettingsSignalIds.push(
-                Me.settings.connect('changed::group-apps-label-max-width', () => this._resetGeometry()),
-                Me.settings.connect('changed::group-apps', () => this._resetGeometry()),
-            );
+            this._dtpSettingsSignalIds.push(Me.settings.connect('changed::group-apps-label-max-width', () => this._resetGeometry()));
         }
     },
 
@@ -508,19 +495,30 @@ var dtpPanelWrapper = Utils.defineClass({
     },
 
     _getGeometry: function() {
+        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor || 1;
         let position = getPosition();
-        let size = Me.settings.get_int('panel-size');
         let x = 0, y = 0;
         let w = 0, h = 0;
 
+        size = Me.settings.get_int('panel-size') * scaleFactor;
+
         if (checkIfVertical()) {
             if (!Me.settings.get_boolean('group-apps')) {
-                size += Me.settings.get_int('group-apps-label-max-width');
+                // add 8 for the 4px css side padding of _dtpIconContainer when vertical
+                size += Me.settings.get_int('group-apps-label-max-width') + 8 / scaleFactor;
             }
+
+            sizeFunc = 'get_preferred_height',
+            fixedCoord = { c1: 'x1', c2: 'x2' },
+            varCoord = { c1: 'y1', c2: 'y2' };
 
             w = size;
             h = this.monitor.height;
         } else {
+            sizeFunc = 'get_preferred_width';
+            fixedCoord = { c1: 'y1', c2: 'y2' };
+            varCoord = { c1: 'x1', c2: 'x2' };
+
             w = this.monitor.width;
             h = size;
         }
@@ -539,8 +537,7 @@ var dtpPanelWrapper = Utils.defineClass({
         return {
             x: x, y: y, 
             w: w, h: h,
-            position: position,
-            size: size * (St.ThemeContext.get_for_stage(global.stage).scale_factor || 1)
+            position: position
         };
     },
 

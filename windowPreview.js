@@ -78,7 +78,7 @@ var PreviewMenu = Utils.defineClass({
         this.isVertical = geom.position == St.Side.LEFT || geom.position == St.Side.RIGHT;
         this._translationProp = 'translation_' + (this.isVertical ? 'x' : 'y');
         this._translationDirection = (geom.position == St.Side.TOP || geom.position == St.Side.LEFT ? -1 : 1);
-        this._translationOffset = Math.min(Me.settings.get_int('panel-size'), MAX_TRANSLATION) * this._translationDirection;
+        this._translationOffset = Math.min(Panel.size, MAX_TRANSLATION) * this._translationDirection;
 
         this.menu = new St.Widget({ 
             name: 'preview-menu', 
@@ -417,7 +417,6 @@ var PreviewMenu = Utils.defineClass({
         let x, y, w, h;
         let geom = this._panelWrapper.geom;
         let panelBoxTheme = this._panelWrapper.panelBox.get_theme_node();
-        let panelSize = geom.size;
         let previewSize = (Me.settings.get_int('window-preview-size') + 
                            Me.settings.get_int('window-preview-padding') * 2) * scaleFactor;
         
@@ -432,13 +431,13 @@ var PreviewMenu = Utils.defineClass({
         }
 
         if (geom.position == St.Side.LEFT) {
-            x = this._panelWrapper.monitor.x + panelSize + panelBoxTheme.get_padding(St.Side.LEFT);
+            x = this._panelWrapper.monitor.x + Panel.size + panelBoxTheme.get_padding(St.Side.LEFT);
         } else if (geom.position == St.Side.RIGHT) {
-            x = this._panelWrapper.monitor.x + this._panelWrapper.monitor.width - (panelSize + previewSize) - panelBoxTheme.get_padding(St.Side.RIGHT);
+            x = this._panelWrapper.monitor.x + this._panelWrapper.monitor.width - (Panel.size + previewSize) - panelBoxTheme.get_padding(St.Side.RIGHT);
         } else if (geom.position == St.Side.TOP) {
-            y = this._panelWrapper.monitor.y + panelSize + panelBoxTheme.get_padding(St.Side.TOP);
+            y = this._panelWrapper.monitor.y + Panel.size + panelBoxTheme.get_padding(St.Side.TOP);
         } else { //St.Side.BOTTOM
-            y = this._panelWrapper.monitor.y + this._panelWrapper.monitor.height - (panelSize + panelBoxTheme.get_padding(St.Side.BOTTOM) + previewSize + headerHeight);
+            y = this._panelWrapper.monitor.y + this._panelWrapper.monitor.height - (Panel.size + panelBoxTheme.get_padding(St.Side.BOTTOM) + previewSize + headerHeight);
         }
 
         Utils.setClip(this, x, y, w, h);
