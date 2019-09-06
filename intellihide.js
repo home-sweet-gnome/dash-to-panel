@@ -19,6 +19,7 @@ const Lang = imports.lang;
 const Clutter = imports.gi.Clutter;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
+const St = imports.gi.St;
 
 const GrabHelper = imports.ui.grabHelper;
 const Layout = imports.ui.layout;
@@ -28,6 +29,7 @@ const PointerWatcher = imports.ui.pointerWatcher;
 const Tweener = imports.ui.tweener;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const Panel = Me.imports.panel;
 const Proximity = Me.imports.proximity;
 const Utils = Me.imports.utils;
 
@@ -76,13 +78,10 @@ var Intellihide = Utils.defineClass({
         this._pendingUpdate = false;
         this._hoveredOut = false;
         this._windowOverlap = false;
-        this._panelAtTop = Me.settings.get_string('panel-position') === 'TOP';
+        this._translationProp = 'translation_' + (Panel.checkIfVertical() ? 'x' : 'y');
 
-        if (this._panelAtTop && this._panelBox.translation_y > 0 || 
-            !this._panelAtTop && this._panelBox.translation_y < 0) {
-            //the panel changed position while being hidden, so revert the hiding position
-            this._panelBox.translation_y *= -1;
-        }
+        this._panelBox.translation_y = 0;
+        this._panelBox.translation_x = 0;
 
         this._setTrackPanel(reset, true);
         this._bindGeneralSignals();
@@ -270,31 +269,42 @@ var Intellihide = Utils.defineClass({
     },
 
     _createBarrier: function() {
-        let opts = { 
-            display: global.display,
-            x1: this._monitor.x,
-            x2: this._monitor.x + this._monitor.width
-        };
+        let position = this._dtpPanel.geom.position;
+        let opts = { display: global.display };
 
-        if (this._panelAtTop) {
+        if (Panel.checkIfVertical()) {
             opts.y1 = this._monitor.y;
-            opts.y2 = this._monitor.y;
-            opts.directions = Meta.BarrierDirection.POSITIVE_Y;
+            opts.y2 = this._monitor.y + this._monitor.height;
+            opts.x1 = opts.x2 = this._monitor.x;
         } else {
-            let screenBottom = this._monitor.y + this._monitor.height;
+            opts.x1 = this._monitor.x;
+            opts.x2 = this._monitor.x + this._monitor.width;
+            opts.y1 = opts.y2 = this._monitor.y;
+        }
 
-            opts.y1 = screenBottom;
-            opts.y2 = screenBottom;
+        if (position == St.Side.TOP) {
+            opts.directions = Meta.BarrierDirection.POSITIVE_Y;
+        } else if (position == St.Side.BOTTOM) {
+            opts.y1 = opts.y2 = opts.y1 + this._monitor.height;
             opts.directions = Meta.BarrierDirection.NEGATIVE_Y;
+        } else if (position == St.Side.LEFT) {
+            opts.directions = Meta.BarrierDirection.POSITIVE_X;
+        } else {
+            opts.x1 = opts.x2 = opts.x1 + this._monitor.width;
+            opts.directions = Meta.BarrierDirection.NEGATIVE_X;
         }
 
         return new Meta.Barrier(opts);
     },
 
     _checkMousePointer: function(x, y) {
+        let position = this._dtpPanel.geom.position;
+
         if (!this._panelBox.hover && !Main.overview.visible &&
-            ((this._panelAtTop && y <= this._monitor.y + 1) || 
-             (!this._panelAtTop && y >= this._monitor.y + this._monitor.height - 1)) &&
+            ((position == St.Side.TOP && y <= this._monitor.y + 1) || 
+             (position == St.Side.BOTTOM && y >= this._monitor.y + this._monitor.height - 1) ||
+             (position == St.Side.LEFT && x <= this._monitor.x + 1) ||
+             (position == St.Side.RIGHT && x >= this._monitor.x + this._monitor.width - 1)) &&
             ((x >= this._monitor.x && x < this._monitor.x + this._monitor.width) && 
              (y >= this._monitor.y && y < this._monitor.y + this._monitor.height))) {
             this._queueUpdatePanelPosition(true);
@@ -359,14 +369,18 @@ var Intellihide = Utils.defineClass({
     },
 
     _hidePanel: function(immediate) {
-        this._animatePanel(this._panelBox.height * (this._panelAtTop ? -1 : 1), immediate);
+        let position = this._dtpPanel.geom.position;
+        let size = this._panelBox[position == St.Side.LEFT || position == St.Side.RIGHT ? 'width' : 'height']; 
+        let coefficient = position == St.Side.TOP || position == St.Side.LEFT ? -1 : 1;
+
+        this._animatePanel(size * coefficient, immediate);
     },
 
     _animatePanel: function(destination, immediate, onComplete) {
         let animating = Tweener.isTweening(this._panelBox);
 
         if (!((animating && destination === this._animationDestination) || 
-              (!animating && destination === this._panelBox.translation_y))) {
+              (!animating && destination === this._panelBox[this._translationProp]))) {
             //the panel isn't already at, or animating to the asked destination
             if (animating) {
                 Tweener.removeTweens(this._panelBox);
@@ -375,11 +389,10 @@ var Intellihide = Utils.defineClass({
             this._animationDestination = destination;
     
             if (immediate) {
-                this._panelBox.translation_y = destination;
+                this._panelBox[this._translationProp] = destination;
                 this._invokeIfExists(onComplete);
             } else {
-                Tweener.addTween(this._panelBox, {
-                    translation_y: destination,
+                let tweenOpts = {
                     //when entering/leaving the overview, use its animation time instead of the one from the settings
                     time: Main.overview.visible ? 
                           OverviewControls.SIDE_CONTROLS_ANIMATION_TIME :
@@ -392,7 +405,10 @@ var Intellihide = Utils.defineClass({
                         Main.layoutManager._queueUpdateRegions();
                         this._timeoutsHandler.add([T3, POST_ANIMATE_MS, () => this._queueUpdatePanelPosition()]);
                     }
-                });
+                };
+
+                tweenOpts[this._translationProp] = destination;
+                Tweener.addTween(this._panelBox, tweenOpts);
             }
         }
 
