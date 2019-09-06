@@ -65,11 +65,11 @@ var PreviewMenu = Utils.defineClass({
     Extends: St.Widget,
     Signals: { 'open-state-changed': {} },
 
-    _init: function(panelWrapper) {
+    _init: function(panel) {
         this.callParent('_init', { layout_manager: new Clutter.BinLayout() });
 
-        let geom = panelWrapper.geom;
-        this._panelWrapper = panelWrapper;
+        let geom = panel.geom;
+        this.panel = panel;
         this.currentAppIcon = null;
         this._focusedPreview = null;
         this._peekedWindow = null;
@@ -128,7 +128,7 @@ var PreviewMenu = Utils.defineClass({
                 this._onScrollEvent.bind(this)
             ],
             [
-                this._panelWrapper.panelBox,
+                this.panel.panelBox,
                 'style-changed',
                 () => this._updateClip()
             ],
@@ -174,7 +174,7 @@ var PreviewMenu = Utils.defineClass({
 
             if (!this.opened) {
                 this._refreshGlobals();
-                this.menu.set_style('background: ' + Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, alphaBg));
+                this.menu.set_style('background: ' + Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, alphaBg));
                 
                 this.show();
             }
@@ -398,10 +398,10 @@ var PreviewMenu = Utils.defineClass({
             fixed: Me.settings.get_boolean('window-preview-fixed-y')
         };
         
-        if (this._panelWrapper.dynamicTransparency) {
+        if (this.panel.dynamicTransparency) {
             alphaBg = Me.settings.get_boolean('preview-use-custom-opacity') ? 
                       Me.settings.get_int('preview-custom-opacity') * .01 : 
-                      this._panelWrapper.dynamicTransparency.alpha;
+                      this.panel.dynamicTransparency.alpha;
         }
     },
 
@@ -415,29 +415,29 @@ var PreviewMenu = Utils.defineClass({
 
     _updateClip: function() {
         let x, y, w, h;
-        let geom = this._panelWrapper.geom;
-        let panelBoxTheme = this._panelWrapper.panelBox.get_theme_node();
+        let geom = this.panel.geom;
+        let panelBoxTheme = this.panel.panelBox.get_theme_node();
         let previewSize = (Me.settings.get_int('window-preview-size') + 
                            Me.settings.get_int('window-preview-padding') * 2) * scaleFactor;
         
         if (this.isVertical) {
             w = previewSize;
-            h = this._panelWrapper.monitor.height;
-            y = this._panelWrapper.monitor.y;
+            h = this.panel.monitor.height;
+            y = this.panel.monitor.y;
         } else {
-            w = this._panelWrapper.monitor.width;
+            w = this.panel.monitor.width;
             h = (previewSize + headerHeight);
-            x = this._panelWrapper.monitor.x;
+            x = this.panel.monitor.x;
         }
 
         if (geom.position == St.Side.LEFT) {
-            x = this._panelWrapper.monitor.x + Panel.size + panelBoxTheme.get_padding(St.Side.LEFT);
+            x = this.panel.monitor.x + Panel.size + panelBoxTheme.get_padding(St.Side.LEFT);
         } else if (geom.position == St.Side.RIGHT) {
-            x = this._panelWrapper.monitor.x + this._panelWrapper.monitor.width - (Panel.size + previewSize) - panelBoxTheme.get_padding(St.Side.RIGHT);
+            x = this.panel.monitor.x + this.panel.monitor.width - (Panel.size + previewSize) - panelBoxTheme.get_padding(St.Side.RIGHT);
         } else if (geom.position == St.Side.TOP) {
-            y = this._panelWrapper.monitor.y + Panel.size + panelBoxTheme.get_padding(St.Side.TOP);
+            y = this.panel.monitor.y + Panel.size + panelBoxTheme.get_padding(St.Side.TOP);
         } else { //St.Side.BOTTOM
-            y = this._panelWrapper.monitor.y + this._panelWrapper.monitor.height - (Panel.size + panelBoxTheme.get_padding(St.Side.BOTTOM) + previewSize + headerHeight);
+            y = this.panel.monitor.y + this.panel.monitor.height - (Panel.size + panelBoxTheme.get_padding(St.Side.BOTTOM) + previewSize + headerHeight);
         }
 
         Utils.setClip(this, x, y, w, h);
@@ -451,18 +451,18 @@ var PreviewMenu = Utils.defineClass({
         let appIconMargin = Me.settings.get_int('appicon-margin') / scaleFactor;
         let x = 0, y = 0;
 
-        previewsWidth = Math.min(previewsWidth, this._panelWrapper.monitor.width);
-        previewsHeight = Math.min(previewsHeight, this._panelWrapper.monitor.height);
-        this._updateScrollFade(previewsWidth < this._panelWrapper.monitor.width && previewsHeight < this._panelWrapper.monitor.height);
+        previewsWidth = Math.min(previewsWidth, this.panel.monitor.width);
+        previewsHeight = Math.min(previewsHeight, this.panel.monitor.height);
+        this._updateScrollFade(previewsWidth < this.panel.monitor.width && previewsHeight < this.panel.monitor.height);
         
         if (this.isVertical) {
-            y = sourceAllocation.y1 + appIconMargin - this._panelWrapper.monitor.y + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
+            y = sourceAllocation.y1 + appIconMargin - this.panel.monitor.y + (sourceContentBox.y2 - sourceContentBox.y1 - previewsHeight) * .5;
             y = Math.max(y, 0);
-            y = Math.min(y, this._panelWrapper.monitor.height - previewsHeight);
+            y = Math.min(y, this.panel.monitor.height - previewsHeight);
         } else {
-            x = sourceAllocation.x1 + appIconMargin - this._panelWrapper.monitor.x + (sourceContentBox.x2 - sourceContentBox.x1 - previewsWidth) * .5;
+            x = sourceAllocation.x1 + appIconMargin - this.panel.monitor.x + (sourceContentBox.x2 - sourceContentBox.x1 - previewsWidth) * .5;
             x = Math.max(x, 0);
-            x = Math.min(x, this._panelWrapper.monitor.width - previewsWidth);
+            x = Math.min(x, this.panel.monitor.width - previewsWidth);
         }
 
         if (!this.opened) {
@@ -501,32 +501,27 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _getFadeWidget: function(end) {
-        let rotation = 0;
-        let size = 0;
         let x = 0, y = 0;
-        let startBg = Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, Math.min(alphaBg + .1, 1));
-        let endBg = Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, 0)
+        let startBg = Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, Math.min(alphaBg + .1, 1));
+        let endBg = Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, 0)
         let fadeStyle = 'background-gradient-start:' + startBg + 
                         'background-gradient-end:' + endBg + 
                         'background-gradient-direction:' + Panel.getOrientation();
 
         if (this.isVertical) {
-            rotation = end ? 270 : 90;
-            y = end ? this._panelWrapper.monitor.height - FADE_SIZE : 0;
-            size = this.width;
+            y = end ? this.panel.monitor.height - FADE_SIZE : 0;
         } else {
-            rotation = end ? 180 : 0;
-            x = end ? this._panelWrapper.monitor.width - FADE_SIZE : 0;
-            size = this.height;
+            x = end ? this.panel.monitor.width - FADE_SIZE : 0;
         }
 
         let fadeWidget = new St.Widget({ 
             reactive: false, 
             pivot_point: new Clutter.Point({ x: .5, y: .5 }), 
-            rotation_angle_z: rotation,
+            rotation_angle_z: end ? 180 : 0,
             style: fadeStyle,
             x: x, y: y,
-            width: FADE_SIZE, height: size
+            width: this.isVertical ? this.width : FADE_SIZE, 
+            height: this.isVertical ? FADE_SIZE : this.height
         });
 
         return fadeWidget;
@@ -677,7 +672,6 @@ var Preview = Utils.defineClass({
         this.window = null;
         this._needsCloseButton = true;
         this.cloneWidth = this.cloneHeight = 0;
-        this._panelWrapper = previewMenu._panelWrapper;
         this._previewMenu = previewMenu;
         this._padding = Me.settings.get_int('window-preview-padding') * scaleFactor;
         this._previewDimensions = this._getPreviewDimensions();
@@ -948,7 +942,7 @@ var Preview = Utils.defineClass({
 
     _getBackgroundColor: function(offset, alpha) {
         return 'background-color: ' + this._getRgbaColor(offset, alpha) + 
-               'transition-duration:' + this._panelWrapper.dynamicTransparency.animationDuration;
+               'transition-duration:' + this._previewMenu.panel.dynamicTransparency.animationDuration;
     },
 
     _getRgbaColor: function(offset, alpha) {
@@ -958,7 +952,7 @@ var Preview = Utils.defineClass({
             alpha = alphaBg;
         }
 
-        return Utils.getrgbaColor(this._panelWrapper.dynamicTransparency.backgroundColorRgb, alpha, offset);
+        return Utils.getrgbaColor(this._previewMenu.panel.dynamicTransparency.backgroundColorRgb, alpha, offset);
     },
 
     _addClone: function(newCloneBin, animateSize) {

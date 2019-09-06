@@ -108,10 +108,10 @@ var taskbarActor = Utils.defineClass({
         hupper = Math.floor(hupper);
         scrollview._dtpFadeSize = hupper > hpageSize ? this._delegate.iconSize : 0;
 
-        if (this._delegate.panelWrapper.dynamicTransparency &&
-            this._currentBackgroundColor !== this._delegate.panelWrapper.dynamicTransparency.currentBackgroundColor) {
-            this._currentBackgroundColor = this._delegate.panelWrapper.dynamicTransparency.currentBackgroundColor;
-            let gradientStyle = 'background-gradient-start: ' + this._currentBackgroundColor + ';' +
+        if (this._delegate.panel.dynamicTransparency &&
+            this._currentBackgroundColor !== this._delegate.panel.dynamicTransparency.currentBackgroundColor) {
+            this._currentBackgroundColor = this._delegate.panel.dynamicTransparency.currentBackgroundColor;
+            let gradientStyle = 'background-gradient-start: ' + this._currentBackgroundColor +
                                 'background-gradient-direction: ' + orientation;
 
             leftFade.set_style(gradientStyle);
@@ -160,8 +160,8 @@ var taskbarActor = Utils.defineClass({
 var taskbar = Utils.defineClass({
     Name: 'DashToPanel.Taskbar',
 
-    _init : function(panelWrapper) {
-        this.panelWrapper = panelWrapper;
+    _init : function(panel) {
+        this.panel = panel;
         
         // start at smallest size due to running indicator drawing area expanding but not shrinking
         this.iconSize = 16;
@@ -201,7 +201,7 @@ var taskbar = Utils.defineClass({
         this.showAppsButton = this._showAppsIcon.toggleButton;
 
         if (isVertical) {
-            this.showAppsButton.set_width(panelWrapper.geom.w);
+            this.showAppsButton.set_width(panel.geom.w);
         }
 
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
@@ -229,7 +229,7 @@ var taskbar = Utils.defineClass({
         this._container.add_actor(fade1);
         this._container.add_actor(fade2);
 
-        this.previewMenu = new WindowPreview.PreviewMenu(panelWrapper);
+        this.previewMenu = new WindowPreview.PreviewMenu(panel);
         this.previewMenu.enable();
 
         if (!Me.settings.get_boolean('show-show-apps-button'))
@@ -254,12 +254,12 @@ var taskbar = Utils.defineClass({
 
         this._signalsHandler.add(
             [
-                this.panelWrapper.panel.actor,
+                this.panel,
                 'notify::height',
                 () => this._queueRedisplay()
             ],
             [
-                this.panelWrapper.panel.actor,
+                this.panel,
                 'notify::width',
                 () => this._queueRedisplay()
             ],
@@ -539,7 +539,7 @@ var taskbar = Utils.defineClass({
                 window: window,
                 isLauncher: isLauncher
             },
-            this.panelWrapper,
+            this.panel,
             { 
                 setSizeManually: true,
                 showLabel: false,
@@ -745,8 +745,8 @@ var taskbar = Utils.defineClass({
     },
 
     sortAppsCompareFunction: function(appA, appB) {
-        return getAppStableSequence(appA, this.panelWrapper.monitor) - 
-               getAppStableSequence(appB, this.panelWrapper.monitor);
+        return getAppStableSequence(appA, this.panel.monitor) - 
+               getAppStableSequence(appB, this.panel.monitor);
     },
 
     getAppInfos: function() {
@@ -834,7 +834,7 @@ var taskbar = Utils.defineClass({
         this._updateAppIcons();
 
         // This will update the size, and the corresponding number for each icon on the primary panel
-        if (!this.panelWrapper.isSecondary) {
+        if (!this.panel.isSecondary) {
             this._updateNumberOverlay();
         }
 
@@ -847,7 +847,7 @@ var taskbar = Utils.defineClass({
     
     _checkIfShowingFavorites: function() {
         return Me.settings.get_boolean('show-favorites') && 
-               (!this.panelWrapper.isSecondary || Me.settings.get_boolean('show-favorites-all-monitors'));
+               (!this.panel.isSecondary || Me.settings.get_boolean('show-favorites-all-monitors'));
     },
 
     _getRunningApps: function() {
@@ -870,7 +870,7 @@ var taskbar = Utils.defineClass({
         return apps.map(app => ({ 
             app: app, 
             isLauncher: defaultIsLauncher || false,
-            windows: defaultWindows || AppIcons.getInterestingWindows(app, this.panelWrapper.monitor)
+            windows: defaultWindows || AppIcons.getInterestingWindows(app, this.panel.monitor)
                                                .sort(sortWindowsCompareFunction)
         }));
     },
@@ -889,7 +889,7 @@ var taskbar = Utils.defineClass({
         this._redisplay();
 
         if (Panel.checkIfVertical()) {
-            this.showAppsButton.set_width(this.panelWrapper.geom.w);
+            this.showAppsButton.set_width(this.panel.geom.w);
             this.previewMenu._updateClip();
         }
     },
@@ -1015,7 +1015,7 @@ var taskbar = Utils.defineClass({
         let interestingWindows = {};
         let getAppWindows = app => {
             if (!interestingWindows[app]) {
-                interestingWindows[app] = AppIcons.getInterestingWindows(app, this.panelWrapper.monitor);
+                interestingWindows[app] = AppIcons.getInterestingWindows(app, this.panel.monitor);
             }
 
             let appWindows = interestingWindows[app]; //prevents "reference to undefined property Symbol.toPrimitive" warning
@@ -1121,12 +1121,12 @@ var taskbar = Utils.defineClass({
                 }
 
                 //temporarily use as primary the monitor on which the showapps btn was clicked 
-                this.panelWrapper.panelManager.setFocusedMonitor(this.panelWrapper.monitor);
+                this.panel.panelManager.setFocusedMonitor(this.panel.monitor);
 
                 //reset the primary monitor when exiting the overview
                 let overviewHiddenId = Main.overview.connect('hidden', () => {
                     Main.overview.disconnect(overviewHiddenId);
-                    this.panelWrapper.panelManager.setFocusedMonitor(this.panelWrapper.panelManager.primaryPanel.monitor, true);
+                    this.panel.panelManager.setFocusedMonitor(this.panel.panelManager.primaryPanel.monitor, true);
                 });
 
                 // Finally show the overview

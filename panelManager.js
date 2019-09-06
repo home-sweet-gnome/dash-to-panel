@@ -44,7 +44,6 @@ const St = imports.gi.St;
 const BoxPointer = imports.ui.boxpointer;
 const Dash = imports.ui.dash;
 const IconGrid = imports.ui.iconGrid;
-const LookingGlass = imports.ui.lookingGlass;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Layout = imports.ui.layout;
@@ -68,28 +67,16 @@ var dtpPanelManager = Utils.defineClass({
         
         this.proximityManager = new Proximity.ProximityManager();
 
-        this.primaryPanel = new Panel.dtpPanelWrapper(this, dtpPrimaryMonitor, Main.panel, Main.layoutManager.panelBox);
-        this.primaryPanel.enable();
+        Main.panel.actor.hide();
+
+        this.primaryPanel = this._createPanel(dtpPrimaryMonitor);
         this.allPanels = [ this.primaryPanel ];
         
         this.overview.enable(this.primaryPanel);
 
         if (Me.settings.get_boolean('multi-monitors')) {
-            Main.layoutManager.monitors.forEach(monitor => {
-                if (monitor == dtpPrimaryMonitor)
-                    return;
-
-                let panelBox = new St.BoxLayout({ name: 'panelBox' });
-                Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
-
-                let panel = new Panel.dtpSecondaryPanel(Me.settings, monitor);
-                panelBox.add(panel.actor);
-                
-                let panelWrapper = new Panel.dtpPanelWrapper(this, monitor, panel, panelBox, true);
-                panel.delegate = panelWrapper;
-                panelWrapper.enable();
-
-                this.allPanels.push(panelWrapper);
+            Main.layoutManager.monitors.filter(m => m != dtpPrimaryMonitor).forEach(m => {
+                this.allPanels.push(this._createPanel(m, true));
             });
         }
 
@@ -154,9 +141,6 @@ var dtpPanelManager = Utils.defineClass({
 
         this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
-        
-        LookingGlass.LookingGlass.prototype._oldResize = LookingGlass.LookingGlass.prototype._resize;
-        LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize;
 
         this._needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');
 
@@ -255,13 +239,7 @@ var dtpPanelManager = Utils.defineClass({
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
         Main.overview.getShowAppsButton = this._oldGetShowAppsButton;
 
-        LookingGlass.LookingGlass.prototype._resize = LookingGlass.LookingGlass.prototype._oldResize;
-        delete LookingGlass.LookingGlass.prototype._oldResize;
-
-        if (Main.layoutManager.primaryMonitor) {
-            Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
-            Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
-        }
+        Main.panel.actor.show();
 
         if (this._needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });
@@ -283,6 +261,17 @@ var dtpPanelManager = Utils.defineClass({
 
     checkIfFocusedMonitor: function(monitor) {
         return Main.overview.viewSelector._workspacesDisplay._primaryIndex == monitor.index;
+    },
+
+    _createPanel: function(monitor, isSecondary) {
+        let panelBox = new St.BoxLayout({ name: 'panelBox' });
+        let panel = new Panel.dtpPanel(this, monitor, panelBox, isSecondary);
+        
+        panelBox.add(panel);
+        Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
+        panel.enable();
+
+        return panel;
     },
 
     _reset: function() {
@@ -562,8 +551,12 @@ function newSetBarrierSize(size) {
 }
 
 function newUpdatePanelBarrier(panel) {
+    if (this._rightPanelBarrier) {
+        this._rightPanelBarrier.destroy();
+    }
+
     let barriers = {
-        _rightPanelBarrier: [(panel.isSecondary ? panel : this)],
+        _rightPanelBarrier: [panel],
         _leftPanelBarrier: [panel]
     };
 
@@ -631,16 +624,4 @@ function newUpdatePanelBarrier(panel) {
 
         barriers[k][0][k] = new Meta.Barrier(barrierOptions);
     });
-}
-
-function _newLookingGlassResize() {
-    this._oldResize();
-    
-    if (Panel.checkIfVertical()) {
-        this._hiddenY = Main.layoutManager.primaryMonitor.y + 40 - this.actor.height;
-        this._targetY = this._hiddenY + this.actor.height;
-        this.actor.y = this._hiddenY;
-
-        this._objInspector.actor.set_position(this.actor.x + Math.floor(this.actor.width * 0.1), this._targetY + Math.floor(this.actor.height * 0.1));
-    }
 }

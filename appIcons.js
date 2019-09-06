@@ -97,8 +97,8 @@ var taskbarAppIcon = Utils.defineClass({
     Extends: (Dash.DashIcon || AppDisplay.AppIcon),
     ParentConstrParams: [[0, 'app'], [2]],
 
-    _init: function(appInfo, panelWrapper, iconParams, previewMenu) {
-        this.panelWrapper = panelWrapper;
+    _init: function(appInfo, panel, iconParams, previewMenu) {
+        this.panel = panel;
         this._nWindows = 0;
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
@@ -174,7 +174,7 @@ var taskbarAppIcon = Utils.defineClass({
         this.actor.set_child(this._container);
 
         if (isVertical) {
-            this.actor.set_width(panelWrapper.geom.w);
+            this.actor.set_width(panel.geom.w);
         }
 
         // Monitor windows-changes instead of app state.
@@ -513,7 +513,7 @@ var taskbarAppIcon = Utils.defineClass({
         return global.display.focus_window && 
                (!Me.settings.get_boolean('multi-monitors') || // only check same monitor index if multi window is enabled.
                 !Me.settings.get_boolean('isolate-monitors') || 
-                global.display.focus_window.get_monitor() === this.panelWrapper.monitor.index);
+                global.display.focus_window.get_monitor() === this.panel.monitor.index);
     },
 
     _setAppIconPadding: function() {
@@ -789,7 +789,7 @@ var taskbarAppIcon = Utils.defineClass({
                 }
             } else {
                 //grouped application behaviors
-                let monitor = this.panelWrapper.monitor;
+                let monitor = this.panel.monitor;
                 let appHasFocus = this._checkIfFocusedApp() && this._checkIfMonitorHasFocus();
 
                 switch (buttonAction) {
@@ -1142,7 +1142,7 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     getAppIconInterestingWindows: function(isolateMonitors) {
-        return getInterestingWindows(this.app, this.panelWrapper.monitor, isolateMonitors);
+        return getInterestingWindows(this.app, this.panel.monitor, isolateMonitors);
     }
 
 });
