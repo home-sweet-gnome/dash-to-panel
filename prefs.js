@@ -1501,7 +1501,12 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
-       this._settings.connect('changed::hotkey-prefix-text', Lang.bind(this, function() {checkHotkeyPrefix(this._settings);}));
+        this._builder.get_object('shortcut_num_keys_combo').set_active_id(this._settings.get_string('shortcut-num-keys'));
+        this._builder.get_object('shortcut_num_keys_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('shortcut-num-keys', widget.get_active_id());
+        }));
+
+        this._settings.connect('changed::hotkey-prefix-text', Lang.bind(this, function() {checkHotkeyPrefix(this._settings);}));
 
         this._builder.get_object('hotkey_prefix_combo').set_active_id(this._settings.get_string('hotkey-prefix-text'));
 

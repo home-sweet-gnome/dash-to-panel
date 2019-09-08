@@ -65,6 +65,11 @@
     <value value='3' nick='bold'/>
     <value value='4' nick='bolder'/>
   </enum>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyNumberKeys'>
+    <value value='0' nick='NUM_ROW'/>
+    <value value='1' nick='NUM_KEYPAD'/>
+    <value value='2' nick='BOTH'/>
+  </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
     <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
@@ -724,6 +729,11 @@
       <default>false</default>
       <summary>Show window previews</summary>
       <description>When multiple instances of the application are available, show their window previews</description>
+    </key>
+    <key name="shortcut-num-keys" enum="org.gnome.shell.extensions.dash-to-panel.hotkeyNumberKeys">
+      <default>'BOTH'</default>
+      <summary>Hotkeys number keys</summary>
+      <description>Which number keys are used for the hotkeys</description>
     </key>
     <key name="app-ctrl-hotkey-1" type="as">
       <default><![CDATA[['<Ctrl><Super>1']]]></default>

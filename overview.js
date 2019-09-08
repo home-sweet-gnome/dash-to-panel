@@ -230,6 +230,11 @@ var dtpOverview = Utils.defineClass({
         ]);
     },
 
+    _resetHotkeys: function() {
+        this._disableHotKeys();
+        this._enableHotKeys();
+    },
+
     _enableHotKeys: function() {
         if (this._hotKeysEnabled)
             return;
@@ -242,8 +247,18 @@ var dtpOverview = Utils.defineClass({
         }
 
         // Setup keyboard bindings for taskbar elements
-        let keys = ['app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-',  // Regular numbers
-                    'app-hotkey-kp-', 'app-shift-hotkey-kp-', 'app-ctrl-hotkey-kp-']; // Key-pad numbers
+        let shortcutNumKeys = Me.settings.get_string('shortcut-num-keys');
+        let bothNumKeys = shortcutNumKeys == 'BOTH';
+        let keys = [];
+        
+        if (bothNumKeys || shortcutNumKeys == 'NUM_ROW') {
+            keys.push('app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-'); // Regular numbers
+        }
+        
+        if (bothNumKeys || shortcutNumKeys == 'NUM_KEYPAD') {
+            keys.push('app-hotkey-kp-', 'app-shift-hotkey-kp-', 'app-ctrl-hotkey-kp-'); // Key-pad numbers
+        }
+
         keys.forEach( function(key) {
             for (let i = 0; i < this._numHotkeys; i++) {
                 let appNum = i;
@@ -301,6 +316,10 @@ var dtpOverview = Utils.defineClass({
                 else
                     this.taskbar.toggleNumberOverlay(false);
             })
+        ], [
+            Me.settings,
+            'changed::shortcut-num-keys',
+            () =>  this._resetHotkeys()
         ]);
     },
 
