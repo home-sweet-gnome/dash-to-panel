@@ -67,6 +67,7 @@ var dtpPanelManager = Utils.defineClass({
         
         this.proximityManager = new Proximity.ProximityManager();
 
+        Utils.wrapActor(Main.panel);
         Main.panel.actor.hide();
 
         this.primaryPanel = this._createPanel(dtpPrimaryMonitor);
