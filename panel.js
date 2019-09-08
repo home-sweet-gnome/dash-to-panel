@@ -121,7 +121,7 @@ var dtpPanel = Utils.defineClass({
             this.menuManager = new PopupMenu.PopupMenuManager(this);
             this.grabOwner = this;
 
-            //adding the clock to the centerbox will correctly position it according to dtp settings (event in dtpPanel)
+            //adding the clock to the centerbox will correctly position it according to dtp settings (event actor-added)
             this._setPanelMenu('show-status-menu-all-monitors', 'aggregateMenu', dtpSecondaryAggregateMenu, this._rightBox, true);
             this._setPanelMenu('show-clock-all-monitors', 'dateMenu', DateMenu.DateMenuButton, this._centerBox, true);
         } else {
@@ -156,6 +156,8 @@ var dtpPanel = Utils.defineClass({
 
     enable : function() {
         let taskbarPosition = Me.settings.get_string('taskbar-position');
+        let isVertical = checkIfVertical();
+
         if (taskbarPosition == 'CENTEREDCONTENT' || taskbarPosition == 'CENTEREDMONITOR') {
             this.container = this._centerBox;
         } else {
@@ -196,7 +198,7 @@ var dtpPanel = Utils.defineClass({
                     x: this.geom.x,
                     y: this.geom.y ,
                     width: this.geom.w,
-                    height: checkIfVertical() ? 1 : this.geom.h, 
+                    height: isVertical ? 1 : this.geom.h, 
                     reactive: false, 
                     opacity: 0
                  });
@@ -241,7 +243,7 @@ var dtpPanel = Utils.defineClass({
         this._setClockLocation(Me.settings.get_string('location-clock'));
         this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'));
         
-        this.add_style_class_name('dashtopanelMainPanel');
+        this.add_style_class_name('dashtopanelPanel ' + getOrientation());
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
@@ -295,14 +297,12 @@ var dtpPanel = Utils.defineClass({
             [
                 this._rightBox,
                 'actor-added',
-                Lang.bind(this, function() {
-                    this._setClockLocation(Me.settings.get_string('location-clock'));
-                })
+                () => this._onBoxActorAdded(this._rightBox)
             ],
             [
                 this._centerBox,
                 'actor-added',
-                () => this._setClockLocation(Me.settings.get_string('location-clock'))
+                () => this._onBoxActorAdded(this._centerBox)
             ],
             [
                 this,
@@ -314,7 +314,18 @@ var dtpPanel = Utils.defineClass({
         this._bindSettingsChanges();
 
         this.panelStyle.enable(this);
-	    
+
+        if (this.statusArea.dateMenu && isVertical) {
+            this.statusArea.dateMenu._clock.time_only = true;
+            this._formatVerticalClock();
+            
+            this._signalsHandler.add([
+                this.statusArea.dateMenu._clock,
+                'notify::clock',
+                () => this._formatVerticalClock()
+            ]);
+        }
+
         // Since we are usually visible but not usually changing, make sure
         // most repaint requests don't actually require us to repaint anything.
         // This saves significant CPU when repainting the screen.
@@ -377,12 +388,12 @@ var dtpPanel = Utils.defineClass({
         this.menuManager._changeMenu = this.menuManager._oldChangeMenu;
 
         if (!this.isSecondary) {
+            this._setVertical(this, false);
+
             ['_leftBox', '_centerBox', '_rightBox'].forEach(p => {
                 this.remove_child(Main.panel[p]);
                 Main.panel.actor.add_child(Main.panel[p]);
             });
-
-            this._setVertical(this, false);
             
             Main.overview._panelGhost.set_size(this.monitor.width, Main.panel.height);
             
@@ -396,6 +407,11 @@ var dtpPanel = Utils.defineClass({
 
             if (this.statusArea.aggregateMenu) {
                 delete this.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll;
+            }
+
+            if (this.statusArea.dateMenu) {
+                this.statusArea.dateMenu._clock.time_only = false;
+                this.statusArea.dateMenu._clockDisplay.text = this.statusArea.dateMenu._clock.clock;
             }
         } else {
             this._removePanelMenu('dateMenu');
@@ -675,21 +691,47 @@ var dtpPanel = Utils.defineClass({
         Object.keys(St.Side).forEach(p => {
             let cssName = p.charAt(0) + p.slice(1).toLowerCase();
             
-            this[(p == this.geom.position ? 'add' : 'remove') + '_style_class_name']('dashtopanel' + cssName);
+            this[(p == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
         });
 
         Main.layoutManager._updateHotCorners();
         Main.layoutManager._updatePanelBarrier(this);
     },
 
+    _onBoxActorAdded: function(box) {
+        this._setClockLocation(Me.settings.get_string('location-clock'));
+        this._setVertical(box, checkIfVertical());
+    },
+
     _setVertical: function(actor, isVertical) {
         if (actor) {
-            if ('vertical' in actor) {
+            if (actor instanceof St.BoxLayout) {
                 actor.vertical = isVertical;
+            }
+
+            if (actor instanceof PanelMenu.Button) {
+                let child = actor.get_first_child();
+
+                if (child) {
+                    let currentStyle = child.get_style();
+                    let style = 'padding: ' + (isVertical ? '8px 0' : '0');
+
+                    if (currentStyle && currentStyle != style) {
+                        style = currentStyle + (currentStyle.trim().slice(-1) != ';' ? ';' : '') + style;
+                    }
+
+                    child.set_style(style);
+                }
             }
 
             actor.get_children().forEach(c => this._setVertical(c, isVertical));
         }
+    },
+
+    _formatVerticalClock: function() {
+        let time = this.statusArea.dateMenu._clock.clock.split('∶');
+
+        this.statusArea.dateMenu._clockDisplay.clutter_text.text = time[0] + '\n∶\n' + time[1];
     },
 
     _setActivitiesButtonVisible: function(isVisible) {
