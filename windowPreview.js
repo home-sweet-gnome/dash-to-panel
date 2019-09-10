@@ -41,6 +41,7 @@ const T1 = 'openMenuTimeout';
 const T2 = 'closeMenuTimeout';
 const T3 = 'peekTimeout';
 const T4 = 'ensureVisibleTimeout';
+const T5 = 'enableHideTimeout';
 
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
@@ -110,7 +111,7 @@ var PreviewMenu = Utils.defineClass({
         Main.layoutManager.addChrome(this, { affectsInputRegion: false });
         Main.layoutManager.trackChrome(this.menu, { affectsInputRegion: true });
         
-        this._resetHiddenState();
+        this._timeoutsHandler.add([T5, 0, () => this._resetHiddenState()]);
         this._refreshGlobals();
         this._updateClip();
         this.menu.set_position(1, 1);
