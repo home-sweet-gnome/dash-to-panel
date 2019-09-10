@@ -709,17 +709,18 @@ var dtpPanel = Utils.defineClass({
                 actor.vertical = isVertical;
             }
 
-            if (actor instanceof PanelMenu.Button) {
+            if (actor instanceof PanelMenu.ButtonBox) {
                 let child = actor.get_first_child();
 
                 if (child) {
                     let currentStyle = child.get_style();
-                    let style = 'padding: ' + (isVertical ? '8px 0' : '0');
+                    let style = 'padding: ' + (isVertical ? '6px 0' : '0');
 
                     if (currentStyle && currentStyle != style) {
                         style = currentStyle + (currentStyle.trim().slice(-1) != ';' ? ';' : '') + style;
                     }
 
+                    actor.set_width(isVertical ? size : -1);
                     child.set_style(style);
                 }
             }

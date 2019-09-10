@@ -72,8 +72,8 @@
 }
 
 .dashtopanelPanel.vertical .panel-button * {
-	padding: 1px 0;
-	margin: 0; 
+	padding: 0;
+	margin: 1px 0; 
 }
 
 #dashtopanelThumbnailList {
