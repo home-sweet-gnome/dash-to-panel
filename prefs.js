@@ -196,6 +196,36 @@ const Settings = new Lang.Class({
         object.connect(signal, Lang.bind(this, this._SignalHandler[handler]));
     },
 
+    _updateVerticalRelatedOptions: function() {
+        let position = this._settings.get_string('panel-position');
+        let isVertical = position == 'LEFT' || position == 'RIGHT';
+        let taskbarLocationCombo = this._builder.get_object('taskbar_position_combo');
+        let clockLocationCombo = this._builder.get_object('location_clock_combo');
+        
+        taskbarLocationCombo.remove_all();
+        clockLocationCombo.remove_all();
+
+        [
+            ['LEFTPANEL',               isVertical ? _('Top, with plugin icons collapsed to bottom') :          _('Left, with plugin icons collapsed to right')],
+            ['LEFTPANEL_FIXEDCENTER',   isVertical ? _('Top, with fixed center plugin icons') :                 _('Left, with fixed center plugin icons')],
+            ['LEFTPANEL_FLOATCENTER',   isVertical ? _('Top, with floating center plugin icons') :              _('Left, with floating center plugin icons')],
+            ['CENTEREDMONITOR',                      _('Center, fixed in middle of monitor')],
+            ['CENTEREDCONTENT',         isVertical ? _('Center, floating between top and bottom elements') :    _('Center, floating between left and right elements')]
+        ].forEach(tl => taskbarLocationCombo.append.apply(taskbarLocationCombo, tl));
+
+        [
+            ['BUTTONSLEFT',     isVertical ? _('Top of plugin icons') :         _('Left of plugin icons')],
+            ['BUTTONSRIGHT',    isVertical ? _('Bottom of plugin icons') :      _('Right of plugin icons')],
+            ['STATUSLEFT',      isVertical ? _('Top of system indicators') :    _('Left of system indicators')],
+            ['STATUSRIGHT',     isVertical ? _('Bottom of system indicators') : _('Right of system indicators')],
+            ['TASKBARLEFT',     isVertical ? _('Top of taskbar') :              _('Left of taskbar')],
+            ['TASKBARRIGHT',    isVertical ? _('Bottom of taskbar') :           _('Right of taskbar')]
+        ].forEach(cl => clockLocationCombo.append.apply(clockLocationCombo, cl));
+
+        taskbarLocationCombo.set_active_id(this._settings.get_string('taskbar-position'));
+        clockLocationCombo.set_active_id(this._settings.get_string('location-clock'));
+    },
+
     _bindSettings: function() {
         // Position and style panel
 
@@ -218,11 +248,12 @@ const Settings = new Lang.Class({
 
         }
 
-        this._builder.get_object('location_clock_combo').set_active_id(this._settings.get_string('location-clock'));
+        this._settings.connect('changed::panel-position', () => this._updateVerticalRelatedOptions());
+        this._updateVerticalRelatedOptions();
+
         this._builder.get_object('location_clock_combo').connect('changed', Lang.bind (this, function(widget) {
             this._settings.set_string('location-clock', widget.get_active_id());
         }));
-        this._builder.get_object('taskbar_position_combo').set_active_id(this._settings.get_string('taskbar-position'));
         this._builder.get_object('taskbar_position_combo').connect('changed', Lang.bind (this, function(widget) {
             this._settings.set_string('taskbar-position', widget.get_active_id());
         }));

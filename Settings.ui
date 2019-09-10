@@ -4535,13 +4535,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="valign">center</property>
-                            <items>
-                              <item id="LEFTPANEL" translatable="yes">Left, with plugin icons collapsed to right</item>
-                              <item id="LEFTPANEL_FIXEDCENTER" translatable="yes">Left, with fixed center plugin icons</item>
-                              <item id="LEFTPANEL_FLOATCENTER" translatable="yes">Left, with floating center plugin icons</item>
-                              <item id="CENTEREDMONITOR" translatable="yes">Center, fixed in middle of monitor</item>
-                              <item id="CENTEREDCONTENT" translatable="yes">Center, floating between left and right elements</item>
-                            </items>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -4584,14 +4577,6 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="valign">center</property>
-                            <items>
-                              <item id="BUTTONSLEFT" translatable="yes">Left of plugin icons</item>
-                              <item id="BUTTONSRIGHT" translatable="yes">Right of plugin icons</item>
-                              <item id="STATUSLEFT" translatable="yes">Left of system indicators</item>
-                              <item id="STATUSRIGHT" translatable="yes">Right of system indicators</item>
-                              <item id="TASKBARLEFT" translatable="yes">Left of taskbar</item>
-                              <item id="TASKBARRIGHT" translatable="yes">Right of taskbar</item>
-                            </items>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
