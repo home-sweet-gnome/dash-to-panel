@@ -132,12 +132,10 @@ var taskbarAppIcon = Utils.defineClass({
         this._dot.set_width(0);
         this._isGroupApps = Me.settings.get_boolean('group-apps');
         
-        let isVertical = Panel.checkIfVertical();
-
         let dtpIconContainerOpts = { layout_manager: new Clutter.BinLayout() };
 
         if (!this._isGroupApps) {
-            dtpIconContainerOpts.style = 'padding: ' + (isVertical ? '4px' : '0 4px');
+            dtpIconContainerOpts.style = getIconContainerStyle();
         }
 
         this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
@@ -173,7 +171,7 @@ var taskbarAppIcon = Utils.defineClass({
         this._container.add_child(this._dotsContainer);
         this.actor.set_child(this._container);
 
-        if (isVertical) {
+        if (Panel.checkIfVertical()) {
             this.actor.set_width(panel.geom.w);
         }
 
@@ -1147,6 +1145,10 @@ var taskbarAppIcon = Utils.defineClass({
 
 });
 taskbarAppIcon.prototype.scaleAndFade = taskbarAppIcon.prototype.undoScaleAndFade = () => {};
+
+function getIconContainerStyle() {
+    return 'padding: ' + (Panel.checkIfVertical() ? '4px' : '0 4px');
+}
 
 function minimizeWindow(app, param, monitor){
     // Param true make all app windows minimize

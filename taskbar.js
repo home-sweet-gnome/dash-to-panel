@@ -950,20 +950,25 @@ var taskbar = Utils.defineClass({
             this._box.insert_child_above(source._dashItemContainer, null);
         }
         
-        x -= this.showAppsButton.width;
+        let isVertical = Panel.checkIfVertical();
+        let sizeProp = isVertical ? 'height' : 'width';
+        let posProp = isVertical ? 'y' : 'x';
+        let pos = isVertical ? y : x;
+
+        pos -= this.showAppsButton[sizeProp];
 
         let currentAppIcons = this._getAppIcons();
         let sourceIndex = currentAppIcons.indexOf(source);
         let hoveredIndex = Utils.findIndex(currentAppIcons, 
-                                           appIcon => x >= appIcon._dashItemContainer.x && 
-                                                      x <= (appIcon._dashItemContainer.x + appIcon._dashItemContainer.width));
+                                           appIcon => pos >= appIcon._dashItemContainer[posProp] && 
+                                                      pos <= (appIcon._dashItemContainer[posProp] + appIcon._dashItemContainer[sizeProp]));
         
         if (!this._dragInfo) {
             this._dragInfo = [sourceIndex, source];
         }
 
         if (hoveredIndex >= 0) {
-            let isLeft = x < currentAppIcons[hoveredIndex]._dashItemContainer.x + currentAppIcons[hoveredIndex]._dashItemContainer.width * .5;
+            let isLeft = pos < currentAppIcons[hoveredIndex]._dashItemContainer[posProp] + currentAppIcons[hoveredIndex]._dashItemContainer[sizeProp] * .5;
 
             // Don't allow positioning before or after self and between icons of same app
             if (!(hoveredIndex === sourceIndex ||
@@ -1202,7 +1207,7 @@ var DragPlaceholderItem = Utils.defineClass({
     Extends: St.Widget,
 
     _init: function(appIcon, iconSize) {
-        this.callParent('_init', { style_class: 'dtp-icon-container', layout_manager: new Clutter.BinLayout() });
+        this.callParent('_init', { style: AppIcons.getIconContainerStyle(), layout_manager: new Clutter.BinLayout() });
 
         this.child = { _delegate: appIcon };
 
