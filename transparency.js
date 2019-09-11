@@ -129,10 +129,14 @@ var DynamicTransparency = Utils.defineClass({
         this._proximityManager.removeWatch(this._proximityWatchId);
 
         if (Me.settings.get_boolean('trans-use-dynamic-opacity')) {
+            let isVertical = Panel.checkIfVertical();
+            let threshold = Me.settings.get_int('trans-dynamic-distance');
+
             this._proximityWatchId = this._proximityManager.createWatch(
                 this._dtpPanel.panelBox, 
                 Proximity.Mode[Me.settings.get_string('trans-dynamic-behavior')], 
-                0, Me.settings.get_int('trans-dynamic-distance'), 
+                isVertical ? threshold : 0, 
+                isVertical ? 0 : threshold, 
                 overlap => { 
                     this._windowOverlap = overlap;
                     this._updateAlphaAndSet();
