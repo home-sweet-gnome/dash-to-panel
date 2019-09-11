@@ -29,6 +29,7 @@ const Mainloop = imports.mainloop;
 const St = imports.gi.St;
 const Shell = imports.gi.Shell;
 
+const Panel = Me.imports.panel;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
@@ -78,14 +79,15 @@ var dtpPanelStyle = Utils.defineClass({
         this._rightBoxOperations = [];
         
         let trayPadding = Me.settings.get_int('tray-padding');
+        let isVertical = Panel.checkIfVertical();
+        let paddingStyle = 'padding: ' + (isVertical ? '%dpx 0' : '0 %dpx');
+
         if(trayPadding >= 0) {
-            let trayPaddingStyleLine = '-natural-hpadding: %dpx'.format(trayPadding);
-            if (trayPadding < 6) {
-                trayPaddingStyleLine += '; -minimum-hpadding: %dpx'.format(trayPadding);
-            }
+            let trayPaddingStyleLine = paddingStyle.format(trayPadding,);
             let operation = {};
             operation.compareFn = function (actor) {
-                return (actor.has_style_class_name && actor.has_style_class_name('panel-button'));
+                let parent = actor.get_parent();
+                return (parent && parent.has_style_class_name && parent.has_style_class_name('panel-button'));
             };
             operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
                 this._overrideStyle(actor, trayPaddingStyleLine, operationIdx);
@@ -95,7 +97,7 @@ var dtpPanelStyle = Utils.defineClass({
 
         let statusIconPadding = Me.settings.get_int('status-icon-padding');
         if(statusIconPadding >= 0) {
-            let statusIconPaddingStyleLine = 'padding-left: %dpx; padding-right: %dpx'.format(statusIconPadding, statusIconPadding)
+            let statusIconPaddingStyleLine = paddingStyle.format(statusIconPadding)
             let operation = {};
             operation.compareFn = function (actor) {
                 return (actor.has_style_class_name && actor.has_style_class_name('system-status-icon'));
@@ -139,13 +141,11 @@ var dtpPanelStyle = Utils.defineClass({
 
         let leftboxPadding = Me.settings.get_int('leftbox-padding');
         if(leftboxPadding >= 0) {
-            let leftboxPaddingStyleLine = '-natural-hpadding: %dpx'.format(leftboxPadding);
-            if (leftboxPadding < 6) {
-                leftboxPaddingStyleLine += '; -minimum-hpadding: %dpx'.format(leftboxPadding);
-            }
+            let leftboxPaddingStyleLine = paddingStyle.format(leftboxPadding);
             let operation = {};
             operation.compareFn = function (actor) {
-                return (actor.has_style_class_name && actor.has_style_class_name('panel-button'));
+                let parent = actor.get_parent();
+                return (parent && parent.has_style_class_name && parent.has_style_class_name('panel-button'));
             };
             operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
                 this._overrideStyle(actor, leftboxPaddingStyleLine, operationIdx);

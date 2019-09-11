@@ -719,15 +719,7 @@ var dtpPanel = Utils.defineClass({
             let child = actor.get_first_child();
 
             if (child) {
-                let currentStyle = child.get_style();
-                let style = 'padding: ' + (isVertical ? '6px 0' : '0');
-
-                if (currentStyle && currentStyle != style) {
-                    style = currentStyle + (currentStyle.trim().slice(-1) != ';' ? ';' : '') + style;
-                }
-
                 actor.set_width(isVertical ? size : -1);
-                child.set_style(style);
             }
         }
 
