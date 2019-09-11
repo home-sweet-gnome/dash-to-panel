@@ -103,11 +103,13 @@ var dtpPanel = Utils.defineClass({
         this.isSecondary = isSecondary;
         this._sessionStyle = null;
 
-        this._leftCorner = new Panel.PanelCorner(St.Side.LEFT);
-        this.add_actor(this._leftCorner.actor);
-
-        this._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
-        this.add_actor(this._rightCorner.actor);
+        if (getPosition() == St.Side.TOP) {
+            this._leftCorner = new Panel.PanelCorner(St.Side.LEFT);
+            this.add_actor(this._leftCorner.actor);
+    
+            this._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
+            this.add_actor(this._rightCorner.actor);
+        }
 
         this._dtpSettingsSignalIds = [];
 
@@ -178,7 +180,7 @@ var dtpPanel = Utils.defineClass({
 
         this._adjustForOverview();
 
-        this._setPanelPosition(true);
+        this._setPanelPosition();
         
         this._HeightNotifyListener = this.panelBox.connect("notify::height", Lang.bind(this, function(){
             this._setPanelPosition();
@@ -656,36 +658,39 @@ var dtpPanel = Utils.defineClass({
             childBoxRight[varCoord.c2] = panelAllocVarSize;            
         }
 
-        let childBoxLeftCorner = new Clutter.ActorBox();
-        let [ , cornerSize] = this._leftCorner.actor[sizeFunc](-1);
-        childBoxLeftCorner[varCoord.c1] = 0;
-        childBoxLeftCorner[varCoord.c2] = cornerSize;
-        childBoxLeftCorner[fixedCoord.c1] = panelAllocFixedSize;
-        childBoxLeftCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
+        if (this._leftCorner) {
+            let childBoxLeftCorner = new Clutter.ActorBox();
+            let [ , cornerSize] = this._leftCorner.actor[sizeFunc](-1);
+            childBoxLeftCorner[varCoord.c1] = 0;
+            childBoxLeftCorner[varCoord.c2] = cornerSize;
+            childBoxLeftCorner[fixedCoord.c1] = panelAllocFixedSize;
+            childBoxLeftCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
 
-        let childBoxRightCorner = new Clutter.ActorBox();
-        [ , cornerSize] = this._rightCorner.actor[sizeFunc](-1);
-        childBoxRightCorner[varCoord.c1] = panelAllocVarSize - cornerSize;
-        childBoxRightCorner[varCoord.c2] = panelAllocVarSize;
-        childBoxRightCorner[fixedCoord.c1] = panelAllocFixedSize;
-        childBoxRightCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
+            let childBoxRightCorner = new Clutter.ActorBox();
+            [ , cornerSize] = this._rightCorner.actor[sizeFunc](-1);
+            childBoxRightCorner[varCoord.c1] = panelAllocVarSize - cornerSize;
+            childBoxRightCorner[varCoord.c2] = panelAllocVarSize;
+            childBoxRightCorner[fixedCoord.c1] = panelAllocFixedSize;
+            childBoxRightCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
+
+            this._leftCorner.actor.allocate(childBoxLeftCorner, flags);
+            this._rightCorner.actor.allocate(childBoxRightCorner, flags);
+        }
 
         this._leftBox.allocate(childBoxLeft, flags);
         this._centerBox.allocate(childBoxCenter, flags);
         this._rightBox.allocate(childBoxRight, flags);
-        this._leftCorner.actor.allocate(childBoxLeftCorner, flags);
-        this._rightCorner.actor.allocate(childBoxRightCorner, flags);
     },
 
-    _setPanelPosition: function(verticalize) {
+    _setPanelPosition: function() {
         let container = this.intellihide && this.intellihide.enabled ? this.panelBox.get_parent() : this.panelBox;
+        let isVertical = checkIfVertical();
 
         this.set_size(this.geom.w, this.geom.h);
         container.set_position(this.geom.x, this.geom.y)
 
-        if (verticalize) {
-            this._setVertical(this, checkIfVertical());
-        }
+        this._setVertical(this._centerBox, isVertical);
+        this._setVertical(this._rightBox, isVertical);
 
         // styles for theming
         Object.keys(St.Side).forEach(p => {
@@ -704,29 +709,29 @@ var dtpPanel = Utils.defineClass({
     },
 
     _setVertical: function(actor, isVertical) {
-        if (actor) {
-            if (actor instanceof St.BoxLayout) {
-                actor.vertical = isVertical;
-            }
-
-            if (actor instanceof PanelMenu.ButtonBox) {
-                let child = actor.get_first_child();
-
-                if (child) {
-                    let currentStyle = child.get_style();
-                    let style = 'padding: ' + (isVertical ? '6px 0' : '0');
-
-                    if (currentStyle && currentStyle != style) {
-                        style = currentStyle + (currentStyle.trim().slice(-1) != ';' ? ';' : '') + style;
-                    }
-
-                    actor.set_width(isVertical ? size : -1);
-                    child.set_style(style);
-                }
-            }
-
-            actor.get_children().forEach(c => this._setVertical(c, isVertical));
+        if (!actor) {
+            return;
         }
+
+        if (actor instanceof St.BoxLayout) {
+            actor.vertical = isVertical;
+        } else if (actor instanceof PanelMenu.ButtonBox) {
+            let child = actor.get_first_child();
+
+            if (child) {
+                let currentStyle = child.get_style();
+                let style = 'padding: ' + (isVertical ? '6px 0' : '0');
+
+                if (currentStyle && currentStyle != style) {
+                    style = currentStyle + (currentStyle.trim().slice(-1) != ';' ? ';' : '') + style;
+                }
+
+                actor.set_width(isVertical ? size : -1);
+                child.set_style(style);
+            }
+        }
+
+        actor.get_children().forEach(c => this._setVertical(c, isVertical));
     },
 
     _formatVerticalClock: function() {

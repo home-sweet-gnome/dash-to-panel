@@ -548,7 +548,7 @@ function newSetBarrierSize(size) {
     //the hotcorner sizes are re-applied when the panelbox allocation changes and
     //the used size is the panelbox height. To prevent giant barriers when the panelbox
     //is vertical, set a max size here
-    this._oldSetBarrierSize(Math.min(size, 32));
+    this._oldSetBarrierSize(Panel.size);
 }
 
 function newUpdatePanelBarrier(panel) {

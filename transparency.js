@@ -38,7 +38,10 @@ var DynamicTransparency = Utils.defineClass({
         this.currentBackgroundColor = 0;
 
         this._initialPanelStyle = dtpPanel.get_style();
-        this._initialPanelCornerStyle = dtpPanel._leftCorner.actor.get_style();
+        
+        if (this._dtpPanel._leftCorner) {
+            this._initialPanelCornerStyle = dtpPanel._leftCorner.actor.get_style();
+        }
 
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._bindSignals();
@@ -53,8 +56,11 @@ var DynamicTransparency = Utils.defineClass({
         this._proximityManager.removeWatch(this._proximityWatchId);
 
         this._dtpPanel.set_style(this._initialPanelStyle);
-        this._dtpPanel._leftCorner.actor.set_style(this._initialPanelCornerStyle);
-        this._dtpPanel._rightCorner.actor.set_style(this._initialPanelCornerStyle);
+        
+        if (this._dtpPanel._leftCorner) {
+            this._dtpPanel._leftCorner.actor.set_style(this._initialPanelCornerStyle);
+            this._dtpPanel._rightCorner.actor.set_style(this._initialPanelCornerStyle);
+        }
     },
 
     _bindSignals: function() {
@@ -206,8 +212,11 @@ var DynamicTransparency = Utils.defineClass({
         let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
 
         this._dtpPanel.panelBg.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles);
-        this._dtpPanel._leftCorner.actor.set_style(cornerStyle);
-        this._dtpPanel._rightCorner.actor.set_style(cornerStyle);
+        
+        if (this._dtpPanel._leftCorner) {
+            this._dtpPanel._leftCorner.actor.set_style(cornerStyle);
+            this._dtpPanel._rightCorner.actor.set_style(cornerStyle);
+        }
     },
 
     _setGradient: function() {
