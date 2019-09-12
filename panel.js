@@ -460,6 +460,7 @@ var dtpPanel = Utils.defineClass({
         this._dtpSettingsSignalIds = this._dtpSettingsSignalIds.concat([
             Me.settings.connect('changed::panel-size', Lang.bind(this, function() {
                 this._resetGeometry();
+                checkIfVertical() ? this._formatVerticalClock() : 0;
             })),
 
             Me.settings.connect('changed::appicon-margin', Lang.bind(this, function() {
@@ -727,9 +728,18 @@ var dtpPanel = Utils.defineClass({
     },
 
     _formatVerticalClock: function() {
-        let time = this.statusArea.dateMenu._clock.clock.split('∶');
+        let time = this.statusArea.dateMenu._clock.clock;
+        let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
+        
+        clockText.set_text(time);
+        clockText.get_allocation_box();
 
-        this.statusArea.dateMenu._clockDisplay.clutter_text.text = time[0] + '\n∶\n' + time[1];
+        if (clockText.get_layout().is_ellipsized()) {
+            let timeParts = time.split('∶');
+
+            clockText.set_text(timeParts[0] + '\n<span size="xx-small">‧‧</span>\n' + timeParts[1]);
+            clockText.set_use_markup(true);
+        }
     },
 
     _setActivitiesButtonVisible: function(isVisible) {
