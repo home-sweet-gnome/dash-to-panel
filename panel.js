@@ -95,6 +95,8 @@ var dtpPanel = Utils.defineClass({
 
         Utils.wrapActor(this);
 
+        this._signalsHandler = new Utils.GlobalSignalsHandler();
+
         this.panelManager = panelManager;
         this.panelStyle = new PanelStyle.dtpPanelStyle();
 
@@ -110,8 +112,6 @@ var dtpPanel = Utils.defineClass({
             this._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
             this.add_actor(this._rightCorner.actor);
         }
-
-        this._dtpSettingsSignalIds = [];
 
         if (isSecondary) {
             this.statusArea = {};
@@ -144,12 +144,18 @@ var dtpPanel = Utils.defineClass({
         Utils.wrapActor(this.statusArea.activities || 0);
 
         if (Main.panel._onButtonPress) {
-            this.connect('button-press-event', Main.panel._onButtonPress.bind(this));
-            this.connect('touch-event', Main.panel._onButtonPress.bind(this));
+            this._signalsHandler.add([
+                this, 
+                [
+                    'button-press-event', 
+                    'touch-event'
+                ],
+                this._onButtonPress.bind(this)
+            ]);
         }
 
         if (Main.panel._onKeyPress) {
-            this.connect('key-press-event', Main.panel._onKeyPress.bind(this));
+            this._signalsHandler.add([this, 'key-press-event', Main.panel._onKeyPress.bind(this)]);
         }
        
         Main.ctrlAltTabManager.addGroup(this, _("Top Bar")+" "+ monitor.index, 'focus-top-bar-symbolic',
@@ -181,15 +187,6 @@ var dtpPanel = Utils.defineClass({
         this._adjustForOverview();
 
         this._setPanelPosition();
-        
-        this._HeightNotifyListener = this.panelBox.connect("notify::height", Lang.bind(this, function(){
-            this._setPanelPosition();
-        }));
-
-        // this is to catch changes to the window scale factor
-        this._ScaleFactorListener = St.ThemeContext.get_for_stage(global.stage).connect("changed", Lang.bind(this, function () { 
-            this._setPanelPosition();
-        }));
 
         if (!this.isSecondary) {
             // The overview uses the panel height as a margin by way of a "ghost" transparent Clone
@@ -216,6 +213,12 @@ var dtpPanel = Utils.defineClass({
                 Main.overview._panelGhost.set_height(0);
             } else {
                 Main.overview._panelGhost.set_height(this.geom.h);
+            }
+
+            if (this.statusArea.dateMenu) {
+                // remove the extra space before the clock when the message-indicator is displayed
+                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', () => [0,0]);
+                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', () => [0,0]);
             }
         }
 
@@ -260,8 +263,18 @@ var dtpPanel = Utils.defineClass({
             this.intellihide = new Intellihide.Intellihide(this);
         });
 
-        this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._signalsHandler.add(
+            [
+                this.panelBox, 
+                'notify::height', 
+                () => this._setPanelPosition()
+            ],
+            // this is to catch changes to the window scale factor
+            [
+                St.ThemeContext.get_for_stage(global.stage), 
+                'changed', 
+                () => this._setPanelPosition()
+            ],
             // Keep dragged icon consistent in size with this dash
             [
                 this.taskbar,
@@ -310,6 +323,11 @@ var dtpPanel = Utils.defineClass({
                 this,
                 'scroll-event',
                 this._onPanelMouseScroll.bind(this)
+            ],
+            [
+                Main.layoutManager,
+                'startup-complete',
+                () => this._resetGeometry(true)
             ]
         );
 
@@ -375,18 +393,6 @@ var dtpPanel = Utils.defineClass({
         this.panelBg.remove_actor(this);
         this.panelBox.add(this);
 
-        // remove panel styling
-        if(this._HeightNotifyListener !== null) {
-            this.panelBox.disconnect(this._HeightNotifyListener);
-        }
-        if(this._ScaleFactorListener !== null) {
-            St.ThemeContext.get_for_stage(global.stage).disconnect(this._ScaleFactorListener);
-        }
-
-        for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
-            Me.settings.disconnect(this._dtpSettingsSignalIds[i]);
-        }
-
         this.menuManager._changeMenu = this.menuManager._oldChangeMenu;
 
         if (!this.isSecondary) {
@@ -414,6 +420,9 @@ var dtpPanel = Utils.defineClass({
             if (this.statusArea.dateMenu) {
                 this.statusArea.dateMenu._clock.time_only = false;
                 this.statusArea.dateMenu._clockDisplay.text = this.statusArea.dateMenu._clock.clock;
+
+                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
+                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_height);
             }
         } else {
             this._removePanelMenu('dateMenu');
@@ -428,7 +437,6 @@ var dtpPanel = Utils.defineClass({
         this.container = null;
         this.taskbar = null;
         this._signalsHandler = null;
-        this._HeightNotifyListener = null;
     },
 
     //next 3 functions are needed by other extensions to add elements to the secondary panel
@@ -457,50 +465,58 @@ var dtpPanel = Utils.defineClass({
     },
 
     _bindSettingsChanges: function() {
-        this._dtpSettingsSignalIds = this._dtpSettingsSignalIds.concat([
-            Me.settings.connect('changed::panel-size', Lang.bind(this, function() {
-                this._resetGeometry();
-                checkIfVertical() ? this._formatVerticalClock() : 0;
-            })),
-
-            Me.settings.connect('changed::appicon-margin', Lang.bind(this, function() {
-                this.taskbar.resetAppIcons();
-            })),
-
-            Me.settings.connect('changed::appicon-padding', Lang.bind(this, function() {
-                this.taskbar.resetAppIcons();
-            })),
-
-            Me.settings.connect('changed::show-activities-button', Lang.bind(this, function() {
-                this._setActivitiesButtonVisible(Me.settings.get_boolean('show-activities-button'));
-            })),
-            
-            Me.settings.connect('changed::show-appmenu', Lang.bind(this, function() {
-                this._setAppmenuVisible(Me.settings.get_boolean('show-appmenu'));
-            })),
-
-            Me.settings.connect('changed::location-clock', Lang.bind(this, function() {
-                this._setClockLocation(Me.settings.get_string('location-clock'));
-            })),
-
-            Me.settings.connect('changed::show-showdesktop-button', Lang.bind(this, function() {
-                this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'));
-            })),
-
-            Me.settings.connect('changed::showdesktop-button-width', () => this._setShowDesktopButtonSize()),
-
-            Me.settings.connect('changed::group-apps', () => this._resetGeometry())
-        ]);
+        this._signalsHandler.add(
+            [
+                Me.settings,
+                [
+                    'changed::panel-size',
+                    'changed::group-apps'
+                ],
+                () => this._resetGeometry()
+            ],
+            [
+                Me.settings,
+                [
+                    'changed::appicon-margin',
+                    'changed::appicon-padding'
+                ],
+                () => this.taskbar.resetAppIcons()
+            ],
+            [
+                Me.settings,
+                'changed::show-activities-button',
+                () => this._setActivitiesButtonVisible(Me.settings.get_boolean('show-activities-button'))
+            ],
+            [
+                Me.settings,
+                'changed::show-appmenu',
+                () => this._setAppmenuVisible(Me.settings.get_boolean('show-appmenu'))
+            ],
+            [
+                Me.settings,
+                'changed::location-clock',
+                () => this._setClockLocation(Me.settings.get_string('location-clock'))
+            ],
+            [
+                Me.settings,
+                'changed::show-showdesktop-button',
+                () => this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'))
+            ],
+            [
+                Me.settings,
+                'changed::showdesktop-button-width',
+                () => this._setShowDesktopButtonSize()
+            ],
+        );
 
         if (checkIfVertical()) {
-            this._dtpSettingsSignalIds.push(Me.settings.connect('changed::group-apps-label-max-width', () => this._resetGeometry()));
+            this._signalsHandler.add([Me.settings, 'changed::group-apps-label-max-width', () => this._resetGeometry()]);
         }
     },
 
     _setPanelMenu: function(settingName, propName, constr, container, isInit) {
         if (isInit) {
-            this._dtpSettingsSignalIds.push(Me.settings.connect(
-                'changed::' + settingName, () => this._setPanelMenu(settingName, propName, constr, container)));
+            this._signalsHandler.add([Me.settings, 'changed::' + settingName, () => this._setPanelMenu(settingName, propName, constr, container)]);
         }
         
         if (!Me.settings.get_boolean(settingName)) {
@@ -534,10 +550,16 @@ var dtpPanel = Utils.defineClass({
         this.panelBox[isShown ? 'show' : 'hide']();
     },
 
-    _resetGeometry: function() {
-        this.geom = this._getGeometry();
-        this._setPanelPosition();
-        this.taskbar.resetAppIcons();
+    _resetGeometry: function(clockOnly) {
+        if (!clockOnly) {
+            this.geom = this._getGeometry();
+            this._setPanelPosition();
+            this.taskbar.resetAppIcons();
+        }
+
+        if (checkIfVertical()) {
+            this._formatVerticalClock();
+        }
     },
 
     _getGeometry: function() {
@@ -704,6 +726,53 @@ var dtpPanel = Utils.defineClass({
         Main.layoutManager._updatePanelBarrier(this);
     },
 
+    _onButtonPress: function(actor, event) {
+        let type = event.type();
+        let isPress = type == Clutter.EventType.BUTTON_PRESS;
+        let button = isPress ? event.get_button() : -1;
+
+        if (Main.modalCount > 0 || event.get_source() != actor || 
+            (!isPress && type != Clutter.EventType.TOUCH_BEGIN) ||
+            (isPress && button != 1)) {
+            return Clutter.EVENT_PROPAGATE;
+        }
+
+        let [stageX, stageY] = event.get_coords();
+        let params = checkIfVertical() ? [stageY, 'y', 'height'] : [stageX, 'x', 'width'];
+        let dragWindow = this._getDraggableWindowForPosition.apply(this, params.concat(['maximized_' + getOrientation() + 'ly']));
+
+        if (!dragWindow)
+            return Clutter.EVENT_PROPAGATE;
+
+        global.display.begin_grab_op(dragWindow,
+                                     Meta.GrabOp.MOVING,
+                                     false, /* pointer grab */
+                                     true, /* frame action */
+                                     button,
+                                     event.get_state(),
+                                     event.get_time(),
+                                     stageX, stageY);
+
+        return Clutter.EVENT_STOP;
+    },
+
+    _getDraggableWindowForPosition(stageCoord, coord, dimension, maximizedProp) {
+        let workspace = Utils.getCurrentWorkspace();
+        let allWindowsByStacking = global.display.sort_windows_by_stacking(
+            workspace.list_windows()
+        ).reverse();
+
+        return allWindowsByStacking.find(metaWindow => {
+            let rect = metaWindow.get_frame_rect();
+
+            return metaWindow.get_monitor() == this.monitor.index &&
+                   metaWindow.showing_on_its_workspace() &&
+                   metaWindow.get_window_type() != Meta.WindowType.DESKTOP &&
+                   metaWindow[maximizedProp] &&
+                   stageCoord > rect[coord] && stageCoord < rect[coord] + rect[dimension];
+        });
+    },
+
     _onBoxActorAdded: function(box) {
         this._setClockLocation(Me.settings.get_string('location-clock'));
         this._setVertical(box, checkIfVertical());
@@ -725,21 +794,6 @@ var dtpPanel = Utils.defineClass({
         }
 
         actor.get_children().forEach(c => this._setVertical(c, isVertical));
-    },
-
-    _formatVerticalClock: function() {
-        let time = this.statusArea.dateMenu._clock.clock;
-        let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
-        
-        clockText.set_text(time);
-        clockText.get_allocation_box();
-
-        if (clockText.get_layout().is_ellipsized()) {
-            let timeParts = time.split('∶');
-
-            clockText.set_text(timeParts[0] + '\n<span size="xx-small">‧‧</span>\n' + timeParts[1]);
-            clockText.set_use_markup(true);
-        }
     },
 
     _setActivitiesButtonVisible: function(isVisible) {
@@ -766,6 +820,21 @@ var dtpPanel = Utils.defineClass({
             } else {
                 this._centerBox.insert_child_at_index(appMenu.container, 0);
             }            
+        }
+    },
+
+    _formatVerticalClock: function() {
+        let time = this.statusArea.dateMenu._clock.clock;
+        let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
+        
+        clockText.set_text(time);
+        clockText.get_allocation_box();
+
+        if (clockText.get_layout().is_ellipsized()) {
+            let timeParts = time.split('∶');
+
+            clockText.set_text(timeParts[0] + '\n<span size="xx-small">‧‧</span>\n' + timeParts[1]);
+            clockText.set_use_markup(true);
         }
     },
 
@@ -814,9 +883,9 @@ var dtpPanel = Utils.defineClass({
 
             this._setShowDesktopButtonSize();
 
-            this._showDesktopButton.connect('button-press-event', Lang.bind(this, this._onShowDesktopButtonPress));
+            this._signalsHandler.add([this._showDesktopButton, 'button-press-event', () => this._onShowDesktopButtonPress()]);
 
-            this._showDesktopButton.connect('enter-event', Lang.bind(this, function(){
+            this._signalsHandler.add([this._showDesktopButton, 'enter-event', () => {
                 this._showDesktopButton.add_style_class_name('showdesktop-button-hovered');
 
                 if (Me.settings.get_boolean('show-showdesktop-hover')) {
@@ -826,9 +895,9 @@ var dtpPanel = Utils.defineClass({
                         this._showDesktopTimeoutId = 0;
                     });
                 }
-            }));
+            }]);
             
-            this._showDesktopButton.connect('leave-event', Lang.bind(this, function(){
+            this._signalsHandler.add([this._showDesktopButton, 'leave-event', () => {
                 this._showDesktopButton.remove_style_class_name('showdesktop-button-hovered');
 
                 if (Me.settings.get_boolean('show-showdesktop-hover')) {
@@ -839,7 +908,7 @@ var dtpPanel = Utils.defineClass({
                         this._toggleWorkspaceWindows(false, this._hiddenDesktopWorkspace);
                     }
                  }
-            }));
+            }]);
 
             this._rightBox.insert_child_at_index(this._showDesktopButton, this._rightBox.get_children().length);
         } else {
@@ -874,10 +943,9 @@ var dtpPanel = Utils.defineClass({
     },
 
     _onShowDesktopButtonPress: function() {
-        if(this._focusAppChangeId){
-            tracker.disconnect(this._focusAppChangeId);
-            this._focusAppChangeId = null;
-        }
+        let label = 'trackerFocusApp';
+
+        this._signalsHandler.removeWithLabel(label);
 
         if(this._restoreWindowList && this._restoreWindowList.length) {
             if (this._showDesktopTimeoutId) {
@@ -906,9 +974,7 @@ var dtpPanel = Utils.defineClass({
             this._restoreWindowList = windows;
 
             Mainloop.timeout_add(0, Lang.bind(this, function () {
-                this._focusAppChangeId = tracker.connect('notify::focus-app', Lang.bind(this, function () {
-                    this._restoreWindowList = null;
-                }));
+                this._signalsHandler.addWithLabel(label, [tracker, 'notify::focus-app', () => this._restoreWindowList = null]);
             }));
         }
 
