@@ -416,7 +416,7 @@ var PreviewMenu = Utils.defineClass({
 
     _updateClip: function() {
         let x, y, w, h;
-        let geom = this.panel.geom;
+        let geom = this.panel.getGeometry();
         let panelBoxTheme = this.panel.panelBox.get_theme_node();
         let previewSize = (Me.settings.get_int('window-preview-size') + 
                            Me.settings.get_int('window-preview-padding') * 2) * scaleFactor;

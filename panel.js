@@ -32,6 +32,7 @@ const Clutter = imports.gi.Clutter;
 const Config = imports.misc.config;
 const Gtk = imports.gi.Gtk;
 const Gi = imports._gi;
+const AppIcons = Me.imports.appIcons;
 const Utils = Me.imports.utils;
 const Taskbar = Me.imports.taskbar;
 const PanelStyle = Me.imports.panelStyle;
@@ -176,7 +177,7 @@ var dtpPanel = Utils.defineClass({
             this.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll = 1;
         }
 
-        this.geom = this._getGeometry();
+        this.geom = this.getGeometry();
         this.panelBg = new St.Widget({ layout_manager: new Clutter.BinLayout() });
         this.panelBox.remove_actor(this);
         this.panelBg.add_child(this);
@@ -552,7 +553,7 @@ var dtpPanel = Utils.defineClass({
 
     _resetGeometry: function(clockOnly) {
         if (!clockOnly) {
-            this.geom = this._getGeometry();
+            this.geom = this.getGeometry();
             this._setPanelPosition();
             this.taskbar.resetAppIcons();
         }
@@ -562,7 +563,7 @@ var dtpPanel = Utils.defineClass({
         }
     },
 
-    _getGeometry: function() {
+    getGeometry: function() {
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor || 1;
         let position = getPosition();
         let x = 0, y = 0;
@@ -572,8 +573,8 @@ var dtpPanel = Utils.defineClass({
 
         if (checkIfVertical()) {
             if (!Me.settings.get_boolean('group-apps')) {
-                // add 8 for the 4px css side padding of _dtpIconContainer when vertical
-                size += Me.settings.get_int('group-apps-label-max-width') + 8 / scaleFactor;
+                // add window title width and side padding of _dtpIconContainer when vertical
+                size += Me.settings.get_int('group-apps-label-max-width') + AppIcons.DEFAULT_PADDING_SIZE * 2 / scaleFactor;
             }
 
             sizeFunc = 'get_preferred_height',

@@ -53,6 +53,7 @@ const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
+const DEFAULT_PADDING_SIZE = 4;
 
 let DOT_STYLE = {
     DOTS: "DOTS",
@@ -132,15 +133,9 @@ var taskbarAppIcon = Utils.defineClass({
         this._dot.set_width(0);
         this._isGroupApps = Me.settings.get_boolean('group-apps');
         
-        let dtpIconContainerOpts = { layout_manager: new Clutter.BinLayout() };
-
-        if (!this._isGroupApps) {
-            dtpIconContainerOpts.style = getIconContainerStyle();
-        }
-
         this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
-        this._dtpIconContainer = new St.Widget(dtpIconContainerOpts);
+        this._dtpIconContainer = new St.Widget({ layout_manager: new Clutter.BinLayout(), style: getIconContainerStyle() });
 
         this.actor.remove_actor(this._iconContainer);
         
@@ -482,7 +477,15 @@ var taskbarAppIcon = Utils.defineClass({
                     highlightMargin += 1;
 
                 if (this._nWindows > 1 && focusedDotStyle == DOT_STYLE.METRO) {
-                    inlineStyle += "background-image: url('" + Me.path + "/img/highlight_stacked_bg.svg');" + 
+                    let bgSvg = '/img/highlight_stacked_bg';
+
+                    if (pos == DOT_POSITION.LEFT) {
+                        bgSvg += '_left';
+                    } else if (pos == DOT_POSITION.RIGHT) {
+                        bgSvg += '_right';
+                    }
+
+                    inlineStyle += "background-image: url('" + Me.path + bgSvg + ".svg');" + 
                                    "background-position: 0 " + (pos == DOT_POSITION.TOP ? highlightMargin : 0) + "px;" +
                                    "background-size: " + backgroundSize;
                 }
@@ -626,16 +629,14 @@ var taskbarAppIcon = Utils.defineClass({
                 }
             });
 
-            if (position == DOT_POSITION.BOTTOM) {
-                rotation = 180;
-            } else if (position == DOT_POSITION.LEFT) {
+            if (position == DOT_POSITION.LEFT) {
                 rotation = 270;
             } else if (position == DOT_POSITION.RIGHT) {
                 rotation = 90;
             }
 
             this._focusedDots.rotation_angle_z = this._unfocusedDots.rotation_angle_z = rotation;
-            
+
             if(focusedIsWide) {
                 newFocusedDotsWidth = (isFocused && this._nWindows > 0) ? containerWidth : 0;
                 newFocusedDotsOpacity = 255;
@@ -984,13 +985,14 @@ var taskbarAppIcon = Utils.defineClass({
         let [width, height] = area.get_surface_size();
         let cr = area.get_context();
         let size = this._getRunningIndicatorSize();
+        let yOffset = Me.settings.get_string('dot-position') == DOT_POSITION.BOTTOM ? (height - size) : 0;
 
         if(type == DOT_STYLE.DOTS) {
             // Draw the required numbers of dots
             let radius = size/2;
             let spacing = Math.ceil(width/18); // separation between the dots
         
-            cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, 0);
+            cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, yOffset);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
@@ -1001,7 +1003,7 @@ var taskbarAppIcon = Utils.defineClass({
         } else if(type == DOT_STYLE.SQUARES) {
             let spacing = Math.ceil(width/18); // separation between the dots
         
-            cr.translate(Math.floor((width - n*size - (n-1)*spacing)/2), 0);
+            cr.translate(Math.floor((width - n*size - (n-1)*spacing)/2), yOffset);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
@@ -1013,7 +1015,7 @@ var taskbarAppIcon = Utils.defineClass({
             let spacing = Math.ceil(width/18); // separation between the dots
             let dashLength = Math.floor(width/4) - spacing;
         
-            cr.translate(Math.floor((width - n*dashLength - (n-1)*spacing)/2), 0);
+            cr.translate(Math.floor((width - n*dashLength - (n-1)*spacing)/2), yOffset);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
@@ -1025,7 +1027,7 @@ var taskbarAppIcon = Utils.defineClass({
             let spacing = Math.ceil(width/18); // separation between the dots
             let dashLength = Math.ceil((width - ((n-1)*spacing))/n);
         
-            cr.translate(0, 0);
+            cr.translate(0, yOffset);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             for (let i = 0; i < n; i++) {
@@ -1037,7 +1039,7 @@ var taskbarAppIcon = Utils.defineClass({
             let spacing = size; // separation between the dots
             let lineLength = width - (size*(n-1)) - (spacing*(n-1));
         
-            cr.translate(0, 0);
+            cr.translate(0, yOffset);
 
             Clutter.cairo_set_source_color(cr, bodyColor);
             cr.newSubPath();
@@ -1049,7 +1051,7 @@ var taskbarAppIcon = Utils.defineClass({
             cr.fill();
         } else if (type == DOT_STYLE.METRO) {
             if(n <= 1) {
-                cr.translate(0, 0);
+                cr.translate(0, yOffset);
                 Clutter.cairo_set_source_color(cr, bodyColor);
                 cr.newSubPath();
                 cr.rectangle(0, 0, width, size);
@@ -1060,7 +1062,7 @@ var taskbarAppIcon = Utils.defineClass({
                 let blackenedColor = bodyColor.shade(.3);
                 let darkenedColor = bodyColor.shade(.7);
 
-                cr.translate(0, 0);
+                cr.translate(0, yOffset);
 
                 Clutter.cairo_set_source_color(cr, bodyColor);
                 cr.newSubPath();
@@ -1076,7 +1078,7 @@ var taskbarAppIcon = Utils.defineClass({
                 cr.fill();
             }
         } else { // solid
-            cr.translate(0, 0);
+            cr.translate(0, yOffset);
             Clutter.cairo_set_source_color(cr, bodyColor);
             cr.newSubPath();
             cr.rectangle(0, 0, width, size);
@@ -1147,7 +1149,13 @@ var taskbarAppIcon = Utils.defineClass({
 taskbarAppIcon.prototype.scaleAndFade = taskbarAppIcon.prototype.undoScaleAndFade = () => {};
 
 function getIconContainerStyle() {
-    return 'padding: ' + (Panel.checkIfVertical() ? '4px' : '0 4px');
+    let style = ';';
+
+    if (!Me.settings.get_boolean('group-apps')) {
+        style = 'padding: ' + (Panel.checkIfVertical() ? '' : '0 ') + DEFAULT_PADDING_SIZE + 'px;';
+    }
+
+    return style;
 }
 
 function minimizeWindow(app, param, monitor){
