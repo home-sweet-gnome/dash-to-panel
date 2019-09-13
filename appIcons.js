@@ -53,7 +53,7 @@ const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
-const DEFAULT_PADDING_SIZE = 4;
+var DEFAULT_PADDING_SIZE = 4;
 
 let DOT_STYLE = {
     DOTS: "DOTS",
