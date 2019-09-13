@@ -476,7 +476,7 @@ var PreviewMenu = Utils.defineClass({
 
     _updateScrollFade: function(remove) {
         let [value, upper, pageSize] = this._getScrollAdjustmentValues();
-        let needsFade = upper > pageSize;
+        let needsFade = Math.round(upper) > Math.round(pageSize);
         let fadeWidgets = this.menu.get_children().filter(c => c != this._scrollView);
         
         if (!remove && needsFade) {

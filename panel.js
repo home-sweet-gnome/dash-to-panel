@@ -88,11 +88,27 @@ function getOrientation() {
     return (checkIfVertical() ? 'vertical' : 'horizontal');
 }
 
+function setAggregateMenuArrow(aggregateMenu, side) {
+    let arrowIcon = aggregateMenu._indicators.get_last_child();
+    let iconNames = {
+        '0': 'pan-down-symbolic',   //TOP
+        '1': 'pan-start-symbolic',  //RIGHT
+        '2': 'pan-up-symbolic',     //BOTTOM
+        '3': 'pan-end-symbolic'     //LEFT
+    };
+
+    aggregateMenu._indicators.remove_child(arrowIcon);
+    arrowIcon.set_icon_name(iconNames[side]);
+    aggregateMenu._indicators.add_child(arrowIcon);
+}
+
 var dtpPanel = Utils.defineClass({
     Name: 'DashToPanel-Panel',
     Extends: St.Widget,
 
     _init: function(panelManager, monitor, panelBox, isSecondary) {
+        let position = getPosition();
+
         this.callParent('_init', { name: 'panel', reactive: true });
 
         Utils.wrapActor(this);
@@ -107,7 +123,7 @@ var dtpPanel = Utils.defineClass({
         this.isSecondary = isSecondary;
         this._sessionStyle = null;
 
-        if (getPosition() == St.Side.TOP) {
+        if (position == St.Side.TOP) {
             this._leftCorner = new Panel.PanelCorner(St.Side.LEFT);
             this.add_actor(this._leftCorner.actor);
     
@@ -133,12 +149,14 @@ var dtpPanel = Utils.defineClass({
             this.menuManager = Main.panel.menuManager;
             this.grabOwner = Main.panel;
 
+            setAggregateMenuArrow(this.statusArea.aggregateMenu, position);
+
             ['_leftBox', '_centerBox', '_rightBox'].forEach(p => {
                 Main.panel.actor.remove_child(Main.panel[p]);
                 this[p] = Main.panel[p];
             });
         }
-        
+
         this.add_child(this._leftBox);
         this.add_child(this._centerBox);
         this.add_child(this._rightBox);
@@ -422,6 +440,7 @@ var dtpPanel = Utils.defineClass({
 
             if (this.statusArea.aggregateMenu) {
                 delete this.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll;
+                setAggregateMenuArrow(this.statusArea.aggregateMenu, St.Side.TOP);
             }
 
             if (this.statusArea.dateMenu) {
@@ -1091,5 +1110,7 @@ var dtpSecondaryAggregateMenu = Utils.defineClass({
 
         menuLayout.addSizeChild(this._power.menu.actor);
         menuLayout.addSizeChild(this._system.menu.actor);
+
+        setAggregateMenuArrow(this, getPosition());
     },
 });
