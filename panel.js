@@ -39,6 +39,7 @@ const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
+const Dash = imports.ui.dash;
 const CtrlAltTab = imports.ui.ctrlAltTab;
 const Panel = imports.ui.panel;
 const PanelMenu = imports.ui.panelMenu;
@@ -311,14 +312,19 @@ var dtpPanel = Utils.defineClass({
                 () => this._adjustForOverview()
             ],
             [
-                this._rightBox,
+                this._leftBox,
                 'actor-added',
-                () => this._onBoxActorAdded(this._rightBox)
+                () => this._onBoxActorAdded(this._leftBox)
             ],
             [
                 this._centerBox,
                 'actor-added',
                 () => this._onBoxActorAdded(this._centerBox)
+            ],
+            [
+                this._rightBox,
+                'actor-added',
+                () => this._onBoxActorAdded(this._rightBox)
             ],
             [
                 this,
@@ -713,8 +719,7 @@ var dtpPanel = Utils.defineClass({
         this.set_size(this.geom.w, this.geom.h);
         container.set_position(this.geom.x, this.geom.y)
 
-        this._setVertical(this._centerBox, isVertical);
-        this._setVertical(this._rightBox, isVertical);
+        this._setVertical(this, isVertical);
 
         // styles for theming
         Object.keys(St.Side).forEach(p => {
@@ -780,7 +785,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     _setVertical: function(actor, isVertical) {
-        if (!actor) {
+        if (!actor || actor instanceof Dash.DashItemContainer) {
             return;
         }
 
