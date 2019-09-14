@@ -86,6 +86,7 @@ function _enable() {
     if (panelManager) return; //already initialized
 
     Me.settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
+    Me.desktopSettings = Convenience.getSettings('org.gnome.desktop.interface');
     panelManager = new PanelManager.dtpPanelManager();
     panelManager.enable();
     
@@ -112,6 +113,7 @@ function disable(reset) {
     panelManager.disable();
     Main.overview._dash = oldDash;
     Me.settings.run_dispose();
+    Me.desktopSettings.run_dispose();
 
     delete Me.settings;
     oldDash = null;

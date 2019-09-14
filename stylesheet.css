@@ -76,6 +76,11 @@
 	margin: 0; 
 }
 
+.dashtopanelPanel.vertical .panel-button > *,
+.dashtopanelPanel.vertical .panel-button.vertical > * {
+	padding: 6px 0; 
+}
+
 #dashtopanelThumbnailList {
 	spacing: 0em;
 	padding: 0 1em;

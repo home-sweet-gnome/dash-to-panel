@@ -330,11 +330,6 @@ var dtpPanel = Utils.defineClass({
                 () => this._adjustForOverview()
             ],
             [
-                this._leftBox,
-                'actor-added',
-                () => this._onBoxActorAdded(this._leftBox)
-            ],
-            [
                 this._centerBox,
                 'actor-added',
                 () => this._onBoxActorAdded(this._centerBox)
@@ -355,6 +350,21 @@ var dtpPanel = Utils.defineClass({
                 () => this._resetGeometry(true)
             ]
         );
+
+        if (isVertical) {
+            this._signalsHandler.add(
+                [
+                    this._centerBox,
+                    'notify::allocation',
+                    () => this._refreshVerticalAlloc()
+                ],
+                [
+                    this._rightBox,
+                    'notify::allocation',
+                    () => this._refreshVerticalAlloc()
+                ],
+            );
+        }
 
         this._bindSettingsChanges();
 
@@ -408,6 +418,11 @@ var dtpPanel = Utils.defineClass({
             this.startDynamicTransparencyId = 0;
         } else {
             this.dynamicTransparency.destroy();
+        }
+
+        if (this._allocationThrottleId) {
+            Mainloop.source_remove(this._allocationThrottleId);
+            this._allocationThrottleId = 0;
         }
 
         this.taskbar.destroy();
@@ -493,6 +508,8 @@ var dtpPanel = Utils.defineClass({
     },
 
     _bindSettingsChanges: function() {
+        let isVertical = checkIfVertical();
+        
         this._signalsHandler.add(
             [
                 Me.settings,
@@ -535,9 +552,20 @@ var dtpPanel = Utils.defineClass({
                 'changed::showdesktop-button-width',
                 () => this._setShowDesktopButtonSize()
             ],
+            [
+                Me.desktopSettings,
+                'changed::clock-format',
+                () => {
+                    this._clockFormat = null;
+                    
+                    if (isVertical) {
+                        this._formatVerticalClock();
+                    }
+                }
+            ]
         );
 
-        if (checkIfVertical()) {
+        if (isVertical) {
             this._signalsHandler.add([Me.settings, 'changed::group-apps-label-max-width', () => this._resetGeometry()]);
         }
     },
@@ -801,7 +829,16 @@ var dtpPanel = Utils.defineClass({
 
     _onBoxActorAdded: function(box) {
         this._setClockLocation(Me.settings.get_string('location-clock'));
-        this._setVertical(box, checkIfVertical());
+    },
+
+    _refreshVerticalAlloc: function() {
+        if (!this._allocationThrottleId) {
+            this._allocationThrottleId = Mainloop.timeout_add(200, () => {
+                this._setVertical(this._centerBox, true);
+                this._setVertical(this._rightBox, true);
+                this._allocationThrottleId = 0;
+            });
+        }
     },
 
     _setVertical: function(actor, isVertical) {
@@ -819,11 +856,8 @@ var dtpPanel = Utils.defineClass({
                     let [, natWidth] = actor.get_preferred_width(-1);
 
                     child.x_align = Clutter.ActorAlign[isVertical ? 'CENTER' : 'START'];
-                    child.style = (isVertical ? 'padding: 6px 0;' : null);
-
-                    isVertical = isVertical && (natWidth > size);
-
                     actor.set_width(isVertical ? size : -1);
+                    isVertical = isVertical && (natWidth > size);
                     actor[(isVertical ? 'add' : 'remove') + '_style_class_name']('vertical');
                 }
             }
@@ -872,7 +906,15 @@ var dtpPanel = Utils.defineClass({
         if (clockText.get_layout().is_ellipsized()) {
             let timeParts = time.split('∶');
 
-            clockText.set_text(timeParts.join('\n<span size="xx-small">‧‧</span>\n'));
+            if (!this._clockFormat) {
+                this._clockFormat = Me.desktopSettings.get_string('clock-format');
+            }
+
+            if (this._clockFormat == '12h') {
+                timeParts.push.apply(timeParts, timeParts.pop().split(' '));
+            }
+
+            clockText.set_text(timeParts.join('\n<span size="xx-small">‧‧</span>\n').trim());
             clockText.set_use_markup(true);
         }
     },
