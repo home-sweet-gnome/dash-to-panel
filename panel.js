@@ -423,6 +423,8 @@ var dtpPanel = Utils.defineClass({
         if (!this.isSecondary) {
             this._setVertical(this, false);
 
+            this.remove_style_class_name('dashtopanelPanel vertical horizontal');
+
             ['_leftBox', '_centerBox', '_rightBox'].forEach(p => {
                 this.remove_child(Main.panel[p]);
                 Main.panel.actor.add_child(Main.panel[p]);
@@ -733,12 +735,11 @@ var dtpPanel = Utils.defineClass({
 
     _setPanelPosition: function() {
         let container = this.intellihide && this.intellihide.enabled ? this.panelBox.get_parent() : this.panelBox;
-        let isVertical = checkIfVertical();
 
         this.set_size(this.geom.w, this.geom.h);
         container.set_position(this.geom.x, this.geom.y)
 
-        this._setVertical(this, isVertical);
+        this._setVertical(this, checkIfVertical());
 
         // styles for theming
         Object.keys(St.Side).forEach(p => {
@@ -804,21 +805,34 @@ var dtpPanel = Utils.defineClass({
     },
 
     _setVertical: function(actor, isVertical) {
-        if (!actor || actor instanceof Dash.DashItemContainer) {
-            return;
-        }
-
-        if (actor instanceof St.BoxLayout) {
-            actor.vertical = isVertical;
-        } else if (actor instanceof PanelMenu.ButtonBox) {
-            let child = actor.get_first_child();
-
-            if (child) {
-                actor.set_width(isVertical ? size : -1);
+        let _set = (actor, isVertical) => {
+            if (!actor || actor instanceof Dash.DashItemContainer) {
+                return;
             }
-        }
 
-        actor.get_children().forEach(c => this._setVertical(c, isVertical));
+            if (actor instanceof St.BoxLayout) {
+                actor.vertical = isVertical;
+            } else if (actor instanceof PanelMenu.ButtonBox) {
+                let child = actor.get_first_child();
+
+                if (child) {
+                    let [, natWidth] = actor.get_preferred_width(-1);
+
+                    child.x_align = Clutter.ActorAlign[isVertical ? 'CENTER' : 'START'];
+                    child.style = (isVertical ? 'padding: 6px 0;' : null);
+
+                    isVertical = isVertical && (natWidth > size);
+
+                    actor.set_width(isVertical ? size : -1);
+                    actor[(isVertical ? 'add' : 'remove') + '_style_class_name']('vertical');
+                }
+            }
+
+            actor.get_children().forEach(c => _set(c, isVertical));
+        };
+
+        _set(actor, false);
+        _set(actor, isVertical);
     },
 
     _setActivitiesButtonVisible: function(isVisible) {
@@ -858,7 +872,7 @@ var dtpPanel = Utils.defineClass({
         if (clockText.get_layout().is_ellipsized()) {
             let timeParts = time.split('∶');
 
-            clockText.set_text(timeParts[0] + '\n<span size="xx-small">‧‧</span>\n' + timeParts[1]);
+            clockText.set_text(timeParts.join('\n<span size="xx-small">‧‧</span>\n'));
             clockText.set_use_markup(true);
         }
     },

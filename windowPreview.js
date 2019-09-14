@@ -17,6 +17,7 @@
 
 const Clutter = imports.gi.Clutter;
 const Config = imports.misc.config;
+const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
@@ -671,6 +672,7 @@ var Preview = Utils.defineClass({
         });
 
         this.window = null;
+        this._waitWindowId = 0;
         this._needsCloseButton = true;
         this.cloneWidth = this.cloneHeight = 0;
         this._previewMenu = previewMenu;
@@ -773,8 +775,11 @@ var Preview = Utils.defineClass({
                     this._resizeClone(cloneBin, window);
                     this._addClone(cloneBin, animateSize);
                     this._previewMenu.updatePosition();
-                } else {
-                    Mainloop.idle_add(() => _assignWindowClone());
+                } else if (!this._waitWindowId) {
+                    this._waitWindowId = Mainloop.idle_add(() => {
+                        this._waitWindowId = 0;
+                        _assignWindowClone();
+                    });
                 }
             };
 
@@ -833,6 +838,11 @@ var Preview = Utils.defineClass({
     },
 
     _onDestroy: function() {
+        if (this._waitWindowId) {
+            GLib.source_remove(this._waitWindowId);
+            this._waitWindowId = 0;
+        }
+
         this._removeWindowSignals();
     },
 
