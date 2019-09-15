@@ -3927,7 +3927,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">Show Desktop button width (px)</property>
                     <property name="xalign">0</property>
                   </object>
                   <packing>

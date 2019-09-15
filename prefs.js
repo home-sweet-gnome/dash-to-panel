@@ -201,6 +201,7 @@ const Settings = new Lang.Class({
         let isVertical = position == 'LEFT' || position == 'RIGHT';
         let taskbarLocationCombo = this._builder.get_object('taskbar_position_combo');
         let clockLocationCombo = this._builder.get_object('location_clock_combo');
+        let showDesktopWidthLabel = this._builder.get_object('show_showdesktop_width_label');
         
         taskbarLocationCombo.remove_all();
         clockLocationCombo.remove_all();
@@ -221,9 +222,11 @@ const Settings = new Lang.Class({
             ['TASKBARLEFT',     isVertical ? _('Top of taskbar') :              _('Left of taskbar')],
             ['TASKBARRIGHT',    isVertical ? _('Bottom of taskbar') :           _('Right of taskbar')]
         ].forEach(cl => clockLocationCombo.append.apply(clockLocationCombo, cl));
-
+        
         taskbarLocationCombo.set_active_id(this._settings.get_string('taskbar-position'));
         clockLocationCombo.set_active_id(this._settings.get_string('location-clock'));
+
+        showDesktopWidthLabel.set_text(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
     },
 
     _bindSettings: function() {
@@ -252,10 +255,18 @@ const Settings = new Lang.Class({
         this._updateVerticalRelatedOptions();
 
         this._builder.get_object('location_clock_combo').connect('changed', Lang.bind (this, function(widget) {
-            this._settings.set_string('location-clock', widget.get_active_id());
+            let activeId = widget.get_active_id();
+
+            if (activeId) {
+                this._settings.set_string('location-clock', activeId);
+            }
         }));
         this._builder.get_object('taskbar_position_combo').connect('changed', Lang.bind (this, function(widget) {
-            this._settings.set_string('taskbar-position', widget.get_active_id());
+            let activeId = widget.get_active_id();
+
+            if (activeId) {
+                this._settings.set_string('taskbar-position', activeId);
+            }
         }));
 
         // size options

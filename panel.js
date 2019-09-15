@@ -969,9 +969,8 @@ var dtpPanel = Utils.defineClass({
 
             this._setShowDesktopButtonSize();
 
-            this._signalsHandler.add([this._showDesktopButton, 'button-press-event', () => this._onShowDesktopButtonPress()]);
-
-            this._signalsHandler.add([this._showDesktopButton, 'enter-event', () => {
+            this._showDesktopButton.connect('button-press-event', () => this._onShowDesktopButtonPress());
+            this._showDesktopButton.connect('enter-event', () => {
                 this._showDesktopButton.add_style_class_name('showdesktop-button-hovered');
 
                 if (Me.settings.get_boolean('show-showdesktop-hover')) {
@@ -981,9 +980,9 @@ var dtpPanel = Utils.defineClass({
                         this._showDesktopTimeoutId = 0;
                     });
                 }
-            }]);
+            });
             
-            this._signalsHandler.add([this._showDesktopButton, 'leave-event', () => {
+            this._showDesktopButton.connect('leave-event', () => {
                 this._showDesktopButton.remove_style_class_name('showdesktop-button-hovered');
 
                 if (Me.settings.get_boolean('show-showdesktop-hover')) {
@@ -994,7 +993,7 @@ var dtpPanel = Utils.defineClass({
                         this._toggleWorkspaceWindows(false, this._hiddenDesktopWorkspace);
                     }
                  }
-            }]);
+            });
 
             this._rightBox.insert_child_at_index(this._showDesktopButton, this._rightBox.get_children().length);
         } else {
