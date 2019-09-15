@@ -88,8 +88,8 @@ function getOrientation() {
     return (checkIfVertical() ? 'vertical' : 'horizontal');
 }
 
-function setAggregateMenuArrow(aggregateMenu, side) {
-    let arrowIcon = aggregateMenu._indicators.get_last_child();
+function setMenuArrow(arrowIcon, side) {
+    let parent = arrowIcon.get_parent();
     let iconNames = {
         '0': 'pan-down-symbolic',   //TOP
         '1': 'pan-start-symbolic',  //RIGHT
@@ -97,9 +97,9 @@ function setAggregateMenuArrow(aggregateMenu, side) {
         '3': 'pan-end-symbolic'     //LEFT
     };
 
-    aggregateMenu._indicators.remove_child(arrowIcon);
+    parent.remove_child(arrowIcon);
     arrowIcon.set_icon_name(iconNames[side]);
-    aggregateMenu._indicators.add_child(arrowIcon);
+    parent.add_child(arrowIcon);
 }
 
 var dtpPanel = Utils.defineClass({
@@ -149,7 +149,7 @@ var dtpPanel = Utils.defineClass({
             this.menuManager = Main.panel.menuManager;
             this.grabOwner = Main.panel;
 
-            setAggregateMenuArrow(this.statusArea.aggregateMenu, position);
+            setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), position);
 
             ['_leftBox', '_centerBox', '_rightBox'].forEach(p => {
                 Main.panel.actor.remove_child(Main.panel[p]);
@@ -249,8 +249,10 @@ var dtpPanel = Utils.defineClass({
             }
         };
 
-        if(this.statusArea.appMenu)
+        if (this.statusArea.appMenu) {
+            setMenuArrow(this.statusArea.appMenu._arrow, getPosition());
             this._leftBox.remove_child(this.statusArea.appMenu.container);
+        }
 
         //the timeout makes sure the theme's styles are computed before initially applying the transparency
         this.startDynamicTransparencyId = Mainloop.timeout_add(0, () => {
@@ -393,8 +395,11 @@ var dtpPanel = Utils.defineClass({
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
         this._setAppmenuVisible(false);
-        if(this.statusArea.appMenu)
+
+        if (this.statusArea.appMenu) {
+            setMenuArrow(this.statusArea.appMenu._arrow, St.Side.TOP);
             this._leftBox.add_child(this.statusArea.appMenu.container);
+        }
 
         if (this.startIntellihideId) {
             Mainloop.source_remove(this.startIntellihideId);
@@ -457,7 +462,7 @@ var dtpPanel = Utils.defineClass({
 
             if (this.statusArea.aggregateMenu) {
                 delete this.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll;
-                setAggregateMenuArrow(this.statusArea.aggregateMenu, St.Side.TOP);
+                setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
             }
 
             if (this.statusArea.dateMenu) {
@@ -849,7 +854,7 @@ var dtpPanel = Utils.defineClass({
 
             if (actor instanceof St.BoxLayout) {
                 actor.vertical = isVertical;
-            } else if (actor instanceof PanelMenu.ButtonBox) {
+            } else if (actor instanceof PanelMenu.ButtonBox && actor != this.statusArea.appMenu) {
                 let child = actor.get_first_child();
 
                 if (child) {
@@ -1167,6 +1172,6 @@ var dtpSecondaryAggregateMenu = Utils.defineClass({
         menuLayout.addSizeChild(this._power.menu.actor);
         menuLayout.addSizeChild(this._system.menu.actor);
 
-        setAggregateMenuArrow(this, getPosition());
+        setMenuArrow(this._indicators.get_last_child(), getPosition());
     },
 });
