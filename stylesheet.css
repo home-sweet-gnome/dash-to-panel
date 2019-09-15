@@ -71,13 +71,15 @@
 	text-align: center; 
 }
 
-.dashtopanelPanel.vertical .panel-button.vertical * {
+.dashtopanelPanel.vertical .panel-button.vertical *,
+.dashtopanelPanel.vertical .panel-button.clock-display * {
 	padding: 0;
 	margin: 0; 
 }
 
 .dashtopanelPanel.vertical .panel-button > *,
-.dashtopanelPanel.vertical .panel-button.vertical > * {
+.dashtopanelPanel.vertical .panel-button.vertical > *,
+.dashtopanelPanel.vertical .panel-button.clock-display > * {
 	padding: 6px 0; 
 }
 
