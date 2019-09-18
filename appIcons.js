@@ -385,11 +385,9 @@ var taskbarAppIcon = Utils.defineClass({
                 this.actor.disconnect(mappedId);
             });
         } else {
-            let dotsOpts = { width: 1, y_expand: true, pivot_point: new Clutter.Point({ x: .5, y: .5 }) };
-            this._focusedDots = new St.DrawingArea(dotsOpts), 
-            this._focusedDots._tweeningToWidth = null;
-            this._unfocusedDots = new St.DrawingArea(dotsOpts);
-            this._unfocusedDots._tweeningToWidth = null;
+            this._focusedDots = new St.DrawingArea(), 
+            this._unfocusedDots = new St.DrawingArea();
+            this._resetDots();
             
             this._focusedDots.connect('repaint', Lang.bind(this, function() {
                 if(this._dashItemContainer.animatingOut) {
@@ -419,9 +417,24 @@ var taskbarAppIcon = Utils.defineClass({
         this._dotsContainer.add_child(this._focusedDots);
     },
 
+    _resetDots: function() {
+        let position = Me.settings.get_string('dot-position');
+        let isHorizontalDots = position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM;
+
+        [this._focusedDots, this._unfocusedDots].forEach(d => {
+            d._tweeningToSize = null;
+            d.set_size(-1, -1);
+            d.x_expand = d.y_expand = false;
+
+            d[isHorizontalDots ? 'width' : 'height'] = 1;
+            d[(isHorizontalDots ? 'y' : 'x') + '_expand'] = true;
+        });
+    },
+
     _settingsChangeRefresh: function() {
         if (this._isGroupApps) {
             this._updateWindows();
+            this._resetDots();
             this._focusedDots.queue_repaint();
             this._unfocusedDots.queue_repaint();
         }
@@ -479,10 +492,8 @@ var taskbarAppIcon = Utils.defineClass({
                 if (this._nWindows > 1 && focusedDotStyle == DOT_STYLE.METRO) {
                     let bgSvg = '/img/highlight_stacked_bg';
 
-                    if (pos == DOT_POSITION.LEFT) {
-                        bgSvg += '_left';
-                    } else if (pos == DOT_POSITION.RIGHT) {
-                        bgSvg += '_right';
+                    if (pos == DOT_POSITION.LEFT || pos == DOT_POSITION.RIGHT) {
+                        bgSvg += (Panel.checkIfVertical() ? '_2' : '_3');
                     }
 
                     inlineStyle += "background-image: url('" + Me.path + bgSvg + ".svg');" + 
@@ -588,6 +599,7 @@ var taskbarAppIcon = Utils.defineClass({
     _displayProperIndicator: function (force) {
         let isFocused = this._isFocusedWindow();
         let position = Me.settings.get_string('dot-position');
+        let isHorizontalDots = position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM;
 
         this._setIconStyle(isFocused);
 
@@ -596,26 +608,26 @@ var taskbarAppIcon = Utils.defineClass({
                 let align = Clutter.ActorAlign[position == DOT_POSITION.TOP || position == DOT_POSITION.LEFT ? 'START' : 'END'];
                 
                 this._focusedDots.set_size(0, 0);
-                this._focusedDots[position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM ? 'height' : 'width'] = this._getRunningIndicatorSize();
+                this._focusedDots[isHorizontalDots ? 'height' : 'width'] = this._getRunningIndicatorSize();
 
                 this._focusedDots.y_align = this._focusedDots.x_align = Clutter.ActorAlign.FILL;
-                this._focusedDots[(position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM ? 'y' : 'x') + '_align'] = align;
+                this._focusedDots[(isHorizontalDots ? 'y' : 'x') + '_align'] = align;
                 this._focusedDots.background_color = this._getRunningIndicatorColor(isFocused);
                 this._focusedDots.show();
             } else if (this._focusedDots.visible) {
                 this._focusedDots.hide();
             }
         } else {
-            let rotation = 0;
-            let containerWidth = this._container.width;
+            let sizeProp = isHorizontalDots ? 'width' : 'height';
+            let containerSize = this._container[sizeProp];
             let focusedDotStyle = Me.settings.get_string('dot-style-focused');
             let unfocusedDotStyle = Me.settings.get_string('dot-style-unfocused');
             let focusedIsWide = this._isWideDotStyle(focusedDotStyle);
             let unfocusedIsWide = this._isWideDotStyle(unfocusedDotStyle);
     
-            let newFocusedDotsWidth = 0;
+            let newFocusedDotsSize = 0;
             let newFocusedDotsOpacity = 0;
-            let newUnfocusedDotsWidth = 0;
+            let newUnfocusedDotsSize = 0;
             let newUnfocusedDotsOpacity = 0;
             
             isFocused = this._checkIfFocusedApp() && this._checkIfMonitorHasFocus();
@@ -629,27 +641,19 @@ var taskbarAppIcon = Utils.defineClass({
                 }
             });
 
-            if (position == DOT_POSITION.LEFT) {
-                rotation = 270;
-            } else if (position == DOT_POSITION.RIGHT) {
-                rotation = 90;
-            }
-
-            this._focusedDots.rotation_angle_z = this._unfocusedDots.rotation_angle_z = rotation;
-
             if(focusedIsWide) {
-                newFocusedDotsWidth = (isFocused && this._nWindows > 0) ? containerWidth : 0;
+                newFocusedDotsSize = (isFocused && this._nWindows > 0) ? containerSize : 0;
                 newFocusedDotsOpacity = 255;
             } else {
-                newFocusedDotsWidth = containerWidth;
+                newFocusedDotsSize = containerSize;
                 newFocusedDotsOpacity = (isFocused && this._nWindows > 0) ? 255 : 0;
             }
     
             if(unfocusedIsWide) {
-                newUnfocusedDotsWidth = (!isFocused && this._nWindows > 0) ? containerWidth : 0;
+                newUnfocusedDotsSize = (!isFocused && this._nWindows > 0) ? containerSize : 0;
                 newUnfocusedDotsOpacity = 255;
             } else {
-                newUnfocusedDotsWidth = containerWidth;
+                newUnfocusedDotsSize = containerSize;
                 newUnfocusedDotsOpacity = (!isFocused && this._nWindows > 0) ? 255 : 0;
             }
     
@@ -659,36 +663,39 @@ var taskbarAppIcon = Utils.defineClass({
             // OR going from an open app to a closed app or vice versa)
             if(Me.settings.get_boolean('animate-app-switch') &&
                ((focusedIsWide != unfocusedIsWide) ||
-                (this._focusedDots.width != newUnfocusedDotsWidth || this._unfocusedDots.width != newFocusedDotsWidth))) {
-                this._animateDotDisplay(this._focusedDots, newFocusedDotsWidth, this._unfocusedDots, newUnfocusedDotsOpacity, force);
-                this._animateDotDisplay(this._unfocusedDots, newUnfocusedDotsWidth, this._focusedDots, newFocusedDotsOpacity, force);
+                (this._focusedDots[sizeProp] != newUnfocusedDotsSize || this._unfocusedDots[sizeProp] != newFocusedDotsSize))) {
+                this._animateDotDisplay(this._focusedDots, newFocusedDotsSize, this._unfocusedDots, newUnfocusedDotsOpacity, force, sizeProp);
+                this._animateDotDisplay(this._unfocusedDots, newUnfocusedDotsSize, this._focusedDots, newFocusedDotsOpacity, force, sizeProp);
             } else {
                 this._focusedDots.opacity = newFocusedDotsOpacity;
                 this._unfocusedDots.opacity = newUnfocusedDotsOpacity;
-                this._focusedDots.width = newFocusedDotsWidth;
-                this._unfocusedDots.width = newUnfocusedDotsWidth;
+                this._focusedDots[sizeProp] = newFocusedDotsSize;
+                this._unfocusedDots[sizeProp] = newUnfocusedDotsSize;
             }
         }
     },
 
-    _animateDotDisplay: function (dots, newWidth, otherDots, newOtherOpacity, force) {
-        if((dots.width != newWidth && dots._tweeningToWidth !== newWidth) || force) {
-                dots._tweeningToWidth = newWidth;
-                Tweener.addTween(dots,
-                                { width: newWidth,
-                                time: Taskbar.DASH_ANIMATION_TIME,
-                                transition: 'easeInOutCubic',
-                                onStart: Lang.bind(this, function() { 
-                                    if(newOtherOpacity == 0)
-                                        otherDots.opacity = newOtherOpacity;
-                                }),
-                                onComplete: Lang.bind(this, function() { 
-                                    if(newOtherOpacity > 0)
-                                        otherDots.opacity = newOtherOpacity;
-                                    dots._tweeningToWidth = null;
-                                })
-                            });
-            }
+    _animateDotDisplay: function (dots, newSize, otherDots, newOtherOpacity, force, sizeProp) {
+        if((dots[sizeProp] != newSize && dots._tweeningToSize !== newSize) || force) {
+            let tweenOpts = { 
+                time: Taskbar.DASH_ANIMATION_TIME,
+                transition: 'easeInOutCubic',
+                onStart: Lang.bind(this, function() { 
+                    if(newOtherOpacity == 0)
+                        otherDots.opacity = newOtherOpacity;
+                }),
+                onComplete: Lang.bind(this, function() { 
+                    if(newOtherOpacity > 0)
+                        otherDots.opacity = newOtherOpacity;
+                    dots._tweeningToSize = null;
+                })
+            };
+
+            tweenOpts[sizeProp] = newSize;
+            dots._tweeningToSize = newSize;
+
+            Tweener.addTween(dots, tweenOpts);
+        }
     },
 
     _isFocusedWindow: function() {
@@ -981,107 +988,131 @@ var taskbarAppIcon = Utils.defineClass({
             return;
         }
 
+        let position = Me.settings.get_string('dot-position');
+        let isHorizontalDots = position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM;
         let bodyColor = this._getRunningIndicatorColor(isFocused);
-        let [width, height] = area.get_surface_size();
+        let [areaWidth, areaHeight] = area.get_surface_size();
         let cr = area.get_context();
         let size = this._getRunningIndicatorSize();
-        let yOffset = Me.settings.get_string('dot-position') == DOT_POSITION.BOTTOM ? (height - size) : 0;
 
-        if(type == DOT_STYLE.DOTS) {
-            // Draw the required numbers of dots
-            let radius = size/2;
-            let spacing = Math.ceil(width/18); // separation between the dots
-        
-            cr.translate((width - (2*n)*radius - (n-1)*spacing)/2, yOffset);
+        let areaSize = areaWidth;
+        let startX = 0;
+        let startY = 0;
 
-            Clutter.cairo_set_source_color(cr, bodyColor);
-            for (let i = 0; i < n; i++) {
-                cr.newSubPath();
-                cr.arc((2*i+1)*radius + i*spacing, radius, radius, 0, 2*Math.PI);
+        if (isHorizontalDots) {
+            if (position == DOT_POSITION.BOTTOM) {
+                startY = areaHeight - size;
             }
-            cr.fill();
-        } else if(type == DOT_STYLE.SQUARES) {
-            let spacing = Math.ceil(width/18); // separation between the dots
-        
-            cr.translate(Math.floor((width - n*size - (n-1)*spacing)/2), yOffset);
+        } else {
+            areaSize = areaHeight;
 
-            Clutter.cairo_set_source_color(cr, bodyColor);
-            for (let i = 0; i < n; i++) {
-                cr.newSubPath();
-                cr.rectangle(i*size + i*spacing, 0, size, size);
+            if (position == DOT_POSITION.RIGHT) {
+                startX = areaWidth - size;
             }
-            cr.fill();
-        } else if(type == DOT_STYLE.DASHES) {
-            let spacing = Math.ceil(width/18); // separation between the dots
-            let dashLength = Math.floor(width/4) - spacing;
-        
-            cr.translate(Math.floor((width - n*dashLength - (n-1)*spacing)/2), yOffset);
+        }
 
-            Clutter.cairo_set_source_color(cr, bodyColor);
-            for (let i = 0; i < n; i++) {
-                cr.newSubPath();
-                cr.rectangle(i*dashLength + i*spacing, 0, dashLength, size);
-            }
-            cr.fill();
-        } else if(type == DOT_STYLE.SEGMENTED) {
-            let spacing = Math.ceil(width/18); // separation between the dots
-            let dashLength = Math.ceil((width - ((n-1)*spacing))/n);
-        
-            cr.translate(0, yOffset);
-
-            Clutter.cairo_set_source_color(cr, bodyColor);
-            for (let i = 0; i < n; i++) {
-                cr.newSubPath();
-                cr.rectangle(i*dashLength + i*spacing, 0, dashLength, size);
-            }
-            cr.fill();
-        } else if (type == DOT_STYLE.CILIORA) {
-            let spacing = size; // separation between the dots
-            let lineLength = width - (size*(n-1)) - (spacing*(n-1));
-        
-            cr.translate(0, yOffset);
-
-            Clutter.cairo_set_source_color(cr, bodyColor);
-            cr.newSubPath();
-            cr.rectangle(0, 0, lineLength, size);
-            for (let i = 1; i < n; i++) {
-                cr.newSubPath();
-                cr.rectangle(lineLength + (i*spacing) + ((i-1)*size), 0, size, size);
-            }
-            cr.fill();
-        } else if (type == DOT_STYLE.METRO) {
-            if(n <= 1) {
-                cr.translate(0, yOffset);
+        if (type == DOT_STYLE.SOLID || type == DOT_STYLE.METRO) {
+            if (type == DOT_STYLE.SOLID || n <= 1) {
+                cr.translate(startX, startY);
                 Clutter.cairo_set_source_color(cr, bodyColor);
                 cr.newSubPath();
-                cr.rectangle(0, 0, width, size);
+                cr.rectangle.apply(cr, [0, 0].concat(isHorizontalDots ? [areaSize, size] : [size, areaSize]));
                 cr.fill();
             } else {
-                let blackenedLength = (1/48)*width; // need to scale with the SVG for the stacked highlight
-                let darkenedLength = isFocused ? (2/48)*width : (10/48)*width;
+                let blackenedLength = (1 / 48) * areaSize; // need to scale with the SVG for the stacked highlight
+                let darkenedLength = isFocused ? (2 / 48) * areaSize : (10 / 48) * areaSize;
                 let blackenedColor = bodyColor.shade(.3);
                 let darkenedColor = bodyColor.shade(.7);
+                let solidDarkLength = areaSize - darkenedLength;
+                let solidLength = solidDarkLength - blackenedLength;
 
-                cr.translate(0, yOffset);
+                cr.translate(startX, startY);
 
                 Clutter.cairo_set_source_color(cr, bodyColor);
                 cr.newSubPath();
-                cr.rectangle(0, 0, width - darkenedLength - blackenedLength, size);
+                cr.rectangle.apply(cr, [0, 0].concat(isHorizontalDots ? [solidLength, size] : [size, solidLength]));
                 cr.fill();
                 Clutter.cairo_set_source_color(cr, blackenedColor);
                 cr.newSubPath();
-                cr.rectangle(width - darkenedLength - blackenedLength, 0, 1, size);
+                cr.rectangle.apply(cr, isHorizontalDots ? [solidLength, 0, 1, size] : [0, solidLength, size, 1]);
                 cr.fill();
                 Clutter.cairo_set_source_color(cr, darkenedColor);
                 cr.newSubPath();
-                cr.rectangle(width - darkenedLength, 0, darkenedLength, size);
+                cr.rectangle.apply(cr, isHorizontalDots ? [solidDarkLength, 0, darkenedLength, size] : [0, solidDarkLength, size, darkenedLength]);
                 cr.fill();
             }
-        } else { // solid
-            cr.translate(0, yOffset);
+        } else {
+            let spacing = Math.ceil(areaSize / 18); // separation between the indicators
+            let length;
+            let dist;
+            let indicatorSize;
+            let translate;
+            let preDraw = () => {};
+            let draw;
+            let drawDash = (i, dashLength) => {
+                dist = i * dashLength + i * spacing;
+                cr.rectangle.apply(cr, (isHorizontalDots ? [dist, 0, dashLength, size] : [0, dist, size, dashLength]));
+            };
+        
+            switch (type) {
+                case DOT_STYLE.CILIORA:
+                    spacing = size;
+                    length = areaSize - (size * (n - 1)) - (spacing * (n - 1));
+                    translate = () => cr.translate(startX, startY);
+                    preDraw = () => {
+                        cr.newSubPath();
+                        cr.rectangle.apply(cr, [0, 0].concat(isHorizontalDots ? [length, size] : [size, length]));
+                    };
+                    draw = i => {
+                        dist = length + (i * spacing) + ((i - 1) * size);
+                        cr.rectangle.apply(cr, (isHorizontalDots ? [dist, 0] : [0, dist]).concat([size, size]));
+                    };
+                    break;
+                case DOT_STYLE.DOTS:
+                    let radius = size / 2;
+
+                    translate = () => {
+                        indicatorSize = Math.floor((areaSize - n * size - (n - 1) * spacing) / 2);
+                        cr.translate.apply(cr, isHorizontalDots ? [indicatorSize, startY] : [startX, indicatorSize]);
+                    }
+                    draw = i => {
+                        dist = (2 * i + 1) * radius + i * spacing;
+                        cr.arc.apply(cr, (isHorizontalDots ? [dist, radius] : [radius, dist]).concat([radius, 0, 2 * Math.PI]));
+                    };
+                    break;
+                case DOT_STYLE.SQUARES:
+                    translate = () => {
+                        indicatorSize = Math.floor((areaSize - n * size - (n - 1) * spacing) / 2);
+                        cr.translate.apply(cr, isHorizontalDots ? [indicatorSize, startY] : [startX, indicatorSize]);
+                    }
+                    draw = i => {
+                        dist = i * size + i * spacing;
+                        cr.rectangle.apply(cr, (isHorizontalDots ? [dist, 0] : [0, dist]).concat([size, size]));
+                    };
+                    break;
+                case DOT_STYLE.DASHES:
+                    length = Math.floor(areaSize / 4) - spacing;
+                    translate = () => {
+                        indicatorSize = Math.floor((areaSize - n * length - (n - 1) * spacing) / 2);
+                        cr.translate.apply(cr, isHorizontalDots ? [indicatorSize, startY] : [startX, indicatorSize]);
+                    }
+                    draw = i => drawDash(i, length);
+                    break;
+                case DOT_STYLE.SEGMENTED:
+                    length = Math.ceil((areaSize - ((n - 1) * spacing)) / n);
+                    translate = () => cr.translate(startX, startY);
+                    draw = i => drawDash(i, length);
+                    break;
+            }
+
+            translate();
+
             Clutter.cairo_set_source_color(cr, bodyColor);
-            cr.newSubPath();
-            cr.rectangle(0, 0, width, size);
+            preDraw();
+            for (let i = 0; i < n; i++) {
+                cr.newSubPath();
+                draw(i);
+            }
             cr.fill();
         }
         
@@ -1149,10 +1180,13 @@ var taskbarAppIcon = Utils.defineClass({
 taskbarAppIcon.prototype.scaleAndFade = taskbarAppIcon.prototype.undoScaleAndFade = () => {};
 
 function getIconContainerStyle() {
-    let style = ';';
+    let style = 'padding: ';
+    let isVertical = Panel.checkIfVertical();
 
-    if (!Me.settings.get_boolean('group-apps')) {
-        style = 'padding: ' + (Panel.checkIfVertical() ? '' : '0 ') + DEFAULT_PADDING_SIZE + 'px;';
+    if (Me.settings.get_boolean('group-apps')) {
+        style += (isVertical ? '0;' : '0 ' + DEFAULT_PADDING_SIZE + 'px;');
+    } else {
+        style += (isVertical ? '' : '0 ') + DEFAULT_PADDING_SIZE + 'px;';
     }
 
     return style;
