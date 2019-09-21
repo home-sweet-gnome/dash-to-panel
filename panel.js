@@ -1070,7 +1070,7 @@ var dtpPanel = Utils.defineClass({
         let scrollAction = Me.settings.get_string('scroll-panel-action');
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (!event.get_source()._dtpIgnoreScroll && direction && !this._scrollPanelDelayTimeoutId) {
+        if (!this._checkIfIgnoredSrollSource(event.get_source()) && direction && !this._scrollPanelDelayTimeoutId) {
             this._scrollPanelDelayTimeoutId = Mainloop.timeout_add(Me.settings.get_int('scroll-panel-delay'), () => {
                 this._scrollPanelDelayTimeoutId = 0;
             });
@@ -1089,6 +1089,12 @@ var dtpPanel = Utils.defineClass({
             }
         }
     },
+
+    _checkIfIgnoredSrollSource: function(source) {
+        let ignoredConstr = ['WorkspaceIndicator'];
+
+        return source._dtpIgnoreScroll || ignoredConstr.indexOf(source.constructor.name) >= 0;
+    }
 });
 
 var dtpSecondaryAggregateMenu = Utils.defineClass({
