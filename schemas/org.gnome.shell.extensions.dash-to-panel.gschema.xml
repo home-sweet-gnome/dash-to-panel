@@ -350,6 +350,11 @@
       <summary>Show applications button</summary>
       <description>Show appplications button in the dash</description>
     </key>
+    <key type="b" name="show-workspace-switcher">
+      <default>false</default>
+      <summary>Show workspaces bar</summary>
+      <description>Show workspaces bar in the dash</description>
+    </key>
     <key type="s" name="show-apps-icon-file">
       <default>""</default>
       <summary>Custom Show Applications icon</summary>

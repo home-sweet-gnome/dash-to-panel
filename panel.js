@@ -35,6 +35,7 @@ const Gi = imports._gi;
 const AppIcons = Me.imports.appIcons;
 const Utils = Me.imports.utils;
 const Taskbar = Me.imports.taskbar;
+const WorkspaceSwitcher = Me.imports.workspaceSwitcher;
 const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
 const Main = imports.ui.main;
@@ -252,11 +253,14 @@ var dtpPanel = Utils.defineClass({
         });
         
         this.taskbar = new Taskbar.taskbar(this);
+        this.workspaceSwitcher = new WorkspaceSwitcher.WorkspaceSwitcher(this);
+
         Main.overview.dashIconSize = this.taskbar.iconSize;
 
         this.container.insert_child_above(this.taskbar.actor, null);
         
         this._setActivitiesButtonVisible(Me.settings.get_boolean('show-activities-button'));
+        this._setWorkspaceSwitcherVisible(Me.settings.get_boolean('show-workspace-switcher'));
         this._setAppmenuVisible(Me.settings.get_boolean('show-appmenu'));
         this._setClockLocation(Me.settings.get_string('location-clock'));
         this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'));
@@ -386,6 +390,7 @@ var dtpPanel = Utils.defineClass({
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
         this._setAppmenuVisible(false);
+        this._setWorkspaceSwitcherVisible(false);
 
         if (this.statusArea.appMenu) {
             setMenuArrow(this.statusArea.appMenu._arrow, St.Side.TOP);
@@ -422,6 +427,7 @@ var dtpPanel = Utils.defineClass({
         }
 
         this.taskbar.destroy();
+        this.workspaceSwitcher.destroy();
 
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
@@ -513,6 +519,11 @@ var dtpPanel = Utils.defineClass({
                 Me.settings,
                 'changed::show-activities-button',
                 () => this._setActivitiesButtonVisible(Me.settings.get_boolean('show-activities-button'))
+            ],
+            [
+                Me.settings,
+                'changed::show-workspace-switcher',
+                () => this._setWorkspaceSwitcherVisible(Me.settings.get_boolean('show-workspace-switcher'))
             ],
             [
                 Me.settings,
@@ -872,6 +883,18 @@ var dtpPanel = Utils.defineClass({
                 this.statusArea.activities.actor.hide();
     },
     
+    _setWorkspaceSwitcherVisible: function(isVisible) {
+        let parent = this.workspaceSwitcher.actor.get_parent();
+
+        if (parent) {
+            parent.remove_child(this.workspaceSwitcher.actor);
+        }
+
+        if (isVisible) {
+            this.container.insert_child_below(this.workspaceSwitcher.actor, this.taskbar.actor);
+        }
+    },
+
     _setAppmenuVisible: function(isVisible) {
         let parent;
         let appMenu = this.statusArea.appMenu;

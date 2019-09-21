@@ -158,6 +158,7 @@ Additional credits: This extension leverages the work for [ZorinOS Taskbar](http
 Code to set anchor position taken from [Thoma5/gnome-shell-extension-bottompanel](https://github.com/Thoma5/gnome-shell-extension-bottompanel).
 Pattern for moving panel contents based on [Frippery Move Clock](http://frippery.org/extensions/) by R M Yorston.
 Ideas for recursing child actors and assigning inline styles are based on code from the extension [StatusAreaHorizontalSpacing](https://bitbucket.org/mathematicalcoffee/status-area-horizontal-spacing-gnome-shell-extension).
+The workspace switcher is based on the [Workspace Bar](https://github.com/mbokil/workspacebar) extension.
 ##
 
 #### Thanks to the following people for contributing via pull requests:

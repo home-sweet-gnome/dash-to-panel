@@ -128,3 +128,20 @@
         color: rgba(256, 256, 256, 1);
         text-align: center;
 }
+
+#dashtopanelWorkspaceSwitcher {
+	margin: 0 8px;
+}
+
+#dashtopanelWorkspaceSwitcher .activeBtn,
+#dashtopanelWorkspaceSwitcher .inactiveBtn {
+	color: rgba(256, 256, 256, 1);
+	background-color: rgba(200, 200, 200, 1);
+	border: 1px solid #cccccc;
+	padding: 0 6px;
+}
+
+#dashtopanelWorkspaceSwitcher .inactiveBtn {
+	color: rgba(256, 256, 256, .5);
+	background-color: rgba(200, 200, 200, .5);
+}

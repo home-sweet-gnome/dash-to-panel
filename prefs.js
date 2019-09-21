@@ -888,6 +888,11 @@ const Settings = new Lang.Class({
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
         
+        this._settings.bind('show-workspace-switcher',
+                            this._builder.get_object('show_workspace_switcher_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         this._builder.get_object('show_applications_side_padding_spinbutton').set_value(this._settings.get_int('show-apps-icon-side-padding'));
         this._builder.get_object('show_applications_side_padding_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
             this._settings.set_int('show-apps-icon-side-padding', widget.get_value());

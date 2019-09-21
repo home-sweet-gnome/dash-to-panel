@@ -286,6 +286,15 @@ var getWorkspaceCount = function() {
     return DisplayWrapper.getWorkspaceManager().n_workspaces;
 };
 
+var activateWorkspaceByIndex = function(index) {
+    try {
+        getWorkspaceByIndex(index).activate(global.get_current_time());
+    } catch(e) {
+        global.logError(e);
+        return;
+    }
+};
+
 var checkIfWindowHasTransient = function(window) {
     let hasTransient;
 
