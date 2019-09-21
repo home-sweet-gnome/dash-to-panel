@@ -899,7 +899,7 @@ msgstr "Переключить окна"
 
 #: Settings.ui.h:189
 msgid "Scroll panel action"
-msgstr "При скролле над панеле"
+msgstr "При скролле над панелью"
 
 #: Settings.ui.h:190
 msgid "Scroll icon action"
