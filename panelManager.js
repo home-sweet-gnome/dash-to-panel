@@ -44,6 +44,7 @@ const St = imports.gi.St;
 const BoxPointer = imports.ui.boxpointer;
 const Dash = imports.ui.dash;
 const IconGrid = imports.ui.iconGrid;
+const LookingGlass = imports.ui.lookingGlass;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Layout = imports.ui.layout;
@@ -154,6 +155,12 @@ var dtpPanelManager = Utils.defineClass({
         if(Main.overview.viewSelector._activePage == null)
             Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
 
+        LookingGlass.LookingGlass.prototype._oldResize = LookingGlass.LookingGlass.prototype._resize;
+        LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize;
+
+        LookingGlass.LookingGlass.prototype._oldOpen = LookingGlass.LookingGlass.prototype.open;
+        LookingGlass.LookingGlass.prototype.open = _newLookingGlassOpen;
+
         //listen settings
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
@@ -245,6 +252,12 @@ var dtpPanelManager = Utils.defineClass({
         if (this._needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });
         }
+
+        LookingGlass.LookingGlass.prototype._resize = LookingGlass.LookingGlass.prototype._oldResize;
+        delete LookingGlass.LookingGlass.prototype._oldResize;
+
+        LookingGlass.LookingGlass.prototype.open = LookingGlass.LookingGlass.prototype._oldOpen;
+        delete LookingGlass.LookingGlass.prototype._oldOpen
     },
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {
@@ -625,4 +638,24 @@ function newUpdatePanelBarrier(panel) {
 
         barriers[k][0][k] = new Meta.Barrier(barrierOptions);
     });
+}
+
+function _newLookingGlassResize() {
+    this._oldResize();
+
+    if (Panel.getPosition() == St.Side.TOP) {
+        this._hiddenY = Main.layoutManager.primaryMonitor.y + Panel.size - this.actor.height;
+        this._targetY = this._hiddenY + this.actor.height;
+        this.actor.y = this._hiddenY;
+
+        this._objInspector.actor.set_position(this.actor.x + Math.floor(this.actor.width * 0.1), this._targetY + Math.floor(this.actor.height * 0.1));
+    }
+}
+
+function _newLookingGlassOpen() {
+    if (this._open)
+        return;
+
+    this._resize();
+    this._oldOpen();
 }
