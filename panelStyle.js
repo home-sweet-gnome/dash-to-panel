@@ -83,12 +83,26 @@ var dtpPanelStyle = Utils.defineClass({
         let paddingStyle = 'padding: ' + (isVertical ? '%dpx 0' : '0 %dpx');
 
         if(trayPadding >= 0) {
-            let trayPaddingStyleLine = paddingStyle.format(trayPadding,);
             let operation = {};
-            operation.compareFn = function (actor) {
-                let parent = actor.get_parent();
-                return (parent && parent.has_style_class_name && parent.has_style_class_name('panel-button'));
-            };
+            let trayPaddingStyleLine;
+
+            if (isVertical) {
+                trayPaddingStyleLine = paddingStyle.format(trayPadding);
+                operation.compareFn = function (actor) {
+                    let parent = actor.get_parent();
+                    return (parent && parent.has_style_class_name && parent.has_style_class_name('panel-button'));
+                };
+            } else {
+                trayPaddingStyleLine = '-natural-hpadding: %dpx'.format(trayPadding);
+                if (trayPadding < 6) {
+                    trayPaddingStyleLine += '; -minimum-hpadding: %dpx'.format(trayPadding);
+                }
+                
+                operation.compareFn = function (actor) {
+                    return (actor.has_style_class_name && actor.has_style_class_name('panel-button'));
+                };
+            }
+            
             operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
                 this._overrideStyle(actor, trayPaddingStyleLine, operationIdx);
             });

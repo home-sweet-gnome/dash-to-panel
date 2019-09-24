@@ -953,6 +953,7 @@ var dtpPanel = Utils.defineClass({
         }
 
         destination['set_child_' + (loc.indexOf('RIGHT') > 0 ? 'above' : 'below') + '_sibling'](dateMenuContainer, refSibling);
+        destination.queue_relayout();
     },
 
     _displayShowDesktopButton: function (isVisible) {
