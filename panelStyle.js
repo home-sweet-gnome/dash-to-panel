@@ -105,6 +105,7 @@ var dtpPanelStyle = Utils.defineClass({
             
             operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
                 this._overrideStyle(actor, trayPaddingStyleLine, operationIdx);
+                this._refreshPanelButton(actor);
             });
             this._rightBoxOperations.push(operation);
         }
@@ -303,6 +304,18 @@ var dtpPanelStyle = Utils.defineClass({
             actor.set_style(actor._dtp_original_inline_style);
             delete actor._dtp_original_inline_style;
             delete actor._dtp_style_overrides;
+        }
+
+        if (actor.has_style_class_name('panel-button')) {
+            this._refreshPanelButton(actor);
+        }
+    },
+
+    _refreshPanelButton: function(actor) {
+        if (actor.visible && imports.misc.config.PACKAGE_VERSION >= '3.34.0') {
+            //force gnome 3.34 to refresh (having problem with the -natural-hpadding)
+            actor.hide();
+            Mainloop.idle_add(() => actor.show());
         }
     }
     
