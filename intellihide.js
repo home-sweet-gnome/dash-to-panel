@@ -45,6 +45,8 @@ const T2 = 'limitUpdateTimeout';
 const T3 = 'postAnimateTimeout';
 const T4 = 'panelBoxClipTimeout';
 
+var SIDE_CONTROLS_ANIMATION_TIME = OverviewControls.SIDE_CONTROLS_ANIMATION_TIME / (OverviewControls.SIDE_CONTROLS_ANIMATION_TIME > 1 ? 1000 : 1);
+
 var Hold = {
     NONE: 0,
     TEMPORARY: 1,
@@ -393,7 +395,7 @@ var Intellihide = Utils.defineClass({
                 let tweenOpts = {
                     //when entering/leaving the overview, use its animation time instead of the one from the settings
                     time: Main.overview.visible ? 
-                          OverviewControls.SIDE_CONTROLS_ANIMATION_TIME :
+                          SIDE_CONTROLS_ANIMATION_TIME :
                           Me.settings.get_int('intellihide-animation-time') * 0.001,
                     //only delay the animation when hiding the panel after the user hovered out
                     delay: destination != 0 && this._hoveredOut ? Me.settings.get_int('intellihide-close-delay') * 0.001 : 0,
