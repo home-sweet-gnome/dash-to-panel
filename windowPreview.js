@@ -134,6 +134,15 @@ var PreviewMenu = Utils.defineClass({
                 () => this._updateClip()
             ],
             [
+                global.display,
+                'in-fullscreen-changed',
+                () => {
+                    if (global.display.focus_window && global.display.focus_window.is_fullscreen()) {
+                        this.close(true);
+                    }
+                }
+            ],
+            [
                 Me.settings,
                 [
                     'changed::panel-size',
@@ -269,6 +278,10 @@ var PreviewMenu = Utils.defineClass({
         }
     },
 
+    getCurrentAppIcon: function() {
+        return this.currentAppIcon;
+    },
+
     _setReactive: function(reactive) { 
         this._box.get_children().forEach(c => c.reactive = reactive);
         this.menu.reactive = reactive;
@@ -277,6 +290,14 @@ var PreviewMenu = Utils.defineClass({
     _setOpenedState: function(opened) {
         this.opened = opened;
         this.emit('open-state-changed');
+    },
+
+    _resetHiddenState: function() {
+        this.menu.hide();
+        this._setOpenedState(false);
+        this.menu.opacity = 0;
+        this.menu[this._translationProp] = this._translationOffset;
+        this._box.get_children().forEach(c => c.destroy());
     },
 
     _removeFocus: function() {
@@ -334,10 +355,6 @@ var PreviewMenu = Utils.defineClass({
         this._box.add_child(preview);
         preview.adjustOnStage();
         preview.assignWindow(window, this.opened);
-    },
-
-    getCurrentAppIcon: function() {
-        return this.currentAppIcon;
     },
 
     _addCloseTimeout: function() {
@@ -404,14 +421,6 @@ var PreviewMenu = Utils.defineClass({
                       Me.settings.get_int('preview-custom-opacity') * .01 : 
                       this.panel.dynamicTransparency.alpha;
         }
-    },
-
-    _resetHiddenState: function() {
-        this.menu.hide();
-        this._setOpenedState(false);
-        this.menu.opacity = 0;
-        this.menu[this._translationProp] = this._translationOffset;
-        this._box.get_children().forEach(c => c.destroy());
     },
 
     _updateClip: function() {
