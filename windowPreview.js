@@ -43,7 +43,6 @@ const T1 = 'openMenuTimeout';
 const T2 = 'closeMenuTimeout';
 const T3 = 'peekTimeout';
 const T4 = 'ensureVisibleTimeout';
-const T5 = 'enableHideTimeout';
 
 const MAX_TRANSLATION = 40;
 const HEADER_HEIGHT = 38;
@@ -113,7 +112,7 @@ var PreviewMenu = Utils.defineClass({
         Main.layoutManager.addChrome(this, { affectsInputRegion: false });
         Main.layoutManager.trackChrome(this.menu, { affectsInputRegion: true });
         
-        this._timeoutsHandler.add([T5, 0, () => this._resetHiddenState()]);
+        this._resetHiddenState();
         this._refreshGlobals();
         this._updateClip();
         this.menu.set_position(1, 1);
@@ -176,9 +175,9 @@ var PreviewMenu = Utils.defineClass({
 
             if (!this.opened) {
                 this._refreshGlobals();
-                this.menu.set_style('background: ' + Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, alphaBg));
                 
-                this.show();
+                this.menu.show();
+                this.menu.set_style('background: ' + Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, alphaBg));
             }
 
             this._mergeWindows(appIcon);
@@ -408,7 +407,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _resetHiddenState: function() {
-        this.hide();
+        this.menu.hide();
         this._setOpenedState(false);
         this.menu.opacity = 0;
         this.menu[this._translationProp] = this._translationOffset;
