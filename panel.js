@@ -364,7 +364,7 @@ var dtpPanel = Utils.defineClass({
                     this._rightBox,
                     'notify::allocation',
                     () => this._refreshVerticalAlloc()
-                ],
+                ]
             );
         }
 
@@ -815,7 +815,7 @@ var dtpPanel = Utils.defineClass({
         return Clutter.EVENT_STOP;
     },
 
-    _getDraggableWindowForPosition(stageCoord, coord, dimension, maximizedProp) {
+    _getDraggableWindowForPosition: function(stageCoord, coord, dimension, maximizedProp) {
         let workspace = Utils.getCurrentWorkspace();
         let allWindowsByStacking = global.display.sort_windows_by_stacking(
             workspace.list_windows()
