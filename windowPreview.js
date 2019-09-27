@@ -134,7 +134,7 @@ var PreviewMenu = Utils.defineClass({
                 () => this._updateClip()
             ],
             [
-                global.display,
+                Utils.DisplayWrapper.getScreen(),
                 'in-fullscreen-changed',
                 () => {
                     if (global.display.focus_window && global.display.focus_window.is_fullscreen()) {
