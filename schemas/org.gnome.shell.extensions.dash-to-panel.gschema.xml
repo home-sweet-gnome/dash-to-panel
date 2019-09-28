@@ -340,6 +340,11 @@
       <summary>Keybinding toggle intellihide</summary>
       <description>Keybinding to reveal the panel while in intellihide mode</description>
     </key>
+    <key type="i" name="intellihide-enable-start-delay">
+      <default>2000</default>
+      <summary>Intellihide enable start delay</summary>
+      <description>The delay before enabling intellihide on start</description>
+    </key>
     <key type="b" name="show-show-apps-button">
       <default>true</default>
       <summary>Show applications button</summary>

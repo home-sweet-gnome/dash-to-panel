@@ -280,7 +280,7 @@ var dtpPanel = Utils.defineClass({
         if(this.taskbar._showAppsIconWrapper)
             this.taskbar._showAppsIconWrapper._dtpPanel = this;
 
-        this.startIntellihideId = Mainloop.timeout_add(2000, () => {
+        this.startIntellihideId = Mainloop.timeout_add(Me.settings.get_int('intellihide-enable-start-delay'), () => {
             this.startIntellihideId = 0;
             this.intellihide = new Intellihide.Intellihide(this);
         });

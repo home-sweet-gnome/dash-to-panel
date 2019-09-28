@@ -821,6 +821,11 @@ const Settings = new Lang.Class({
             this._settings.set_int('intellihide-close-delay', widget.get_value());
         }));
 
+        this._builder.get_object('intellihide_enable_start_delay_spinbutton').set_value(this._settings.get_int('intellihide-enable-start-delay'));
+        this._builder.get_object('intellihide_enable_start_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('intellihide-enable-start-delay', widget.get_value());
+        }));
+
         this._builder.get_object('intellihide_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Intellihide options'),
                                           transient_for: this.widget.get_toplevel(),
@@ -856,6 +861,9 @@ const Settings = new Lang.Class({
 
                     this._settings.set_value('intellihide-close-delay', this._settings.get_default_value('intellihide-close-delay'));
                     this._builder.get_object('intellihide_close_delay_spinbutton').set_value(this._settings.get_int('intellihide-close-delay'));
+
+                    this._settings.set_value('intellihide-enable-start-delay', this._settings.get_default_value('intellihide-enable-start-delay'));
+                    this._builder.get_object('intellihide_enable_start_delay_spinbutton').set_value(this._settings.get_int('intellihide-enable-start-delay'));
                 } else {
                     // remove the settings box so it doesn't get destroyed;
                     dialog.get_content_area().remove(box);
