@@ -225,6 +225,8 @@ var dtpPanelManager = Utils.defineClass({
 
         if (reset) return;
 
+        Main.overview._panelGhost.set_height(Main.panel.height);
+
         this._setKeyBindings(false);
 
         this._signalsHandler.destroy();

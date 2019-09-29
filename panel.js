@@ -204,42 +204,36 @@ var dtpPanel = Utils.defineClass({
 
         this.panelBg.styles = 'border-radius: ' + this.get_theme_node().get_border_radius(0) + 'px;';
 
-        this._adjustForOverview();
+        // The overview uses the panel height as a margin by way of a "ghost" transparent Clone
+        // This pushes everything down, which isn't desired when the panel is moved to the bottom
+        // I'm adding a 2nd ghost panel and will resize the top or bottom ghost depending on the panel position
+        this._myPanelGhost = new Clutter.Actor({ 
+            x: this.geom.x,
+            y: this.geom.y ,
+            reactive: false, 
+            opacity: 0
+        });
 
+        if (this.geom.position == St.Side.TOP) {
+            Main.overview._overview.insert_child_at_index(this._myPanelGhost, 0);
+        } else {
+             if (this.geom.position == St.Side.BOTTOM) {
+                Main.overview._overview.add_actor(this._myPanelGhost);
+            } else if (this.geom.position == St.Side.LEFT) {
+                Main.overview._controls._group.insert_child_at_index(this._myPanelGhost, 0);
+            } else {
+                Main.overview._controls._group.add_actor(this._myPanelGhost);
+            }
+        }
+
+        this._adjustForOverview();
+        this._setPanelGhostSize();
         this._setPanelPosition();
 
-        if (!this.isSecondary) {
-            // The overview uses the panel height as a margin by way of a "ghost" transparent Clone
-            // This pushes everything down, which isn't desired when the panel is moved to the bottom
-            // I'm adding a 2nd ghost panel and will resize the top or bottom ghost depending on the panel position
-            if (this.geom.position != St.Side.TOP) {
-                this._myPanelGhost = new Clutter.Actor({ 
-                    x: this.geom.x,
-                    y: this.geom.y ,
-                    width: this.geom.w,
-                    height: isVertical ? 1 : this.geom.h, 
-                    reactive: false, 
-                    opacity: 0
-                 });
-
-                if (this.geom.position == St.Side.BOTTOM) {
-                    Main.overview._overview.add_actor(this._myPanelGhost);
-                } else if (this.geom.position == St.Side.LEFT) {
-                    Main.overview._controls._group.insert_child_at_index(this._myPanelGhost, 0);
-                } else {
-                    Main.overview._controls._group.insert_child_above(this._myPanelGhost, null);
-                }
-
-                Main.overview._panelGhost.set_height(0);
-            } else {
-                Main.overview._panelGhost.set_height(this.geom.h);
-            }
-
-            if (this.statusArea.dateMenu) {
-                // remove the extra space before the clock when the message-indicator is displayed
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', () => [0,0]);
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', () => [0,0]);
-            }
+        if (!this.isSecondary && this.statusArea.dateMenu) {
+            // remove the extra space before the clock when the message-indicator is displayed
+            Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', () => [0,0]);
+            Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', () => [0,0]);
         }
 
         this.menuManager._oldChangeMenu = this.menuManager._changeMenu;
@@ -440,6 +434,8 @@ var dtpPanel = Utils.defineClass({
 
         this.menuManager._changeMenu = this.menuManager._oldChangeMenu;
 
+        this._myPanelGhost.get_parent().remove_actor(this._myPanelGhost);
+        
         if (!this.isSecondary) {
             this._setVertical(this, false);
 
@@ -450,12 +446,6 @@ var dtpPanel = Utils.defineClass({
                 Main.panel.actor.add_child(Main.panel[p]);
             });
             
-            Main.overview._panelGhost.set_size(this.monitor.width, Main.panel.height);
-            
-            if (this._myPanelGhost) {
-                this._myPanelGhost.get_parent().remove_actor(this._myPanelGhost);
-            }
-
             this._setActivitiesButtonVisible(true);
             this._setClockLocation("BUTTONSLEFT");
             this._displayShowDesktopButton(false);
@@ -603,17 +593,31 @@ var dtpPanel = Utils.defineClass({
         }
     },
 
+    _setPanelGhostSize: function() {
+        this._myPanelGhost.set_size(this.geom.w, checkIfVertical() ? 1 : this.geom.h); 
+    },
+
     _adjustForOverview: function() {
         let isFocusedMonitor = this.panelManager.checkIfFocusedMonitor(this.monitor);
         let isOverview = !!Main.overview.visibleTarget;
-        let isShown = !isOverview || (isOverview && isFocusedMonitor);
+        let isOverviewFocusedMonitor = isOverview && isFocusedMonitor;
+        let isShown = !isOverview || isOverviewFocusedMonitor;
 
         this.panelBox[isShown ? 'show' : 'hide']();
+
+        if (isOverview) {
+            this._myPanelGhost[isOverviewFocusedMonitor ? 'show' : 'hide']();
+
+            if (isOverviewFocusedMonitor) {
+                Main.overview._panelGhost.set_height(this.geom.position == St.Side.TOP ? 0 : Main.panel.height);
+            }
+        }
     },
 
     _resetGeometry: function(clockOnly) {
         if (!clockOnly) {
             this.geom = this.getGeometry();
+            this._setPanelGhostSize();
             this._setPanelPosition();
             this.taskbar.resetAppIcons();
         }
