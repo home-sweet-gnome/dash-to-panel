@@ -600,7 +600,7 @@ msgstr "フェード時間 (ミリ秒)"
 
 #: Settings.ui:4080
 msgid "The panel background opacity is affected by"
-msgstr "パネル背景の不透明度に影響を与えるウィンドウ "
+msgstr "パネル背景の不透明度に影響を与えるウィンドウ"
 
 #: Settings.ui:4142
 msgid "Change opacity when a window gets closer than (px)"
