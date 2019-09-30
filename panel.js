@@ -846,6 +846,7 @@ var dtpPanel = Utils.defineClass({
             this._allocationThrottleId = Mainloop.timeout_add(200, () => {
                 this._setVertical(this._centerBox, true);
                 this._setVertical(this._rightBox, true);
+                this._formatVerticalClock();
                 this._allocationThrottleId = 0;
             });
         }
