@@ -112,7 +112,8 @@ var dtpPanel = Utils.defineClass({
         this.callParent('_init', { name: 'panel', reactive: true });
 
         Utils.wrapActor(this);
-
+        this._delegate = this;
+        
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
         this.panelManager = panelManager;
