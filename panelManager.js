@@ -495,10 +495,11 @@ function newUpdateHotCorners() {
             corner.destroy();
     });
     this.hotCorners = [];
-    
-    //ubuntu specific setting to disable the hot corner (Tweak tool > Top Bar > Activities Overview Hot Corner)
-    if (global.settings.list_keys().indexOf('enable-hot-corners') >= 0 && 
-        !global.settings.get_boolean('enable-hot-corners')) {
+
+    //global.settings is ubuntu specific setting to disable the hot corner (Tweak tool > Top Bar > Activities Overview Hot Corner)
+    //Main.layoutManager._interfaceSettings is for the setting to disable the hot corner introduced in gnome-shell 3.34 
+    if ((global.settings.list_keys().indexOf('enable-hot-corners') >= 0 && !global.settings.get_boolean('enable-hot-corners')) ||
+        (Main.layoutManager._interfaceSettings && !Main.layoutManager._interfaceSettings.get_boolean('enable-hot-corners'))) {
         this.emit('hot-corners-changed');
         return;
     }
