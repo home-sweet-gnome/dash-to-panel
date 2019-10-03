@@ -1392,9 +1392,8 @@ var taskbarSecondaryMenu = Utils.defineClass({
             if(appMenu) {
                 let remoteMenu = new imports.ui.remoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
                 let appMenuItems = remoteMenu._getMenuItems();
-                let itemPosition = 0;
-                for(let appMenuIdx in appMenuItems){
-                    let menuItem = appMenuItems[appMenuIdx];
+                for(var i = 0, l = appMenuItems.length || 0; i < l; ++i) {
+                    let menuItem = appMenuItems[i];
                     let labelText = menuItem.actor.label_actor.text;
                     if(labelText == _("New Window") || labelText == _("Quit"))
                         continue;
@@ -1436,16 +1435,14 @@ var taskbarSecondaryMenu = Utils.defineClass({
                             subMenuItem.actor.get_parent().remove_child(subMenuItem.actor);
                             newSubMenuMenuItem.menu.addMenuItem(subMenuItem);
                         }
-                        this.addMenuItem(newSubMenuMenuItem, itemPosition);
+                        this.addMenuItem(newSubMenuMenuItem, i);
                     } else 
-                        this.addMenuItem(menuItem, itemPosition);
-
-                    itemPosition++;
+                        this.addMenuItem(menuItem, i);
                 }
                 
-                if(itemPosition > 0) {
+                if(i > 0) {
                     let separator = new PopupMenu.PopupSeparatorMenuItem();
-                    this.addMenuItem(separator, itemPosition);
+                    this.addMenuItem(separator, i);
                 }
             }
         }
@@ -1466,7 +1463,7 @@ var taskbarSecondaryMenu = Utils.defineClass({
             this._quitfromTaskbarMenuItem.connect('activate', Lang.bind(this, function() {
                 let app = this._source.app;
                 let windows = window ? [window] : app.get_windows();
-                for (let i = 0; i < windows.length; i++) {
+                for (i = 0; i < windows.length; i++) {
                     this._closeWindowInstance(windows[i])
                 }
             }));
