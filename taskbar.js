@@ -405,9 +405,11 @@ var taskbar = Utils.defineClass({
 
         switch ( event.get_scroll_direction() ) {
         case Clutter.ScrollDirection.UP:
+        case Clutter.ScrollDirection.LEFT:
             delta = -increment;
             break;
         case Clutter.ScrollDirection.DOWN:
+        case Clutter.ScrollDirection.RIGHT:
             delta = +increment;
             break;
         case Clutter.ScrollDirection.SMOOTH:
