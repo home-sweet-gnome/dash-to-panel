@@ -110,6 +110,8 @@ var dtpPanel = Utils.defineClass({
         let position = getPosition();
 
         this.callParent('_init', { name: 'panel', reactive: true });
+        this.bg = new St.Widget({ layout_manager: new Clutter.BinLayout() });
+        this.bg.add_child(this);
 
         Utils.wrapActor(this);
         this._delegate = this;
@@ -198,13 +200,7 @@ var dtpPanel = Utils.defineClass({
         }
 
         this.geom = this.getGeometry();
-        this.panelBg = new St.Widget({ layout_manager: new Clutter.BinLayout() });
-        this.panelBox.remove_actor(this);
-        this.panelBg.add_child(this);
-        this.panelBox.add(this.panelBg);
-
-        this.panelBg.styles = 'border-radius: ' + this.get_theme_node().get_border_radius(0) + 'px;';
-
+        
         // The overview uses the panel height as a margin by way of a "ghost" transparent Clone
         // This pushes everything down, which isn't desired when the panel is moved to the bottom
         // I'm adding a 2nd ghost panel and will resize the top or bottom ghost depending on the panel position
@@ -430,9 +426,6 @@ var dtpPanel = Utils.defineClass({
         // reset stored icon size  to the default dash
         Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
 
-        this.panelBg.remove_actor(this);
-        this.panelBox.add(this);
-
         this.menuManager._changeMenu = this.menuManager._oldChangeMenu;
 
         this._myPanelGhost.get_parent().remove_actor(this._myPanelGhost);
@@ -469,13 +462,6 @@ var dtpPanel = Utils.defineClass({
         }
 
         Main.ctrlAltTabManager.removeGroup(this);
-
-        Main.layoutManager.removeChrome(this.panelBox);
-        this.panelBox.destroy();
-
-        this.container = null;
-        this.taskbar = null;
-        this._signalsHandler = null;
     },
 
     //next 3 functions are needed by other extensions to add elements to the secondary panel

@@ -217,6 +217,8 @@ var dtpPanelManager = Utils.defineClass({
             this._removePanelBarriers(p);
 
             p.disable();
+            Main.layoutManager.removeChrome(p.panelBox);
+            p.panelBox.destroy();
         });
 
         if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
@@ -224,9 +226,6 @@ var dtpPanelManager = Utils.defineClass({
         }
 
         if (reset) return;
-
-        Main.overview._panelGhost.set_height(Main.panel.height);
-
         this._setKeyBindings(false);
 
         this._signalsHandler.destroy();
@@ -249,6 +248,7 @@ var dtpPanelManager = Utils.defineClass({
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
         Main.overview.getShowAppsButton = this._oldGetShowAppsButton;
 
+        Main.overview._panelGhost.set_height(Main.panel.actor.height);
         Main.panel.actor.show();
 
         if (this._needsDashItemContainerAllocate) {
@@ -283,7 +283,7 @@ var dtpPanelManager = Utils.defineClass({
         let panelBox = new St.BoxLayout({ name: 'panelBox' });
         let panel = new Panel.dtpPanel(this, monitor, panelBox, isSecondary);
         
-        panelBox.add(panel);
+        panelBox.add(panel.bg);
         Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
         panel.enable();
 

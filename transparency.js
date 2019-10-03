@@ -215,7 +215,7 @@ var DynamicTransparency = Utils.defineClass({
         let transition = 'transition-duration:' + this.animationDuration;
         let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
 
-        this._dtpPanel.panelBg.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles);
+        this._dtpPanel.bg.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles);
         
         if (this._dtpPanel._leftCorner) {
             this._dtpPanel._leftCorner.actor.set_style(cornerStyle);
