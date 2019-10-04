@@ -880,3 +880,55 @@ msgstr ""
 #: Settings.ui.h:184
 msgid "About"
 msgstr "О программе"
+
+#: Settings.ui.h:185
+msgid "Show running applications"
+msgstr "Показывать запущенные приложения"
+
+#: Settings.ui.h:186
+msgid "Show tooltip on hover"
+msgstr "Показывать подсказку при наведении"
+
+#: Settings.ui.h:187
+msgid "Toggle single / Preview multiple"
+msgstr "Переключить одно / Просмотр нескольких"
+
+#: Settings.ui.h:188
+msgid "Toggle windows"
+msgstr "Переключить окна"
+
+#: Settings.ui.h:189
+msgid "Scroll panel action"
+msgstr "При скролле над панелью"
+
+#: Settings.ui.h:190
+msgid "Scroll icon action"
+msgstr "При скролле над иконкой приложения"
+
+#: Settings.ui.h:191
+msgid "Behavior when mouse scrolling over the panel."
+msgstr "Поведение при прокрутке колесиком мыши над панелью."
+
+#: Settings.ui.h:192
+msgid "Behavior when mouse scrolling over an application icon."
+msgstr "Поведение при прокрутке колесиком мыши над иконкой приложения"
+
+#: Settings.ui.h:193
+msgid "Do nothing"
+msgstr "Ничего не делать"
+
+#: Settings.ui.h:194
+msgid "Switch workspace"
+msgstr "Переключать рабочий стол"
+
+#: Settings.ui.h:195
+msgid "Cycle windows"
+msgstr "Переключать окна"
+
+#: Settings.ui.h:196
+msgid "Raise windows"
+msgstr "Показать окно приложения"
+
+#: Settings.ui.h:197
+msgid "Activate panel menu buttons (e.g. date menu) on click only"
+msgstr "Активировать кнопки на панели меню (например, меню даты) только при нажатии на кнопку"
