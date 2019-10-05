@@ -960,8 +960,8 @@ var Preview = Utils.defineClass({
     },
 
     _getBackgroundColor: function(offset, alpha) {
-        return 'background-color: ' + this._getRgbaColor(offset, alpha) + 
-               'transition-duration:' + this._previewMenu.panel.dynamicTransparency.animationDuration;
+        return 'background-color: ' + this._getRgbaColor(offset, alpha) +
+               'transition-duration:' + this._previewMenu.panel.dynamicTransparency.animationDuration + ';';
     },
 
     _getRgbaColor: function(offset, alpha) {
