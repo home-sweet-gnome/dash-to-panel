@@ -1397,7 +1397,7 @@ msgstr "実行中インジケーターのスタイル (非フォーカス)"
 msgid ""
 "Style of the running indicator for the icon for applications which are not "
 "currently focused"
-msgstr "現在フォーカスがないアプリケーションのアイコンの実行中インジケーターのスタイル
+msgstr "現在フォーカスがないアプリケーションのアイコンの実行中インジケーターのスタイル"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:110(summary)
 msgid "Running indicator dominant color"
