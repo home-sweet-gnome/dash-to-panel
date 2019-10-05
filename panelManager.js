@@ -135,6 +135,10 @@ var dtpPanelManager = Utils.defineClass({
 
         Main.layoutManager._updateHotCorners();
 
+        if (Main.layoutManager._interfaceSettings) {
+            this._enableHotCornersId = Main.layoutManager._interfaceSettings.connect('changed::enable-hot-corners', () => Main.layoutManager._updateHotCorners());
+        }
+
         this._oldOverviewRelayout = Main.overview._relayout;
         Main.overview._relayout = Lang.bind(Main.overview, this._newOverviewRelayout);
 
@@ -226,6 +230,7 @@ var dtpPanelManager = Utils.defineClass({
         }
 
         if (reset) return;
+        
         this._setKeyBindings(false);
 
         this._signalsHandler.destroy();
@@ -235,6 +240,10 @@ var dtpPanelManager = Utils.defineClass({
 
         Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
         Main.layoutManager._updateHotCorners();
+
+        if (this._enableHotCornersId) {
+            Main.layoutManager._interfaceSettings.disconnect(this._enableHotCornersId);
+        }
 
         Main.layoutManager._updatePanelBarrier = this._oldUpdatePanelBarrier;
         Main.layoutManager._updatePanelBarrier();
