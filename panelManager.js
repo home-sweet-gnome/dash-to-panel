@@ -129,10 +129,6 @@ var dtpPanelManager = Utils.defineClass({
 
         this._oldUpdateHotCorners = Main.layoutManager._updateHotCorners;
         Main.layoutManager._updateHotCorners = Lang.bind(Main.layoutManager, newUpdateHotCorners);
-
-        Layout.HotCorner.prototype._oldSetBarrierSize = Layout.HotCorner.prototype.setBarrierSize;
-        Layout.HotCorner.prototype.setBarrierSize = newSetBarrierSize;
-
         Main.layoutManager._updateHotCorners();
 
         if (Main.layoutManager._interfaceSettings) {
@@ -234,9 +230,6 @@ var dtpPanelManager = Utils.defineClass({
         this._setKeyBindings(false);
 
         this._signalsHandler.destroy();
-
-        Layout.HotCorner.prototype.setBarrierSize = Layout.HotCorner.prototype._oldSetBarrierSize;
-        delete Layout.HotCorner.prototype._oldSetBarrierSize;
 
         Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
         Main.layoutManager._updateHotCorners();
@@ -506,14 +499,13 @@ function newUpdateHotCorners() {
     this.hotCorners = [];
 
     //global.settings is ubuntu specific setting to disable the hot corner (Tweak tool > Top Bar > Activities Overview Hot Corner)
-    //Main.layoutManager._interfaceSettings is for the setting to disable the hot corner introduced in gnome-shell 3.34 
+    //this._interfaceSettings is for the setting to disable the hot corner introduced in gnome-shell 3.34 
     if ((global.settings.list_keys().indexOf('enable-hot-corners') >= 0 && !global.settings.get_boolean('enable-hot-corners')) ||
-        (Main.layoutManager._interfaceSettings && !Main.layoutManager._interfaceSettings.get_boolean('enable-hot-corners'))) {
+        (this._interfaceSettings && !this._interfaceSettings.get_boolean('enable-hot-corners'))) {
         this.emit('hot-corners-changed');
         return;
     }
 
-    let size = this.panelBox.height;
     let panelPosition = Panel.getPosition();
 
     // build new hot corners
@@ -559,7 +551,7 @@ function newUpdateHotCorners() {
 
         if (haveTopLeftCorner) {
             let corner = new Layout.HotCorner(this, monitor, cornerX, cornerY);
-            corner.setBarrierSize(size);
+            corner.setBarrierSize(Panel.size);
             this.hotCorners.push(corner);
         } else {
             this.hotCorners.push(null);
@@ -567,13 +559,6 @@ function newUpdateHotCorners() {
     }
 
     this.emit('hot-corners-changed');
-}
-
-function newSetBarrierSize(size) {
-    //the hotcorner sizes are re-applied when the panelbox allocation changes and
-    //the used size is the panelbox height. To prevent giant barriers when the panelbox
-    //is vertical, set a max size here
-    this._oldSetBarrierSize(Panel.size);
 }
 
 function newUpdatePanelBarrier(panel) {
