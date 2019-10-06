@@ -30,22 +30,22 @@ const releasesApiUrl = apiUrl + 'releases';
 
 let httpSession;
 
-function init(settings) {
-    settings.connect('changed::version-to-install', () => installRelease(settings.get_string('version-to-install'), true));
-    settings.connect('changed::force-check-update', () => {
-        if (settings.get_boolean('force-check-update')) {
-            checkForUpdate(settings, true);
-            settings.set_boolean('force-check-update', false);
+function init() {
+    Me.settings.connect('changed::version-to-install', () => installRelease(Me.settings.get_string('version-to-install'), true));
+    Me.settings.connect('changed::force-check-update', () => {
+        if (Me.settings.get_boolean('force-check-update')) {
+            checkForUpdate(true);
+            Me.settings.set_boolean('force-check-update', false);
         }
     });
 
     //check for update now, then every 4 hours
-    checkForUpdate(settings);
-    imports.mainloop.timeout_add(14400000, () => checkForUpdate(settings));
+    checkForUpdate();
+    imports.mainloop.timeout_add(14400000, () => checkForUpdate());
 }
 
-function checkForUpdate(settings, fromSettings) {
-    if (fromSettings || settings.get_boolean('check-update')) {
+function checkForUpdate(fromSettings) {
+    if (fromSettings || Me.settings.get_boolean('check-update')) {
         getLatestReleaseInfo((err, latestRelease) => {
             if (err) {
                 return notifyError(err);

@@ -89,7 +89,7 @@ function _enable() {
     Me.settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     Me.desktopSettings = Convenience.getSettings('org.gnome.desktop.interface');
 
-    Update.init(Me.settings);
+    Update.init();
     panelManager = new PanelManager.dtpPanelManager();
 
     panelManager.enable();
@@ -99,7 +99,7 @@ function _enable() {
         'open-application-menu',
         new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
         Lang.bind(this, function() {
-            if(settings.get_boolean('show-appmenu'))
+            if(Me.settings.get_boolean('show-appmenu'))
                 Main.wm._toggleAppMenu();
             else
                 panelManager.primaryPanel.taskbar.popupFocusedAppSecondaryMenu();
