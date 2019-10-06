@@ -1,8 +1,9 @@
 # Japanese translations for Dash to panel.
-# Copyright (C) 2017-2019
-# This file is distributed under the same license as the dast-to-panel gnome-shell extension.
+# Copyright (C) 2017-2019 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the dash-to-panel package.
 # Shinichirou Yamada <yamada_strong_yamada_nice_64bit@yahoo.co.jp>, 2017-2018.
 # sicklylife <translation@sicklylife.jp>, 2018-2019.
+# Ryo Nakano <ryonakaknock3@gmail.com>, 2019.
 #
 msgid ""
 msgstr ""
