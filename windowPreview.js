@@ -57,6 +57,7 @@ let headerHeight = 0;
 let alphaBg = 0;
 let isLeftButtons = false;
 let isTopHeader = true;
+let isManualStyling = false;
 let scaleFactor = 1;
 let animationTime = 0;
 let aspectRatio = {};
@@ -186,7 +187,8 @@ var PreviewMenu = Utils.defineClass({
                 this._refreshGlobals();
                 
                 this.menu.show();
-                this.menu.set_style('background: ' + Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, alphaBg));
+                
+                setStyle(this.menu, 'background: ' + Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, alphaBg));
             }
 
             this._mergeWindows(appIcon);
@@ -404,6 +406,7 @@ var PreviewMenu = Utils.defineClass({
     _refreshGlobals: function() {
         isLeftButtons = Meta.prefs_get_button_layout().left_buttons.indexOf(Meta.ButtonFunction.CLOSE) >= 0;
         isTopHeader = Me.settings.get_string('window-preview-title-position') == 'TOP';
+        isManualStyling = Me.settings.get_boolean('window-preview-manual-styling');
         scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         headerHeight = Me.settings.get_boolean('window-preview-show-title') ? HEADER_HEIGHT * scaleFactor : 0;
         animationTime = Me.settings.get_int('window-preview-animation-time') * .001;
@@ -697,6 +700,7 @@ var Preview = Utils.defineClass({
         }
 
         this._closeButtonBin = new St.Widget({ 
+            style_class: 'preview-close-btn-container',
             layout_manager: new Clutter.BinLayout(), 
             opacity: 0, 
             x_expand: true, y_expand: true, 
@@ -717,13 +721,14 @@ var Preview = Utils.defineClass({
         box.add_child(this._previewBin);
         
         if (headerHeight) {
-            let headerBox = new St.Widget({ 
+            let headerBox = new St.Widget({
+                style_class: 'preview-header-box',
                 layout_manager: new Clutter.BoxLayout(), 
                 x_expand: true, 
-                y_align: Clutter.ActorAlign[isTopHeader ? 'START' : 'END'],
-                style: this._getBackgroundColor(HEADER_COLOR_OFFSET, 1) 
+                y_align: Clutter.ActorAlign[isTopHeader ? 'START' : 'END']
             });
             
+            setStyle(headerBox, this._getBackgroundColor(HEADER_COLOR_OFFSET, 1));
             this._workspaceIndicator = new St.Label({ y_align: Clutter.ActorAlign.CENTER });
             this._windowTitle = new St.Label({ y_align: Clutter.ActorAlign.CENTER, x_expand: true });
 
@@ -767,7 +772,8 @@ var Preview = Utils.defineClass({
             }
         }
 
-        this._closeButtonBin.set_style(
+        setStyle(
+            this._closeButtonBin,
             'padding: ' + (headerHeight ? Math.round((headerHeight - closeButtonHeight) * .5 / scaleFactor) : 4) + 'px;' +
             this._getBackgroundColor(HEADER_COLOR_OFFSET, headerHeight ? 1 : .6) +
             closeButtonBorderRadius
@@ -831,7 +837,7 @@ var Preview = Utils.defineClass({
 
     setFocus: function(focused) {
         this._hideOrShowCloseButton(!focused);
-        this.set_style(this._getBackgroundColor(FOCUSED_COLOR_OFFSET, focused ? '-' : 0));
+        setStyle(this, this._getBackgroundColor(FOCUSED_COLOR_OFFSET, focused ? '-' : 0));
 
         if (focused) {
             this._previewMenu.ensureVisible(this);
@@ -941,10 +947,10 @@ var Preview = Utils.defineClass({
             }
     
             this._workspaceIndicator.text = workspaceIndex; 
-            this._workspaceIndicator.set_style(workspaceStyle);
+            setStyle(this._workspaceIndicator, workspaceStyle);
 
             this._titleWindowChangeId = this.window.connect('notify::title', () => this._updateWindowTitle());
-            this._windowTitle.set_style('max-width: 0px; padding-right: 4px;' + commonTitleStyles);
+            setStyle(this._windowTitle, 'max-width: 0px; padding-right: 4px;' + commonTitleStyles);
             this._updateWindowTitle();
         }
     },
@@ -1102,6 +1108,12 @@ var WindowCloneLayout = Utils.defineClass({
         actor.get_first_child().allocate(box, flags);
     }
 });
+
+function setStyle(actor, style) {
+    if (!isManualStyling) {
+        actor.set_style(style);
+    }
+}
 
 function getTweenOpts(opts) {
     let defaults = {

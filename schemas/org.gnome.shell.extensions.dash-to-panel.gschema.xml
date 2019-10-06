@@ -435,6 +435,11 @@
       <summary>Display title in preview</summary>
       <description>Display window title in preview</description>
     </key>
+    <key type="b" name="window-preview-manual-styling">
+      <default>false</default>
+      <summary>Window previews manual styling</summary>
+      <description>This defines if the default window previews styling should be applied</description>
+    </key>
     <key name="window-preview-title-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'TOP'</default>
       <summary>Title position</summary>
