@@ -151,7 +151,7 @@ function notifyInstallResult(err) {
     } else {
         notify(
             _('Update successful, please restart GNOME Shell'), 
-            { text: _('Restart GNOME Shell'), func: () => imports.gi.Meta.restart(_("Restarting GNOME Shell…")) }
+            { text: _('Restart GNOME Shell'), func: () => imports.gi.Meta.restart(_("Restarting GNOME Shell...")) }
         );
     }
 }
