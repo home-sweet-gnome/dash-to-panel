@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-10-10 14:57-0400\n"
-"PO-Revision-Date: 2019-10-10 15:28-0400\n"
+"PO-Revision-Date: 2019-10-10 15:32-0400\n"
 "Last-Translator: Charles Gagnon <charlesg99@outlook.com>\n"
 "Language-Team: French - Canada <>\n"
 "Language: fr_CA\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: prefs.js:211
 msgid "Top, with plugin icons collapsed to bottom"
-msgstr "En haut, et placer les icônes de plugins sur la droite"
+msgstr "En haut, et placer les icônes de plugins au bas"
 
 #: prefs.js:211
 msgid "Left, with plugin icons collapsed to right"
