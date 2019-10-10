@@ -54,6 +54,7 @@ const FADE_SIZE = 36;
 const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
 
 let headerHeight = 0;
+let clipHeight = 0;
 let alphaBg = 0;
 let isLeftButtons = false;
 let isTopHeader = true;
@@ -186,6 +187,7 @@ var PreviewMenu = Utils.defineClass({
             if (!this.opened) {
                 this._refreshGlobals();
                 
+                this.set_height(clipHeight);
                 this.menu.show();
                 
                 setStyle(this.menu, 'background: ' + Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, alphaBg));
@@ -296,6 +298,7 @@ var PreviewMenu = Utils.defineClass({
 
     _resetHiddenState: function() {
         this.menu.hide();
+        this.set_height(0);
         this._setOpenedState(false);
         this.menu.opacity = 0;
         this.menu[this._translationProp] = this._translationOffset;
@@ -427,7 +430,7 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _updateClip: function() {
-        let x, y, w, h;
+        let x, y, w;
         let geom = this.panel.getGeometry();
         let panelBoxTheme = this.panel.panelBox.get_theme_node();
         let previewSize = (Me.settings.get_int('window-preview-size') + 
@@ -435,11 +438,11 @@ var PreviewMenu = Utils.defineClass({
         
         if (this.isVertical) {
             w = previewSize;
-            h = this.panel.monitor.height;
+            clipHeight = this.panel.monitor.height;
             y = this.panel.monitor.y;
         } else {
             w = this.panel.monitor.width;
-            h = (previewSize + headerHeight);
+            clipHeight = (previewSize + headerHeight);
             x = this.panel.monitor.x;
         }
 
@@ -453,7 +456,7 @@ var PreviewMenu = Utils.defineClass({
             y = this.panel.monitor.y + this.panel.monitor.height - (Panel.size + panelBoxTheme.get_padding(St.Side.BOTTOM) + previewSize + headerHeight);
         }
 
-        Utils.setClip(this, x, y, w, h);
+        Utils.setClip(this, x, y, w, clipHeight);
     },
 
     _updatePosition: function() {

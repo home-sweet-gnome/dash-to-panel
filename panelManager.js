@@ -567,16 +567,14 @@ function newUpdatePanelBarrier(panel) {
     }
 
     let barriers = {
-        _rightPanelBarrier: [panel],
-        _leftPanelBarrier: [panel]
+        _rightPanelBarrier: [],
+        _leftPanelBarrier: []
     };
 
     Object.keys(barriers).forEach(k => {
-        let obj = barriers[k][0];
-
-        if (obj[k]) {
-            obj[k].destroy();
-            obj[k] = null;
+        if (panel[k]) {
+            panel[k].destroy();
+            panel[k] = null;
         }
     });
 
@@ -626,14 +624,14 @@ function newUpdatePanelBarrier(panel) {
     Object.keys(barriers).forEach(k => {
         let barrierOptions = { 
             display: global.display,
-            directions: barriers[k][2]
+            directions: barriers[k][1]
         };
         
-        barrierOptions[Panel.varCoord.c1] = barrierOptions[Panel.varCoord.c2] = barriers[k][1];
+        barrierOptions[Panel.varCoord.c1] = barrierOptions[Panel.varCoord.c2] = barriers[k][0];
         barrierOptions[Panel.fixedCoord.c1] = fixed1;
         barrierOptions[Panel.fixedCoord.c2] = fixed2;
 
-        barriers[k][0][k] = new Meta.Barrier(barrierOptions);
+        panel[k] = new Meta.Barrier(barrierOptions);
     });
 }
 
