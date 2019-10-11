@@ -33,7 +33,8 @@ const T1 = 'limitUpdateTimeout';
 var Mode = {
     ALL_WINDOWS: 0,
     FOCUSED_WINDOWS: 1,
-    MAXIMIZED_WINDOWS: 2
+    MAXIMIZED_WINDOWS: 2,
+    FOCUSED_OR_MAXIMIZED_WINDOWS: 3,
 };
 
 var ProximityWatch = Utils.defineClass({
@@ -245,6 +246,13 @@ var ProximityManager = Utils.defineClass({
         } else if (watch.mode === Mode.MAXIMIZED_WINDOWS) {
             return metaWindows.some(mw => mw.maximized_vertically && mw.maximized_horizontally && 
                                           mw.get_monitor() == watch.monitorIndex);
+        } else if (watch.mode === Mode.FOCUSED_OR_MAXIMIZED_WINDOWS) {
+            let is_focused = (this._focusedWindowInfo &&
+                    this._checkIfHandledWindow(this._focusedWindowInfo.metaWindow) &&
+                    this._checkProximity(this._focusedWindowInfo.metaWindow, watch));
+            let is_maximized = metaWindows.some(mw => mw.maximized_vertically && mw.maximized_horizontally &&
+                                          mw.get_monitor() == watch.monitorIndex);
+            return is_focused || is_maximized;
         }
         
         //Mode.ALL_WINDOWS
