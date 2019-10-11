@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-04 19:38+0200\n"
-"PO-Revision-Date: 2019-10-04 19:49+0200\n"
+"POT-Creation-Date: 2019-10-11 12:32+0200\n"
+"PO-Revision-Date: 2019-10-11 12:34+0200\n"
 "Last-Translator: Alex <rylatgl@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -259,6 +259,47 @@ msgstr "Przywróć okna"
 #: appIcons.js:1745
 msgid "Show Desktop"
 msgstr "Pokaż pulpit"
+
+#: update.js:58
+#, javascript-format
+msgid "Version %s (%s) is available"
+msgstr "Wersja %s (%s) jest dostępna"
+
+#: update.js:59
+msgid "Details"
+msgstr "Szczegóły"
+
+#: update.js:60
+msgid "Update"
+msgstr "Aktualizacja"
+
+#: update.js:63
+msgid "Already up to date"
+msgstr "Brak nowszej wersji"
+
+#: update.js:148
+msgid "Update successful, please log out/in"
+msgstr "Aktualizacja zakończona pomyślnie, zaloguj się ponownie"
+
+#: update.js:149
+msgid "Log out"
+msgstr "Wyloguj"
+
+#: update.js:153
+msgid "Update successful, please restart GNOME Shell"
+msgstr "Aktualizacja zakończona pomyślnie, prosimy zrestartować powłokę GNOME"
+
+#: update.js:154
+msgid "Restart GNOME Shell"
+msgstr "Zrestartuj powłokę GNOME"
+
+#: update.js:154
+msgid "Restarting GNOME Shell..."
+msgstr "Restartowanie powłoki GNOME..."
+
+#: update.js:160
+msgid "Error: "
+msgstr "Błąd: "
 
 #: Settings.ui.h:1
 msgid "Nothing yet!"
