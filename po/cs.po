@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-07 08:38+0200\n"
-"PO-Revision-Date: 2019-10-07 08:54+0200\n"
+"POT-Creation-Date: 2019-10-11 09:28+0200\n"
+"PO-Revision-Date: 2019-10-11 09:33+0200\n"
 "Last-Translator: Milan Zink <zeten30@gmail.com>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -258,6 +258,47 @@ msgstr "Obnovit okna"
 #: appIcons.js:1745
 msgid "Show Desktop"
 msgstr "Zobrazit plochu"
+
+#: update.js:58
+#, javascript-format
+msgid "Version %s (%s) is available"
+msgstr "Verze %s (%s) je dostupná"
+
+#: update.js:59
+msgid "Details"
+msgstr "Zobrazit detaily"
+
+#: update.js:60
+msgid "Update"
+msgstr "Aktualizace"
+
+#: update.js:63
+msgid "Already up to date"
+msgstr "Používáte aktuální verzi"
+
+#: update.js:148
+msgid "Update successful, please log out/in"
+msgstr "Aktualizace proběhla, je nutné se odhlásit a přihlásit"
+
+#: update.js:149
+msgid "Log out"
+msgstr "Odhlásit"
+
+#: update.js:153
+msgid "Update successful, please restart GNOME Shell"
+msgstr "Aktualizace proběhla, restartujte GNOME Shell"
+
+#: update.js:154
+msgid "Restart GNOME Shell"
+msgstr "Restartovat GNOME Shell..."
+
+#: update.js:154
+msgid "Restarting GNOME Shell..."
+msgstr "Restartuji GNOME Shell..."
+
+#: update.js:160
+msgid "Error: "
+msgstr "Chyba: "
 
 #: Settings.ui.h:1
 msgid "Nothing yet!"
