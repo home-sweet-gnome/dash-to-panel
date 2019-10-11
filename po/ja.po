@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-05 18:00+0900\n"
-"PO-Revision-Date: 2019-10-05 20:46+0900\n"
+"POT-Creation-Date: 2019-10-11 23:53+0900\n"
+"PO-Revision-Date: 2019-10-12 00:09+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese\n"
 "Language: ja\n"
@@ -89,12 +89,12 @@ msgid "Display favorite applications on all monitors"
 msgstr "すべてのモニターにお気に入りのアプリケーションを表示"
 
 #: Settings.ui:424
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:560(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:565(summary)
 msgid "Display the clock on all monitors"
 msgstr "すべてのモニターに時計を表示"
 
 #: Settings.ui:468
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:565(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:570(summary)
 msgid "Display the status menu on all monitors"
 msgstr "すべてのモニターにステータスメニューを表示"
 
@@ -163,7 +163,7 @@ msgid "Font size (px) of the application titles (default is 14)"
 msgstr "アプリケーションタイトルのフォントサイズ (px) (デフォルトは14)"
 
 #: Settings.ui:1374
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:515(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:520(summary)
 msgid "Font weight of application titles"
 msgstr "アプリケーションタイトルのフォントの幅"
 
@@ -196,12 +196,12 @@ msgid "Maximum width (px) of the application titles (default is 160)"
 msgstr "アプリケーションタイトルの最大幅 (px) (デフォルトは160)"
 
 #: Settings.ui:1510
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:530(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:535(summary)
 msgid "Use a fixed width for the application titles"
 msgstr "アプリケーションタイトルの幅を固定"
 
 #: Settings.ui:1535
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:531(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:536(description)
 msgid ""
 "The application titles all have the same width, even if their texts are "
 "shorter than the maximum width. The maximum width value is used as the fixed "
@@ -211,7 +211,7 @@ msgstr ""
 "値が固定幅の値として使用されます。"
 
 #: Settings.ui:1571
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:535(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:540(summary)
 msgid "Display running indicators on unfocused applications"
 msgstr "フォーカスされていないアプリケーションのインジケーターを表示"
 
@@ -329,7 +329,7 @@ msgid "3"
 msgstr "3"
 
 #: Settings.ui:2571 Settings.ui:2649
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:672(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:677(default)
 msgid "4"
 msgstr "4"
 
@@ -348,13 +348,13 @@ msgstr "7"
 #: Settings.ui:2575 Settings.ui:2653
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:359(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:379(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:479(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:667(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:484(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:672(default)
 msgid "8"
 msgstr "8"
 
 #: Settings.ui:2576 Settings.ui:2654
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:489(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:494(default)
 msgid "9"
 msgstr "9"
 
@@ -375,8 +375,8 @@ msgid "13"
 msgstr "13"
 
 #: Settings.ui:2581 Settings.ui:2659
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:449(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:509(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:454(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:514(default)
 msgid "14"
 msgstr "14"
 
@@ -385,7 +385,7 @@ msgid "15"
 msgstr "15"
 
 #: Settings.ui:2583 Settings.ui:2661
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:484(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:489(default)
 msgid "16"
 msgstr "16"
 
@@ -481,23 +481,24 @@ msgid ""
 msgstr ""
 "ウィンドウ覗き見モードに入るには、ウィンドウのプレビューにマウスホバーしたま"
 "ま、しばらく動かさずに待つ必要があります。"
+
 #: Settings.ui:3171
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:638(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:643(summary)
 msgid "Window peeking mode opacity"
 msgstr "ウィンドウ覗き見モードの不透明度"
 
 #: Settings.ui:3185 Settings.ui:3909 Settings.ui:4304 Settings.ui:5544
 #: Settings.ui:5762 Settings.ui:5800
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:269(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:612(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:622(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:657(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:617(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:627(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:662(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:667(default)
 msgid "0"
 msgstr "0"
 
 #: Settings.ui:3199
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:639(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:644(description)
 msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
@@ -660,7 +661,7 @@ msgid "Display the main panel on"
 msgstr "メインパネルの表示"
 
 #: Settings.ui:4725
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:550(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:555(summary)
 msgid "Display panels on all monitors"
 msgstr "すべてのモニターにパネルを表示"
 
@@ -1295,14 +1296,14 @@ msgid "Restart GNOME Shell"
 msgstr "GNOME Shell を再起動"
 
 #: update.js:154
-msgid "Restarting GNOME Shell…"
-msgstr "GNOME Shell を再起動しています…"
+msgid "Restarting GNOME Shell..."
+msgstr "GNOME Shell を再起動しています..."
 
 #: update.js:160
 msgid "Error: "
 msgstr "エラー: "
 
-#: windowPreview.js:907
+#: windowPreview.js:916
 msgid "Move to current Workspace"
 msgstr "現在のワークスペースに移動"
 
@@ -1327,14 +1328,15 @@ msgstr "現在のワークスペースに移動"
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:369(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:384(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:399(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:469(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:494(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:439(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:474(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:499(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:539(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:554(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:704(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:733(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:743(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:504(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:544(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:559(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:709(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:738(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:748(default)
 msgid "false"
 msgstr ""
 
@@ -1536,22 +1538,22 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:419(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:429(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:434(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:474(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:504(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:529(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:479(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:509(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:534(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:549(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:559(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:539(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:554(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:564(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:569(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:574(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:579(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:583(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:642(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:584(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:588(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:647(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:692(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:696(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:700(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:652(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:697(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:701(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:705(default)
 msgid "true"
 msgstr ""
 
@@ -1818,7 +1820,7 @@ msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:304(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:424(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:627(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:632(default)
 msgid "100"
 msgstr ""
 
@@ -1897,7 +1899,7 @@ msgid "Keybinding to reveal the panel while in intellihide mode"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:344(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:718(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:723(default)
 msgid "2000"
 msgstr ""
 
@@ -2058,862 +2060,870 @@ msgstr ""
 msgid "Display window title in preview"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:439(default)
-msgid "'TOP'"
-msgstr ""
-
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:440(summary)
-msgid "Title position"
+msgid "Window previews manual styling"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:441(description)
-msgid "Position of the window title, close button and icon in preview."
+msgid "This defines if the default window previews styling should be applied"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:444(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:519(default)
-msgid "\"#dddddd\""
+msgid "'TOP'"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:445(summary)
-msgid "Window previews title font color"
+msgid "Title position"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:446(description)
-msgid "This defines the window preview titles font color."
+msgid "Position of the window title, close button and icon in preview."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:449(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:524(default)
+msgid "\"#dddddd\""
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:450(summary)
-msgid "Window previews title font size"
+msgid "Window previews title font color"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:451(description)
-msgid "This defines the window preview titles font size."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:454(default)
-msgid "260"
+msgid "This defines the window preview titles font color."
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:455(summary)
-msgid "Window previews animation time"
+msgid "Window previews title font size"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:456(description)
-msgid "This defines the window previews animation time."
+msgid "This defines the window preview titles font size."
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:459(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:514(default)
-msgid "'inherit'"
+msgid "260"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:460(summary)
-msgid "Font weight of window preview titles"
+msgid "Window previews animation time"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:461(description)
+msgid "This defines the window previews animation time."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:464(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:519(default)
+msgid "'inherit'"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:465(summary)
+msgid "Font weight of window preview titles"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:466(description)
 msgid ""
 "This defines the font weight of window preview titles. Supported values: "
 "inherit (from theme), normal, lighter, bold and bolder."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:464(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:469(default)
 msgid "240"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:465(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:470(summary)
 msgid "Window previews size"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:466(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:471(description)
 msgid "Preferred window previews size"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:470(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:475(summary)
 msgid "Fixed aspect ratio X"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:471(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:476(description)
 msgid "This defines if the window previews use a fixed aspect ratio X."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:475(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:480(summary)
 msgid "Fixed aspect ratio Y"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:476(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:481(description)
 msgid "This defines if the window previews use a fixed aspect ratio Y."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:480(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:485(summary)
 msgid "Window previews padding"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:481(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:486(description)
 msgid "The padding of the window previews"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:485(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:490(summary)
 msgid "Aspect ratio X"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:486(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:491(description)
 msgid "The window previews respected aspect ratio X."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:490(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:495(summary)
 msgid "Aspect ratio Y"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:491(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:496(description)
 msgid "The window previews respected aspect ratio Y."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:495(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:500(summary)
 msgid "Immediate hide on icon click"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:496(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:501(description)
 msgid ""
 "The window previews immediately hide when an application icon is clicked."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:500(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:505(summary)
 msgid "Provide workspace isolation"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:501(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:506(description)
 msgid "Dash shows only windows from the current workspace"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:505(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:510(summary)
 msgid "Group applications"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:506(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:511(description)
 msgid "Dash groups the application instances under the same icon"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:510(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:515(summary)
 msgid "Application title font size"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:511(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:516(description)
 msgid ""
 "When the applications are ungrouped, this defines the application titles "
 "font size."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:516(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:521(description)
 msgid ""
 "When the applications are ungrouped, this defines font weight of application "
 "titles. Supported values: inherit (from theme), normal, lighter, bold and "
 "bolder."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:520(summary)
-msgid "Application title font color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:521(description)
-msgid ""
-"When the applications are ungrouped, this defines the application titles "
-"font color."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:524(default)
-msgid "160"
-msgstr ""
-
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:525(summary)
-msgid "Application title max width"
+msgid "Application title font color"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:526(description)
 msgid ""
 "When the applications are ungrouped, this defines the application titles "
-"maximum width."
+"font color."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:536(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:529(default)
+msgid "160"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:530(summary)
+msgid "Application title max width"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:531(description)
 msgid ""
-"When the applications are ungrouped, this defines if running applications "
-"should display an indicator."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:540(summary)
-msgid "Use favorite icons as application launchers"
+"When the applications are ungrouped, this defines the application titles "
+"maximum width."
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:541(description)
 msgid ""
 "When the applications are ungrouped, this defines if running applications "
-"stay separate from the favorite icons."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:544(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:677(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:682(default)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:687(default)
-msgid "-1"
+"should display an indicator."
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:545(summary)
-msgid "Primary monitor index"
+msgid "Use favorite icons as application launchers"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:546(description)
 msgid ""
-"Specifies the index of the primary monitor (-1 = GNOME Primary Monitor)."
+"When the applications are ungrouped, this defines if running applications "
+"stay separate from the favorite icons."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:549(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:682(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:687(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:692(default)
+msgid "-1"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:550(summary)
+msgid "Primary monitor index"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:551(description)
-msgid "Specifies if a panel is shown on every monitors"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:555(summary)
-msgid "Provide monitor isolation"
+msgid ""
+"Specifies the index of the primary monitor (-1 = GNOME Primary Monitor)."
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:556(description)
-msgid "Dash shows only windows from the current monitor"
+msgid "Specifies if a panel is shown on every monitors"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:560(summary)
+msgid "Provide monitor isolation"
 msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:561(description)
+msgid "Dash shows only windows from the current monitor"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:566(description)
 msgid ""
 "Specifies if every panel should display the clock. If false, the clock is "
 "only displayed on the primary monitor."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:566(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:571(description)
 msgid ""
 "Specifies if every panel should display the status menu. If false, the "
 "status menu is only displayed on the primary monitor."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:570(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:575(summary)
 msgid "Display the favorites on all monitors"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:571(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:576(description)
 msgid ""
 "Specifies if every panel should display the favorite applications. If false, "
 "the favorite appplications are only displayed on the primary monitor."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:575(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:580(summary)
 msgid "Customize click behaviour"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:576(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:581(description)
 msgid "Customize action on various mouse events"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:580(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:585(summary)
 msgid "Minimize on shift+click"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:584(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:589(summary)
 msgid "Activate only one window"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:587(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:592(default)
 msgid "'CYCLE-MIN'"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:588(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:598(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:593(summary)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:603(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:608(summary)
 msgid "Action when clicking on a running app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:589(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:594(description)
 msgid ""
 "Set the action that is executed when clicking on the icon of a running "
 "application"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:592(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:597(default)
 msgid "'MINIMIZE'"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:593(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:598(summary)
 msgid "Action when shift+clicking on a running app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:594(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:599(description)
 msgid ""
 "Set the action that is executed when shift+clicking on the icon of a running "
 "application"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:597(default)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:602(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:607(default)
 msgid "'LAUNCH'"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:599(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:604(description)
 msgid ""
 "Set the action that is executed when middle-clicking on the icon of a "
 "running application"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:604(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:609(description)
 msgid ""
 "Set the action that is executed when shift+middle-clicking on the icon of a "
 "running application"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:607(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:612(default)
 msgid "'SWITCH_WORKSPACE'"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:608(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:613(summary)
 msgid "Action when scrolling over the panel"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:609(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:614(description)
 msgid "Set the action that is executed when scrolling over the panel"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:613(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:618(summary)
 msgid "Delay between panel mouse scroll events"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:614(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:619(description)
 msgid "Set the minimum delay between panel mouse scroll events"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:617(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:622(default)
 msgid "'CYCLE_WINDOWS'"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:618(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:623(summary)
 msgid "Action when scrolling over a running app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:619(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:624(description)
 msgid ""
 "Set the action that is executed when scrolling over a running application"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:623(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:628(summary)
 msgid "Delay between icon mouse scroll events"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:624(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:629(description)
 msgid "Set the minimum delay between icon mouse scroll events"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:628(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:633(summary)
 msgid "Icon leave preview timeout"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:629(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:634(description)
 msgid ""
 "Amount of time to leave preview windows open when the mouse has left the "
 "application's icon."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:632(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:637(default)
 msgid "500"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:633(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:638(summary)
 msgid "Enter window peeking mode timeout"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:634(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:639(description)
 msgid ""
 "Amount of time of inactivity to enter the window peeking mode when the mouse "
 "has entered a window preview."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:637(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:642(default)
 msgid "40"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:643(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:648(summary)
 msgid "Middle click preview to close window"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:644(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:649(description)
 msgid "Middle click on the window preview to close that window"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:648(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:653(summary)
 msgid "Window previews use custom opacity"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:649(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:654(description)
 msgid "Window previews background use a different opacity from the panel"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:652(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:657(default)
 msgid "80"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:653(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:658(summary)
 msgid "Window previews background opacity"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:654(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:659(description)
 msgid "Window previews use this custom background opacity."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:658(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:663(summary)
 msgid "Tray font size"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:659(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:664(description)
 msgid "Set the size of the tray font. (0 for default)"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:663(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:668(summary)
 msgid "Leftbox font size"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:664(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:669(description)
 msgid "Set the size of the leftBox font. (0 for default)"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:668(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:673(summary)
 msgid "App icon margin"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:669(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:674(description)
 msgid "Set the margin for application icons in the embedded dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:673(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:678(summary)
 msgid "App icon padding"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:674(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:679(description)
 msgid "Set the padding for application icons in the embedded dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:678(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:683(summary)
 msgid "Tray item padding"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:679(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:684(description)
 msgid "Set the size of the tray padding. (-1 for default)"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:683(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:688(summary)
 msgid "Leftbox item padding"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:684(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:689(description)
 msgid "Set the size of the leftBox padding. (-1 for default)"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:688(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:693(summary)
 msgid "Status icon padding"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:689(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:694(description)
 msgid ""
 "Set the size of the aggregate (status) menu icon padding. (-1 for default)"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:693(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:698(summary)
 msgid "Animate running indicator when open/closing/switching applications"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:697(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:702(summary)
 msgid "Animate when new window launched"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:701(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:706(summary)
 msgid "Integrate items from the gnome appmenu into the right click menu"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:705(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:710(summary)
 msgid "Display Show Details to open Gnome Software from right click menu"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:708(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:713(default)
 msgid "\"&lt;Super&gt;q\""
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:709(summary)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:714(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:719(summary)
 msgid "Keybinding to show the dock and the number overlay."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:710(description)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:715(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:720(description)
 msgid "Behavior depends on hotkeys-show-dock and hotkeys-overlay."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:719(summary)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:724(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:729(summary)
 msgid "Timeout to hide the dock, in seconds"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:720(description)
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:725(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:730(description)
 msgid "Sets the time duration before the dock is hidden again."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:723(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:728(default)
 msgid "750"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:728(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:733(default)
 msgid "'TEMPORARILY'"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:729(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:734(summary)
 msgid "Transitivity of the number overlay"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:730(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:735(description)
 msgid "You can choose between NEVER, TEMPORARILY and ALWAYS."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:734(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:739(summary)
 msgid "Super Hot-Keys"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:735(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:740(description)
 msgid "Launch and switch between dash items using Super+(0-9)"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:738(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:743(default)
 msgid "'Super'"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:739(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:744(summary)
 msgid "Prefix to use for hotkeys"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:740(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:745(description)
 msgid "You can choose between Super or SuperAlt as the prefix for hotkeys."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:744(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:749(summary)
 msgid "Show window previews"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:745(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:750(description)
 msgid ""
 "When multiple instances of the application are available, show their window "
 "previews"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:748(default)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:753(default)
 msgid "'BOTH'"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:749(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:754(summary)
 msgid "Hotkeys number keys"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:750(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:755(description)
 msgid "Which number keys are used for the hotkeys"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:754(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:964(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:759(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:969(summary)
 msgid "Keybinding to launch 1st dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:755(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:965(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:760(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:970(description)
 msgid "Keybinding to launch 1st app."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:761(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:971(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:766(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:976(summary)
 msgid "Keybinding to launch 2nd dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:762(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:972(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:767(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:977(description)
 msgid "Keybinding to launch 2nd app."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:768(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:978(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:773(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:983(summary)
 msgid "Keybinding to launch 3rd dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:769(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:979(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:774(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:984(description)
 msgid "Keybinding to launch 3rd app."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:775(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:985(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:780(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:990(summary)
 msgid "Keybinding to launch 4th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:776(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:986(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:781(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:991(description)
 msgid "Keybinding to launch 4th app."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:782(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:992(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:787(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:997(summary)
 msgid "Keybinding to launch 5th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:783(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:993(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:788(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:998(description)
 msgid "Keybinding to launch 5th app."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:789(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:999(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:794(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1004(summary)
 msgid "Keybinding to launch 6th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:790(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1000(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:795(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1005(description)
 msgid "Keybinding to launch 6th app."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:796(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1006(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:801(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1011(summary)
 msgid "Keybinding to launch 7th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:797(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1007(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:802(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1012(description)
 msgid "Keybinding to launch 7th app."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:803(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1013(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:808(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1018(summary)
 msgid "Keybinding to launch 8th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:804(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1014(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:809(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1019(description)
 msgid "Keybinding to launch 8th app."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:810(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1020(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:815(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1025(summary)
 msgid "Keybinding to launch 9th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:811(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1021(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:816(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1026(description)
 msgid "Keybinding to launch 9th app."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:817(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1027(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:822(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1032(summary)
 msgid "Keybinding to launch 10th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:818(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1028(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:823(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1033(description)
 msgid "Keybinding to launch 10th app."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:824(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1034(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:829(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1039(summary)
 msgid "Keybinding to trigger 1st dash app with shift behavior"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:825(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1035(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:830(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1040(description)
 msgid "Keybinding to trigger 1st app with shift behavior."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:831(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1041(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:836(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1046(summary)
 msgid "Keybinding to trigger 2nd dash app with shift behavior"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:832(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1042(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:837(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1047(description)
 msgid "Keybinding to trigger 2nd app with shift behavior."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:838(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1048(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:843(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1053(summary)
 msgid "Keybinding to trigger 3rd dash app with shift behavior"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:839(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1049(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:844(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1054(description)
 msgid "Keybinding to trigger 3rd app with shift behavior."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:845(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1055(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:850(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1060(summary)
 msgid "Keybinding to trigger 4th dash app with shift behavior"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:846(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1056(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:851(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1061(description)
 msgid "Keybinding to trigger 4th app with shift behavior."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:852(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1062(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:857(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1067(summary)
 msgid "Keybinding to trigger 5th dash app with shift behavior"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:853(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1063(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:858(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1068(description)
 msgid "Keybinding to trigger 5th app with shift behavior."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:859(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1069(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:864(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1074(summary)
 msgid "Keybinding to trigger 6th dash app with shift behavior"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:860(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1070(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:865(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1075(description)
 msgid "Keybinding to trigger 6th app with shift behavior."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:866(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1076(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:871(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1081(summary)
 msgid "Keybinding to trigger 7th dash app with shift behavior"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:867(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1077(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:872(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1082(description)
 msgid "Keybinding to trigger 7th app with shift behavior."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:873(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1083(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:878(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1088(summary)
 msgid "Keybinding to trigger 8th dash app with shift behavior"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:874(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1084(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:879(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1089(description)
 msgid "Keybinding to trigger 8th app with shift behavior."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:880(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1090(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:885(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1095(summary)
 msgid "Keybinding to trigger 9th dash app with shift behavior"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:881(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1091(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:886(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1096(description)
 msgid "Keybinding to trigger 9th app with shift behavior."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:887(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1097(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:892(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1102(summary)
 msgid "Keybinding to trigger 10th dash app with shift behavior"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:888(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1098(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:893(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1103(description)
 msgid "Keybinding to trigger 10th app with shift behavior."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:894(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1104(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:899(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1109(summary)
 msgid "Keybinding to trigger 1st dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:895(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1105(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:900(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1110(description)
 msgid "Keybinding to either show or launch the 1st application in the dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:901(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1111(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:906(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1116(summary)
 msgid "Keybinding to trigger 2nd dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:902(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1112(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:907(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1117(description)
 msgid "Keybinding to either show or launch the 2nd application in the dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:908(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1118(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:913(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1123(summary)
 msgid "Keybinding to trigger 3rd dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:909(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1119(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:914(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1124(description)
 msgid "Keybinding to either show or launch the 3rd application in the dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:915(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1125(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:920(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1130(summary)
 msgid "Keybinding to trigger 4th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:916(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1126(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:921(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1131(description)
 msgid "Keybinding to either show or launch the 4th application in the dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:922(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1132(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:927(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1137(summary)
 msgid "Keybinding to trigger 5th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:923(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1133(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:928(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1138(description)
 msgid "Keybinding to either show or launch the 5th application in the dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:929(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1139(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:934(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1144(summary)
 msgid "Keybinding to trigger 6th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:930(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1140(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:935(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1145(description)
 msgid "Keybinding to either show or launch the 6th application in the dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:936(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1146(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:941(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1151(summary)
 msgid "Keybinding to trigger 7th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:937(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1147(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:942(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1152(description)
 msgid "Keybinding to either show or launch the 7th application in the dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:943(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1153(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:948(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1158(summary)
 msgid "Keybinding to trigger 8th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:944(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1154(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:949(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1159(description)
 msgid "Keybinding to either show or launch the 8th application in the dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:950(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1160(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:955(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1165(summary)
 msgid "Keybinding to trigger 9th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:951(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1161(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:956(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1166(description)
 msgid "Keybinding to either show or launch the 9th application in the dash."
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:957(summary)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1167(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:962(summary)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1172(summary)
 msgid "Keybinding to trigger 10th dash app"
 msgstr ""
 
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:958(description)
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1168(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:963(description)
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1173(description)
 msgid "Keybinding to either show or launch the 10th application in the dash."
 msgstr ""
 
