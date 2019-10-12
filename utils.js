@@ -37,6 +37,7 @@ const Tweener = imports.ui.tweener;
 const Util = imports.misc.util;
 
 var TRANSLATION_DOMAIN = imports.misc.extensionUtils.getCurrentExtension().metadata['gettext-domain'];
+var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
 
 var defineClass = function (classDef) {
     let parentProto = classDef.Extends ? classDef.Extends.prototype : null;
@@ -483,7 +484,7 @@ var ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize, onCom
         hvalue = Math.min(hupper - hpageSize, x2 + hoffset - hpageSize);
 
     let tweenOpts = {
-        time: Util.SCROLL_TIME,
+        time: SCROLL_TIME,
         onComplete: onComplete || (() => {}),
         transition: 'easeOutQuad'
     };
