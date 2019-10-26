@@ -33,7 +33,6 @@ const Signals = imports.signals;
 const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 const PanelManager = Me.imports.panelManager;
-const Update = Me.imports.update;
 const Utils = Me.imports.utils;
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
@@ -89,9 +88,7 @@ function _enable() {
     Me.settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     Me.desktopSettings = Convenience.getSettings('org.gnome.desktop.interface');
 
-    Update.init();
     panelManager = new PanelManager.dtpPanelManager();
-
     panelManager.enable();
     
     Utils.removeKeybinding('open-application-menu');
