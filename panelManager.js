@@ -403,7 +403,7 @@ var dtpPanelManager = Utils.defineClass({
                 view = new WorkspacesView.WorkspacesView(i);
 
             view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
-            if (i == Main.layoutManager.primaryIndex) {
+            if (i == Main.layoutManager.primaryIndex && view.scrollAdjustment) {
                 this._scrollAdjustment = view.scrollAdjustment;
                 this._scrollAdjustment.connect('notify::value',
                                             this._scrollValueChanged.bind(this));
