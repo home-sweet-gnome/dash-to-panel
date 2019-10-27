@@ -95,7 +95,7 @@ let tracker = Shell.WindowTracker.get_default();
 
 var taskbarAppIcon = Utils.defineClass({
     Name: 'DashToPanel.TaskbarAppIcon',
-    Extends: (Dash.DashIcon || AppDisplay.AppIcon),
+    Extends: AppDisplay.AppIcon,
     ParentConstrParams: [[0, 'app'], [2]],
 
     _init: function(appInfo, panel, iconParams, previewMenu) {
@@ -1171,6 +1171,11 @@ var taskbarAppIcon = Utils.defineClass({
             
         return DND.DragMotionResult.CONTINUE;
     },
+
+    // Disable all DnD methods on gnome-shell 3.34
+    _onDragBegin: function() {},
+    _onDragEnd: function() {},
+    acceptDrop: function() { return false; },
 
     getAppIconInterestingWindows: function(isolateMonitors) {
         return getInterestingWindows(this.app, this.panel.monitor, isolateMonitors);
