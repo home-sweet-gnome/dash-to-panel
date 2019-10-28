@@ -261,7 +261,7 @@ var dtpPanel = Utils.defineClass({
         this._setClockLocation(Me.settings.get_string('location-clock'));
         this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'));
         
-        this.add_style_class_name('dashtopanelPanel ' + getOrientation());
+        this.add_style_class_name('dashtopanelMainPanel ' + getOrientation());
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
@@ -767,9 +767,9 @@ var dtpPanel = Utils.defineClass({
 
         // styles for theming
         Object.keys(St.Side).forEach(p => {
-            let cssName = p.charAt(0) + p.slice(1).toLowerCase();
+            let cssName = 'dashtopanel' + p.charAt(0) + p.slice(1).toLowerCase();
             
-            this[(p == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
+            this[(St.Side[p] == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
         });
 
         Main.layoutManager._updateHotCorners();
