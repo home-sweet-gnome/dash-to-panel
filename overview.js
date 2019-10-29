@@ -147,15 +147,14 @@ var dtpOverview = Utils.defineClass({
 
         function IsolatedOverview() {
             // These lines take care of Nautilus for icons on Desktop
-            let windows = this.get_windows().filter(function(w) {
-                return w.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index();
-            });
-            if (windows.length == 1)
-                if (windows[0].skip_taskbar)
-                    return this.open_new_window(-1);
+            let activeWorkspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
+            let windows = this.get_windows().filter(w => w.get_workspace().index() == activeWorkspace.index());
 
-            if (this.is_on_workspace(Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace()))
+            if (windows.length > 0 && 
+                (!(windows.length == 1 && windows[0].skip_taskbar) || 
+                 this.is_on_workspace(activeWorkspace)))
                 return Main.activateWindow(windows[0]);
+            
             return this.open_new_window(-1);
         }
     },
