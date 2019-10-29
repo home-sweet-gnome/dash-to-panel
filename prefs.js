@@ -1014,7 +1014,13 @@ const Settings = new Lang.Class({
                     // restore default settings
                     this._settings.set_value('showdesktop-button-width', this._settings.get_default_value('showdesktop-button-width'));
                     this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
+
+                    this._settings.set_value('show-showdesktop-hover', this._settings.get_default_value('show-showdesktop-hover'));
+
+                    this._settings.set_value('show-showdesktop-delay', this._settings.get_default_value('show-showdesktop-delay'));
                     this._builder.get_object('show_showdesktop_delay_spinbutton').set_value(this._settings.get_int('show-showdesktop-delay'));
+
+                    this._settings.set_value('show-showdesktop-time', this._settings.get_default_value('show-showdesktop-time'));
                     this._builder.get_object('show_showdesktop_time_spinbutton').set_value(this._settings.get_int('show-showdesktop-time'));
                 } else {
                     // remove the settings box so it doesn't get destroyed;
