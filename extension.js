@@ -88,7 +88,9 @@ function _enable() {
     Me.settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     Me.desktopSettings = Convenience.getSettings('org.gnome.desktop.interface');
 
+    Me.imports.update.init();
     panelManager = new PanelManager.dtpPanelManager();
+
     panelManager.enable();
     
     Utils.removeKeybinding('open-application-menu');

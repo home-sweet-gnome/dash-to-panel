@@ -34,6 +34,7 @@ const Convenience = Me.imports.convenience;
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 const N_ = function(e) { return e };
+const Update = Me.imports.update;
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
@@ -1804,6 +1805,22 @@ const Settings = new Lang.Class({
                 }
             );
         });
+
+        let updateCheckSwitch = this._builder.get_object('updates_check_switch');
+
+        updateCheckSwitch.set_sensitive(false);
+
+        this._builder.get_object('updates_check_now_button').connect('clicked', widget => {
+            this._settings.set_boolean('force-check-update', true);
+        });
+
+//!start-update
+        updateCheckSwitch.set_sensitive(true);
+        this._settings.bind('check-update',
+                            updateCheckSwitch,
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+//!end-update
     },
 
     _setPreviewTitlePosition: function() {

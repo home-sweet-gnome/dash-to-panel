@@ -2,10 +2,10 @@
 
 UUID = dash-to-panel@jderose9.github.com
 BASE_MODULES = extension.js stylesheet.css metadata.json COPYING README.md
-EXTRA_MODULES = appIcons.js convenience.js panel.js panelManager.js proximity.js intellihide.js panelStyle.js overview.js taskbar.js transparency.js windowPreview.js prefs.js utils.js Settings.ui
+EXTRA_MODULES = appIcons.js convenience.js panel.js panelManager.js proximity.js intellihide.js panelStyle.js overview.js taskbar.js transparency.js windowPreview.js prefs.js update.js utils.js Settings.ui
 EXTRA_IMAGES = highlight_stacked_bg.svg highlight_stacked_bg_2.svg highlight_stacked_bg_3.svg
 
-TOLOCALIZE =  prefs.js appIcons.js
+TOLOCALIZE =  prefs.js appIcons.js update.js
 MSGSRC = $(wildcard po/*.po)
 ifeq ($(strip $(DESTDIR)),)
 	INSTALLBASE = $(HOME)/.local/share/gnome-shell/extensions
@@ -72,6 +72,11 @@ _build: all
 	-rm -fR ./_build
 	mkdir -p _build
 	cp $(BASE_MODULES) $(EXTRA_MODULES) _build
+
+ifeq ($(TARGET),ego)
+	find _build -name '*.js' -exec sed -i '/\/\/!start-update/,/\/\/!end-update/d' {} +
+endif
+
 	mkdir -p _build/img
 	cd img ; cp $(EXTRA_IMAGES) ../_build/img/
 	mkdir -p _build/schemas
