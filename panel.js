@@ -64,6 +64,14 @@ var fixedCoord;
 var varCoord;
 var size;
 
+//timeout names
+const T1 = 'startDynamicTransparencyTimeout';
+const T2 = 'startIntellihideTimeout';
+const T3 = 'allocationThrottleTimeout';
+const T4 = 'showDesktopTimeout';
+const T5 = 'trackerFocusAppTimeout';
+const T6 = 'scrollPanelDelayTimeout';
+
 function getPosition() {
     let position = Me.settings.get_string('panel-position');
     
@@ -116,6 +124,7 @@ var dtpPanel = Utils.defineClass({
         Utils.wrapActor(this);
         this._delegate = this;
         
+        this._timeoutsHandler = new Utils.TimeoutsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
         this.panelManager = panelManager;
@@ -246,10 +255,7 @@ var dtpPanel = Utils.defineClass({
         }
 
         //the timeout makes sure the theme's styles are computed before initially applying the transparency
-        this.startDynamicTransparencyId = Mainloop.timeout_add(0, () => {
-            this.startDynamicTransparencyId = 0;
-            this.dynamicTransparency = new Transparency.DynamicTransparency(this);
-        });
+        this._timeoutsHandler.add([T1, 0, () => this.dynamicTransparency = new Transparency.DynamicTransparency(this)]);
         
         this.taskbar = new Taskbar.taskbar(this);
         Main.overview.dashIconSize = this.taskbar.iconSize;
@@ -271,10 +277,7 @@ var dtpPanel = Utils.defineClass({
         if(this.taskbar._showAppsIconWrapper)
             this.taskbar._showAppsIconWrapper._dtpPanel = this;
 
-        this.startIntellihideId = Mainloop.timeout_add(Me.settings.get_int('intellihide-enable-start-delay'), () => {
-            this.startIntellihideId = 0;
-            this.intellihide = new Intellihide.Intellihide(this);
-        });
+        this._timeoutsHandler.add([T2, Me.settings.get_int('intellihide-enable-start-delay'), () => this.intellihide = new Intellihide.Intellihide(this)]);
 
         this._signalsHandler.add(
             [
@@ -383,6 +386,7 @@ var dtpPanel = Utils.defineClass({
     disable: function () {
         this.panelStyle.disable();
 
+        this._timeoutsHandler.destroy();
         this._signalsHandler.destroy();
         this.container.remove_child(this.taskbar.actor);
         this._setAppmenuVisible(false);
@@ -392,33 +396,12 @@ var dtpPanel = Utils.defineClass({
             this._leftBox.add_child(this.statusArea.appMenu.container);
         }
 
-        if (this.startIntellihideId) {
-            Mainloop.source_remove(this.startIntellihideId);
-            this.startIntellihideId = 0;
-        } else {
+        if (this.intellihide) {
             this.intellihide.destroy();
         }
 
-        if (this._showDesktopTimeoutId) {
-            Mainloop.source_remove(this._showDesktopTimeoutId);
-            this._showDesktopTimeoutId = 0;
-        }
-
-        if (this._scrollPanelDelayTimeoutId) {
-            Mainloop.source_remove(this._scrollPanelDelayTimeoutId);
-            this._scrollPanelDelayTimeoutId = 0;
-        }
-
-        if (this.startDynamicTransparencyId) {
-            Mainloop.source_remove(this.startDynamicTransparencyId);
-            this.startDynamicTransparencyId = 0;
-        } else {
+        if (this.dynamicTransparency) {
             this.dynamicTransparency.destroy();
-        }
-
-        if (this._allocationThrottleId) {
-            Mainloop.source_remove(this._allocationThrottleId);
-            this._allocationThrottleId = 0;
         }
 
         this.taskbar.destroy();
@@ -828,13 +811,12 @@ var dtpPanel = Utils.defineClass({
     },
 
     _refreshVerticalAlloc: function() {
-        if (!this._allocationThrottleId) {
-            this._allocationThrottleId = Mainloop.timeout_add(200, () => {
+        if (!this._timeoutsHandler.getId(T3)) {
+            this._timeoutsHandler.add([T3, 200, () => {
                 this._setVertical(this._centerBox, true);
                 this._setVertical(this._rightBox, true);
                 this._formatVerticalClock();
-                this._allocationThrottleId = 0;
-            });
+            }]);
         }
     },
 
@@ -967,11 +949,10 @@ var dtpPanel = Utils.defineClass({
                 this._showDesktopButton.add_style_class_name('showdesktop-button-hovered');
 
                 if (Me.settings.get_boolean('show-showdesktop-hover')) {
-                    this._showDesktopTimeoutId = Mainloop.timeout_add(Me.settings.get_int('show-showdesktop-delay'), () => {
+                    this._timeoutsHandler.add([T4, Me.settings.get_int('show-showdesktop-delay'), () => {
                         this._hiddenDesktopWorkspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
                         this._toggleWorkspaceWindows(true, this._hiddenDesktopWorkspace);
-                        this._showDesktopTimeoutId = 0;
-                    });
+                    }]);
                 }
             });
             
@@ -979,9 +960,8 @@ var dtpPanel = Utils.defineClass({
                 this._showDesktopButton.remove_style_class_name('showdesktop-button-hovered');
 
                 if (Me.settings.get_boolean('show-showdesktop-hover')) {
-                    if (this._showDesktopTimeoutId) {
-                        Mainloop.source_remove(this._showDesktopTimeoutId);
-                        this._showDesktopTimeoutId = 0;
+                    if (this._timeoutsHandler.getId(T4)) {
+                        this._timeoutsHandler.remove(T4);
                     } else {
                         this._toggleWorkspaceWindows(false, this._hiddenDesktopWorkspace);
                     }
@@ -1024,13 +1004,11 @@ var dtpPanel = Utils.defineClass({
         let label = 'trackerFocusApp';
 
         this._signalsHandler.removeWithLabel(label);
+        this._timeoutsHandler.remove(T5);
 
         if(this._restoreWindowList && this._restoreWindowList.length) {
-            if (this._showDesktopTimeoutId) {
-                Mainloop.source_remove(this._showDesktopTimeoutId);
-                this._showDesktopTimeoutId = 0;
-            }
-            
+            this._timeoutsHandler.remove(T4);
+
             let current_workspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
             let windows = current_workspace.list_windows();
             this._restoreWindowList.forEach(function(w) {
@@ -1051,9 +1029,14 @@ var dtpPanel = Utils.defineClass({
             
             this._restoreWindowList = windows;
 
-            Mainloop.timeout_add(0, Lang.bind(this, function () {
-                this._signalsHandler.addWithLabel(label, [tracker, 'notify::focus-app', () => this._restoreWindowList = null]);
-            }));
+            this._timeoutsHandler.add([T5, 20, () => this._signalsHandler.addWithLabel(
+                label, 
+                [
+                    tracker, 
+                    'notify::focus-app', 
+                    () => this._restoreWindowList = null
+                ]
+            )]);
         }
 
         Main.overview.hide();
@@ -1063,10 +1046,8 @@ var dtpPanel = Utils.defineClass({
         let scrollAction = Me.settings.get_string('scroll-panel-action');
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (!this._checkIfIgnoredSrollSource(event.get_source()) && direction && !this._scrollPanelDelayTimeoutId) {
-            this._scrollPanelDelayTimeoutId = Mainloop.timeout_add(Me.settings.get_int('scroll-panel-delay'), () => {
-                this._scrollPanelDelayTimeoutId = 0;
-            });
+        if (!this._checkIfIgnoredSrollSource(event.get_source()) && direction && !this._timeoutsHandler.getId(T6)) {
+            this._timeoutsHandler.add([T6, Me.settings.get_int('scroll-panel-delay'), () => {}]);
 
             if (scrollAction === 'SWITCH_WORKSPACE') {
                 let args = [global.display];
