@@ -159,7 +159,7 @@ var dtpPanel = Utils.defineClass({
         } else {
             this.statusArea = Main.panel.statusArea;
             this.menuManager = Main.panel.menuManager;
-            this.grabOwner = Main.panel;
+            this.grabOwner = Main.panel.actor;
 
             setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), position);
 
