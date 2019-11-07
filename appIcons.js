@@ -347,8 +347,11 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _onMouseScroll: function(actor, event) {
-        if (Me.settings.get_string('scroll-icon-action') === 'NOTHING' || 
-            (!this.window && !this._nWindows)) {
+        let scrollAction = Me.settings.get_string('scroll-icon-action');
+        
+        if (scrollAction === 'PASS_THROUGH') {
+            return this.panel._onPanelMouseScroll(actor, event);
+        } else if (scrollAction === 'NOTHING' || (!this.window && !this._nWindows)) {
             return;
         }
 

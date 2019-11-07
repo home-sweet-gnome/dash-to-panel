@@ -6780,6 +6780,7 @@
                     <items>
                       <item id="NOTHING" translatable="yes">Do nothing</item>
                       <item id="CYCLE_WINDOWS" translatable="yes">Cycle windows</item>
+                      <item id="PASS_THROUGH" translatable="yes">Same as panel</item>
                     </items>
                   </object>
                   <packing>
