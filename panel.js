@@ -962,7 +962,7 @@ var dtpPanel = Utils.defineClass({
                 if (Me.settings.get_boolean('show-showdesktop-hover')) {
                     if (this._timeoutsHandler.getId(T4)) {
                         this._timeoutsHandler.remove(T4);
-                    } else {
+                    } else if (this._hiddenDesktopWorkspace) {
                         this._toggleWorkspaceWindows(false, this._hiddenDesktopWorkspace);
                     }
                  }

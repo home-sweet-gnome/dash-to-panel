@@ -294,6 +294,7 @@ var dtpPanelManager = Utils.defineClass({
 
     _reset: function() {
         this.disable(true);
+        this.allPanels = [];
         this.enable(true);
     },
 
