@@ -324,7 +324,9 @@ var hookVfunc = function(proto, symbol, func) {
         //gjs > 1.53.3
         proto[Gi.hook_up_vfunc_symbol](symbol, func);
     } else {
-        Gi.hook_up_vfunc(proto, symbol, func);
+        //On older gjs, this is how to hook vfunc. It is buggy and can't be used reliably to replace
+        //already hooked functions. Since it's our only use for it, disabled for now (and probably forever) 
+        //Gi.hook_up_vfunc(proto, symbol, func);
     }
 };
 
