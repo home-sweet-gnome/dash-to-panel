@@ -45,7 +45,7 @@ function init() {
 
 function checkForUpdate(fromSettings) {
     if (!apiUrl) {
-        return notifyError(_('Unavailable when installed from extension.gnome.org'));
+        return notifyError(_('Unavailable when installed from extensions.gnome.org'));
     }
 
 //!start-update
