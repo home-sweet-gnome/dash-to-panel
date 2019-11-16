@@ -652,7 +652,7 @@ var PreviewMenu = Utils.defineClass({
                     wa.show();
                 }
                 
-                Tweener.addTween(wa, getTweenOpts({ opacity: isFocused ? 255 : dimOpacity }));
+                Utils.animateWindowOpacity(wa, getTweenOpts({ opacity: isFocused ? 255 : dimOpacity }));
             }
         });
     },

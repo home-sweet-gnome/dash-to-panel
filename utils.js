@@ -22,6 +22,7 @@
  */
 
 const Clutter = imports.gi.Clutter;
+const Config = imports.misc.config;
 const GdkPixbuf = imports.gi.GdkPixbuf
 const Gi = imports._gi;
 const Gio = imports.gi.Gio;
@@ -42,7 +43,7 @@ var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
 var defineClass = function (classDef) {
     let parentProto = classDef.Extends ? classDef.Extends.prototype : null;
     
-    if (imports.misc.config.PACKAGE_VERSION < '3.31.9') {
+    if (Config.PACKAGE_VERSION < '3.31.9') {
         if (parentProto && (classDef.Extends.name || classDef.Extends.toString()).indexOf('DashToPanel.') < 0) {
             classDef.callParent = function() {
                 let args = Array.prototype.slice.call(arguments);
@@ -287,14 +288,6 @@ var getWorkspaceCount = function() {
     return DisplayWrapper.getWorkspaceManager().n_workspaces;
 };
 
-var checkIfWindowHasTransient = function(window) {
-    let hasTransient;
-
-    window.foreach_transient(t => !(hasTransient = true));
-
-    return hasTransient;
-};
-
 var findIndex = function(array, predicate) {
     if (Array.prototype.findIndex) {
         return array.findIndex(predicate);
@@ -401,6 +394,14 @@ var getMouseScrollDirection = function(event) {
     return direction;
 };
 
+var checkIfWindowHasTransient = function(window) {
+    let hasTransient;
+
+    window.foreach_transient(t => !(hasTransient = true));
+
+    return hasTransient;
+};
+
 var activateSiblingWindow = function(windows, direction, startWindow) {
     let windowIndex = windows.indexOf(global.display.focus_window);
     let nextWindowIndex = windowIndex < 0 ?
@@ -415,6 +416,17 @@ var activateSiblingWindow = function(windows, direction, startWindow) {
 
     if (windowIndex != nextWindowIndex) {
         Main.activateWindow(windows[nextWindowIndex]);
+    }
+};
+
+var animateWindowOpacity = function(window, tweenOpts) {
+    //there currently is a mutter bug with the windows opacity on 3.34, so 
+    //until it is fixed, immediately hide the windows instead of fading them
+    //https://gitlab.gnome.org/GNOME/mutter/issues/836
+    if (Config.PACKAGE_VERSION > '3.33') {
+        window.visible = (tweenOpts.opacity == 255);
+    } else {
+        Tweener.addTween(window, tweenOpts);
     }
 };
 

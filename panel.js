@@ -991,22 +991,13 @@ var dtpPanel = Utils.defineClass({
     },
 
     _toggleWorkspaceWindows: function(hide, workspace) {
-        let toggleFunc = w => {
-            Tweener.addTween(w.get_compositor_private(), {
-                opacity: hide ? 0 : 255,
-                time: Me.settings.get_int('show-showdesktop-time') * .001,
-                transition: 'easeOutQuad'
-            });
+        let tweenOpts = {
+            opacity: hide ? 0 : 255,
+            time: Me.settings.get_int('show-showdesktop-time') * .001,
+            transition: 'easeOutQuad'
         };
 
-        //there currently is a mutter bug with the windows opacity on 3.34, so 
-        //until it is fixed, immediately hide the windows instead of fading them
-        //https://gitlab.gnome.org/GNOME/mutter/issues/836
-        if (Config.PACKAGE_VERSION > '3.33') {
-            toggleFunc = w => w.get_compositor_private().visible = !hide;
-        }
-
-        workspace.list_windows().forEach(toggleFunc);
+        workspace.list_windows().forEach(w => Utils.animateWindowOpacity(w.get_compositor_private(), tweenOpts));
     },
 
     _onShowDesktopButtonPress: function() {
