@@ -70,6 +70,7 @@ var dtpPanelManager = Utils.defineClass({
 
         Utils.wrapActor(Main.panel);
         Main.panel.actor.hide();
+        Main.layoutManager.panelBox.height = 0;
 
         this.primaryPanel = this._createPanel(dtpPrimaryMonitor);
         this.allPanels = [ this.primaryPanel ];
@@ -252,6 +253,7 @@ var dtpPanelManager = Utils.defineClass({
 
         Main.overview._panelGhost.set_height(Main.panel.actor.height);
         Main.panel.actor.show();
+        Main.layoutManager.panelBox.set_height(-1);
 
         if (this._needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });

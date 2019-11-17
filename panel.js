@@ -282,8 +282,11 @@ var dtpPanel = Utils.defineClass({
         this._signalsHandler.add(
             [
                 this.panelBox, 
-                'notify::height', 
-                () => this._setPanelPosition()
+                [
+                    'notify::height', 
+                    'notify::width'
+                ], 
+                () => this._resetGeometry()
             ],
             // this is to catch changes to the window scale factor
             [
@@ -564,7 +567,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     _setPanelGhostSize: function() {
-        this._myPanelGhost.set_size(this.geom.w, checkIfVertical() ? 1 : this.geom.h); 
+        this._myPanelGhost.set_size(this.panelBox.width, checkIfVertical() ? 1 : this.panelBox.height); 
     },
 
     _adjustForOverview: function() {
@@ -599,6 +602,9 @@ var dtpPanel = Utils.defineClass({
 
     getGeometry: function() {
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor || 1;
+        let panelBoxTheme = this.panelBox.get_theme_node();
+        let lrPadding = panelBoxTheme.get_padding(St.Side.RIGHT) + panelBoxTheme.get_padding(St.Side.LEFT);
+        let tbPadding = panelBoxTheme.get_padding(St.Side.TOP) + panelBoxTheme.get_padding(St.Side.BOTTOM);
         let position = getPosition();
         let x = 0, y = 0;
         let w = 0, h = 0;
@@ -616,13 +622,13 @@ var dtpPanel = Utils.defineClass({
             varCoord = { c1: 'y1', c2: 'y2' };
 
             w = size;
-            h = this.monitor.height;
+            h = this.monitor.height - tbPadding;
         } else {
             sizeFunc = 'get_preferred_width';
             fixedCoord = { c1: 'y1', c2: 'y2' };
             varCoord = { c1: 'x1', c2: 'x2' };
 
-            w = this.monitor.width;
+            w = this.monitor.width - lrPadding;
             h = size;
         }
 
@@ -630,11 +636,11 @@ var dtpPanel = Utils.defineClass({
             x = this.monitor.x;
             y = this.monitor.y;
         } else if (position == St.Side.RIGHT) {
-            x = this.monitor.x + this.monitor.width - size;
+            x = this.monitor.x + this.monitor.width - size - lrPadding;
             y = this.monitor.y;
         } else { //BOTTOM
             x = this.monitor.x; 
-            y = this.monitor.y + this.monitor.height - size;
+            y = this.monitor.y + this.monitor.height - size - tbPadding;
         }
 
         return {
@@ -744,7 +750,7 @@ var dtpPanel = Utils.defineClass({
         let container = this.intellihide && this.intellihide.enabled ? this.panelBox.get_parent() : this.panelBox;
 
         this.set_size(this.geom.w, this.geom.h);
-        container.set_position(this.geom.x, this.geom.y)
+        container.set_position(this.geom.x, this.geom.y);
 
         this._setVertical(this, checkIfVertical());
 
