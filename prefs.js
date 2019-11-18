@@ -765,6 +765,11 @@ const Settings = new Lang.Class({
                             'active-id',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('intellihide-respond-to-mouse',
+                            this._builder.get_object('intellihide_respond_to_mouse_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         this._settings.bind('intellihide-use-pressure',
                             this._builder.get_object('intellihide_use_pressure_switch'),
                             'active',

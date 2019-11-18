@@ -296,6 +296,11 @@
       <summary>Intellihide behaviour</summary>
       <description>Dictates how to intelligently hide the panel</description>
     </key>
+    <key type="b" name="intellihide-respond-to-mouse">
+      <default>true</default>
+      <summary>Intellihide responds to mouse</summary>
+      <description>The mouse can be used to reveal the panel.</description>
+    </key>
     <key type="b" name="intellihide-use-pressure">
       <default>false</default>
       <summary>Intellihide pressure</summary>

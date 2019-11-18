@@ -177,6 +177,7 @@ var Intellihide = Utils.defineClass({
                 [
                     'changed::panel-position',
                     'changed::panel-size',
+                    'changed::intellihide-respond-to-mouse',
                     'changed::intellihide-use-pressure',
                     'changed::intellihide-hide-from-windows',
                     'changed::intellihide-behaviour'
@@ -210,8 +211,10 @@ var Intellihide = Utils.defineClass({
     },
 
     _onHoverChanged: function() {
-        this._hoveredOut = !this._panelBox.hover;
-        this._queueUpdatePanelPosition();
+        if (Me.settings.get_boolean('intellihide-respond-to-mouse')) {
+          this._hoveredOut = !this._panelBox.hover;
+          this._queueUpdatePanelPosition();
+        }
     },
 
     _setTrackPanel: function(reset, enable) {
@@ -244,18 +247,20 @@ var Intellihide = Utils.defineClass({
     },
 
     _setRevealMechanism: function() {
-        if (global.display.supports_extended_barriers() && Me.settings.get_boolean('intellihide-use-pressure')) {
-            this._edgeBarrier = this._createBarrier();
-            this._pressureBarrier = new Layout.PressureBarrier(
-                Me.settings.get_int('intellihide-pressure-threshold'), 
-                Me.settings.get_int('intellihide-pressure-time'), 
-                Shell.ActionMode.NORMAL
-            );
-            this._pressureBarrier.addBarrier(this._edgeBarrier);
-            this._signalsHandler.add([this._pressureBarrier, 'trigger', () => this._queueUpdatePanelPosition(true)]);
-        } else {
-            this._pointerWatch = PointerWatcher.getPointerWatcher()
-                                               .addWatch(CHECK_POINTER_MS, (x, y) => this._checkMousePointer(x, y));
+        if (Me.settings.get_boolean('intellihide-respond-to-mouse')) {
+            if (global.display.supports_extended_barriers() && Me.settings.get_boolean('intellihide-use-pressure')) {
+                this._edgeBarrier = this._createBarrier();
+                this._pressureBarrier = new Layout.PressureBarrier(
+                    Me.settings.get_int('intellihide-pressure-threshold'),
+                    Me.settings.get_int('intellihide-pressure-time'),
+                    Shell.ActionMode.NORMAL
+                );
+                this._pressureBarrier.addBarrier(this._edgeBarrier);
+                this._signalsHandler.add([this._pressureBarrier, 'trigger', () => this._queueUpdatePanelPosition(true)]);
+            } else {
+                this._pointerWatch = PointerWatcher.getPointerWatcher()
+                                                   .addWatch(CHECK_POINTER_MS, (x, y) => this._checkMousePointer(x, y));
+            }
         }
     },
 
@@ -333,12 +338,14 @@ var Intellihide = Utils.defineClass({
 
     _checkIfShouldBeVisible: function(fromRevealMechanism) {
         if (Main.overview.visibleTarget || this._dtpPanel.taskbar.previewMenu.opened || 
-            this._panelBox.get_hover() || this._checkIfGrab()) {
+            (Me.settings.get_boolean('intellihide-respond-to-mouse') && this._panelBox.get_hover()) ||
+            this._checkIfGrab()) {
             return true;
         }
 
         if (fromRevealMechanism) {
-            let mouseBtnIsPressed = global.get_pointer()[2] & Clutter.ModifierType.BUTTON1_MASK;
+            let mouseBtnIsPressed = (global.get_pointer()[2] & Clutter.ModifierType.BUTTON1_MASK) &&
+                                    Me.settings.get_boolean('intellihide-respond-to-mouse');
             
             //the user is trying to reveal the panel
             if (this._monitor.inFullscreen && !mouseBtnIsPressed) {
@@ -349,7 +356,7 @@ var Intellihide = Utils.defineClass({
         }
 
         if (!Me.settings.get_boolean('intellihide-hide-from-windows')) {
-            return this._panelBox.hover;
+            return Me.settings.get_boolean('intellihide-respond-to-mouse') && this._panelBox.hover;
         }
 
         return !this._windowOverlap;
