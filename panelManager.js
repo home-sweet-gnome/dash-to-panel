@@ -112,6 +112,7 @@ var dtpPanelManager = Utils.defineClass({
         }
 
         this.setFocusedMonitor(dtpPrimaryMonitor);
+        Main.layoutManager._updateFullscreen();
         
         if (reset) return;
 
