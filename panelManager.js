@@ -290,7 +290,7 @@ var dtpPanelManager = Utils.defineClass({
         panelBox.add(panel.bg);
         Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
         panel.enable();
-        panel.actor.visible = !monitor.inFullscreen;
+        panelBox.visible = !monitor.inFullscreen;
 
         return panel;
     },
