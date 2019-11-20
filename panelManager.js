@@ -112,7 +112,6 @@ var dtpPanelManager = Utils.defineClass({
         }
 
         this.setFocusedMonitor(dtpPrimaryMonitor);
-        Main.layoutManager._updateFullscreen();
         
         if (reset) return;
 
@@ -291,6 +290,7 @@ var dtpPanelManager = Utils.defineClass({
         panelBox.add(panel.bg);
         Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
         panel.enable();
+        panel.actor.visible = !monitor.inFullscreen;
 
         return panel;
     },
