@@ -119,8 +119,6 @@ How do I display Minimize & Maximize buttons? In the Tweak Tool application, tur
 
 How do I reset the extension to its default settings? `dconf reset -f /org/gnome/shell/extensions/dash-to-panel/`.
 
-Why can't I put the panel vertically on the left or right of the display? Gnome-shell and it's numerous extensions add widgets to the panel. These widgets have been designed using padding and absolute positioning assuming a horizontal layout. At this point in time, I don't think it is possible to allow for a vertical layout and still maintain any sort of reasonable compatibility with many of the other features of Gnome.
-
 ## 
 ### Themes
 While this extension works well with most popular Gnome Shell themes, the following themes are known to have explicitly added custom styles for this extension:
