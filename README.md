@@ -14,7 +14,7 @@
 
 Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications. 
 
-Beyond that, just about every aspect of the panel is fully customizable. From positioning and scaling panel elements to running indicators to multi-monitor display, to window previews and even intellihide, Dash to Panel has everything you need to make your workspace feel like home.
+Beyond that, just about every aspect of the panel is fully customizable using [Gnome Tweaks](https://gitlab.gnome.org/GNOME/gnome-tweaks) (`sudo apt install gnome-tweaks`) -> Extensions. From positioning and scaling panel elements to running indicators to multi-monitor display, to window previews and even intellihide, Dash to Panel has everything you need to make your workspace feel like home.
 
 ### Features
 
