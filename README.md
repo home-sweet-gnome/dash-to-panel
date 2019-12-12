@@ -1,3 +1,4 @@
+
 <p align="left">
   <img src="/media/design/svg/D2P_logo.svg" width="620"/>
 </p>
@@ -105,21 +106,29 @@ To install a development version from source, please see the [Installation wiki 
 ## 
 ### FAQ
 
-How do I embed my bottom left notification drawer into the panel like a system tray? [Top Icons Plus](https://extensions.gnome.org/extension/1031/topicons) or [(K)StatusNotifierItem/AppIndicator Support](https://extensions.gnome.org/extension/615/appindicator-support)
+* How do I embed my bottom left notification drawer into the panel like a system tray?  
+A: Use the [Top Icons Plus](https://extensions.gnome.org/extension/1031/topicons) or [(K)StatusNotifierItem/AppIndicator Support](https://extensions.gnome.org/extension/615/appindicator-support) extensions.
 
-How do I add a traditional start menu? [Arc Menu](https://extensions.gnome.org/extension/1228/arc-menu/)
+* How do I add a traditional start menu?
+A: Use [Arc Menu](https://extensions.gnome.org/extension/1228/arc-menu/).
 
-How do I disable the hot corner? [No Topleft Hot Corner](https://extensions.gnome.org/extension/118/no-topleft-hot-corner)
+* How do I disable the hot corner?
+Use [No Topleft Hot Corner](https://extensions.gnome.org/extension/118/no-topleft-hot-corner).
 
-How do I move the notifications to somewhere other than the top center? [Panel OSD](https://extensions.gnome.org/extension/708/panel-osd)
+* How do I move the notifications to somewhere other than the top center?
+A: Use [Panel OSD](https://extensions.gnome.org/extension/708/panel-osd).
 
-How do I change workspaces by scrolling the mouse wheel in the empty space? [Top Panel Workspace Scroll](https://extensions.gnome.org/extension/701/top-panel-workspace-scroll/)
+* How do I change workspaces by scrolling the mouse wheel in the empty space?
+A: Use [Top Panel Workspace Scroll](https://extensions.gnome.org/extension/701/top-panel-workspace-scroll/).
 
-How do I display Minimize & Maximize buttons? In the Tweak Tool application, turn on `Windows > Titlebar Buttons > Minimize & Maximize`.
+* How do I display Minimize & Maximize buttons?
+A: In the Tweak Tool application, turn on `Windows > Titlebar Buttons > Minimize & Maximize`.
 
-How do I reset the extension to its default settings? `dconf reset -f /org/gnome/shell/extensions/dash-to-panel/`.
+* How do I reset the extension to its default settings?
+A: `dconf reset -f /org/gnome/shell/extensions/dash-to-panel/`.
 
-Why can't I put the panel vertically on the left or right of the display? Gnome-shell and it's numerous extensions add widgets to the panel. These widgets have been designed using padding and absolute positioning assuming a horizontal layout. At this point in time, I don't think it is possible to allow for a vertical layout and still maintain any sort of reasonable compatibility with many of the other features of Gnome.
+* Why doesn't the panel look that good when placed vertically on the left or right of the display?
+A: Gnome-shell and its numerous extensions add widgets to the panel. These widgets have been designed using padding and absolute positioning assuming a horizontal layout.
 
 ## 
 ### Themes
