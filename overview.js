@@ -71,7 +71,7 @@ var dtpOverview = Utils.defineClass({
         this._toggleDash(true);
 
         // reset stored icon size  to the default dash
-        Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
+        Utils.setDashIconSize((Main.overview._overview._controls || Main.overview._controls).dash.iconSize);
 
         // Remove key bindings
         this._disableHotKeys();
@@ -92,12 +92,13 @@ var dtpOverview = Utils.defineClass({
 
         let visibilityFunc = visible ? 'show' : 'hide';
         let width = visible ? -1 : 1;
-        
-        Main.overview._controls.dash.actor[visibilityFunc]();
-        Main.overview._controls.dash.actor.set_width(width);
+        let overviewControls = Main.overview._overview._controls || Main.overview._controls;
+
+        overviewControls.dash.actor[visibilityFunc]();
+        overviewControls.dash.actor.set_width(width);
 
         // This force the recalculation of the icon size
-        Main.overview._controls.dash._maxHeight = -1;
+        overviewControls.dash._maxHeight = -1;
     },
 
     /**

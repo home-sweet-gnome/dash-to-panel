@@ -34,6 +34,7 @@ const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
+const Config = imports.misc.config;
 const Lang = imports.lang;
 const Gi = imports._gi;
 const Clutter = imports.gi.Clutter;
@@ -41,6 +42,7 @@ const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 
+const AppDisplay = imports.ui.appDisplay;
 const BoxPointer = imports.ui.boxpointer;
 const Dash = imports.ui.dash;
 const IconGrid = imports.ui.iconGrid;
@@ -56,7 +58,10 @@ var dtpPanelManager = Utils.defineClass({
     _init: function() {
         this.overview = new Overview.dtpOverview();
 
-        Main.overview.viewSelector.appDisplay._views.forEach(v => Utils.wrapActor(v.view._grid));
+        Main.overview.viewSelector.appDisplay._views.forEach(v => {
+            Utils.wrapActor(v.view);
+            Utils.wrapActor(v.view._grid);
+        });
     },
 
     enable: function(reset) {
@@ -69,6 +74,8 @@ var dtpPanelManager = Utils.defineClass({
         this.proximityManager = new Proximity.ProximityManager();
 
         Utils.wrapActor(Main.panel);
+        Utils.wrapActor(Main.overview.dash || 0);
+
         Main.panel.actor.hide();
         Main.layoutManager.panelBox.height = 0;
 
@@ -119,6 +126,11 @@ var dtpPanelManager = Utils.defineClass({
         Main.overview.viewSelector._animateIn = Lang.bind(this.primaryPanel, newViewSelectorAnimateIn);
         this._oldViewSelectorAnimateOut = Main.overview.viewSelector._animateOut;
         Main.overview.viewSelector._animateOut = Lang.bind(this.primaryPanel, newViewSelectorAnimateOut);
+
+        if (Config.PACKAGE_VERSION > '3.35.1') {
+            this._oldDoSpringAnimation = AppDisplay.BaseAppView.prototype._doSpringAnimation;
+            AppDisplay.BaseAppView.prototype._doSpringAnimation = newDoSpringAnimation;
+        }
 
         this._oldUpdatePanelBarrier = Main.layoutManager._updatePanelBarrier;
         Main.layoutManager._updatePanelBarrier = (panel) => {
@@ -249,14 +261,18 @@ var dtpPanelManager = Utils.defineClass({
         Main.overview._relayout();
 
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
-        Main.overview.getShowAppsButton = this._oldGetShowAppsButton;
 
-        Main.overview._panelGhost.set_height(Main.panel.actor.height);
+        Utils.getPanelGhost().set_height(Main.panel.actor.height);
+
         Main.panel.actor.show();
         Main.layoutManager.panelBox.set_height(-1);
 
         if (this._needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });
+        }
+
+        if (this._oldDoSpringAnimation) {
+            AppDisplay.BaseAppView.prototype._doSpringAnimation = this._oldDoSpringAnimation;
         }
 
         LookingGlass.LookingGlass.prototype._resize = LookingGlass.LookingGlass.prototype._oldResize;
@@ -406,6 +422,7 @@ var dtpPanelManager = Utils.defineClass({
             } else
                 view = new WorkspacesView.WorkspacesView(i);
 
+            Utils.wrapActor(view);
             view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
             if (i == Main.layoutManager.primaryIndex && view.scrollAdjustment) {
                 this._scrollAdjustment = view.scrollAdjustment;
@@ -492,6 +509,11 @@ function newViewSelectorAnimateOut(page) {
     } else {
         vs._fadePageOut(page);
     }
+}
+
+function newDoSpringAnimation(animationDirection) {
+    this._grid.opacity = 255;
+    this._grid.animateSpring(animationDirection, Main.overview.getShowAppsButton());
 }
 
 function newUpdateHotCorners() {

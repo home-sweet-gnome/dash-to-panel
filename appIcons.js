@@ -129,6 +129,7 @@ var taskbarAppIcon = Utils.defineClass({
         this.callParent('_init', appInfo.app, iconParams);
 
         Utils.wrapActor(this.icon);
+        Utils.wrapActor(this);
         
         this._dot.set_width(0);
         this._isGroupApps = Me.settings.get_boolean('group-apps');
@@ -287,6 +288,11 @@ var taskbarAppIcon = Utils.defineClass({
         if (this._windowEnteredMonitorId) {
             Utils.DisplayWrapper.getScreen().disconnect(this._windowEnteredMonitorId);
             Utils.DisplayWrapper.getScreen().disconnect(this._windowLeftMonitorId);
+        }
+
+        if (this.setStyleTimeoutId) {
+            Mainloop.source_remove(this.setStyleTimeoutId);
+            this.setStyleTimeoutId = 0;
         }
         
         if(this._switchWorkspaceId)
@@ -509,13 +515,16 @@ var taskbarAppIcon = Utils.defineClass({
             inlineStyle += "background-color: " + cssHexTocssRgba(highlightColor, Me.settings.get_int('focus-highlight-opacity') * 0.01);
         }
         
-        if(this._dotsContainer.get_style() != inlineStyle) {
+        if(this._dotsContainer.get_style() != inlineStyle && this._dotsContainer.mapped) {
             if (!this._isGroupApps) {
                 //when the apps are ungrouped, set the style synchronously so the icons don't jump around on taskbar redraw
                 this._dotsContainer.set_style(inlineStyle);
-            } else {
+            } else if (!this.setStyleTimeoutId) {
                 //graphical glitches if i dont set this on a timeout
-                Mainloop.timeout_add(0, Lang.bind(this, function() { this._dotsContainer.set_style(inlineStyle); }));
+                this.setStyleTimeoutId = Mainloop.timeout_add(0, Lang.bind(this, function() { 
+                    this._dotsContainer.set_style(inlineStyle); 
+                    this.setStyleTimeoutId = 0;
+                }));
             }
         }
     },
@@ -1579,11 +1588,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         // Re-use appIcon methods
         this._removeMenuTimeout = AppDisplay.AppIcon.prototype._removeMenuTimeout;
         this._setPopupTimeout = AppDisplay.AppIcon.prototype._setPopupTimeout;
-        this._onButtonPress = AppDisplay.AppIcon.prototype._onButtonPress;
         this._onKeyboardPopupMenu = AppDisplay.AppIcon.prototype._onKeyboardPopupMenu;
-        this._onLeaveEvent = AppDisplay.AppIcon.prototype._onLeaveEvent;
-        this._onTouchEvent = AppDisplay.AppIcon.prototype._onTouchEvent;
-        this._onMenuPoppedDown = AppDisplay.AppIcon.prototype._onMenuPoppedDown;
 
         // No action on clicked (showing of the appsview is controlled elsewhere)
         this._onClicked = Lang.bind(this, function(actor, button) {
@@ -1627,6 +1632,34 @@ var ShowAppsIconWrapper = Utils.defineClass({
         
         this.setShowAppsPadding();
     },
+    
+    _onButtonPress: function(_actor, event) {
+        let button = event.get_button();
+        if (button == 1) {
+            this._setPopupTimeout();
+        } else if (button == 3) {
+            this.popupMenu();
+            return Clutter.EVENT_STOP;
+        }
+        return Clutter.EVENT_PROPAGATE;
+    },
+
+    _onLeaveEvent: function(_actor, _event) {
+        this.actor.fake_release();
+        this._removeMenuTimeout();
+    },
+
+    _onTouchEvent: function(actor, event) {
+        if (event.type() == Clutter.EventType.TOUCH_BEGIN)
+            this._setPopupTimeout();
+
+        return Clutter.EVENT_PROPAGATE;
+    },
+
+    _onMenuPoppedDown: function() {
+        this.actor.sync_hover();
+        this.emit('menu-state-changed', false);
+    },
 
     setShowAppsPadding: function() {
         let padding = getIconPadding(); 
@@ -1641,7 +1674,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         this.actor.fake_release();
         
         if (!this._menu) {
-            this._menu = new MyShowAppsIconMenu(this, Me.settings);
+            this._menu = new MyShowAppsIconMenu(this.actor);
             this._menu.connect('open-state-changed', Lang.bind(this, function(menu, isPoppedUp) {
                 if (!isPoppedUp)
                     this._onMenuPoppedDown();

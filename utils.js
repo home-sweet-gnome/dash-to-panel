@@ -430,6 +430,38 @@ var animateWindowOpacity = function(window, tweenOpts) {
     }
 };
 
+var setDashIconSize = function(size) {
+    if ('dash' in Main.overview) {
+        Main.overview.dash.iconSize = size;
+    } else {
+        Main.overview.dashIconSize = size;
+    }
+};
+
+var getIndicators = function(delegate) {
+    if (delegate instanceof St.BoxLayout) {
+        return delegate;
+    }
+
+    return delegate.indicators;
+}
+
+var getPoint = function(coords) {
+    if (Config.PACKAGE_VERSION > '3.35.1') {
+        return new imports.gi.Graphene.Point(coords);
+    }
+
+    return new Clutter.Point(coords);
+}
+
+var getPanelGhost = function() {
+    if (!Main.overview._panelGhost) {
+        return Main.overview._overview.get_first_child();
+    }
+
+    return Main.overview._panelGhost;
+}
+
 var notify = function(text, iconName, action, isTransient) {
     let source = new MessageTray.SystemNotificationSource();
     let notification = new MessageTray.Notification(source, 'Dash to Panel', text);

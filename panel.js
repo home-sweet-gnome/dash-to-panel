@@ -137,9 +137,12 @@ var dtpPanel = Utils.defineClass({
 
         if (position == St.Side.TOP) {
             this._leftCorner = new Panel.PanelCorner(St.Side.LEFT);
-            this.add_actor(this._leftCorner.actor);
-    
             this._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
+
+            Utils.wrapActor(this._leftCorner);
+            Utils.wrapActor(this._rightCorner);
+
+            this.add_actor(this._leftCorner.actor);
             this.add_actor(this._rightCorner.actor);
         }
 
@@ -205,7 +208,7 @@ var dtpPanel = Utils.defineClass({
         }
 
         if (this.statusArea.aggregateMenu) {
-            this.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll = 1;
+            Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll = 1;
         }
 
         this.geom = this.getGeometry();
@@ -223,12 +226,14 @@ var dtpPanel = Utils.defineClass({
         if (this.geom.position == St.Side.TOP) {
             Main.overview._overview.insert_child_at_index(this._myPanelGhost, 0);
         } else {
+            let overviewControls = Main.overview._overview._controls || Main.overview._controls;
+            
              if (this.geom.position == St.Side.BOTTOM) {
                 Main.overview._overview.add_actor(this._myPanelGhost);
             } else if (this.geom.position == St.Side.LEFT) {
-                Main.overview._controls._group.insert_child_at_index(this._myPanelGhost, 0);
+                overviewControls._group.insert_child_at_index(this._myPanelGhost, 0);
             } else {
-                Main.overview._controls._group.add_actor(this._myPanelGhost);
+                overviewControls._group.add_actor(this._myPanelGhost);
             }
         }
 
@@ -258,7 +263,7 @@ var dtpPanel = Utils.defineClass({
         this._timeoutsHandler.add([T1, 0, () => this.dynamicTransparency = new Transparency.DynamicTransparency(this)]);
         
         this.taskbar = new Taskbar.taskbar(this);
-        Main.overview.dashIconSize = this.taskbar.iconSize;
+        Utils.setDashIconSize(this.taskbar.iconSize);
 
         this.container.insert_child_above(this.taskbar.actor, null);
         
@@ -299,7 +304,7 @@ var dtpPanel = Utils.defineClass({
                 this.taskbar,
                 'icon-size-changed',
                 Lang.bind(this, function() {
-                    Main.overview.dashIconSize = this.taskbar.iconSize;
+                    Utils.setDashIconSize(this.taskbar.iconSize);
                 })
             ],
             [
@@ -314,10 +319,10 @@ var dtpPanel = Utils.defineClass({
             // which given the customization is usually much smaller.
             // I can't easily disconnect the original signal
             [
-                Main.overview._controls.dash,
+                (Main.overview._overview._controls || Main.overview._controls).dash,
                 'icon-size-changed',
                 Lang.bind(this, function() {
-                    Main.overview.dashIconSize = this.taskbar.iconSize;
+                    Utils.setDashIconSize(this.taskbar.iconSize);
                 })
             ],
             [
@@ -410,7 +415,7 @@ var dtpPanel = Utils.defineClass({
         this.taskbar.destroy();
 
         // reset stored icon size  to the default dash
-        Main.overview.dashIconSize = Main.overview._controls.dash.iconSize;
+        Utils.setDashIconSize((Main.overview._overview._controls || Main.overview._controls).dash.iconSize);
 
         this.menuManager._changeMenu = this.menuManager._oldChangeMenu;
 
@@ -431,7 +436,7 @@ var dtpPanel = Utils.defineClass({
             this._displayShowDesktopButton(false);
 
             if (this.statusArea.aggregateMenu) {
-                delete this.statusArea.aggregateMenu._volume.indicators._dtpIgnoreScroll;
+                delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
                 setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
             }
 
@@ -582,7 +587,7 @@ var dtpPanel = Utils.defineClass({
             this._myPanelGhost[isOverviewFocusedMonitor ? 'show' : 'hide']();
 
             if (isOverviewFocusedMonitor) {
-                Main.overview._panelGhost.set_height(this.geom.position == St.Side.TOP ? 0 : Main.panel.height);
+                Utils.getPanelGhost().set_height(this.geom.position == St.Side.TOP ? 0 : Main.panel.height);
             }
         }
     },
@@ -1118,20 +1123,20 @@ var dtpSecondaryAggregateMenu = Utils.defineClass({
         }
 
         if (this._thunderbolt) {
-            this._indicators.add_child(this._thunderbolt.indicators);
+            this._indicators.add_child(Utils.getIndicators(this._thunderbolt));
         }
-        this._indicators.add_child(this._screencast.indicators);
+        this._indicators.add_child(Utils.getIndicators(this._screencast));
         if (this._nightLight) {
-            this._indicators.add_child(this._nightLight.indicators);
+            this._indicators.add_child(Utils.getIndicators(this._nightLight));
         }
         if (this._network) {
-            this._indicators.add_child(this._network.indicators);
+            this._indicators.add_child(Utils.getIndicators(this._network));
         }
         if (this._bluetooth) {
-            this._indicators.add_child(this._bluetooth.indicators);
+            this._indicators.add_child(Utils.getIndicators(this._bluetooth));
         }
-        this._indicators.add_child(this._volume.indicators);
-        this._indicators.add_child(this._power.indicators);
+        this._indicators.add_child(Utils.getIndicators(this._volume));
+        this._indicators.add_child(Utils.getIndicators(this._power));
         this._indicators.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
 
         this.menu.addMenuItem(this._volume.menu);

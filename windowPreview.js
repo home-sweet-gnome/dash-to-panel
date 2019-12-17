@@ -532,7 +532,7 @@ var PreviewMenu = Utils.defineClass({
 
         let fadeWidget = new St.Widget({ 
             reactive: false, 
-            pivot_point: new Clutter.Point({ x: .5, y: .5 }), 
+            pivot_point: Utils.getPoint({ x: .5, y: .5 }), 
             rotation_angle_z: end ? 180 : 0,
             style: fadeStyle,
             x: x, y: y,

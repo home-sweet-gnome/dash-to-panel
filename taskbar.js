@@ -220,7 +220,7 @@ var taskbar = Utils.defineClass({
         let fade1 = new St.Widget({ style_class: 'scrollview-fade', reactive: false });
         let fade2 = new St.Widget({ style_class: 'scrollview-fade', 
                                     reactive: false,  
-                                    pivot_point: new Clutter.Point({ x: .5, y: .5 }), 
+                                    pivot_point: Utils.getPoint({ x: .5, y: .5 }), 
                                     rotation_angle_z: 180 });
 
         fade1.set_style(fadeStyle);
