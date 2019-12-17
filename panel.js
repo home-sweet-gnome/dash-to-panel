@@ -587,7 +587,7 @@ var dtpPanel = Utils.defineClass({
             this._myPanelGhost[isOverviewFocusedMonitor ? 'show' : 'hide']();
 
             if (isOverviewFocusedMonitor) {
-                Utils.getPanelGhost().set_height(this.geom.position == St.Side.TOP ? 0 : Main.panel.height);
+                Utils.getPanelGhost().set_height(this.geom.position == St.Side.TOP ? 0 : Main.panel.actor.height);
             }
         }
     },
