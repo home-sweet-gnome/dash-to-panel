@@ -42,7 +42,6 @@ var dtpOverview = Utils.defineClass({
 
     _init: function() {
         this._numHotkeys = 10;
-        this._currentHotkeyFocusIndex = -1;
     },
 
     enable : function(panel) {
@@ -180,23 +179,21 @@ var dtpOverview = Utils.defineClass({
             let seenAppCount = seenApps[appIcon.app];
             let windowCount = appIcon.window || appIcon._hotkeysCycle ? seenAppCount : appIcon._nWindows;
 
-            if (Me.settings.get_boolean('shortcut-previews') && windowCount > 1) {
-                if (this._currentHotkeyFocusIndex < 0) {
-                    let currentWindow = appIcon.window;
-                    let keyFocusOutId = appIcon.actor.connect('key-focus-out', () => appIcon.actor.grab_key_focus());
-                    let capturedEventId = global.stage.connect('captured-event', (actor, e) => {
-                        if (e.type() == Clutter.EventType.KEY_RELEASE && e.get_key_symbol() == Clutter.Super_L) {
-                            global.stage.disconnect(capturedEventId);
-                            appIcon.actor.disconnect(keyFocusOutId);
-
-                            appIcon._previewMenu.activateFocused();
-                            appIcon.window = currentWindow;
-                            delete appIcon._hotkeysCycle;
-                            this._currentHotkeyFocusIndex = -1;
-                        }
-    
-                        return Clutter.EVENT_PROPAGATE;
-                    });
+            if (Me.settings.get_boolean('shortcut-previews') && windowCount > 1 && 
+                !(Clutter.get_current_event().get_state() & ~(Clutter.ModifierType.MOD1_MASK | Clutter.ModifierType.MOD4_MASK))) { //ignore the alt (MOD1_MASK) and super key (MOD4_MASK)
+                if (!this._hotkeyPreviewCycleInfo) {
+                    this._hotkeyPreviewCycleInfo = {
+                        appIcon: appIcon,
+                        currentWindow: appIcon.window,
+                        keyFocusOutId: appIcon.actor.connect('key-focus-out', () => appIcon.actor.grab_key_focus()),
+                        capturedEventId: global.stage.connect('captured-event', (actor, e) => {
+                            if (e.type() == Clutter.EventType.KEY_RELEASE && e.get_key_symbol() == Clutter.Super_L) {
+                                this._endHotkeyPreviewCycle();
+                            }
+        
+                            return Clutter.EVENT_PROPAGATE;
+                        })
+                    };
 
                     appIcon._hotkeysCycle = appIcon.window;
                     appIcon.window = null;
@@ -204,12 +201,25 @@ var dtpOverview = Utils.defineClass({
                     appIcon.actor.grab_key_focus();
                 }
                 
-                this._currentHotkeyFocusIndex = appIcon._previewMenu.focusNext();
+                appIcon._previewMenu.focusNext();
             } else {
                 // Activate with button = 1, i.e. same as left click
                 let button = 1;
+                this._endHotkeyPreviewCycle();
                 appIcon.activate(button, true);
             }
+        }
+    },
+
+    _endHotkeyPreviewCycle: function() {
+        if (this._hotkeyPreviewCycleInfo) {
+            global.stage.disconnect(this._hotkeyPreviewCycleInfo.capturedEventId);
+            this._hotkeyPreviewCycleInfo.appIcon.actor.disconnect(this._hotkeyPreviewCycleInfo.keyFocusOutId);
+
+            this._hotkeyPreviewCycleInfo.appIcon._previewMenu.activateFocused();
+            this._hotkeyPreviewCycleInfo.appIcon.window = this._hotkeyPreviewCycleInfo.currentWindow;
+            delete this._hotkeyPreviewCycleInfo.appIcon._hotkeysCycle;
+            this._hotkeyPreviewCycleInfo = 0;
         }
     },
 
