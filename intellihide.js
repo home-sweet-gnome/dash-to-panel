@@ -365,6 +365,7 @@ var Intellihide = Utils.defineClass({
     },
 
     _revealPanel: function(immediate) {
+        this._panelBox.visible = true;
         this._animatePanel(0, immediate);
     },
 
@@ -376,7 +377,7 @@ var Intellihide = Utils.defineClass({
         this._animatePanel(size * coefficient, immediate);
     },
 
-    _animatePanel: function(destination, immediate, onComplete) {
+    _animatePanel: function(destination, immediate) {
         let animating = Tweener.isTweening(this._panelBox);
 
         if (!((animating && destination === this._animationDestination) || 
@@ -387,10 +388,10 @@ var Intellihide = Utils.defineClass({
             }
 
             this._animationDestination = destination;
-    
+
             if (immediate) {
                 this._panelBox[this._translationProp] = destination;
-                this._invokeIfExists(onComplete);
+                this._panelBox.visible = !destination;
             } else {
                 let tweenOpts = {
                     //when entering/leaving the overview, use its animation time instead of the one from the settings
@@ -401,7 +402,7 @@ var Intellihide = Utils.defineClass({
                     delay: destination != 0 && this._hoveredOut ? Me.settings.get_int('intellihide-close-delay') * 0.001 : 0,
                     transition: 'easeOutQuad',
                     onComplete: () => {
-                        this._invokeIfExists(onComplete);
+                        this._panelBox.visible = !destination;
                         Main.layoutManager._queueUpdateRegions();
                         this._timeoutsHandler.add([T3, POST_ANIMATE_MS, () => this._queueUpdatePanelPosition()]);
                     }
@@ -414,8 +415,4 @@ var Intellihide = Utils.defineClass({
 
         this._hoveredOut = false;
     },
-
-    _invokeIfExists: function(func) {
-        func ? func.call(this) : null;
-    }
 });
