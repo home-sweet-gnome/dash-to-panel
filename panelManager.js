@@ -50,6 +50,7 @@ const LookingGlass = imports.ui.lookingGlass;
 const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Layout = imports.ui.layout;
+const WM = imports.ui.windowManager;
 const WorkspacesView = imports.ui.workspacesView;
 
 var dtpPanelManager = Utils.defineClass({
@@ -75,9 +76,6 @@ var dtpPanelManager = Utils.defineClass({
 
         Utils.wrapActor(Main.panel);
         Utils.wrapActor(Main.overview.dash || 0);
-
-        Main.panel.actor.hide();
-        Main.layoutManager.panelBox.height = 0;
 
         this.primaryPanel = this._createPanel(dtpPrimaryMonitor);
         this.allPanels = [ this.primaryPanel ];
@@ -119,6 +117,10 @@ var dtpPanelManager = Utils.defineClass({
         }
 
         this.setFocusedMonitor(dtpPrimaryMonitor);
+        
+        if (Panel.checkIfVertical()) {
+            Main.wm._getPositionForDirection = newGetPositionForDirection;
+        }
         
         if (reset) return;
 
@@ -205,7 +207,7 @@ var dtpPanelManager = Utils.defineClass({
             ]
         );
 
-        ['_leftBox', '_centerBox', '_rightBox'].forEach(c => this._signalsHandler.add(
+        Panel.panelBoxes.forEach(c => this._signalsHandler.add(
             [Main.panel[c], 'actor-added', (parent, child) => this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, Panel.getPosition())]
         ));
 
@@ -230,19 +232,33 @@ var dtpPanelManager = Utils.defineClass({
             this._removePanelBarriers(p);
 
             p.disable();
-            Main.layoutManager.removeChrome(p.panelBox);
-            p.panelBox.destroy();
+
+            if (p.isSecondary) {
+                Main.layoutManager.removeChrome(p.panelBox);
+                p.panelBox.destroy();
+            } else {
+                p.panelBox.remove_child(p);
+                p.remove_child(p.panel.actor);
+                p.panelBox.add(p.panel.actor);
+            }
         });
 
         if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
             Utils.hookVfunc(BoxPointer.BoxPointer.prototype, 'get_preferred_height', BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height);
         }
 
+        delete Main.wm._getPositionForDirection;
+
         if (reset) return;
         
         this._setKeyBindings(false);
 
         this._signalsHandler.destroy();
+
+        if (Main.layoutManager.primaryMonitor) {
+            Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
+            Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
+        }
 
         Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
         Main.layoutManager._updateHotCorners();
@@ -262,10 +278,7 @@ var dtpPanelManager = Utils.defineClass({
 
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
 
-        Utils.getPanelGhost().set_height(Main.panel.actor.height);
-
-        Main.panel.actor.show();
-        Main.layoutManager.panelBox.set_height(-1);
+        Utils.getPanelGhost().set_size(-1, -1);
 
         if (this._needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });
@@ -300,11 +313,20 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     _createPanel: function(monitor, isSecondary) {
-        let panelBox = new St.BoxLayout({ name: 'panelBox' });
-        let panel = new Panel.dtpPanel(this, monitor, panelBox, isSecondary);
+        let panelBox;
+        let panel;
+
+        if (isSecondary) {
+            panelBox = new St.BoxLayout({ name: 'panelBox' });
+            Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
+        } else {
+            panelBox = Main.layoutManager.panelBox;
+            panelBox.remove_child(Main.panel);
+        }
+
+        panel = new Panel.dtpPanel(this, monitor, panelBox, isSecondary);
+        panelBox.add(panel);
         
-        panelBox.add(panel.bg);
-        Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
         panel.enable();
         panelBox.visible = !monitor.inFullscreen;
 
@@ -492,7 +514,6 @@ function newViewSelectorAnimateIn(oldPage) {
 
 function newViewSelectorAnimateOut(page) {
     let oldPage = page;
-
     let vs = Main.overview.viewSelector;
 
     if (page == vs._appsPage &&
@@ -509,6 +530,21 @@ function newViewSelectorAnimateOut(page) {
     } else {
         vs._fadePageOut(page);
     }
+}
+
+function newGetPositionForDirection(direction, fromWs, toWs) {
+    let [xDest, yDest] = WM.WindowManager.prototype._getPositionForDirection(direction, fromWs, toWs);
+
+    if (direction == Meta.MotionDirection.UP ||
+        direction == Meta.MotionDirection.UP_LEFT ||
+        direction == Meta.MotionDirection.UP_RIGHT) {
+        yDest -= Main.panel.height;
+    } else if (direction != Meta.MotionDirection.LEFT &&
+               direction != Meta.MotionDirection.RIGHT) {
+        yDest += Main.panel.height;
+    }
+
+    return [xDest, yDest];
 }
 
 function newDoSpringAnimation(animationDirection) {
@@ -588,19 +624,17 @@ function newUpdateHotCorners() {
 }
 
 function newUpdatePanelBarrier(panel) {
-    if (this._rightPanelBarrier) {
-        this._rightPanelBarrier.destroy();
-    }
-
     let barriers = {
-        _rightPanelBarrier: [],
-        _leftPanelBarrier: []
+        _rightPanelBarrier: [(panel.isSecondary ? panel : this)],
+        _leftPanelBarrier: [panel]
     };
 
     Object.keys(barriers).forEach(k => {
-        if (panel[k]) {
-            panel[k].destroy();
-            panel[k] = null;
+        let obj = barriers[k][0];
+
+        if (obj[k]) {
+            obj[k].destroy();
+            obj[k] = null;
         }
     });
 
@@ -650,27 +684,27 @@ function newUpdatePanelBarrier(panel) {
     Object.keys(barriers).forEach(k => {
         let barrierOptions = { 
             display: global.display,
-            directions: barriers[k][1]
+            directions: barriers[k][2]
         };
         
-        barrierOptions[Panel.varCoord.c1] = barrierOptions[Panel.varCoord.c2] = barriers[k][0];
+        barrierOptions[Panel.varCoord.c1] = barrierOptions[Panel.varCoord.c2] = barriers[k][1];
         barrierOptions[Panel.fixedCoord.c1] = fixed1;
         barrierOptions[Panel.fixedCoord.c2] = fixed2;
 
-        panel[k] = new Meta.Barrier(barrierOptions);
+        barriers[k][0][k] = new Meta.Barrier(barrierOptions);
     });
 }
 
 function _newLookingGlassResize() {
+    let topOffset = Panel.getPosition() == St.Side.TOP ? Panel.size : 0;
+
     this._oldResize();
 
-    if (Panel.getPosition() == St.Side.TOP) {
-        this._hiddenY = Main.layoutManager.primaryMonitor.y + Panel.size - this.actor.height;
-        this._targetY = this._hiddenY + this.actor.height;
-        this.actor.y = this._hiddenY;
+    this._hiddenY = Main.layoutManager.primaryMonitor.y + topOffset - this.actor.height;
+    this._targetY = this._hiddenY + this.actor.height;
+    this.actor.y = this._hiddenY;
 
-        this._objInspector.actor.set_position(this.actor.x + Math.floor(this.actor.width * 0.1), this._targetY + Math.floor(this.actor.height * 0.1));
-    }
+    this._objInspector.actor.set_position(this.actor.x + Math.floor(this.actor.width * 0.1), this._targetY + Math.floor(this.actor.height * 0.1));
 }
 
 function _newLookingGlassOpen() {

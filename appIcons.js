@@ -99,7 +99,7 @@ var taskbarAppIcon = Utils.defineClass({
     ParentConstrParams: [[0, 'app'], [2]],
 
     _init: function(appInfo, panel, iconParams, previewMenu) {
-        this.panel = panel;
+        this.dtpPanel = panel;
         this._nWindows = 0;
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
@@ -356,7 +356,7 @@ var taskbarAppIcon = Utils.defineClass({
         let scrollAction = Me.settings.get_string('scroll-icon-action');
         
         if (scrollAction === 'PASS_THROUGH') {
-            return this.panel._onPanelMouseScroll(actor, event);
+            return this.dtpPanel._onPanelMouseScroll(actor, event);
         } else if (scrollAction === 'NOTHING' || (!this.window && !this._nWindows)) {
             return;
         }
@@ -537,7 +537,7 @@ var taskbarAppIcon = Utils.defineClass({
         return global.display.focus_window && 
                (!Me.settings.get_boolean('multi-monitors') || // only check same monitor index if multi window is enabled.
                 !Me.settings.get_boolean('isolate-monitors') || 
-                global.display.focus_window.get_monitor() === this.panel.monitor.index);
+                global.display.focus_window.get_monitor() === this.dtpPanel.monitor.index);
     },
 
     _setAppIconPadding: function() {
@@ -807,7 +807,7 @@ var taskbarAppIcon = Utils.defineClass({
                 }
             } else {
                 //grouped application behaviors
-                let monitor = this.panel.monitor;
+                let monitor = this.dtpPanel.monitor;
                 let appHasFocus = this._checkIfFocusedApp() && this._checkIfMonitorHasFocus();
 
                 switch (buttonAction) {
@@ -1190,7 +1190,7 @@ var taskbarAppIcon = Utils.defineClass({
     acceptDrop: function() { return false; },
 
     getAppIconInterestingWindows: function(isolateMonitors) {
-        return getInterestingWindows(this.app, this.panel.monitor, isolateMonitors);
+        return getInterestingWindows(this.app, this.dtpPanel.monitor, isolateMonitors);
     }
 
 });

@@ -108,9 +108,9 @@ var taskbarActor = Utils.defineClass({
         hupper = Math.floor(hupper);
         scrollview._dtpFadeSize = hupper > hpageSize ? this._delegate.iconSize : 0;
 
-        if (this._delegate.panel.dynamicTransparency &&
-            this._currentBackgroundColor !== this._delegate.panel.dynamicTransparency.currentBackgroundColor) {
-            this._currentBackgroundColor = this._delegate.panel.dynamicTransparency.currentBackgroundColor;
+        if (this._delegate.dtpPanel.dynamicTransparency &&
+            this._currentBackgroundColor !== this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor) {
+            this._currentBackgroundColor = this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor;
             let gradientStyle = 'background-gradient-start: ' + this._currentBackgroundColor +
                                 'background-gradient-direction: ' + orientation;
 
@@ -161,7 +161,7 @@ var taskbar = Utils.defineClass({
     Name: 'DashToPanel.Taskbar',
 
     _init : function(panel) {
-        this.panel = panel;
+        this.dtpPanel = panel;
         
         // start at smallest size due to running indicator drawing area expanding but not shrinking
         this.iconSize = 16;
@@ -254,12 +254,12 @@ var taskbar = Utils.defineClass({
 
         this._signalsHandler.add(
             [
-                this.panel,
+                this.dtpPanel.panel.actor,
                 'notify::height',
                 () => this._queueRedisplay()
             ],
             [
-                this.panel,
+                this.dtpPanel.panel.actor,
                 'notify::width',
                 () => this._queueRedisplay()
             ],
@@ -541,7 +541,7 @@ var taskbar = Utils.defineClass({
                 window: window,
                 isLauncher: isLauncher
             },
-            this.panel,
+            this.dtpPanel,
             { 
                 setSizeManually: true,
                 showLabel: false,
@@ -747,8 +747,8 @@ var taskbar = Utils.defineClass({
     },
 
     sortAppsCompareFunction: function(appA, appB) {
-        return getAppStableSequence(appA, this.panel.monitor) - 
-               getAppStableSequence(appB, this.panel.monitor);
+        return getAppStableSequence(appA, this.dtpPanel.monitor) - 
+               getAppStableSequence(appB, this.dtpPanel.monitor);
     },
 
     getAppInfos: function() {
@@ -836,7 +836,7 @@ var taskbar = Utils.defineClass({
         this._updateAppIcons();
 
         // This will update the size, and the corresponding number for each icon on the primary panel
-        if (!this.panel.isSecondary) {
+        if (!this.dtpPanel.isSecondary) {
             this._updateNumberOverlay();
         }
 
@@ -849,7 +849,7 @@ var taskbar = Utils.defineClass({
     
     _checkIfShowingFavorites: function() {
         return Me.settings.get_boolean('show-favorites') && 
-               (!this.panel.isSecondary || Me.settings.get_boolean('show-favorites-all-monitors'));
+               (!this.dtpPanel.isSecondary || Me.settings.get_boolean('show-favorites-all-monitors'));
     },
 
     _getRunningApps: function() {
@@ -872,7 +872,7 @@ var taskbar = Utils.defineClass({
         return apps.map(app => ({ 
             app: app, 
             isLauncher: defaultIsLauncher || false,
-            windows: defaultWindows || AppIcons.getInterestingWindows(app, this.panel.monitor)
+            windows: defaultWindows || AppIcons.getInterestingWindows(app, this.dtpPanel.monitor)
                                                .sort(sortWindowsCompareFunction)
         }));
     },
@@ -891,7 +891,7 @@ var taskbar = Utils.defineClass({
         this._redisplay();
 
         if (Panel.checkIfVertical()) {
-            this.showAppsButton.set_width(this.panel.geom.w);
+            this.showAppsButton.set_width(this.dtpPanel.geom.w);
             this.previewMenu._updateClip();
         }
     },
@@ -1022,7 +1022,7 @@ var taskbar = Utils.defineClass({
         let interestingWindows = {};
         let getAppWindows = app => {
             if (!interestingWindows[app]) {
-                interestingWindows[app] = AppIcons.getInterestingWindows(app, this.panel.monitor);
+                interestingWindows[app] = AppIcons.getInterestingWindows(app, this.dtpPanel.monitor);
             }
 
             let appWindows = interestingWindows[app]; //prevents "reference to undefined property Symbol.toPrimitive" warning
@@ -1128,12 +1128,12 @@ var taskbar = Utils.defineClass({
                 }
 
                 //temporarily use as primary the monitor on which the showapps btn was clicked 
-                this.panel.panelManager.setFocusedMonitor(this.panel.monitor);
+                this.dtpPanel.panelManager.setFocusedMonitor(this.dtpPanel.monitor);
 
                 //reset the primary monitor when exiting the overview
                 let overviewHiddenId = Main.overview.connect('hidden', () => {
                     Main.overview.disconnect(overviewHiddenId);
-                    this.panel.panelManager.setFocusedMonitor(this.panel.panelManager.primaryPanel.monitor, true);
+                    this.dtpPanel.panelManager.setFocusedMonitor(this.dtpPanel.panelManager.primaryPanel.monitor, true);
                 });
 
                 // Finally show the overview

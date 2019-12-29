@@ -356,7 +356,7 @@ var Intellihide = Utils.defineClass({
     },
 
     _checkIfGrab: function() {
-        if (GrabHelper._grabHelperStack.some(gh => gh._owner == this._dtpPanel.grabOwner)) {
+        if (GrabHelper._grabHelperStack.some(gh => gh._owner == this._dtpPanel.panel.actor)) {
             //there currently is a grab on a child of the panel, check again soon to catch its release
             this._timeoutsHandler.add([T1, CHECK_GRAB_MS, () => this._queueUpdatePanelPosition()]);
 

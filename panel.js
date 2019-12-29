@@ -59,6 +59,7 @@ const Transparency = Me.imports.transparency;
 const _ = imports.gettext.domain(Me.imports.utils.TRANSLATION_DOMAIN).gettext;
 
 let tracker = Shell.WindowTracker.get_default();
+var panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
 var sizeFunc;
 var fixedCoord;
 var varCoord;
@@ -116,14 +117,9 @@ var dtpPanel = Utils.defineClass({
 
     _init: function(panelManager, monitor, panelBox, isSecondary) {
         let position = getPosition();
-
-        this.callParent('_init', { name: 'panel', reactive: true });
-        this.bg = new St.Widget({ layout_manager: new Clutter.BinLayout() });
-        this.bg.add_child(this);
-
-        Utils.wrapActor(this);
-        this._delegate = this;
         
+        this.callParent('_init', { layout_manager: new Clutter.BinLayout() });
+
         this._timeoutsHandler = new Utils.TimeoutsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
@@ -135,52 +131,65 @@ var dtpPanel = Utils.defineClass({
         this.isSecondary = isSecondary;
         this._sessionStyle = null;
 
-        if (position == St.Side.TOP) {
-            this._leftCorner = new Panel.PanelCorner(St.Side.LEFT);
-            this._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
-
-            Utils.wrapActor(this._leftCorner);
-            Utils.wrapActor(this._rightCorner);
-
-            this.add_actor(this._leftCorner.actor);
-            this.add_actor(this._rightCorner.actor);
-        }
-
         if (isSecondary) {
-            this.statusArea = {};
+            this.panel = new St.Widget({ name: 'panel', reactive: true });
+            this.statusArea = this.panel.statusArea = {};
 
-            this._leftBox = new St.BoxLayout({ name: 'panelLeft' });
-            this._centerBox = new St.BoxLayout({ name: 'panelCenter' });
-            this._rightBox = new St.BoxLayout({ name: 'panelRight' });
+            //next 3 functions are needed by other extensions to add elements to the secondary panel
+            this.panel.addToStatusArea = function(role, indicator, position, box) {
+                return Main.panel.addToStatusArea.call(this, role, indicator, position, box);
+            };
 
-            this.menuManager = new PopupMenu.PopupMenuManager(this);
-            this.grabOwner = this;
+            this.panel._addToPanelBox = function(role, indicator, position, box) {
+                Main.panel._addToPanelBox.call(this, role, indicator, position, box);
+            };
+
+            this.panel._onMenuSet = function(indicator) {
+                Main.panel._onMenuSet.call(this, indicator);
+            };
+
+            this._leftBox = this.panel._leftBox = new St.BoxLayout({ name: 'panelLeft' });
+            this._centerBox = this.panel._centerBox = new St.BoxLayout({ name: 'panelCenter' });
+            this._rightBox = this.panel._rightBox = new St.BoxLayout({ name: 'panelRight' });
+
+            this.menuManager = this.panel.menuManager = new PopupMenu.PopupMenuManager(this.panel);
 
             //adding the clock to the centerbox will correctly position it according to dtp settings (event actor-added)
             this._setPanelMenu('show-status-menu-all-monitors', 'aggregateMenu', dtpSecondaryAggregateMenu, this._rightBox, true);
             this._setPanelMenu('show-clock-all-monitors', 'dateMenu', DateMenu.DateMenuButton, this._centerBox, true);
+
+            this.panel.add_child(this._leftBox);
+            this.panel.add_child(this._centerBox);
+            this.panel.add_child(this._rightBox);
+
+            if (position == St.Side.TOP) {
+                this.panel._leftCorner = new Panel.PanelCorner(St.Side.LEFT);
+                this.panel._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
+    
+                Utils.wrapActor(this.panel._leftCorner);
+                Utils.wrapActor(this.panel._rightCorner);
+    
+                this.panel.add_child(this.panel._leftCorner.actor);
+                this.panel.add_child(this.panel._rightCorner.actor);
+            }
         } else {
+            this.panel = Main.panel;
             this.statusArea = Main.panel.statusArea;
             this.menuManager = Main.panel.menuManager;
-            this.grabOwner = Main.panel.actor;
 
             setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), position);
 
-            ['_leftBox', '_centerBox', '_rightBox'].forEach(p => {
-                Main.panel.actor.remove_child(Main.panel[p]);
-                this[p] = Main.panel[p];
-            });
+            panelBoxes.forEach(p => this[p] = Main.panel[p]);
         }
 
-        this.add_child(this._leftBox);
-        this.add_child(this._centerBox);
-        this.add_child(this._rightBox);
+        Utils.wrapActor(this.panel);
 
-        Utils.wrapActor(this.statusArea.activities || 0);
+        this.panel.actor._delegate = this;
+        this.add_child(this.panel.actor);
 
         if (Main.panel._onButtonPress) {
             this._signalsHandler.add([
-                this, 
+                this.panel.actor, 
                 [
                     'button-press-event', 
                     'touch-event'
@@ -190,7 +199,7 @@ var dtpPanel = Utils.defineClass({
         }
 
         if (Main.panel._onKeyPress) {
-            this._signalsHandler.add([this, 'key-press-event', Main.panel._onKeyPress.bind(this)]);
+            this._signalsHandler.add([this.panel.actor, 'key-press-event', Main.panel._onKeyPress.bind(this)]);
         }
        
         Main.ctrlAltTabManager.addGroup(this, _("Top Bar")+" "+ monitor.index, 'focus-top-bar-symbolic',
@@ -237,15 +246,34 @@ var dtpPanel = Utils.defineClass({
             }
         }
 
-        this._adjustForOverview();
-        this._setPanelGhostSize();
         this._setPanelPosition();
 
-        if (!this.isSecondary && this.statusArea.dateMenu) {
-            // remove the extra space before the clock when the message-indicator is displayed
-            Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', () => [0,0]);
-            Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', () => [0,0]);
+        if (!this.isSecondary) {
+            if (this.panel.vfunc_allocate) {
+                this._panelConnectId = 0;
+                Utils.hookVfunc(this.panel.__proto__, 'allocate', (box, flags) => this._mainPanelAllocate(box, flags));
+            } else {
+                this._panelConnectId = this.panel.actor.connect('allocate', (actor, box, flags) => this._mainPanelAllocate(actor, box, flags));
+            }
+            
+            if (this.statusArea.dateMenu) {
+                // remove the extra space before the clock when the message-indicator is displayed
+                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', () => [0,0]);
+                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', () => [0,0]);
+            }
         }
+
+        // The main panel's connection to the "allocate" signal is competing with this extension
+        // trying to move the centerBox over to the right, creating a never-ending cycle.
+        // Since we don't have the ID to disconnect that handler, wrap the allocate() function 
+        // it calls instead. If the call didn't originate from this file, ignore it.
+        panelBoxes.forEach(b => {
+            this[b].allocate = (box, flags, isFromDashToPanel) => {
+                if (isFromDashToPanel) {
+                    this[b].__proto__.allocate.call(this[b], box, flags);
+                }
+            }
+        });
 
         this.menuManager._oldChangeMenu = this.menuManager._changeMenu;
         this.menuManager._changeMenu = (menu) => {
@@ -272,12 +300,15 @@ var dtpPanel = Utils.defineClass({
         this._setClockLocation(Me.settings.get_string('location-clock'));
         this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'));
         
-        this.add_style_class_name('dashtopanelMainPanel ' + getOrientation());
+        this.panel.actor.add_style_class_name('dashtopanelMainPanel ' + getOrientation());
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
         if(Main.overview.viewSelector._activePage == null)
             Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
+
+        this._adjustForOverview();
+        this._setPanelGhostSize();
 
         if(this.taskbar._showAppsIconWrapper)
             this.taskbar._showAppsIconWrapper._dtpPanel = this;
@@ -344,7 +375,7 @@ var dtpPanel = Utils.defineClass({
                 () => this._onBoxActorAdded(this._rightBox)
             ],
             [
-                this,
+                this.panel.actor,
                 'scroll-event',
                 this._onPanelMouseScroll.bind(this)
             ],
@@ -421,16 +452,13 @@ var dtpPanel = Utils.defineClass({
 
         this._myPanelGhost.get_parent().remove_actor(this._myPanelGhost);
         
+        panelBoxes.forEach(b => delete this[b].allocate);
+
         if (!this.isSecondary) {
-            this._setVertical(this, false);
+            this._setVertical(this.panel.actor, false);
 
-            this.remove_style_class_name('dashtopanelPanel vertical horizontal');
+            this.panel.actor.remove_style_class_name('dashtopanelPanel vertical horizontal dashtopanelMainPanel ' + getOrientation());
 
-            ['_leftBox', '_centerBox', '_rightBox'].forEach(p => {
-                this.remove_child(Main.panel[p]);
-                Main.panel.actor.add_child(Main.panel[p]);
-            });
-            
             this._setActivitiesButtonVisible(true);
             this._setClockLocation("BUTTONSLEFT");
             this._displayShowDesktopButton(false);
@@ -447,25 +475,20 @@ var dtpPanel = Utils.defineClass({
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_height);
             }
+
+            if (this._panelConnectId) {
+                this.panel.actor.disconnect(this._panelConnectId);
+            } else {
+                Utils.hookVfunc(this.panel.__proto__, 'allocate', this.panel.__proto__.vfunc_allocate);
+            }
+            
+            this.panel.actor._delegate = this.panel;
         } else {
             this._removePanelMenu('dateMenu');
             this._removePanelMenu('aggregateMenu');
         }
 
         Main.ctrlAltTabManager.removeGroup(this);
-    },
-
-    //next 3 functions are needed by other extensions to add elements to the secondary panel
-    addToStatusArea: function(role, indicator, position, box) {
-        return Main.panel.addToStatusArea.call(this, role, indicator, position, box);
-    },
-
-    _addToPanelBox: function(role, indicator, position, box) {
-        Main.panel._addToPanelBox.call(this, role, indicator, position, box);
-    },
-
-    _onMenuSet: function(indicator) {
-        Main.panel._onMenuSet.call(this, indicator);
     },
 
     handleDragOver: function(source, actor, x, y, time) {
@@ -587,7 +610,7 @@ var dtpPanel = Utils.defineClass({
             this._myPanelGhost[isOverviewFocusedMonitor ? 'show' : 'hide']();
 
             if (isOverviewFocusedMonitor) {
-                Utils.getPanelGhost().set_height(this.geom.position == St.Side.TOP ? 0 : Main.panel.actor.height);
+                Utils.getPanelGhost().set_size(1, this.geom.position == St.Side.TOP ? 0 : 32);
             }
         }
     },
@@ -653,6 +676,10 @@ var dtpPanel = Utils.defineClass({
             w: w, h: h,
             position: position
         };
+    },
+
+    _mainPanelAllocate: function(box, flags) {
+        this.panel.actor.set_allocation(box, flags);
     },
 
     vfunc_allocate: function(box, flags) {
@@ -727,28 +754,29 @@ var dtpPanel = Utils.defineClass({
             childBoxRight[varCoord.c2] = panelAllocVarSize;            
         }
 
-        if (this._leftCorner) {
+        this.panel.actor.allocate(new Clutter.ActorBox({ x1: 0, y1: 0, x2: this.geom.w, y2: this.geom.h }), flags);
+        this._leftBox.allocate(childBoxLeft, flags, 1);
+        this._centerBox.allocate(childBoxCenter, flags, 1);
+        this._rightBox.allocate(childBoxRight, flags, 1);
+
+        if (this.geom.position == St.Side.TOP) {
             let childBoxLeftCorner = new Clutter.ActorBox();
-            let [ , cornerSize] = this._leftCorner.actor[sizeFunc](-1);
+            let [ , cornerSize] = this.panel._leftCorner.actor[sizeFunc](-1);
             childBoxLeftCorner[varCoord.c1] = 0;
             childBoxLeftCorner[varCoord.c2] = cornerSize;
             childBoxLeftCorner[fixedCoord.c1] = panelAllocFixedSize;
             childBoxLeftCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
 
             let childBoxRightCorner = new Clutter.ActorBox();
-            [ , cornerSize] = this._rightCorner.actor[sizeFunc](-1);
+            [ , cornerSize] = this.panel._rightCorner.actor[sizeFunc](-1);
             childBoxRightCorner[varCoord.c1] = panelAllocVarSize - cornerSize;
             childBoxRightCorner[varCoord.c2] = panelAllocVarSize;
             childBoxRightCorner[fixedCoord.c1] = panelAllocFixedSize;
             childBoxRightCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
 
-            this._leftCorner.actor.allocate(childBoxLeftCorner, flags);
-            this._rightCorner.actor.allocate(childBoxRightCorner, flags);
+            this.panel._leftCorner.actor.allocate(childBoxLeftCorner, flags);
+            this.panel._rightCorner.actor.allocate(childBoxRightCorner, flags);
         }
-
-        this._leftBox.allocate(childBoxLeft, flags);
-        this._centerBox.allocate(childBoxCenter, flags);
-        this._rightBox.allocate(childBoxRight, flags);
     },
 
     _setPanelPosition: function() {
@@ -757,13 +785,13 @@ var dtpPanel = Utils.defineClass({
         this.set_size(this.geom.w, this.geom.h);
         container.set_position(this.geom.x, this.geom.y);
 
-        this._setVertical(this, checkIfVertical());
+        this._setVertical(this.panel.actor, checkIfVertical());
 
         // styles for theming
         Object.keys(St.Side).forEach(p => {
             let cssName = 'dashtopanel' + p.charAt(0) + p.slice(1).toLowerCase();
             
-            this[(St.Side[p] == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
+            this.panel.actor[(St.Side[p] == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
         });
 
         Main.layoutManager._updateHotCorners();
@@ -861,8 +889,8 @@ var dtpPanel = Utils.defineClass({
 
     _setActivitiesButtonVisible: function(isVisible) {
         if(this.statusArea.activities)
-            isVisible ? this.statusArea.activities.actor.show() :
-                this.statusArea.activities.actor.hide();
+            isVisible ? this.statusArea.activities.container.show() :
+                this.statusArea.activities.container.hide();
     },
     
     _setAppmenuVisible: function(isVisible) {
