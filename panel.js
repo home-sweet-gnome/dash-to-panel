@@ -433,7 +433,7 @@ var dtpPanel = Utils.defineClass({
         if (!this.isSecondary) {
             this._setVertical(this.panel.actor, false);
 
-            this.panel.actor.remove_style_class_name('dashtopanelPanel vertical horizontal dashtopanelMainPanel ' + getOrientation());
+            ['vertical', 'horizontal', 'dashtopanelMainPanel'].forEach(c => this.panel.actor.remove_style_class_name(c));
 
             this._setActivitiesButtonVisible(true);
             this._setClockLocation("BUTTONSLEFT");
