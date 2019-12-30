@@ -321,7 +321,7 @@ var dtpPanelManager = Utils.defineClass({
             Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
         } else {
             panelBox = Main.layoutManager.panelBox;
-            panelBox.remove_child(Main.panel);
+            panelBox.remove_child(Main.panel.actor);
         }
 
         panel = new Panel.dtpPanel(this, monitor, panelBox, isSecondary);

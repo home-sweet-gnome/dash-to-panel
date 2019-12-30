@@ -135,6 +135,8 @@ var dtpPanel = Utils.defineClass({
             this.panel = new St.Widget({ name: 'panel', reactive: true });
             this.statusArea = this.panel.statusArea = {};
 
+            Utils.wrapActor(this.panel);
+
             //next 3 functions are needed by other extensions to add elements to the secondary panel
             this.panel.addToStatusArea = function(role, indicator, position, box) {
                 return Main.panel.addToStatusArea.call(this, role, indicator, position, box);
@@ -181,8 +183,6 @@ var dtpPanel = Utils.defineClass({
 
             panelBoxes.forEach(p => this[p] = Main.panel[p]);
         }
-
-        Utils.wrapActor(this.panel);
 
         this.panel.actor._delegate = this;
         this.add_child(this.panel.actor);
@@ -251,7 +251,7 @@ var dtpPanel = Utils.defineClass({
         if (!this.isSecondary) {
             if (this.panel.vfunc_allocate) {
                 this._panelConnectId = 0;
-                Utils.hookVfunc(this.panel.__proto__, 'allocate', (box, flags) => this._mainPanelAllocate(box, flags));
+                Utils.hookVfunc(this.panel.__proto__, 'allocate', (box, flags) => this._mainPanelAllocate(0, box, flags));
             } else {
                 this._panelConnectId = this.panel.actor.connect('allocate', (actor, box, flags) => this._mainPanelAllocate(actor, box, flags));
             }
@@ -307,7 +307,6 @@ var dtpPanel = Utils.defineClass({
         if(Main.overview.viewSelector._activePage == null)
             Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
 
-        this._adjustForOverview();
         this._setPanelGhostSize();
 
         if(this.taskbar._showAppsIconWrapper)
@@ -316,19 +315,11 @@ var dtpPanel = Utils.defineClass({
         this._timeoutsHandler.add([T2, Me.settings.get_int('intellihide-enable-start-delay'), () => this.intellihide = new Intellihide.Intellihide(this)]);
 
         this._signalsHandler.add(
-            [
-                this.panelBox, 
-                [
-                    'notify::height', 
-                    'notify::width'
-                ], 
-                () => this._resetGeometry()
-            ],
-            // this is to catch changes to the window scale factor
+            // this is to catch changes to the theme or window scale factor
             [
                 St.ThemeContext.get_for_stage(global.stage), 
                 'changed', 
-                () => this._setPanelPosition()
+                () => this._resetGeometry()
             ],
             // Keep dragged icon consistent in size with this dash
             [
@@ -382,24 +373,9 @@ var dtpPanel = Utils.defineClass({
             [
                 Main.layoutManager,
                 'startup-complete',
-                () => this._resetGeometry(true)
+                () => this._resetGeometry()
             ]
         );
-
-        if (isVertical) {
-            this._signalsHandler.add(
-                [
-                    this._centerBox,
-                    'notify::allocation',
-                    () => this._refreshVerticalAlloc()
-                ],
-                [
-                    this._rightBox,
-                    'notify::allocation',
-                    () => this._refreshVerticalAlloc()
-                ]
-            );
-        }
 
         this._bindSettingsChanges();
 
@@ -615,16 +591,14 @@ var dtpPanel = Utils.defineClass({
         }
     },
 
-    _resetGeometry: function(clockOnly) {
-        if (!clockOnly) {
-            this.geom = this.getGeometry();
-            this._setPanelGhostSize();
-            this._setPanelPosition();
-            this.taskbar.resetAppIcons();
-        }
+    _resetGeometry: function() {
+        this.geom = this.getGeometry();
+        this._setPanelGhostSize();
+        this._setPanelPosition();
+        this.taskbar.resetAppIcons();
 
         if (checkIfVertical()) {
-            this._formatVerticalClock();
+            this._refreshVerticalAlloc();
         }
     },
 
@@ -678,7 +652,7 @@ var dtpPanel = Utils.defineClass({
         };
     },
 
-    _mainPanelAllocate: function(box, flags) {
+    _mainPanelAllocate: function(actor, box, flags) {
         this.panel.actor.set_allocation(box, flags);
     },
 
@@ -867,7 +841,7 @@ var dtpPanel = Utils.defineClass({
 
             if (actor instanceof St.BoxLayout) {
                 actor.vertical = isVertical;
-            } else if (actor instanceof PanelMenu.ButtonBox && actor != this.statusArea.appMenu) {
+            } else if ((actor._delegate || actor) instanceof PanelMenu.ButtonBox && actor != this.statusArea.appMenu) {
                 let child = actor.get_first_child();
 
                 if (child) {
