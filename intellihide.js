@@ -73,7 +73,7 @@ var Intellihide = Utils.defineClass({
         this._changeEnabledStatus();
     },
 
-    enable: function(reset) {
+    enable: function() {
         this.enabled = true;
         this._monitor = this._dtpPanel.monitor;
         this._animationDestination = -1;
@@ -85,7 +85,7 @@ var Intellihide = Utils.defineClass({
         this._panelBox.translation_y = 0;
         this._panelBox.translation_x = 0;
 
-        this._setTrackPanel(reset, true);
+        this._setTrackPanel(true);
         this._bindGeneralSignals();
 
         if (Me.settings.get_boolean('intellihide-hide-from-windows')) {
@@ -109,7 +109,7 @@ var Intellihide = Utils.defineClass({
             this._proximityManager.removeWatch(this._proximityWatchId);
         }
 
-        this._setTrackPanel(reset, false);
+        this._setTrackPanel(false);
 
         this._signalsHandler.destroy();
         this._timeoutsHandler.destroy();
@@ -150,9 +150,9 @@ var Intellihide = Utils.defineClass({
         }
     },
 
-    _reset: function() {
+    reset: function() {
         this.disable(true);
-        this.enable(true);
+        this.enable();
     },
 
     _changeEnabledStatus: function() {
@@ -175,18 +175,11 @@ var Intellihide = Utils.defineClass({
             [
                 Me.settings, 
                 [
-                    'changed::panel-position',
-                    'changed::panel-size',
                     'changed::intellihide-use-pressure',
                     'changed::intellihide-hide-from-windows',
                     'changed::intellihide-behaviour'
                 ],
-                () => this._reset()
-            ],
-            [
-                Main.layoutManager,
-                'monitors-changed',
-                () => this._reset()
+                () => this.reset()
             ],
             [
                 this._panelBox,
@@ -214,33 +207,31 @@ var Intellihide = Utils.defineClass({
         this._queueUpdatePanelPosition();
     },
 
-    _setTrackPanel: function(reset, enable) {
-        if (!reset) {
-            Main.layoutManager._untrackActor(this._panelBox);
+    _setTrackPanel: function(enable) {
+        Main.layoutManager._untrackActor(this._panelBox);
+        
+        if (enable) {
+            this._clipContainer = new Clutter.Actor();
+            Utils.setClip(this._clipContainer, this._panelBox.x, this._panelBox.y, this._panelBox.width, this._panelBox.height);
+
+            Main.layoutManager.removeChrome(this._panelBox);
+            Main.layoutManager.addChrome(this._clipContainer, { affectsInputRegion: false });
             
-            if (enable) {
-                this._clipContainer = new Clutter.Actor();
-                Utils.setClip(this._clipContainer, this._panelBox.x, this._panelBox.y, this._panelBox.width, this._panelBox.height);
+            this._clipContainer.add_child(this._panelBox);
+            Main.layoutManager.trackChrome(this._panelBox, { affectsInputRegion: true });
 
-                Main.layoutManager.removeChrome(this._panelBox);
-                Main.layoutManager.addChrome(this._clipContainer, { affectsInputRegion: false });
-                
-                this._clipContainer.add_child(this._panelBox);
-                Main.layoutManager.trackChrome(this._panelBox, { affectsInputRegion: true });
+            this._timeoutsHandler.add([T4, 0, () => this._panelBox.set_position(0, 0)]);
+        } else {
+            this._panelBox.set_position(this._clipContainer.x, this._clipContainer.y);
+            Main.layoutManager.removeChrome(this._clipContainer);
 
-                this._timeoutsHandler.add([T4, 0, () => this._panelBox.set_position(0, 0)]);
-            } else {
-                this._panelBox.set_position(this._clipContainer.x, this._clipContainer.y);
-                Main.layoutManager.removeChrome(this._clipContainer);
-
-                this._clipContainer.remove_child(this._panelBox);
-                Main.layoutManager.addChrome(this._panelBox, { affectsStruts: true, trackFullscreen: true });
-            }
-            
-            this._panelBox.track_hover = enable;
-            this._panelBox.reactive = enable;
-            this._panelBox.visible = enable ? enable : this._panelBox.visible;
+            this._clipContainer.remove_child(this._panelBox);
+            Main.layoutManager.addChrome(this._panelBox, { affectsStruts: true, trackFullscreen: true });
         }
+        
+        this._panelBox.track_hover = enable;
+        this._panelBox.reactive = enable;
+        this._panelBox.visible = enable ? enable : this._panelBox.visible;
     },
 
     _setRevealMechanism: function() {

@@ -130,6 +130,7 @@ var dtpPanel = Utils.defineClass({
         this.panelBox = panelBox;
         this.isSecondary = isSecondary;
         this._sessionStyle = null;
+        this._unmappedButtons = [];
 
         if (isSecondary) {
             this.panel = new St.Widget({ name: 'panel', reactive: true });
@@ -208,7 +209,6 @@ var dtpPanel = Utils.defineClass({
 
     enable : function() {
         let taskbarPosition = Me.settings.get_string('taskbar-position');
-        let isVertical = checkIfVertical();
 
         if (taskbarPosition == 'CENTEREDCONTENT' || taskbarPosition == 'CENTEREDMONITOR') {
             this.container = this._centerBox;
@@ -381,15 +381,27 @@ var dtpPanel = Utils.defineClass({
 
         this.panelStyle.enable(this);
 
-        if (this.statusArea.dateMenu && isVertical) {
-            this.statusArea.dateMenu._clock.time_only = true;
-            this._formatVerticalClock();
-            
+        if (checkIfVertical()) {
             this._signalsHandler.add([
-                this.statusArea.dateMenu._clock,
-                'notify::clock',
-                () => this._formatVerticalClock()
+                this.panelBox,
+                'notify::visible',
+                () => {
+                    if (this.panelBox.visible) {
+                        this._refreshVerticalAlloc();
+                    }
+                }
             ]);
+
+            if (this.statusArea.dateMenu) {
+                this.statusArea.dateMenu._clock.time_only = true;
+                this._formatVerticalClock();
+                
+                this._signalsHandler.add([
+                    this.statusArea.dateMenu._clock,
+                    'notify::clock',
+                    () => this._formatVerticalClock()
+                ]);
+            }
         }
 
         // Since we are usually visible but not usually changing, make sure
@@ -429,6 +441,7 @@ var dtpPanel = Utils.defineClass({
         this._myPanelGhost.get_parent().remove_actor(this._myPanelGhost);
         
         panelBoxes.forEach(b => delete this[b].allocate);
+        this._unmappedButtons.forEach(a => this._disconnectVisibleId(a));
 
         if (!this.isSecondary) {
             this._setVertical(this.panel.actor, false);
@@ -596,6 +609,10 @@ var dtpPanel = Utils.defineClass({
         this._setPanelGhostSize();
         this._setPanelPosition();
         this.taskbar.resetAppIcons();
+
+        if (this.intellihide && this.intellihide.enabled) {
+            this.intellihide.reset();
+        }
 
         if (checkIfVertical()) {
             this._refreshVerticalAlloc();
@@ -821,16 +838,16 @@ var dtpPanel = Utils.defineClass({
 
     _onBoxActorAdded: function(box) {
         this._setClockLocation(Me.settings.get_string('location-clock'));
+
+        if (checkIfVertical()) {
+            this._setVertical(box, true);
+        }
     },
 
     _refreshVerticalAlloc: function() {
-        if (!this._timeoutsHandler.getId(T3)) {
-            this._timeoutsHandler.add([T3, 200, () => {
-                this._setVertical(this._centerBox, true);
-                this._setVertical(this._rightBox, true);
-                this._formatVerticalClock();
-            }]);
-        }
+        this._setVertical(this._centerBox, true);
+        this._setVertical(this._rightBox, true);
+        this._formatVerticalClock();
     },
 
     _setVertical: function(actor, isVertical) {
@@ -843,6 +860,14 @@ var dtpPanel = Utils.defineClass({
                 actor.vertical = isVertical;
             } else if ((actor._delegate || actor) instanceof PanelMenu.ButtonBox && actor != this.statusArea.appMenu) {
                 let child = actor.get_first_child();
+
+                if (isVertical && !actor.visible && !actor._dtpVisibleId) {
+                    this._unmappedButtons.push(actor);
+                    actor._dtpVisibleId = actor.connect('notify::visible', () => {
+                        this._disconnectVisibleId(actor);
+                        this._refreshVerticalAlloc();
+                    });
+                }
 
                 if (child) {
                     let [, natWidth] = actor.get_preferred_width(-1);
@@ -859,6 +884,14 @@ var dtpPanel = Utils.defineClass({
 
         _set(actor, false);
         _set(actor, isVertical);
+    },
+
+    _disconnectVisibleId: function(actor) {
+        if (actor._dtpVisibleId) {
+            actor.disconnect(actor._dtpVisibleId);
+            delete actor._dtpVisibleId;
+            this._unmappedButtons.splice(this._unmappedButtons.indexOf(actor), 1);
+        }
     },
 
     _setActivitiesButtonVisible: function(isVisible) {
