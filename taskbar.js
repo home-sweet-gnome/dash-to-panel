@@ -347,7 +347,6 @@ var taskbar = Utils.defineClass({
                 Lang.bind(this, function() {
                     this.isGroupApps = Me.settings.get_boolean('group-apps');
                     this._connectWorkspaceSignals();
-                    this.resetAppIcons();
                 })
             ],
             [
