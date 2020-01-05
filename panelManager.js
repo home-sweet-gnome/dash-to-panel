@@ -613,6 +613,8 @@ function newUpdateHotCorners() {
 
         if (haveTopLeftCorner) {
             let corner = new Layout.HotCorner(this, monitor, cornerX, cornerY);
+
+            corner.setBarrierSize = size => corner.__proto__.setBarrierSize.call(corner, Math.min(size, 32));
             corner.setBarrierSize(Panel.size);
             this.hotCorners.push(corner);
         } else {
