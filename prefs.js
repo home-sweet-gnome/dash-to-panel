@@ -1760,6 +1760,11 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
         
+        this._settings.bind('stockgs-force-hotcorner',
+                            this._builder.get_object('stockgs_hotcorner_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         // About Panel
 
         this._builder.get_object('extension_version').set_label(Me.metadata.version.toString() + (Me.metadata.commit ? ' (' + Me.metadata.commit + ')' : ''));

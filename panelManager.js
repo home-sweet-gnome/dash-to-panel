@@ -146,6 +146,8 @@ var dtpPanelManager = Utils.defineClass({
         Main.layoutManager._updateHotCorners = Lang.bind(Main.layoutManager, newUpdateHotCorners);
         Main.layoutManager._updateHotCorners();
 
+        this._forceHotCornerId = Me.settings.connect('changed::stockgs-force-hotcorner', () => Main.layoutManager._updateHotCorners());
+
         if (Main.layoutManager._interfaceSettings) {
             this._enableHotCornersId = Main.layoutManager._interfaceSettings.connect('changed::enable-hot-corners', () => Main.layoutManager._updateHotCorners());
         }
@@ -262,6 +264,8 @@ var dtpPanelManager = Utils.defineClass({
 
         Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
         Main.layoutManager._updateHotCorners();
+
+        Me.settings.disconnect(this._forceHotCornerId);
 
         if (this._enableHotCornersId) {
             Main.layoutManager._interfaceSettings.disconnect(this._enableHotCornersId);
@@ -569,6 +573,7 @@ function newUpdateHotCorners() {
     }
 
     let panelPosition = Panel.getPosition();
+    let panelTopLeft = panelPosition == St.Side.TOP || panelPosition == St.Side.LEFT;
 
     // build new hot corners
     for (let i = 0; i < this.monitors.length; i++) {
@@ -578,11 +583,11 @@ function newUpdateHotCorners() {
 
         let haveTopLeftCorner = true;
         
-        // If the panel is on the bottom, don't add a topleft hot corner unless it is actually
-        // a top left panel. Otherwise, it stops the mouse as you are dragging across
-        // In the future, maybe we will automatically move the hotcorner to the bottom
-        // when the panel is positioned at the bottom
-        if (i != this.primaryIndex || panelPosition == St.Side.BOTTOM || panelPosition == St.Side.RIGHT) {
+        // If the panel is on the bottom, unless this is explicitly forced, don't add a topleft 
+        // hot corner unless it is actually a top left panel. Otherwise, it stops the mouse 
+        // as you are dragging across. In the future, maybe we will automatically move the 
+        // hotcorner to the bottom when the panel is positioned at the bottom
+        if (i != this.primaryIndex || (!panelTopLeft && !Me.settings.get_boolean('stockgs-force-hotcorner'))) {
             // Check if we have a top left (right for RTL) corner.
             // I.e. if there is no monitor directly above or to the left(right)
             let besideX = this._rtl ? monitor.x + 1 : cornerX - 1;

@@ -4963,8 +4963,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="panel_size_label">
@@ -5012,8 +5012,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="row_spacing">12</property>
                         <property name="column_spacing">32</property>
                         <child>
@@ -5062,8 +5062,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="appicon_padding_label">
@@ -6992,9 +6992,9 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="row_spacing">20</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
+                        <property name="row_spacing">12</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="tray_size_label">
@@ -7098,7 +7098,7 @@
                         <property name="margin_right">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
-                        <property name="row_spacing">20</property>
+                        <property name="row_spacing">12</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="tray_padding_label">
@@ -7230,7 +7230,7 @@
                         <property name="margin_right">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
-                        <property name="row_spacing">20</property>
+                        <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="animate_app_switch_label">
@@ -7318,7 +7318,7 @@
                         <property name="margin_right">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
-                        <property name="row_spacing">19</property>
+                        <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="stockgs_dash_label">
@@ -7368,6 +7368,31 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="top_attach">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="stockgs_hotcorner_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Force Activities hot corner on primary monitor</property>
+                            <property name="xalign">0</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">0</property>
+                            <property name="top_attach">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSwitch" id="stockgs_hotcorner_switch">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="top_attach">2</property>
                           </packing>
                         </child>
                       </object>

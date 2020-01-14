@@ -196,6 +196,11 @@
       <summary>Panel menu buttons require click</summary>
       <description>Whether to activate the panel menu buttons on hover or on click</description>
     </key>
+    <key type="b" name="stockgs-force-hotcorner">
+      <default>false</default>
+      <summary>Force hot corner</summary>
+      <description>Wheter to force having an Activities hot corner on the primary monitor</description>
+    </key>
     <key name="location-clock" enum="org.gnome.shell.extensions.dash-to-panel.statusAreaPosition">
       <default>'STATUSLEFT'</default>
       <summary>Location of the clock</summary>
