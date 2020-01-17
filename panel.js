@@ -164,17 +164,6 @@ var dtpPanel = Utils.defineClass({
             this.panel.add_child(this._leftBox);
             this.panel.add_child(this._centerBox);
             this.panel.add_child(this._rightBox);
-
-            if (position == St.Side.TOP) {
-                this.panel._leftCorner = new Panel.PanelCorner(St.Side.LEFT);
-                this.panel._rightCorner = new Panel.PanelCorner(St.Side.RIGHT);
-    
-                Utils.wrapActor(this.panel._leftCorner);
-                Utils.wrapActor(this.panel._rightCorner);
-    
-                this.panel.add_child(this.panel._leftCorner.actor);
-                this.panel.add_child(this.panel._rightCorner.actor);
-            }
         } else {
             this.panel = Main.panel;
             this.statusArea = Main.panel.statusArea;
@@ -186,6 +175,20 @@ var dtpPanel = Utils.defineClass({
         }
 
         this.panel.actor._delegate = this;
+        
+        if (position == St.Side.TOP) {
+            this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
+            this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
+
+            Utils.wrapActor(this.panel._leftCorner);
+            Utils.wrapActor(this.panel._rightCorner);
+
+            if (isSecondary) {
+                this.panel.add_child(this.panel._leftCorner.actor);
+                this.panel.add_child(this.panel._rightCorner.actor);
+            }
+        }
+
         this.add_child(this.panel.actor);
 
         if (Main.panel._onButtonPress) {
