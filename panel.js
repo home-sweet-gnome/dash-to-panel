@@ -393,7 +393,6 @@ var dtpPanel = Utils.defineClass({
             ]);
 
             if (this.statusArea.dateMenu) {
-                this.statusArea.dateMenu._clock.time_only = true;
                 this._formatVerticalClock();
                 
                 this._signalsHandler.add([
@@ -444,6 +443,8 @@ var dtpPanel = Utils.defineClass({
         this._unmappedButtons.forEach(a => this._disconnectVisibleId(a));
 
         if (!this.isSecondary) {
+            this.statusArea.dateMenu._clockDisplay.text = this.statusArea.dateMenu._clock.clock;
+
             this._setVertical(this.panel.actor, false);
 
             ['vertical', 'horizontal', 'dashtopanelMainPanel'].forEach(c => this.panel.actor.remove_style_class_name(c));
@@ -452,18 +453,11 @@ var dtpPanel = Utils.defineClass({
             this._setClockLocation("BUTTONSLEFT");
             this._displayShowDesktopButton(false);
 
-            if (this.statusArea.aggregateMenu) {
-                delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
-                setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
-            }
+            delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
+            setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
 
-            if (this.statusArea.dateMenu) {
-                this.statusArea.dateMenu._clock.time_only = false;
-                this.statusArea.dateMenu._clockDisplay.text = this.statusArea.dateMenu._clock.clock;
-
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_height);
-            }
+            Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
+            Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_height);
 
             if (this._panelConnectId) {
                 this.panel.actor.disconnect(this._panelConnectId);
@@ -922,13 +916,24 @@ var dtpPanel = Utils.defineClass({
     },
 
     _formatVerticalClock: function() {
-        let time = this.statusArea.dateMenu._clock.clock;
+        let datetime = this.statusArea.dateMenu._clock.clock;
+        let datetimeParts = datetime.split(' ');
+        let time = datetimeParts[1];
         let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
-        
-        clockText.set_text(time);
-        clockText.get_allocation_box();
+        let setClockText = text => {
+            let stacks = text instanceof Array;
+            let separator = '\n<span size="xx-small">‧‧</span>\n';
+    
+            clockText.set_text((stacks ? text.join(separator) : text).trim());
+            clockText.set_use_markup(stacks);
+            clockText.get_allocation_box();
+    
+            return !clockText.get_layout().is_ellipsized();
+        };
 
-        if (clockText.get_layout().is_ellipsized()) {
+        if (!setClockText(datetime) && 
+            !setClockText(datetimeParts) && 
+            !setClockText(time)) {
             let timeParts = time.split('∶');
 
             if (!this._clockFormat) {
@@ -939,8 +944,7 @@ var dtpPanel = Utils.defineClass({
                 timeParts.push.apply(timeParts, timeParts.pop().split(' '));
             }
 
-            clockText.set_text(timeParts.join('\n<span size="xx-small">‧‧</span>\n').trim());
-            clockText.set_use_markup(true);
+            setClockText(timeParts);
         }
     },
 
