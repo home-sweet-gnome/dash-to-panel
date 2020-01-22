@@ -53,6 +53,7 @@ const IconGrid = imports.ui.iconGrid;
 const ViewSelector = imports.ui.viewSelector;
 const DateMenu = imports.ui.dateMenu;
 const Tweener = imports.ui.tweener;
+const Volume = imports.ui.status.volume;
 
 const Intellihide = Me.imports.intellihide;
 const Transparency = Me.imports.transparency;
@@ -1099,21 +1100,28 @@ var dtpPanel = Utils.defineClass({
         let scrollAction = Me.settings.get_string('scroll-panel-action');
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (!this._checkIfIgnoredSrollSource(event.get_source()) && direction && !this._timeoutsHandler.getId(T6)) {
-            this._timeoutsHandler.add([T6, Me.settings.get_int('scroll-panel-delay'), () => {}]);
-
-            if (scrollAction === 'SWITCH_WORKSPACE') {
+        if (!this._checkIfIgnoredSrollSource(event.get_source()) && !this._timeoutsHandler.getId(T6)) {
+            if (direction && scrollAction === 'SWITCH_WORKSPACE') {
                 let args = [global.display];
 
                 //gnome-shell < 3.30 needs an additional "screen" param
                 global.screen ? args.push(global.screen) : 0;
 
                 Main.wm._showWorkspaceSwitcher.apply(Main.wm, args.concat([0, { get_name: () => 'switch---' + direction }]));
-            } else if (scrollAction === 'CYCLE_WINDOWS') {
+            } else if (direction && scrollAction === 'CYCLE_WINDOWS') {
                 let windows = this.taskbar.getAppInfos().reduce((ws, appInfo) => ws.concat(appInfo.windows), []);
                 
                 Utils.activateSiblingWindow(windows, direction);
+            } else if (scrollAction === 'CHANGE_VOLUME' && !event.is_pointer_emulated()) {
+                var proto = Volume.Indicator.prototype;
+                var func = proto.vfunc_scroll_event || proto._onScrollEvent;
+    
+                func.call(Main.panel.statusArea.aggregateMenu._volume, 0, event);
+            } else {
+                return;
             }
+
+            this._timeoutsHandler.add([T6, Me.settings.get_int('scroll-panel-delay'), () => {}]);
         }
     },
 

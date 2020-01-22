@@ -23,6 +23,7 @@
     <value value='1' nick='SWITCH_WORKSPACE'/>
     <value value='2' nick='CYCLE_WINDOWS'/>
     <value value='3' nick='PASS_THROUGH'/>
+    <value value='4' nick='CHANGE_VOLUME'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.statusAreaPosition'>
     <value value='0' nick='BUTTONSLEFT'/>
