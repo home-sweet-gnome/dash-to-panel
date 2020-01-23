@@ -1121,7 +1121,11 @@ var dtpPanel = Utils.defineClass({
                 return;
             }
 
-            this._timeoutsHandler.add([T6, Me.settings.get_int('scroll-panel-delay'), () => {}]);
+            var scrollDelay = Me.settings.get_int('scroll-panel-delay');
+
+            if (scrollDelay) {
+                this._timeoutsHandler.add([T6, scrollDelay, () => {}]);
+            }
         }
     },
 
