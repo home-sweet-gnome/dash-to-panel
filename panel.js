@@ -54,6 +54,7 @@ const ViewSelector = imports.ui.viewSelector;
 const DateMenu = imports.ui.dateMenu;
 const Tweener = imports.ui.tweener;
 const Volume = imports.ui.status.volume;
+const Progress = Me.imports.progress;
 
 const Intellihide = Me.imports.intellihide;
 const Transparency = Me.imports.transparency;
@@ -411,6 +412,8 @@ var dtpPanel = Utils.defineClass({
         // most repaint requests don't actually require us to repaint anything.
         // This saves significant CPU when repainting the screen.
         this.set_offscreen_redirect(Clutter.OffscreenRedirect.ALWAYS);
+
+        this.progressManager = new Progress.ProgressManager();
     },
 
     disable: function () {
@@ -433,6 +436,8 @@ var dtpPanel = Utils.defineClass({
         if (this.dynamicTransparency) {
             this.dynamicTransparency.destroy();
         }
+
+        this.progressManager.destroy();
 
         this.taskbar.destroy();
 

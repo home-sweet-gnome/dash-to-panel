@@ -49,6 +49,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Me.imports.utils;
 const Panel = Me.imports.panel;
 const Taskbar = Me.imports.taskbar;
+const Progress = Me.imports.progress;
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
 let LABEL_GAP = 5;
@@ -240,6 +241,8 @@ var taskbarAppIcon = Utils.defineClass({
         this.forcedOverview = false;
 
         this._numberOverlay();
+
+        this._progressIndicator = new Progress.ProgressIndicator(this, panel.progressManager);
     },
 
     shouldShowTooltip: function() {
