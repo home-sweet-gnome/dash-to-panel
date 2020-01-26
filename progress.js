@@ -139,11 +139,11 @@ var ProgressManager = Utils.defineClass({
 
         let [name, before, after] = parameters.deep_unpack();
 
-        // if (!after) {
-        //     if (this._entriesByDBusName.hasOwnProperty(before)) {
-        //         this.removeEntry(this._entriesByDBusName[before]);
-        //     }
-        // }
+        if (!after) {
+            if (this._entriesByDBusName.hasOwnProperty(before)) {
+                this.removeEntry(this._entriesByDBusName[before]);
+            }
+        }
     },
 
     _handleUpdateRequest: function(senderName, parameters) {
