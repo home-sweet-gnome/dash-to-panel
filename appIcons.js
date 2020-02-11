@@ -1660,6 +1660,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
     },
 
     _onMenuPoppedDown: function() {
+        this._menu.sourceActor = this.actor;
         this.actor.sync_hover();
         this.emit('menu-state-changed', false);
     },
@@ -1672,10 +1673,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         this.actor.set_style('padding:' + (padding + (isVertical ? sidePadding : 0)) + 'px ' + (padding + (isVertical ? 0 : sidePadding)) + 'px;');
     },
 
-    popupMenu: function() {
-        this._removeMenuTimeout();
-        this.actor.fake_release();
-        
+    createMenu: function() {
         if (!this._menu) {
             this._menu = new MyShowAppsIconMenu(this.actor);
             this._menu.connect('open-state-changed', Lang.bind(this, function(menu, isPoppedUp) {
@@ -1690,6 +1688,12 @@ var ShowAppsIconWrapper = Utils.defineClass({
             });
             this._menuManager.addMenu(this._menu);
         }
+    },
+
+    popupMenu: function() {
+        this._removeMenuTimeout();
+        this.actor.fake_release();
+        this.createMenu(this.actor);
 
         //this.emit('menu-state-changed', true);
 

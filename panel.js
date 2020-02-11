@@ -796,14 +796,23 @@ var dtpPanel = Utils.defineClass({
         let type = event.type();
         let isPress = type == Clutter.EventType.BUTTON_PRESS;
         let button = isPress ? event.get_button() : -1;
+        let [stageX, stageY] = event.get_coords();
 
-        if (Main.modalCount > 0 || event.get_source() != actor || 
+        if (button == 3 && global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, stageX, stageY) == this.panel.actor) {
+            //right click on an empty part of the panel, temporarily borrow and display the showapps context menu
+            Main.layoutManager.setDummyCursorGeometry(stageX, stageY, 0, 0);
+
+            this.taskbar._showAppsIconWrapper.createMenu();
+            this.taskbar._showAppsIconWrapper._menu.sourceActor = Main.layoutManager.dummyCursor;
+            this.taskbar._showAppsIconWrapper.popupMenu();
+
+            return Clutter.EVENT_STOP;
+        } else if (Main.modalCount > 0 || event.get_source() != actor || 
             (!isPress && type != Clutter.EventType.TOUCH_BEGIN) ||
             (isPress && button != 1)) {
             return Clutter.EVENT_PROPAGATE;
         }
 
-        let [stageX, stageY] = event.get_coords();
         let params = checkIfVertical() ? [stageY, 'y', 'height'] : [stageX, 'x', 'width'];
         let dragWindow = this._getDraggableWindowForPosition.apply(this, params.concat(['maximized_' + getOrientation() + 'ly']));
 
