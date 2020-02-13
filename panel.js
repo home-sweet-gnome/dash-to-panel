@@ -934,6 +934,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     _formatVerticalClock: function() {
+        // https://github.com/GNOME/gnome-desktop/blob/master/libgnome-desktop/gnome-wall-clock.c#L310
         let datetime = this.statusArea.dateMenu._clock.clock;
         let datetimeParts = datetime.split(' ');
         let time = datetimeParts[1];
@@ -948,6 +949,12 @@ var dtpPanel = Utils.defineClass({
     
             return !clockText.get_layout().is_ellipsized();
         };
+
+        if (!time) {
+            datetimeParts = datetime.split(' ');
+            time = datetimeParts.pop();
+            datetimeParts = [datetimeParts.join(' '), time];
+        }
 
         if (!setClockText(datetime) && 
             !setClockText(datetimeParts) && 
