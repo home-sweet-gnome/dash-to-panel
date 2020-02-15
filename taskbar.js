@@ -87,9 +87,11 @@ var taskbarActor = Utils.defineClass({
     vfunc_allocate: function(box, flags)  {
         this.set_allocation(box, flags);
 
-        let availSize = box[Panel.fixedCoord.c2] - box[Panel.fixedCoord.c1];
+        let availFixedSize = box[Panel.fixedCoord.c2] - box[Panel.fixedCoord.c1];
+        let availVarSize = box[Panel.varCoord.c2] - box[Panel.varCoord.c1];
         let [, showAppsButton, scrollview, leftFade, rightFade] = this.get_children();
-        let [, showAppsNatSize] = showAppsButton[Panel.sizeFunc](availSize);
+        let [, showAppsNatSize] = showAppsButton[Panel.sizeFunc](availFixedSize);
+        let [, natSize] = this[Panel.sizeFunc](availFixedSize);
         let childBox = new Clutter.ActorBox();
         let orientation = Panel.getOrientation().toLowerCase();
 
@@ -101,7 +103,7 @@ var taskbarActor = Utils.defineClass({
         showAppsButton.allocate(childBox, flags);
 
         childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1] + showAppsNatSize;
-        childBox[Panel.varCoord.c2] = box[Panel.varCoord.c2];
+        childBox[Panel.varCoord.c2] = Math.min(availVarSize, natSize);
         scrollview.allocate(childBox, flags);
 
         let [hvalue, , hupper, , , hpageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();

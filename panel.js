@@ -193,7 +193,7 @@ var dtpPanel = Utils.defineClass({
 
         this.add_child(this.panel.actor);
 
-        if (Main.panel._onButtonPress) {
+        if (Main.panel._onButtonPress || Main.panel._tryDragWindow) {
             this._signalsHandler.add([
                 this.panel.actor, 
                 [

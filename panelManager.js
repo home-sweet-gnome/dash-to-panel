@@ -446,7 +446,7 @@ var dtpPanelManager = Utils.defineClass({
                 view = new WorkspacesView.ExtraWorkspaceView(i);
                 view.getActiveWorkspace = view.getActiveWorkspace || function() { return this._workspace; };
             } else
-                view = new WorkspacesView.WorkspacesView(i);
+                view = new WorkspacesView.WorkspacesView(i, this._scrollAdjustment || 0);
 
             Utils.wrapActor(view);
             view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
