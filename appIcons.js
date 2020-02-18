@@ -1729,32 +1729,34 @@ var MyShowAppsIconMenu = Utils.defineClass({
     _redisplay: function() {
         this.removeAll();
 
-        let powerSettingsMenuItem = this._appendMenuItem(_('Power options'));
-        powerSettingsMenuItem.connect('activate', function () {
-            Util.spawn(['gnome-control-center', 'power']);
-        });
+        if (this.sourceActor != Main.layoutManager.dummyCursor) { 
+            let powerSettingsMenuItem = this._appendMenuItem(_('Power options'));
+            powerSettingsMenuItem.connect('activate', function () {
+                Util.spawn(['gnome-control-center', 'power']);
+            });
 
-        let logsMenuItem = this._appendMenuItem(_('Event logs'));
-        logsMenuItem.connect('activate', function () {
-            Util.spawn(['gnome-logs']);
-        });
+            let logsMenuItem = this._appendMenuItem(_('Event logs'));
+            logsMenuItem.connect('activate', function () {
+                Util.spawn(['gnome-logs']);
+            });
 
-        let systemSettingsMenuItem = this._appendMenuItem(_('System'));
-        systemSettingsMenuItem.connect('activate', function () {
-            Util.spawn(['gnome-control-center', 'info-overview']);
-        });
+            let systemSettingsMenuItem = this._appendMenuItem(_('System'));
+            systemSettingsMenuItem.connect('activate', function () {
+                Util.spawn(['gnome-control-center', 'info-overview']);
+            });
 
-        let devicesSettingsMenuItem = this._appendMenuItem(_('Device Management'));
-        devicesSettingsMenuItem.connect('activate', function () {
-            Util.spawn(['gnome-control-center', 'display']);
-        });
+            let devicesSettingsMenuItem = this._appendMenuItem(_('Device Management'));
+            devicesSettingsMenuItem.connect('activate', function () {
+                Util.spawn(['gnome-control-center', 'display']);
+            });
 
-        let disksMenuItem = this._appendMenuItem(_('Disk Management'));
-        disksMenuItem.connect('activate', function () {
-            Util.spawn(['gnome-disks']);
-        });
+            let disksMenuItem = this._appendMenuItem(_('Disk Management'));
+            disksMenuItem.connect('activate', function () {
+                Util.spawn(['gnome-disks']);
+            });
 
-        this._appendSeparator();
+            this._appendSeparator();
+        }
 
         let terminalMenuItem = this._appendMenuItem(_('Terminal'));
         terminalMenuItem.connect('activate', function () {
