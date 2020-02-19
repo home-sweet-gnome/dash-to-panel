@@ -1773,6 +1773,11 @@ var MyShowAppsIconMenu = Utils.defineClass({
             Util.spawn(['nautilus']);
         });
 
+        let extPrefsMenuItem = this._appendMenuItem(_('Extensions'));
+        extPrefsMenuItem.connect('activate', function () {
+            Util.spawn(["gnome-shell-extension-prefs"]);
+        });
+
         let gsSettingsMenuItem = this._appendMenuItem(_('Settings'));
         gsSettingsMenuItem.connect('activate', function () {
             Util.spawn(['gnome-control-center', 'wifi']);
