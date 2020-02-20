@@ -706,6 +706,8 @@ function _newLookingGlassResize() {
     let topOffset = Panel.getPosition() == St.Side.TOP ? Panel.size : 0;
 
     this._oldResize();
+    Utils.wrapActor(this);
+    Utils.wrapActor(this._objInspector);
 
     this._hiddenY = Main.layoutManager.primaryMonitor.y + topOffset - this.actor.height;
     this._targetY = this._hiddenY + this.actor.height;
