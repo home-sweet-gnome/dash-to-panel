@@ -1181,5 +1181,15 @@
         Keybinding to either show or launch the 10th application in the dash.
       </description>
     </key>
+     <key type="b" name="progress-show-bar">
+      <default>true</default>
+      <summary>Show progress bar on app icon</summary>
+      <description>Whether to show progress bar overlay on app icon, for supported applications.</description>
+    </key>
+     <key type="b" name="progress-show-count">
+      <default>true</default>
+      <summary>Show badge count on app icon</summary>
+      <description>Whether to show badge count overlay on app icon, for supported applications.</description>
+    </key>
   </schema>
 </schemalist>

@@ -413,7 +413,7 @@ var dtpPanel = Utils.defineClass({
         // This saves significant CPU when repainting the screen.
         this.set_offscreen_redirect(Clutter.OffscreenRedirect.ALWAYS);
 
-        this.progressManager = new Progress.ProgressManager();
+        this._initProgressManager();
     },
 
     disable: function () {
@@ -550,7 +550,17 @@ var dtpPanel = Utils.defineClass({
                         this._formatVerticalClock();
                     }
                 }
-            ]
+            ],
+            [
+                Me.settings,
+                'changed::progress-show-bar',
+                () => this._initProgressManager()
+            ],
+            [
+                Me.settings,
+                'changed::progress-show-count',
+                () => this._initProgressManager()
+            ],
         );
 
         if (isVertical) {
@@ -1154,7 +1164,12 @@ var dtpPanel = Utils.defineClass({
         let ignoredConstr = ['WorkspaceIndicator'];
 
         return source._dtpIgnoreScroll || ignoredConstr.indexOf(source.constructor.name) >= 0;
-    }
+    },
+
+    _initProgressManager: function() {
+        if(!this.progressManager && (Me.settings.get_boolean('progress-show-bar') || Me.settings.get_boolean('progress-show-count')))
+            this.progressManager = new Progress.ProgressManager();
+    },
 });
 
 var dtpSecondaryAggregateMenu = Utils.defineClass({

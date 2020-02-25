@@ -252,11 +252,11 @@ var AppProgress = Utils.defineClass({
                     if (property == 'count') {
                         this.setCount(other[property].get_int64());
                     } else if (property == 'count-visible') {
-                        this.setCountVisible(other[property].get_boolean());
-                    } if (property == 'progress') {
+                        this.setCountVisible(Me.settings.get_boolean('progress-show-count') && other[property].get_boolean());
+                    } else if (property == 'progress') {
                         this.setProgress(other[property].get_double());
                     } else if (property == 'progress-visible') {
-                        this.setProgressVisible(other[property].get_boolean());
+                        this.setProgressVisible(Me.settings.get_boolean('progress-show-bar') && other[property].get_boolean());
                     } else {
                         // Not implemented yet
                     }
