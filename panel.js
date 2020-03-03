@@ -261,7 +261,7 @@ var dtpPanel = Utils.defineClass({
                 this._panelConnectId = this.panel.actor.connect('allocate', (actor, box, flags) => this._mainPanelAllocate(actor, box, flags));
             }
             
-            if (this.statusArea.dateMenu) {
+            if (this.statusArea.dateMenu && DateMenu.IndicatorPad) {
                 // remove the extra space before the clock when the message-indicator is displayed
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', () => [0,0]);
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', () => [0,0]);
@@ -465,8 +465,10 @@ var dtpPanel = Utils.defineClass({
             delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
             setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
 
-            Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
-            Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_height);
+            if (DateMenu.IndicatorPad) {
+                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
+                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_height);
+            }
 
             if (this._panelConnectId) {
                 this.panel.actor.disconnect(this._panelConnectId);
