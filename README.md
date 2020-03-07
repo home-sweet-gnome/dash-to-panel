@@ -168,6 +168,9 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @quasoft for changing of font weight of ungrouped application titles
 - @jordanribera for using icon's dominant color as running indicator color
 
+#### Documentation Improvements:
+@BoQsc, @dandv
+
 #### Bug Fixes: 
 @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan, @Zkdc, @leebickmtu
 
