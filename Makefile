@@ -19,7 +19,11 @@ INSTALLNAME = dash-to-panel@jderose9.github.com
 # version is pulled from the latest git tag and the current commit SHA1 is 
 # added to the metadata
 ifdef VERSION
-	FILESUFFIX = _v$(VERSION)
+    ifdef TARGET
+		FILESUFFIX = _v$(VERSION)_$(TARGET)
+	else
+		FILESUFFIX = _v$(VERSION)
+	endif
 else
 	LATEST_TAG = $(shell git describe --match "v[0-9]*" --abbrev=0 --tags HEAD)
 	VERSION = $(LATEST_TAG:v%=%)
