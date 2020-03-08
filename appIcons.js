@@ -399,7 +399,6 @@ var taskbarAppIcon = Utils.defineClass({
         } else {
             this._focusedDots = new St.DrawingArea(), 
             this._unfocusedDots = new St.DrawingArea();
-            this._resetDots();
             
             this._focusedDots.connect('repaint', Lang.bind(this, function() {
                 if(this._dashItemContainer.animatingOut) {
@@ -424,6 +423,12 @@ var taskbarAppIcon = Utils.defineClass({
             this._dotsContainer.add_child(this._unfocusedDots);
     
             this._updateWindows();
+
+            Mainloop.timeout_add(0, Lang.bind(this, function () {
+                this._resetDots();
+                this._displayProperIndicator();
+                return GLib.SOURCE_REMOVE;
+            }));
         }
 
         this._dotsContainer.add_child(this._focusedDots);
