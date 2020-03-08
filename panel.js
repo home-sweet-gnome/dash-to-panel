@@ -458,8 +458,12 @@ var dtpPanel = Utils.defineClass({
 
             ['vertical', 'horizontal', 'dashtopanelMainPanel'].forEach(c => this.panel.actor.remove_style_class_name(c));
 
-            this._setActivitiesButtonVisible(true);
-            this._setClockLocation("BUTTONSLEFT");
+
+            if(!Main.sessionMode.isLocked) {
+                this._setActivitiesButtonVisible(true);
+                this._setClockLocation("BUTTONSLEFT");
+            }
+
             this._displayShowDesktopButton(false);
 
             delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
