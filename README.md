@@ -105,6 +105,8 @@ To install a development version from source, please see the [Installation wiki 
 ## 
 ### FAQ
 
+How do I customize the panel? [See the Wiki](https://github.com/home-sweet-gnome/dash-to-panel/wiki/Enable-and-Customize#customize-it)
+
 How do I embed my bottom left notification drawer into the panel like a system tray? [Top Icons Plus](https://extensions.gnome.org/extension/1031/topicons) or [(K)StatusNotifierItem/AppIndicator Support](https://extensions.gnome.org/extension/615/appindicator-support)
 
 How do I add a traditional start menu? [Arc Menu](https://extensions.gnome.org/extension/1228/arc-menu/)
