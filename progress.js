@@ -104,7 +104,7 @@ var ProgressManager = Utils.defineClass({
         this.emit('progress-entry-removed', entry);
     },
 
-    _acquireUnityDBus() {
+    _acquireUnityDBus: function() {
         if (!this._unity_bus_id) {
             Gio.DBus.session.own_name('com.canonical.Unity',
                 Gio.BusNameOwnerFlags.ALLOW_REPLACEMENT, null, null);
