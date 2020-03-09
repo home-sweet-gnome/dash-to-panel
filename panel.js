@@ -566,7 +566,7 @@ var dtpPanel = Utils.defineClass({
                 Me.settings,
                 'changed::progress-show-count',
                 () => this._initProgressManager()
-            ],
+            ]
         );
 
         if (isVertical) {
