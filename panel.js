@@ -261,10 +261,16 @@ var dtpPanel = Utils.defineClass({
                 this._panelConnectId = this.panel.actor.connect('allocate', (actor, box, flags) => this._mainPanelAllocate(actor, box, flags));
             }
             
-            if (this.statusArea.dateMenu && DateMenu.IndicatorPad) {
-                // remove the extra space before the clock when the message-indicator is displayed
+            // remove the extra space before the clock when the message-indicator is displayed
+            if (DateMenu.IndicatorPad) {
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', () => [0,0]);
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', () => [0,0]);
+            } else {
+                //3.36 switched to a size constraint applied on an anonymous child
+                let indicatorPad = this.statusArea.dateMenu.get_first_child().get_first_child();
+
+                this._dateMenuIndicatorPadContraints = indicatorPad.get_constraints();
+                indicatorPad.clear_constraints();
             }
         }
 
@@ -472,6 +478,10 @@ var dtpPanel = Utils.defineClass({
             if (DateMenu.IndicatorPad) {
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_height);
+            } else if (this._dateMenuIndicatorPadContraints) {
+                let indicatorPad = this.statusArea.dateMenu.get_first_child().get_first_child();
+
+                this._dateMenuIndicatorPadContraints.forEach(c => indicatorPad.add_constraint(c));
             }
 
             if (this._panelConnectId) {
