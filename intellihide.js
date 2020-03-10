@@ -357,6 +357,7 @@ var Intellihide = Utils.defineClass({
 
     _revealPanel: function(immediate) {
         this._panelBox.visible = true;
+        this._dtpPanel.taskbar._shownInitially = false;
         this._animatePanel(0, immediate);
     },
 
