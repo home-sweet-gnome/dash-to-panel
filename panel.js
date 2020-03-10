@@ -302,7 +302,6 @@ var dtpPanel = Utils.defineClass({
         this._timeoutsHandler.add([T1, 0, () => this.dynamicTransparency = new Transparency.DynamicTransparency(this)]);
         
         this.taskbar = new Taskbar.taskbar(this);
-        Utils.setDashIconSize(this.taskbar.iconSize);
 
         this.container.insert_child_above(this.taskbar.actor, null);
         
@@ -332,31 +331,11 @@ var dtpPanel = Utils.defineClass({
                 'changed', 
                 () => this._resetGeometry()
             ],
-            // Keep dragged icon consistent in size with this dash
-            [
-                this.taskbar,
-                'icon-size-changed',
-                Lang.bind(this, function() {
-                    Utils.setDashIconSize(this.taskbar.iconSize);
-                })
-            ],
             [
                 // sync hover after a popupmenu is closed
                 this.taskbar,
                 'menu-closed', 
                 Lang.bind(this, function(){this.container.sync_hover();})
-            ],
-            // This duplicate the similar signal which is in overview.js.
-            // Being connected and thus executed later this effectively
-            // overwrite any attempt to use the size of the default dash
-            // which given the customization is usually much smaller.
-            // I can't easily disconnect the original signal
-            [
-                (Main.overview._overview._controls || Main.overview._controls).dash,
-                'icon-size-changed',
-                Lang.bind(this, function() {
-                    Utils.setDashIconSize(this.taskbar.iconSize);
-                })
             ],
             [
                 Main.overview,
@@ -446,9 +425,6 @@ var dtpPanel = Utils.defineClass({
         this.progressManager.destroy();
 
         this.taskbar.destroy();
-
-        // reset stored icon size  to the default dash
-        Utils.setDashIconSize((Main.overview._overview._controls || Main.overview._controls).dash.iconSize);
 
         this.menuManager._changeMenu = this.menuManager._oldChangeMenu;
 

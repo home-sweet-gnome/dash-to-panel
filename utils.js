@@ -430,14 +430,6 @@ var animateWindowOpacity = function(window, tweenOpts) {
     }
 };
 
-var setDashIconSize = function(size) {
-    if ('dash' in Main.overview) {
-        Main.overview.dash.iconSize = size;
-    } else {
-        Main.overview.dashIconSize = size;
-    }
-};
-
 var getIndicators = function(delegate) {
     if (delegate instanceof St.BoxLayout) {
         return delegate;

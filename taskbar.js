@@ -716,7 +716,6 @@ var taskbar = Utils.defineClass({
         let scale = this.iconSize / availSize;
         
         this.iconSize = availSize;
-        this.emit('icon-size-changed');
 
         for (let i = 0; i < iconChildren.length; i++) {
             let icon = iconChildren[i].child._delegate.icon;
@@ -947,7 +946,9 @@ var taskbar = Utils.defineClass({
         if (!this._settings.is_writable('favorite-apps'))
             return DND.DragMotionResult.NO_DROP;
 
-        if (!this._box.contains(source.actor) && !source._dashItemContainer) {
+        let sourceActor = source instanceof St.Widget ? source : source.actor;
+
+        if (!this._box.contains(sourceActor) && !source._dashItemContainer) {
             //not an appIcon of the taskbar, probably from the applications view
             source._dashItemContainer = new DragPlaceholderItem(source, this.iconSize);
             this._box.insert_child_above(source._dashItemContainer, null);

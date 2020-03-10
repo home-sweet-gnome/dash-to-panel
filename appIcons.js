@@ -245,6 +245,10 @@ var taskbarAppIcon = Utils.defineClass({
         this._progressIndicator = new Progress.ProgressIndicator(this, panel.progressManager);
     },
 
+    getDragActor: function() {
+        return this.app.create_icon_texture(this.dtpPanel.taskbar.iconSize);
+    },
+
     shouldShowTooltip: function() {
         if (!Me.settings.get_boolean('show-tooltip') || 
             (!this.isLauncher && Me.settings.get_boolean("show-window-previews") &&

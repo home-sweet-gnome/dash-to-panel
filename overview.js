@@ -69,9 +69,6 @@ var dtpOverview = Utils.defineClass({
         
         this._toggleDash(true);
 
-        // reset stored icon size  to the default dash
-        Utils.setDashIconSize((Main.overview._overview._controls || Main.overview._controls).dash.iconSize);
-
         // Remove key bindings
         this._disableHotKeys();
         this._disableExtraShortcut();
