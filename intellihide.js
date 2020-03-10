@@ -215,7 +215,7 @@ var Intellihide = Utils.defineClass({
             Utils.setClip(this._clipContainer, this._panelBox.x, this._panelBox.y, this._panelBox.width, this._panelBox.height);
 
             Main.layoutManager.removeChrome(this._panelBox);
-            Main.layoutManager.addChrome(this._clipContainer, { affectsInputRegion: false, trackFullscreen: true });
+            Main.layoutManager.addChrome(this._clipContainer, { affectsInputRegion: false });
             
             this._clipContainer.add_child(this._panelBox);
             Main.layoutManager.trackChrome(this._panelBox, { affectsInputRegion: true });
