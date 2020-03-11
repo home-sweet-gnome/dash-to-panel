@@ -1,0 +1,1287 @@
+# Copyright (C) Dash to Panel swedish translation
+# This file is distributed under the same license as the Dash to Panel package.
+# Translation author: Gleb Vassiljev <gleb@netkom.se>, 2020
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-08 20:40+0200\n"
+"PO-Revision-Date: 2020-03-11 21:21+0100\n"
+"Last-Translator: Gleb Vassiljev <gleb@netkom.se>\n"
+"Language-Team: Svenska grenen av Translation Project <tp-sv@listor.tp-sv.se>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+
+#: prefs.js:211
+msgid "Top, with plugin icons collapsed to bottom"
+msgstr "Topp, med tilläggsikoner kollapsade till botten"
+
+#: prefs.js:211
+msgid "Left, with plugin icons collapsed to right"
+msgstr "Vänster, med tilläggsikoner kollapsade till höger"
+
+#: prefs.js:212
+msgid "Top, with fixed center plugin icons"
+msgstr "Topp, med centrerade tilläggsikoner"
+
+#: prefs.js:212
+msgid "Left, with fixed center plugin icons"
+msgstr "Vänster, med centrerade tilläggsikoner"
+
+#: prefs.js:213
+msgid "Top, with floating center plugin icons"
+msgstr "Topp, med flytande centrerade tilläggsikoner"
+
+#: prefs.js:213
+msgid "Left, with floating center plugin icons"
+msgstr "Vänster, med flytande centrerade tilläggsikoner"
+
+#: prefs.js:214
+msgid "Center, fixed in middle of monitor"
+msgstr "Centrum, fixerade i mitten av skärmen"
+
+#: prefs.js:215
+msgid "Center, floating between top and bottom elements"
+msgstr "Centrum, flytande mellan topp och botten elementer"
+
+#: prefs.js:215
+msgid "Center, floating between left and right elements"
+msgstr "Centrum, flytande mellan vänster och höger elementer"
+
+#: prefs.js:219
+msgid "Top of plugin icons"
+msgstr "Ovanför tilläggsikoner"
+
+#: prefs.js:219
+msgid "Left of plugin icons"
+msgstr "Till vänster av tilläggsikoner"
+
+#: prefs.js:220
+msgid "Bottom of plugin icons"
+msgstr "Under tilläggsikoner"
+
+#: prefs.js:220
+msgid "Right of plugin icons"
+msgstr "Till höger om tilläggsikoner"
+
+#: prefs.js:221
+msgid "Top of system indicators"
+msgstr "Ovanför systemindikatorer"
+
+#: prefs.js:221
+msgid "Left of system indicators"
+msgstr "Till vänster om systemindikatorer"
+
+#: prefs.js:222
+msgid "Bottom of system indicators"
+msgstr "Under systemindikatorer"
+
+#: prefs.js:222
+msgid "Right of system indicators"
+msgstr "Till höger om systemindikatorer"
+
+#: prefs.js:223
+msgid "Top of taskbar"
+msgstr "Ovanför programfältet"
+
+#: prefs.js:223
+msgid "Left of taskbar"
+msgstr "Till vänster om programfältet"
+
+#: prefs.js:224
+msgid "Bottom of taskbar"
+msgstr "Under programfältet"
+
+#: prefs.js:224
+msgid "Right of taskbar"
+msgstr "Till höger om programfältet"
+
+#: prefs.js:230
+msgid "Show Desktop button height (px)"
+msgstr "Visa skrivbordsknapp höjd (px)"
+
+#: prefs.js:230
+msgid "Show Desktop button width (px)"
+msgstr "Visa skrivbordsknapp bredd (px)"
+
+#: prefs.js:364
+msgid "Running Indicator Options"
+msgstr "Inställningar för programsymboler"
+
+#: prefs.js:371 prefs.js:569 prefs.js:712 prefs.js:837 prefs.js:904
+#: prefs.js:992 prefs.js:1078 prefs.js:1325 prefs.js:1409 prefs.js:1474
+#: prefs.js:1510 prefs.js:1607 prefs.js:1641 prefs.js:1683
+msgid "Reset to defaults"
+msgstr "Återställ till grundinställningar"
+
+#: prefs.js:514
+msgid "Default (Primary monitor)"
+msgstr "Förvalda (primära skärmar)"
+
+#: prefs.js:517
+msgid "Monitor "
+msgstr "Bildskärm "
+
+#: prefs.js:562
+msgid "Multi-monitors options"
+msgstr "Inställningar för flera bildskärmar"
+
+#: prefs.js:705
+msgid "Dynamic opacity options"
+msgstr "Inställningar för dynamisk genomskinlighet"
+
+#: prefs.js:830
+msgid "Intellihide options"
+msgstr "Inställningar för automatisk döljande"
+
+#: prefs.js:897
+msgid "Show Applications options"
+msgstr "Inställningar för Program-meny"
+
+#: prefs.js:985
+msgid "Show Desktop options"
+msgstr "Inställningar för skrivbordsknappen"
+
+#: prefs.js:1071
+msgid "Window preview options"
+msgstr "Förhandsgranskning av programfönster inställningar"
+
+#: prefs.js:1318
+msgid "Ungrouped application options"
+msgstr "Inställningar för icke grupperade program"
+
+#: prefs.js:1402
+msgid "Customize middle-click behavior"
+msgstr "Anpassa mittenklick beteendet"
+
+#: prefs.js:1467
+msgid "Customize panel scroll behavior"
+msgstr "Anpassa beteendet för panelbläddrande"
+
+#: prefs.js:1503
+msgid "Customize icon scroll behavior"
+msgstr "Anpassa beteendet för bläddrande av ikoner"
+
+#: prefs.js:1600
+msgid "Advanced hotkeys options"
+msgstr "Avancerade inställningar för snabbtangenter"
+
+#: prefs.js:1634
+msgid "Secondary Menu Options"
+msgstr "Sekundära meny inställningar"
+
+#: prefs.js:1676 Settings.ui.h:223
+msgid "Advanced Options"
+msgstr "Avancerade inställningar"
+
+#: prefs.js:1763
+msgid "Export settings"
+msgstr "Exportera inställningar"
+
+#: prefs.js:1780
+msgid "Import settings"
+msgstr "Importera inställningar"
+
+#: appIcons.js:1380
+msgid "Show Details"
+msgstr "Visa detaljer"
+
+#: appIcons.js:1398
+msgid "New Window"
+msgstr "Ny fönster"
+
+#: appIcons.js:1398 appIcons.js:1458 appIcons.js:1460 Settings.ui.h:10
+msgid "Quit"
+msgstr "Avsluta"
+
+#: appIcons.js:1460
+msgid "Windows"
+msgstr "Fönster"
+
+#: appIcons.js:1684
+msgid "Power options"
+msgstr "Energi inställningar"
+
+#: appIcons.js:1689
+msgid "Event logs"
+msgstr "Händelseloggar"
+
+#: appIcons.js:1694
+msgid "System"
+msgstr "System"
+
+#: appIcons.js:1699
+msgid "Device Management"
+msgstr "Administrering av enheter"
+
+#: appIcons.js:1704
+msgid "Disk Management"
+msgstr "Administrering av diskar"
+
+#: appIcons.js:1711
+msgid "Terminal"
+msgstr "Terminal"
+
+#: appIcons.js:1716
+msgid "System monitor"
+msgstr "Systemövervakning"
+
+#: appIcons.js:1721
+msgid "Files"
+msgstr "Filer"
+
+#: appIcons.js:1726
+msgid "Settings"
+msgstr "Inställningar"
+
+#: appIcons.js:1733
+msgid "Unlock taskbar"
+msgstr "Lås upp aktivitetsfältet"
+
+#: appIcons.js:1733
+msgid "Lock taskbar"
+msgstr "Lås aktivitetsfältet"
+
+#: appIcons.js:1738
+msgid "Dash to Panel Settings"
+msgstr "Dash to Panel inställningar"
+
+#: appIcons.js:1745
+msgid "Restore Windows"
+msgstr "Återställ fönster"
+
+#: appIcons.js:1745
+msgid "Show Desktop"
+msgstr "Visa skrivbordet"
+
+#: Settings.ui.h:1
+msgid "Nothing yet!"
+msgstr "Ännu ingenting!"
+
+#: Settings.ui.h:2
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr ""
+"När inställt på att minimera, dubbelklickande minimerar alla fönster av "
+"programm."
+
+#: Settings.ui.h:3
+msgid "Shift+Click action"
+msgstr "Shift+klicka åtgärd"
+
+#: Settings.ui.h:4
+msgid "Raise windows"
+msgstr "Höja fönster"
+
+#: Settings.ui.h:5
+msgid "Minimize window"
+msgstr "Minimera fönster"
+
+#: Settings.ui.h:6
+msgid "Launch new instance"
+msgstr "Starta en till förekomst av programmet"
+
+#: Settings.ui.h:7
+msgid "Cycle through windows"
+msgstr "Bläddra bland fönster"
+
+#: Settings.ui.h:8
+msgid "Cycle windows + minimize"
+msgstr "Bläddra fönster + minimera"
+
+#: Settings.ui.h:9
+msgid "Toggle single / Preview multiple"
+msgstr "Växla enskilda / Förhandsvisa flera"
+
+#: Settings.ui.h:11
+msgid "Behavior for Middle-Click."
+msgstr "Beteende för mittenklick."
+
+#: Settings.ui.h:12
+msgid "Middle-Click action"
+msgstr "Mittenklick åtgärd"
+
+#: Settings.ui.h:13
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Beteende för Shift+mittenklick."
+
+#: Settings.ui.h:14
+msgid "Shift+Middle-Click action"
+msgstr "Shift+mittenklick åtgärd"
+
+#: Settings.ui.h:15
+msgid "Isolate monitors"
+msgstr "Isolera bildskärmar"
+
+#: Settings.ui.h:16
+msgid "Display favorite applications on all monitors"
+msgstr "Visa favoritprogram på alla bildskärmar"
+
+#: Settings.ui.h:17
+msgid "Display the clock on all monitors"
+msgstr "Visa klockan på alla bildskärmar"
+
+#: Settings.ui.h:18
+msgid "Display the status menu on all monitors"
+msgstr "Visa statusmeny på alla bildskärmar"
+
+#: Settings.ui.h:19
+msgid "Integrate <i>AppMenu</i> items"
+msgstr "Integrera <i>programmeny</i> objekt"
+
+#: Settings.ui.h:20
+msgid "<i>Show Details</i> menu item"
+msgstr "<i>Visa detaljer</i> menyförval"
+
+#: Settings.ui.h:21
+msgid "Highlight focused application"
+msgstr "Belys fokuserade program"
+
+#: Settings.ui.h:22
+msgid "Icon dominant color"
+msgstr "Dominanta ikonfärgen"
+
+#: Settings.ui.h:23
+msgid "Custom color"
+msgstr "Anpassad färg"
+
+#: Settings.ui.h:24
+msgid "Highlight opacity"
+msgstr "Belysningens genomskinlighet"
+
+#: Settings.ui.h:25
+msgid "Indicator height (px)"
+msgstr "Indikatorhöjd (px)"
+
+#: Settings.ui.h:26
+msgid "Indicator color - Icon Dominant"
+msgstr "Indikatorfärg - dominant ikon"
+
+#: Settings.ui.h:27
+msgid "Indicator color - Override Theme"
+msgstr "Indikatorfärg - åsidosatt tema"
+
+#: Settings.ui.h:28
+msgid "1 window open (or ungrouped)"
+msgstr "1 fönster öppnad (eller inte grupperad)"
+
+#: Settings.ui.h:29
+msgid "Apply to all"
+msgstr "Tillämpa för alla"
+
+#: Settings.ui.h:30
+msgid "2 windows open"
+msgstr "2 fönster öppna"
+
+#: Settings.ui.h:31
+msgid "3 windows open"
+msgstr "3 fönster öppna"
+
+#: Settings.ui.h:32
+msgid "4+ windows open"
+msgstr "4+ fönster öppna"
+
+#: Settings.ui.h:33
+msgid "Use different for unfocused"
+msgstr "Använd olika för icke fokuserade"
+
+#: Settings.ui.h:34
+msgid "Font size (px) of the application titles (default is 14)"
+msgstr "Typsnitt storlek (px) på programtitlar (förinställd på 14)"
+
+#: Settings.ui.h:35
+msgid "Font weight of application titles"
+msgstr "Typsnitt tjocklek av programtitlar"
+
+#: Settings.ui.h:36
+msgid "inherit from theme"
+msgstr "ärver från tema"
+
+#: Settings.ui.h:37
+msgid "normal"
+msgstr "normal"
+
+#: Settings.ui.h:38
+msgid "lighter"
+msgstr "tunnare"
+
+#: Settings.ui.h:39
+msgid "bold"
+msgstr "tjock"
+
+#: Settings.ui.h:40
+msgid "bolder"
+msgstr "tjockare"
+
+#: Settings.ui.h:41
+msgid "Font color of the application titles"
+msgstr "Typsnitt färg av programtitlar"
+
+#: Settings.ui.h:42
+msgid "Maximum width (px) of the application titles (default is 160)"
+msgstr "Maximal bredd (px) av programtitlar (förinställning är 160)"
+
+#: Settings.ui.h:43
+msgid "Use a fixed width for the application titles"
+msgstr "Använd fast bredd för programtitlar"
+
+#: Settings.ui.h:44
+msgid ""
+"The application titles all have the same width, even if their texts are "
+"shorter than the maximum width. The maximum width value is used as the fixed "
+"width."
+msgstr ""
+"Programtitlar har samma bredd även om texten är kortare än den maximala "
+"bredden. Den maximala vidden används som mått på fast bredd."
+
+#: Settings.ui.h:45
+msgid "Display running indicators on unfocused applications"
+msgstr "Visa körande indikatorer på ofokuserade program"
+
+#: Settings.ui.h:46
+msgid "Use the favorite icons as application launchers"
+msgstr "Använd favoritikoner som programstartare"
+
+#: Settings.ui.h:47
+msgid "Only hide the panel when it is obstructed by windows "
+msgstr "Endast dölj panelen om den täcks av fönster "
+
+#: Settings.ui.h:48
+msgid "The panel hides from"
+msgstr "Panelen döljs från"
+
+#: Settings.ui.h:49
+msgid "All windows"
+msgstr "Alla fönster"
+
+#: Settings.ui.h:50
+msgid "Focused windows"
+msgstr "Fokuserade fönster"
+
+#: Settings.ui.h:51
+msgid "Maximized windows"
+msgstr "Maximerade fönster"
+
+#: Settings.ui.h:52
+msgid "Require pressure at the edge of the screen to reveal the panel"
+msgstr "Kräv tryck vid kanten på skärmen för att visa panelen"
+
+#: Settings.ui.h:53
+msgid "Required pressure threshold (px)"
+msgstr "Tröskelvärde som krävs för trycket (px)"
+
+#: Settings.ui.h:54
+msgid "Required pressure timeout (ms)"
+msgstr "Tidsgräns som krävs för trycket (ms)"
+
+#: Settings.ui.h:55
+msgid "Allow the panel to be revealed while in fullscreen mode"
+msgstr "Tillåt panelen att synas i fullskärmsläge"
+
+#: Settings.ui.h:56
+msgid "Only hide secondary panels (requires multi-monitors option)"
+msgstr ""
+"Göm endast sekundära paneler (kräver inställningar för flera bildskärmar)"
+
+#: Settings.ui.h:57
+msgid "e.g. <Super>i"
+msgstr "t ex <Super>i"
+
+#: Settings.ui.h:58
+msgid "Keyboard shortcut to reveal and hold the panel"
+msgstr "Snabbkommando för att syna och hålla panelen"
+
+#: Settings.ui.h:59
+msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+msgstr "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+
+#: Settings.ui.h:60
+msgid "Hide and reveal animation duration (ms)"
+msgstr "Tidsgräns för göm och syna animeringen (ms)"
+
+#: Settings.ui.h:61
+msgid "Delay before hiding the panel (ms)"
+msgstr "Fördröjning innan panelen göms (ms)"
+
+#: Settings.ui.h:62
+msgid "Delay before enabling intellihide on start (ms)"
+msgstr "Fördröjning innan automatisk döljande aktiveras vid starten (ms)"
+
+#: Settings.ui.h:63
+msgid "Time (ms) before showing (100 is default)"
+msgstr "Tiden (ms) innan visning (förinställd på 100)"
+
+#: Settings.ui.h:64
+msgid "Animation time (ms)"
+msgstr "Animationstid (ms)"
+
+#: Settings.ui.h:65
+msgid "Time (ms) before hiding (100 is default)"
+msgstr "Tiden (ms) innan gömmande (förinställd på 100)"
+
+#: Settings.ui.h:66
+msgid "Immediate on application icon click"
+msgstr "Genast vid klickande på programikonen"
+
+#: Settings.ui.h:67
+msgid "Middle click on the preview to close the window"
+msgstr "Mittenklicka för att förhandsvisning för att stänga fönster"
+
+#: Settings.ui.h:68
+msgid "Window previews preferred size (px)"
+msgstr "Föredra fönsterstorlek på förhandsvisning (px)"
+
+#: Settings.ui.h:69
+msgid "Window previews aspect ratio Y (height)"
+msgstr "Fönster förhandsvisningens bildförhållande Y (höjd)"
+
+#: Settings.ui.h:70
+msgid "Window previews padding (px)"
+msgstr "Fönster förhandsvisningens utfyllnad (px)"
+
+#: Settings.ui.h:71
+msgid "1"
+msgstr "1"
+
+#: Settings.ui.h:72
+msgid "2"
+msgstr "2"
+
+#: Settings.ui.h:73
+msgid "3"
+msgstr "3"
+
+#: Settings.ui.h:74
+msgid "4"
+msgstr "4"
+
+#: Settings.ui.h:75
+msgid "5"
+msgstr "5"
+
+#: Settings.ui.h:76
+msgid "6"
+msgstr "6"
+
+#: Settings.ui.h:77
+msgid "7"
+msgstr "7"
+
+#: Settings.ui.h:78
+msgid "8"
+msgstr "8"
+
+#: Settings.ui.h:79
+msgid "9"
+msgstr "9"
+
+#: Settings.ui.h:80
+msgid "10"
+msgstr "10"
+
+#: Settings.ui.h:81
+msgid "11"
+msgstr "11"
+
+#: Settings.ui.h:82
+msgid "12"
+msgstr "12"
+
+#: Settings.ui.h:83
+msgid "13"
+msgstr "13"
+
+#: Settings.ui.h:84
+msgid "14"
+msgstr "14"
+
+#: Settings.ui.h:85
+msgid "15"
+msgstr "15"
+
+#: Settings.ui.h:86
+msgid "16"
+msgstr "16"
+
+#: Settings.ui.h:87
+msgid "17"
+msgstr "17"
+
+#: Settings.ui.h:88
+msgid "18"
+msgstr "18"
+
+#: Settings.ui.h:89
+msgid "19"
+msgstr "19"
+
+#: Settings.ui.h:90
+msgid "20"
+msgstr "20"
+
+#: Settings.ui.h:91
+msgid "21"
+msgstr "21"
+
+#: Settings.ui.h:92
+msgid "Fixed"
+msgstr "Fast"
+
+#: Settings.ui.h:93
+msgid "Window previews aspect ratio X (width)"
+msgstr "Fönster förhandsvisningens bildförhållande X (bredd)"
+
+#: Settings.ui.h:94
+msgid "Use custom opacity for the previews background"
+msgstr "Använd anpassad genomskinlighet för förhandsvisningens bakgrund"
+
+#: Settings.ui.h:95
+msgid "If disabled, the previews background have the same opacity as the panel"
+msgstr ""
+"Om avaktiverad, förhandsvisningen kommer att ha samma genomskinlighet som "
+"panelen"
+
+#: Settings.ui.h:96
+msgid "Close button and header position"
+msgstr "Stäng knappen och titelposition"
+
+#: Settings.ui.h:97
+msgid "Bottom"
+msgstr "Under"
+
+#: Settings.ui.h:98
+msgid "Top"
+msgstr "Topp"
+
+#: Settings.ui.h:99
+msgid "Display window preview headers"
+msgstr "Visa rubrik i fönster förhandsvisningen"
+
+#: Settings.ui.h:100
+msgid "Font size (px) of the preview titles"
+msgstr "Typsnitt storlek (px) på förhandsvisningens titlar"
+
+#: Settings.ui.h:101
+msgid "Font weight of the preview titles"
+msgstr "Typsnitt tjocklek på förhandsvisningens titlar"
+
+#: Settings.ui.h:102
+msgid "Font color of the preview titles"
+msgstr "Typsnitt färg på förhandsvisningens titlar"
+
+#: Settings.ui.h:103
+msgid "Enable window peeking"
+msgstr "Aktivera fönstermarkering"
+
+#: Settings.ui.h:104
+msgid ""
+"When hovering over a window preview for some time, the window gets "
+"distinguished."
+msgstr ""
+"När en muspekare svävar över förhandsvisning av fönster under en tid, då "
+"kommer fönstret att framträda."
+
+#: Settings.ui.h:105
+msgid "Enter window peeking mode timeout (ms)"
+msgstr "Startar fönstermarkerande läge tidsgräns (ms)"
+
+#: Settings.ui.h:106
+msgid "50"
+msgstr "50"
+
+#: Settings.ui.h:107
+msgid ""
+"Time of inactivity while hovering over a window preview needed to enter the "
+"window peeking mode."
+msgstr ""
+"Tid av inaktivitet då muspekare svävar på fönster förhandsvisning som behövs "
+"till att aktivera fönstermarkerande läge."
+
+#: Settings.ui.h:108
+msgid "Window peeking mode opacity"
+msgstr "Fönstermarkerande läge genomskinlighet"
+
+#: Settings.ui.h:109
+msgid "0"
+msgstr "0"
+
+#: Settings.ui.h:110
+msgid ""
+"All windows except for the peeked one have their opacity set to the same "
+"value."
+msgstr "Alla fönster förutom de markerade har samma genomskinlighet."
+
+#: Settings.ui.h:111
+msgid "Delay between mouse scroll events (ms)"
+msgstr "Fördröjning mellan bläddrande händelser med mushjulet (ms)"
+
+#: Settings.ui.h:112
+msgid "Use this value to limit the number of captured mouse scroll events."
+msgstr ""
+"Använd detta värde för att begränsa numret av uppfångade bläddrande med "
+"mushjulet."
+
+#: Settings.ui.h:113
+msgid "Super"
+msgstr "Super"
+
+#: Settings.ui.h:114
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+#: Settings.ui.h:115
+msgid "Hotkeys prefix"
+msgstr "Snabbkommando prefix"
+
+#: Settings.ui.h:116
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr ""
+"Snabbkommando kommer att antingen vara Super+Nummer eller Super+Alt+Num"
+
+#: Settings.ui.h:117
+msgid "Never"
+msgstr "Alldrig"
+
+#: Settings.ui.h:118
+msgid "Show temporarily"
+msgstr "Visa tillfälligt"
+
+#: Settings.ui.h:119
+msgid "Always visible"
+msgstr "Alltid synlig"
+
+#: Settings.ui.h:120
+msgid "Number overlay"
+msgstr "Nummer av övertäckande"
+
+#: Settings.ui.h:121
+msgid ""
+"Temporarily show the application numbers over the icons when using the "
+"hotkeys."
+msgstr "Tillfälligt visa programnummer över ikoner när snabbkommando används."
+
+#: Settings.ui.h:122
+msgid "Hide timeout (ms)"
+msgstr "Tidsgränsen för döljandet (ms)"
+
+#: Settings.ui.h:123
+msgid "e.g. <Super>q"
+msgstr "t ex <Super>q"
+
+#: Settings.ui.h:124
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr "Snabbkommando för att visa övertäckande i 2 sekunder"
+
+#: Settings.ui.h:125
+msgid "Show window previews on hotkey"
+msgstr "Visa fönsterförhandsvisningar baserad på snabbkommando"
+
+#: Settings.ui.h:126
+msgid "Show previews when the application have multiple instances"
+msgstr "Presentera förhandsvisningar när programmet har flera förekomster"
+
+#: Settings.ui.h:127
+msgid "Number row"
+msgstr "Raden med nummerknappar"
+
+#: Settings.ui.h:128
+msgid "Numeric keypad"
+msgstr "Numeriskt knappsats"
+
+#: Settings.ui.h:129
+msgid "Both"
+msgstr "Båda"
+
+#: Settings.ui.h:130
+msgid "Hotkeys are activated with"
+msgstr "Snabbkommando aktiveras med"
+
+#: Settings.ui.h:131
+msgid "Select which keyboard number keys are used to activate the hotkeys"
+msgstr ""
+"Välj vilka tangentbordsknappar ska användas för att aktivera snabbkommando"
+
+#: Settings.ui.h:132
+msgid "Current Show Applications icon"
+msgstr "Nuvarande Visa Program ikonen"
+
+#: Settings.ui.h:133
+msgid "Select a Show Applications image icon"
+msgstr "Välj en bild för Visa Program ikonen"
+
+#: Settings.ui.h:134
+msgid "Custom Show Applications image icon"
+msgstr "Anpassad bild för Visa Program ikonen"
+
+#: Settings.ui.h:135
+msgid "Show Applications icon side padding (px)"
+msgstr "Visa Program ikonens utfyllnad (px)"
+
+#: Settings.ui.h:136
+msgid "Reveal the desktop when hovering the Show Desktop button"
+msgstr "Visa skrivbord när muspekaren svävar över skrivbordsknappen"
+
+#: Settings.ui.h:137
+msgid "Delay before revealing the desktop (ms)"
+msgstr "Fördröjningen innan skrivbord visas (ms)"
+
+#: Settings.ui.h:138
+msgid "Fade duration (ms)"
+msgstr "Varaktighet på bleknande (ms)"
+
+#: Settings.ui.h:139
+msgid "The panel background opacity is affected by"
+msgstr "Genomskinligheten på panelens bakgrund påverkas av"
+
+#: Settings.ui.h:140
+msgid "Change opacity when a window gets closer than (px)"
+msgstr "Ändra genomskinlighet när fönster blir närmare än (px)"
+
+#: Settings.ui.h:142
+#, no-c-format
+msgid "Change opacity to (%)"
+msgstr "Ändra genomskinlighet till (%)"
+
+#: Settings.ui.h:143
+msgid "Opacity change animation duration (ms)"
+msgstr "Ändringstiden för genomskinlighet animationen (ms)"
+
+#: Settings.ui.h:144
+msgid "Panel screen position"
+msgstr "Panelpositionen på skärmen"
+
+#: Settings.ui.h:145
+msgid "Left"
+msgstr "Vänster"
+
+#: Settings.ui.h:146
+msgid "Right"
+msgstr "Höger"
+
+#: Settings.ui.h:147
+msgid "Taskbar position"
+msgstr "Aktivitetsfältets position"
+
+#: Settings.ui.h:148
+msgid "Clock location"
+msgstr "Placering av klockan"
+
+#: Settings.ui.h:149
+msgid "Display the main panel on"
+msgstr "Visa huvudpanelen på"
+
+#: Settings.ui.h:150
+msgid "Display panels on all monitors"
+msgstr "Visa paneler på alla bildskärmar"
+
+#: Settings.ui.h:151
+msgid "Panel Intellihide"
+msgstr "Automatisk gömmande av panelen"
+
+#: Settings.ui.h:152
+msgid "Hide and reveal the panel according to preferences"
+msgstr "Göm och visa panelen beroende på inställningar"
+
+#: Settings.ui.h:153
+msgid "Position"
+msgstr "Position"
+
+#: Settings.ui.h:154
+msgid ""
+"Panel Size\n"
+"(default is 48)"
+msgstr ""
+"Panelstorlek\n"
+"(48 är standard)"
+
+#: Settings.ui.h:156
+msgid ""
+"App Icon Margin\n"
+"(default is 8)"
+msgstr ""
+"Programikonernas marginaler\n"
+"(8 är standard)"
+
+#: Settings.ui.h:158
+msgid ""
+"App Icon Padding\n"
+"(default is 4)"
+msgstr ""
+"Programikonernas avståndsutfyllnad\n"
+"(grundläge är 4)"
+
+#: Settings.ui.h:160
+msgid "Running indicator position"
+msgstr "Aktiv indikeringsposition"
+
+#: Settings.ui.h:161
+msgid "Running indicator style (Focused app)"
+msgstr "Stilen för aktiv indikering (fokuserad program)"
+
+#: Settings.ui.h:162
+msgid "Dots"
+msgstr "Punkter"
+
+#: Settings.ui.h:163
+msgid "Squares"
+msgstr "Kvadrater"
+
+#: Settings.ui.h:164
+msgid "Dashes"
+msgstr "Sträck"
+
+#: Settings.ui.h:165
+msgid "Segmented"
+msgstr "Segmenterade"
+
+#: Settings.ui.h:166
+msgid "Solid"
+msgstr "Fasta"
+
+#: Settings.ui.h:167
+msgid "Ciliora"
+msgstr "Ciliora"
+
+#: Settings.ui.h:168
+msgid "Metro"
+msgstr "Metro"
+
+#: Settings.ui.h:169
+msgid "Running indicator style (Unfocused apps)"
+msgstr "Stilen för aktiv indikering (icke fokuserade program)"
+
+#: Settings.ui.h:170
+msgid "Override panel theme background color "
+msgstr "Åsidosätt paneltemans bakgrundsfärg "
+
+#: Settings.ui.h:171
+msgid "Override panel theme background opacity"
+msgstr "Åsidosätt paneltemans genomskinlighet av bakgrund"
+
+#: Settings.ui.h:173
+#, no-c-format
+msgid "Panel background opacity (%)"
+msgstr "Panelens genomskinlighet av bakgrund (%)"
+
+#: Settings.ui.h:174
+msgid "Dynamic background opacity"
+msgstr "Dynamisk genomskinlighet av bakgrund"
+
+#: Settings.ui.h:175
+msgid "Change opacity when a window gets close to the panel"
+msgstr "Ändra genomskinlighet av bakgrund när en fönster kommer nära panelen"
+
+#: Settings.ui.h:176
+msgid "Override panel theme gradient "
+msgstr "Åsidosätt paneltemans gradient "
+
+#: Settings.ui.h:178
+#, no-c-format
+msgid "Gradient top color and opacity (%)"
+msgstr "Toppgradientens färg och genomskinlighet (%)"
+
+#: Settings.ui.h:180
+#, no-c-format
+msgid "Gradient bottom color and opacity (%)"
+msgstr "Bottengradientens färg och genomskinlighet (%)"
+
+#: Settings.ui.h:181
+msgid "Style"
+msgstr "Stil"
+
+#: Settings.ui.h:182
+msgid "Show favorite applications"
+msgstr "Visa favoritprogram"
+
+#: Settings.ui.h:183
+msgid "Show running applications"
+msgstr "Visa program som körs"
+
+#: Settings.ui.h:184
+msgid "Show <i>Applications</i> icon"
+msgstr "Visa <i>Program</i> ikonen"
+
+#: Settings.ui.h:185
+msgid "Animate <i>Show Applications</i>."
+msgstr "Animera <i>Visa Program</i>."
+
+#: Settings.ui.h:186
+msgid "Show <i>Activities</i> button"
+msgstr "Visa <i>Aktiviteter</i> knappen"
+
+#: Settings.ui.h:187
+msgid "Show <i>Desktop</i> button"
+msgstr "Visa <i>Skrivbord</i> knappen"
+
+#: Settings.ui.h:188
+msgid "Show <i>AppMenu</i> button"
+msgstr "Visa <i>Program Meny</i> knappen"
+
+#: Settings.ui.h:189
+msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
+msgstr ""
+"Övre Fältet > Visa Program Meny måste aktiveras i Justeringar (Tweak Tool)"
+
+#: Settings.ui.h:190
+msgid "Show window previews on hover"
+msgstr "Visa förhandsgranskning av fönster vid svävande av muspekaren"
+
+#: Settings.ui.h:191
+msgid "Show tooltip on hover"
+msgstr "Visa beskrivning vid svävande av muspekaren"
+
+#: Settings.ui.h:192
+msgid "Isolate Workspaces"
+msgstr "Isolera Arbetsytor"
+
+#: Settings.ui.h:193
+msgid "Ungroup applications"
+msgstr "Avgruppera program"
+
+#: Settings.ui.h:194
+msgid "Behavior"
+msgstr "Beteende"
+
+#: Settings.ui.h:195
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr "Beteende när ikonen med redan körande program klickas på."
+
+#: Settings.ui.h:196
+msgid "Click action"
+msgstr "Klickande"
+
+#: Settings.ui.h:197
+msgid "Toggle windows"
+msgstr "Växla fönster"
+
+#: Settings.ui.h:198
+msgid "Scroll panel action"
+msgstr "Åtgärd för skrollande av panelen"
+
+#: Settings.ui.h:199
+msgid "Behavior when mouse scrolling over the panel."
+msgstr "Beteende då mushjulet bläddras över panelen."
+
+#: Settings.ui.h:200
+msgid "Scroll icon action"
+msgstr "Skrollande ikonens åtgärd"
+
+#: Settings.ui.h:201
+msgid "Behavior when mouse scrolling over an application icon."
+msgstr "Beteende då mushjulet skrollar över en programikon."
+
+#: Settings.ui.h:202
+msgid "Do nothing"
+msgstr "Gör ingenting"
+
+#: Settings.ui.h:203
+msgid "Switch workspace"
+msgstr "Ändra arbetsyta"
+
+#: Settings.ui.h:204
+msgid "Cycle windows"
+msgstr "Växla bland fönster"
+
+#: Settings.ui.h:205
+msgid ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
+"together with Shift and Ctrl."
+msgstr ""
+"Aktivera Super+(0-9) som snabba genvägar för att aktivera program. Det kan "
+"också användas tillsammans med Shift och Ctrl."
+
+#: Settings.ui.h:206
+msgid "Use hotkeys to activate apps"
+msgstr "Använd snabbkommando för att aktivera program"
+
+#: Settings.ui.h:207
+msgid "Action"
+msgstr "Åtgärd"
+
+#: Settings.ui.h:208
+msgid ""
+"Tray Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Teckenstorlek för meddelandefältet\n"
+"(0 = temans standard)"
+
+#: Settings.ui.h:210
+msgid ""
+"LeftBox Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Typsnitt storlek på vänster sida\n"
+"(0 = temans standard)"
+
+#: Settings.ui.h:212
+msgid ""
+"Tray Item Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Utfyllnadsavstånd för meddelandefältets objekt\n"
+"(-1 = temans standard)"
+
+#: Settings.ui.h:214
+msgid ""
+"Status Icon Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Utfyllnadsavstånd för statusikon\n"
+"(-1 = temans standard)"
+
+#: Settings.ui.h:216
+msgid ""
+"LeftBox Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Utfyllnadsavstånd på vänstersida\n"
+"(-1 = temans standard)"
+
+#: Settings.ui.h:218
+msgid "Animate switching applications"
+msgstr "Animera programbyte"
+
+#: Settings.ui.h:219
+msgid "Animate launching new windows"
+msgstr "Animera uppstart av nya fönster"
+
+#: Settings.ui.h:220
+msgid "Keep original gnome-shell dash (overview)"
+msgstr "Behåll den ursprungliga GNOME-skalets översikt"
+
+#: Settings.ui.h:221
+msgid "Activate panel menu buttons (e.g. date menu) on click only"
+msgstr "Aktivera panelens menyknappar (t ex datum meny) endast vid klickandet"
+
+#: Settings.ui.h:222
+msgid "App icon secondary (right-click) menu"
+msgstr "Programikonens sekundära (högerklick) meny"
+
+#: Settings.ui.h:224
+msgid "Fine-Tune"
+msgstr "Finjustera"
+
+#: Settings.ui.h:225
+msgid "version: "
+msgstr "version: "
+
+#: Settings.ui.h:226
+msgid "GitHub"
+msgstr "GitHub"
+
+#: Settings.ui.h:227
+msgid ""
+"Use the buttons below to create a settings file from your current "
+"preferences that can be imported on a different machine."
+msgstr ""
+"Använd knapparna nedan för att skapa en inställningsfil för de gällande "
+"förval som sedan kan importeras vid en annan installation."
+
+#: Settings.ui.h:228
+msgid "Export and import settings"
+msgstr "Exportera och importera inställningar"
+
+#: Settings.ui.h:229
+msgid "Export to file"
+msgstr "Exportera till en fil"
+
+#: Settings.ui.h:230
+msgid "Import from file"
+msgstr "Importera från en fil"
+
+#: Settings.ui.h:231
+msgid ""
+"This allows you to update the extension directly from the GitHub repository."
+msgstr ""
+"Detta gör det möjligt för dig att uppdatera tillägget direkt från GitHub "
+"förrådet."
+
+#: Settings.ui.h:232
+msgid "Updates"
+msgstr "Uppdateringar"
+
+#: Settings.ui.h:233
+msgid "Periodically check for updates"
+msgstr "Regelmässigt kolla efter uppdateringar"
+
+#: Settings.ui.h:234
+msgid "Check now"
+msgstr "Kolla nu"
+
+#: Settings.ui.h:235
+msgid ""
+"<span weight=\"bold\" color=\"#B42B30\">Be aware, these official Dash to "
+"Panel releases might not be reviewed yet on extensions.gnome.org!</span>  <a "
+"href=\"https://extensions.gnome.org/about/\">Read more</a>"
+msgstr ""
+"<span weight=\"bold\" color=\"#B42B30\">Var medveten om att dessa officiella "
+"Dash to Panel utgåvor kan ännu vara icke recenserade på extensions.gnome.org!"
+"</span> <a href=\"https://extensions.gnome.org/about/\">Läs mer</a>"
+
+#: Settings.ui.h:236
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">Detta program kommer ABSOLUT UTAN NÅGON GARANTI.\n"
+"Se <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\">GNU "
+"General Public Licens, version 2 eller senare</a> för detaljer.</span>"
+
+#: Settings.ui.h:238
+msgid "About"
+msgstr "Information om programmet"
+
+#~ msgid "Highlight color"
+#~ msgstr "Markeringsfärg"
+
+#~ msgid "Preview timeout on icon leave (ms)"
+#~ msgstr "Fördröjning i förhandsgranskning av döljande ikonen (ms)"
+
+#~ msgid ""
+#~ "If set too low, the window preview of running applications may seem to "
+#~ "close too quickly when trying to enter the popup. If set too high, the "
+#~ "preview may linger too long when moving to an adjacent icon."
+#~ msgstr ""
+#~ "Om den är satt för lågt, kommer fönsterförhandvisning av körande program se ut att "
+#~ "att stängas för snabbt när det återgår. Om satt för högt så kommer "
+#~ "fönsterförhandvisning att hänga kvar för länge när det flyttas till närliggande ikonen."
+
+#~ msgid "Middle click to close window"
+#~ msgstr "Mittenklick för att stänga fönster"
+
+#~ msgid "Width of the window previews (px)"
+#~ msgstr "Bredden på förhandsvisningar av fönster (px)"
+
+#~ msgid "Height of the window previews (px)"
+#~ msgstr "Höjden på förhandsvisningar av fönster (px)"
+
+#~ msgid "Padding of the window previews (px)"
+#~ msgstr "Avstånd mellan förhandsvisningar av fönster (px)"
+
+#~ msgid "Natural"
+#~ msgstr "Naturell"
+
+#~ msgid "Left side of panel"
+#~ msgstr "Vänster sida av panelen"
+
+#~ msgid "Centered in content"
+#~ msgstr "Centrerad i innehållet"
+
+#~ msgid "Github"
+#~ msgstr "Github"
+
+#~ msgid "Height (px)"
+#~ msgstr "Höjd (px)"
+
+#~ msgid "Color - Override Theme"
+#~ msgstr "Färg - Åsidosatt Tema"
+
+#~ msgid "1 window open"
+#~ msgstr "1 Fönster öppnad"
