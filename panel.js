@@ -881,7 +881,7 @@ var dtpPanel = Utils.defineClass({
                         this._disconnectVisibleId(actor);
                         this._refreshVerticalAlloc();
                     });
-                    actor.connect('destroy', () => actor._dtpVisibleId = 0);
+                    actor._dtpDestroyId = connect('destroy', () => this._disconnectVisibleId(actor));
                 }
 
                 if (child) {
@@ -902,11 +902,12 @@ var dtpPanel = Utils.defineClass({
     },
 
     _disconnectVisibleId: function(actor) {
-        if (actor._dtpVisibleId) {
-            actor.disconnect(actor._dtpVisibleId);
-        }
+        actor.disconnect(actor._dtpVisibleId);
+        actor.disconnect(actor._dtpDestroyId);
 
         delete actor._dtpVisibleId;
+        delete actor._dtpDestroyId;
+        
         this._unmappedButtons.splice(this._unmappedButtons.indexOf(actor), 1);
     },
 
