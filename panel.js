@@ -881,7 +881,7 @@ var dtpPanel = Utils.defineClass({
                         this._disconnectVisibleId(actor);
                         this._refreshVerticalAlloc();
                     });
-                    actor._dtpDestroyId = connect('destroy', () => this._disconnectVisibleId(actor));
+                    actor._dtpDestroyId = actor.connect('destroy', () => this._disconnectVisibleId(actor));
                 }
 
                 if (child) {
