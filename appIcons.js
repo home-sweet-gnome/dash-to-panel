@@ -240,9 +240,9 @@ var taskbarAppIcon = Utils.defineClass({
 
         this.forcedOverview = false;
 
-        this._numberOverlay();
-
         this._progressIndicator = new Progress.ProgressIndicator(this, panel.progressManager);
+
+        this._numberOverlay();
     },
 
     getDragActor: function() {
@@ -1145,35 +1145,44 @@ var taskbarAppIcon = Utils.defineClass({
 
     _numberOverlay: function() {
         // Add label for a Hot-Key visual aid
-        this._numberOverlayLabel = new St.Label();
+        this._numberOverlayLabel = new St.Label({ style_class: 'badge' });
         this._numberOverlayBin = new St.Bin({
-            child: this._numberOverlayLabel,
-            x_align: St.Align.START, y_align: St.Align.START,
-            x_expand: true, y_expand: true
+            child: this._numberOverlayLabel, y: 2
         });
         this._numberOverlayLabel.add_style_class_name('number-overlay');
         this._numberOverlayOrder = -1;
         this._numberOverlayBin.hide();
 
-        this._iconContainer.add_child(this._numberOverlayBin);
-
+        this._dtpIconContainer.add_child(this._numberOverlayBin);
     },
 
-    updateNumberOverlay: function() {
+    updateHotkeyNumberOverlay: function() {
+        this.updateNumberOverlay(this._numberOverlayBin, true);
+    },
+
+    updateNumberOverlay: function(bin, fixedSize) {
         // We apply an overall scale factor that might come from a HiDPI monitor.
         // Clutter dimensions are in physical pixels, but CSS measures are in logical
         // pixels, so make sure to consider the scale.
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         // Set the font size to something smaller than the whole icon so it is
         // still visible. The border radius is large to make the shape circular
-        let [minWidth, natWidth] = this._iconContainer.get_preferred_width(-1);
-        let font_size =  Math.round(Math.max(12, 0.3*natWidth) / scaleFactor);
-        let size = Math.round(font_size*1.2);
-        this._numberOverlayLabel.set_style(
-           'font-size: ' + font_size + 'px;' +
-           'border-radius: ' + this.icon.iconSize + 'px;' +
-           'width: ' + size + 'px; height: ' + size +'px;'
-        );
+        let [minWidth, natWidth] = this._dtpIconContainer.get_preferred_width(-1);
+        let font_size =  Math.round(Math.max(12, 0.3 * natWidth) / scaleFactor);
+        let size = Math.round(font_size * 1.3);
+        let label = bin.child;
+        let style = 'font-size: ' + font_size + 'px;' +
+                    'border-radius: ' + this.icon.iconSize + 'px;' +
+                    'height: ' + size +'px;';
+
+        if (fixedSize || label.get_text().length == 1) {
+            style += 'width: ' + size + 'px;';
+        } else {
+            style += 'padding: 0 2px;';
+        }
+
+        bin.x = fixedSize ? natWidth - size - 2 : 2;
+        label.set_style(style);
     },
 
     setNumberOverlay: function(number) {

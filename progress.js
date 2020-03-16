@@ -280,18 +280,16 @@ var ProgressIndicator = Utils.defineClass({
             this._signalsHandler.destroy();
         });          
 
-        this._notificationBadgeLabel = new St.Label();
+        this._notificationBadgeLabel = new St.Label({ style_class: 'badge' });
         this._notificationBadgeBin = new St.Bin({
-            child: this._notificationBadgeLabel,
-            x_align: St.Align.END, y_align: St.Align.START,
-            x_expand: true, y_expand: true
+            child: this._notificationBadgeLabel, y: 2, x: 2
         });
         this._notificationBadgeLabel.add_style_class_name('notification-badge');
         this._notificationBadgeCount = 0;
         this._notificationBadgeBin.hide();
 
-        this._source._iconContainer.add_child(this._notificationBadgeBin);
-        this._source._iconContainer.connect('allocation-changed', this.updateNotificationBadge.bind(this));
+        this._source._dtpIconContainer.add_child(this._notificationBadgeBin);
+        this._source._dtpIconContainer.connect('allocation-changed', this.updateNotificationBadge.bind(this));
 
         this._progressManagerEntries = [];
         this._progressManager.lookupById(this._source.app.id).forEach(
@@ -334,18 +332,7 @@ var ProgressIndicator = Utils.defineClass({
     },
 
     updateNotificationBadge: function() {
-        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
-        let [minWidth, natWidth] = this._source._iconContainer.get_preferred_width(-1);
-        let logicalNatWidth = natWidth / scaleFactor;
-        let font_size = Math.max(10, Math.round(logicalNatWidth / 5));
-        let margin_left = Math.round(logicalNatWidth / 4);
-
-        this._notificationBadgeLabel.set_style(
-           'font-size: ' + font_size + 'px;' +
-           'margin-left: ' + margin_left + 'px;'
-        );
-
-        this._notificationBadgeBin.width = Math.round(logicalNatWidth - margin_left);
+        this._source.updateNumberOverlay(this._notificationBadgeBin);
         this._notificationBadgeLabel.clutter_text.ellipsize = Pango.EllipsizeMode.MIDDLE;
     },
 

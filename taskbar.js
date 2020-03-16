@@ -913,7 +913,7 @@ var taskbar = Utils.defineClass({
                 icon.setNumberOverlay(-1);
             }
 
-            icon.updateNumberOverlay();
+            icon.updateHotkeyNumberOverlay();
         });
 
         if (Me.settings.get_boolean('hot-keys') &&
