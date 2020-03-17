@@ -52,6 +52,14 @@ const Taskbar = Me.imports.taskbar;
 const Progress = Me.imports.progress;
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
+//timeout names
+const T1 = 'setStyleTimeout';
+const T2 = 'mouseScrollTimeout';
+const T3 = 'showDotsTimeout';
+const T4 = 'overviewWindowDragEndTimeout';
+const T5 = 'switchWorkspaceTimeout';
+const T6 = 'displayProperIndicatorTimeout';
+
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
 var DEFAULT_PADDING_SIZE = 4;
@@ -105,6 +113,8 @@ var taskbarAppIcon = Utils.defineClass({
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
         this._previewMenu = previewMenu;
+
+        this._timeoutsHandler = new Utils.TimeoutsHandler();
 
 		// Fix touchscreen issues before the listener is added by the parent constructor.
         this._onTouchEvent = function(actor, event) {
@@ -278,6 +288,8 @@ var taskbarAppIcon = Utils.defineClass({
         this.callParent('_onDestroy');
         this._destroyed = true;
 
+        this._timeoutsHandler.destroy();
+
         this._previewMenu.close(true);
 
         // Disconect global signals
@@ -297,11 +309,6 @@ var taskbarAppIcon = Utils.defineClass({
             Utils.DisplayWrapper.getScreen().disconnect(this._windowLeftMonitorId);
         }
 
-        if (this.setStyleTimeoutId) {
-            Mainloop.source_remove(this.setStyleTimeoutId);
-            this.setStyleTimeoutId = 0;
-        }
-        
         if(this._switchWorkspaceId)
             global.window_manager.disconnect(this._switchWorkspaceId);
 
@@ -314,11 +321,6 @@ var taskbarAppIcon = Utils.defineClass({
 
         if (this._scrollEventId) {
             this.actor.disconnect(this._scrollEventId);
-        }
-
-        if (this._scrollIconDelayTimeoutId) {
-            Mainloop.source_remove(this._scrollIconDelayTimeoutId);
-            this._scrollIconDelayTimeoutId = 0;
         }
 
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
@@ -370,10 +372,8 @@ var taskbarAppIcon = Utils.defineClass({
 
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (direction && !this._scrollIconDelayTimeoutId) {
-            this._scrollIconDelayTimeoutId = Mainloop.timeout_add(Me.settings.get_int('scroll-icon-delay'), () => {
-                this._scrollIconDelayTimeoutId = 0;
-            });
+        if (direction && !this._timeoutsHandler.getId(T2)) {
+            this._timeoutsHandler.add([T2, Me.settings.get_int('scroll-icon-delay'), () => {}]);
 
             let windows = this.getAppIconInterestingWindows();
 
@@ -428,11 +428,10 @@ var taskbarAppIcon = Utils.defineClass({
     
             this._updateWindows();
 
-            Mainloop.timeout_add(0, Lang.bind(this, function () {
+            this._timeoutsHandler.add([T3, 0, () => {
                 this._resetDots();
                 this._displayProperIndicator();
-                return GLib.SOURCE_REMOVE;
-            }));
+            }]);
         }
 
         this._dotsContainer.add_child(this._focusedDots);
@@ -531,12 +530,9 @@ var taskbarAppIcon = Utils.defineClass({
             if (!this._isGroupApps) {
                 //when the apps are ungrouped, set the style synchronously so the icons don't jump around on taskbar redraw
                 this._dotsContainer.set_style(inlineStyle);
-            } else if (!this.setStyleTimeoutId) {
+            } else if (!this._timeoutsHandler.getId(T1)) {
                 //graphical glitches if i dont set this on a timeout
-                this.setStyleTimeoutId = Mainloop.timeout_add(0, Lang.bind(this, function() { 
-                    this._dotsContainer.set_style(inlineStyle); 
-                    this.setStyleTimeoutId = 0;
-                }));
+                this._timeoutsHandler.add([T1, 0, () => this._dotsContainer.set_style(inlineStyle)]);
             }
         }
     },
@@ -603,18 +599,12 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _onOverviewWindowDragEnd: function(windowTracker) {
-         Mainloop.timeout_add(0, Lang.bind(this, function () {
-             this._displayProperIndicator();
-             return GLib.SOURCE_REMOVE;
-         }));
+        this._timeoutsHandler.add([T4, 0, () => this._displayProperIndicator()]);
     },
 
     _onSwitchWorkspace: function(windowTracker) {
         if (this._isGroupApps) {
-            Mainloop.timeout_add(0, Lang.bind(this, function () {
-                this._displayProperIndicator(true);
-                return GLib.SOURCE_REMOVE;
-            }));
+            this._timeoutsHandler.add([T5, 0, () => this._displayProperIndicator(true)]);
         } else {
             this._displayProperIndicator();
         }
@@ -656,14 +646,14 @@ var taskbarAppIcon = Utils.defineClass({
             
             isFocused = this._checkIfFocusedApp() && this._checkIfMonitorHasFocus();
 
-            Mainloop.timeout_add(0, () => {
+            this._timeoutsHandler.add([T6, 0, () => {
                 if (!this._destroyed) {
                     if(isFocused) 
                         this.actor.add_style_class_name('focused');
                     else
                         this.actor.remove_style_class_name('focused');
                 }
-            });
+            }]);
 
             if(focusedIsWide) {
                 newFocusedDotsSize = (isFocused && this._nWindows > 0) ? containerSize : 0;
@@ -1287,6 +1277,7 @@ function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
 
     if (recentlyClickedAppLoopId > 0)
         Mainloop.source_remove(recentlyClickedAppLoopId);
+        
     recentlyClickedAppLoopId = Mainloop.timeout_add(MEMORY_TIME, resetRecentlyClickedApp);
 
     // If there isn't already a list of windows for the current app,
@@ -1318,6 +1309,7 @@ function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
 function resetRecentlyClickedApp() {
     if (recentlyClickedAppLoopId > 0)
         Mainloop.source_remove(recentlyClickedAppLoopId);
+
     recentlyClickedAppLoopId=0;
     recentlyClickedApp =null;
     recentlyClickedAppWindows = null;
