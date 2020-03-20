@@ -88,6 +88,7 @@ let recentlyClickedAppIndex = 0;
 let recentlyClickedAppMonitorIndex;
 
 let tracker = Shell.WindowTracker.get_default();
+let menuRedisplayFunc = !!AppDisplay.AppIconMenu.prototype._rebuildMenu ? '_rebuildMenu' : '_redisplay';
 
 /**
  * Extend AppIcon
@@ -1400,8 +1401,8 @@ var taskbarSecondaryMenu = Utils.defineClass({
         metaWindow.delete(global.get_current_time());
     },
 
-    _redisplay: function() {
-        this.callParent('_redisplay');
+    _dtpRedisplay: function(parentFunc) {
+        this.callParent(parentFunc);
 
         // Remove "Show Details" menu item
         if(!Me.settings.get_boolean('secondarymenu-contains-showdetails')) {
@@ -1501,6 +1502,7 @@ var taskbarSecondaryMenu = Utils.defineClass({
     }
 });
 Signals.addSignalMethods(taskbarSecondaryMenu.prototype);
+adjustMenuRedisplay(taskbarSecondaryMenu.prototype);
 
 /**
  * This function is used for extendDashItemContainer
@@ -1736,7 +1738,7 @@ var MyShowAppsIconMenu = Utils.defineClass({
     Extends: taskbarSecondaryMenu,
     ParentConstrParams: [[0]],
 
-    _redisplay: function() {
+    _dtpRedisplay: function() {
         this.removeAll();
 
         if (this.sourceActor != Main.layoutManager.dummyCursor) { 
@@ -1812,3 +1814,8 @@ var MyShowAppsIconMenu = Utils.defineClass({
         }
     }
 });
+adjustMenuRedisplay(MyShowAppsIconMenu.prototype);
+
+function adjustMenuRedisplay(menuProto) {
+    menuProto[menuRedisplayFunc] = function() { this._dtpRedisplay(menuRedisplayFunc) };
+}
