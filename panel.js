@@ -589,7 +589,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     _setPanelGhostSize: function() {
-        this._myPanelGhost.set_size(this.panelBox.width, checkIfVertical() ? 1 : this.panelBox.height); 
+        this._myPanelGhost.set_size(this.width, checkIfVertical() ? 1 : this.height); 
     },
 
     _adjustForOverview: function() {
