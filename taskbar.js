@@ -23,6 +23,7 @@
 
 
 const Clutter = imports.gi.Clutter;
+const Config = imports.misc.config;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
@@ -1096,14 +1097,25 @@ var taskbar = Utils.defineClass({
                 // runs if we are already inside the overview.
                 if (!Main.overview._shown) {
                     this.forcedOverview = true;
-                    let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
-                    let grid = view._grid;
+                    let grid = Main.overview.viewSelector.appDisplay._views[visibleView].view._grid;
+                    let onShownCbs = [];
+                    let overviewShownId = Main.overview.connect('shown', () => {
+                        Main.overview.disconnect(overviewShownId);
+                        onShownCbs.forEach(cb => cb());
+                    });
+
+                    if (Config.PACKAGE_VERSION > '3.35.9') {
+                        let animateIconPosition = IconGrid.animateIconPosition;
+                        
+                        IconGrid.animateIconPosition = (icon, box, flags, nChangedIcons) => icon.allocate(box, flags);
+                        onShownCbs.push(() => IconGrid.animateIconPosition = animateIconPosition);
+                    }
+
                     if (animate) {
                         // Animate in the the appview, hide the appGrid to avoiud flashing
                         // Go to the appView before entering the overview, skipping the workspaces.
                         // Do this manually avoiding opacity in transitions so that the setting of the opacity
                         // to 0 doesn't get overwritten.
-                        Main.overview.viewSelector._activePage.opacity = 0;
                         Main.overview.viewSelector._activePage.hide();
                         Main.overview.viewSelector._activePage = Main.overview.viewSelector._appsPage;
                         Main.overview.viewSelector._activePage.show();
@@ -1114,18 +1126,13 @@ var taskbar = Utils.defineClass({
                         // and the appgrid could already be allocated from previous shown.
                         // It has to be triggered after the overview is shown as wrong coordinates are obtained
                         // otherwise.
-                        let overviewShownId = Main.overview.connect('shown', Lang.bind(this, function() {
-                            Main.overview.disconnect(overviewShownId);
-                            Meta.later_add(Meta.LaterType.BEFORE_REDRAW, Lang.bind(this, function() {
-                                grid.actor.opacity = 255;
-                                grid.animateSpring(IconGrid.AnimationDirection.IN, this.showAppsButton);
-                            }));
+                        onShownCbs.push(() => Meta.later_add(Meta.LaterType.BEFORE_REDRAW, () => {
+                            grid.actor.opacity = 255;
+                            grid.animateSpring(IconGrid.AnimationDirection.IN, this.showAppsButton);
                         }));
                     } else {
                         Main.overview.viewSelector._activePage = Main.overview.viewSelector._appsPage;
                         Main.overview.viewSelector._activePage.show();
-                        grid.actor.opacity = 255;
-
                     }
                 }
 
