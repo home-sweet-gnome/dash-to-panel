@@ -1,6 +1,6 @@
 ---
 name: Something else
-about: For use when the other templates are not applicable.
+about: Empty issue template
 title: ''
 labels: ''
 assignees: ''
