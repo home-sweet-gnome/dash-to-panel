@@ -1557,7 +1557,7 @@ function ItemShowLabel()  {
     else if ( x + labelWidth > monitor.x + monitor.width - gap)
         x -= x + labelWidth -( monitor.x + monitor.width) + gap;
 
-    this.label.set_position(x, y);
+    this.label.set_position(Math.round(x), Math.round(y));
 
     if (Dash.DASH_ITEM_LABEL_SHOW_TIME < 1) {
         Tweener.addTween(this.label, { 
