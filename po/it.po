@@ -103,6 +103,46 @@ msgstr "Esci"
 msgid "Windows"
 msgstr "Finestre"
 
+#: appIcons.js:1745
+msgid "Power options"
+msgstr "Opzioni energia"
+
+#: appIcons.js:1750
+msgid "Event logs"
+msgstr "Registro degli eventi"
+
+#: appIcons.js:1755
+msgid "System"
+msgstr "Sistema"
+
+#: appIcons.js:1760
+msgid "Device Management"
+msgstr "Gestione dispositivi"
+
+#: appIcons.js:1765
+msgid "Disk Management"
+msgstr "Gestione disco"
+
+#: appIcons.js:1773
+msgid "Terminal"
+msgstr "Terminale"
+
+#: appIcons.js:1778
+msgid "System monitor"
+msgstr "Monitor di sistema"
+
+#: appIcons.js:1788
+msgid "Extensions"
+msgstr "Estensioni"
+
+#: appIcons.js:1783
+msgid "Files"
+msgstr "Esplora file"
+
+#: appIcons.js:1793
+msgid "Settings"
+msgstr "Impostazioni"
+
 #: appIcons.js:1539
 msgid "Unlock taskbar"
 msgstr "Sblocca taskbar"
@@ -738,7 +778,7 @@ msgstr "Mostra pulsante <i>AppMenu</i>"
 
 #: Settings.ui.h:151
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
-msgstr "In Tweak Tool deve essere abilitato il Menù dell'applicazione"
+msgstr "In Estensioni deve essere abilitato il Menù dell'applicazione"
 
 #: Settings.ui.h:152
 msgid "Show window previews on hover"
