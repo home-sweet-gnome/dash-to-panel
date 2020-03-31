@@ -235,13 +235,22 @@ var dtpPanelManager = Utils.defineClass({
 
             p.disable();
 
+            let clipContainer = p.panelBox.get_parent();
+
+            Main.layoutManager._untrackActor(p.panelBox);
+            Main.layoutManager.removeChrome(clipContainer);
+
             if (p.isSecondary) {
-                Main.layoutManager.removeChrome(p.panelBox);
                 p.panelBox.destroy();
             } else {
                 p.panelBox.remove_child(p);
                 p.remove_child(p.panel.actor);
                 p.panelBox.add(p.panel.actor);
+
+                p.panelBox.set_position(clipContainer.x, clipContainer.y);
+
+                clipContainer.remove_child(p.panelBox);
+                Main.layoutManager.addChrome(p.panelBox, { affectsStruts: true, trackFullscreen: true });
             }
         });
 
@@ -319,20 +328,29 @@ var dtpPanelManager = Utils.defineClass({
     _createPanel: function(monitor, isSecondary) {
         let panelBox;
         let panel;
-
+        let clipContainer = new Clutter.Actor();
+        
         if (isSecondary) {
             panelBox = new St.BoxLayout({ name: 'panelBox' });
-            Main.layoutManager.addChrome(panelBox, { affectsStruts: true, trackFullscreen: true });
         } else {
             panelBox = Main.layoutManager.panelBox;
+            Main.layoutManager._untrackActor(panelBox);
             panelBox.remove_child(Main.panel.actor);
+            Main.layoutManager.removeChrome(panelBox);
         }
 
+        Main.layoutManager.addChrome(clipContainer, { affectsInputRegion: false });
+        clipContainer.add_child(panelBox);
+        Main.layoutManager.trackChrome(panelBox, { trackFullscreen: true, affectsStruts: true, affectsInputRegion: true });
+        
         panel = new Panel.dtpPanel(this, monitor, panelBox, isSecondary);
         panelBox.add(panel);
-        
         panel.enable();
+
         panelBox.visible = !monitor.inFullscreen;
+        panelBox.set_position(0, 0);
+
+        Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, panelBox.width, panelBox.height);
 
         return panel;
     },
