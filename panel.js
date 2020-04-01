@@ -776,7 +776,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     _setPanelPosition: function() {
-        let container = this.intellihide && this.intellihide.enabled ? this.panelBox.get_parent() : this.panelBox;
+        let container = this.panelBox.get_parent();
 
         this.set_size(this.geom.w, this.geom.h);
         container.set_position(this.geom.x, this.geom.y);

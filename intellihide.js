@@ -90,7 +90,7 @@ var Intellihide = Utils.defineClass({
 
         if (Me.settings.get_boolean('intellihide-hide-from-windows')) {
             this._proximityWatchId = this._proximityManager.createWatch(
-                this._clipContainer, 
+                this._panelBox.get_parent(), 
                 Proximity.Mode[Me.settings.get_string('intellihide-behaviour')], 
                 0, 0,
                 overlap => { 
@@ -208,30 +208,17 @@ var Intellihide = Utils.defineClass({
     },
 
     _setTrackPanel: function(enable) {
-        Main.layoutManager._untrackActor(this._panelBox);
-        
-        if (enable) {
-            this._clipContainer = new Clutter.Actor();
-            Utils.setClip(this._clipContainer, this._panelBox.x, this._panelBox.y, this._panelBox.width, this._panelBox.height);
-
-            Main.layoutManager.removeChrome(this._panelBox);
-            Main.layoutManager.addChrome(this._clipContainer, { affectsInputRegion: false });
+        let trackedIndex = Main.layoutManager._findActor(this._panelBox);
+        let actorData = Main.layoutManager._trackedActors[trackedIndex]
             
-            this._clipContainer.add_child(this._panelBox);
-            Main.layoutManager.trackChrome(this._panelBox, { affectsInputRegion: true });
+        actorData.affectsStruts = !enable;
+        actorData.trackFullscreen = !enable;
 
-            this._timeoutsHandler.add([T4, 0, () => this._panelBox.set_position(0, 0)]);
-        } else {
-            this._panelBox.set_position(this._clipContainer.x, this._clipContainer.y);
-            Main.layoutManager.removeChrome(this._clipContainer);
-
-            this._clipContainer.remove_child(this._panelBox);
-            Main.layoutManager.addChrome(this._panelBox, { affectsStruts: true, trackFullscreen: true });
-        }
-        
         this._panelBox.track_hover = enable;
         this._panelBox.reactive = enable;
         this._panelBox.visible = enable ? enable : this._panelBox.visible;
+        
+        Main.layoutManager._queueUpdateRegions();
     },
 
     _setRevealMechanism: function() {
