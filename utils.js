@@ -420,14 +420,7 @@ var activateSiblingWindow = function(windows, direction, startWindow) {
 };
 
 var animateWindowOpacity = function(window, tweenOpts) {
-    //there currently is a mutter bug with the windows opacity on 3.34, so 
-    //until it is fixed, immediately hide the windows instead of fading them
-    //https://gitlab.gnome.org/GNOME/mutter/issues/836
-    if (Config.PACKAGE_VERSION > '3.33') {
-        window.visible = (tweenOpts.opacity == 255);
-    } else {
-        Tweener.addTween(window, tweenOpts);
-    }
+    Tweener.addTween(window.get_first_child(), tweenOpts);
 };
 
 var getIndicators = function(delegate) {
