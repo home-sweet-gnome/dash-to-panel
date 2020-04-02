@@ -439,7 +439,7 @@ var animateWindowOpacity = function(window, tweenOpts) {
     } else if (Config.PACKAGE_VERSION > '3.33') {
         //the workaround only works on 3.35+, so on 3.34, let's just hide the 
         //window without animation
-        return windowActor.visible = (tweenOpts.opacity == 255);
+        return window.visible = (tweenOpts.opacity == 255);
     }
 
     Tweener.addTween(window, tweenOpts);
