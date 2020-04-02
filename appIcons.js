@@ -1804,7 +1804,13 @@ var MyShowAppsIconMenu = Utils.defineClass({
 
         let settingsMenuItem = this._appendMenuItem(_('Dash to Panel Settings'));
         settingsMenuItem.connect('activate', function () {
-            Util.spawn(["gnome-shell-extension-prefs", Me.metadata.uuid]);
+            let command = ["gnome-shell-extension-prefs"];
+
+            if (Config.PACKAGE_VERSION > '3.36') {
+                command = ["gnome-extensions", "prefs"];
+            }
+
+            Util.spawn(command.concat([Me.metadata.uuid]));
         });
 
         if(this._source._dtpPanel) {
