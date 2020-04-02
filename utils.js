@@ -420,7 +420,23 @@ var activateSiblingWindow = function(windows, direction, startWindow) {
 };
 
 var animateWindowOpacity = function(window, tweenOpts) {
-    Tweener.addTween(window.get_first_child(), tweenOpts);
+    //there currently is a mutter bug with the windowactor opacity on 3.34, so 
+    //until it is fixed, use the windowactor's child for the fade animation
+    //this leaves a "shadow" on the desktop, so the windowactor needs to be hidden.
+    //https://gitlab.gnome.org/GNOME/mutter/issues/836
+    if (Config.PACKAGE_VERSION > '3.33') {
+        let windowActor = window;
+        let visible = tweenOpts.opacity > 0;
+
+        if (!windowActor.visible && visible) {
+            windowActor.visible = visible;
+        } 
+
+        window = windowActor.get_first_child();
+        tweenOpts.onComplete = () => windowActor.visible = visible;
+    }
+
+    Tweener.addTween(window, tweenOpts);
 };
 
 var getIndicators = function(delegate) {

@@ -1077,7 +1077,11 @@ var dtpPanel = Utils.defineClass({
             transition: 'easeOutQuad'
         };
 
-        workspace.list_windows().forEach(w => Utils.animateWindowOpacity(w.get_compositor_private(), tweenOpts));
+        workspace.list_windows().forEach(w => {
+            if (!w.minimized) {
+                Utils.animateWindowOpacity(w.get_compositor_private(), tweenOpts)
+            }
+        });
     },
 
     _onShowDesktopButtonPress: function() {

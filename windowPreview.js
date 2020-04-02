@@ -652,7 +652,9 @@ var PreviewMenu = Utils.defineClass({
                     wa.show();
                 }
                 
-                Utils.animateWindowOpacity(wa, getTweenOpts({ opacity: isFocused ? 255 : dimOpacity }));
+                if (!mw.minimized) {
+                    Utils.animateWindowOpacity(wa, getTweenOpts({ opacity: isFocused ? 255 : dimOpacity }));
+                }
             }
         });
     },
