@@ -434,7 +434,7 @@ var animateWindowOpacity = function(window, tweenOpts) {
             windowActor.visible = visible;
         } 
 
-        window = windowActor.get_first_child();
+        window = windowActor.get_first_child() || windowActor;
         tweenOpts.onComplete = () => windowActor.visible = visible;
     } else if (Config.PACKAGE_VERSION > '3.33') {
         //the workaround only works on 3.35+, so on 3.34, let's just hide the 
