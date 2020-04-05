@@ -208,6 +208,7 @@ var PreviewMenu = Utils.defineClass({
         this._endPeek();
         
         if (immediate) {
+            Tweener.removeTweens(this.menu);
             this._resetHiddenState();
         } else {
             this._animateOpenOrClose(false, () => this._resetHiddenState());
