@@ -350,7 +350,7 @@ var dtpPanelManager = Utils.defineClass({
         panelBox.visible = !monitor.inFullscreen;
         panelBox.set_position(0, 0);
 
-        Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, panelBox.width, panelBox.height);
+        Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, panel.width, panel.height);
 
         return panel;
     },
