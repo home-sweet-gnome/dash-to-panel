@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # Laurent Tréguier <laurent@treguier.org>, 2019.
-# Charles Gagnon <charlesg99@outlook.com>, 2019.
+# Charles Gagnon <charlesg99@outlook.com>, 2019-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-10-10 14:57-0400\n"
-"PO-Revision-Date: 2019-10-10 15:32-0400\n"
+"PO-Revision-Date: 2020-04-05 12:44-0400\n"
 "Last-Translator: Charles Gagnon <charlesg99@outlook.com>\n"
 "Language-Team: French - Canada <>\n"
 "Language: fr_CA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 3.32.1\n"
+"X-Generator: Gtranslator 3.36.0\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: prefs.js:211
@@ -1174,7 +1174,7 @@ msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
 msgstr ""
-"Taille des éléments de la barre d'état\n"
+"Marge des éléments de la barre d'état\n"
 "(-1 = par défaut)"
 
 #: Settings.ui.h:214
