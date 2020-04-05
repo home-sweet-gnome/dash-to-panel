@@ -472,6 +472,7 @@ var getPanelGhost = function() {
 var notify = function(text, iconName, action, isTransient) {
     let source = new MessageTray.SystemNotificationSource();
     let notification = new MessageTray.Notification(source, 'Dash to Panel', text);
+    let notifyFunc = source.showNotification || source.notify;
     
     if (iconName) {
         source.createIcon = function() {
@@ -490,7 +491,7 @@ var notify = function(text, iconName, action, isTransient) {
     Main.messageTray.add(source);
 
     notification.setTransient(isTransient);
-    source.notify(notification);
+    notifyFunc.call(source, notification);
 };
 
 /*
