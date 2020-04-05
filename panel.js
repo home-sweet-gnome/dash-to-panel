@@ -776,10 +776,10 @@ var dtpPanel = Utils.defineClass({
     },
 
     _setPanelPosition: function() {
-        let container = this.panelBox.get_parent();
+        let clipContainer = this.panelBox.get_parent();
 
         this.set_size(this.geom.w, this.geom.h);
-        container.set_position(this.geom.x, this.geom.y);
+        clipContainer.set_position(this.geom.x, this.geom.y);
 
         this._setVertical(this.panel.actor, checkIfVertical());
 
@@ -789,6 +789,8 @@ var dtpPanel = Utils.defineClass({
             
             this.panel.actor[(St.Side[p] == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
         });
+
+        Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.width, this.height);
 
         Main.layoutManager._updateHotCorners();
         Main.layoutManager._updatePanelBarrier(this);
