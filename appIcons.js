@@ -1741,6 +1741,7 @@ var MyShowAppsIconMenu = Utils.defineClass({
     _dtpRedisplay: function() {
         this.removeAll();
 
+        // true if `which` can find the app
         function _checkExists(app) {
             let cmd = "which '" + app + "'";
             let out = GLib.spawn_command_line_sync(cmd);
@@ -1749,6 +1750,7 @@ var MyShowAppsIconMenu = Utils.defineClass({
             return out[3] == 0;
         }
 
+        // Only add menu entries for commands that exist in path
         function _appendItem(obj, info) {
             if (_checkExists(info.cmd[0])) {
                 let item = obj._appendMenuItem(_(info.title));
@@ -1756,11 +1758,7 @@ var MyShowAppsIconMenu = Utils.defineClass({
                 item.connect('activate', function() {
                     Util.spawn(info.cmd);
                 });
-
-                log("    FOUND: " + info.cmd[0]);
                 return item;
-            } else {
-                log("NOT FOUND: " + info.cmd[0]);
             }
 
             return null;
