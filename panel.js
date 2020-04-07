@@ -214,6 +214,7 @@ var dtpPanel = Utils.defineClass({
 
     enable : function() {
         let taskbarPosition = Me.settings.get_string('taskbar-position');
+        let position = getPosition();
 
         if (taskbarPosition == 'CENTEREDCONTENT' || taskbarPosition == 'CENTEREDMONITOR') {
             this.container = this._centerBox;
@@ -294,8 +295,12 @@ var dtpPanel = Utils.defineClass({
         };
 
         if (this.statusArea.appMenu) {
-            setMenuArrow(this.statusArea.appMenu._arrow, getPosition());
+            setMenuArrow(this.statusArea.appMenu._arrow, position);
             this._leftBox.remove_child(this.statusArea.appMenu.container);
+        }
+
+        if (this.statusArea.keyboard) {
+            setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), position);
         }
 
         //the timeout makes sure the theme's styles are computed before initially applying the transparency
@@ -412,6 +417,10 @@ var dtpPanel = Utils.defineClass({
         if (this.statusArea.appMenu) {
             setMenuArrow(this.statusArea.appMenu._arrow, St.Side.TOP);
             this._leftBox.add_child(this.statusArea.appMenu.container);
+        }
+
+        if (this.statusArea.keyboard) {
+            setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), St.Side.TOP);
         }
 
         if (this.intellihide) {
