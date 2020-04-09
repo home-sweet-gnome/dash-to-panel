@@ -1320,7 +1320,7 @@ msgid ""
 msgstr ""
 "<span weight=\"bold\" color=\"#B42B30\">¡Sé consciente de que estas versiones"
 "oficiales de 'Dash to Panel' podrían no estar todavía revisadas en extensions.gnome.org!"
-"</span> <a "href=\"https://extensions.gnome.org/about/\">Leer más</a>"
+"</span> <a href=\"https://extensions.gnome.org/about/\">Leer más</a>"
 
 #: Settings.ui.h:239
 msgid ""
