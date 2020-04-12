@@ -222,10 +222,6 @@ var dtpPanel = Utils.defineClass({
             this.container = this._leftBox;
         }
 
-        if (this.statusArea.aggregateMenu) {
-            Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll = 1;
-        }
-
         this.geom = this.getGeometry();
         
         // The overview uses the panel height as a margin by way of a "ghost" transparent Clone
@@ -457,7 +453,6 @@ var dtpPanel = Utils.defineClass({
 
             this._displayShowDesktopButton(false);
 
-            delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
             setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
 
             if (DateMenu.IndicatorPad) {
@@ -1141,7 +1136,7 @@ var dtpPanel = Utils.defineClass({
         let scrollAction = Me.settings.get_string('scroll-panel-action');
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (!this._checkIfIgnoredSrollSource(event.get_source()) && !this._timeoutsHandler.getId(T6)) {
+        if (!this._checkIfIgnoredScrollSource(event.get_source()) && !this._timeoutsHandler.getId(T6)) {
             if (direction && scrollAction === 'SWITCH_WORKSPACE') {
                 let args = [global.display];
 
@@ -1154,10 +1149,10 @@ var dtpPanel = Utils.defineClass({
                 
                 Utils.activateSiblingWindow(windows, direction);
             } else if (scrollAction === 'CHANGE_VOLUME' && !event.is_pointer_emulated()) {
-                var proto = Volume.Indicator.prototype;
-                var func = proto.vfunc_scroll_event || proto._onScrollEvent;
-    
-                func.call(Main.panel.statusArea.aggregateMenu._volume, 0, event);
+                let volumeIndicator = this.statusArea.aggregateMenu._volume;
+                var scrollFunc = volumeIndicator.vfunc_scroll_event || volumeIndicator._onScrollEvent;
+
+                scrollFunc.call(volumeIndicator, actor, event);
             } else {
                 return;
             }
@@ -1170,10 +1165,11 @@ var dtpPanel = Utils.defineClass({
         }
     },
 
-    _checkIfIgnoredSrollSource: function(source) {
+    _checkIfIgnoredScrollSource: function(source) {
         let ignoredConstr = ['WorkspaceIndicator'];
+        let isVolumeIndicator = (source === this.statusArea.aggregateMenu._volume);
 
-        return source._dtpIgnoreScroll || ignoredConstr.indexOf(source.constructor.name) >= 0;
+        return isVolumeIndicator || ignoredConstr.indexOf(source.constructor.name) >= 0;
     },
 
     _initProgressManager: function() {
