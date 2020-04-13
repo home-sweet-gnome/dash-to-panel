@@ -178,9 +178,31 @@ var dtpPanelManager = Utils.defineClass({
         LookingGlass.LookingGlass.prototype._oldOpen = LookingGlass.LookingGlass.prototype.open;
         LookingGlass.LookingGlass.prototype.open = _newLookingGlassOpen;
 
-        //listen settings
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
+        if (Config.PACKAGE_VERSION > '3.35.9') {
+            let currentAppsView;
+
+            this._oldAnimateIconPosition = IconGrid.animateIconPosition;
+            IconGrid.animateIconPosition = newAnimateIconPosition.bind(this);
+
+            Main.overview.viewSelector.appDisplay._views.forEach(v => {
+                if (v.control.has_style_pseudo_class('checked')) {
+                    currentAppsView = v;
+                }
+
+                this._signalsHandler.add([v.control, 'clicked', () => {
+                    this._needsIconAllocate = currentAppsView != v;
+                    currentAppsView = v;
+                }]);
+
+                this._signalsHandler.add([v.view, 'notify::visible', () => this._needsIconAllocate = !(currentAppsView != v && !v.view.visible)]);
+
+                this._signalsHandler.add([v.view._grid, 'animation-done', () => this._needsIconAllocate = 0]);
+            });
+        }
+
+        //listen settings
         this._signalsHandler.add(
             [
                 Me.settings,
@@ -301,6 +323,10 @@ var dtpPanelManager = Utils.defineClass({
             AppDisplay.BaseAppView.prototype._doSpringAnimation = this._oldDoSpringAnimation;
         }
 
+        if (this._oldAnimateIconPosition) {
+            IconGrid.animateIconPosition = this._oldAnimateIconPosition;
+        }
+
         LookingGlass.LookingGlass.prototype._resize = LookingGlass.LookingGlass.prototype._oldResize;
         delete LookingGlass.LookingGlass.prototype._oldResize;
 
@@ -310,6 +336,7 @@ var dtpPanelManager = Utils.defineClass({
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {
         if (!this.checkIfFocusedMonitor(monitor)) {
+            this._needsIconAllocate = 1;
             Main.overview.viewSelector._workspacesDisplay._primaryIndex = monitor.index;
             
             Main.overview._overview.clear_constraints();
@@ -570,6 +597,15 @@ function newGetPositionForDirection(direction, fromWs, toWs) {
 function newDoSpringAnimation(animationDirection) {
     this._grid.opacity = 255;
     this._grid.animateSpring(animationDirection, Main.overview.getShowAppsButton());
+}
+
+function newAnimateIconPosition(icon, box, flags, nChangedIcons) {
+    if (this._needsIconAllocate) {
+        icon.allocate(box, flags);
+        return;
+    }
+
+    return this._oldAnimateIconPosition(icon, box, flags, nChangedIcons);;
 }
 
 function newUpdateHotCorners() {

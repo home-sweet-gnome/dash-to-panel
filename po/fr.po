@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-10 14:57-0400\n"
-"PO-Revision-Date: 2020-04-05 12:44-0400\n"
+"POT-Creation-Date: 2020-04-08 09:47-0400\n"
+"PO-Revision-Date: 2020-04-08 10:19-0400\n"
 "Last-Translator: Charles Gagnon <charlesg99@outlook.com>\n"
 "Language-Team: French - Canada <>\n"
 "Language: fr_CA\n"
@@ -117,8 +117,8 @@ msgid "Running Indicator Options"
 msgstr "Options de l'indicateur d'activité"
 
 #: prefs.js:371 prefs.js:569 prefs.js:712 prefs.js:837 prefs.js:904
-#: prefs.js:992 prefs.js:1078 prefs.js:1325 prefs.js:1409 prefs.js:1474
-#: prefs.js:1510 prefs.js:1607 prefs.js:1641 prefs.js:1683
+#: prefs.js:992 prefs.js:1084 prefs.js:1331 prefs.js:1415 prefs.js:1480
+#: prefs.js:1516 prefs.js:1613 prefs.js:1647 prefs.js:1689
 msgid "Reset to defaults"
 msgstr "Restaurer paramètres"
 
@@ -150,159 +150,167 @@ msgstr "Options du bouton Afficher les Applications"
 msgid "Show Desktop options"
 msgstr "Options du bouton Afficher le Bureau"
 
-#: prefs.js:1071
+#: prefs.js:1077
 msgid "Window preview options"
 msgstr "Options de la prévisualisation"
 
-#: prefs.js:1318
+#: prefs.js:1324
 msgid "Ungrouped application options"
 msgstr "Options des applications dégroupées"
 
-#: prefs.js:1402
+#: prefs.js:1408
 msgid "Customize middle-click behavior"
 msgstr "Modifier l'action du clic de la molette"
 
-#: prefs.js:1467
+#: prefs.js:1473
 msgid "Customize panel scroll behavior"
 msgstr "Modifier l'action du défilement de la souris sur le panneau"
 
-#: prefs.js:1503
+#: prefs.js:1509
 msgid "Customize icon scroll behavior"
 msgstr "Modifier l'action du défilement de la souris sur une application"
 
-#: prefs.js:1600
+#: prefs.js:1606
 msgid "Advanced hotkeys options"
 msgstr "Raccourcis avancés"
 
-#: prefs.js:1634
+#: prefs.js:1640
 msgid "Secondary Menu Options"
 msgstr "Options du menu secondaire"
 
-#: prefs.js:1676 Settings.ui.h:223
+#: prefs.js:1682 Settings.ui.h:226
 msgid "Advanced Options"
 msgstr "Options avancées"
 
-#: prefs.js:1763
+#: prefs.js:1774
 msgid "Export settings"
 msgstr "Exporter les paramètres"
 
-#: prefs.js:1780
+#: prefs.js:1791
 msgid "Import settings"
 msgstr "Importer des paramètres"
 
-#: appIcons.js:1380
+#: appIcons.js:1411
 msgid "Show Details"
 msgstr "Afficher les détails"
 
-#: appIcons.js:1398
+#: appIcons.js:1429
 msgid "New Window"
 msgstr "Nouvelle fenêtre"
 
-#: appIcons.js:1398 appIcons.js:1458 appIcons.js:1460 Settings.ui.h:10
+#: appIcons.js:1429 appIcons.js:1489 appIcons.js:1491 Settings.ui.h:10
 msgid "Quit"
 msgstr "Quitter"
 
-#: appIcons.js:1460
+#: appIcons.js:1491
 msgid "Windows"
 msgstr "Fenêtres"
 
-#: appIcons.js:1684
+#: appIcons.js:1745
 msgid "Power options"
 msgstr "Options d'énergie"
 
-#: appIcons.js:1689
+#: appIcons.js:1750
 msgid "Event logs"
 msgstr "Journaux d'évènements"
 
-#: appIcons.js:1694
+#: appIcons.js:1755
 msgid "System"
 msgstr "Système"
 
-#: appIcons.js:1699
+#: appIcons.js:1760
 msgid "Device Management"
 msgstr "Gestionnaire de périphériques"
 
-#: appIcons.js:1704
+#: appIcons.js:1765
 msgid "Disk Management"
 msgstr "Gestionnaire de disques"
 
-#: appIcons.js:1711
+#: appIcons.js:1773
 msgid "Terminal"
 msgstr "Terminal"
 
-#: appIcons.js:1716
+#: appIcons.js:1778
 msgid "System monitor"
 msgstr "Moniteur système"
 
-#: appIcons.js:1721
+#: appIcons.js:1783
 msgid "Files"
 msgstr "Fichiers"
 
-#: appIcons.js:1726
+#: appIcons.js:1788
+msgid "Extensions"
+msgstr "Extensions"
+
+#: appIcons.js:1793
 msgid "Settings"
 msgstr "Paramètres"
 
-#: appIcons.js:1733
+#: appIcons.js:1800
 msgid "Unlock taskbar"
 msgstr "Déverrouiller la barre des tâches"
 
-#: appIcons.js:1733
+#: appIcons.js:1800
 msgid "Lock taskbar"
 msgstr "Verrouiller la barre des tâches"
 
-#: appIcons.js:1738
+#: appIcons.js:1805
 msgid "Dash to Panel Settings"
 msgstr "Paramètres Dash to Panel"
 
-#: appIcons.js:1745
+#: appIcons.js:1818
 msgid "Restore Windows"
 msgstr "Restaurer les fenêtres"
 
-#: appIcons.js:1745
+#: appIcons.js:1818
 msgid "Show Desktop"
 msgstr "Afficher le bureau"
 
-#: update.js:58
+#: update.js:48
+msgid "Unavailable when installed from extensions.gnome.org"
+msgstr "Indisponible lorsqu'installé depuis extensions.gnome.org"
+
+#: update.js:62
 #, javascript-format
 msgid "Version %s (%s) is available"
 msgstr "La version %s (%s) est disponible"
 
-#: update.js:59
+#: update.js:63
 msgid "Details"
 msgstr "Détails"
 
-#: update.js:60
+#: update.js:64
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: update.js:63
+#: update.js:67
 msgid "Already up to date"
 msgstr "Déjà à jour"
 
-#: update.js:148
+#: update.js:75
+msgid "Error: "
+msgstr "Erreur: "
+
+#: update.js:168
 msgid "Update successful, please log out/in"
 msgstr ""
 "Mise à jour complétée avec succès, veuillez fermer/ouvrir votre session"
 
-#: update.js:149
+#: update.js:169
 msgid "Log out"
 msgstr "Fermer la session"
 
-#: update.js:153
+#: update.js:173
 msgid "Update successful, please restart GNOME Shell"
 msgstr "Mise à jour complétée avec succès, veuillez redémarrer GNOME Shell"
 
-#: update.js:154
+#: update.js:174
 msgid "Restart GNOME Shell"
 msgstr "Redémarrer GNOME Shell"
 
-#: update.js:154
+#: update.js:174
 msgid "Restarting GNOME Shell..."
 msgstr "Redémarrage de GNOME Shell..."
-
-#: update.js:160
-msgid "Error: "
-msgstr "Erreur: "
 
 #: Settings.ui.h:1
 msgid "Nothing yet!"
@@ -401,8 +409,8 @@ msgid "Highlight opacity"
 msgstr "Opacité du surlignement"
 
 #: Settings.ui.h:25
-msgid "Indicator height (px)"
-msgstr "Hauteur indicateur (px)"
+msgid "Indicator size (px)"
+msgstr "Taille de l'indicateur (px)"
 
 #: Settings.ui.h:26
 msgid "Indicator color - Icon Dominant"
@@ -1138,6 +1146,14 @@ msgid "Cycle windows"
 msgstr "Défiler les fenêtres"
 
 #: Settings.ui.h:205
+msgid "Change volume"
+msgstr "Changer le volume"
+
+#: Settings.ui.h:206
+msgid "Same as panel"
+msgstr "Comme le panneau"
+
+#: Settings.ui.h:207
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
@@ -1145,15 +1161,15 @@ msgstr ""
 "Activer Super+(0-9) comme raccourcis pour lancer les applications. Maj et "
 "Ctrl peuvent aussi être utilisés."
 
-#: Settings.ui.h:206
+#: Settings.ui.h:208
 msgid "Use hotkeys to activate apps"
 msgstr "Utiliser des raccourcis pour lancer les applications"
 
-#: Settings.ui.h:207
+#: Settings.ui.h:209
 msgid "Action"
 msgstr "Action"
 
-#: Settings.ui.h:208
+#: Settings.ui.h:210
 msgid ""
 "Tray Font Size\n"
 "(0 = theme default)"
@@ -1161,7 +1177,7 @@ msgstr ""
 "Taille de la police\n"
 "(0 = par défaut)"
 
-#: Settings.ui.h:210
+#: Settings.ui.h:212
 msgid ""
 "LeftBox Font Size\n"
 "(0 = theme default)"
@@ -1169,7 +1185,7 @@ msgstr ""
 "Taille de la police de la zone de gauche\n"
 "(0 = par défaut)"
 
-#: Settings.ui.h:212
+#: Settings.ui.h:214
 msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
@@ -1177,7 +1193,7 @@ msgstr ""
 "Marge des éléments de la barre d'état\n"
 "(-1 = par défaut)"
 
-#: Settings.ui.h:214
+#: Settings.ui.h:216
 msgid ""
 "Status Icon Padding\n"
 "(-1 = theme default)"
@@ -1185,7 +1201,7 @@ msgstr ""
 "Marge des icônes de statut\n"
 "(-1 = par défaut)"
 
-#: Settings.ui.h:216
+#: Settings.ui.h:218
 msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
@@ -1193,39 +1209,43 @@ msgstr ""
 "Marge de la zone de gauche\n"
 "(-1 = par défaut)"
 
-#: Settings.ui.h:218
+#: Settings.ui.h:220
 msgid "Animate switching applications"
 msgstr "Animer le changement d'application"
 
-#: Settings.ui.h:219
+#: Settings.ui.h:221
 msgid "Animate launching new windows"
 msgstr "Animer le lancement de nouvelles fenêtres"
 
-#: Settings.ui.h:220
+#: Settings.ui.h:222
 msgid "Keep original gnome-shell dash (overview)"
 msgstr "Garder le lanceur d'origine de gnome-shell (activités)"
 
-#: Settings.ui.h:221
+#: Settings.ui.h:223
 msgid "Activate panel menu buttons (e.g. date menu) on click only"
 msgstr "Activer les menus du panneau seulement au clic"
 
-#: Settings.ui.h:222
+#: Settings.ui.h:224
+msgid "Force Activities hot corner on primary monitor"
+msgstr "Forcer le coin actif des Activités sur l'écran principal"
+
+#: Settings.ui.h:225
 msgid "App icon secondary (right-click) menu"
 msgstr "Menu secondaire de l'application (clic droit)"
 
-#: Settings.ui.h:224
+#: Settings.ui.h:227
 msgid "Fine-Tune"
 msgstr "Personnalisation"
 
-#: Settings.ui.h:225
+#: Settings.ui.h:228
 msgid "version: "
 msgstr "version: "
 
-#: Settings.ui.h:226
+#: Settings.ui.h:229
 msgid "GitHub"
 msgstr "GitHub"
 
-#: Settings.ui.h:227
+#: Settings.ui.h:230
 msgid ""
 "Use the buttons below to create a settings file from your current "
 "preferences that can be imported on a different machine."
@@ -1233,37 +1253,37 @@ msgstr ""
 "Utiliser les boutons ci-dessous pour créer un fichier de paramètres à partir "
 "de vos préférences actuelles qui pourra être importé sur une autre machine."
 
-#: Settings.ui.h:228
+#: Settings.ui.h:231
 msgid "Export and import settings"
 msgstr "Import et export de paramètres"
 
-#: Settings.ui.h:229
+#: Settings.ui.h:232
 msgid "Export to file"
 msgstr "Exporter vers un fichier"
 
-#: Settings.ui.h:230
+#: Settings.ui.h:233
 msgid "Import from file"
 msgstr "Importer à partir d'un fichier"
 
-#: Settings.ui.h:231
+#: Settings.ui.h:234
 msgid ""
 "This allows you to update the extension directly from the GitHub repository."
 msgstr ""
 "Ceci vous permet de mettre l'extension à jour directement depuis GitHub"
 
-#: Settings.ui.h:232
+#: Settings.ui.h:235
 msgid "Updates"
 msgstr "Mises à jour"
 
-#: Settings.ui.h:233
+#: Settings.ui.h:236
 msgid "Periodically check for updates"
 msgstr "Vérifier périodiquement les mises à jour"
 
-#: Settings.ui.h:234
+#: Settings.ui.h:237
 msgid "Check now"
 msgstr "Vérifier maintenant"
 
-#: Settings.ui.h:235
+#: Settings.ui.h:238
 msgid ""
 "<span weight=\"bold\" color=\"#B42B30\">Be aware, these official Dash to "
 "Panel releases might not be reviewed yet on extensions.gnome.org!</span>  <a "
@@ -1274,7 +1294,7 @@ msgstr ""
 "extensions.gnome.org!</span>  <a href=\"https://extensions.gnome.org/about/"
 "\">En savoir plus</a>"
 
-#: Settings.ui.h:236
+#: Settings.ui.h:239
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
@@ -1285,7 +1305,7 @@ msgstr ""
 "licenses/gpl-2.0.fr.html\">Licence publique générale GNU, version 2 ou "
 "ultérieure</a></span>"
 
-#: Settings.ui.h:238
+#: Settings.ui.h:241
 msgid "About"
 msgstr "À propos"
 

@@ -214,6 +214,7 @@ var dtpPanel = Utils.defineClass({
 
     enable : function() {
         let taskbarPosition = Me.settings.get_string('taskbar-position');
+        let position = getPosition();
 
         if (taskbarPosition == 'CENTEREDCONTENT' || taskbarPosition == 'CENTEREDMONITOR') {
             this.container = this._centerBox;
@@ -294,12 +295,15 @@ var dtpPanel = Utils.defineClass({
         };
 
         if (this.statusArea.appMenu) {
-            setMenuArrow(this.statusArea.appMenu._arrow, getPosition());
+            setMenuArrow(this.statusArea.appMenu._arrow, position);
             this._leftBox.remove_child(this.statusArea.appMenu.container);
         }
 
-        //the timeout makes sure the theme's styles are computed before initially applying the transparency
-        this._timeoutsHandler.add([T1, 0, () => this.dynamicTransparency = new Transparency.DynamicTransparency(this)]);
+        if (this.statusArea.keyboard) {
+            setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), position);
+        }
+
+        this.dynamicTransparency = new Transparency.DynamicTransparency(this);
         
         this.taskbar = new Taskbar.taskbar(this);
 
@@ -414,13 +418,15 @@ var dtpPanel = Utils.defineClass({
             this._leftBox.add_child(this.statusArea.appMenu.container);
         }
 
+        if (this.statusArea.keyboard) {
+            setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), St.Side.TOP);
+        }
+
         if (this.intellihide) {
             this.intellihide.destroy();
         }
 
-        if (this.dynamicTransparency) {
-            this.dynamicTransparency.destroy();
-        }
+        this.dynamicTransparency.destroy();
 
         this.progressManager.destroy();
 
@@ -614,6 +620,7 @@ var dtpPanel = Utils.defineClass({
         this._setPanelGhostSize();
         this._setPanelPosition();
         this.taskbar.resetAppIcons();
+        this.dynamicTransparency.updateExternalStyle();
 
         if (this.intellihide && this.intellihide.enabled) {
             this.intellihide.reset();
@@ -790,7 +797,7 @@ var dtpPanel = Utils.defineClass({
             this.panel.actor[(St.Side[p] == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
         });
 
-        Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.width, this.height);
+        Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height);
 
         Main.layoutManager._updateHotCorners();
         Main.layoutManager._updatePanelBarrier(this);
@@ -1132,7 +1139,7 @@ var dtpPanel = Utils.defineClass({
         let scrollAction = Me.settings.get_string('scroll-panel-action');
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (!this._checkIfIgnoredSrollSource(event.get_source()) && !this._timeoutsHandler.getId(T6)) {
+        if (!this._checkIfIgnoredScrollSource(event.get_source()) && !this._timeoutsHandler.getId(T6)) {
             if (direction && scrollAction === 'SWITCH_WORKSPACE') {
                 let args = [global.display];
 
@@ -1161,7 +1168,7 @@ var dtpPanel = Utils.defineClass({
         }
     },
 
-    _checkIfIgnoredSrollSource: function(source) {
+    _checkIfIgnoredScrollSource: function(source) {
         let ignoredConstr = ['WorkspaceIndicator'];
 
         return source._dtpIgnoreScroll || ignoredConstr.indexOf(source.constructor.name) >= 0;

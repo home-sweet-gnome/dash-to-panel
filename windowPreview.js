@@ -423,11 +423,9 @@ var PreviewMenu = Utils.defineClass({
             fixed: Me.settings.get_boolean('window-preview-fixed-y')
         };
         
-        if (this.panel.dynamicTransparency) {
-            alphaBg = Me.settings.get_boolean('preview-use-custom-opacity') ? 
-                      Me.settings.get_int('preview-custom-opacity') * .01 : 
-                      this.panel.dynamicTransparency.alpha;
-        }
+        alphaBg = Me.settings.get_boolean('preview-use-custom-opacity') ? 
+                  Me.settings.get_int('preview-custom-opacity') * .01 : 
+                  this.panel.dynamicTransparency.alpha;
     },
 
     _updateClip: function() {

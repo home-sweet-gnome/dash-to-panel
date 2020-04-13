@@ -111,8 +111,7 @@ var taskbarActor = Utils.defineClass({
         hupper = Math.floor(hupper);
         scrollview._dtpFadeSize = hupper > hpageSize ? this._delegate.iconSize : 0;
 
-        if (this._delegate.dtpPanel.dynamicTransparency &&
-            this._currentBackgroundColor !== this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor) {
+        if (this._currentBackgroundColor !== this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor) {
             this._currentBackgroundColor = this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor;
             let gradientStyle = 'background-gradient-start: ' + this._currentBackgroundColor +
                                 'background-gradient-direction: ' + orientation;
@@ -1098,18 +1097,11 @@ var taskbar = Utils.defineClass({
                 if (!Main.overview._shown) {
                     this.forcedOverview = true;
                     let grid = Main.overview.viewSelector.appDisplay._views[visibleView].view._grid;
-                    let onShownCbs = [];
+                    let onShownCb;
                     let overviewShownId = Main.overview.connect('shown', () => {
                         Main.overview.disconnect(overviewShownId);
-                        onShownCbs.forEach(cb => cb());
+                        onShownCb();
                     });
-
-                    if (Config.PACKAGE_VERSION > '3.35.9') {
-                        let animateIconPosition = IconGrid.animateIconPosition;
-                        
-                        IconGrid.animateIconPosition = (icon, box, flags, nChangedIcons) => icon.allocate(box, flags);
-                        onShownCbs.push(() => IconGrid.animateIconPosition = animateIconPosition);
-                    }
 
                     if (animate) {
                         // Animate in the the appview, hide the appGrid to avoiud flashing
@@ -1126,13 +1118,14 @@ var taskbar = Utils.defineClass({
                         // and the appgrid could already be allocated from previous shown.
                         // It has to be triggered after the overview is shown as wrong coordinates are obtained
                         // otherwise.
-                        onShownCbs.push(() => Meta.later_add(Meta.LaterType.BEFORE_REDRAW, () => {
+                        onShownCb = () => Meta.later_add(Meta.LaterType.BEFORE_REDRAW, () => {
                             grid.actor.opacity = 255;
                             grid.animateSpring(IconGrid.AnimationDirection.IN, this.showAppsButton);
-                        }));
+                        });
                     } else {
                         Main.overview.viewSelector._activePage = Main.overview.viewSelector._appsPage;
                         Main.overview.viewSelector._activePage.show();
+                        onShownCb = () => grid.emit('animation-done');
                     }
                 }
 
