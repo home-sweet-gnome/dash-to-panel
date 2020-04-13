@@ -1740,19 +1740,10 @@ var MyShowAppsIconMenu = Utils.defineClass({
 
     _dtpRedisplay: function() {
         this.removeAll();
-
-        // true if `which` can find the app
-        function _checkExists(app) {
-            let cmd = "which '" + app + "'";
-            let out = GLib.spawn_command_line_sync(cmd);
-
-            // out contains 1: stdout, 2: stderr, 3: exit code
-            return out[3] == 0;
-        }
-
+        
         // Only add menu entries for commands that exist in path
         function _appendItem(obj, info) {
-            if (_checkExists(info.cmd[0])) {
+            if (Utils.checkExists(info.cmd[0])) {
                 let item = obj._appendMenuItem(_(info.title));
 
                 item.connect('activate', function() {
@@ -1765,27 +1756,27 @@ var MyShowAppsIconMenu = Utils.defineClass({
         }
 
         if (this.sourceActor != Main.layoutManager.dummyCursor) {
-            let powerSettingsMenuItem = _appendItem(this, {
+            _appendItem(this, {
                 title: 'Power options',
                 cmd: ['gnome-control-center', 'power']
             });
 
-            let logsMenuItem = _appendItem(this, {
+            _appendItem(this, {
                 title: 'Event logs',
                 cmd: ['gnome-logs']
             });
 
-            let systemSettingsMenuItem = _appendItem(this, {
+            _appendItem(this, {
                 title: 'System',
                 cmd: ['gnome-control-center', 'info-overview']
             });
 
-            let devicesSettingsMenuItem = _appendItem(this, {
+            _appendItem(this, {
                 title: 'Device Management',
                 cmd: ['gnome-control-center', 'display']
             });
 
-            let disksMenuItem = _appendItem(this, {
+            _appendItem(this, {
                 title: 'Disk Management',
                 cmd: ['gnome-disks']
             });
@@ -1793,27 +1784,27 @@ var MyShowAppsIconMenu = Utils.defineClass({
             this._appendSeparator();
         }
 
-        let terminalMenuItem = _appendItem(this, {
+        _appendItem(this, {
             title: 'Terminal',
             cmd: ['gnome-terminal']
         });
 
-        let systemMonitorMenuItem = _appendItem(this, {
+        _appendItem(this, {
             title: 'System monitor',
             cmd: ['gnome-system-monitor']
         });
 
-        let filesMenuItem = _appendItem(this, {
+        _appendItem(this, {
             title: 'Files',
             cmd: ['nautilus']
         });
 
-        let extPrefsMenuItem = _appendItem(this, {
+        _appendItem(this, {
             title: 'Extensions',
             cmd: ['gnome-shell-extension-prefs']
         });
 
-        let gsSettingsMenuItem = _appendItem(this, {
+        _appendItem(this, {
             title: 'Settings',
             cmd: ['gnome-control-center', 'wifi']
         });

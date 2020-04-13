@@ -26,6 +26,7 @@ const Config = imports.misc.config;
 const GdkPixbuf = imports.gi.GdkPixbuf
 const Gi = imports._gi;
 const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Meta = imports.gi.Meta;
@@ -875,4 +876,16 @@ var drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, isRoundRigh
     if (stroke != null)
         cr.setSource(stroke);
     cr.stroke();
+}
+
+/**
+ * Check if an app exists in the system.
+ * Depends on "which" to find app in $PATH
+ */
+function checkExists(app) {
+    let cmd = "which '" + app + "'";
+    let out = GLib.spawn_command_line_sync(cmd);
+
+    // out contains 1: stdout, 2: stderr, 3: exit code
+    return out[3] == 0;
 }
