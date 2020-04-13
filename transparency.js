@@ -63,6 +63,11 @@ var DynamicTransparency = Utils.defineClass({
         }
     },
 
+    updateExternalStyle: function() {
+        this._updateComplementaryStyles();
+        this._setBackground();
+    },
+
     _bindSignals: function() {
         this._signalsHandler.add(
             [
