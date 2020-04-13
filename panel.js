@@ -1139,7 +1139,7 @@ var dtpPanel = Utils.defineClass({
         let scrollAction = Me.settings.get_string('scroll-panel-action');
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (!this._checkIfIgnoredSrollSource(event.get_source()) && !this._timeoutsHandler.getId(T6)) {
+        if (!this._checkIfIgnoredScrollSource(event.get_source()) && !this._timeoutsHandler.getId(T6)) {
             if (direction && scrollAction === 'SWITCH_WORKSPACE') {
                 let args = [global.display];
 
@@ -1168,7 +1168,7 @@ var dtpPanel = Utils.defineClass({
         }
     },
 
-    _checkIfIgnoredSrollSource: function(source) {
+    _checkIfIgnoredScrollSource: function(source) {
         let ignoredConstr = ['WorkspaceIndicator'];
 
         return source._dtpIgnoreScroll || ignoredConstr.indexOf(source.constructor.name) >= 0;
