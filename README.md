@@ -181,8 +181,38 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 
 
 ## 
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/home-sweet-gnome/dash-to-panel/graphs/contributors"><img src="https://opencollective.com/home-sweet-gnome/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/home-sweet-gnome/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/home-sweet-gnome"><img src="https://opencollective.com/home-sweet-gnome/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/home-sweet-gnome/contribute)]
+
+<a href="https://opencollective.com/home-sweet-gnome/organization/0/website"><img src="https://opencollective.com/home-sweet-gnome/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/home-sweet-gnome/organization/1/website"><img src="https://opencollective.com/home-sweet-gnome/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/home-sweet-gnome/organization/2/website"><img src="https://opencollective.com/home-sweet-gnome/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/home-sweet-gnome/organization/3/website"><img src="https://opencollective.com/home-sweet-gnome/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/home-sweet-gnome/organization/4/website"><img src="https://opencollective.com/home-sweet-gnome/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/home-sweet-gnome/organization/5/website"><img src="https://opencollective.com/home-sweet-gnome/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/home-sweet-gnome/organization/6/website"><img src="https://opencollective.com/home-sweet-gnome/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/home-sweet-gnome/organization/7/website"><img src="https://opencollective.com/home-sweet-gnome/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/home-sweet-gnome/organization/8/website"><img src="https://opencollective.com/home-sweet-gnome/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/home-sweet-gnome/organization/9/website"><img src="https://opencollective.com/home-sweet-gnome/organization/9/avatar.svg"></a>
+
 ### License & Terms ![](media/design/png/copyleft-16.png)
 
 Dash to Panel is available under the terms of the GPL-v2 or later license See [`COPYING`](https://github.com/jderose9/dash-to-panel/blob/master/COPYING) for details.
 
-![](https://img.shields.io/badge/Language-JavaScript-yellow.svg) ![](https://img.shields.io/badge/Licence-GPL--2.0-blue.svg)
+[![Financial Contributors on Open Collective](https://opencollective.com/home-sweet-gnome/all/badge.svg?label=financial+contributors)](https://opencollective.com/home-sweet-gnome) ![](https://img.shields.io/badge/Language-JavaScript-yellow.svg) ![](https://img.shields.io/badge/Licence-GPL--2.0-blue.svg)
