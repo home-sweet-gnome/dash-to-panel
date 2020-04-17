@@ -882,8 +882,8 @@ var drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, isRoundRigh
  * Check if an app exists in the system.
  * Depends on "which" to find app in $PATH
  */
-function checkExists(app) {
-    let cmd = "which '" + app + "'";
+function checkIfCommandExists(app) {
+    let cmd = "bash -c 'command -v " + app + "'";
     let out = GLib.spawn_command_line_sync(cmd);
 
     // out contains 1: stdout, 2: stderr, 3: exit code

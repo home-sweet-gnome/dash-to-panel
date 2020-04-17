@@ -1743,7 +1743,7 @@ var MyShowAppsIconMenu = Utils.defineClass({
         
         // Only add menu entries for commands that exist in path
         function _appendItem(obj, info) {
-            if (Utils.checkExists(info.cmd[0])) {
+            if (Utils.checkIfCommandExists(info.cmd[0])) {
                 let item = obj._appendMenuItem(_(info.title));
 
                 item.connect('activate', function() {
