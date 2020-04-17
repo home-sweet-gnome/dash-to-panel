@@ -1754,62 +1754,34 @@ var MyShowAppsIconMenu = Utils.defineClass({
 
             return null;
         }
+        
+        function _appendList(obj, cmd_list, title_list) {
+            if (cmd_list.length != title_list.length) {
+                return;
+            }
+            
+            for (var entry = 0; entry < cmd_list.length; entry++) {
+                _appendItem(obj, {
+                    title: title_list[entry],
+                    cmd: cmd_list[entry].split(' ')
+                });
+            }
 
-        if (this.sourceActor != Main.layoutManager.dummyCursor) {
-            _appendItem(this, {
-                title: 'Power options',
-                cmd: ['gnome-control-center', 'power']
-            });
-
-            _appendItem(this, {
-                title: 'Event logs',
-                cmd: ['gnome-logs']
-            });
-
-            _appendItem(this, {
-                title: 'System',
-                cmd: ['gnome-control-center', 'info-overview']
-            });
-
-            _appendItem(this, {
-                title: 'Device Management',
-                cmd: ['gnome-control-center', 'display']
-            });
-
-            _appendItem(this, {
-                title: 'Disk Management',
-                cmd: ['gnome-disks']
-            });
-
-            this._appendSeparator();
+            obj._appendSeparator();
         }
 
-        _appendItem(this, {
-            title: 'Terminal',
-            cmd: ['gnome-terminal']
-        });
-
-        _appendItem(this, {
-            title: 'System monitor',
-            cmd: ['gnome-system-monitor']
-        });
-
-        _appendItem(this, {
-            title: 'Files',
-            cmd: ['nautilus']
-        });
-
-        _appendItem(this, {
-            title: 'Extensions',
-            cmd: ['gnome-shell-extension-prefs']
-        });
-
-        _appendItem(this, {
-            title: 'Settings',
-            cmd: ['gnome-control-center', 'wifi']
-        });
-
-        this._appendSeparator();
+        if (this.sourceActor != Main.layoutManager.dummyCursor) {
+            _appendList(
+                this,
+                Me.settings.get_strv('show-apps-button-context-menu-commands'),
+                Me.settings.get_strv('show-apps-button-context-menu-titles')
+            )
+        }
+        _appendList(
+            this,
+            Me.settings.get_strv('panel-context-menu-commands'),
+            Me.settings.get_strv('panel-context-menu-titles')
+        )
 
         let lockTaskbarMenuItem = this._appendMenuItem(Me.settings.get_boolean('taskbar-locked') ? _('Unlock taskbar') : _('Lock taskbar'));
         lockTaskbarMenuItem.connect('activate', () => {
