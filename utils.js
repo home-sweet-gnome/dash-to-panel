@@ -891,10 +891,14 @@ function checkIfCommandExists(app) {
         // Quotes around app value are important. They let command operate
         // on the whole value, instead of having shell interpret it.
         let cmd = "sh -c 'command -v \"" + app + "\"'";
-        let out = GLib.spawn_command_line_sync(cmd);
+        try {
+            let out = GLib.spawn_command_line_sync(cmd);
+            // out contains 1: stdout, 2: stderr, 3: exit code
+            answer = out[3] == 0;
+        } catch {
+            answer = false;
+        }
 
-        // out contains 1: stdout, 2: stderr, 3: exit code
-        answer = out[3] == 0;
         checkedCommandsMap.set(app, answer);
     }
     return answer;
