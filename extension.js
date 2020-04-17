@@ -136,7 +136,7 @@ function disable(reset) {
 
         // Re-enable Ubuntu Dock if it was disabled by dash to panel
         if (disabledUbuntuDock && Main.sessionMode.allowExtensions) {
-            extensionSystem.enableExtension(UBUNTU_DOCK_UUID);
+            (extensionSystem._callExtensionEnable || extensionSystem.enableExtension).call(extensionSystem, UBUNTU_DOCK_UUID);
         }
     }
 }
