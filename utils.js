@@ -882,10 +882,20 @@ var drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, isRoundRigh
  * Check if an app exists in the system.
  * Depends on "which" to find app in $PATH
  */
-function checkIfCommandExists(app) {
-    let cmd = "bash -c 'command -v " + app + "'";
-    let out = GLib.spawn_command_line_sync(cmd);
+var checkedCommandsMap = new Map();
 
-    // out contains 1: stdout, 2: stderr, 3: exit code
-    return out[3] == 0;
+function checkIfCommandExists(app) {
+    let answer = checkedCommandsMap.get(app);
+    if (answer === undefined) {
+        // Command is a shell built in, use shell to call it.
+        // Quotes around app value are important. They let command operate
+        // on the whole value, instead of having shell interpret it.
+        let cmd = "sh -c 'command -v \"" + app + "\"'";
+        let out = GLib.spawn_command_line_sync(cmd);
+
+        // out contains 1: stdout, 2: stderr, 3: exit code
+        answer = out[3] == 0;
+        checkedCommandsMap.set(app, answer);
+    }
+    return answer;
 }
