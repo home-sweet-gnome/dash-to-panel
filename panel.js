@@ -574,7 +574,7 @@ var dtpPanel = Utils.defineClass({
         if (!Me.settings.get_boolean(settingName)) {
             this._removePanelMenu(propName);
         } else if (!this.statusArea[propName]) {
-            this.statusArea[propName] = new constr();
+            this.statusArea[propName] = this._getPanelMenu(propName, constr);
             this.menuManager.addMenu(this.statusArea[propName].menu);
             container.insert_child_at_index(this.statusArea[propName].container, 0);
         }
@@ -588,10 +588,27 @@ var dtpPanel = Utils.defineClass({
                 parent.remove_actor(this.statusArea[propName].container);
             }
 
-            //this.statusArea[propName].destroy(); //buggy for now, gnome-shell never destroys those menus
-            this.menuManager.removeMenu(this.statusArea[propName].menu);
+            //calling this.statusArea[propName].destroy(); is buggy for now, gnome-shell never
+            //destroys those panel menus...
+            //since we can't destroy the menu (hence properly disconnect its signals), let's 
+            //store it so the next time a panel needs one of its kind, we can reuse it instead 
+            //of creating a new one
+            let panelMenu = this.statusArea[propName];
+
+            this.menuManager.removeMenu(panelMenu.menu);
+            Me.persistentStorage[propName].push(panelMenu);
             this.statusArea[propName] = null;
         }
+    },
+
+    _getPanelMenu: function(propName, constr) {
+        Me.persistentStorage[propName] = Me.persistentStorage[propName] || [];
+
+        if (!Me.persistentStorage[propName].length) {
+            Me.persistentStorage[propName].push(new constr());
+        }
+
+        return Me.persistentStorage[propName].pop();
     },
 
     _setPanelGhostSize: function() {
@@ -1186,6 +1203,8 @@ var dtpSecondaryAggregateMenu = Utils.defineClass({
 
     _init: function() {
         this.callParent('_init', 0.0, C_("System menu in the top bar", "System"), false);
+
+        Utils.wrapActor(this);
 
         this.menu.actor.add_style_class_name('aggregate-menu');
 
