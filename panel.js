@@ -52,7 +52,6 @@ const PopupMenu = imports.ui.popupMenu;
 const IconGrid = imports.ui.iconGrid;
 const ViewSelector = imports.ui.viewSelector;
 const DateMenu = imports.ui.dateMenu;
-const Tweener = imports.ui.tweener;
 const Volume = imports.ui.status.volume;
 const Progress = Me.imports.progress;
 
@@ -74,6 +73,7 @@ const T3 = 'allocationThrottleTimeout';
 const T4 = 'showDesktopTimeout';
 const T5 = 'trackerFocusAppTimeout';
 const T6 = 'scrollPanelDelayTimeout';
+const T7 = 'waitPanelBoxAllocation';
 
 function getPosition() {
     let position = Me.settings.get_string('panel-position');
@@ -814,7 +814,7 @@ var dtpPanel = Utils.defineClass({
             this.panel.actor[(St.Side[p] == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
         });
 
-        Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height);
+        this._timeoutsHandler.add([T7, 0, () => Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height)]);
 
         Main.layoutManager._updateHotCorners();
         Main.layoutManager._updatePanelBarrier(this);

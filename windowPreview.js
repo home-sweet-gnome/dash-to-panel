@@ -26,7 +26,6 @@ const PopupMenu = imports.ui.popupMenu;
 const Signals = imports.signals;
 const Shell = imports.gi.Shell;
 const St = imports.gi.St;
-const Tweener = imports.ui.tweener;
 const WindowManager = imports.ui.windowManager;
 const Workspace = imports.ui.workspace;
 
@@ -208,7 +207,7 @@ var PreviewMenu = Utils.defineClass({
         this._endPeek();
         
         if (immediate) {
-            Tweener.removeTweens(this.menu);
+            Utils.stopAnimations(this.menu);
             this._resetHiddenState();
         } else {
             this._animateOpenOrClose(false, () => this._resetHiddenState());
@@ -484,7 +483,7 @@ var PreviewMenu = Utils.defineClass({
             this.menu.set_position(x, y);
             this.menu.set_size(previewsWidth, previewsHeight);
         } else {
-            Tweener.addTween(this.menu, getTweenOpts({ x: x, y: y, width: previewsWidth, height: previewsHeight }));
+            Utils.animate(this.menu, getTweenOpts({ x: x, y: y, width: previewsWidth, height: previewsHeight }));
         }
     },
 
@@ -579,7 +578,7 @@ var PreviewMenu = Utils.defineClass({
 
         tweenOpts[this._translationProp] = show ? this._translationDirection : this._translationOffset;
 
-        Tweener.addTween(this.menu, getTweenOpts(tweenOpts));
+        Utils.animate(this.menu, getTweenOpts(tweenOpts));
     },
 
     _peek: function(window) {
@@ -816,8 +815,8 @@ var Preview = Utils.defineClass({
 
             this.animatingOut = true;
 
-            Tweener.removeTweens(this);
-            Tweener.addTween(this, tweenOpts);
+            Utils.stopAnimations(this);
+            Utils.animate(this, tweenOpts);
         }
     },
 
@@ -825,8 +824,8 @@ var Preview = Utils.defineClass({
         if (this.animatingOut) {
             this.animatingOut = false;
 
-            Tweener.removeTweens(this);
-            Tweener.addTween(this, getTweenOpts({ opacity: 255 }));
+            Utils.stopAnimations(this);
+            Utils.animate(this, getTweenOpts({ opacity: 255 }));
         }
     },
 
@@ -965,7 +964,7 @@ var Preview = Utils.defineClass({
 
     _hideOrShowCloseButton: function(hide) {
         if (this._needsCloseButton) {
-            Tweener.addTween(this._closeButtonBin, getTweenOpts({ opacity: hide ? 0 : 255 }));
+            Utils.animate(this._closeButtonBin, getTweenOpts({ opacity: hide ? 0 : 255 }));
         }
     },
 
@@ -1009,7 +1008,7 @@ var Preview = Utils.defineClass({
             }
 
             currentClones.forEach(c => c.destroy());
-            Tweener.addTween(currentCloneBin, currentCloneOpts);
+            Utils.animate(currentCloneBin, currentCloneOpts);
         } else if (animateSize) {
             newCloneBin.width = 0;
             newCloneBin.height = 0;
@@ -1017,7 +1016,7 @@ var Preview = Utils.defineClass({
             newCloneOpts.height = this.cloneHeight;
         }
 
-        Tweener.addTween(newCloneBin, newCloneOpts);
+        Utils.animate(newCloneBin, newCloneOpts);
     },
     
     _getWindowCloneBin: function(window) {
