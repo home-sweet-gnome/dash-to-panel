@@ -35,11 +35,16 @@ const St = imports.gi.St;
 const Mainloop = imports.mainloop;
 const Main = imports.ui.main;
 const MessageTray = imports.ui.messageTray;
-const Tweener = imports.ui.tweener;
 const Util = imports.misc.util;
 
 var TRANSLATION_DOMAIN = imports.misc.extensionUtils.getCurrentExtension().metadata['gettext-domain'];
 var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
+
+//Clutter implicit animations are available since 3.34
+//prefer those over Tweener if available
+if (Config.PACKAGE_VERSION < '3.34') {
+    var Tweener = imports.ui.tweener;
+}
 
 var defineClass = function (classDef) {
     let parentProto = classDef.Extends ? classDef.Extends.prototype : null;
@@ -443,8 +448,50 @@ var animateWindowOpacity = function(window, tweenOpts) {
         return window.visible = (tweenOpts.opacity == 255);
     }
 
-    Tweener.addTween(window, tweenOpts);
+    animate(window, tweenOpts);
 };
+
+var animate = function(actor, options) {
+    if (Tweener) {
+        return Tweener.addTween(actor, options);
+    }
+
+    //to support both Tweener and Clutter animations, we use Tweener 
+    //"time" property defined in seconds, as opposed to Clutter animations
+    //"duration" which is defined in milliseconds
+    options.duration = options.time * 1000;
+    delete options.time;
+
+    if (options.transition) {
+        //map Tweener easing equations to Clutter animation modes
+        options.mode = {
+            'easeInCubic': Clutter.AnimationMode.EASE_IN_CUBIC,
+            'easeInOutCubic': Clutter.AnimationMode.EASE_IN_OUT_CUBIC,
+            'easeInOutQuad': Clutter.AnimationMode.EASE_IN_OUT_QUAD,
+            'easeOutQuad': Clutter.AnimationMode.EASE_OUT_QUAD
+        }[options.transition] || Clutter.AnimationMode.LINEAR;
+
+        delete options.transition;
+    }
+    
+    actor.ease(options);
+}
+
+var isAnimating = function(actor, prop) {
+    if (Tweener) {
+        return Tweener.isTweening(actor);
+    }
+
+    return !!actor.get_transition(prop);
+}
+
+var stopAnimations = function(actor) {
+    if (Tweener) {
+        return Tweener.removeTweens(actor);
+    }
+    
+    actor.remove_all_transitions();
+}
 
 var getIndicators = function(delegate) {
     if (delegate instanceof St.BoxLayout) {
@@ -545,11 +592,11 @@ var ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize, onCom
     };
 
     if (vvalue !== vvalue0) {
-        Tweener.addTween(vadjustment, mergeObjects(tweenOpts, { value: vvalue }));
+        animate(vadjustment, mergeObjects(tweenOpts, { value: vvalue }));
     }
 
     if (hvalue !== hvalue0) {
-        Tweener.addTween(hadjustment, mergeObjects(tweenOpts, { value: hvalue }));
+        animate(hadjustment, mergeObjects(tweenOpts, { value: hvalue }));
     }
 
     return [hvalue- hvalue0, vvalue - vvalue0];

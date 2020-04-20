@@ -41,7 +41,6 @@ const DND = imports.ui.dnd;
 const IconGrid = imports.ui.iconGrid;
 const Main = imports.ui.main;
 const PopupMenu = imports.ui.popupMenu;
-const Tweener = imports.ui.tweener;
 const Workspace = imports.ui.workspace;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -737,7 +736,7 @@ var taskbar = Utils.defineClass({
             // tween to the new size
             icon.icon.set_size(icon.icon.width * scale, icon.icon.height * scale);
 
-            Tweener.addTween(icon.icon,
+            Utils.animate(icon.icon,
                         { width: targetWidth,
                             height: targetHeight,
                             time: DASH_ANIMATION_TIME,

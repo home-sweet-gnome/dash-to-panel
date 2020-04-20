@@ -41,7 +41,6 @@ const DND = imports.ui.dnd;
 const IconGrid = imports.ui.iconGrid;
 const Main = imports.ui.main;
 const PopupMenu = imports.ui.popupMenu;
-const Tweener = imports.ui.tweener;
 const Util = imports.misc.util;
 const Workspace = imports.ui.workspace;
 
@@ -404,6 +403,8 @@ var taskbarAppIcon = Utils.defineClass({
         } else {
             this._focusedDots = new St.DrawingArea(), 
             this._unfocusedDots = new St.DrawingArea();
+            this._focusedDots._tweeningToSize = null, 
+            this._unfocusedDots._tweeningToSize = null;
             
             this._focusedDots.connect('repaint', Lang.bind(this, function() {
                 if(this._dashItemContainer.animatingOut) {
@@ -709,7 +710,7 @@ var taskbarAppIcon = Utils.defineClass({
             tweenOpts[sizeProp] = newSize;
             dots._tweeningToSize = newSize;
 
-            Tweener.addTween(dots, tweenOpts);
+            Utils.animate(dots, tweenOpts);
         }
     },
 
@@ -1559,19 +1560,17 @@ function ItemShowLabel()  {
 
     this.label.set_position(Math.round(x), Math.round(y));
 
-    if (Dash.DASH_ITEM_LABEL_SHOW_TIME < 1) {
-        Tweener.addTween(this.label, { 
-            opacity: 255,
-            time: Dash.DASH_ITEM_LABEL_SHOW_TIME,
-            transition: 'easeOutQuad',
-        });
-    } else {
-        this.label.ease({
-            opacity: 255,
-            duration: Dash.DASH_ITEM_LABEL_SHOW_TIME,
-            mode: Clutter.AnimationMode.EASE_OUT_QUAD
-        });
+    let duration = Dash.DASH_ITEM_LABEL_SHOW_TIME; 
+    
+    if (duration > 1) {
+        duration /= 1000;
     }
+        
+    Utils.animate(this.label, { 
+        opacity: 255,
+        time: duration,
+        transition: 'easeOutQuad',
+    });
 };
 
 /**

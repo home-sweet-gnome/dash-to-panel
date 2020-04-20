@@ -26,7 +26,6 @@ const Layout = imports.ui.layout;
 const Main = imports.ui.main;
 const OverviewControls = imports.ui.overviewControls;
 const PointerWatcher = imports.ui.pointerWatcher;
-const Tweener = imports.ui.tweener;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Panel = Me.imports.panel;
@@ -357,13 +356,13 @@ var Intellihide = Utils.defineClass({
     },
 
     _animatePanel: function(destination, immediate) {
-        let animating = Tweener.isTweening(this._panelBox);
+        let animating = Utils.isAnimating(this._panelBox, this._translationProp);
 
         if (!((animating && destination === this._animationDestination) || 
               (!animating && destination === this._panelBox[this._translationProp]))) {
             //the panel isn't already at, or animating to the asked destination
             if (animating) {
-                Tweener.removeTweens(this._panelBox);
+                Utils.stopAnimations(this._panelBox);
             }
 
             this._animationDestination = destination;
@@ -388,7 +387,7 @@ var Intellihide = Utils.defineClass({
                 };
 
                 tweenOpts[this._translationProp] = destination;
-                Tweener.addTween(this._panelBox, tweenOpts);
+                Utils.animate(this._panelBox, tweenOpts);
             }
         }
 
