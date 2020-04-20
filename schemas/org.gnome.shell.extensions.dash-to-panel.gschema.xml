@@ -373,40 +373,24 @@
       <description>Animate Show Applications from the desktop</description>
     </key>
     <key type="as" name="show-apps-button-context-menu-commands">
-     <default>['gnome-control-center power',
-         'gnome-logs',
-         'gnome-control-center info-overview',
-         'gnome-control-center display',
-         'gnome-disks']</default>
-     <summary>Commands to run on Show Apps Menu</summary>
-     <description>Commands to run in the Show Apps button context menu</description>
+     <default>[]</default>
+     <summary>Show Apps button context menu commands</summary>
+     <description>Commands to add to the Show Apps button right click menu</description>
     </key>
     <key type="as" name="show-apps-button-context-menu-titles">
-     <default>['Power options',
-         'Event logs',
-         'System',
-         'Device Management',
-         'Disk Management']</default>
-     <summary>Titles to show on Show Apps Menu</summary>
-     <description>Titles to show in the Show Apps button context menu</description>
+     <default>[]</default>
+     <summary>Show Apps button context menu titles</summary>
+     <description>Titles for commands added to Show Apps button right click menu</description>
     </key>
     <key type="as" name="panel-context-menu-commands">
-     <default>['gnome-terminal',
-         'gnome-system-monitor',
-         'nautilus',
-         'gnome-shell-extension-prefs',
-         'gnome-control-center wifi']</default>
-     <summary>Commands to run on panel context menu</summary>
-     <description>Commands to run in the panel context menu</description>
+     <default>[]</default>
+     <summary>Panel context menu commands</summary>
+     <description>Commands to add to the panel right click menu</description>
     </key>
     <key type="as" name="panel-context-menu-titles">
-     <default>['Terminal',
-         'System monitor',
-         'Files',
-         'Extensions',
-         'Settings']</default>
-     <summary>Titles to show on panel context menu</summary>
-     <description>Titles to show in the panel context menu</description>
+     <default>[]</default>
+     <summary>Panel context menu titles</summary>
+     <description>Titles for commands added to panel right click menu</description>
     </key>
     <key type="b" name="show-activities-button">
       <default>false</default>

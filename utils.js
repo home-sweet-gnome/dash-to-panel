@@ -880,7 +880,6 @@ var drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, isRoundRigh
 
 /**
  * Check if an app exists in the system.
- * Depends on "which" to find app in $PATH
  */
 var checkedCommandsMap = new Map();
 
