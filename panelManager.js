@@ -186,19 +186,39 @@ var dtpPanelManager = Utils.defineClass({
             this._oldAnimateIconPosition = IconGrid.animateIconPosition;
             IconGrid.animateIconPosition = newAnimateIconPosition.bind(this);
 
+            this._signalsHandler.add(
+                [
+                    Utils.DisplayWrapper.getScreen(),
+                    'window-entered-monitor',
+                    () => this._needsIconAllocate = 1
+                ],
+            );
+
             Main.overview.viewSelector.appDisplay._views.forEach(v => {
                 if (v.control.has_style_pseudo_class('checked')) {
                     currentAppsView = v;
                 }
 
-                this._signalsHandler.add([v.control, 'clicked', () => {
-                    this._needsIconAllocate = currentAppsView != v;
-                    currentAppsView = v;
-                }]);
-
-                this._signalsHandler.add([v.view, 'notify::visible', () => this._needsIconAllocate = !(currentAppsView != v && !v.view.visible)]);
-
-                this._signalsHandler.add([v.view._grid, 'animation-done', () => this._needsIconAllocate = 0]);
+                this._signalsHandler.add(
+                    [
+                        v.control, 
+                        'clicked', 
+                        () => {
+                            this._needsIconAllocate = currentAppsView != v;
+                            currentAppsView = v;
+                        }
+                    ],
+                    [
+                        v.view, 
+                        'notify::visible', 
+                        () => this._needsIconAllocate = !(currentAppsView != v && !v.view.visible)
+                    ],
+                    [
+                        v.view._grid, 
+                        'animation-done', 
+                        () => this._needsIconAllocate = 0
+                    ]
+                );
             });
         }
 
