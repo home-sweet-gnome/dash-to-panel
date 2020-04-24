@@ -941,7 +941,7 @@ function checkIfCommandExists(app) {
             let out = GLib.spawn_command_line_sync(cmd);
             // out contains 1: stdout, 2: stderr, 3: exit code
             answer = out[3] == 0;
-        } catch {
+        } catch (ex) {
             answer = false;
         }
 
