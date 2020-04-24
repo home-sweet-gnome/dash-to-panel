@@ -26,6 +26,7 @@ const Config = imports.misc.config;
 const GdkPixbuf = imports.gi.GdkPixbuf
 const Gi = imports._gi;
 const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Meta = imports.gi.Meta;
@@ -922,4 +923,29 @@ var drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, isRoundRigh
     if (stroke != null)
         cr.setSource(stroke);
     cr.stroke();
+}
+
+/**
+ * Check if an app exists in the system.
+ */
+var checkedCommandsMap = new Map();
+
+function checkIfCommandExists(app) {
+    let answer = checkedCommandsMap.get(app);
+    if (answer === undefined) {
+        // Command is a shell built in, use shell to call it.
+        // Quotes around app value are important. They let command operate
+        // on the whole value, instead of having shell interpret it.
+        let cmd = "sh -c 'command -v \"" + app + "\"'";
+        try {
+            let out = GLib.spawn_command_line_sync(cmd);
+            // out contains 1: stdout, 2: stderr, 3: exit code
+            answer = out[3] == 0;
+        } catch {
+            answer = false;
+        }
+
+        checkedCommandsMap.set(app, answer);
+    }
+    return answer;
 }

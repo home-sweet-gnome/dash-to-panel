@@ -1739,60 +1739,99 @@ var MyShowAppsIconMenu = Utils.defineClass({
 
     _dtpRedisplay: function() {
         this.removeAll();
+        
+        // Only add menu entries for commands that exist in path
+        function _appendItem(obj, info) {
+            if (Utils.checkIfCommandExists(info.cmd[0])) {
+                let item = obj._appendMenuItem(_(info.title));
 
-        if (this.sourceActor != Main.layoutManager.dummyCursor) { 
-            let powerSettingsMenuItem = this._appendMenuItem(_('Power options'));
-            powerSettingsMenuItem.connect('activate', function () {
-                Util.spawn(['gnome-control-center', 'power']);
+                item.connect('activate', function() {
+                    Util.spawn(info.cmd);
+                });
+                return item;
+            }
+
+            return null;
+        }
+        
+        function _appendList(obj, commandList, titleList) {
+            if (commandList.length != titleList.length) {
+                return;
+            }
+            
+            for (var entry = 0; entry < commandList.length; entry++) {
+                _appendItem(obj, {
+                    title: titleList[entry],
+                    cmd: commandList[entry].split(' ')
+                });
+            }
+        }
+
+        if (this.sourceActor != Main.layoutManager.dummyCursor) {
+            _appendItem(this, {
+                title: 'Power options',
+                cmd: ['gnome-control-center', 'power']
             });
 
-            let logsMenuItem = this._appendMenuItem(_('Event logs'));
-            logsMenuItem.connect('activate', function () {
-                Util.spawn(['gnome-logs']);
+            _appendItem(this, {
+                title: 'Event logs',
+                cmd: ['gnome-logs']
             });
 
-            let systemSettingsMenuItem = this._appendMenuItem(_('System'));
-            systemSettingsMenuItem.connect('activate', function () {
-                Util.spawn(['gnome-control-center', 'info-overview']);
+            _appendItem(this, {
+                title: 'System',
+                cmd: ['gnome-control-center', 'info-overview']
             });
 
-            let devicesSettingsMenuItem = this._appendMenuItem(_('Device Management'));
-            devicesSettingsMenuItem.connect('activate', function () {
-                Util.spawn(['gnome-control-center', 'display']);
+            _appendItem(this, {
+                title: 'Device Management',
+                cmd: ['gnome-control-center', 'display']
             });
 
-            let disksMenuItem = this._appendMenuItem(_('Disk Management'));
-            disksMenuItem.connect('activate', function () {
-                Util.spawn(['gnome-disks']);
+            _appendItem(this, {
+                title: 'Disk Management',
+                cmd: ['gnome-disks']
             });
+
+            _appendList(
+                this,
+                Me.settings.get_strv('show-apps-button-context-menu-commands'),
+                Me.settings.get_strv('show-apps-button-context-menu-titles')
+            )
 
             this._appendSeparator();
         }
 
-        let terminalMenuItem = this._appendMenuItem(_('Terminal'));
-        terminalMenuItem.connect('activate', function () {
-            Util.spawn(['gnome-terminal']);
+        _appendItem(this, {
+            title: 'Terminal',
+            cmd: ['gnome-terminal']
         });
 
-        let systemMonitorMenuItem = this._appendMenuItem(_('System monitor'));
-        systemMonitorMenuItem.connect('activate', function () {
-            Util.spawn(['gnome-system-monitor']);
+        _appendItem(this, {
+            title: 'System monitor',
+            cmd: ['gnome-system-monitor']
         });
 
-        let filesMenuItem = this._appendMenuItem(_('Files'));
-        filesMenuItem.connect('activate', function () {
-            Util.spawn(['nautilus']);
+        _appendItem(this, {
+            title: 'Files',
+            cmd: ['nautilus']
         });
 
-        let extPrefsMenuItem = this._appendMenuItem(_('Extensions'));
-        extPrefsMenuItem.connect('activate', function () {
-            Util.spawn(["gnome-shell-extension-prefs"]);
+        _appendItem(this, {
+            title: 'Extensions',
+            cmd: ['gnome-shell-extension-prefs']
         });
 
-        let gsSettingsMenuItem = this._appendMenuItem(_('Settings'));
-        gsSettingsMenuItem.connect('activate', function () {
-            Util.spawn(['gnome-control-center', 'wifi']);
-        });     
+        _appendItem(this, {
+            title: 'Settings',
+            cmd: ['gnome-control-center', 'wifi']
+        });
+
+        _appendList(
+            this,
+            Me.settings.get_strv('panel-context-menu-commands'),
+            Me.settings.get_strv('panel-context-menu-titles')
+        )
 
         this._appendSeparator();
 

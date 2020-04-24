@@ -372,6 +372,26 @@
       <summary>Animate Show Applications from the desktop</summary>
       <description>Animate Show Applications from the desktop</description>
     </key>
+    <key type="as" name="show-apps-button-context-menu-commands">
+     <default>[]</default>
+     <summary>Show Apps button context menu commands</summary>
+     <description>Commands to add to the Show Apps button right click menu</description>
+    </key>
+    <key type="as" name="show-apps-button-context-menu-titles">
+     <default>[]</default>
+     <summary>Show Apps button context menu titles</summary>
+     <description>Titles for commands added to Show Apps button right click menu</description>
+    </key>
+    <key type="as" name="panel-context-menu-commands">
+     <default>[]</default>
+     <summary>Panel context menu commands</summary>
+     <description>Commands to add to the panel right click menu</description>
+    </key>
+    <key type="as" name="panel-context-menu-titles">
+     <default>[]</default>
+     <summary>Panel context menu titles</summary>
+     <description>Titles for commands added to panel right click menu</description>
+    </key>
     <key type="b" name="show-activities-button">
       <default>false</default>
       <summary>Show activities button</summary>
@@ -1186,7 +1206,7 @@
       <summary>Show progress bar on app icon</summary>
       <description>Whether to show progress bar overlay on app icon, for supported applications.</description>
     </key>
-     <key type="b" name="progress-show-count">
+    <key type="b" name="progress-show-count">
       <default>true</default>
       <summary>Show badge count on app icon</summary>
       <description>Whether to show badge count overlay on app icon, for supported applications.</description>
