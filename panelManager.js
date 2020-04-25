@@ -191,7 +191,7 @@ var dtpPanelManager = Utils.defineClass({
                     Utils.DisplayWrapper.getScreen(),
                     'window-entered-monitor',
                     () => this._needsIconAllocate = 1
-                ],
+                ]
             );
 
             Main.overview.viewSelector.appDisplay._views.forEach(v => {
