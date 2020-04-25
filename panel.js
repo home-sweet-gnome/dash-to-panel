@@ -415,15 +415,6 @@ var dtpPanel = Utils.defineClass({
         this.container.remove_child(this.taskbar.actor);
         this._setAppmenuVisible(false);
 
-        if (this.statusArea.appMenu) {
-            setMenuArrow(this.statusArea.appMenu._arrow, St.Side.TOP);
-            this._leftBox.add_child(this.statusArea.appMenu.container);
-        }
-
-        if (this.statusArea.keyboard) {
-            setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), St.Side.TOP);
-        }
-
         if (this.intellihide) {
             this.intellihide.destroy();
         }
@@ -458,6 +449,15 @@ var dtpPanel = Utils.defineClass({
             if(!Main.sessionMode.isLocked) {
                 this._setActivitiesButtonVisible(true);
                 this._setClockLocation("BUTTONSLEFT");
+
+                if (this.statusArea.appMenu) {
+                    setMenuArrow(this.statusArea.appMenu._arrow, St.Side.TOP);
+                    this._leftBox.add_child(this.statusArea.appMenu.container);
+                }
+
+                if (this.statusArea.keyboard) {
+                    setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), St.Side.TOP);
+                }
             }
 
             this._displayShowDesktopButton(false);
