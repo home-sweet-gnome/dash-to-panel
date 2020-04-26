@@ -456,9 +456,13 @@ var animate = function(actor, options) {
         return Tweener.addTween(actor, options);
     }
 
-    //to support both Tweener and Clutter animations, we use Tweener 
-    //"time" property defined in seconds, as opposed to Clutter animations
-    //"duration" which is defined in milliseconds
+    //to support both Tweener and Clutter animations, we use Tweener "time" 
+    //and "delay" properties defined in seconds, as opposed to Clutter animations 
+    //"duration" and "delay" which are defined in milliseconds
+    if (options.delay) {
+        options.delay = options.delay * 1000;
+    }
+
     options.duration = options.time * 1000;
     delete options.time;
 
@@ -476,7 +480,7 @@ var animate = function(actor, options) {
 
     let params = [options];
 
-    if (actor instanceof St.Adjustment) {
+    if ('value' in options && actor instanceof St.Adjustment) {
         params.unshift(options.value);
         delete options.value;
     }
