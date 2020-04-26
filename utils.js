@@ -473,8 +473,15 @@ var animate = function(actor, options) {
 
         delete options.transition;
     }
-    
-    actor.ease(options);
+
+    let params = [options];
+
+    if (actor instanceof St.Adjustment) {
+        params.unshift(options.value);
+        delete options.value;
+    }
+
+    actor.ease.apply(actor, params);
 }
 
 var isAnimating = function(actor, prop) {
