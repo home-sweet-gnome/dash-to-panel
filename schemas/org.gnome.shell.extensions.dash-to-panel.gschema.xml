@@ -448,9 +448,14 @@
       <description>Show or hide favorite application icons in the dash</description>
     </key>
     <key type="i" name="show-window-previews-timeout">
-      <default>100</default>
+      <default>300</default>
       <summary>Icon enter display time</summary>
       <description>Amount of time after entering icon to wait before displaying window preview if icon is not clicked or mouse has not left.</description>
+    </key>
+    <key type="i" name="move-window-previews-timeout">
+      <default>100</default>
+      <summary>Icon enter move time</summary>
+      <description>Amount of time after entering icon to wait before moving window preview if icon is not clicked or mouse has not left.</description>
     </key>
     <key type="b" name="peek-mode">
       <default>true</default>
