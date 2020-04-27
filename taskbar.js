@@ -1190,13 +1190,17 @@ var taskbar = Utils.defineClass({
 
     popupFocusedAppSecondaryMenu: function() {
         let appIcons = this._getAppIcons();
+        let tracker = Shell.WindowTracker.get_default();
+
         for(let i in appIcons) {
             if(appIcons[i].app == tracker.focus_app) {
                 let appIcon = appIcons[i];
                 if(appIcon._menu && appIcon._menu.isOpen)
                     appIcon._menu.close();
                 else
-                    appIcons[i].popupMenu();
+                    appIcon.popupMenu();
+
+                appIcon.sync_hover();
                 break;
             }
         }
