@@ -170,12 +170,14 @@ var PreviewMenu = Utils.defineClass({
     },
 
     requestOpen: function(appIcon) {
+        let timeout = Me.settings.get_int('show-window-previews-timeout');
+
+        if (this.opened) {
+            timeout = Math.min(100, timeout);
+        }
+
         this._endOpenCloseTimeouts();
-        this._timeoutsHandler.add([
-            T1, 
-            Me.settings.get_int((this.opened ? 'move' : 'show') + '-window-previews-timeout'), 
-            () => this.open(appIcon)
-        ]);
+        this._timeoutsHandler.add([T1, timeout, () => this.open(appIcon)]);
     },
 
     requestClose: function() {
