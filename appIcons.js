@@ -696,16 +696,15 @@ var taskbarAppIcon = Utils.defineClass({
             let tweenOpts = { 
                 time: Taskbar.DASH_ANIMATION_TIME,
                 transition: 'easeInOutCubic',
-                onStart: Lang.bind(this, function() { 
-                    if(newOtherOpacity == 0)
-                        otherDots.opacity = newOtherOpacity;
-                }),
                 onComplete: Lang.bind(this, function() { 
                     if(newOtherOpacity > 0)
                         otherDots.opacity = newOtherOpacity;
                     dots._tweeningToSize = null;
                 })
             };
+
+            if(newOtherOpacity == 0)
+                otherDots.opacity = newOtherOpacity;
 
             tweenOpts[sizeProp] = newSize;
             dots._tweeningToSize = newSize;
