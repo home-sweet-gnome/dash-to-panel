@@ -216,14 +216,18 @@ var dtpPanelStyle = Utils.defineClass({
         /* connect signal */
         this._rightBoxActorAddedID = this.panel._rightBox.connect('actor-added',
             Lang.bind(this, function (container, actor) {
-                if(this._rightBoxOperations.length)
+                if(this._rightBoxOperations.length && !this._ignoreAddedChild)
                     this._recursiveApply(actor, this._rightBoxOperations);
+
+                this._ignoreAddedChild = 0;
             })
         );
         this._centerBoxActorAddedID = this.panel._centerBox.connect('actor-added',
             Lang.bind(this, function (container, actor) {
-                if(this._centerBoxOperations.length)
+                if(this._centerBoxOperations.length && !this._ignoreAddedChild)
                     this._recursiveApply(actor, this._centerBoxOperations);
+
+                this._ignoreAddedChild = 0;
             })
         );
         this._leftBoxActorAddedID = this.panel._leftBox.connect('actor-added',
@@ -313,9 +317,19 @@ var dtpPanelStyle = Utils.defineClass({
 
     _refreshPanelButton: function(actor) {
         if (actor.visible && imports.misc.config.PACKAGE_VERSION >= '3.34.0') {
-            //force gnome 3.34 to refresh (having problem with the -natural-hpadding)
-            actor.hide();
-            Mainloop.idle_add(() => actor.show());
+            //force gnome 3.34+ to refresh (having problem with the -natural-hpadding)
+            let parent = actor.get_parent();
+            let children = parent.get_children();
+            let actorIndex = 0;
+
+            if (children.length > 1) {
+                actorIndex = children.indexOf(actor);
+            }
+
+            this._ignoreAddedChild = [this.panel._centerBox, this.panel._rightBox].indexOf(parent) >= 0;
+
+            parent.remove_child(actor);
+            parent.insert_child_at_index(actor, actorIndex);
         }
     }
     
