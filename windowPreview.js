@@ -626,15 +626,16 @@ var PreviewMenu = Utils.defineClass({
 
     _switchToWorkspaceImmediate: function(workspaceIndex) {
         let workspace = Utils.getWorkspaceByIndex(workspaceIndex);
+        let shouldAnimate = Main.wm._shouldAnimate;
 
         if (!workspace || (!workspace.list_windows().length && 
             workspaceIndex < Utils.getWorkspaceCount() -1)) {
             workspace = Utils.getCurrentWorkspace();
         }
 
-        Main.wm._blockAnimations = true;
+        Main.wm._shouldAnimate = () => false;
         workspace.activate(global.display.get_current_time_roundtrip());
-        Main.wm._blockAnimations = false;
+        Main.wm._shouldAnimate = shouldAnimate;
     },
 
     _focusMetaWindow: function(dimOpacity, window) {
@@ -801,7 +802,10 @@ var Preview = Utils.defineClass({
                 } else if (!this._waitWindowId) {
                     this._waitWindowId = Mainloop.idle_add(() => {
                         this._waitWindowId = 0;
-                        _assignWindowClone();
+
+                        if (this._previewMenu.opened) {
+                            _assignWindowClone();
+                        }
                     });
                 }
             };
