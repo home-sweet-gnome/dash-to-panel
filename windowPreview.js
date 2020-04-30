@@ -611,9 +611,10 @@ var PreviewMenu = Utils.defineClass({
         this._timeoutsHandler.remove(T3);
 
         if (this._peekedWindow) {
-            this._restorePeekedWindowStack();
+            let immediate = !stayHere && this.peekInitialWorkspaceIndex != Utils.getCurrentWorkspace().index();
 
-            this._focusMetaWindow(255);
+            this._restorePeekedWindowStack();
+            this._focusMetaWindow(255, this._peekedWindow, immediate);
             this._peekedWindow = null;
 
             if (!stayHere) {
@@ -629,7 +630,7 @@ var PreviewMenu = Utils.defineClass({
         let shouldAnimate = Main.wm._shouldAnimate;
 
         if (!workspace || (!workspace.list_windows().length && 
-            workspaceIndex < Utils.getWorkspaceCount() -1)) {
+            workspaceIndex < Utils.getWorkspaceCount() - 1)) {
             workspace = Utils.getCurrentWorkspace();
         }
 
@@ -638,16 +639,16 @@ var PreviewMenu = Utils.defineClass({
         Main.wm._shouldAnimate = shouldAnimate;
     },
 
-    _focusMetaWindow: function(dimOpacity, window) {
+    _focusMetaWindow: function(dimOpacity, window, immediate) {
         if (Main.overview.visibleTarget) {
             return;
         }
 
-        global.get_window_actors().forEach(wa => {
-            let mw = wa.meta_window;
+        window.get_workspace().list_windows().forEach(mw => {
+            let wa = mw.get_compositor_private();
             let isFocused = mw == window;
 
-            if (mw) {
+            if (wa) {
                 if (isFocused) {
                     mw[PEEK_INDEX_PROP] = wa.get_parent().get_children().indexOf(wa);
                     wa.get_parent().set_child_above_sibling(wa, null);
@@ -658,7 +659,13 @@ var PreviewMenu = Utils.defineClass({
                 }
                 
                 if (!mw.minimized) {
-                    Utils.animateWindowOpacity(wa, getTweenOpts({ opacity: isFocused ? 255 : dimOpacity }));
+                    let tweenOpts = getTweenOpts({ opacity: isFocused ? 255 : dimOpacity });
+    
+                    if (immediate && !mw.is_on_all_workspaces()) {
+                        tweenOpts.time = 0;
+                    }
+                    
+                    Utils.animateWindowOpacity(wa, tweenOpts);
                 }
             }
         });
