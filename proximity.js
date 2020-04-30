@@ -123,6 +123,11 @@ var ProximityManager = Utils.defineClass({
                 () => Object.keys(this._watches).forEach(id => this._watches[id].overlap = 0)
             ],
             [
+                Main.overview,
+                'hidden',
+                () => this._queueUpdate()
+            ],
+            [
                 global.display,
                 'notify::focus-window', 
                 () => {
