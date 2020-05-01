@@ -1622,11 +1622,16 @@ var ShowAppsIconWrapper = Utils.defineClass({
 
         let customIconPath = Me.settings.get_string('show-apps-icon-file');
 
+        this.actor.set_style("background-color: transparent;");
+        this.realShowAppsIcon.icon.set_style("background-color: transparent;");
+
         this.realShowAppsIcon.icon.createIcon = function(size) {
             this._iconActor = new St.Icon({ icon_name: 'view' + (Config.PACKAGE_VERSION < '3.20' ? '' : '-app') + '-grid-symbolic',
                                             icon_size: size,
                                             style_class: 'show-apps-icon',
                                             track_hover: true });
+
+            this._iconActor.set_style("background-color: transparent;");
 
             if (customIconPath) {
                 this._iconActor.gicon = new Gio.FileIcon({ file: Gio.File.new_for_path(customIconPath) });
