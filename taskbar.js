@@ -93,7 +93,7 @@ var taskbarActor = Utils.defineClass({
         let [, showAppsNatSize] = showAppsButton[Panel.sizeFunc](availFixedSize);
         let [, natSize] = this[Panel.sizeFunc](availFixedSize);
         let childBox = new Clutter.ActorBox();
-        let orientation = Panel.getOrientation().toLowerCase();
+        let orientation = Panel.getOrientation();
 
         childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1];
         childBox[Panel.fixedCoord.c1] = box[Panel.fixedCoord.c1];
@@ -106,9 +106,9 @@ var taskbarActor = Utils.defineClass({
         childBox[Panel.varCoord.c2] = Math.min(availVarSize, natSize);
         scrollview.allocate(childBox, flags);
 
-        let [hvalue, , hupper, , , hpageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
-        hupper = Math.floor(hupper);
-        scrollview._dtpFadeSize = hupper > hpageSize ? this._delegate.iconSize : 0;
+        let [value, , upper, , , pageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
+        upper = Math.floor(upper);
+        scrollview._dtpFadeSize = upper > pageSize ? this._delegate.iconSize : 0;
 
         if (this._currentBackgroundColor !== this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor) {
             this._currentBackgroundColor = this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor;
@@ -120,10 +120,10 @@ var taskbarActor = Utils.defineClass({
         }
         
         childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1] + showAppsNatSize;
-        childBox[Panel.varCoord.c2] = childBox[Panel.varCoord.c1] + (hvalue > 0 ? scrollview._dtpFadeSize : 0);
+        childBox[Panel.varCoord.c2] = childBox[Panel.varCoord.c1] + (value > 0 ? scrollview._dtpFadeSize : 0);
         leftFade.allocate(childBox, flags);
 
-        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c2] - (hvalue + hpageSize < hupper ? scrollview._dtpFadeSize : 0);
+        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c2] - (value + pageSize < upper ? scrollview._dtpFadeSize : 0);
         childBox[Panel.varCoord.c2] = box[Panel.varCoord.c2];
         rightFade.allocate(childBox, flags);
     },
@@ -217,7 +217,8 @@ var taskbar = Utils.defineClass({
         this._container.add_actor(this._showAppsIcon);
         this._container.add_actor(this._scrollView);
         
-        let fadeStyle = 'background-gradient-direction:' + Panel.getOrientation();
+        let orientation = Panel.getOrientation();
+        let fadeStyle = 'background-gradient-direction:' + orientation;
         let fade1 = new St.Widget({ style_class: 'scrollview-fade', reactive: false });
         let fade2 = new St.Widget({ style_class: 'scrollview-fade', 
                                     reactive: false,  
@@ -241,11 +242,31 @@ var taskbar = Utils.defineClass({
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
         });
 
-        // Update minimization animation target position on allocation of the
-        // container and on scrollview change.
-        this._box.connect('notify::allocation', Lang.bind(this, this._updateAppIcons));
-        let scrollViewAdjustment = this._scrollView.hscroll.adjustment;
-        scrollViewAdjustment.connect('notify::value', Lang.bind(this, this._updateAppIcons));
+        let adjustment = this._scrollView[orientation[0] + 'scroll'].adjustment;
+        let fullScrollView = 0;
+
+        adjustment.connect('notify::upper', () => {
+            // Update minimization animation target position on scrollview change.
+            this._updateAppIcons();
+
+            // When applications are ungrouped and there is some empty space on the horizontal taskbar,
+            // force a fixed label width to prevent the icons from "wiggling" when an animation runs
+            // (adding or removing an icon). When the taskbar is full, revert to a dynamic label width
+            // to allow them to resize and make room for new icons.
+            if (!isVertical && !this.isGroupApps) {
+                let initial = fullScrollView;
+
+                if (!fullScrollView && Math.floor(adjustment.upper) > adjustment.page_size) {
+                    fullScrollView = adjustment.page_size;
+                } else if (adjustment.page_size < fullScrollView) {
+                    fullScrollView = 0;
+                }
+
+                if (initial != fullScrollView) {
+                    this._getAppIcons().forEach(a => a.updateTitleWidth(fullScrollView));
+                }
+            }
+        });
 
         this._workId = Main.initializeDeferredWork(this._box, Lang.bind(this, this._redisplay));
 
