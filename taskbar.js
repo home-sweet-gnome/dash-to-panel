@@ -1112,6 +1112,19 @@ var taskbar = Utils.defineClass({
             });
 
             if (this.showAppsButton.checked) {
+                if (Me.settings.get_boolean('show-apps-override-escape')) {
+                    //override escape key to return to the desktop when entering the overview using the showapps button
+                    Main.overview.viewSelector._onStageKeyPress = function(actor, event) {
+                        if (Main.modalCount == 1 && event.get_key_symbol() === Clutter.KEY_Escape) {
+                            this._searchActive ? this.reset() : Main.overview.hide();
+    
+                            return Clutter.EVENT_STOP;
+                        }
+    
+                        return this.__proto__._onStageKeyPress.call(this, actor, event);
+                    };
+                }
+
                 // force spring animation triggering.By default the animation only
                 // runs if we are already inside the overview.
                 if (!Main.overview._shown) {
@@ -1156,6 +1169,7 @@ var taskbar = Utils.defineClass({
                 let overviewHiddenId = Main.overview.connect('hidden', () => {
                     Main.overview.disconnect(overviewHiddenId);
                     this.dtpPanel.panelManager.setFocusedMonitor(this.dtpPanel.panelManager.primaryPanel.monitor, true);
+                    delete Main.overview.viewSelector._onStageKeyPress;
                 });
 
                 // Finally show the overview

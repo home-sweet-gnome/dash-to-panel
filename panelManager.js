@@ -355,8 +355,9 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {
+        this._needsIconAllocate = 1;
+        
         if (!this.checkIfFocusedMonitor(monitor)) {
-            this._needsIconAllocate = 1;
             Main.overview.viewSelector._workspacesDisplay._primaryIndex = monitor.index;
             
             Main.overview._overview.clear_constraints();

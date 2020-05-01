@@ -937,6 +937,7 @@ const Settings = new Lang.Class({
                     // restore default settings
                     this._settings.set_value('show-apps-icon-side-padding', this._settings.get_default_value('show-apps-icon-side-padding'));
                     this._builder.get_object('show_applications_side_padding_spinbutton').set_value(this._settings.get_int('show-apps-icon-side-padding'));
+                    this._settings.set_value('show-apps-override-escape', this._settings.get_default_value('show-apps-override-escape'));
                     handleIconChange.call(this, null);
                 } else {
                     // remove the settings box so it doesn't get destroyed;
@@ -956,6 +957,10 @@ const Settings = new Lang.Class({
         this._settings.bind('show-show-apps-button',
                             this._builder.get_object('application_button_animation_button'),
                             'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-apps-override-escape',
+                            this._builder.get_object('show_applications_esc_key_switch'),
+                            'active',
                             Gio.SettingsBindFlags.DEFAULT);
         this._settings.bind('show-activities-button',
                             this._builder.get_object('show_activities_button_switch'),
