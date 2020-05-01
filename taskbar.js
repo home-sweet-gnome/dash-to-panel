@@ -245,28 +245,32 @@ var taskbar = Utils.defineClass({
         let adjustment = this._scrollView[orientation[0] + 'scroll'].adjustment;
         let fullScrollView = 0;
 
-        adjustment.connect('notify::upper', () => {
-            // Update minimization animation target position on scrollview change.
-            this._updateAppIcons();
+        this._signalsHandler.add([
+            adjustment,
+            'notify::upper',
+            () => {
+                // Update minimization animation target position on scrollview change.
+                this._updateAppIcons();
 
-            // When applications are ungrouped and there is some empty space on the horizontal taskbar,
-            // force a fixed label width to prevent the icons from "wiggling" when an animation runs
-            // (adding or removing an icon). When the taskbar is full, revert to a dynamic label width
-            // to allow them to resize and make room for new icons.
-            if (!isVertical && !this.isGroupApps) {
-                let initial = fullScrollView;
+                // When applications are ungrouped and there is some empty space on the horizontal taskbar,
+                // force a fixed label width to prevent the icons from "wiggling" when an animation runs
+                // (adding or removing an icon). When the taskbar is full, revert to a dynamic label width
+                // to allow them to resize and make room for new icons.
+                if (!isVertical && !this.isGroupApps) {
+                    let initial = fullScrollView;
 
-                if (!fullScrollView && Math.floor(adjustment.upper) > adjustment.page_size) {
-                    fullScrollView = adjustment.page_size;
-                } else if (adjustment.page_size < fullScrollView) {
-                    fullScrollView = 0;
-                }
+                    if (!fullScrollView && Math.floor(adjustment.upper) > adjustment.page_size) {
+                        fullScrollView = adjustment.page_size;
+                    } else if (adjustment.page_size < fullScrollView) {
+                        fullScrollView = 0;
+                    }
 
-                if (initial != fullScrollView) {
-                    this._getAppIcons().forEach(a => a.updateTitleWidth(fullScrollView));
+                    if (initial != fullScrollView) {
+                        this._getAppIcons().forEach(a => a.updateTitleWidth(fullScrollView));
+                    }
                 }
             }
-        });
+        ]);
 
         this._workId = Main.initializeDeferredWork(this._box, Lang.bind(this, this._redisplay));
 
