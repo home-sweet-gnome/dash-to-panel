@@ -341,8 +341,8 @@ var taskbarAppIcon = Utils.defineClass({
         }
     },
 
-    updateTitleWidth: function(forceDynamicTitleWidth) {
-        this._updateWindowTitleStyle(forceDynamicTitleWidth);
+    updateTitleStyle: function() {
+        this._updateWindowTitleStyle();
     },
 
     // Update indicator and target for minimization animation
@@ -469,9 +469,10 @@ var taskbarAppIcon = Utils.defineClass({
         this._displayProperIndicator(true);
     },
 
-    _updateWindowTitleStyle: function(forceDynamicTitleWidth) {
+    _updateWindowTitleStyle: function() {
         if (this._windowTitle) {
             let useFixedWidth = Me.settings.get_boolean('group-apps-use-fixed-width');
+            let variableWidth = !useFixedWidth || this.dtpPanel.taskbar.fullScrollView;
             let fontWeight = Me.settings.get_string('group-apps-label-font-weight');
             let maxLabelWidth = Me.settings.get_int('group-apps-label-max-width') * 
                                 St.ThemeContext.get_for_stage(global.stage).scale_factor;
@@ -480,7 +481,7 @@ var taskbarAppIcon = Utils.defineClass({
 
             this._windowTitle.clutter_text.natural_width = useFixedWidth ? maxLabelWidth : 0;
             this._windowTitle.clutter_text.natural_width_set = useFixedWidth;
-            this._windowTitle.set_width(!useFixedWidth || forceDynamicTitleWidth ? -1 : maxLabelWidth + this._getWindowTitleRightPadding());
+            this._windowTitle.set_width(variableWidth ? -1 : maxLabelWidth + this._getWindowTitleRightPadding());
 
             this._windowTitle.set_style('font-size: ' + Me.settings.get_int('group-apps-label-font-size') + 'px;' +
                                         'font-weight: ' + fontWeight + ';' +
