@@ -662,7 +662,8 @@ var dtpPanel = Utils.defineClass({
         let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor || 1;
         let panelBoxTheme = this.panelBox.get_theme_node();
         let lrPadding = panelBoxTheme.get_padding(St.Side.RIGHT) + panelBoxTheme.get_padding(St.Side.LEFT);
-        let tbPadding = panelBoxTheme.get_padding(St.Side.TOP) + panelBoxTheme.get_padding(St.Side.BOTTOM);
+        let topPadding = panelBoxTheme.get_padding(St.Side.TOP);
+        let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM);
         let position = getPosition();
         let gsTopPanelOffset = 0;
         let x = 0, y = 0;
@@ -671,7 +672,7 @@ var dtpPanel = Utils.defineClass({
         size = Me.settings.get_int('panel-size') * scaleFactor;
 
         if (Me.settings.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
-            gsTopPanelOffset = Main.layoutManager.panelBox.height;
+            gsTopPanelOffset = Main.layoutManager.panelBox.height - topPadding;
         }
 
         if (checkIfVertical()) {
@@ -709,6 +710,8 @@ var dtpPanel = Utils.defineClass({
         return {
             x: x, y: y, 
             w: w, h: h,
+            lrPadding: lrPadding,
+            tbPadding: tbPadding,
             position: position
         };
     },

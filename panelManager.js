@@ -95,8 +95,8 @@ var dtpPanelManager = Utils.defineClass({
             let leftOrRight = (panelPosition == St.Side.LEFT || panelPosition == St.Side.RIGHT);
             
             p.panelBox.set_size(
-                leftOrRight ? -1 : p.geom.w, 
-                leftOrRight ? p.geom.h : -1
+                leftOrRight ? -1 : p.geom.w + p.geom.lrPadding, 
+                leftOrRight ? p.geom.h + p.geom.tbPadding : -1
             );
 
             this._findPanelMenuButtons(p.panelBox).forEach(pmb => this._adjustPanelMenuButton(pmb, p.monitor, panelPosition));
