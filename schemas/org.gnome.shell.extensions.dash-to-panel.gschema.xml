@@ -192,6 +192,11 @@
       <summary>Keep dash</summary>
       <description>Whether to keep the stock gnome-shell dash while in overview</description>
     </key>
+    <key type="b" name="stockgs-keep-top-panel">
+      <default>false</default>
+      <summary>Keep top panel</summary>
+      <description>Whether to keep the stock gnome-shell top panel</description>
+    </key>
     <key type="b" name="stockgs-panelbtn-click-only">
       <default>false</default>
       <summary>Panel menu buttons require click</summary>

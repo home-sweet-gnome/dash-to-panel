@@ -117,7 +117,7 @@ var dtpPanel = Utils.defineClass({
     Name: 'DashToPanel-Panel',
     Extends: St.Widget,
 
-    _init: function(panelManager, monitor, panelBox, isSecondary) {
+    _init: function(panelManager, monitor, panelBox, isStandalone) {
         let position = getPosition();
         
         this.callParent('_init', { layout_manager: new Clutter.BinLayout() });
@@ -130,11 +130,18 @@ var dtpPanel = Utils.defineClass({
 
         this.monitor = monitor;
         this.panelBox = panelBox;
-        this.isSecondary = isSecondary;
+
+        // when the original gnome-shell top panel is kept, all panels are "standalone",
+        // so in this case use isPrimary to get the panel on the primary dtp monitor, which
+        // might be different from the system's primary monitor.
+        this.isStandalone = isStandalone;
+        this.isPrimary = !isStandalone || (Me.settings.get_boolean('stockgs-keep-top-panel') && 
+                                           monitor == panelManager.dtpPrimaryMonitor);
+
         this._sessionStyle = null;
         this._unmappedButtons = [];
 
-        if (isSecondary) {
+        if (isStandalone) {
             this.panel = new St.Widget({ name: 'panel', reactive: true });
             this.statusArea = this.panel.statusArea = {};
 
@@ -185,7 +192,7 @@ var dtpPanel = Utils.defineClass({
             Utils.wrapActor(this.panel._leftCorner);
             Utils.wrapActor(this.panel._rightCorner);
 
-            if (isSecondary) {
+            if (isStandalone) {
                 this.panel.add_child(this.panel._leftCorner.actor);
                 this.panel.add_child(this.panel._rightCorner.actor);
             }
@@ -254,7 +261,7 @@ var dtpPanel = Utils.defineClass({
 
         this._setPanelPosition();
 
-        if (!this.isSecondary) {
+        if (!this.isStandalone) {
             if (this.panel.vfunc_allocate) {
                 this._panelConnectId = 0;
                 Utils.hookVfunc(this.panel.__proto__, 'allocate', (box, flags) => this._mainPanelAllocate(0, box, flags));
@@ -438,13 +445,12 @@ var dtpPanel = Utils.defineClass({
             this._dateMenuIndicatorPadContraints.forEach(c => indicatorPad.add_constraint(c));
         }
 
-        if (!this.isSecondary) {
+        this._setVertical(this.panel.actor, false);
+
+        if (!this.isStandalone) {
             this.statusArea.dateMenu._clockDisplay.text = this.statusArea.dateMenu._clock.clock;
 
-            this._setVertical(this.panel.actor, false);
-
             ['vertical', 'horizontal', 'dashtopanelMainPanel'].forEach(c => this.panel.actor.remove_style_class_name(c));
-
 
             if(!Main.sessionMode.isLocked) {
                 this._setActivitiesButtonVisible(true);
@@ -658,10 +664,15 @@ var dtpPanel = Utils.defineClass({
         let lrPadding = panelBoxTheme.get_padding(St.Side.RIGHT) + panelBoxTheme.get_padding(St.Side.LEFT);
         let tbPadding = panelBoxTheme.get_padding(St.Side.TOP) + panelBoxTheme.get_padding(St.Side.BOTTOM);
         let position = getPosition();
+        let gsTopPanelOffset = 0;
         let x = 0, y = 0;
         let w = 0, h = 0;
 
         size = Me.settings.get_int('panel-size') * scaleFactor;
+
+        if (Me.settings.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
+            gsTopPanelOffset = Main.layoutManager.panelBox.height;
+        }
 
         if (checkIfVertical()) {
             if (!Me.settings.get_boolean('group-apps')) {
@@ -674,7 +685,7 @@ var dtpPanel = Utils.defineClass({
             varCoord = { c1: 'y1', c2: 'y2' };
 
             w = size;
-            h = this.monitor.height - tbPadding;
+            h = this.monitor.height - tbPadding - gsTopPanelOffset;
         } else {
             sizeFunc = 'get_preferred_width';
             fixedCoord = { c1: 'y1', c2: 'y2' };
@@ -686,10 +697,10 @@ var dtpPanel = Utils.defineClass({
 
         if (position == St.Side.TOP || position == St.Side.LEFT) {
             x = this.monitor.x;
-            y = this.monitor.y;
+            y = this.monitor.y + gsTopPanelOffset;
         } else if (position == St.Side.RIGHT) {
             x = this.monitor.x + this.monitor.width - size - lrPadding;
-            y = this.monitor.y;
+            y = this.monitor.y + gsTopPanelOffset;
         } else { //BOTTOM
             x = this.monitor.x; 
             y = this.monitor.y + this.monitor.height - size - tbPadding;
@@ -970,41 +981,43 @@ var dtpPanel = Utils.defineClass({
 
     _formatVerticalClock: function() {
         // https://github.com/GNOME/gnome-desktop/blob/master/libgnome-desktop/gnome-wall-clock.c#L310
-        let datetime = this.statusArea.dateMenu._clock.clock;
-        let datetimeParts = datetime.split(' ');
-        let time = datetimeParts[1];
-        let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
-        let setClockText = text => {
-            let stacks = text instanceof Array;
-            let separator = '\n<span size="xx-small">‧‧</span>\n';
-    
-            clockText.set_text((stacks ? text.join(separator) : text).trim());
-            clockText.set_use_markup(stacks);
-            clockText.get_allocation_box();
-    
-            return !clockText.get_layout().is_ellipsized();
-        };
+        if (this.statusArea.dateMenu) {
+            let datetime = this.statusArea.dateMenu._clock.clock;
+            let datetimeParts = datetime.split(' ');
+            let time = datetimeParts[1];
+            let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
+            let setClockText = text => {
+                let stacks = text instanceof Array;
+                let separator = '\n<span size="xx-small">‧‧</span>\n';
+        
+                clockText.set_text((stacks ? text.join(separator) : text).trim());
+                clockText.set_use_markup(stacks);
+                clockText.get_allocation_box();
+        
+                return !clockText.get_layout().is_ellipsized();
+            };
 
-        if (!time) {
-            datetimeParts = datetime.split(' ');
-            time = datetimeParts.pop();
-            datetimeParts = [datetimeParts.join(' '), time];
-        }
-
-        if (!setClockText(datetime) && 
-            !setClockText(datetimeParts) && 
-            !setClockText(time)) {
-            let timeParts = time.split('∶');
-
-            if (!this._clockFormat) {
-                this._clockFormat = Me.desktopSettings.get_string('clock-format');
+            if (!time) {
+                datetimeParts = datetime.split(' ');
+                time = datetimeParts.pop();
+                datetimeParts = [datetimeParts.join(' '), time];
             }
 
-            if (this._clockFormat == '12h') {
-                timeParts.push.apply(timeParts, timeParts.pop().split(' '));
-            }
+            if (!setClockText(datetime) && 
+                !setClockText(datetimeParts) && 
+                !setClockText(time)) {
+                let timeParts = time.split('∶');
 
-            setClockText(timeParts);
+                if (!this._clockFormat) {
+                    this._clockFormat = Me.desktopSettings.get_string('clock-format');
+                }
+
+                if (this._clockFormat == '12h') {
+                    timeParts.push.apply(timeParts, timeParts.pop().split(' '));
+                }
+
+                setClockText(timeParts);
+            }
         }
     },
 

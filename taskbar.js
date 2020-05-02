@@ -854,7 +854,7 @@ var taskbar = Utils.defineClass({
         this._updateAppIcons();
 
         // This will update the size, and the corresponding number for each icon on the primary panel
-        if (!this.dtpPanel.isSecondary) {
+        if (this.dtpPanel.isPrimary) {
             this._updateNumberOverlay();
         }
 
@@ -867,7 +867,7 @@ var taskbar = Utils.defineClass({
     
     _checkIfShowingFavorites: function() {
         return Me.settings.get_boolean('show-favorites') && 
-               (!this.dtpPanel.isSecondary || Me.settings.get_boolean('show-favorites-all-monitors'));
+               (this.dtpPanel.isPrimary || Me.settings.get_boolean('show-favorites-all-monitors'));
     },
 
     _getRunningApps: function() {

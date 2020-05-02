@@ -230,10 +230,7 @@ const Settings = new Lang.Class({
         showDesktopWidthLabel.set_text(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
     },
 
-    _bindSettings: function() {
-        // Position and style panel
-
-        // Position option
+    _setPositionRadios: function() {
         let position = this._settings.get_string('panel-position');
 
         switch (position) {
@@ -251,6 +248,13 @@ const Settings = new Lang.Class({
                 break;
 
         }
+    },
+
+    _bindSettings: function() {
+        // Position and style panel
+
+        // Position option
+        this._setPositionRadios();
 
         this._settings.connect('changed::panel-position', () => this._updateVerticalRelatedOptions());
         this._updateVerticalRelatedOptions();
@@ -1759,6 +1763,27 @@ const Settings = new Lang.Class({
                             this._builder.get_object('stockgs_dash_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('stockgs-keep-top-panel',
+                            this._builder.get_object('stockgs_top_panel_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        var maybeDisableTopPosition = () => {
+            let keepTopPanel = this._settings.get_boolean('stockgs-keep-top-panel');
+            let topRadio = this._builder.get_object('position_top_button');
+            
+            topRadio.set_sensitive(!keepTopPanel);
+            topRadio.set_tooltip_text(keepTopPanel ? _('Unavailable when gnome-shell top panel is present') : '');
+            
+            if (keepTopPanel && this._settings.get_string('panel-position') == 'TOP') {
+                this._settings.set_string('panel-position', "BOTTOM");
+                this._setPositionRadios();
+            }
+        };
+
+        this._settings.connect('changed::stockgs-keep-top-panel', () => maybeDisableTopPosition());
+        maybeDisableTopPosition();
 
         this._settings.bind('stockgs-panelbtn-click-only',
                             this._builder.get_object('stockgs_panelbtn_switch'),
