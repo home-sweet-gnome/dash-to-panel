@@ -208,9 +208,13 @@ var taskbarAppIcon = Utils.defineClass({
             }
             
             this._titleWindowChangeId = 0;
+            this._minimizedWindowChangeId = 0;
         } else {
             this._titleWindowChangeId = this.window.connect('notify::title', 
                                                 Lang.bind(this, this._updateWindowTitle));
+
+            this._minimizedWindowChangeId = this.window.connect('notify::minimized',
+                                                Lang.bind(this, this._updateWindowTitleStyle));
         }
         
         this._scrollEventId = this.actor.connect('scroll-event', this._onMouseScroll.bind(this));
@@ -246,6 +250,7 @@ var taskbarAppIcon = Utils.defineClass({
             Me.settings.connect('changed::group-apps-label-font-size', Lang.bind(this, this._updateWindowTitleStyle)),
             Me.settings.connect('changed::group-apps-label-font-weight', Lang.bind(this, this._updateWindowTitleStyle)),
             Me.settings.connect('changed::group-apps-label-font-color', Lang.bind(this, this._updateWindowTitleStyle)),
+            Me.settings.connect('changed::group-apps-label-font-color-minimized', Lang.bind(this, this._updateWindowTitleStyle)),
             Me.settings.connect('changed::group-apps-label-max-width', Lang.bind(this, this._updateWindowTitleStyle)),
             Me.settings.connect('changed::group-apps-use-fixed-width', Lang.bind(this, this._updateWindowTitleStyle)),
             Me.settings.connect('changed::group-apps-underline-unfocused', Lang.bind(this, this._settingsChangeRefresh))
@@ -306,6 +311,9 @@ var taskbarAppIcon = Utils.defineClass({
 
         if(this._titleWindowChangeId)
             this.window.disconnect(this._titleWindowChangeId);
+
+        if(this._minimizedWindowChangeId)
+            this.window.disconnect(this._minimizedWindowChangeId);
 
         if (this._windowEnteredMonitorId) {
             Utils.DisplayWrapper.getScreen().disconnect(this._windowEnteredMonitorId);
@@ -476,6 +484,9 @@ var taskbarAppIcon = Utils.defineClass({
             let useFixedWidth = Me.settings.get_boolean('group-apps-use-fixed-width');
             let variableWidth = !useFixedWidth || Panel.checkIfVertical() || this.dtpPanel.taskbar.fullScrollView;
             let fontWeight = Me.settings.get_string('group-apps-label-font-weight');
+            let fontColor = this.window.minimized ?
+                            Me.settings.get_string('group-apps-label-font-color-minimized') :
+                            Me.settings.get_string('group-apps-label-font-color');
             let scaleFactor = Utils.getScaleFactor();
             let maxLabelWidth = Me.settings.get_int('group-apps-label-max-width') * scaleFactor;
 
@@ -488,7 +499,7 @@ var taskbarAppIcon = Utils.defineClass({
             this._windowTitle.set_style('font-size: ' + Me.settings.get_int('group-apps-label-font-size') + 'px;' +
                                         'font-weight: ' + fontWeight + ';' +
                                         (useFixedWidth ? '' : 'max-width: ' + maxLabelWidth + 'px;') + 
-                                        'color: ' + Me.settings.get_string('group-apps-label-font-color'));
+                                        'color: ' + fontColor);
         }
     },
 
