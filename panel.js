@@ -396,6 +396,8 @@ var dtpPanel = Utils.defineClass({
                 }
             ]);
 
+            this._setSearchEntryOffset(this.geom.w);
+
             if (this.statusArea.dateMenu) {
                 this._formatVerticalClock();
                 
@@ -436,6 +438,7 @@ var dtpPanel = Utils.defineClass({
         this.menuManager._changeMenu = this.menuManager._oldChangeMenu;
 
         this._myPanelGhost.get_parent().remove_actor(this._myPanelGhost);
+        this._setSearchEntryOffset(0);
         
         panelBoxes.forEach(b => delete this[b].allocate);
         this._unmappedButtons.forEach(a => this._disconnectVisibleId(a));
@@ -626,6 +629,19 @@ var dtpPanel = Utils.defineClass({
         this._myPanelGhost.set_size(this.width, checkIfVertical() ? 1 : this.height); 
     },
 
+    _setSearchEntryOffset: function(offset) {
+        if (this.isPrimary) {
+            //In the overview, when the panel is vertical the search-entry is the only element
+            //that doesn't natively take into account the size of a side dock, as it is always
+            //centered relatively to the monitor. This looks misaligned, adjust it here so it 
+            //is centered like the rest of the overview elements.
+            let paddingSide = getPosition() == St.Side.LEFT ? 'left' : 'right';
+            let style = offset ? 'padding-' + paddingSide + ':' + offset + 'px;' : null;
+
+            Main.overview._overview._searchEntry.get_parent().set_style(style);
+        }
+    },
+
     _adjustForOverview: function() {
         let isFocusedMonitor = this.panelManager.checkIfFocusedMonitor(this.monitor);
         let isOverview = !!Main.overview.visibleTarget;
@@ -656,6 +672,7 @@ var dtpPanel = Utils.defineClass({
 
         if (checkIfVertical()) {
             this._refreshVerticalAlloc();
+            this._setSearchEntryOffset(this.geom.w);
         }
     },
 
