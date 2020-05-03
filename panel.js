@@ -140,6 +140,7 @@ var dtpPanel = Utils.defineClass({
 
         this._sessionStyle = null;
         this._unmappedButtons = [];
+        this.cornerSize = 0;
 
         if (isStandalone) {
             this.panel = new St.Widget({ name: 'panel', reactive: true });
@@ -799,21 +800,26 @@ var dtpPanel = Utils.defineClass({
 
         if (this.geom.position == St.Side.TOP) {
             let childBoxLeftCorner = new Clutter.ActorBox();
-            let [ , cornerSize] = this.panel._leftCorner.actor[sizeFunc](-1);
-            childBoxLeftCorner[varCoord.c1] = 0;
-            childBoxLeftCorner[varCoord.c2] = cornerSize;
-            childBoxLeftCorner[fixedCoord.c1] = panelAllocFixedSize;
-            childBoxLeftCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
-
             let childBoxRightCorner = new Clutter.ActorBox();
-            [ , cornerSize] = this.panel._rightCorner.actor[sizeFunc](-1);
-            childBoxRightCorner[varCoord.c1] = panelAllocVarSize - cornerSize;
+            let currentCornerSize = this.cornerSize;
+            
+            [ , this.cornerSize] = this.panel._leftCorner.actor[sizeFunc](-1);
+            childBoxLeftCorner[varCoord.c1] = 0;
+            childBoxLeftCorner[varCoord.c2] = this.cornerSize;
+            childBoxLeftCorner[fixedCoord.c1] = panelAllocFixedSize;
+            childBoxLeftCorner[fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
+
+            childBoxRightCorner[varCoord.c1] = panelAllocVarSize - this.cornerSize;
             childBoxRightCorner[varCoord.c2] = panelAllocVarSize;
             childBoxRightCorner[fixedCoord.c1] = panelAllocFixedSize;
-            childBoxRightCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
+            childBoxRightCorner[fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
 
             this.panel._leftCorner.actor.allocate(childBoxLeftCorner, flags);
             this.panel._rightCorner.actor.allocate(childBoxRightCorner, flags);
+
+            if (this.cornerSize != currentCornerSize) {
+                this._setPanelClip();
+            }
         }
     },
 
@@ -832,10 +838,15 @@ var dtpPanel = Utils.defineClass({
             this.panel.actor[(St.Side[p] == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
         });
 
-        this._timeoutsHandler.add([T7, 0, () => Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height)]);
+        this._setPanelClip(clipContainer);
 
         Main.layoutManager._updateHotCorners();
         Main.layoutManager._updatePanelBarrier(this);
+    },
+
+    _setPanelClip: function(clipContainer) {
+        clipContainer = clipContainer || this.panelBox.get_parent();
+        this._timeoutsHandler.add([T7, 0, () => Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height + this.cornerSize)]);
     },
 
     _onButtonPress: function(actor, event) {
