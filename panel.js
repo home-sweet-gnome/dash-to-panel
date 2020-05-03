@@ -637,8 +637,9 @@ var dtpPanel = Utils.defineClass({
             //is centered like the rest of the overview elements.
             let paddingSide = getPosition() == St.Side.LEFT ? 'left' : 'right';
             let style = offset ? 'padding-' + paddingSide + ':' + offset + 'px;' : null;
-
-            Main.overview._overview._searchEntry.get_parent().set_style(style);
+            let searchEntry = Main.overview._searchEntry || Main.overview._overview._searchEntry;
+            
+            searchEntry.get_parent().set_style(style);
         }
     },
 
