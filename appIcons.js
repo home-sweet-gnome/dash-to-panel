@@ -59,10 +59,12 @@ const T4 = 'overviewWindowDragEndTimeout';
 const T5 = 'switchWorkspaceTimeout';
 const T6 = 'displayProperIndicatorTimeout';
 
+//right padding defined for .overview-label in stylesheet.css
+const TITLE_RIGHT_PADDING = 8;
+
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
 var DEFAULT_PADDING_SIZE = 4;
-var titleRightPadding = -1;
 
 let DOT_STYLE = {
     DOTS: "DOTS",
@@ -481,22 +483,13 @@ var taskbarAppIcon = Utils.defineClass({
 
             this._windowTitle.clutter_text.natural_width = useFixedWidth ? maxLabelWidth : 0;
             this._windowTitle.clutter_text.natural_width_set = useFixedWidth;
-            this._windowTitle.set_width(variableWidth ? -1 : maxLabelWidth + this._getWindowTitleRightPadding());
+            this._windowTitle.set_width(variableWidth ? -1 : maxLabelWidth + TITLE_RIGHT_PADDING);
 
             this._windowTitle.set_style('font-size: ' + Me.settings.get_int('group-apps-label-font-size') + 'px;' +
                                         'font-weight: ' + fontWeight + ';' +
                                         (useFixedWidth ? '' : 'max-width: ' + maxLabelWidth + 'px;') + 
                                         'color: ' + Me.settings.get_string('group-apps-label-font-color'));
         }
-    },
-
-    _getWindowTitleRightPadding: function() {
-        if (this._windowTitle && this._windowTitle.mapped && titleRightPadding < 0) {
-            //get the right padding defined for .overview-label in stylesheet.css
-            titleRightPadding = this._windowTitle.get_theme_node().get_padding(St.Side.RIGHT);
-        }
-
-        return titleRightPadding;
     },
 
     _updateWindowTitle: function() {

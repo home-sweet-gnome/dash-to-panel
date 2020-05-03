@@ -34,6 +34,7 @@
 }
 
 #dashtopanelScrollview .app-well-app .overview-label {
+	/* must match TITLE_RIGHT_PADDING in apppicons.js */
 	padding-right: 8px;
 }
 
