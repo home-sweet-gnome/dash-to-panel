@@ -171,6 +171,10 @@ var dtpPanel = Utils.defineClass({
             this._setPanelMenu('show-status-menu-all-monitors', 'aggregateMenu', dtpSecondaryAggregateMenu, this._rightBox, true);
             this._setPanelMenu('show-clock-all-monitors', 'dateMenu', DateMenu.DateMenuButton, this._centerBox, true);
 
+            if (this.statusArea.aggregateMenu) {
+                setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), position);
+            }
+
             this.panel.add_child(this._leftBox);
             this.panel.add_child(this._centerBox);
             this.panel.add_child(this._rightBox);
@@ -196,6 +200,7 @@ var dtpPanel = Utils.defineClass({
             if (isStandalone) {
                 this.panel.add_child(this.panel._leftCorner.actor);
                 this.panel.add_child(this.panel._rightCorner.actor);
+                this.panel._rightCorner.setStyleParent(this._rightBox);
             }
         }
 
@@ -323,6 +328,8 @@ var dtpPanel = Utils.defineClass({
         this._setAppmenuVisible(Me.settings.get_boolean('show-appmenu'));
         this._setClockLocation(Me.settings.get_string('location-clock'));
         this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'));
+        
+        this._setRightCornerStyle();
         
         this.panel.actor.add_style_class_name('dashtopanelMainPanel ' + getOrientation());
 
@@ -472,6 +479,9 @@ var dtpPanel = Utils.defineClass({
 
             this._displayShowDesktopButton(false);
 
+            this._toggleCornerStyle(this.panel._leftCorner, true);
+            this._toggleCornerStyle(this.panel._rightCorner, true);
+
             delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
             setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
 
@@ -490,6 +500,10 @@ var dtpPanel = Utils.defineClass({
         } else {
             this._removePanelMenu('dateMenu');
             this._removePanelMenu('aggregateMenu');
+
+            if (this.panel._rightCorner && this.panel._rightCorner._buttonStyleChangedSignalId) {
+                this.panel._rightCorner._button.disconnect(this.panel._rightCorner._buttonStyleChangedSignalId);
+            }
         }
 
         Main.ctrlAltTabManager.removeGroup(this);
@@ -924,7 +938,9 @@ var dtpPanel = Utils.defineClass({
     },
 
     _onBoxActorAdded: function(box) {
-        this._setClockLocation(Me.settings.get_string('location-clock'));
+        if (!this._setClockLocation(Me.settings.get_string('location-clock'))) {
+            this._setRightCornerStyle();
+        }
 
         if (checkIfVertical()) {
             this._setVertical(box, true);
@@ -1083,6 +1099,25 @@ var dtpPanel = Utils.defineClass({
 
         destination['set_child_' + (loc.indexOf('RIGHT') > 0 ? 'above' : 'below') + '_sibling'](dateMenuContainer, refSibling);
         destination.queue_relayout();
+        this._setRightCornerStyle();
+
+        return 1;
+    },
+
+    _setRightCornerStyle: function() {
+        if (this.panel._rightCorner) {
+            this._toggleCornerStyle(
+                this.panel._rightCorner,
+                (this.statusArea.aggregateMenu && 
+                 this._rightBox.get_last_child() == this.statusArea.aggregateMenu.container)
+            );
+        }
+    },
+
+    _toggleCornerStyle: function(corner, visible) {
+        if (corner) {
+            corner[(visible ? 'remove' : 'add') + '_style_class_name']('hidden');
+        }
     },
 
     _displayShowDesktopButton: function (isVisible) {
@@ -1131,6 +1166,7 @@ var dtpPanel = Utils.defineClass({
             this._rightBox.remove_child(this._showDesktopButton);
             this._showDesktopButton.destroy();
             this._showDesktopButton = null;
+            this._setRightCornerStyle();
         }
     },
 
@@ -1327,7 +1363,5 @@ var dtpSecondaryAggregateMenu = Utils.defineClass({
 
         menuLayout.addSizeChild(this._power.menu.actor);
         menuLayout.addSizeChild(this._system.menu.actor);
-
-        setMenuArrow(this._indicators.get_last_child(), getPosition());
     },
 });
