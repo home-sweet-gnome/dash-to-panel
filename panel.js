@@ -194,15 +194,15 @@ var dtpPanel = Utils.defineClass({
             this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
             this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
 
-            Utils.wrapActor(this.panel._leftCorner);
-            Utils.wrapActor(this.panel._rightCorner);
-
             if (isStandalone) {
                 this.panel.add_child(this.panel._leftCorner.actor);
                 this.panel.add_child(this.panel._rightCorner.actor);
                 this.panel._rightCorner.setStyleParent(this._rightBox);
             }
         }
+
+        Utils.wrapActor(this.panel._leftCorner || 0);
+        Utils.wrapActor(this.panel._rightCorner || 0);
 
         this.add_child(this.panel.actor);
 
@@ -1117,7 +1117,7 @@ var dtpPanel = Utils.defineClass({
 
     _toggleCornerStyle: function(corner, visible) {
         if (corner) {
-            corner[(visible ? 'remove' : 'add') + '_style_class_name']('hidden');
+            corner.actor[(visible ? 'remove' : 'add') + '_style_class_name']('hidden');
         }
     },
 
