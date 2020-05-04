@@ -348,7 +348,7 @@ var dtpPanel = Utils.defineClass({
         this._signalsHandler.add(
             // this is to catch changes to the theme or window scale factor
             [
-                St.ThemeContext.get_for_stage(global.stage), 
+                Utils.getStageTheme(), 
                 'changed', 
                 () => this._resetGeometry()
             ],
@@ -650,7 +650,8 @@ var dtpPanel = Utils.defineClass({
             //centered relatively to the monitor. This looks misaligned, adjust it here so it 
             //is centered like the rest of the overview elements.
             let paddingSide = getPosition() == St.Side.LEFT ? 'left' : 'right';
-            let style = offset ? 'padding-' + paddingSide + ':' + offset + 'px;' : null;
+            let scaleFactor = Utils.getScaleFactor();
+            let style = offset ? 'padding-' + paddingSide + ':' + (offset / scaleFactor) + 'px;' : null;
             let searchEntry = Main.overview._searchEntry || Main.overview._overview._searchEntry;
             
             searchEntry.get_parent().set_style(style);
@@ -692,7 +693,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     getGeometry: function() {
-        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor || 1;
+        let scaleFactor = Utils.getScaleFactor();
         let panelBoxTheme = this.panelBox.get_theme_node();
         let lrPadding = panelBoxTheme.get_padding(St.Side.RIGHT) + panelBoxTheme.get_padding(St.Side.LEFT);
         let topPadding = panelBoxTheme.get_padding(St.Side.TOP);

@@ -71,7 +71,7 @@ var DynamicTransparency = Utils.defineClass({
     _bindSignals: function() {
         this._signalsHandler.add(
             [
-                St.ThemeContext.get_for_stage(global.stage),
+                Utils.getStageTheme(),
                 'changed',
                 () => this._updateAllAndSet()
             ],

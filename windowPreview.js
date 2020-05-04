@@ -416,7 +416,7 @@ var PreviewMenu = Utils.defineClass({
         isLeftButtons = Meta.prefs_get_button_layout().left_buttons.indexOf(Meta.ButtonFunction.CLOSE) >= 0;
         isTopHeader = Me.settings.get_string('window-preview-title-position') == 'TOP';
         isManualStyling = Me.settings.get_boolean('window-preview-manual-styling');
-        scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        scaleFactor = Utils.getScaleFactor();
         headerHeight = Me.settings.get_boolean('window-preview-show-title') ? HEADER_HEIGHT * scaleFactor : 0;
         animationTime = Me.settings.get_int('window-preview-animation-time') * .001;
         aspectRatio.x = {
