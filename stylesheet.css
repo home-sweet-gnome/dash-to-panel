@@ -27,7 +27,7 @@
 }
 
 #dashtopanelScrollview .app-well-app .overview-icon,
-#dashtopanelTaskbar .show-apps .overview-icon {
+.dashtopanelMainPanel .show-apps .overview-icon {
 	border: none;
 	margin: 0;
 	padding: 0;

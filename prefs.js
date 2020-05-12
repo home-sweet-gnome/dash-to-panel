@@ -35,6 +35,7 @@ const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 const N_ = function(e) { return e };
 const Update = Me.imports.update;
+const Pos = Me.imports.panelPositions;
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
@@ -200,34 +201,220 @@ const Settings = new Lang.Class({
     _updateVerticalRelatedOptions: function() {
         let position = this._settings.get_string('panel-position');
         let isVertical = position == 'LEFT' || position == 'RIGHT';
-        let taskbarLocationCombo = this._builder.get_object('taskbar_position_combo');
-        let clockLocationCombo = this._builder.get_object('location_clock_combo');
         let showDesktopWidthLabel = this._builder.get_object('show_showdesktop_width_label');
-        
-        taskbarLocationCombo.remove_all();
-        clockLocationCombo.remove_all();
-
-        [
-            ['LEFTPANEL',               isVertical ? _('Top, with plugin icons collapsed to bottom') :          _('Left, with plugin icons collapsed to right')],
-            ['LEFTPANEL_FIXEDCENTER',   isVertical ? _('Top, with fixed center plugin icons') :                 _('Left, with fixed center plugin icons')],
-            ['LEFTPANEL_FLOATCENTER',   isVertical ? _('Top, with floating center plugin icons') :              _('Left, with floating center plugin icons')],
-            ['CENTEREDMONITOR',                      _('Center, fixed in middle of monitor')],
-            ['CENTEREDCONTENT',         isVertical ? _('Center, floating between top and bottom elements') :    _('Center, floating between left and right elements')]
-        ].forEach(tl => taskbarLocationCombo.append.apply(taskbarLocationCombo, tl));
-
-        [
-            ['BUTTONSLEFT',     isVertical ? _('Top of plugin icons') :         _('Left of plugin icons')],
-            ['BUTTONSRIGHT',    isVertical ? _('Bottom of plugin icons') :      _('Right of plugin icons')],
-            ['STATUSLEFT',      isVertical ? _('Top of system indicators') :    _('Left of system indicators')],
-            ['STATUSRIGHT',     isVertical ? _('Bottom of system indicators') : _('Right of system indicators')],
-            ['TASKBARLEFT',     isVertical ? _('Top of taskbar') :              _('Left of taskbar')],
-            ['TASKBARRIGHT',    isVertical ? _('Bottom of taskbar') :           _('Right of taskbar')]
-        ].forEach(cl => clockLocationCombo.append.apply(clockLocationCombo, cl));
-        
-        taskbarLocationCombo.set_active_id(this._settings.get_string('taskbar-position'));
-        clockLocationCombo.set_active_id(this._settings.get_string('location-clock'));
 
         showDesktopWidthLabel.set_text(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
+
+        this._displayTaskbarElementPositionsForMonitor(this.monitors[this._builder.get_object('taskbar_position_monitor_combo').get_active()]);
+    },
+
+    _displayTaskbarElementPositionsForMonitor: function(monitorIndex) {
+        let taskbarListBox = this._builder.get_object('taskbar_display_listbox');
+        
+        taskbarListBox.get_children().forEach(c => c.destroy());
+
+        let labels = {};
+        let position = this._settings.get_string('panel-position');
+        let isVertical = position == 'LEFT' || position == 'RIGHT';
+        let positionSettings = Pos.getSettingsPositions(this._settings);
+        let panelInfo = positionSettings[monitorIndex] || Pos.defaults;
+        let updateSettings = () => {
+            let newPanelInfo = [];
+
+            taskbarListBox.get_children().forEach(c => {
+                newPanelInfo.push({
+                    element: c.id,
+                    visible: c.visibleToggleBtn.get_active(),
+                    position: c.positionCombo.get_active_id()
+                });
+            });
+            
+            positionSettings[monitorIndex] = newPanelInfo;
+            this._settings.set_string('panel-element-positions', JSON.stringify(positionSettings));
+        };
+
+        labels[Pos.SHOW_APPS_BTN] = _('Show Applications button');
+        labels[Pos.ACTIVITIES_BTN] = _('Activities button');
+        labels[Pos.TASKBAR] = _('Taskbar');
+        labels[Pos.DATE_MENU] = _('Date menu');
+        labels[Pos.SYSTEM_MENU] = _('System menu');
+        labels[Pos.LEFT_BOX] = _('Left box');
+        labels[Pos.CENTER_BOX] = _('Center box');
+        labels[Pos.RIGHT_BOX] = _('Right box');
+        labels[Pos.DESKTOP_BTN] = _('Desktop button');
+
+        panelInfo.forEach(el => {
+            let row = new Gtk.ListBoxRow();
+            let grid = new Gtk.Grid({ margin: 2, margin_left: 12, margin_right: 12, column_spacing: 8 });
+            let upDownGrid = new Gtk.Grid({ column_spacing: 2 });
+            let upBtn = new Gtk.Button({ tooltip_text: _('Move up') });
+            let upImg = new Gtk.Image({ icon_name: 'go-up-symbolic', pixel_size: 12 });
+            let downBtn = new Gtk.Button({ tooltip_text: _('Move down') });
+            let downImg = new Gtk.Image({ icon_name: 'go-down-symbolic', pixel_size: 12 });
+            let visibleToggleBtn = new Gtk.ToggleButton({ label: _('Visible'), active: el.visible });
+            let positionCombo = new Gtk.ComboBoxText({ tooltip_text: _('Select element position') });
+            let upDownClickHandler = limit => {
+                let index = row.get_index();
+
+                if (index != limit) {
+                    taskbarListBox.remove(row);
+                    taskbarListBox.insert(row, index + (!limit ? -1 : 1));
+                    updateSettings();
+                }
+            };
+
+            positionCombo.append(Pos.STACKED_TL, isVertical ? _('Stacked top') : _('Stacked left'));
+            positionCombo.append(Pos.STACKED_BR, isVertical ? _('Stacked bottom') :_('Stacked right'));
+            positionCombo.append(Pos.CENTERED, _('Centered'));
+            positionCombo.append(Pos.CENTERED_MONITOR, _('Monitor Center'));
+            positionCombo.set_active_id(el.position);
+
+            upBtn.connect('clicked', () => upDownClickHandler(0));
+            downBtn.connect('clicked', () => upDownClickHandler(panelInfo.length - 1));
+            visibleToggleBtn.connect('toggled', () => updateSettings());
+            positionCombo.connect('changed', () => updateSettings());
+
+            upBtn.add(upImg);
+            downBtn.add(downImg);
+
+            upDownGrid.add(upBtn);
+            upDownGrid.add(downBtn);
+
+            grid.add(upDownGrid);
+            grid.add(new Gtk.Label({ label: labels[el.element], xalign: 0, hexpand: true }));
+
+            if (Pos.optionDialogFunctions[el.element]) {
+                let cogImg = new Gtk.Image({ icon_name: 'emblem-system-symbolic' });
+                let optionsBtn = new Gtk.Button({ tooltip_text: _('More options') });
+                
+                optionsBtn.get_style_context().add_class('circular');
+                optionsBtn.add(cogImg);
+                grid.add(optionsBtn);
+
+                optionsBtn.connect('clicked', () => this[Pos.optionDialogFunctions[el.element]]());
+            }
+
+            grid.add(visibleToggleBtn);
+            grid.add(positionCombo);
+
+            row.id = el.element;
+            row.visibleToggleBtn = visibleToggleBtn;
+            row.positionCombo = positionCombo;
+
+            row.add(grid);
+            taskbarListBox.add(row);
+        });
+
+        taskbarListBox.show_all();
+    },
+
+    _showShowAppsButtonOptions: function() {
+        let dialog = new Gtk.Dialog({ title: _('Show Applications options'),
+                                        transient_for: this.widget.get_toplevel(),
+                                        use_header_bar: true,
+                                        modal: true });
+
+        // GTK+ leaves positive values for application-defined response ids.
+        // Use +1 for the reset action
+        dialog.add_button(_('Reset to defaults'), 1);
+
+        let box = this._builder.get_object('show_applications_options');
+        dialog.get_content_area().add(box);
+
+        let fileChooser = this._builder.get_object('show_applications_icon_file_filebutton');
+        let fileImage = this._builder.get_object('show_applications_current_icon_image');
+        let fileFilter = new Gtk.FileFilter();
+        let handleIconChange = function(newIconPath) {
+            if (newIconPath && GLib.file_test(newIconPath, GLib.FileTest.EXISTS)) {
+                let file = Gio.File.new_for_path(newIconPath)
+                let pixbuf = GdkPixbuf.Pixbuf.new_from_stream_at_scale(file.read(null), 32, 32, true, null);
+
+                fileImage.set_from_pixbuf(pixbuf);
+                fileChooser.set_filename(newIconPath);
+            } else {
+                newIconPath = '';
+                fileImage.set_from_icon_name('view-app-grid-symbolic', 32);
+                fileChooser.unselect_all();
+                fileChooser.set_current_folder(GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES));
+            }
+
+            this._settings.set_string('show-apps-icon-file', newIconPath || '');
+        };
+        
+        fileFilter.add_pixbuf_formats();
+        fileChooser.filter = fileFilter;
+
+        fileChooser.connect('file-set', widget => handleIconChange.call(this, widget.get_filename()));
+        handleIconChange.call(this, this._settings.get_string('show-apps-icon-file'));
+
+        dialog.connect('response', Lang.bind(this, function(dialog, id) {
+            if (id == 1) {
+                // restore default settings
+                this._settings.set_value('show-apps-icon-side-padding', this._settings.get_default_value('show-apps-icon-side-padding'));
+                this._builder.get_object('show_applications_side_padding_spinbutton').set_value(this._settings.get_int('show-apps-icon-side-padding'));
+                this._settings.set_value('show-apps-override-escape', this._settings.get_default_value('show-apps-override-escape'));
+                handleIconChange.call(this, null);
+            } else {
+                // remove the settings box so it doesn't get destroyed;
+                dialog.get_content_area().remove(box);
+                dialog.destroy();
+            }
+            return;
+        }));
+
+        dialog.show_all();
+    },
+
+    _showDesktopButtonOptions: function() {
+        let dialog = new Gtk.Dialog({ title: _('Show Desktop options'),
+                                        transient_for: this.widget.get_toplevel(),
+                                        use_header_bar: true,
+                                        modal: true });
+
+        // GTK+ leaves positive values for application-defined response ids.
+        // Use +1 for the reset action
+        dialog.add_button(_('Reset to defaults'), 1);
+
+        let box = this._builder.get_object('box_show_showdesktop_options');
+        dialog.get_content_area().add(box);
+
+        this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
+        this._builder.get_object('show_showdesktop_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('showdesktop-button-width', widget.get_value());
+        }));
+
+        this._builder.get_object('show_showdesktop_delay_spinbutton').set_value(this._settings.get_int('show-showdesktop-delay'));
+        this._builder.get_object('show_showdesktop_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('show-showdesktop-delay', widget.get_value());
+        }));
+
+        this._builder.get_object('show_showdesktop_time_spinbutton').set_value(this._settings.get_int('show-showdesktop-time'));
+        this._builder.get_object('show_showdesktop_time_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('show-showdesktop-time', widget.get_value());
+        }));
+
+        dialog.connect('response', Lang.bind(this, function(dialog, id) {
+            if (id == 1) {
+                // restore default settings
+                this._settings.set_value('showdesktop-button-width', this._settings.get_default_value('showdesktop-button-width'));
+                this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
+
+                this._settings.set_value('show-showdesktop-hover', this._settings.get_default_value('show-showdesktop-hover'));
+
+                this._settings.set_value('show-showdesktop-delay', this._settings.get_default_value('show-showdesktop-delay'));
+                this._builder.get_object('show_showdesktop_delay_spinbutton').set_value(this._settings.get_int('show-showdesktop-delay'));
+
+                this._settings.set_value('show-showdesktop-time', this._settings.get_default_value('show-showdesktop-time'));
+                this._builder.get_object('show_showdesktop_time_spinbutton').set_value(this._settings.get_int('show-showdesktop-time'));
+            } else {
+                // remove the settings box so it doesn't get destroyed;
+                dialog.get_content_area().remove(box);
+                dialog.destroy();
+            }
+            return;
+        }));
+
+        dialog.show_all();
     },
 
     _setPositionRadios: function() {
@@ -256,23 +443,10 @@ const Settings = new Lang.Class({
         // Position option
         this._setPositionRadios();
 
+        this.monitors = this._settings.get_value('available-monitors').deep_unpack();
+
         this._settings.connect('changed::panel-position', () => this._updateVerticalRelatedOptions());
         this._updateVerticalRelatedOptions();
-
-        this._builder.get_object('location_clock_combo').connect('changed', Lang.bind (this, function(widget) {
-            let activeId = widget.get_active_id();
-
-            if (activeId) {
-                this._settings.set_string('location-clock', activeId);
-            }
-        }));
-        this._builder.get_object('taskbar_position_combo').connect('changed', Lang.bind (this, function(widget) {
-            let activeId = widget.get_active_id();
-
-            if (activeId) {
-                this._settings.set_string('taskbar-position', activeId);
-            }
-        }));
 
         // size options
         let panel_size_scale = this._builder.get_object('panel_size_scale');
@@ -513,36 +687,35 @@ const Settings = new Lang.Class({
         }));
 
         //multi-monitor
-        let monitors = [-1];
+        
+        for (let i = 0; i < this.monitors.length; ++i) {
+            //the primary index is the first one in the "available-monitors" setting
+            let label = !i ? _('Primary monitor') : _('Monitor ') + (i + 1);
 
-        this._builder.get_object('multimon_primary_combo').append_text(_('Default (Primary monitor)'));
-
-        for (let i = 0, monitorNum = Gdk.Screen.get_default().get_n_monitors(); i < monitorNum; ++i) {
-            this._builder.get_object('multimon_primary_combo').append_text(_('Monitor ') + (i+1));
-            monitors.push(i);
+            this._builder.get_object('multimon_primary_combo').append_text(label);
+            this._builder.get_object('taskbar_position_monitor_combo').append_text(label);
         }
 
-        this._builder.get_object('multimon_primary_combo').set_active(monitors.indexOf(this._settings.get_int('primary-monitor')));
+        this._builder.get_object('multimon_primary_combo').set_active(this.monitors.indexOf(this._settings.get_int('primary-monitor')));
+        this._builder.get_object('taskbar_position_monitor_combo').set_active(this.monitors.indexOf(this._settings.get_int('primary-monitor')));
+
         this._builder.get_object('multimon_primary_combo').connect('changed', Lang.bind (this, function(widget) {
-            this._settings.set_int('primary-monitor', monitors[widget.get_active()]);
+            this._settings.set_int('primary-monitor', this.monitors[widget.get_active()]);
         }));
+
+        this._builder.get_object('taskbar_position_monitor_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._displayTaskbarElementPositionsForMonitor(this.monitors[widget.get_active()]);
+        }));
+
+        //taskbar element positions
+        this._displayTaskbarElementPositionsForMonitor(this.monitors[this._builder.get_object('multimon_primary_combo').get_active()]);
 
         this._settings.bind('multi-monitors',
                             this._builder.get_object('multimon_multi_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
-        this._settings.bind('show-clock-all-monitors',
-                            this._builder.get_object('multimon_multi_show_clock_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT); 
-
-        this._settings.bind('show-status-menu-all-monitors',
-                            this._builder.get_object('multimon_multi_show_status_menu_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT); 
-
-        if (monitors.length === 1) {
+        if (this.monitors.length === 1) {
             this._builder.get_object('multimon_multi_switch').set_active(false);
         }
         
@@ -835,101 +1008,19 @@ const Settings = new Lang.Class({
 
         // Behavior panel
 
-        this._settings.bind('show-show-apps-button',
-                            this._builder.get_object('show_applications_button_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-
-        this._settings.bind('show-show-apps-button',
-                            this._builder.get_object('show_application_options_button'),
-                            'sensitive',
-                            Gio.SettingsBindFlags.DEFAULT);
-        
         this._builder.get_object('show_applications_side_padding_spinbutton').set_value(this._settings.get_int('show-apps-icon-side-padding'));
         this._builder.get_object('show_applications_side_padding_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
             this._settings.set_int('show-apps-icon-side-padding', widget.get_value());
         }));
 
-        this._builder.get_object('show_application_options_button').connect('clicked', Lang.bind(this, function() {
-            let dialog = new Gtk.Dialog({ title: _('Show Applications options'),
-                                          transient_for: this.widget.get_toplevel(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
-            let box = this._builder.get_object('show_applications_options');
-            dialog.get_content_area().add(box);
-
-            let fileChooser = this._builder.get_object('show_applications_icon_file_filebutton');
-            let fileImage = this._builder.get_object('show_applications_current_icon_image');
-            let fileFilter = new Gtk.FileFilter();
-            let handleIconChange = function(newIconPath) {
-                if (newIconPath && GLib.file_test(newIconPath, GLib.FileTest.EXISTS)) {
-                    let file = Gio.File.new_for_path(newIconPath)
-                    let pixbuf = GdkPixbuf.Pixbuf.new_from_stream_at_scale(file.read(null), 32, 32, true, null);
-
-                    fileImage.set_from_pixbuf(pixbuf);
-                    fileChooser.set_filename(newIconPath);
-                } else {
-                    newIconPath = '';
-                    fileImage.set_from_icon_name('view-app-grid-symbolic', 32);
-                    fileChooser.unselect_all();
-                    fileChooser.set_current_folder(GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES));
-                }
-
-                this._settings.set_string('show-apps-icon-file', newIconPath || '');
-            };
-            
-            fileFilter.add_pixbuf_formats();
-            fileChooser.filter = fileFilter;
-
-            fileChooser.connect('file-set', widget => handleIconChange.call(this, widget.get_filename()));
-            handleIconChange.call(this, this._settings.get_string('show-apps-icon-file'));
-
-            dialog.connect('response', Lang.bind(this, function(dialog, id) {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('show-apps-icon-side-padding', this._settings.get_default_value('show-apps-icon-side-padding'));
-                    this._builder.get_object('show_applications_side_padding_spinbutton').set_value(this._settings.get_int('show-apps-icon-side-padding'));
-                    this._settings.set_value('show-apps-override-escape', this._settings.get_default_value('show-apps-override-escape'));
-                    handleIconChange.call(this, null);
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
-            }));
-
-            dialog.show_all();
-        }));
-
         this._settings.bind('animate-show-apps',
-                            this._builder.get_object('application_button_animation_button'),
+                            this._builder.get_object('application_button_animation_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
-        this._settings.bind('show-show-apps-button',
-                            this._builder.get_object('application_button_animation_button'),
-                            'sensitive',
-                            Gio.SettingsBindFlags.DEFAULT);
+
         this._settings.bind('show-apps-override-escape',
                             this._builder.get_object('show_applications_esc_key_switch'),
                             'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-        this._settings.bind('show-activities-button',
-                            this._builder.get_object('show_activities_button_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-        this._settings.bind('show-showdesktop-button',
-                            this._builder.get_object('show_showdesktop_button_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-        this._settings.bind('show-showdesktop-button',
-                            this._builder.get_object('show_showdesktop_options_button'),
-                            'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
         this._settings.bind('show-showdesktop-hover',
@@ -941,59 +1032,6 @@ const Settings = new Lang.Class({
                             this._builder.get_object('grid_show_showdesktop_hide_options'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
-
-        this._builder.get_object('show_showdesktop_options_button').connect('clicked', Lang.bind(this, function() {
-
-            let dialog = new Gtk.Dialog({ title: _('Show Desktop options'),
-                                          transient_for: this.widget.get_toplevel(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
-            let box = this._builder.get_object('box_show_showdesktop_options');
-            dialog.get_content_area().add(box);
-
-            this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
-            this._builder.get_object('show_showdesktop_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
-                this._settings.set_int('showdesktop-button-width', widget.get_value());
-            }));
-
-            this._builder.get_object('show_showdesktop_delay_spinbutton').set_value(this._settings.get_int('show-showdesktop-delay'));
-            this._builder.get_object('show_showdesktop_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
-                this._settings.set_int('show-showdesktop-delay', widget.get_value());
-            }));
-
-            this._builder.get_object('show_showdesktop_time_spinbutton').set_value(this._settings.get_int('show-showdesktop-time'));
-            this._builder.get_object('show_showdesktop_time_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
-                this._settings.set_int('show-showdesktop-time', widget.get_value());
-            }));
-
-            dialog.connect('response', Lang.bind(this, function(dialog, id) {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('showdesktop-button-width', this._settings.get_default_value('showdesktop-button-width'));
-                    this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
-
-                    this._settings.set_value('show-showdesktop-hover', this._settings.get_default_value('show-showdesktop-hover'));
-
-                    this._settings.set_value('show-showdesktop-delay', this._settings.get_default_value('show-showdesktop-delay'));
-                    this._builder.get_object('show_showdesktop_delay_spinbutton').set_value(this._settings.get_int('show-showdesktop-delay'));
-
-                    this._settings.set_value('show-showdesktop-time', this._settings.get_default_value('show-showdesktop-time'));
-                    this._builder.get_object('show_showdesktop_time_spinbutton').set_value(this._settings.get_int('show-showdesktop-time'));
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
-            }));
-
-            dialog.show_all();
-        }));
 
         this._settings.bind('show-appmenu',
                             this._builder.get_object('show_appmenu_switch'),
@@ -1750,20 +1788,10 @@ const Settings = new Lang.Class({
             }
         };
 
-        var setGsStockPanelOptions = () => {
-            let keepTopPanel = this._settings.get_boolean('stockgs-keep-top-panel');
-
-            this._builder.get_object('stockgs_top_panel_description')[keepTopPanel ? 'show' : 'hide']();
-            this._builder.get_object('multimon_multi_show_clock_label').set_text(keepTopPanel ? _('Display the clock on additional panels') : _('Display the clock on secondary panels'));
-            this._builder.get_object('multimon_multi_show_status_menu_label').set_text(keepTopPanel ? _('Display the status menu on additional panels') : _('Display the status menu on secondary panels'));
-        };
-
         this._settings.connect('changed::stockgs-keep-top-panel', () => {
-            setGsStockPanelOptions();
             maybeDisableTopPosition();
         });
 
-        setGsStockPanelOptions();
         maybeDisableTopPosition();
 
         this._settings.bind('stockgs-panelbtn-click-only',

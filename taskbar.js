@@ -89,21 +89,16 @@ var taskbarActor = Utils.defineClass({
 
         let availFixedSize = box[Panel.fixedCoord.c2] - box[Panel.fixedCoord.c1];
         let availVarSize = box[Panel.varCoord.c2] - box[Panel.varCoord.c1];
-        let [, showAppsButton, scrollview, leftFade, rightFade] = this.get_children();
-        let [, showAppsNatSize] = showAppsButton[Panel.sizeFunc](availFixedSize);
+        let [, scrollview, leftFade, rightFade] = this.get_children();
         let [, natSize] = this[Panel.sizeFunc](availFixedSize);
         let childBox = new Clutter.ActorBox();
         let orientation = Panel.getOrientation();
 
         childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1];
-        childBox[Panel.fixedCoord.c1] = box[Panel.fixedCoord.c1];
-
-        childBox[Panel.varCoord.c2] = box[Panel.varCoord.c1] + showAppsNatSize;
-        childBox[Panel.fixedCoord.c2] = box[Panel.fixedCoord.c2];
-        showAppsButton.allocate(childBox, flags);
-
-        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1] + showAppsNatSize;
         childBox[Panel.varCoord.c2] = Math.min(availVarSize, natSize);
+        childBox[Panel.fixedCoord.c1] = box[Panel.fixedCoord.c1];
+        childBox[Panel.fixedCoord.c2] = box[Panel.fixedCoord.c2];
+
         scrollview.allocate(childBox, flags);
 
         let [value, , upper, , , pageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
@@ -119,7 +114,6 @@ var taskbarActor = Utils.defineClass({
             rightFade.set_style(gradientStyle);
         }
         
-        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1] + showAppsNatSize;
         childBox[Panel.varCoord.c2] = childBox[Panel.varCoord.c1] + (value > 0 ? scrollview._dtpFadeSize : 0);
         leftFade.allocate(childBox, flags);
 
@@ -193,8 +187,7 @@ var taskbar = Utils.defineClass({
         this._scrollView.connect('scroll-event', Lang.bind(this, this._onScrollEvent ));
         this._scrollView.add_actor(this._box);
 
-        // Create a wrapper around the real showAppsIcon in order to add a popupMenu.
-        this._showAppsIconWrapper = new AppIcons.ShowAppsIconWrapper();
+        this._showAppsIconWrapper = panel.showAppsIconWrapper;
         this._showAppsIconWrapper.connect('menu-state-changed', Lang.bind(this, function(showAppsIconWrapper, opened) {
             this._itemMenuStateChanged(showAppsIconWrapper, opened);
         }));
@@ -215,7 +208,6 @@ var taskbar = Utils.defineClass({
         this._hookUpLabel(this._showAppsIcon, this._showAppsIconWrapper);
 
         this._container.add_child(new St.Widget({ width: 0, reactive: false }));
-        this._container.add_actor(this._showAppsIcon);
         this._container.add_actor(this._scrollView);
         
         let orientation = Panel.getOrientation();
@@ -358,7 +350,10 @@ var taskbar = Utils.defineClass({
             ],
             [
                 adjustment,
-                'notify::upper',
+                [
+                    'notify::upper',
+                    'notify::pageSize'
+                ],
                 () => {
                     // Update minimization animation target position on scrollview change.
                     this._updateAppIcons();
@@ -392,7 +387,6 @@ var taskbar = Utils.defineClass({
     destroy: function() {
         this._signalsHandler.destroy();
         this._signalsHandler = 0;
-        this._showAppsIconWrapper.destroy();
 
         this._container.destroy();
         
@@ -896,7 +890,7 @@ var taskbar = Utils.defineClass({
     },
 
     // Reset the displayed apps icon to mantain the correct order
-    resetAppIcons : function() {
+    resetAppIcons : function(geometryChange) {
         let children = this._getTaskbarIcons(true);
 
         for (let i = 0; i < children.length; i++) {
@@ -908,8 +902,7 @@ var taskbar = Utils.defineClass({
         this._shownInitially = false;
         this._redisplay();
 
-        if (Panel.checkIfVertical()) {
-            this.showAppsButton.set_width(this.dtpPanel.geom.w);
+        if (geometryChange && Panel.checkIfVertical()) {
             this.previewMenu._updateClip();
         }
     },

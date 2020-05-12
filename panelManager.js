@@ -30,6 +30,7 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Overview = Me.imports.overview;
 const Panel = Me.imports.panel;
+const Pos = Me.imports.panelPositions;
 const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
@@ -37,6 +38,7 @@ const Utils = Me.imports.utils;
 const Config = imports.misc.config;
 const Lang = imports.lang;
 const Gi = imports._gi;
+const GLib = imports.gi.GLib;
 const Clutter = imports.gi.Clutter;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
@@ -58,6 +60,17 @@ var dtpPanelManager = Utils.defineClass({
 
     _init: function() {
         this.overview = new Overview.dtpOverview();
+        this.panelsElementPositions = {};
+
+        //Mutter meta_monitor_manager_get_primary_monitor (global.display.get_primary_monitor()) doesn't return the same
+        //monitor as GDK gdk_screen_get_primary_monitor (imports.gi.Gdk.Screen.get_default().get_primary_monitor()).
+        //Since the Mutter function is what's used in gnome-shell and we can't access it from the settings dialog, store 
+        //the monitors information in a setting so we can use the same monitor indexes as the ones in gnome-shell
+        let primaryIndex = Main.layoutManager.primaryIndex;
+        let monitors = [primaryIndex];
+
+        Main.layoutManager.monitors.filter(m => m.index != primaryIndex).forEach(m => monitors.push(m.index));
+        Me.settings.set_value('available-monitors', new GLib.Variant('ai', monitors));
 
         Main.overview.viewSelector.appDisplay._views.forEach(v => {
             Utils.wrapActor(v.view);
@@ -67,8 +80,6 @@ var dtpPanelManager = Utils.defineClass({
 
     enable: function(reset) {
         let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
-        if(dtpPrimaryIndex < 0 || dtpPrimaryIndex >= Main.layoutManager.monitors.length)
-            dtpPrimaryIndex = Main.layoutManager.primaryIndex;
         
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex];
         this.proximityManager = new Proximity.ProximityManager();
@@ -115,6 +126,7 @@ var dtpPanelManager = Utils.defineClass({
             });
         }
 
+        this._updatePanelElementPositions();
         this.setFocusedMonitor(this.dtpPrimaryMonitor);
         
         if (Panel.checkIfVertical()) {
@@ -229,11 +241,15 @@ var dtpPanelManager = Utils.defineClass({
                     'changed::primary-monitor',
                     'changed::multi-monitors',
                     'changed::isolate-monitors',
-                    'changed::taskbar-position',
                     'changed::panel-position',
                     'changed::stockgs-keep-top-panel'
                 ],
                 () => this._reset()
+            ],
+            [
+                Me.settings,
+                'changed::panel-element-positions',
+                () => this._updatePanelElementPositions()
             ],
             [
                 Me.settings,
@@ -405,6 +421,11 @@ var dtpPanelManager = Utils.defineClass({
         this.disable(true);
         this.allPanels = [];
         this.enable(true);
+    },
+
+    _updatePanelElementPositions: function() {
+        this.panelsElementPositions = Pos.getSettingsPositions(Me.settings);
+        this.allPanels.forEach(p => p.updateElementPositions());
     },
 
     _adjustPanelMenuButton: function(button, monitor, arrowSide) {

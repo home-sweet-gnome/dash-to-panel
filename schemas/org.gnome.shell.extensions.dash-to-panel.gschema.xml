@@ -25,21 +25,6 @@
     <value value='3' nick='PASS_THROUGH'/>
     <value value='4' nick='CHANGE_VOLUME'/>
   </enum>
-  <enum id='org.gnome.shell.extensions.dash-to-panel.statusAreaPosition'>
-    <value value='0' nick='BUTTONSLEFT'/>
-    <value value='1' nick='STATUSLEFT'/>
-    <value value='2' nick='STATUSRIGHT'/>
-    <value value='3' nick='BUTTONSRIGHT'/>
-    <value value='4' nick='TASKBARLEFT'/>
-    <value value='5' nick='TASKBARRIGHT'/>
-  </enum>
-  <enum id='org.gnome.shell.extensions.dash-to-panel.taskbarPosition'>
-    <value value='0' nick='LEFTPANEL'/>
-    <value value='1' nick='CENTEREDMONITOR'/>
-    <value value='2' nick='CENTEREDCONTENT'/>
-    <value value='3' nick='LEFTPANEL_FIXEDCENTER'/>
-    <value value='4' nick='LEFTPANEL_FLOATCENTER'/>
-  </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix'>
     <value value='0' nick='Super'/>
     <value value='1' nick='SuperAlt'/>
@@ -86,6 +71,11 @@
       <default>'BOTTOM'</default>
       <summary>Panel position</summary>
       <description>Panel is shown on the Bottom or Top of the screen.</description>
+    </key>
+    <key name="panel-element-positions" type="s">
+      <default>'{}'</default>
+      <summary>Panel element positions</summary>
+      <description>Panel element positions (JSON).</description>
     </key>
     <key type="i" name="panel-size">
       <default>48</default>
@@ -206,16 +196,6 @@
       <default>false</default>
       <summary>Force hot corner</summary>
       <description>Wheter to force having an Activities hot corner on the primary monitor</description>
-    </key>
-    <key name="location-clock" enum="org.gnome.shell.extensions.dash-to-panel.statusAreaPosition">
-      <default>'STATUSLEFT'</default>
-      <summary>Location of the clock</summary>
-      <description>Set the location of the clock on the taskbar</description>
-    </key>
-    <key name="taskbar-position" enum="org.gnome.shell.extensions.dash-to-panel.taskbarPosition">
-      <default>'LEFTPANEL'</default>
-      <summary>Position of the taskbar</summary>
-      <description>Set the position of the taskbar on the panel</description>
     </key>
     <key type="b" name="taskbar-locked">
       <default>false</default>
@@ -583,29 +563,24 @@
       <description>When the applications are ungrouped, this defines if running applications stay separate from the favorite icons.</description>
     </key>
     <key type="i" name="primary-monitor">
-      <default>-1</default>
+      <default>0</default>
       <summary>Primary monitor index</summary>
-      <description>Specifies the index of the primary monitor (-1 = GNOME Primary Monitor).</description>
+      <description>Specifies the index of the primary monitor.</description>
     </key>
     <key type="b" name="multi-monitors">
       <default>true</default>
       <summary>Display panels on all monitors</summary>
       <description>Specifies if a panel is shown on every monitors</description>
     </key>
+    <key type="ai" name="available-monitors">
+     <default>[]</default>
+     <summary>Available monitors</summary>
+     <description>Available gnome-shell (Mutter) monitors, internal use</description>
+    </key>
     <key type="b" name="isolate-monitors">
       <default>false</default>
       <summary>Provide monitor isolation</summary>
       <description>Dash shows only windows from the current monitor</description>
-    </key>
-    <key type="b" name="show-clock-all-monitors">
-      <default>true</default>
-      <summary>Display the clock on all monitors</summary>
-      <description>Specifies if every panel should display the clock. If false, the clock is only displayed on the primary monitor.</description>
-    </key>
-    <key type="b" name="show-status-menu-all-monitors">
-      <default>true</default>
-      <summary>Display the status menu on all monitors</summary>
-      <description>Specifies if every panel should display the status menu. If false, the status menu is only displayed on the primary monitor.</description>
     </key>
     <key type="b" name="show-favorites-all-monitors">
       <default>true</default>
