@@ -217,9 +217,8 @@ var dtpPanel = Utils.defineClass({
         if (isStandalone && position == St.Side.TOP) {
             this.panel.actor.add_child(this.panel._leftCorner.actor);
             this.panel.actor.add_child(this.panel._rightCorner.actor);
-            this.panel._rightCorner.setStyleParent(this.panel.actor);
         }
-
+        
         this.add_child(this.panel.actor);
 
         if (Main.panel._onButtonPress || Main.panel._tryDragWindow) {
@@ -338,8 +337,6 @@ var dtpPanel = Utils.defineClass({
         
         this._setAllocationMap();
 
-        this._setRightCornerStyle();
-        
         this.panel.actor.add_style_class_name('dashtopanelMainPanel ' + getOrientation());
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
@@ -435,6 +432,8 @@ var dtpPanel = Utils.defineClass({
 
         this._timeoutsHandler.destroy();
         this._signalsHandler.destroy();
+        this._disablePanelCornerSignals();
+        
         this.panel.remove_child(this.taskbar.actor);
         this._setAppmenuVisible(false);
 
@@ -492,9 +491,6 @@ var dtpPanel = Utils.defineClass({
 
             this._setShowDesktopButton(false);
 
-            this._toggleCornerStyle(this.panel._leftCorner, true);
-            this._toggleCornerStyle(this.panel._rightCorner, true);
-
             delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
             setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
 
@@ -514,10 +510,6 @@ var dtpPanel = Utils.defineClass({
             this._removePanelMenu('dateMenu');
             this._removePanelMenu('aggregateMenu');
             this._removePanelMenu('activities');
-
-            if (this.panel._rightCorner && this.panel._rightCorner._buttonStyleChangedSignalId) {
-                this.panel._rightCorner._button.disconnect(this.panel._rightCorner._buttonStyleChangedSignalId);
-            }
         }
 
         Main.ctrlAltTabManager.removeGroup(this);
@@ -536,7 +528,9 @@ var dtpPanel = Utils.defineClass({
     },
 
     updateElementPositions: function() {
-        this._getElementPositions().forEach(pos => {
+        let panelPositions = this._getElementPositions();
+
+        panelPositions.forEach(pos => {
             let actor = this.allocationMap[pos.element].actor;
 
             if (actor) {
@@ -544,12 +538,44 @@ var dtpPanel = Utils.defineClass({
             }
         });
 
+        this._disablePanelCornerSignals();
+
+        if (getPosition() == St.Side.TOP) {
+            let visibleElements = panelPositions.filter(pp => pp.visible);
+            let connectCorner = (corner, button) => {
+                corner._button = button;
+                corner._buttonStyleChangedSignalId = button.connect('style-changed', () => {
+                    corner.set_style_pseudo_class(button.get_style_pseudo_class());
+                });
+            }
+
+            if (visibleElements[0].element == Pos.ACTIVITIES_BTN) {
+                connectCorner(this.panel._leftCorner, this.statusArea.activities);
+            }
+
+            if (visibleElements[visibleElements.length - 1].element == Pos.SYSTEM_MENU) {
+                connectCorner(this.panel._rightCorner, this.statusArea.aggregateMenu);
+            }
+        }
+
         this.panel.actor.hide();
         this.panel.actor.show();
     },
 
     _getElementPositions: function() {
         return this.panelManager.panelsElementPositions[this.monitor.index] || Pos.defaults;
+    },
+
+    _disablePanelCornerSignals: function() {
+        if (this.panel._rightCorner && this.panel._rightCorner._buttonStyleChangedSignalId) {
+            this.panel._rightCorner._button.disconnect(this.panel._rightCorner._buttonStyleChangedSignalId);
+            delete this.panel._rightCorner._buttonStyleChangedSignalId;
+        }
+
+        if (this.panel._leftCorner && this.panel._leftCorner._buttonStyleChangedSignalId) {
+            this.panel._leftCorner._button.disconnect(this.panel._leftCorner._buttonStyleChangedSignalId);
+            delete this.panel._leftCorner._buttonStyleChangedSignalId;
+        }
     },
 
     _bindSettingsChanges: function() {
@@ -1047,8 +1073,6 @@ var dtpPanel = Utils.defineClass({
     },
 
     _onBoxActorAdded: function(box) {
-        this._setRightCornerStyle();
-
         if (checkIfVertical()) {
             this._setVertical(box, true);
         }
@@ -1162,22 +1186,6 @@ var dtpPanel = Utils.defineClass({
 
                 setClockText(timeParts);
             }
-        }
-    },
-
-    _setRightCornerStyle: function() {
-        if (this.panel._rightCorner) {
-            this._toggleCornerStyle(
-                this.panel._rightCorner,
-                (this.statusArea.aggregateMenu && 
-                 this.panel.actor.get_last_child() == this.statusArea.aggregateMenu.container)
-            );
-        }
-    },
-
-    _toggleCornerStyle: function(corner, visible) {
-        if (corner) {
-            corner.actor[(visible ? 'remove' : 'add') + '_style_class_name']('hidden');
         }
     },
 
