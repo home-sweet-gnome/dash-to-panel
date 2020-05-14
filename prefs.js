@@ -696,8 +696,14 @@ const Settings = new Lang.Class({
             this._builder.get_object('taskbar_position_monitor_combo').append_text(label);
         }
 
-        this._builder.get_object('multimon_primary_combo').set_active(this.monitors.indexOf(this._settings.get_int('primary-monitor')));
-        this._builder.get_object('taskbar_position_monitor_combo').set_active(this.monitors.indexOf(this._settings.get_int('primary-monitor')));
+        let dtpPrimaryMonitorIndex = this.monitors.indexOf(this._settings.get_int('primary-monitor'));
+
+        if (dtpPrimaryMonitorIndex < 0) {
+            dtpPrimaryMonitorIndex = 0;
+        }
+
+        this._builder.get_object('multimon_primary_combo').set_active(dtpPrimaryMonitorIndex);
+        this._builder.get_object('taskbar_position_monitor_combo').set_active(dtpPrimaryMonitorIndex);
 
         this._builder.get_object('multimon_primary_combo').connect('changed', Lang.bind (this, function(widget) {
             this._settings.set_int('primary-monitor', this.monitors[widget.get_active()]);
@@ -716,7 +722,7 @@ const Settings = new Lang.Class({
                             Gio.SettingsBindFlags.DEFAULT);
 
         if (this.monitors.length === 1) {
-            this._builder.get_object('multimon_multi_switch').set_active(false);
+            this._builder.get_object('multimon_multi_switch').set_sensitive(false);
         }
         
         //dynamic opacity

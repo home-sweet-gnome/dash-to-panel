@@ -62,15 +62,7 @@ var dtpPanelManager = Utils.defineClass({
         this.overview = new Overview.dtpOverview();
         this.panelsElementPositions = {};
 
-        //Mutter meta_monitor_manager_get_primary_monitor (global.display.get_primary_monitor()) doesn't return the same
-        //monitor as GDK gdk_screen_get_primary_monitor (imports.gi.Gdk.Screen.get_default().get_primary_monitor()).
-        //Since the Mutter function is what's used in gnome-shell and we can't access it from the settings dialog, store 
-        //the monitors information in a setting so we can use the same monitor indexes as the ones in gnome-shell
-        let primaryIndex = Main.layoutManager.primaryIndex;
-        let monitors = [primaryIndex];
-
-        Main.layoutManager.monitors.filter(m => m.index != primaryIndex).forEach(m => monitors.push(m.index));
-        Me.settings.set_value('available-monitors', new GLib.Variant('ai', monitors));
+        this._saveMonitors();
 
         Main.overview.viewSelector.appDisplay._views.forEach(v => {
             Utils.wrapActor(v.view);
@@ -81,7 +73,7 @@ var dtpPanelManager = Utils.defineClass({
     enable: function(reset) {
         let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
         
-        this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex];
+        this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
         this.proximityManager = new Proximity.ProximityManager();
 
         Utils.wrapActor(Main.panel);
@@ -261,6 +253,7 @@ var dtpPanelManager = Utils.defineClass({
                 'monitors-changed', 
                 () => {
                     if (Main.layoutManager.primaryMonitor) {
+                        this._saveMonitors();
                         this._reset();
                     }
                 }
@@ -383,6 +376,18 @@ var dtpPanelManager = Utils.defineClass({
 
             this._newOverviewRelayout.call(Main.overview);
         }
+    },
+
+    _saveMonitors: function() {
+        //Mutter meta_monitor_manager_get_primary_monitor (global.display.get_primary_monitor()) doesn't return the same
+        //monitor as GDK gdk_screen_get_primary_monitor (imports.gi.Gdk.Screen.get_default().get_primary_monitor()).
+        //Since the Mutter function is what's used in gnome-shell and we can't access it from the settings dialog, store 
+        //the monitors information in a setting so we can use the same monitor indexes as the ones in gnome-shell
+        let primaryIndex = Main.layoutManager.primaryIndex;
+        let monitors = [primaryIndex];
+
+        Main.layoutManager.monitors.filter(m => m.index != primaryIndex).forEach(m => monitors.push(m.index));
+        Me.settings.set_value('available-monitors', new GLib.Variant('ai', monitors));
     },
 
     checkIfFocusedMonitor: function(monitor) {
