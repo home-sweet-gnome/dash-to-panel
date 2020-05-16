@@ -563,7 +563,7 @@
       <description>When the applications are ungrouped, this defines the application titles font color.</description>
     </key>
     <key type="s" name="group-apps-label-font-color-minimized">
-      <default>"#777777"</default>
+      <default>"#dddddd"</default>
       <summary>Minimized application title font color</summary>
       <description>When the applications are ungrouped, this defines the titles font color for minimized applications.</description>
     </key>
