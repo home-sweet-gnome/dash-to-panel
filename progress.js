@@ -419,7 +419,7 @@ var ProgressIndicator = Utils.defineClass({
     },
 
     _drawProgressOverlay: function(area) {
-        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        let scaleFactor = Utils.getScaleFactor();
         let [surfaceWidth, surfaceHeight] = area.get_surface_size();
         let cr = area.get_context();
 

@@ -93,7 +93,7 @@ var taskbarActor = Utils.defineClass({
         let [, showAppsNatSize] = showAppsButton[Panel.sizeFunc](availFixedSize);
         let [, natSize] = this[Panel.sizeFunc](availFixedSize);
         let childBox = new Clutter.ActorBox();
-        let orientation = Panel.getOrientation().toLowerCase();
+        let orientation = Panel.getOrientation();
 
         childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1];
         childBox[Panel.fixedCoord.c1] = box[Panel.fixedCoord.c1];
@@ -106,9 +106,9 @@ var taskbarActor = Utils.defineClass({
         childBox[Panel.varCoord.c2] = Math.min(availVarSize, natSize);
         scrollview.allocate(childBox, flags);
 
-        let [hvalue, , hupper, , , hpageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
-        hupper = Math.floor(hupper);
-        scrollview._dtpFadeSize = hupper > hpageSize ? this._delegate.iconSize : 0;
+        let [value, , upper, , , pageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
+        upper = Math.floor(upper);
+        scrollview._dtpFadeSize = upper > pageSize ? this._delegate.iconSize : 0;
 
         if (this._currentBackgroundColor !== this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor) {
             this._currentBackgroundColor = this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor;
@@ -120,10 +120,10 @@ var taskbarActor = Utils.defineClass({
         }
         
         childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1] + showAppsNatSize;
-        childBox[Panel.varCoord.c2] = childBox[Panel.varCoord.c1] + (hvalue > 0 ? scrollview._dtpFadeSize : 0);
+        childBox[Panel.varCoord.c2] = childBox[Panel.varCoord.c1] + (value > 0 ? scrollview._dtpFadeSize : 0);
         leftFade.allocate(childBox, flags);
 
-        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c2] - (hvalue + hpageSize < hupper ? scrollview._dtpFadeSize : 0);
+        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c2] - (value + pageSize < upper ? scrollview._dtpFadeSize : 0);
         childBox[Panel.varCoord.c2] = box[Panel.varCoord.c2];
         rightFade.allocate(childBox, flags);
     },
@@ -175,6 +175,7 @@ var taskbar = Utils.defineClass({
         this._resetHoverTimeoutId = 0;
         this._ensureAppIconVisibilityTimeoutId = 0;
         this._labelShowing = false;
+        this.fullScrollView = 0;
 
         let isVertical = Panel.checkIfVertical();
 
@@ -217,7 +218,8 @@ var taskbar = Utils.defineClass({
         this._container.add_actor(this._showAppsIcon);
         this._container.add_actor(this._scrollView);
         
-        let fadeStyle = 'background-gradient-direction:' + Panel.getOrientation();
+        let orientation = Panel.getOrientation();
+        let fadeStyle = 'background-gradient-direction:' + orientation;
         let fade1 = new St.Widget({ style_class: 'scrollview-fade', reactive: false });
         let fade2 = new St.Widget({ style_class: 'scrollview-fade', 
                                     reactive: false,  
@@ -241,12 +243,8 @@ var taskbar = Utils.defineClass({
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
         });
 
-        // Update minimization animation target position on allocation of the
-        // container and on scrollview change.
-        this._box.connect('notify::allocation', Lang.bind(this, this._updateAppIcons));
-        let scrollViewAdjustment = this._scrollView.hscroll.adjustment;
-        scrollViewAdjustment.connect('notify::value', Lang.bind(this, this._updateAppIcons));
-
+        let adjustment = this._scrollView[orientation[0] + 'scroll'].adjustment;
+        
         this._workId = Main.initializeDeferredWork(this._box, Lang.bind(this, this._redisplay));
 
         this._settings = new Gio.Settings({ schema_id: 'org.gnome.shell' });
@@ -357,6 +355,32 @@ var taskbar = Utils.defineClass({
                     'changed::taskbar-locked'
                 ],
                 () => this.resetAppIcons()
+            ],
+            [
+                adjustment,
+                'notify::upper',
+                () => {
+                    // Update minimization animation target position on scrollview change.
+                    this._updateAppIcons();
+    
+                    // When applications are ungrouped and there is some empty space on the horizontal taskbar,
+                    // force a fixed label width to prevent the icons from "wiggling" when an animation runs
+                    // (adding or removing an icon). When the taskbar is full, revert to a dynamic label width
+                    // to allow them to resize and make room for new icons.
+                    if (!isVertical && !this.isGroupApps) {
+                        let initial = this.fullScrollView;
+    
+                        if (!this.fullScrollView && Math.floor(adjustment.upper) > adjustment.page_size) {
+                            this.fullScrollView = adjustment.page_size;
+                        } else if (adjustment.page_size < this.fullScrollView) {
+                            this.fullScrollView = 0;
+                        }
+    
+                        if (initial != this.fullScrollView) {
+                            this._getAppIcons().forEach(a => a.updateTitleStyle());
+                        }
+                    }
+                }
             ]
         );
 
@@ -380,12 +404,7 @@ var taskbar = Utils.defineClass({
 
     _onScrollEvent: function(actor, event) {
 
-        // Event coordinates are relative to the stage but can be transformed
-        // as the actor will only receive events within his bounds.
-        let stage_x, stage_y, ok, event_x, event_y, actor_w, actor_h;
-        [stage_x, stage_y] = event.get_coords();
-        [ok, event_x, event_y] = actor.transform_stage_point(stage_x, stage_y);
-        [actor_w, actor_h] = actor.get_size();
+        let orientation = Panel.getOrientation();
 
         // reset timeout to avid conflicts with the mousehover event
         if (this._ensureAppIconVisibilityTimeoutId>0) {
@@ -399,7 +418,7 @@ var taskbar = Utils.defineClass({
 
         let adjustment, delta;
 
-        adjustment = this._scrollView.get_hscroll_bar().get_adjustment();
+        adjustment = this._scrollView[orientation[0] + 'scroll'].get_adjustment();
 
         let increment = adjustment.step_increment;
 
@@ -835,7 +854,7 @@ var taskbar = Utils.defineClass({
         this._updateAppIcons();
 
         // This will update the size, and the corresponding number for each icon on the primary panel
-        if (!this.dtpPanel.isSecondary) {
+        if (this.dtpPanel.isPrimary) {
             this._updateNumberOverlay();
         }
 
@@ -848,7 +867,7 @@ var taskbar = Utils.defineClass({
     
     _checkIfShowingFavorites: function() {
         return Me.settings.get_boolean('show-favorites') && 
-               (!this.dtpPanel.isSecondary || Me.settings.get_boolean('show-favorites-all-monitors'));
+               (this.dtpPanel.isPrimary || Me.settings.get_boolean('show-favorites-all-monitors'));
     },
 
     _getRunningApps: function() {
@@ -1091,6 +1110,19 @@ var taskbar = Utils.defineClass({
             });
 
             if (this.showAppsButton.checked) {
+                if (Me.settings.get_boolean('show-apps-override-escape')) {
+                    //override escape key to return to the desktop when entering the overview using the showapps button
+                    Main.overview.viewSelector._onStageKeyPress = function(actor, event) {
+                        if (Main.modalCount == 1 && event.get_key_symbol() === Clutter.KEY_Escape) {
+                            this._searchActive ? this.reset() : Main.overview.hide();
+    
+                            return Clutter.EVENT_STOP;
+                        }
+    
+                        return this.__proto__._onStageKeyPress.call(this, actor, event);
+                    };
+                }
+
                 // force spring animation triggering.By default the animation only
                 // runs if we are already inside the overview.
                 if (!Main.overview._shown) {
@@ -1135,6 +1167,7 @@ var taskbar = Utils.defineClass({
                 let overviewHiddenId = Main.overview.connect('hidden', () => {
                     Main.overview.disconnect(overviewHiddenId);
                     this.dtpPanel.panelManager.setFocusedMonitor(this.dtpPanel.panelManager.primaryPanel.monitor, true);
+                    delete Main.overview.viewSelector._onStageKeyPress;
                 });
 
                 // Finally show the overview

@@ -42,7 +42,6 @@ msgid "Left, with floating center plugin icons"
 msgstr "A la izquierda, con iconos flotantes centrados"
 
 #: prefs.js:214
-#, fuzzy
 msgid "Center, fixed in middle of monitor"
 msgstr "Centrado, fijo en mitad del monitor"
 
@@ -83,7 +82,6 @@ msgid "Bottom of system indicators"
 msgstr "Abajo de los indicadores del sistema"
 
 #: prefs.js:222
-#, fuzzy
 msgid "Right of system indicators"
 msgstr "A la derecha de los indicadores del sistema"
 
@@ -92,7 +90,6 @@ msgid "Top of taskbar"
 msgstr "Arriba de la barra de tareas"
 
 #: prefs.js:223
-#, fuzzy
 msgid "Left of taskbar"
 msgstr "A la izquierda de la barra de tareas"
 
@@ -101,12 +98,10 @@ msgid "Bottom of taskbar"
 msgstr "Abajo de la barra de tareas"
 
 #: prefs.js:224
-#, fuzzy
 msgid "Right of taskbar"
 msgstr "A la derecha de la barra de tareas"
 
 #: prefs.js:230
-#, fuzzy
 msgid "Show Desktop button height (px)"
 msgstr "Alto del botón Mostrar Escritorio (px)"
 
@@ -165,12 +160,10 @@ msgid "Customize middle-click behavior"
 msgstr "Personalizar comportamiento del botón central"
 
 #: prefs.js:1473
-#, fuzzy
 msgid "Customize panel scroll behavior"
 msgstr "Personalizar comportamiento del desplazamiento del panel"
 
 #: prefs.js:1509
-#, fuzzy
 msgid "Customize icon scroll behavior"
 msgstr "Personalizar comportamiento del desplazamiento de los iconos"
 
@@ -211,7 +204,6 @@ msgid "Windows"
 msgstr "Ventanas"
 
 #: appIcons.js:1745
-#, fuzzy
 msgid "Power options"
 msgstr "Energía"
 
@@ -236,7 +228,6 @@ msgid "Terminal"
 msgstr "Terminal"
 
 #: appIcons.js:1778
-#, fuzzy
 msgid "System monitor"
 msgstr "Monitor del sistema"
 
@@ -282,7 +273,6 @@ msgid "Version %s (%s) is available"
 msgstr "La versión %s (%s) está disponible"
 
 #: update.js:63
-#, fuzzy
 msgid "Details"
 msgstr "Mostrar detalles"
 
@@ -335,7 +325,6 @@ msgid "Shift+Click action"
 msgstr "Acción de Mayúsculas+Click"
 
 #: Settings.ui.h:4
-#, fuzzy
 msgid "Raise windows"
 msgstr "Elevar ventanas"
 
@@ -376,12 +365,10 @@ msgid "Shift+Middle-Click action"
 msgstr "Acción de Mayúsculas+Botón-Central"
 
 #: Settings.ui.h:15
-#, fuzzy
 msgid "Isolate monitors"
 msgstr "Aislar los espacios de trabajo"
 
 #: Settings.ui.h:16
-#, fuzzy
 msgid "Display favorite applications on all monitors"
 msgstr "Mostrar aplicaciones favoritas en todos los espacios de trabajo"
 
@@ -418,12 +405,10 @@ msgid "Highlight opacity"
 msgstr "Opacidad de resaltado"
 
 #: Settings.ui.h:25
-#, fuzzy
 msgid "Indicator size (px)"
 msgstr "Tamaño del indicador (px)"
 
 #: Settings.ui.h:26
-#, fuzzy
 msgid "Indicator color - Icon Dominant"
 msgstr "Color del indicador - Predominar el icono"
 
@@ -460,7 +445,6 @@ msgid "Font size (px) of the application titles (default is 14)"
 msgstr "Tamaño de la fuente (px) para los títulos de aplicación (14 por defecto)"
 
 #: Settings.ui.h:35
-#, fuzzy
 msgid "Font weight of application titles"
 msgstr "Tamaño de la fuente para los títulos de aplicación"
 
@@ -534,7 +518,6 @@ msgid "Maximized windows"
 msgstr "Ventanas maximizadas"
 
 #: Settings.ui.h:52
-#, fuzzy
 msgid "Require pressure at the edge of the screen to reveal the panel"
 msgstr "Requerir presión en el borde de la pantalla para mostrar el panel"
 
@@ -575,7 +558,6 @@ msgid "Delay before hiding the panel (ms)"
 msgstr "Tiempo antes de ocultar el panel (ms)"
 
 #: Settings.ui.h:62
-#, fuzzy
 msgid "Delay before enabling intellihide on start (ms)"
 msgstr "Tiempo antes de habilitar el panel inteligente (ms)"
 
@@ -584,22 +566,18 @@ msgid "Time (ms) before showing (100 is default)"
 msgstr "Tiempo (ms) antes de mostrar (100 por defecto)"
 
 #: Settings.ui.h:64
-#, fuzzy
 msgid "Animation time (ms)"
 msgstr "Tiempo de la animación (ms)"
 
 #: Settings.ui.h:65
-#, fuzzy
 msgid "Time (ms) before hiding (100 is default)"
 msgstr "Tiempo (ms) antes de ocultar (100 por defecto)"
 
 #: Settings.ui.h:66
-#, fuzzy
 msgid "Immediate on application icon click"
 msgstr "Pulsación inmediata en icono de aplicación"
 
 #: Settings.ui.h:67
-#, fuzzy
 msgid "Middle click on the preview to close the window"
 msgstr "Usar el botón central en la vista rápida para cerrar la ventana"
 
@@ -608,12 +586,10 @@ msgid "Window previews preferred size (px)"
 msgstr "Tamaño por defecto de las vistas rápidas (px)"
 
 #: Settings.ui.h:69
-#, fuzzy
 msgid "Window previews aspect ratio Y (height)"
 msgstr "Altura de la vista rápida de ventanas"
 
 #: Settings.ui.h:70
-#, fuzzy
 msgid "Window previews padding (px)"
 msgstr "Relleno (px) de la vista rápida de ventanas"
 
@@ -706,7 +682,6 @@ msgid "Fixed"
 msgstr ""
 
 #: Settings.ui.h:93
-#, fuzzy
 msgid "Window previews aspect ratio X (width)"
 msgstr "Anchura de la vista rápida de ventanas"
 
@@ -731,22 +706,18 @@ msgid "Top"
 msgstr "Arriba"
 
 #: Settings.ui.h:99
-#, fuzzy
 msgid "Display window preview headers"
 msgstr "Mostrar los títulos de las ventanas en las vistas rápidas"
 
 #: Settings.ui.h:100
-#, fuzzy
 msgid "Font size (px) of the preview titles"
 msgstr "Tamaño de letra (px) de los títulos de aplicación (14 por defecto)"
 
 #: Settings.ui.h:101
-#, fuzzy
 msgid "Font weight of the preview titles"
 msgstr "Color de letra de los títulos de aplicación"
 
 #: Settings.ui.h:102
-#, fuzzy
 msgid "Font color of the preview titles"
 msgstr "Color de letra de los títulos de aplicación"
 
@@ -853,7 +824,6 @@ msgid "Shortcut to show the overlay for 2 seconds"
 msgstr "Atajo para mostrar el número de aplicación por 2 segundos"
 
 #: Settings.ui.h:125
-#, fuzzy
 msgid "Show window previews on hotkey"
 msgstr "Mostrar vista rápida de ventanas al pasar con el ratón"
 
@@ -862,7 +832,6 @@ msgid "Show previews when the application have multiple instances"
 msgstr "Mostrar vistas previas cuando la aplicación tiene múltiples instancias"
 
 #: Settings.ui.h:127
-#, fuzzy
 msgid "Number row"
 msgstr "Fila numérica"
 
@@ -875,7 +844,6 @@ msgid "Both"
 msgstr "Ambos"
 
 #: Settings.ui.h:130
-#, fuzzy
 msgid "Hotkeys are activated with"
 msgstr "Usar atajos de teclado para activar aplicaciones"
 
@@ -896,7 +864,6 @@ msgid "Custom Show Applications image icon"
 msgstr "Icono <i>Mostrar aplicaciones</i> personalizado"
 
 #: Settings.ui.h:135
-#, fuzzy
 msgid "Show Applications icon side padding (px)"
 msgstr "Tamaño de relleno (px) de <i>Mostrar aplicaciones<i>"
 
@@ -905,12 +872,10 @@ msgid "Reveal the desktop when hovering the Show Desktop button"
 msgstr "Mostrar escritorio al colocar el botón <i>Mostrar Escritorio<i>"
 
 #: Settings.ui.h:137
-#, fuzzy
 msgid "Delay before revealing the desktop (ms)"
 msgstr "Tiempo antes de ocultar el panel (ms)"
 
 #: Settings.ui.h:138
-#, fuzzy
 msgid "Fade duration (ms)"
 msgstr "Tiempo de ocultación (ms)"
 
@@ -928,7 +893,6 @@ msgid "Change opacity to (%)"
 msgstr "Cambiar la opacidad a (%)"
 
 #: Settings.ui.h:143
-#, fuzzy
 msgid "Opacity change animation duration (ms)"
 msgstr "Duración de las animaciones (ms)"
 
@@ -969,7 +933,6 @@ msgid "Hide and reveal the panel according to preferences"
 msgstr "Ocultar y mostrar el panel de acuerdo con las preferencias"
 
 #: Settings.ui.h:153
-#, fuzzy
 msgid "Position"
 msgstr "Posición"
 
@@ -1081,7 +1044,6 @@ msgid "Show favorite applications"
 msgstr "Mostrar aplicaciones favoritas"
 
 #: Settings.ui.h:183
-#, fuzzy
 msgid "Show running applications"
 msgstr "Mostrar aplicaciones en ejecución"
 
@@ -1116,7 +1078,6 @@ msgid "Show window previews on hover"
 msgstr "Mostrar vista rápida de ventanas al pasar con el ratón"
 
 #: Settings.ui.h:191
-#, fuzzy
 msgid "Show tooltip on hover"
 msgstr "Mostrar barra de herramientas al pasar con el ratón"
 
@@ -1141,7 +1102,6 @@ msgid "Click action"
 msgstr "Acción de pulsación"
 
 #: Settings.ui.h:197
-#, fuzzy
 msgid "Toggle windows"
 msgstr "Alternar ventanas"
 
@@ -1154,12 +1114,10 @@ msgid "Behavior when mouse scrolling over the panel."
 msgstr "Comportamiento cuando el ratón de desplaza en el panel"
 
 #: Settings.ui.h:200
-#, fuzzy
 msgid "Scroll icon action"
 msgstr "Acción al desplazar iconos"
 
 #: Settings.ui.h:201
-#, fuzzy
 msgid "Behavior when mouse scrolling over an application icon."
 msgstr "Comportamiento cuando el ratón se desplaza sobre el icono de una aplicación"
 
@@ -1172,7 +1130,6 @@ msgid "Switch workspace"
 msgstr "Cambiar espacio de trabajo"
 
 #: Settings.ui.h:204
-#, fuzzy
 msgid "Cycle windows"
 msgstr "Alternar entre ventanas"
 

@@ -294,6 +294,14 @@ var getWorkspaceCount = function() {
     return DisplayWrapper.getWorkspaceManager().n_workspaces;
 };
 
+var getStageTheme = function() {
+    return St.ThemeContext.get_for_stage(global.stage);
+};
+
+var getScaleFactor = function() {
+    return getStageTheme().scale_factor || 1;
+};
+
 var findIndex = function(array, predicate) {
     if (Array.prototype.findIndex) {
         return array.findIndex(predicate);

@@ -35,6 +35,7 @@
 }
 
 #dashtopanelScrollview .app-well-app .overview-label {
+	/* must match TITLE_RIGHT_PADDING in apppicons.js */
 	padding-right: 8px;
 }
 
@@ -120,7 +121,7 @@
 	background-color: rgba(200, 200, 200, .4);
 }
 
-.panel-corner:active, .panel-corner:overview, .panel-corner:focus {
+.panel-corner.hidden:active, .panel-corner.hidden:overview, .panel-corner.hidden:focus {
     -panel-corner-border-color: rgba(0, 0, 0, .001);
 }
 #dashtopanelScrollview .badge {

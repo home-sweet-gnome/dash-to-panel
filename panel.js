@@ -117,7 +117,7 @@ var dtpPanel = Utils.defineClass({
     Name: 'DashToPanel-Panel',
     Extends: St.Widget,
 
-    _init: function(panelManager, monitor, panelBox, isSecondary) {
+    _init: function(panelManager, monitor, panelBox, isStandalone) {
         let position = getPosition();
         
         this.callParent('_init', { layout_manager: new Clutter.BinLayout() });
@@ -130,11 +130,19 @@ var dtpPanel = Utils.defineClass({
 
         this.monitor = monitor;
         this.panelBox = panelBox;
-        this.isSecondary = isSecondary;
+
+        // when the original gnome-shell top panel is kept, all panels are "standalone",
+        // so in this case use isPrimary to get the panel on the primary dtp monitor, which
+        // might be different from the system's primary monitor.
+        this.isStandalone = isStandalone;
+        this.isPrimary = !isStandalone || (Me.settings.get_boolean('stockgs-keep-top-panel') && 
+                                           monitor == panelManager.dtpPrimaryMonitor);
+
         this._sessionStyle = null;
         this._unmappedButtons = [];
+        this.cornerSize = 0;
 
-        if (isSecondary) {
+        if (isStandalone) {
             this.panel = new St.Widget({ name: 'panel', reactive: true });
             this.statusArea = this.panel.statusArea = {};
 
@@ -163,6 +171,10 @@ var dtpPanel = Utils.defineClass({
             this._setPanelMenu('show-status-menu-all-monitors', 'aggregateMenu', dtpSecondaryAggregateMenu, this._rightBox, true);
             this._setPanelMenu('show-clock-all-monitors', 'dateMenu', DateMenu.DateMenuButton, this._centerBox, true);
 
+            if (this.statusArea.aggregateMenu) {
+                setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), position);
+            }
+
             this.panel.add_child(this._leftBox);
             this.panel.add_child(this._centerBox);
             this.panel.add_child(this._rightBox);
@@ -182,14 +194,15 @@ var dtpPanel = Utils.defineClass({
             this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
             this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
 
-            Utils.wrapActor(this.panel._leftCorner);
-            Utils.wrapActor(this.panel._rightCorner);
-
-            if (isSecondary) {
+            if (isStandalone) {
                 this.panel.add_child(this.panel._leftCorner.actor);
                 this.panel.add_child(this.panel._rightCorner.actor);
+                this.panel._rightCorner.setStyleParent(this._rightBox);
             }
         }
+
+        Utils.wrapActor(this.panel._leftCorner || 0);
+        Utils.wrapActor(this.panel._rightCorner || 0);
 
         this.add_child(this.panel.actor);
 
@@ -254,7 +267,7 @@ var dtpPanel = Utils.defineClass({
 
         this._setPanelPosition();
 
-        if (!this.isSecondary) {
+        if (!this.isStandalone) {
             if (this.panel.vfunc_allocate) {
                 this._panelConnectId = 0;
                 Utils.hookVfunc(this.panel.__proto__, 'allocate', (box, flags) => this._mainPanelAllocate(0, box, flags));
@@ -316,6 +329,8 @@ var dtpPanel = Utils.defineClass({
         this._setClockLocation(Me.settings.get_string('location-clock'));
         this._displayShowDesktopButton(Me.settings.get_boolean('show-showdesktop-button'));
         
+        this._setRightCornerStyle();
+        
         this.panel.actor.add_style_class_name('dashtopanelMainPanel ' + getOrientation());
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
@@ -333,7 +348,7 @@ var dtpPanel = Utils.defineClass({
         this._signalsHandler.add(
             // this is to catch changes to the theme or window scale factor
             [
-                St.ThemeContext.get_for_stage(global.stage), 
+                Utils.getStageTheme(), 
                 'changed', 
                 () => this._resetGeometry()
             ],
@@ -388,6 +403,8 @@ var dtpPanel = Utils.defineClass({
                 }
             ]);
 
+            this._setSearchEntryOffset(this.geom.w);
+
             if (this.statusArea.dateMenu) {
                 this._formatVerticalClock();
                 
@@ -428,6 +445,7 @@ var dtpPanel = Utils.defineClass({
         this.menuManager._changeMenu = this.menuManager._oldChangeMenu;
 
         this._myPanelGhost.get_parent().remove_actor(this._myPanelGhost);
+        this._setSearchEntryOffset(0);
         
         panelBoxes.forEach(b => delete this[b].allocate);
         this._unmappedButtons.forEach(a => this._disconnectVisibleId(a));
@@ -438,13 +456,12 @@ var dtpPanel = Utils.defineClass({
             this._dateMenuIndicatorPadContraints.forEach(c => indicatorPad.add_constraint(c));
         }
 
-        if (!this.isSecondary) {
+        this._setVertical(this.panel.actor, false);
+
+        if (!this.isStandalone) {
             this.statusArea.dateMenu._clockDisplay.text = this.statusArea.dateMenu._clock.clock;
 
-            this._setVertical(this.panel.actor, false);
-
             ['vertical', 'horizontal', 'dashtopanelMainPanel'].forEach(c => this.panel.actor.remove_style_class_name(c));
-
 
             if(!Main.sessionMode.isLocked) {
                 this._setActivitiesButtonVisible(true);
@@ -461,6 +478,9 @@ var dtpPanel = Utils.defineClass({
             }
 
             this._displayShowDesktopButton(false);
+
+            this._toggleCornerStyle(this.panel._leftCorner, true);
+            this._toggleCornerStyle(this.panel._rightCorner, true);
 
             delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
             setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
@@ -480,6 +500,10 @@ var dtpPanel = Utils.defineClass({
         } else {
             this._removePanelMenu('dateMenu');
             this._removePanelMenu('aggregateMenu');
+
+            if (this.panel._rightCorner && this.panel._rightCorner._buttonStyleChangedSignalId) {
+                this.panel._rightCorner._button.disconnect(this.panel._rightCorner._buttonStyleChangedSignalId);
+            }
         }
 
         Main.ctrlAltTabManager.removeGroup(this);
@@ -619,6 +643,21 @@ var dtpPanel = Utils.defineClass({
         this._myPanelGhost.set_size(this.width, checkIfVertical() ? 1 : this.height); 
     },
 
+    _setSearchEntryOffset: function(offset) {
+        if (this.isPrimary) {
+            //In the overview, when the panel is vertical the search-entry is the only element
+            //that doesn't natively take into account the size of a side dock, as it is always
+            //centered relatively to the monitor. This looks misaligned, adjust it here so it 
+            //is centered like the rest of the overview elements.
+            let paddingSide = getPosition() == St.Side.LEFT ? 'left' : 'right';
+            let scaleFactor = Utils.getScaleFactor();
+            let style = offset ? 'padding-' + paddingSide + ':' + (offset / scaleFactor) + 'px;' : null;
+            let searchEntry = Main.overview._searchEntry || Main.overview._overview._searchEntry;
+            
+            searchEntry.get_parent().set_style(style);
+        }
+    },
+
     _adjustForOverview: function() {
         let isFocusedMonitor = this.panelManager.checkIfFocusedMonitor(this.monitor);
         let isOverview = !!Main.overview.visibleTarget;
@@ -649,19 +688,26 @@ var dtpPanel = Utils.defineClass({
 
         if (checkIfVertical()) {
             this._refreshVerticalAlloc();
+            this._setSearchEntryOffset(this.geom.w);
         }
     },
 
     getGeometry: function() {
-        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor || 1;
+        let scaleFactor = Utils.getScaleFactor();
         let panelBoxTheme = this.panelBox.get_theme_node();
         let lrPadding = panelBoxTheme.get_padding(St.Side.RIGHT) + panelBoxTheme.get_padding(St.Side.LEFT);
-        let tbPadding = panelBoxTheme.get_padding(St.Side.TOP) + panelBoxTheme.get_padding(St.Side.BOTTOM);
+        let topPadding = panelBoxTheme.get_padding(St.Side.TOP);
+        let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM);
         let position = getPosition();
+        let gsTopPanelOffset = 0;
         let x = 0, y = 0;
         let w = 0, h = 0;
 
         size = Me.settings.get_int('panel-size') * scaleFactor;
+
+        if (Me.settings.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
+            gsTopPanelOffset = Main.layoutManager.panelBox.height - topPadding;
+        }
 
         if (checkIfVertical()) {
             if (!Me.settings.get_boolean('group-apps')) {
@@ -674,7 +720,7 @@ var dtpPanel = Utils.defineClass({
             varCoord = { c1: 'y1', c2: 'y2' };
 
             w = size;
-            h = this.monitor.height - tbPadding;
+            h = this.monitor.height - tbPadding - gsTopPanelOffset;
         } else {
             sizeFunc = 'get_preferred_width';
             fixedCoord = { c1: 'y1', c2: 'y2' };
@@ -686,10 +732,10 @@ var dtpPanel = Utils.defineClass({
 
         if (position == St.Side.TOP || position == St.Side.LEFT) {
             x = this.monitor.x;
-            y = this.monitor.y;
+            y = this.monitor.y + gsTopPanelOffset;
         } else if (position == St.Side.RIGHT) {
             x = this.monitor.x + this.monitor.width - size - lrPadding;
-            y = this.monitor.y;
+            y = this.monitor.y + gsTopPanelOffset;
         } else { //BOTTOM
             x = this.monitor.x; 
             y = this.monitor.y + this.monitor.height - size - tbPadding;
@@ -698,6 +744,8 @@ var dtpPanel = Utils.defineClass({
         return {
             x: x, y: y, 
             w: w, h: h,
+            lrPadding: lrPadding,
+            tbPadding: tbPadding,
             position: position
         };
     },
@@ -785,21 +833,26 @@ var dtpPanel = Utils.defineClass({
 
         if (this.geom.position == St.Side.TOP) {
             let childBoxLeftCorner = new Clutter.ActorBox();
-            let [ , cornerSize] = this.panel._leftCorner.actor[sizeFunc](-1);
-            childBoxLeftCorner[varCoord.c1] = 0;
-            childBoxLeftCorner[varCoord.c2] = cornerSize;
-            childBoxLeftCorner[fixedCoord.c1] = panelAllocFixedSize;
-            childBoxLeftCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
-
             let childBoxRightCorner = new Clutter.ActorBox();
-            [ , cornerSize] = this.panel._rightCorner.actor[sizeFunc](-1);
-            childBoxRightCorner[varCoord.c1] = panelAllocVarSize - cornerSize;
+            let currentCornerSize = this.cornerSize;
+            
+            [ , this.cornerSize] = this.panel._leftCorner.actor[sizeFunc](-1);
+            childBoxLeftCorner[varCoord.c1] = 0;
+            childBoxLeftCorner[varCoord.c2] = this.cornerSize;
+            childBoxLeftCorner[fixedCoord.c1] = panelAllocFixedSize;
+            childBoxLeftCorner[fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
+
+            childBoxRightCorner[varCoord.c1] = panelAllocVarSize - this.cornerSize;
             childBoxRightCorner[varCoord.c2] = panelAllocVarSize;
             childBoxRightCorner[fixedCoord.c1] = panelAllocFixedSize;
-            childBoxRightCorner[fixedCoord.c2] = panelAllocFixedSize + cornerSize;
+            childBoxRightCorner[fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
 
             this.panel._leftCorner.actor.allocate(childBoxLeftCorner, flags);
             this.panel._rightCorner.actor.allocate(childBoxRightCorner, flags);
+
+            if (this.cornerSize != currentCornerSize) {
+                this._setPanelClip();
+            }
         }
     },
 
@@ -818,10 +871,15 @@ var dtpPanel = Utils.defineClass({
             this.panel.actor[(St.Side[p] == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
         });
 
-        this._timeoutsHandler.add([T7, 0, () => Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height)]);
+        this._setPanelClip(clipContainer);
 
         Main.layoutManager._updateHotCorners();
         Main.layoutManager._updatePanelBarrier(this);
+    },
+
+    _setPanelClip: function(clipContainer) {
+        clipContainer = clipContainer || this.panelBox.get_parent();
+        this._timeoutsHandler.add([T7, 0, () => Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height + this.cornerSize)]);
     },
 
     _onButtonPress: function(actor, event) {
@@ -881,7 +939,9 @@ var dtpPanel = Utils.defineClass({
     },
 
     _onBoxActorAdded: function(box) {
-        this._setClockLocation(Me.settings.get_string('location-clock'));
+        if (!this._setClockLocation(Me.settings.get_string('location-clock'))) {
+            this._setRightCornerStyle();
+        }
 
         if (checkIfVertical()) {
             this._setVertical(box, true);
@@ -970,41 +1030,43 @@ var dtpPanel = Utils.defineClass({
 
     _formatVerticalClock: function() {
         // https://github.com/GNOME/gnome-desktop/blob/master/libgnome-desktop/gnome-wall-clock.c#L310
-        let datetime = this.statusArea.dateMenu._clock.clock;
-        let datetimeParts = datetime.split(' ');
-        let time = datetimeParts[1];
-        let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
-        let setClockText = text => {
-            let stacks = text instanceof Array;
-            let separator = '\n<span size="xx-small">‧‧</span>\n';
-    
-            clockText.set_text((stacks ? text.join(separator) : text).trim());
-            clockText.set_use_markup(stacks);
-            clockText.get_allocation_box();
-    
-            return !clockText.get_layout().is_ellipsized();
-        };
+        if (this.statusArea.dateMenu) {
+            let datetime = this.statusArea.dateMenu._clock.clock;
+            let datetimeParts = datetime.split(' ');
+            let time = datetimeParts[1];
+            let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
+            let setClockText = text => {
+                let stacks = text instanceof Array;
+                let separator = '\n<span size="xx-small">‧‧</span>\n';
+        
+                clockText.set_text((stacks ? text.join(separator) : text).trim());
+                clockText.set_use_markup(stacks);
+                clockText.get_allocation_box();
+        
+                return !clockText.get_layout().is_ellipsized();
+            };
 
-        if (!time) {
-            datetimeParts = datetime.split(' ');
-            time = datetimeParts.pop();
-            datetimeParts = [datetimeParts.join(' '), time];
-        }
-
-        if (!setClockText(datetime) && 
-            !setClockText(datetimeParts) && 
-            !setClockText(time)) {
-            let timeParts = time.split('∶');
-
-            if (!this._clockFormat) {
-                this._clockFormat = Me.desktopSettings.get_string('clock-format');
+            if (!time) {
+                datetimeParts = datetime.split(' ');
+                time = datetimeParts.pop();
+                datetimeParts = [datetimeParts.join(' '), time];
             }
 
-            if (this._clockFormat == '12h') {
-                timeParts.push.apply(timeParts, timeParts.pop().split(' '));
-            }
+            if (!setClockText(datetime) && 
+                !setClockText(datetimeParts) && 
+                !setClockText(time)) {
+                let timeParts = time.split('∶');
 
-            setClockText(timeParts);
+                if (!this._clockFormat) {
+                    this._clockFormat = Me.desktopSettings.get_string('clock-format');
+                }
+
+                if (this._clockFormat == '12h') {
+                    timeParts.push.apply(timeParts, timeParts.pop().split(' '));
+                }
+
+                setClockText(timeParts);
+            }
         }
     },
 
@@ -1038,6 +1100,25 @@ var dtpPanel = Utils.defineClass({
 
         destination['set_child_' + (loc.indexOf('RIGHT') > 0 ? 'above' : 'below') + '_sibling'](dateMenuContainer, refSibling);
         destination.queue_relayout();
+        this._setRightCornerStyle();
+
+        return 1;
+    },
+
+    _setRightCornerStyle: function() {
+        if (this.panel._rightCorner) {
+            this._toggleCornerStyle(
+                this.panel._rightCorner,
+                (this.statusArea.aggregateMenu && 
+                 this._rightBox.get_last_child() == this.statusArea.aggregateMenu.container)
+            );
+        }
+    },
+
+    _toggleCornerStyle: function(corner, visible) {
+        if (corner) {
+            corner.actor[(visible ? 'remove' : 'add') + '_style_class_name']('hidden');
+        }
     },
 
     _displayShowDesktopButton: function (isVisible) {
@@ -1086,6 +1167,7 @@ var dtpPanel = Utils.defineClass({
             this._rightBox.remove_child(this._showDesktopButton);
             this._showDesktopButton.destroy();
             this._showDesktopButton = null;
+            this._setRightCornerStyle();
         }
     },
 
@@ -1282,7 +1364,5 @@ var dtpSecondaryAggregateMenu = Utils.defineClass({
 
         menuLayout.addSizeChild(this._power.menu.actor);
         menuLayout.addSizeChild(this._system.menu.actor);
-
-        setMenuArrow(this._indicators.get_last_child(), getPosition());
     },
 });

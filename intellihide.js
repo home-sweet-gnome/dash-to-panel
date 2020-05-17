@@ -157,7 +157,7 @@ var Intellihide = Utils.defineClass({
     _changeEnabledStatus: function() {
         let intellihide = Me.settings.get_boolean('intellihide');
         let onlySecondary = Me.settings.get_boolean('intellihide-only-secondary');
-        let enabled = intellihide && (this._dtpPanel.isSecondary || !onlySecondary);
+        let enabled = intellihide && !(this._dtpPanel.isPrimary && onlySecondary);
 
         if (this.enabled !== enabled) {
             this[enabled ? 'enable' : 'disable']();

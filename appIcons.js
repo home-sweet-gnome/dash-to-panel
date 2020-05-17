@@ -59,6 +59,9 @@ const T4 = 'overviewWindowDragEndTimeout';
 const T5 = 'switchWorkspaceTimeout';
 const T6 = 'displayProperIndicatorTimeout';
 
+//right padding defined for .overview-label in stylesheet.css
+const TITLE_RIGHT_PADDING = 8;
+
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
 var DEFAULT_PADDING_SIZE = 4;
@@ -165,7 +168,7 @@ var taskbarAppIcon = Utils.defineClass({
             this._updateWindowTitle();
             this._updateWindowTitleStyle();
 
-            this._scaleFactorChangedId = St.ThemeContext.get_for_stage(global.stage).connect('changed', () => this._updateWindowTitleStyle());
+            this._scaleFactorChangedId = Utils.getStageTheme().connect('changed', () => this._updateWindowTitleStyle());
 
             box.add_child(this._dtpIconContainer);
             box.add_child(this._windowTitle);
@@ -313,7 +316,7 @@ var taskbarAppIcon = Utils.defineClass({
             global.window_manager.disconnect(this._switchWorkspaceId);
 
         if(this._scaleFactorChangedId)
-            St.ThemeContext.get_for_stage(global.stage).disconnect(this._scaleFactorChangedId);
+            Utils.getStageTheme().disconnect(this._scaleFactorChangedId);
 
         if (this._hoverChangeId) {
             this.actor.disconnect(this._hoverChangeId);
@@ -338,6 +341,10 @@ var taskbarAppIcon = Utils.defineClass({
             this._updateWindows();
             this._displayProperIndicator();
         }
+    },
+
+    updateTitleStyle: function() {
+        this._updateWindowTitleStyle();
     },
 
     // Update indicator and target for minimization animation
@@ -467,14 +474,17 @@ var taskbarAppIcon = Utils.defineClass({
     _updateWindowTitleStyle: function() {
         if (this._windowTitle) {
             let useFixedWidth = Me.settings.get_boolean('group-apps-use-fixed-width');
-            let maxLabelWidth = Me.settings.get_int('group-apps-label-max-width') * 
-                                St.ThemeContext.get_for_stage(global.stage).scale_factor;
+            let variableWidth = !useFixedWidth || Panel.checkIfVertical() || this.dtpPanel.taskbar.fullScrollView;
             let fontWeight = Me.settings.get_string('group-apps-label-font-weight');
-            
+            let scaleFactor = Utils.getScaleFactor();
+            let maxLabelWidth = Me.settings.get_int('group-apps-label-max-width') * scaleFactor;
+
             this._windowTitle[(maxLabelWidth > 0 ? 'show' : 'hide')]();
 
             this._windowTitle.clutter_text.natural_width = useFixedWidth ? maxLabelWidth : 0;
             this._windowTitle.clutter_text.natural_width_set = useFixedWidth;
+            this._windowTitle.set_width(variableWidth ? -1 : maxLabelWidth + TITLE_RIGHT_PADDING * scaleFactor);
+
             this._windowTitle.set_style('font-size: ' + Me.settings.get_int('group-apps-label-font-size') + 'px;' +
                                         'font-weight: ' + fontWeight + ';' +
                                         (useFixedWidth ? '' : 'max-width: ' + maxLabelWidth + 'px;') + 
@@ -504,7 +514,7 @@ var taskbarAppIcon = Utils.defineClass({
             let highlightMargin = isWide ? Me.settings.get_int('dot-size') : 0;
 
             if(!this.window) {
-                let containerWidth = this._dtpIconContainer.get_width() / St.ThemeContext.get_for_stage(global.stage).scale_factor;
+                let containerWidth = this._dtpIconContainer.get_width() / Utils.getScaleFactor();;
                 let backgroundSize = containerWidth + "px " + 
                                      (containerWidth - (pos == DOT_POSITION.BOTTOM ? highlightMargin : 0)) + "px;";
 
@@ -948,7 +958,7 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _getRunningIndicatorSize: function() {
-        return Me.settings.get_int('dot-size') * St.ThemeContext.get_for_stage(global.stage).scale_factor;
+        return Me.settings.get_int('dot-size') * Utils.getScaleFactor();
     },
 
     _getRunningIndicatorColor: function(isFocused) {
@@ -1155,11 +1165,10 @@ var taskbarAppIcon = Utils.defineClass({
         // We apply an overall scale factor that might come from a HiDPI monitor.
         // Clutter dimensions are in physical pixels, but CSS measures are in logical
         // pixels, so make sure to consider the scale.
-        let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor;
         // Set the font size to something smaller than the whole icon so it is
         // still visible. The border radius is large to make the shape circular
         let [minWidth, natWidth] = this._dtpIconContainer.get_preferred_width(-1);
-        let font_size =  Math.round(Math.max(12, 0.3 * natWidth) / scaleFactor);
+        let font_size =  Math.round(Math.max(12, 0.3 * natWidth) / Utils.getScaleFactor());
         let size = Math.round(font_size * 1.3);
         let label = bin.child;
         let style = 'font-size: ' + font_size + 'px;' +
@@ -1631,7 +1640,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
             if (customIconPath) {
                 this._iconActor.gicon = new Gio.FileIcon({ file: Gio.File.new_for_path(customIconPath) });
             }
-            
+
             return this._iconActor;
         };
 

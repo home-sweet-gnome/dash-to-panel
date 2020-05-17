@@ -230,10 +230,7 @@ const Settings = new Lang.Class({
         showDesktopWidthLabel.set_text(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
     },
 
-    _bindSettings: function() {
-        // Position and style panel
-
-        // Position option
+    _setPositionRadios: function() {
         let position = this._settings.get_string('panel-position');
 
         switch (position) {
@@ -251,6 +248,13 @@ const Settings = new Lang.Class({
                 break;
 
         }
+    },
+
+    _bindSettings: function() {
+        // Position and style panel
+
+        // Position option
+        this._setPositionRadios();
 
         this._settings.connect('changed::panel-position', () => this._updateVerticalRelatedOptions());
         this._updateVerticalRelatedOptions();
@@ -528,16 +532,6 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
-        this._settings.bind('multi-monitors',
-                            this._builder.get_object('multimon_multi_options_button'),
-                            'sensitive',
-                            Gio.SettingsBindFlags.DEFAULT);
-
-        this._settings.bind('isolate-monitors',
-                            this._builder.get_object('multimon_multi_isolate_monitor_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-
         this._settings.bind('show-clock-all-monitors',
                             this._builder.get_object('multimon_multi_show_clock_switch'),
                             'active',
@@ -548,47 +542,10 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT); 
 
-        this._settings.bind('show-favorites-all-monitors',
-                            this._builder.get_object('multimon_multi_show_favorites_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT); 
-
         if (monitors.length === 1) {
-            this._builder.get_object('multimon_listbox').set_sensitive(false);
             this._builder.get_object('multimon_multi_switch').set_active(false);
         }
         
-        this._builder.get_object('multimon_multi_options_button').connect('clicked', Lang.bind(this, function() {
-            let dialog = new Gtk.Dialog({ title: _('Multi-monitors options'),
-                                            transient_for: this.widget.get_toplevel(),
-                                            use_header_bar: true,
-                                            modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
-            let box = this._builder.get_object('box_multimon_multi_options');
-            dialog.get_content_area().add(box);
-
-            dialog.connect('response', Lang.bind(this, function(dialog, id) {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('isolate-monitors', this._settings.get_default_value('isolate-monitors'));
-                    this._settings.set_value('show-favorites-all-monitors', this._settings.get_default_value('show-favorites-all-monitors'));
-                    this._settings.set_value('show-clock-all-monitors', this._settings.get_default_value('show-clock-all-monitors'));
-                    this._settings.set_value('show-status-menu-all-monitors', this._settings.get_default_value('show-status-menu-all-monitors'));
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
-            }));
-
-            dialog.show_all();
-        }));
-
         //dynamic opacity
         this._settings.bind('trans-use-custom-bg',
                             this._builder.get_object('trans_bg_switch'),
@@ -937,6 +894,7 @@ const Settings = new Lang.Class({
                     // restore default settings
                     this._settings.set_value('show-apps-icon-side-padding', this._settings.get_default_value('show-apps-icon-side-padding'));
                     this._builder.get_object('show_applications_side_padding_spinbutton').set_value(this._settings.get_int('show-apps-icon-side-padding'));
+                    this._settings.set_value('show-apps-override-escape', this._settings.get_default_value('show-apps-override-escape'));
                     handleIconChange.call(this, null);
                 } else {
                     // remove the settings box so it doesn't get destroyed;
@@ -956,6 +914,10 @@ const Settings = new Lang.Class({
         this._settings.bind('show-show-apps-button',
                             this._builder.get_object('application_button_animation_button'),
                             'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-apps-override-escape',
+                            this._builder.get_object('show_applications_esc_key_switch'),
+                            'active',
                             Gio.SettingsBindFlags.DEFAULT);
         this._settings.bind('show-activities-button',
                             this._builder.get_object('show_activities_button_switch'),
@@ -1056,6 +1018,16 @@ const Settings = new Lang.Class({
         this._settings.bind('show-favorites',
                             this._builder.get_object('show_favorite_switch'),
                             'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('show-favorites-all-monitors',
+                            this._builder.get_object('multimon_multi_show_favorites_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+                            
+        this._settings.bind('show-favorites',
+                            this._builder.get_object('multimon_multi_show_favorites_switch'),
+                            'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
         this._settings.bind('show-running-apps',
@@ -1285,6 +1257,11 @@ const Settings = new Lang.Class({
        
         this._settings.bind('isolate-workspaces',
                             this._builder.get_object('isolate_workspaces_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('isolate-monitors',
+                            this._builder.get_object('multimon_multi_isolate_monitor_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
@@ -1754,6 +1731,40 @@ const Settings = new Lang.Class({
                             this._builder.get_object('stockgs_dash_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('stockgs-keep-top-panel',
+                            this._builder.get_object('stockgs_top_panel_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        var maybeDisableTopPosition = () => {
+            let keepTopPanel = this._settings.get_boolean('stockgs-keep-top-panel');
+            let topRadio = this._builder.get_object('position_top_button');
+            
+            topRadio.set_sensitive(!keepTopPanel);
+            topRadio.set_tooltip_text(keepTopPanel ? _('Unavailable when gnome-shell top panel is present') : '');
+            
+            if (keepTopPanel && this._settings.get_string('panel-position') == 'TOP') {
+                this._settings.set_string('panel-position', "BOTTOM");
+                this._setPositionRadios();
+            }
+        };
+
+        var setGsStockPanelOptions = () => {
+            let keepTopPanel = this._settings.get_boolean('stockgs-keep-top-panel');
+
+            this._builder.get_object('stockgs_top_panel_description')[keepTopPanel ? 'show' : 'hide']();
+            this._builder.get_object('multimon_multi_show_clock_label').set_text(keepTopPanel ? _('Display the clock on additional panels') : _('Display the clock on secondary panels'));
+            this._builder.get_object('multimon_multi_show_status_menu_label').set_text(keepTopPanel ? _('Display the status menu on additional panels') : _('Display the status menu on secondary panels'));
+        };
+
+        this._settings.connect('changed::stockgs-keep-top-panel', () => {
+            setGsStockPanelOptions();
+            maybeDisableTopPosition();
+        });
+
+        setGsStockPanelOptions();
+        maybeDisableTopPosition();
 
         this._settings.bind('stockgs-panelbtn-click-only',
                             this._builder.get_object('stockgs_panelbtn_switch'),
