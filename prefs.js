@@ -1338,6 +1338,13 @@ const Settings = new Lang.Class({
             this._settings.set_string('group-apps-label-font-color', hexString);
         }));
 
+        this._builder.get_object('group_apps_label_font_color_minimized_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            let hexString = cssHexString(css);
+            this._settings.set_string('group-apps-label-font-color-minimized', hexString);
+        }));
+
         this._settings.bind('group-apps-use-fixed-width',
                             this._builder.get_object('group_apps_use_fixed_width_switch'),
                             'active',
@@ -1382,6 +1389,12 @@ const Settings = new Lang.Class({
                 this._builder.get_object('group_apps_label_font_color_colorbutton').set_rgba(rgba);
             }).apply(this);
 
+            (function() {
+                let rgba = new Gdk.RGBA();
+                rgba.parse(this._settings.get_string('group-apps-label-font-color-minimized'));
+                this._builder.get_object('group_apps_label_font_color_minimized_colorbutton').set_rgba(rgba);
+            }).apply(this);
+
             this._builder.get_object('group_apps_label_max_width_spinbutton').set_value(this._settings.get_int('group-apps-label-max-width'));
             this._builder.get_object('group_apps_label_max_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
                 this._settings.set_int('group-apps-label-max-width', widget.get_value());
@@ -1400,6 +1413,11 @@ const Settings = new Lang.Class({
                     let rgba = new Gdk.RGBA();
                     rgba.parse(this._settings.get_string('group-apps-label-font-color'));
                     this._builder.get_object('group_apps_label_font_color_colorbutton').set_rgba(rgba);
+
+                    this._settings.set_value('group-apps-label-font-color-minimized', this._settings.get_default_value('group-apps-label-font-color-minimized'));
+                    let minimizedFontColor = new Gdk.RGBA();
+                    minimizedFontColor.parse(this._settings.get_string('group-apps-label-font-color-minimized'));
+                    this._builder.get_object('group_apps_label_font_color_minimized_colorbutton').set_rgba(minimizedFontColor);
 
                     this._settings.set_value('group-apps-label-max-width', this._settings.get_default_value('group-apps-label-max-width'));
                     this._builder.get_object('group_apps_label_max_width_spinbutton').set_value(this._settings.get_int('group-apps-label-max-width'));
