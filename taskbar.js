@@ -354,33 +354,13 @@ var taskbar = Utils.defineClass({
                     'notify::upper',
                     'notify::pageSize'
                 ],
-                () => {
-                    // Update minimization animation target position on scrollview change.
-                    this._updateAppIcons();
-    
-                    // When applications are ungrouped and there is some empty space on the horizontal taskbar,
-                    // force a fixed label width to prevent the icons from "wiggling" when an animation runs
-                    // (adding or removing an icon). When the taskbar is full, revert to a dynamic label width
-                    // to allow them to resize and make room for new icons.
-                    if (!isVertical && !this.isGroupApps) {
-                        let initial = this.fullScrollView;
-    
-                        if (!this.fullScrollView && Math.floor(adjustment.upper) > adjustment.page_size) {
-                            this.fullScrollView = adjustment.page_size;
-                        } else if (adjustment.page_size < this.fullScrollView) {
-                            this.fullScrollView = 0;
-                        }
-    
-                        if (initial != this.fullScrollView) {
-                            this._getAppIcons().forEach(a => a.updateTitleStyle());
-                        }
-                    }
-                }
+                () => this._onScrollSizeChange(adjustment)
             ]
         );
 
         this.isGroupApps = Me.settings.get_boolean('group-apps');
 
+        this._onScrollSizeChange(adjustment);
         this._connectWorkspaceSignals();
     },
 
@@ -437,6 +417,29 @@ var taskbar = Utils.defineClass({
 
         return Clutter.EVENT_STOP;
 
+    },
+
+    _onScrollSizeChange: function(adjustment) {
+        // Update minimization animation target position on scrollview change.
+        this._updateAppIcons();
+
+        // When applications are ungrouped and there is some empty space on the horizontal taskbar,
+        // force a fixed label width to prevent the icons from "wiggling" when an animation runs
+        // (adding or removing an icon). When the taskbar is full, revert to a dynamic label width
+        // to allow them to resize and make room for new icons.
+        if (!Panel.checkIfVertical() && !this.isGroupApps) {
+            let initial = this.fullScrollView;
+
+            if (!this.fullScrollView && Math.floor(adjustment.upper) > adjustment.page_size) {
+                this.fullScrollView = adjustment.page_size;
+            } else if (adjustment.page_size < this.fullScrollView) {
+                this.fullScrollView = 0;
+            }
+
+            if (initial != this.fullScrollView) {
+                this._getAppIcons().forEach(a => a.updateTitleStyle());
+            }
+        }
     },
 
     _onDragBegin: function() {
