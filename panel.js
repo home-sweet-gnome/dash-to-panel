@@ -434,7 +434,7 @@ var dtpPanel = Utils.defineClass({
         this._signalsHandler.destroy();
         this._disablePanelCornerSignals();
         
-        this.panel.remove_child(this.taskbar.actor);
+        this.panel.actor.remove_child(this.taskbar.actor);
         this._setAppmenuVisible(false);
 
         if (this.intellihide) {
