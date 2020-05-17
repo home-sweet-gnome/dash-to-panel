@@ -220,6 +220,8 @@ const Settings = new Lang.Class({
         let panelInfo = positionSettings[monitorIndex] || Pos.defaults;
         let updateSettings = () => {
             let newPanelInfo = [];
+            let monitorSync = this._settings.get_boolean('panel-element-positions-monitors-sync');
+            let monitors = monitorSync ? this.monitors : [monitorIndex];
 
             taskbarListBox.get_children().forEach(c => {
                 newPanelInfo.push({
@@ -229,7 +231,7 @@ const Settings = new Lang.Class({
                 });
             });
             
-            positionSettings[monitorIndex] = newPanelInfo;
+            monitors.forEach(m => positionSettings[m] = newPanelInfo);
             this._settings.set_string('panel-element-positions', JSON.stringify(positionSettings));
         };
 
@@ -263,8 +265,8 @@ const Settings = new Lang.Class({
                 }
             };
 
-            positionCombo.append(Pos.STACKED_TL, isVertical ? _('Stacked top') : _('Stacked left'));
-            positionCombo.append(Pos.STACKED_BR, isVertical ? _('Stacked bottom') :_('Stacked right'));
+            positionCombo.append(Pos.STACKED_TL, isVertical ? _('Stacked to top') : _('Stacked to left'));
+            positionCombo.append(Pos.STACKED_BR, isVertical ? _('Stacked to bottom') :_('Stacked to right'));
             positionCombo.append(Pos.CENTERED, _('Centered'));
             positionCombo.append(Pos.CENTERED_MONITOR, _('Monitor Center'));
             positionCombo.set_active_id(el.position);
@@ -704,6 +706,16 @@ const Settings = new Lang.Class({
 
         this._builder.get_object('multimon_primary_combo').set_active(dtpPrimaryMonitorIndex);
         this._builder.get_object('taskbar_position_monitor_combo').set_active(dtpPrimaryMonitorIndex);
+
+        this._settings.bind('panel-element-positions-monitors-sync',
+                            this._builder.get_object('taskbar_position_sync_button'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('panel-element-positions-monitors-sync',
+                            this._builder.get_object('taskbar_position_monitor_combo'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
         this._builder.get_object('multimon_primary_combo').connect('changed', Lang.bind (this, function(widget) {
             this._settings.set_int('primary-monitor', this.monitors[widget.get_active()]);

@@ -528,7 +528,9 @@ var dtpPanel = Utils.defineClass({
     },
 
     updateElementPositions: function() {
-        this._updateGroupedElements();
+        let panelPositions = this.panelManager.panelsElementPositions[this.monitor.index] || Pos.defaults;
+
+        this._updateGroupedElements(panelPositions);
         
         this._disablePanelCornerSignals();
 
@@ -554,8 +556,7 @@ var dtpPanel = Utils.defineClass({
         this.panel.actor.show();
     },
 
-    _updateGroupedElements: function() {
-        let panelPositions = this.panelManager.panelsElementPositions[this.monitor.index] || Pos.defaults;
+    _updateGroupedElements: function(panelPositions) {
         let previousPosition = 0;
         let currentGroup = -1;
 
@@ -1004,8 +1005,8 @@ var dtpPanel = Utils.defineClass({
             childBoxLeftCorner[fixedCoord.c1] = panelAllocFixedSize;
             childBoxLeftCorner[fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
 
-            childBoxRightCorner[varCoord.c1] = panelAllocVarSize - this.cornerSize;
-            childBoxRightCorner[varCoord.c2] = panelAllocVarSize;
+            childBoxRightCorner[varCoord.c1] = box[varCoord.c2] - this.cornerSize;
+            childBoxRightCorner[varCoord.c2] = box[varCoord.c2];
             childBoxRightCorner[fixedCoord.c1] = panelAllocFixedSize;
             childBoxRightCorner[fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
 

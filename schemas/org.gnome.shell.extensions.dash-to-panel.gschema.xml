@@ -72,6 +72,11 @@
       <summary>Panel position</summary>
       <description>Panel is shown on the Bottom or Top of the screen.</description>
     </key>
+    <key name="panel-element-positions-monitors-sync" type="b">
+      <default>true</default>
+      <summary>Sync element positions</summary>
+      <description>Sync panel element positions on all monitors.</description>
+    </key>
     <key name="panel-element-positions" type="s">
       <default>'{}'</default>
       <summary>Panel element positions</summary>
