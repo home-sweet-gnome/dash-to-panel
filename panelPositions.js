@@ -58,3 +58,7 @@ function getSettingsPositions(settings) {
 
     return positions;
 }
+
+function checkIfCentered(position) {
+    return position == CENTERED || position == CENTERED_MONITOR;
+}

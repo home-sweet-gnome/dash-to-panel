@@ -528,16 +528,8 @@ var dtpPanel = Utils.defineClass({
     },
 
     updateElementPositions: function() {
-        let panelPositions = this._getElementPositions();
-
-        panelPositions.forEach(pos => {
-            let actor = this.allocationMap[pos.element].actor;
-
-            if (actor) {
-                actor.visible = pos.visible;
-            }
-        });
-
+        this._updateGroupedElements();
+        
         this._disablePanelCornerSignals();
 
         if (getPosition() == St.Side.TOP) {
@@ -560,6 +552,56 @@ var dtpPanel = Utils.defineClass({
 
         this.panel.actor.hide();
         this.panel.actor.show();
+    },
+
+    _updateGroupedElements: function() {
+        let panelPositions = this.panelManager.panelsElementPositions[this.monitor.index] || Pos.defaults;
+        let previousPosition = 0;
+        let currentGroup = -1;
+
+        this._elementGroups = [];
+
+        panelPositions.forEach(pos => {
+            let allocationMap = this.allocationMap[pos.element];
+
+            if (allocationMap.actor) {
+                allocationMap.actor.visible = pos.visible;
+
+                if (!pos.visible) {
+                    return;
+                }
+
+                let currentPosition = pos.position;
+                let isCentered = Pos.checkIfCentered(currentPosition);
+
+                if (currentPosition == Pos.STACKED_TL && previousPosition == Pos.STACKED_BR) {
+                    currentPosition = Pos.STACKED_BR;
+                }
+
+                if (!previousPosition || 
+                    (previousPosition == Pos.STACKED_TL && currentPosition != Pos.STACKED_TL) ||
+                    (previousPosition != Pos.STACKED_BR && currentPosition == Pos.STACKED_BR) ||
+                    (isCentered && previousPosition != currentPosition && previousPosition != Pos.STACKED_BR)) {
+                    ++currentGroup;
+                }
+
+                if (!this._elementGroups[currentGroup]) {
+                    this._elementGroups[currentGroup] = { elements: [], index: this._elementGroups.length, expandableIndex: -1 };
+                    previousPosition = currentPosition;
+                }
+
+                if (pos.element == Pos.TASKBAR) {
+                    this._elementGroups[currentGroup].expandableIndex = this._elementGroups[currentGroup].elements.length;
+                }
+
+                this._elementGroups[currentGroup].position = isCentered ? currentPosition : previousPosition;
+                this._elementGroups[currentGroup].isCentered = isCentered || this._elementGroups[currentGroup].isCentered;
+                this._elementGroups[currentGroup].elements.push(allocationMap);
+
+                allocationMap.position = currentPosition;
+                previousPosition = currentPosition;
+            }
+        });
     },
 
     _getElementPositions: function() {
@@ -815,151 +857,137 @@ var dtpPanel = Utils.defineClass({
 
         this.panel.actor.allocate(new Clutter.ActorBox({ x1: 0, y1: 0, x2: this.geom.w, y2: this.geom.h }), flags);
 
-        let panelAllocVarSize = box[varCoord.c2] - box[varCoord.c1];
-        let elements = [];
-        let centerMonitorElements = [];
         let fixed = 0;
-        let checkIfCentered = element => element.position == Pos.CENTERED || element.position == Pos.CENTERED_MONITOR;
-        let allocateCenter = (centeredElements, trLimit, brLimit) => {
-            if (centeredElements.length) {
-                centeredElements.filter(c => c.hasDynamicSize).forEach(c => adjustDynamicSize(c));
+        let centeredMonitorGroup;
+        let assignGroupSize = (group, update) => {
+            group.size = 0;
+            group.tlOffset = 0;
+            group.brOffset = 0;
 
-                let centeredWidth = centeredElements.reduce((size, c) => size + c.natSize, 0);
-                let tlOffset = Math.max(0, Math.round((brLimit - trLimit - centeredWidth) * .5));
+            group.elements.forEach(element => {
+                if (!update) {
+                    element.box[fixedCoord.c1] = box[fixedCoord.c1];
+                    element.box[fixedCoord.c2] = box[fixedCoord.c2];
+                    element.natSize = element.actor[sizeFunc](-1)[1];
+                }
 
-                centeredElements.forEach(c => {
-                    allocate(c, trLimit + tlOffset);
-                    trLimit += c.natSize;
-                });
+                if (!group.isCentered || Pos.checkIfCentered(element.position)) {
+                    group.size += element.natSize;
+                } else if (element.position == Pos.STACKED_TL) { 
+                    group.tlOffset += element.natSize;
+                } else { // Pos.STACKED_BR
+                    group.brOffset += element.natSize;
+                }
+            });
+
+            if (group.isCentered) {
+                group.size += Math.max(group.tlOffset, group.brOffset) * 2;
+                group.tlOffset = Math.max(group.tlOffset - group.brOffset, 0);
             }
         };
-        let allocate = (element, c1) => {
-            element.box[varCoord.c1] = Math.max(0, Math.min(panelAllocVarSize, c1));
-            element.box[varCoord.c2] = Math.max(element.natSize, Math.min(panelAllocVarSize, element.box[varCoord.c1] + element.natSize));
-            
-            if (element.hasDynamicSize) {
-                adjustDynamicSize(element, true);
-            }
+        let allocateGroup = (group, tlLimit, brLimit) => {
+            let startPosition = tlLimit;
+            let currentPosition = 0;
 
-            element.fixed = 1;
-            ++fixed;
+            if (group.expandableIndex >= 0) {
+                let availableSize = brLimit - tlLimit;
+                let expandable = group.elements[group.expandableIndex];
+                let i = 0;
+                let l = this._elementGroups.length;
+                let tlSize = 0;
+                let brSize = 0;
 
-            let params = [element.box, flags];
-
-            if (element.isBox) {
-                params.push(1);
-            } 
-
-            element.actor.allocate.apply(element.actor, params);
-        };
-        let adjustDynamicSize = (element, adjustPos) => {
-            let isCentered = checkIfCentered(element);
-            let getSiblingsInfo = (direction, defaultLimit = 0, unfixedSize = 0, centeredSize = 0, limit = 0) => {
-                let j = element.index + direction;
-                let refElement = elements[j];
-
-                while (refElement && (!refElement.fixed || (isCentered && refElement.position == element.position))) {
-                    if (isCentered && refElement.position == element.position) {
-                        centeredSize += refElement.natSize;
+                if (centeredMonitorGroup && (centeredMonitorGroup != group || expandable.position != Pos.CENTERED_MONITOR)) {
+                    if (centeredMonitorGroup.index < group.index || (centeredMonitorGroup == group && expandable.position == Pos.STACKED_TL)) {
+                        i = centeredMonitorGroup.index;
+                    } else {
+                        l = centeredMonitorGroup.index;
                     }
-    
-                    unfixedSize += refElement.natSize;
-                    refElement = elements[(j += direction)];
                 }
-    
-                limit = refElement ? refElement.box[varCoord[direction > 0 ? 'c1' : 'c2']] : defaultLimit;
 
-                return [unfixedSize, centeredSize, limit];
-            };
-            let [unfixedSizeTl, centeredSizeTl, prevLimit] = getSiblingsInfo(-1);
-            let [unfixedSizeBr, centeredSizeBr, nextLimit] = getSiblingsInfo(1, panelAllocVarSize);
-            let availableSize = nextLimit - prevLimit - unfixedSizeTl - unfixedSizeBr - 
-                                (isCentered ? Math.abs((unfixedSizeTl - centeredSizeTl) - (unfixedSizeBr - centeredSizeBr)) : 0);
+                for (; i < l; ++i) {
+                    let refGroup = this._elementGroups[i];
 
-            if (availableSize < element.natSize) {
-                element.natSize = availableSize;
-
-                if (adjustPos) {
-                    element.box[varCoord.c1] = Math.max(prevLimit + unfixedSizeTl, element.box[varCoord.c1]);
-                    element.box[varCoord.c2] = Math.min(nextLimit - unfixedSizeBr, element.box[varCoord.c2]);
+                    if (i < group.index && (!refGroup.fixed || refGroup[varCoord.c2] > tlLimit)) {
+                        tlSize += refGroup.size;
+                    } else if (i > group.index && (!refGroup.fixed || refGroup[varCoord.c1] < brLimit)) {
+                        brSize += refGroup.size;
+                    }
+                }
+                
+                if (group.isCentered) {
+                    availableSize -= Math.max(tlSize, brSize) * 2;
+                } else {
+                    availableSize -= tlSize + brSize;
+                }
+                
+                if (availableSize < group.size) {
+                    expandable.natSize -= (group.size - availableSize) * (group.isCentered && !Pos.checkIfCentered(expandable.position) ? .5 : 1);
+                    assignGroupSize(group, true);
                 }
             }
+            
+            if (group.isCentered) {
+                startPosition = tlLimit + (brLimit - tlLimit - group.size) * .5;
+            } else if (group.position == Pos.STACKED_BR) {
+                startPosition = brLimit - group.size;
+            }
 
-            element.hasDynamicSize = 0;
+            currentPosition = group.tlOffset + startPosition;
+
+            group.elements.forEach(element => {
+                let params = [element.box, flags];
+
+                element.box[varCoord.c1] = Math.round(currentPosition);
+                element.box[varCoord.c2] = Math.round((currentPosition += element.natSize));
+
+                if (element.isBox) {
+                    params.push(1);
+                } 
+
+                element.actor.allocate.apply(element.actor, params);
+            });
+
+            group[varCoord.c1] = startPosition;
+            group[varCoord.c2] = currentPosition;
+            group.fixed = 1;
+            ++fixed;
         };
 
-        this._getElementPositions().forEach(pos => {
-            let element = this.allocationMap[pos.element];
-            
-            if (element.actor && pos.visible) {
-                element.natSize = element.actor[sizeFunc](-1)[1];
+        this._elementGroups.forEach(group => {
+            group.fixed = 0;
 
-                if (element.natSize <= 0) return;
+            assignGroupSize(group);
 
-                element.box[fixedCoord.c1] = box[fixedCoord.c1];
-                element.box[fixedCoord.c2] = box[fixedCoord.c2];
-                element.hasDynamicSize = pos.element == Pos.TASKBAR;
-                element.index = elements.length;
-                element.position = pos.position;
-                element.fixed = 0;
-
-                if (pos.position == Pos.CENTERED_MONITOR && 
-                    (!centerMonitorElements.length || elements[element.index - 1].position == Pos.CENTERED_MONITOR)) {
-                    centerMonitorElements.push(element);
-                }
-
-                elements.push(element);
+            if (group.position == Pos.CENTERED_MONITOR) {
+                centeredMonitorGroup = group;
             }
         });
 
-        allocateCenter(centerMonitorElements, 0, box[varCoord.c2]);
+        if (centeredMonitorGroup) {
+            allocateGroup(centeredMonitorGroup, box[varCoord.c1], box[varCoord.c2]);
+        }
 
         let iterations = 0; //failsafe
-        while (fixed < elements.length && ++iterations < 10) {
-            for (let i = 0, l = elements.length; i < l; ++i) {
-                if (elements[i].fixed) continue;
+        while (fixed < this._elementGroups.length && ++iterations < 10) {
+            for (let i = 0, l = this._elementGroups.length; i < l; ++i) {
+                let group = this._elementGroups[i];
 
-                let element = elements[i];
-                let prevElement = elements[i - 1];
-                let nextElement = elements[i + 1];
-
-                if (element.position == Pos.STACKED_TL && prevElement && prevElement.position == Pos.STACKED_BR) {
-                    element.position = Pos.STACKED_BR;
+                if (group.fixed) {
+                    continue;
                 }
 
-                if (element.position == Pos.STACKED_TL && (!prevElement || prevElement.fixed)) {
-                    allocate(element, prevElement ? prevElement.box[varCoord.c2] : 0);
-                } else if (element.position == Pos.STACKED_BR && (!nextElement || nextElement.fixed)) {
-                    let nextLimit = nextElement ? nextElement.box[varCoord.c1] : panelAllocVarSize;
-                    
-                    allocate(element, nextLimit - element.natSize);
-                } else if (checkIfCentered(element)) { //fallback for non contiguous CENTERED_MONITOR
-                    let centeredElements = [element];
-                    let j = i;
+                let prevGroup = this._elementGroups[i - 1];
+                let nextGroup = this._elementGroups[i + 1];
+                let prevLimit = prevGroup && prevGroup.fixed ? prevGroup[varCoord.c2] : box[varCoord.c1];
+                let nextLimit = nextGroup && nextGroup.fixed ? nextGroup[varCoord.c1] : box[varCoord.c2];
 
-                    while (prevElement && prevElement.position == Pos.STACKED_BR) {
-                        prevElement = elements[--j];
-                    }
-
-                    if (prevElement && !prevElement.fixed) continue;
-
-                    while (nextElement && checkIfCentered(nextElement)) {
-                        centeredElements.push(nextElement);
-                        nextElement = elements[++i + 1];
-                    }
-
-                    j = i;
-                    while (nextElement && nextElement.position == Pos.STACKED_TL) {
-                        nextElement = elements[++j];
-                    }
-
-                    if (!nextElement || (nextElement.fixed)) {
-                        allocateCenter(
-                            centeredElements,
-                            prevElement ? prevElement.box[varCoord.c2] : 0,
-                            nextElement ? nextElement.box[varCoord.c1] : panelAllocVarSize
-                        );
-                    }
+                if (group.position == Pos.STACKED_TL) {
+                    allocateGroup(group, box[varCoord.c1], nextLimit);
+                } else if (group.position == Pos.STACKED_BR) {
+                    allocateGroup(group, prevLimit, box[varCoord.c2]);
+                } else if ((!prevGroup || prevGroup.fixed) && (!nextGroup || nextGroup.fixed)) { // CENTERED
+                    allocateGroup(group, prevLimit, nextLimit);
                 }
             }
         }
