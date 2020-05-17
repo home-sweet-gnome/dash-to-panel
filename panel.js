@@ -856,10 +856,9 @@ var dtpPanel = Utils.defineClass({
     vfunc_allocate: function(box, flags) {
         this.set_allocation(box, flags);
 
-        this.panel.actor.allocate(new Clutter.ActorBox({ x1: 0, y1: 0, x2: this.geom.w, y2: this.geom.h }), flags);
-
         let fixed = 0;
         let centeredMonitorGroup;
+        let panelAlloc = new Clutter.ActorBox({ x1: 0, y1: 0, x2: this.geom.w, y2: this.geom.h });
         let assignGroupSize = (group, update) => {
             group.size = 0;
             group.tlOffset = 0;
@@ -867,8 +866,8 @@ var dtpPanel = Utils.defineClass({
 
             group.elements.forEach(element => {
                 if (!update) {
-                    element.box[fixedCoord.c1] = box[fixedCoord.c1];
-                    element.box[fixedCoord.c2] = box[fixedCoord.c2];
+                    element.box[fixedCoord.c1] = panelAlloc[fixedCoord.c1];
+                    element.box[fixedCoord.c2] = panelAlloc[fixedCoord.c2];
                     element.natSize = element.actor[sizeFunc](-1)[1];
                 }
 
@@ -955,6 +954,8 @@ var dtpPanel = Utils.defineClass({
             ++fixed;
         };
 
+        this.panel.actor.allocate(panelAlloc, flags);
+
         this._elementGroups.forEach(group => {
             group.fixed = 0;
 
@@ -966,7 +967,7 @@ var dtpPanel = Utils.defineClass({
         });
 
         if (centeredMonitorGroup) {
-            allocateGroup(centeredMonitorGroup, box[varCoord.c1], box[varCoord.c2]);
+            allocateGroup(centeredMonitorGroup, panelAlloc[varCoord.c1], panelAlloc[varCoord.c2]);
         }
 
         let iterations = 0; //failsafe
@@ -980,13 +981,13 @@ var dtpPanel = Utils.defineClass({
 
                 let prevGroup = this._elementGroups[i - 1];
                 let nextGroup = this._elementGroups[i + 1];
-                let prevLimit = prevGroup && prevGroup.fixed ? prevGroup[varCoord.c2] : box[varCoord.c1];
-                let nextLimit = nextGroup && nextGroup.fixed ? nextGroup[varCoord.c1] : box[varCoord.c2];
+                let prevLimit = prevGroup && prevGroup.fixed ? prevGroup[varCoord.c2] : panelAlloc[varCoord.c1];
+                let nextLimit = nextGroup && nextGroup.fixed ? nextGroup[varCoord.c1] : panelAlloc[varCoord.c2];
 
                 if (group.position == Pos.STACKED_TL) {
-                    allocateGroup(group, box[varCoord.c1], nextLimit);
+                    allocateGroup(group, panelAlloc[varCoord.c1], nextLimit);
                 } else if (group.position == Pos.STACKED_BR) {
-                    allocateGroup(group, prevLimit, box[varCoord.c2]);
+                    allocateGroup(group, prevLimit, panelAlloc[varCoord.c2]);
                 } else if ((!prevGroup || prevGroup.fixed) && (!nextGroup || nextGroup.fixed)) { // CENTERED
                     allocateGroup(group, prevLimit, nextLimit);
                 }

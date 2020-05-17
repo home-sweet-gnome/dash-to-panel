@@ -33,7 +33,7 @@ var CENTERED_MONITOR = 'centerMonitor';
 var defaults = [
     { element: SHOW_APPS_BTN,   visible: true,     position: STACKED_TL },
     { element: ACTIVITIES_BTN,  visible: false,    position: STACKED_TL },
-    { element: LEFT_BOX,        visible: false,    position: STACKED_TL },
+    { element: LEFT_BOX,        visible: true,     position: STACKED_TL },
     { element: TASKBAR,         visible: true,     position: STACKED_TL },
     { element: CENTER_BOX,      visible: true,     position: STACKED_BR },
     { element: RIGHT_BOX,       visible: true,     position: STACKED_BR },
