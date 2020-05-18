@@ -471,13 +471,13 @@ var dtpPanel = Utils.defineClass({
             ['vertical', 'horizontal', 'dashtopanelMainPanel'].forEach(c => this.panel.actor.remove_style_class_name(c));
 
             if (!Main.sessionMode.isLocked) {
-                this.panel.remove_child(this.statusArea.activities.container);
+                this.panel.actor.remove_child(this.statusArea.activities.container);
                 this._leftBox.insert_child_at_index(this.statusArea.activities.container, 0);
 
-                this.panel.remove_child(this.statusArea.dateMenu.container);
+                this.panel.actor.remove_child(this.statusArea.dateMenu.container);
                 this._centerBox.insert_child_at_index(this.statusArea.dateMenu.container, 0);
 
-                this.panel.remove_child(this.statusArea.aggregateMenu.container);
+                this.panel.actor.remove_child(this.statusArea.aggregateMenu.container);
                 this._rightBox.add_child(this.statusArea.aggregateMenu.container);
                 
                 if (this.statusArea.appMenu) {
