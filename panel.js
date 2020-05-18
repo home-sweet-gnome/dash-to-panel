@@ -141,6 +141,7 @@ var dtpPanel = Utils.defineClass({
 
         this._sessionStyle = null;
         this._unmappedButtons = [];
+        this._elementGroups = [];
         this.cornerSize = 0;
 
         if (isStandalone) {
