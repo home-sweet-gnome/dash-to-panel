@@ -7,6 +7,11 @@ assignees: ''
 
 ---
 
+**Things to do first**
+- Confirm that the problem persists when Dash-to-Panel is the only enabled extension. To do so, disable every other extension, then restart gnome-shell by running the `r` command from the prompt that appears when pressing Alt+F2 on an X.org session, or by logging out/in on a Wayland session.
+- Look for Dash-to-Panel errors in your log. To do so, run the `journalctl /usr/bin/gnome-shell -f -o cat &` command and reproduce the problem.
+- Search existing opened and closed issues to see if the problem has already been reported.
+
 **Describe the bug**
 A clear and concise description of what the problem is, any steps to reproduce, and what you expected to happen instead.
 
