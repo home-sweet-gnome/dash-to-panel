@@ -559,6 +559,7 @@ var dtpPanel = Utils.defineClass({
 
     _updateGroupedElements: function(panelPositions) {
         let previousPosition = 0;
+        let previousCenteredPosition = 0;
         let currentGroup = -1;
 
         this._elementGroups = [];
@@ -584,20 +585,20 @@ var dtpPanel = Utils.defineClass({
                     (previousPosition == Pos.STACKED_TL && currentPosition != Pos.STACKED_TL) ||
                     (previousPosition != Pos.STACKED_BR && currentPosition == Pos.STACKED_BR) ||
                     (isCentered && previousPosition != currentPosition && previousPosition != Pos.STACKED_BR)) {
-                    ++currentGroup;
-                }
-
-                if (!this._elementGroups[currentGroup]) {
-                    this._elementGroups[currentGroup] = { elements: [], index: this._elementGroups.length, expandableIndex: -1 };
-                    previousPosition = currentPosition;
+                    this._elementGroups[++currentGroup] = { elements: [], index: this._elementGroups.length, expandableIndex: -1 };
+                    previousCenteredPosition = 0;
                 }
 
                 if (pos.element == Pos.TASKBAR) {
                     this._elementGroups[currentGroup].expandableIndex = this._elementGroups[currentGroup].elements.length;
                 }
 
-                this._elementGroups[currentGroup].position = isCentered ? currentPosition : previousPosition;
-                this._elementGroups[currentGroup].isCentered = isCentered || this._elementGroups[currentGroup].isCentered;
+                if (isCentered && !this._elementGroups[currentGroup].isCentered) {
+                    this._elementGroups[currentGroup].isCentered = 1;
+                    previousCenteredPosition = currentPosition;
+                }
+
+                this._elementGroups[currentGroup].position = previousCenteredPosition || currentPosition;
                 this._elementGroups[currentGroup].elements.push(allocationMap);
 
                 allocationMap.position = currentPosition;
