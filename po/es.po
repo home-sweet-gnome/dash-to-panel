@@ -23,7 +23,7 @@ msgstr "Arriba, con iconos contraídos"
 
 #: prefs.js:211
 msgid "Left, with plugin icons collapsed to right"
-msgstr "A la izquierda, con iconos contrídos a la derecha"
+msgstr "A la izquierda, con iconos contraídos a la derecha"
 
 #: prefs.js:212
 msgid "Top, with fixed center plugin icons"
@@ -902,7 +902,7 @@ msgstr "Posición del panel en la pantalla"
 
 #: Settings.ui.h:145
 msgid "Left"
-msgstr "A la irzquierda"
+msgstr "A la izquierda"
 
 #: Settings.ui.h:146
 msgid "Right"
@@ -1275,7 +1275,7 @@ msgid ""
 "Panel releases might not be reviewed yet on extensions.gnome.org!</span>  <a "
 "href=\"https://extensions.gnome.org/about/\">Read more</a>"
 msgstr ""
-"<span weight=\"bold\" color=\"#B42B30\">¡Sé consciente de que estas versiones"
+"<span weight=\"bold\" color=\"#B42B30\">¡Sé consciente de que estas versiones "
 "oficiales de 'Dash to Panel' podrían no estar todavía revisadas en extensions.gnome.org!"
 "</span> <a href=\"https://extensions.gnome.org/about/\">Leer más</a>"
 
