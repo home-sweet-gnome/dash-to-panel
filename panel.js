@@ -371,6 +371,16 @@ var dtpPanel = Utils.defineClass({
                 () => this._adjustForOverview()
             ],
             [
+                this.statusArea.activities,
+                'captured-event', 
+                (actor, e) => {
+                    if (e.type() == Clutter.EventType.BUTTON_PRESS || e.type() == Clutter.EventType.TOUCH_BEGIN) {
+                        //temporarily use as primary the monitor on which the activities btn was clicked 
+                        this.panelManager.setFocusedMonitor(this.monitor, true);
+                    }
+                }
+            ],
+            [
                 this._centerBox,
                 'actor-added',
                 () => this._onBoxActorAdded(this._centerBox)
@@ -753,6 +763,9 @@ var dtpPanel = Utils.defineClass({
             if (isOverviewFocusedMonitor) {
                 Utils.getPanelGhost().set_size(1, this.geom.position == St.Side.TOP ? 0 : 32);
             }
+        } else if (this.isPrimary) {
+            //reset the primary monitor when exiting the overview
+            this.panelManager.setFocusedMonitor(this.monitor, true);
         }
     },
 

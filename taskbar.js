@@ -1156,13 +1156,12 @@ var taskbar = Utils.defineClass({
                     }
                 }
 
-                //temporarily use as primary the monitor on which the showapps btn was clicked 
+                //temporarily use as primary the monitor on which the showapps btn was clicked, this is
+                //restored by the panel when exiting the overview
                 this.dtpPanel.panelManager.setFocusedMonitor(this.dtpPanel.monitor);
 
-                //reset the primary monitor when exiting the overview
                 let overviewHiddenId = Main.overview.connect('hidden', () => {
                     Main.overview.disconnect(overviewHiddenId);
-                    this.dtpPanel.panelManager.setFocusedMonitor(this.dtpPanel.panelManager.primaryPanel.monitor, true);
                     delete Main.overview.viewSelector._onStageKeyPress;
                 });
 
