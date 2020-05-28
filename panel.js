@@ -371,6 +371,16 @@ var dtpPanel = Utils.defineClass({
                 () => this._adjustForOverview()
             ],
             [
+                Main.overview,
+                'hidden',
+                () => {
+                    if (this.isPrimary) {
+                        //reset the primary monitor when exiting the overview
+                        this.panelManager.setFocusedMonitor(this.monitor, true);
+                    }
+                }
+            ],
+            [
                 this.statusArea.activities,
                 'captured-event', 
                 (actor, e) => {
@@ -763,9 +773,6 @@ var dtpPanel = Utils.defineClass({
             if (isOverviewFocusedMonitor) {
                 Utils.getPanelGhost().set_size(1, this.geom.position == St.Side.TOP ? 0 : 32);
             }
-        } else if (this.isPrimary) {
-            //reset the primary monitor when exiting the overview
-            this.panelManager.setFocusedMonitor(this.monitor, true);
         }
     },
 
