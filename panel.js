@@ -214,6 +214,7 @@ var dtpPanel = Utils.defineClass({
 
         Utils.wrapActor(this.panel._leftCorner || 0);
         Utils.wrapActor(this.panel._rightCorner || 0);
+        Utils.wrapActor(this.statusArea.activities);
 
         if (isStandalone && position == St.Side.TOP) {
             this.panel.actor.add_child(this.panel._leftCorner.actor);
@@ -788,7 +789,7 @@ var dtpPanel = Utils.defineClass({
         }
 
         if (checkIfVertical()) {
-            this.showAppsButton.set_width(this.geom.w);
+            this.showAppsIconWrapper.realShowAppsIcon.toggleButton.set_width(this.geom.w);
             this._refreshVerticalAlloc();
             this._setSearchEntryOffset(this.geom.w);
         }
