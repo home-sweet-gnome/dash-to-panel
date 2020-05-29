@@ -381,7 +381,7 @@ var dtpPanel = Utils.defineClass({
                 }
             ],
             [
-                this.statusArea.activities,
+                this.statusArea.activities.actor,
                 'captured-event', 
                 (actor, e) => {
                     if (e.type() == Clutter.EventType.BUTTON_PRESS || e.type() == Clutter.EventType.TOUCH_BEGIN) {
