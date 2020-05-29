@@ -531,12 +531,16 @@ var dtpPanelManager = Utils.defineClass({
         let monitors = Main.layoutManager.monitors;
 
         for (let i = 0; i < monitors.length; i++) {
+            let workspaces;
             let view;
             if (this._workspacesOnlyOnPrimary && i != Main.layoutManager.primaryIndex) {
                 view = new WorkspacesView.ExtraWorkspaceView(i);
                 view.getActiveWorkspace = view.getActiveWorkspace || function() { return this._workspace; };
-            } else
+                workspaces = [view._workspace];
+            } else {
                 view = new WorkspacesView.WorkspacesView(i, this._scrollAdjustment || 0);
+                workspaces = view._workspaces;
+            }
 
             Utils.wrapActor(view);
             view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
@@ -546,6 +550,7 @@ var dtpPanelManager = Utils.defineClass({
                                             this._scrollValueChanged.bind(this));
             }
 
+            workspaces.forEach(w => w.setFullGeometry = geom => w._fullGeometry = geom);
             this._workspacesViews.push(view);
         }
 
