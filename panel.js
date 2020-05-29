@@ -145,7 +145,7 @@ var dtpPanel = Utils.defineClass({
         this.cornerSize = 0;
 
         if (isStandalone) {
-            this.panel = new St.Widget({ name: 'panel', reactive: true });
+            this.panel = new dtpSecondaryPanel({ name: 'panel', reactive: true });
             this.statusArea = this.panel.statusArea = {};
 
             Utils.wrapActor(this.panel);
@@ -1403,8 +1403,21 @@ var dtpPanel = Utils.defineClass({
     },
 });
 
+var dtpSecondaryPanel = Utils.defineClass({
+    Name: 'DashToPanel-SecondaryPanel',
+    Extends: St.Widget,
+
+    _init: function(params) {
+        this.callParent('_init', params);
+    },
+
+    vfunc_allocate: function(box, flags) {
+        this.set_allocation(box, flags);
+    }
+});
+
 var dtpSecondaryAggregateMenu = Utils.defineClass({
-    Name: 'dtpSecondaryAggregateMenu',
+    Name: 'DashToPanel-SecondaryAggregateMenu',
     Extends: PanelMenu.Button,
 
     _init: function() {
