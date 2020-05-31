@@ -614,7 +614,7 @@ var PreviewMenu = Utils.defineClass({
             let immediate = !stayHere && this.peekInitialWorkspaceIndex != Utils.getCurrentWorkspace().index();
 
             this._restorePeekedWindowStack();
-            this._focusMetaWindow(255, this._peekedWindow, immediate);
+            this._focusMetaWindow(255, this._peekedWindow, immediate, true);
             this._peekedWindow = null;
 
             if (!stayHere) {
@@ -639,14 +639,14 @@ var PreviewMenu = Utils.defineClass({
         Main.wm._shouldAnimate = shouldAnimate;
     },
 
-    _focusMetaWindow: function(dimOpacity, window, immediate) {
+    _focusMetaWindow: function(dimOpacity, window, immediate, ignoreFocus) {
         if (Main.overview.visibleTarget) {
             return;
         }
 
         window.get_workspace().list_windows().forEach(mw => {
             let wa = mw.get_compositor_private();
-            let isFocused = mw == window;
+            let isFocused = !ignoreFocus && mw == window;
 
             if (wa) {
                 if (isFocused) {
@@ -680,7 +680,7 @@ var PreviewMenu = Utils.defineClass({
                 delete this._peekedWindow[PEEK_INDEX_PROP];
             }
 
-            if(this._peekedWindow.minimized) {
+            if (this._peekedWindow.minimized) {
                 windowActor.hide();
             }
         }
