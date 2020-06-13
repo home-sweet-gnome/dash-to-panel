@@ -93,8 +93,8 @@ var dtpPanelManager = Utils.defineClass({
         global.dashToPanel.panels = this.allPanels;
         global.dashToPanel.emit('panels-created');
 
-        let panelPosition = Panel.getPosition();
         this.allPanels.forEach(p => {
+            let panelPosition = p.getPosition();
             let leftOrRight = (panelPosition == St.Side.LEFT || panelPosition == St.Side.RIGHT);
             
             p.panelBox.set_size(
@@ -121,7 +121,7 @@ var dtpPanelManager = Utils.defineClass({
         this._updatePanelElementPositions();
         this.setFocusedMonitor(this.dtpPrimaryMonitor);
         
-        if (Panel.checkIfVertical()) {
+        if (this.primaryPanel.checkIfVertical()) {
             Main.wm._getPositionForDirection = newGetPositionForDirection;
         }
         
@@ -261,7 +261,7 @@ var dtpPanelManager = Utils.defineClass({
         );
 
         Panel.panelBoxes.forEach(c => this._signalsHandler.add(
-            [Main.panel[c], 'actor-added', (parent, child) => this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, Panel.getPosition())]
+            [Main.panel[c], 'actor-added', (parent, child) => this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, this.primaryPanel.getPosition())]
         ));
 
         this._setKeyBindings(true);
@@ -429,7 +429,7 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     _updatePanelElementPositions: function() {
-        this.panelsElementPositions = Pos.getSettingsPositions(Me.settings);
+        this.panelsElementPositions = Pos.getSettingsPositions(Me.settings, 'panel-element-positions');
         this.allPanels.forEach(p => p.updateElementPositions());
     },
 
@@ -452,7 +452,8 @@ var dtpPanelManager = Utils.defineClass({
     _getBoxPointerPreferredHeight: function(boxPointer, alloc, monitor) {
         if (boxPointer._dtpInPanel && boxPointer.sourceActor && Me.settings.get_boolean('intellihide')) {
             monitor = monitor || Main.layoutManager.findMonitorForActor(boxPointer.sourceActor);
-            let excess = alloc.natural_size + Panel.size + 10 - monitor.height; // 10 is arbitrary
+            let panel = global.dashToPanel.panels.find(p => p.monitor == monitor);
+            let excess = alloc.natural_size + panel.dtpSize + 10 - monitor.height; // 10 is arbitrary
 
             if (excess > 0) {
                 alloc.natural_size -= excess;
@@ -676,11 +677,11 @@ function newUpdateHotCorners() {
         return;
     }
 
-    let panelPosition = Panel.getPosition();
-    let panelTopLeft = panelPosition == St.Side.TOP || panelPosition == St.Side.LEFT;
-
     // build new hot corners
     for (let i = 0; i < this.monitors.length; i++) {
+        let panel = global.dashToPanel.panels.find(p => p.monitor.index == i);
+        let panelPosition = panel.getPosition();
+        let panelTopLeft = panelPosition == St.Side.TOP || panelPosition == St.Side.LEFT;
         let monitor = this.monitors[i];
         let cornerX = this._rtl ? monitor.x + monitor.width : monitor.x;
         let cornerY = monitor.y;
@@ -724,7 +725,7 @@ function newUpdateHotCorners() {
             let corner = new Layout.HotCorner(this, monitor, cornerX, cornerY);
 
             corner.setBarrierSize = size => corner.__proto__.setBarrierSize.call(corner, Math.min(size, 32));
-            corner.setBarrierSize(Panel.size);
+            corner.setBarrierSize(panel.dtpSize);
             this.hotCorners.push(corner);
         } else {
             this.hotCorners.push(null);
@@ -757,7 +758,7 @@ function newUpdatePanelBarrier(panel) {
     let fixed1 = panel.monitor.y;
     let fixed2 = panel.monitor.y + barrierSize;
     
-    if (Panel.checkIfVertical()) {
+    if (panel.checkIfVertical()) {
         barriers._rightPanelBarrier.push(panel.monitor.y + panel.monitor.height, Meta.BarrierDirection.POSITIVE_Y);
         barriers._leftPanelBarrier.push(panel.monitor.y, Meta.BarrierDirection.NEGATIVE_Y);
     } else {
@@ -765,7 +766,7 @@ function newUpdatePanelBarrier(panel) {
         barriers._leftPanelBarrier.push(panel.monitor.x, Meta.BarrierDirection.POSITIVE_X);
     }
 
-    switch (Panel.getPosition()) {
+    switch (panel.getPosition()) {
         //values are initialized as St.Side.TOP 
         case St.Side.BOTTOM:
             fixed1 = panel.monitor.y + panel.monitor.height - barrierSize;
@@ -798,16 +799,17 @@ function newUpdatePanelBarrier(panel) {
             directions: barriers[k][2]
         };
         
-        barrierOptions[Panel.varCoord.c1] = barrierOptions[Panel.varCoord.c2] = barriers[k][1];
-        barrierOptions[Panel.fixedCoord.c1] = fixed1;
-        barrierOptions[Panel.fixedCoord.c2] = fixed2;
+        barrierOptions[panel.varCoord.c1] = barrierOptions[panel.varCoord.c2] = barriers[k][1];
+        barrierOptions[panel.fixedCoord.c1] = fixed1;
+        barrierOptions[panel.fixedCoord.c2] = fixed2;
 
         barriers[k][0][k] = new Meta.Barrier(barrierOptions);
     });
 }
 
 function _newLookingGlassResize() {
-    let topOffset = Panel.getPosition() == St.Side.TOP ? Panel.size : 32;
+    let primaryMonitorPanel = global.dashToPanel.panels.find(p => p.monitor == Main.layoutManager.primaryMonitor);
+    let topOffset = primaryMonitorPanel.getPosition() == St.Side.TOP ? primaryMonitorPanel.size : 32;
 
     this._oldResize();
     Utils.wrapActor(this);

@@ -80,24 +80,25 @@ var taskbarActor = Utils.defineClass({
         this._delegate = delegate;
         this._currentBackgroundColor = 0;
         this.callParent('_init', { name: 'dashtopanelTaskbar',
-                                   layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation[Panel.getOrientation().toUpperCase()] }),
+                                   layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation[delegate.dtpPanel.getOrientation().toUpperCase()] }),
                                    clip_to_allocation: true });
     },
 
     vfunc_allocate: function(box, flags)  {
         this.set_allocation(box, flags);
 
-        let availFixedSize = box[Panel.fixedCoord.c2] - box[Panel.fixedCoord.c1];
-        let availVarSize = box[Panel.varCoord.c2] - box[Panel.varCoord.c1];
+        let panel = this._delegate.dtpPanel;
+        let availFixedSize = box[panel.fixedCoord.c2] - box[panel.fixedCoord.c1];
+        let availVarSize = box[panel.varCoord.c2] - box[panel.varCoord.c1];
         let [, scrollview, leftFade, rightFade] = this.get_children();
-        let [, natSize] = this[Panel.sizeFunc](availFixedSize);
+        let [, natSize] = this[panel.sizeFunc](availFixedSize);
         let childBox = new Clutter.ActorBox();
-        let orientation = Panel.getOrientation();
+        let orientation = panel.getOrientation();
 
-        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c1];
-        childBox[Panel.varCoord.c2] = Math.min(availVarSize, natSize);
-        childBox[Panel.fixedCoord.c1] = box[Panel.fixedCoord.c1];
-        childBox[Panel.fixedCoord.c2] = box[Panel.fixedCoord.c2];
+        childBox[panel.varCoord.c1] = box[panel.varCoord.c1];
+        childBox[panel.varCoord.c2] = Math.min(availVarSize, natSize);
+        childBox[panel.fixedCoord.c1] = box[panel.fixedCoord.c1];
+        childBox[panel.fixedCoord.c2] = box[panel.fixedCoord.c2];
 
         scrollview.allocate(childBox, flags);
 
@@ -105,8 +106,8 @@ var taskbarActor = Utils.defineClass({
         upper = Math.floor(upper);
         scrollview._dtpFadeSize = upper > pageSize ? this._delegate.iconSize : 0;
 
-        if (this._currentBackgroundColor !== this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor) {
-            this._currentBackgroundColor = this._delegate.dtpPanel.dynamicTransparency.currentBackgroundColor;
+        if (this._currentBackgroundColor !== panel.dynamicTransparency.currentBackgroundColor) {
+            this._currentBackgroundColor = panel.dynamicTransparency.currentBackgroundColor;
             let gradientStyle = 'background-gradient-start: ' + this._currentBackgroundColor +
                                 'background-gradient-direction: ' + orientation;
 
@@ -114,11 +115,11 @@ var taskbarActor = Utils.defineClass({
             rightFade.set_style(gradientStyle);
         }
         
-        childBox[Panel.varCoord.c2] = childBox[Panel.varCoord.c1] + (value > 0 ? scrollview._dtpFadeSize : 0);
+        childBox[panel.varCoord.c2] = childBox[panel.varCoord.c1] + (value > 0 ? scrollview._dtpFadeSize : 0);
         leftFade.allocate(childBox, flags);
 
-        childBox[Panel.varCoord.c1] = box[Panel.varCoord.c2] - (value + pageSize < upper ? scrollview._dtpFadeSize : 0);
-        childBox[Panel.varCoord.c2] = box[Panel.varCoord.c2];
+        childBox[panel.varCoord.c1] = box[panel.varCoord.c2] - (value + pageSize < upper ? scrollview._dtpFadeSize : 0);
+        childBox[panel.varCoord.c2] = box[panel.varCoord.c2];
         rightFade.allocate(childBox, flags);
     },
 
@@ -171,7 +172,7 @@ var taskbar = Utils.defineClass({
         this._labelShowing = false;
         this.fullScrollView = 0;
 
-        let isVertical = Panel.checkIfVertical();
+        let isVertical = panel.checkIfVertical();
 
         this._box = new St.BoxLayout({ vertical: isVertical,
                                        clip_to_allocation: false,
@@ -210,7 +211,7 @@ var taskbar = Utils.defineClass({
         this._container.add_child(new St.Widget({ width: 0, reactive: false }));
         this._container.add_actor(this._scrollView);
         
-        let orientation = Panel.getOrientation();
+        let orientation = panel.getOrientation();
         let fadeStyle = 'background-gradient-direction:' + orientation;
         let fade1 = new St.Widget({ style_class: 'scrollview-fade', reactive: false });
         let fade2 = new St.Widget({ style_class: 'scrollview-fade', 
@@ -378,7 +379,7 @@ var taskbar = Utils.defineClass({
 
     _onScrollEvent: function(actor, event) {
 
-        let orientation = Panel.getOrientation();
+        let orientation = this.dtpPanel.getOrientation();
 
         // reset timeout to avid conflicts with the mousehover event
         if (this._ensureAppIconVisibilityTimeoutId>0) {
@@ -427,7 +428,7 @@ var taskbar = Utils.defineClass({
         // force a fixed label width to prevent the icons from "wiggling" when an animation runs
         // (adding or removing an icon). When the taskbar is full, revert to a dynamic label width
         // to allow them to resize and make room for new icons.
-        if (!Panel.checkIfVertical() && !this.isGroupApps) {
+        if (!this.dtpPanel.checkIfVertical() && !this.isGroupApps) {
             let initial = this.fullScrollView;
 
             if (!this.fullScrollView && Math.floor(adjustment.upper) > adjustment.page_size) {
@@ -584,6 +585,7 @@ var taskbar = Utils.defineClass({
 
         let item = new Dash.DashItemContainer();
 
+        item._dtpPanel = this.dtpPanel
         extendDashItemContainer(item);
 
         item.setChild(appIcon.actor);
@@ -905,7 +907,7 @@ var taskbar = Utils.defineClass({
         this._shownInitially = false;
         this._redisplay();
 
-        if (geometryChange && Panel.checkIfVertical()) {
+        if (geometryChange && this.dtpPanel.checkIfVertical()) {
             this.previewMenu._updateClip();
         }
     },
@@ -968,7 +970,7 @@ var taskbar = Utils.defineClass({
             this._box.insert_child_above(source._dashItemContainer, null);
         }
         
-        let isVertical = Panel.checkIfVertical();
+        let isVertical = this.dtpPanel.checkIfVertical();
         let sizeProp = isVertical ? 'height' : 'width';
         let posProp = isVertical ? 'y' : 'x';
         let pos = isVertical ? y : x;
@@ -1242,7 +1244,7 @@ var DragPlaceholderItem = Utils.defineClass({
     Extends: St.Widget,
 
     _init: function(appIcon, iconSize) {
-        this.callParent('_init', { style: AppIcons.getIconContainerStyle(), layout_manager: new Clutter.BinLayout() });
+        this.callParent('_init', { style: appIcon.getIconContainerStyle(), layout_manager: new Clutter.BinLayout() });
 
         this.child = { _delegate: appIcon };
 

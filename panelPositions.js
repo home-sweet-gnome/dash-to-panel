@@ -47,11 +47,11 @@ var optionDialogFunctions = {};
 optionDialogFunctions[SHOW_APPS_BTN] = '_showShowAppsButtonOptions';
 optionDialogFunctions[DESKTOP_BTN] = '_showDesktopButtonOptions';
 
-function getSettingsPositions(settings) {
+function getSettingsPositions(settings, setting) {
     var positions = null;
 
     try {
-        positions = JSON.parse(settings.get_string('panel-element-positions'));
+        positions = JSON.parse(settings.get_string(setting));
     } catch(e) {
         log('Error parsing positions: ' + e.message);
     }

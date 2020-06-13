@@ -79,7 +79,7 @@ var dtpPanelStyle = Utils.defineClass({
         this._rightBoxOperations = [];
         
         let trayPadding = Me.settings.get_int('tray-padding');
-        let isVertical = Panel.checkIfVertical();
+        let isVertical = this.panel.checkIfVertical();
         let paddingStyle = 'padding: ' + (isVertical ? '%dpx 0' : '0 %dpx');
 
         if(trayPadding >= 0) {

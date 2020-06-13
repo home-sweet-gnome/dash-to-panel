@@ -216,7 +216,7 @@ const Settings = new Lang.Class({
         let labels = {};
         let position = this._settings.get_string('panel-position');
         let isVertical = position == 'LEFT' || position == 'RIGHT';
-        let positionSettings = Pos.getSettingsPositions(this._settings);
+        let positionSettings = Pos.getSettingsPositions(this._settings, 'panel-element-positions');
         let panelInfo = positionSettings[monitorIndex] || Pos.defaults;
         let updateSettings = () => {
             let newPanelInfo = [];

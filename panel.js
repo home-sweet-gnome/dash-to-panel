@@ -62,10 +62,6 @@ const _ = imports.gettext.domain(Me.imports.utils.TRANSLATION_DOMAIN).gettext;
 
 let tracker = Shell.WindowTracker.get_default();
 var panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
-var sizeFunc;
-var fixedCoord;
-var varCoord;
-var size;
 
 //timeout names
 const T1 = 'startDynamicTransparencyTimeout';
@@ -75,30 +71,6 @@ const T4 = 'showDesktopTimeout';
 const T5 = 'trackerFocusAppTimeout';
 const T6 = 'scrollPanelDelayTimeout';
 const T7 = 'waitPanelBoxAllocation';
-
-function getPosition() {
-    let position = Me.settings.get_string('panel-position');
-    
-    if (position == 'TOP') {
-        return St.Side.TOP;
-    } else if (position == 'RIGHT') {
-        return St.Side.RIGHT;
-    } else if (position == 'BOTTOM') {
-        return St.Side.BOTTOM;
-    }
-    
-    return St.Side.LEFT;
-}
-
-function checkIfVertical() {
-    let position = getPosition();
-
-    return (position == St.Side.LEFT || position == St.Side.RIGHT);
-}
-
-function getOrientation() {
-    return (checkIfVertical() ? 'vertical' : 'horizontal');
-}
 
 function setMenuArrow(arrowIcon, side) {
     let parent = arrowIcon.get_parent();
@@ -119,7 +91,7 @@ var dtpPanel = Utils.defineClass({
     Extends: St.Widget,
 
     _init: function(panelManager, monitor, panelBox, isStandalone) {
-        let position = getPosition();
+        let position = this.getPosition();
         
         this.callParent('_init', { layout_manager: new Clutter.BinLayout() });
 
@@ -201,8 +173,7 @@ var dtpPanel = Utils.defineClass({
 
         // Create a wrapper around the real showAppsIcon in order to add a popupMenu. Most of 
         // its behavior is handled by the taskbar, but its positioning is done at the panel level
-        this.showAppsIconWrapper = new AppIcons.ShowAppsIconWrapper();
-        this.showAppsIconWrapper._dtpPanel = this;
+        this.showAppsIconWrapper = new AppIcons.ShowAppsIconWrapper(this);
         this.panel.actor.add_child(this.showAppsIconWrapper.realShowAppsIcon);
 
         this.panel.actor._delegate = this;
@@ -243,7 +214,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     enable : function() {
-        let position = getPosition();
+        let position = this.getPosition();
 
         if (this.statusArea.aggregateMenu) {
             Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll = 1;
@@ -339,7 +310,7 @@ var dtpPanel = Utils.defineClass({
         
         this._setAllocationMap();
 
-        this.panel.actor.add_style_class_name('dashtopanelMainPanel ' + getOrientation());
+        this.panel.actor.add_style_class_name('dashtopanelMainPanel ' + this.getOrientation());
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
@@ -417,7 +388,7 @@ var dtpPanel = Utils.defineClass({
 
         this.panelStyle.enable(this);
 
-        if (checkIfVertical()) {
+        if (this.checkIfVertical()) {
             this._signalsHandler.add([
                 this.panelBox,
                 'notify::visible',
@@ -549,6 +520,30 @@ var dtpPanel = Utils.defineClass({
         return DND.DragMotionResult.CONTINUE;
     },
 
+    getPosition: function() {
+        let position = Me.settings.get_string('panel-position');
+
+        if (position == 'TOP') {
+            return St.Side.TOP;
+        } else if (position == 'RIGHT') {
+            return St.Side.RIGHT;
+        } else if (position == 'BOTTOM') {
+            return St.Side.BOTTOM;
+        }
+        
+        return St.Side.LEFT;
+    },
+
+    checkIfVertical: function() {
+        let position = this.getPosition();
+    
+        return (position == St.Side.LEFT || position == St.Side.RIGHT);
+    },
+    
+    getOrientation: function() {
+        return (this.checkIfVertical() ? 'vertical' : 'horizontal');
+    },
+
     updateElementPositions: function() {
         let panelPositions = this.panelManager.panelsElementPositions[this.monitor.index] || Pos.defaults;
 
@@ -556,7 +551,7 @@ var dtpPanel = Utils.defineClass({
         
         this._disablePanelCornerSignals();
 
-        if (getPosition() == St.Side.TOP) {
+        if (this.getPosition() == St.Side.TOP) {
             let visibleElements = panelPositions.filter(pp => pp.visible);
             let connectCorner = (corner, button) => {
                 corner._button = button;
@@ -645,7 +640,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     _bindSettingsChanges: function() {
-        let isVertical = checkIfVertical();
+        let isVertical = this.checkIfVertical();
         
         this._signalsHandler.add(
             [
@@ -742,7 +737,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     _setPanelGhostSize: function() {
-        this._myPanelGhost.set_size(this.width, checkIfVertical() ? 1 : this.height); 
+        this._myPanelGhost.set_size(this.width, this.checkIfVertical() ? 1 : this.height); 
     },
 
     _setSearchEntryOffset: function(offset) {
@@ -751,7 +746,7 @@ var dtpPanel = Utils.defineClass({
             //that doesn't natively take into account the size of a side dock, as it is always
             //centered relatively to the monitor. This looks misaligned, adjust it here so it 
             //is centered like the rest of the overview elements.
-            let paddingSide = getPosition() == St.Side.LEFT ? 'left' : 'right';
+            let paddingSide = this.getPosition() == St.Side.LEFT ? 'left' : 'right';
             let scaleFactor = Utils.getScaleFactor();
             let style = offset ? 'padding-' + paddingSide + ':' + (offset / scaleFactor) + 'px;' : null;
             let searchEntry = Main.overview._searchEntry || Main.overview._overview._searchEntry;
@@ -788,7 +783,7 @@ var dtpPanel = Utils.defineClass({
             this.intellihide.reset();
         }
 
-        if (checkIfVertical()) {
+        if (this.checkIfVertical()) {
             this.showAppsIconWrapper.realShowAppsIcon.toggleButton.set_width(this.geom.w);
             this._refreshVerticalAlloc();
             this._setSearchEntryOffset(this.geom.w);
@@ -801,47 +796,47 @@ var dtpPanel = Utils.defineClass({
         let lrPadding = panelBoxTheme.get_padding(St.Side.RIGHT) + panelBoxTheme.get_padding(St.Side.LEFT);
         let topPadding = panelBoxTheme.get_padding(St.Side.TOP);
         let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM);
-        let position = getPosition();
+        let position = this.getPosition();
         let gsTopPanelOffset = 0;
         let x = 0, y = 0;
         let w = 0, h = 0;
 
-        size = Me.settings.get_int('panel-size') * scaleFactor;
+        this.dtpSize = Me.settings.get_int('panel-size') * scaleFactor;
 
         if (Me.settings.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
             gsTopPanelOffset = Main.layoutManager.panelBox.height - topPadding;
         }
 
-        if (checkIfVertical()) {
+        if (this.checkIfVertical()) {
             if (!Me.settings.get_boolean('group-apps')) {
                 // add window title width and side padding of _dtpIconContainer when vertical
-                size += Me.settings.get_int('group-apps-label-max-width') + AppIcons.DEFAULT_PADDING_SIZE * 2 / scaleFactor;
+                this.dtpSize += Me.settings.get_int('group-apps-label-max-width') + AppIcons.DEFAULT_PADDING_SIZE * 2 / scaleFactor;
             }
 
-            sizeFunc = 'get_preferred_height',
-            fixedCoord = { c1: 'x1', c2: 'x2' },
-            varCoord = { c1: 'y1', c2: 'y2' };
+            this.sizeFunc = 'get_preferred_height',
+            this.fixedCoord = { c1: 'x1', c2: 'x2' },
+            this.varCoord = { c1: 'y1', c2: 'y2' };
 
-            w = size;
+            w = this.dtpSize;
             h = this.monitor.height - tbPadding - gsTopPanelOffset;
         } else {
-            sizeFunc = 'get_preferred_width';
-            fixedCoord = { c1: 'y1', c2: 'y2' };
-            varCoord = { c1: 'x1', c2: 'x2' };
+            this.sizeFunc = 'get_preferred_width';
+            this.fixedCoord = { c1: 'y1', c2: 'y2' };
+            this.varCoord = { c1: 'x1', c2: 'x2' };
 
             w = this.monitor.width - lrPadding;
-            h = size;
+            h = this.dtpSize;
         }
 
         if (position == St.Side.TOP || position == St.Side.LEFT) {
             x = this.monitor.x;
             y = this.monitor.y + gsTopPanelOffset;
         } else if (position == St.Side.RIGHT) {
-            x = this.monitor.x + this.monitor.width - size - lrPadding;
+            x = this.monitor.x + this.monitor.width - this.dtpSize - lrPadding;
             y = this.monitor.y + gsTopPanelOffset;
         } else { //BOTTOM
             x = this.monitor.x; 
-            y = this.monitor.y + this.monitor.height - size - tbPadding;
+            y = this.monitor.y + this.monitor.height - this.dtpSize - tbPadding;
         }
 
         return {
@@ -889,9 +884,9 @@ var dtpPanel = Utils.defineClass({
 
             group.elements.forEach(element => {
                 if (!update) {
-                    element.box[fixedCoord.c1] = panelAlloc[fixedCoord.c1];
-                    element.box[fixedCoord.c2] = panelAlloc[fixedCoord.c2];
-                    element.natSize = element.actor[sizeFunc](-1)[1];
+                    element.box[this.fixedCoord.c1] = panelAlloc[this.fixedCoord.c1];
+                    element.box[this.fixedCoord.c2] = panelAlloc[this.fixedCoord.c2];
+                    element.natSize = element.actor[this.sizeFunc](-1)[1];
                 }
 
                 if (!group.isCentered || Pos.checkIfCentered(element.position)) {
@@ -931,9 +926,9 @@ var dtpPanel = Utils.defineClass({
                 for (; i < l; ++i) {
                     let refGroup = this._elementGroups[i];
 
-                    if (i < group.index && (!refGroup.fixed || refGroup[varCoord.c2] > tlLimit)) {
+                    if (i < group.index && (!refGroup.fixed || refGroup[this.varCoord.c2] > tlLimit)) {
                         tlSize += refGroup.size;
-                    } else if (i > group.index && (!refGroup.fixed || refGroup[varCoord.c1] < brLimit)) {
+                    } else if (i > group.index && (!refGroup.fixed || refGroup[this.varCoord.c1] < brLimit)) {
                         brSize += refGroup.size;
                     }
                 }
@@ -961,8 +956,8 @@ var dtpPanel = Utils.defineClass({
             group.elements.forEach(element => {
                 let params = [element.box, flags];
 
-                element.box[varCoord.c1] = Math.round(currentPosition);
-                element.box[varCoord.c2] = Math.round((currentPosition += element.natSize));
+                element.box[this.varCoord.c1] = Math.round(currentPosition);
+                element.box[this.varCoord.c2] = Math.round((currentPosition += element.natSize));
 
                 if (element.isBox) {
                     params.push(1);
@@ -971,8 +966,8 @@ var dtpPanel = Utils.defineClass({
                 element.actor.allocate.apply(element.actor, params);
             });
 
-            group[varCoord.c1] = startPosition;
-            group[varCoord.c2] = currentPosition;
+            group[this.varCoord.c1] = startPosition;
+            group[this.varCoord.c2] = currentPosition;
             group.fixed = 1;
             ++fixed;
         };
@@ -990,7 +985,7 @@ var dtpPanel = Utils.defineClass({
         });
 
         if (centeredMonitorGroup) {
-            allocateGroup(centeredMonitorGroup, panelAlloc[varCoord.c1], panelAlloc[varCoord.c2]);
+            allocateGroup(centeredMonitorGroup, panelAlloc[this.varCoord.c1], panelAlloc[this.varCoord.c2]);
         }
 
         let iterations = 0; //failsafe
@@ -1004,13 +999,13 @@ var dtpPanel = Utils.defineClass({
 
                 let prevGroup = this._elementGroups[i - 1];
                 let nextGroup = this._elementGroups[i + 1];
-                let prevLimit = prevGroup && prevGroup.fixed ? prevGroup[varCoord.c2] : panelAlloc[varCoord.c1];
-                let nextLimit = nextGroup && nextGroup.fixed ? nextGroup[varCoord.c1] : panelAlloc[varCoord.c2];
+                let prevLimit = prevGroup && prevGroup.fixed ? prevGroup[this.varCoord.c2] : panelAlloc[this.varCoord.c1];
+                let nextLimit = nextGroup && nextGroup.fixed ? nextGroup[this.varCoord.c1] : panelAlloc[this.varCoord.c2];
 
                 if (group.position == Pos.STACKED_TL) {
-                    allocateGroup(group, panelAlloc[varCoord.c1], nextLimit);
+                    allocateGroup(group, panelAlloc[this.varCoord.c1], nextLimit);
                 } else if (group.position == Pos.STACKED_BR) {
-                    allocateGroup(group, prevLimit, panelAlloc[varCoord.c2]);
+                    allocateGroup(group, prevLimit, panelAlloc[this.varCoord.c2]);
                 } else if ((!prevGroup || prevGroup.fixed) && (!nextGroup || nextGroup.fixed)) { // CENTERED
                     allocateGroup(group, prevLimit, nextLimit);
                 }
@@ -1021,18 +1016,18 @@ var dtpPanel = Utils.defineClass({
             let childBoxLeftCorner = new Clutter.ActorBox();
             let childBoxRightCorner = new Clutter.ActorBox();
             let currentCornerSize = this.cornerSize;
-            let panelAllocFixedSize = box[fixedCoord.c2] - box[fixedCoord.c1];
+            let panelAllocFixedSize = box[this.fixedCoord.c2] - box[this.fixedCoord.c1];
             
-            [ , this.cornerSize] = this.panel._leftCorner.actor[sizeFunc](-1);
-            childBoxLeftCorner[varCoord.c1] = 0;
-            childBoxLeftCorner[varCoord.c2] = this.cornerSize;
-            childBoxLeftCorner[fixedCoord.c1] = panelAllocFixedSize;
-            childBoxLeftCorner[fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
+            [ , this.cornerSize] = this.panel._leftCorner.actor[this.sizeFunc](-1);
+            childBoxLeftCorner[this.varCoord.c1] = 0;
+            childBoxLeftCorner[this.varCoord.c2] = this.cornerSize;
+            childBoxLeftCorner[this.fixedCoord.c1] = panelAllocFixedSize;
+            childBoxLeftCorner[this.fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
 
-            childBoxRightCorner[varCoord.c1] = box[varCoord.c2] - this.cornerSize;
-            childBoxRightCorner[varCoord.c2] = box[varCoord.c2];
-            childBoxRightCorner[fixedCoord.c1] = panelAllocFixedSize;
-            childBoxRightCorner[fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
+            childBoxRightCorner[this.varCoord.c1] = box[this.varCoord.c2] - this.cornerSize;
+            childBoxRightCorner[this.varCoord.c2] = box[this.varCoord.c2];
+            childBoxRightCorner[this.fixedCoord.c1] = panelAllocFixedSize;
+            childBoxRightCorner[this.fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
 
             this.panel._leftCorner.actor.allocate(childBoxLeftCorner, flags);
             this.panel._rightCorner.actor.allocate(childBoxRightCorner, flags);
@@ -1049,7 +1044,7 @@ var dtpPanel = Utils.defineClass({
         this.set_size(this.geom.w, this.geom.h);
         clipContainer.set_position(this.geom.x, this.geom.y);
 
-        this._setVertical(this.panel.actor, checkIfVertical());
+        this._setVertical(this.panel.actor, this.checkIfVertical());
 
         // styles for theming
         Object.keys(St.Side).forEach(p => {
@@ -1090,8 +1085,8 @@ var dtpPanel = Utils.defineClass({
             return Clutter.EVENT_PROPAGATE;
         }
 
-        let params = checkIfVertical() ? [stageY, 'y', 'height'] : [stageX, 'x', 'width'];
-        let dragWindow = this._getDraggableWindowForPosition.apply(this, params.concat(['maximized_' + getOrientation() + 'ly']));
+        let params = this.checkIfVertical() ? [stageY, 'y', 'height'] : [stageX, 'x', 'width'];
+        let dragWindow = this._getDraggableWindowForPosition.apply(this, params.concat(['maximized_' + this.getOrientation() + 'ly']));
 
         if (!dragWindow)
             return Clutter.EVENT_PROPAGATE;
@@ -1126,7 +1121,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     _onBoxActorAdded: function(box) {
-        if (checkIfVertical()) {
+        if (this.checkIfVertical()) {
             this._setVertical(box, true);
         }
     },
@@ -1161,8 +1156,8 @@ var dtpPanel = Utils.defineClass({
                     let [, natWidth] = actor.get_preferred_width(-1);
 
                     child.x_align = Clutter.ActorAlign[isVertical ? 'CENTER' : 'START'];
-                    actor.set_width(isVertical ? size : -1);
-                    isVertical = isVertical && (natWidth > size);
+                    actor.set_width(isVertical ? this.dtpSize : -1);
+                    isVertical = isVertical && (natWidth > this.dtpSize);
                     actor[(isVertical ? 'add' : 'remove') + '_style_class_name']('vertical');
                 }
             }
@@ -1294,7 +1289,7 @@ var dtpPanel = Utils.defineClass({
     _setShowDesktopButtonSize: function() {
         if (this._showDesktopButton) {
             let buttonSize = Me.settings.get_int('showdesktop-button-width') + 'px;';
-            let isVertical = checkIfVertical();
+            let isVertical = this.checkIfVertical();
             let sytle = isVertical ? 'border-top-width:1px;height:' + buttonSize : 'border-left-width:1px;width:' + buttonSize;
             
             this._showDesktopButton.set_style(sytle);
