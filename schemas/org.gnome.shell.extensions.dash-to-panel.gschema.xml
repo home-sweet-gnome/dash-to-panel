@@ -660,6 +660,10 @@
       <summary>Delay between panel mouse scroll events</summary>
       <description>Set the minimum delay between panel mouse scroll events</description>
     </key>
+    <key type="b" name="scroll-panel-show-ws-popup">
+      <default>true</default>
+      <summary>Show the workspace switch head-up when workspace is changed by scrolling on the panel</summary>
+    </key>
     <key name="scroll-icon-action" enum="org.gnome.shell.extensions.dash-to-panel.scrollAction">
       <default>'CYCLE_WINDOWS'</default>
       <summary>Action when scrolling over a running app</summary>
