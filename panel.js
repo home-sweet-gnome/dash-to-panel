@@ -1106,7 +1106,7 @@ var dtpPanel = Utils.defineClass({
             workspace.list_windows()
         ).reverse();
 
-        return allWindowsByStacking.find(metaWindow => {
+        return Utils.find(allWindowsByStacking, metaWindow => {
             let rect = metaWindow.get_frame_rect();
 
             return metaWindow.get_monitor() == this.monitor.index &&

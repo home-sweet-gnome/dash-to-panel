@@ -453,7 +453,7 @@ var dtpPanelManager = Utils.defineClass({
     _getBoxPointerPreferredHeight: function(boxPointer, alloc, monitor) {
         if (boxPointer._dtpInPanel && boxPointer.sourceActor && Me.settings.get_boolean('intellihide')) {
             monitor = monitor || Main.layoutManager.findMonitorForActor(boxPointer.sourceActor);
-            let panel = global.dashToPanel.panels.find(p => p.monitor == monitor);
+            let panel = Utils.find(global.dashToPanel.panels, p => p.monitor == monitor);
             let excess = alloc.natural_size + panel.dtpSize + 10 - monitor.height; // 10 is arbitrary
 
             if (excess > 0) {
@@ -680,7 +680,7 @@ function newUpdateHotCorners() {
 
     // build new hot corners
     for (let i = 0; i < this.monitors.length; i++) {
-        let panel = global.dashToPanel.panels.find(p => p.monitor.index == i);
+        let panel = Utils.find(global.dashToPanel.panels, p => p.monitor.index == i);
         let panelPosition = panel.getPosition();
         let panelTopLeft = panelPosition == St.Side.TOP || panelPosition == St.Side.LEFT;
         let monitor = this.monitors[i];
@@ -809,7 +809,7 @@ function newUpdatePanelBarrier(panel) {
 }
 
 function _newLookingGlassResize() {
-    let primaryMonitorPanel = global.dashToPanel.panels.find(p => p.monitor == Main.layoutManager.primaryMonitor);
+    let primaryMonitorPanel = Utils.find(global.dashToPanel.panels, p => p.monitor == Main.layoutManager.primaryMonitor);
     let topOffset = primaryMonitorPanel.getPosition() == St.Side.TOP ? primaryMonitorPanel.size : 32;
 
     this._oldResize();
