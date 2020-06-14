@@ -199,42 +199,97 @@ const Settings = new Lang.Class({
     },
 
     _updateVerticalRelatedOptions: function() {
-        let position = this._settings.get_string('panel-position');
-        let isVertical = position == 'LEFT' || position == 'RIGHT';
+        let position = this._getPanelPosition(this._currentMonitorIndex);
+        let isVertical = position == Pos.LEFT || position == Pos.RIGHT;
         let showDesktopWidthLabel = this._builder.get_object('show_showdesktop_width_label');
 
         showDesktopWidthLabel.set_text(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
 
-        this._displayTaskbarElementPositionsForMonitor(this.monitors[this._builder.get_object('taskbar_position_monitor_combo').get_active()]);
+        this._displayPanelPositionsForMonitor(this._currentMonitorIndex);
     },
 
-    _displayTaskbarElementPositionsForMonitor: function(monitorIndex) {
+    _maybeDisableTopPosition: function() {
+        let keepTopPanel = this._settings.get_boolean('stockgs-keep-top-panel');
+        let monitorSync = this._settings.get_boolean('panel-element-positions-monitors-sync');
+        let topAvailable = !keepTopPanel || (!monitorSync && this._currentMonitorIndex != this.monitors[0]);
+        let topRadio = this._builder.get_object('position_top_button');
+
+        topRadio.set_sensitive(topAvailable);
+        topRadio.set_tooltip_text(!topAvailable ? _('Unavailable when gnome-shell top panel is present') : '');
+    },
+
+    _getPanelPositions: function() {
+        return Pos.getSettingsPositions(this._settings, 'panel-positions');
+    },
+
+    _getPanelPosition: function(monitorIndex) {
+        let panelPositionsSettings = this._getPanelPositions();
+        
+        return panelPositionsSettings[monitorIndex] || this._settings.get_string('panel-position');
+    },
+
+    _setPanelPosition: function(position) {
+        let panelPositionsSettings = this._getPanelPositions();
+        let preventTop = this._settings.get_boolean('stockgs-keep-top-panel') && position == Pos.TOP;
+        let monitorSync = this._settings.get_boolean('panel-element-positions-monitors-sync');
+        let monitors = monitorSync ? this.monitors : [this._currentMonitorIndex];
+
+        monitors.forEach(m => panelPositionsSettings[m] = preventTop && this.monitors[0] == m ? Pos.BOTTOM : position);
+
+        this._settings.set_string('panel-positions', JSON.stringify(panelPositionsSettings));
+    },
+
+    _setPositionRadios: function(position) {
+        this._ignorePositionRadios = true;
+        
+        switch (position) {
+            case Pos.BOTTOM:
+                this._builder.get_object('position_bottom_button').set_active(true);
+                break;
+            case Pos.TOP:
+                this._builder.get_object('position_top_button').set_active(true);
+                break;
+            case Pos.LEFT:
+                this._builder.get_object('position_left_button').set_active(true);
+                break;
+            case Pos.RIGHT:
+                this._builder.get_object('position_right_button').set_active(true);
+                break;
+        }
+
+        this._ignorePositionRadios = false;
+    },
+
+    _displayPanelPositionsForMonitor: function(monitorIndex) {
         let taskbarListBox = this._builder.get_object('taskbar_display_listbox');
         
         taskbarListBox.get_children().forEach(c => c.destroy());
 
         let labels = {};
-        let position = this._settings.get_string('panel-position');
-        let isVertical = position == 'LEFT' || position == 'RIGHT';
-        let positionSettings = Pos.getSettingsPositions(this._settings, 'panel-element-positions');
-        let panelInfo = positionSettings[monitorIndex] || Pos.defaults;
-        let updateSettings = () => {
-            let newPanelInfo = [];
+        let panelPosition = this._getPanelPosition(monitorIndex);
+        let isVertical = panelPosition == Pos.LEFT || panelPosition == Pos.RIGHT;
+        let panelElementPositionsSettings = Pos.getSettingsPositions(this._settings, 'panel-element-positions');
+        let panelElementPositions = panelElementPositionsSettings[monitorIndex] || Pos.defaults;
+        let updateElementsSettings = () => {
+            let newPanelElementPositions = [];
             let monitorSync = this._settings.get_boolean('panel-element-positions-monitors-sync');
             let monitors = monitorSync ? this.monitors : [monitorIndex];
 
             taskbarListBox.get_children().forEach(c => {
-                newPanelInfo.push({
+                newPanelElementPositions.push({
                     element: c.id,
                     visible: c.visibleToggleBtn.get_active(),
                     position: c.positionCombo.get_active_id()
                 });
             });
             
-            monitors.forEach(m => positionSettings[m] = newPanelInfo);
-            this._settings.set_string('panel-element-positions', JSON.stringify(positionSettings));
+            monitors.forEach(m => panelElementPositionsSettings[m] = newPanelElementPositions);
+            this._settings.set_string('panel-element-positions', JSON.stringify(panelElementPositionsSettings));
         };
 
+        this._maybeDisableTopPosition();
+        this._setPositionRadios(panelPosition);
+        
         labels[Pos.SHOW_APPS_BTN] = _('Show Applications button');
         labels[Pos.ACTIVITIES_BTN] = _('Activities button');
         labels[Pos.TASKBAR] = _('Taskbar');
@@ -245,7 +300,7 @@ const Settings = new Lang.Class({
         labels[Pos.RIGHT_BOX] = _('Right box');
         labels[Pos.DESKTOP_BTN] = _('Desktop button');
 
-        panelInfo.forEach(el => {
+        panelElementPositions.forEach(el => {
             let row = new Gtk.ListBoxRow();
             let grid = new Gtk.Grid({ margin: 2, margin_left: 12, margin_right: 12, column_spacing: 8 });
             let upDownGrid = new Gtk.Grid({ column_spacing: 2 });
@@ -261,7 +316,7 @@ const Settings = new Lang.Class({
                 if (index != limit) {
                     taskbarListBox.remove(row);
                     taskbarListBox.insert(row, index + (!limit ? -1 : 1));
-                    updateSettings();
+                    updateElementsSettings();
                 }
             };
 
@@ -272,9 +327,9 @@ const Settings = new Lang.Class({
             positionCombo.set_active_id(el.position);
 
             upBtn.connect('clicked', () => upDownClickHandler(0));
-            downBtn.connect('clicked', () => upDownClickHandler(panelInfo.length - 1));
-            visibleToggleBtn.connect('toggled', () => updateSettings());
-            positionCombo.connect('changed', () => updateSettings());
+            downBtn.connect('clicked', () => upDownClickHandler(panelElementPositions.length - 1));
+            visibleToggleBtn.connect('toggled', () => updateElementsSettings());
+            positionCombo.connect('changed', () => updateElementsSettings());
 
             upBtn.add(upImg);
             downBtn.add(downImg);
@@ -419,37 +474,7 @@ const Settings = new Lang.Class({
         dialog.show_all();
     },
 
-    _setPositionRadios: function() {
-        let position = this._settings.get_string('panel-position');
-
-        switch (position) {
-            case 'BOTTOM':
-                this._builder.get_object('position_bottom_button').set_active(true);
-                break;
-            case 'TOP':
-                this._builder.get_object('position_top_button').set_active(true);
-                break;
-            case 'LEFT':
-                this._builder.get_object('position_left_button').set_active(true);
-                break;
-            case 'RIGHT':
-                this._builder.get_object('position_right_button').set_active(true);
-                break;
-
-        }
-    },
-
     _bindSettings: function() {
-        // Position and style panel
-
-        // Position option
-        this._setPositionRadios();
-
-        this.monitors = this._settings.get_value('available-monitors').deep_unpack();
-
-        this._settings.connect('changed::panel-position', () => this._updateVerticalRelatedOptions());
-        this._updateVerticalRelatedOptions();
-
         // size options
         let panel_size_scale = this._builder.get_object('panel_size_scale');
         panel_size_scale.set_range(DEFAULT_PANEL_SIZES[DEFAULT_PANEL_SIZES.length-1], DEFAULT_PANEL_SIZES[0]);
@@ -689,6 +714,18 @@ const Settings = new Lang.Class({
         }));
 
         //multi-monitor
+        this.monitors = this._settings.get_value('available-monitors').deep_unpack();
+
+        let dtpPrimaryMonitorIndex = this.monitors.indexOf(this._settings.get_int('primary-monitor'));
+
+        if (dtpPrimaryMonitorIndex < 0) {
+            dtpPrimaryMonitorIndex = 0;
+        }
+
+        this._currentMonitorIndex = this.monitors[dtpPrimaryMonitorIndex];
+
+        this._settings.connect('changed::panel-positions', () => this._updateVerticalRelatedOptions());
+        this._updateVerticalRelatedOptions();
         
         for (let i = 0; i < this.monitors.length; ++i) {
             //the primary index is the first one in the "available-monitors" setting
@@ -697,13 +734,7 @@ const Settings = new Lang.Class({
             this._builder.get_object('multimon_primary_combo').append_text(label);
             this._builder.get_object('taskbar_position_monitor_combo').append_text(label);
         }
-
-        let dtpPrimaryMonitorIndex = this.monitors.indexOf(this._settings.get_int('primary-monitor'));
-
-        if (dtpPrimaryMonitorIndex < 0) {
-            dtpPrimaryMonitorIndex = 0;
-        }
-
+        
         this._builder.get_object('multimon_primary_combo').set_active(dtpPrimaryMonitorIndex);
         this._builder.get_object('taskbar_position_monitor_combo').set_active(dtpPrimaryMonitorIndex);
 
@@ -717,16 +748,19 @@ const Settings = new Lang.Class({
                             'sensitive',
                             Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
+        this._settings.connect('changed::panel-element-positions-monitors-sync', () => this._maybeDisableTopPosition());
+
         this._builder.get_object('multimon_primary_combo').connect('changed', Lang.bind (this, function(widget) {
             this._settings.set_int('primary-monitor', this.monitors[widget.get_active()]);
         }));
 
         this._builder.get_object('taskbar_position_monitor_combo').connect('changed', Lang.bind (this, function(widget) {
-            this._displayTaskbarElementPositionsForMonitor(this.monitors[widget.get_active()]);
+            this._currentMonitorIndex = this.monitors[widget.get_active()];
+            this._displayPanelPositionsForMonitor(this._currentMonitorIndex);
         }));
 
-        //taskbar element positions
-        this._displayTaskbarElementPositionsForMonitor(this.monitors[this._builder.get_object('multimon_primary_combo').get_active()]);
+        //panel positions
+        this._displayPanelPositionsForMonitor(this._currentMonitorIndex);
 
         this._settings.bind('multi-monitors',
                             this._builder.get_object('multimon_multi_switch'),
@@ -1811,24 +1845,11 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
-        var maybeDisableTopPosition = () => {
-            let keepTopPanel = this._settings.get_boolean('stockgs-keep-top-panel');
-            let topRadio = this._builder.get_object('position_top_button');
-            
-            topRadio.set_sensitive(!keepTopPanel);
-            topRadio.set_tooltip_text(keepTopPanel ? _('Unavailable when gnome-shell top panel is present') : '');
-            
-            if (keepTopPanel && this._settings.get_string('panel-position') == 'TOP') {
-                this._settings.set_string('panel-position', "BOTTOM");
-                this._setPositionRadios();
-            }
-        };
+        
 
-        this._settings.connect('changed::stockgs-keep-top-panel', () => {
-            maybeDisableTopPosition();
-        });
+        this._settings.connect('changed::stockgs-keep-top-panel', () => this._maybeDisableTopPosition());
 
-        maybeDisableTopPosition();
+        this._maybeDisableTopPosition();
 
         this._settings.bind('stockgs-panelbtn-click-only',
                             this._builder.get_object('stockgs_panelbtn_switch'),
@@ -1942,24 +1963,20 @@ const Settings = new Lang.Class({
      */
     _SignalHandler: {
         
-        position_bottom_button_toggled_cb: function(button) {
-            if (button.get_active())
-                this._settings.set_string('panel-position', "BOTTOM");
+        position_bottom_button_clicked_cb: function(button) {
+            if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.BOTTOM);
         },
 		
-		position_top_button_toggled_cb: function(button) {
-            if (button.get_active())
-                this._settings.set_string('panel-position', "TOP");
+		position_top_button_clicked_cb: function(button) {
+            if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.TOP);
         },
         
-        position_left_button_toggled_cb: function(button) {
-            if (button.get_active())
-                this._settings.set_string('panel-position', "LEFT");
+        position_left_button_clicked_cb: function(button) {
+            if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.LEFT);
         },
 		
-		position_right_button_toggled_cb: function(button) {
-            if (button.get_active())
-                this._settings.set_string('panel-position', "RIGHT");
+		position_right_button_clicked_cb: function(button) {
+            if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.RIGHT);
         },
 
         dots_bottom_button_toggled_cb: function(button) {

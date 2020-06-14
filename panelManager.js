@@ -73,6 +73,7 @@ var dtpPanelManager = Utils.defineClass({
     enable: function(reset) {
         let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
         
+        this.panelPositions = Pos.getSettingsPositions(Me.settings, 'panel-positions');
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
         this.proximityManager = new Proximity.ProximityManager();
 
@@ -233,7 +234,7 @@ var dtpPanelManager = Utils.defineClass({
                     'changed::primary-monitor',
                     'changed::multi-monitors',
                     'changed::isolate-monitors',
-                    'changed::panel-position',
+                    'changed::panel-positions',
                     'changed::stockgs-keep-top-panel'
                 ],
                 () => this._reset()

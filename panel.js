@@ -91,8 +91,6 @@ var dtpPanel = Utils.defineClass({
     Extends: St.Widget,
 
     _init: function(panelManager, monitor, panelBox, isStandalone) {
-        let position = this.getPosition();
-        
         this.callParent('_init', { layout_manager: new Clutter.BinLayout() });
 
         this._timeoutsHandler = new Utils.TimeoutsHandler();
@@ -115,6 +113,8 @@ var dtpPanel = Utils.defineClass({
         this._unmappedButtons = [];
         this._elementGroups = [];
         this.cornerSize = 0;
+
+        let position = this.getPosition();
 
         if (isStandalone) {
             this.panel = new dtpSecondaryPanel({ name: 'panel', reactive: true });
@@ -521,13 +521,14 @@ var dtpPanel = Utils.defineClass({
     },
 
     getPosition: function() {
-        let position = Me.settings.get_string('panel-position');
+        //for now, use the previous "global" position setting as default. The 'panel-position' should be deleted in the future 
+        let position = this.panelManager.panelPositions[this.monitor.index] || Me.settings.get_string('panel-position');
 
-        if (position == 'TOP') {
+        if (position == Pos.TOP) {
             return St.Side.TOP;
-        } else if (position == 'RIGHT') {
+        } else if (position == Pos.RIGHT) {
             return St.Side.RIGHT;
-        } else if (position == 'BOTTOM') {
+        } else if (position == Pos.BOTTOM) {
             return St.Side.BOTTOM;
         }
         
@@ -621,10 +622,6 @@ var dtpPanel = Utils.defineClass({
                 previousPosition = currentPosition;
             }
         });
-    },
-
-    _getElementPositions: function() {
-        return this.panelManager.panelsElementPositions[this.monitor.index] || Pos.defaults;
     },
 
     _disablePanelCornerSignals: function() {

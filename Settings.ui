@@ -4333,29 +4333,68 @@
         <property name="orientation">vertical</property>
         <property name="spacing">24</property>
         <child>
-          <object class="GtkFrame" id="panel_display">
+          <object class="GtkFrame" id="taskbar_display">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
             <property name="shadow_type">in</property>
             <child>
-              <object class="GtkListBox" id="panel_display_listbox">
+              <object class="GtkBox" id="taskbar_display_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="selection_mode">none</property>
+                <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkListBoxRow" id="panel_position_listboxrow">
-                    <property name="width_request">100</property>
+                  <object class="GtkGrid" id="taskbar_position_grid">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_left">12</property>
+                    <property name="margin_right">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <child>
+                      <object class="GtkLabel" id="taskbar_position_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Order and positions on monitor</property>
+                        <property name="xalign">0</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBoxText" id="taskbar_position_monitor_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">center</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="taskbar_position_sync_button">
+                        <property name="label" translatable="yes">Apply changes to all monitors</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="margin_start">12</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">1</property>
+                      </packing>
+                    </child>
                     <child>
                       <object class="GtkBox" id="panel_position_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">18</property>
+                        <property name="margin_bottom">6</property>
                         <property name="spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="panel_position_label">
@@ -4387,7 +4426,7 @@
                                 <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
-                                <signal name="toggled" handler="position_bottom_button_toggled_cb" swapped="no"/>
+                                <signal name="clicked" handler="position_bottom_button_clicked_cb" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -4407,7 +4446,7 @@
                                 <property name="image_position">bottom</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">position_bottom_button</property>
-                                <signal name="toggled" handler="position_top_button_toggled_cb" swapped="no"/>
+                                <signal name="clicked" handler="position_top_button_clicked_cb" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -4427,7 +4466,7 @@
                                 <property name="image_position">bottom</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">position_bottom_button</property>
-                                <signal name="toggled" handler="position_left_button_toggled_cb" swapped="no"/>
+                                <signal name="clicked" handler="position_left_button_clicked_cb" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -4447,7 +4486,7 @@
                                 <property name="image_position">bottom</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">position_bottom_button</property>
-                                <signal name="toggled" handler="position_right_button_toggled_cb" swapped="no"/>
+                                <signal name="clicked" handler="position_right_button_clicked_cb" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -4463,76 +4502,10 @@
                           </packing>
                         </child>
                       </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-            </child>
-            <child type="label_item">
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkFrame" id="taskbar_display">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <object class="GtkBox" id="taskbar_display_box">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkGrid" id="taskbar_position_grid">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
-                    <property name="margin_top">12</property>
-                    <property name="margin_bottom">12</property>
-                    <child>
-                      <object class="GtkLabel" id="taskbar_position_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Order and position of panel elements on monitor</property>
-                        <property name="xalign">0</property>
-                      </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkComboBoxText" id="taskbar_position_monitor_combo">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="valign">center</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="taskbar_position_sync_button">
-                        <property name="label" translatable="yes">Apply position changes to all monitors</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="margin_start">12</property>
-                        <property name="draw_indicator">True</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
+                        <property name="top_attach">2</property>
+                        <property name="width">2</property>
                       </packing>
                     </child>
                     <child>
