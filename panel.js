@@ -1249,11 +1249,10 @@ var dtpPanel = Utils.defineClass({
                 //gnome-shell < 3.30 needs an additional "screen" param
                 global.screen ? args.push(global.screen) : 0;
 
-                if (!Me.settings.get_boolean('scroll-panel-show-ws-popup'))
-                    Main.wm._workspaceSwitcherPopup = { display: () => {} };
+                let showWsPopup = Me.settings.get_boolean('scroll-panel-show-ws-popup');
+                showWsPopup ? 0 : Main.wm._workspaceSwitcherPopup = { display: () => {} };
                 Main.wm._showWorkspaceSwitcher.apply(Main.wm, args.concat([0, { get_name: () => 'switch---' + direction }]));
-                if (!Me.settings.get_boolean('scroll-panel-show-ws-popup'))
-                    Main.wm._workspaceSwitcherPopup = null;
+                showWsPopup ? 0 : Main.wm._workspaceSwitcherPopup = null;
             } else if (direction && scrollAction === 'CYCLE_WINDOWS') {
                 let windows = this.taskbar.getAppInfos().reduce((ws, appInfo) => ws.concat(appInfo.windows), []);
                 
