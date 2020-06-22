@@ -184,7 +184,7 @@ var dtpOverview = Utils.defineClass({
                         currentWindow: appIcon.window,
                         keyFocusOutId: appIcon.actor.connect('key-focus-out', () => appIcon.actor.grab_key_focus()),
                         capturedEventId: global.stage.connect('captured-event', (actor, e) => {
-                            if (e.type() == Clutter.EventType.KEY_RELEASE && e.get_key_symbol() == Clutter.Super_L) {
+                            if (e.type() == Clutter.EventType.KEY_RELEASE && e.get_key_symbol() == (Clutter.KEY_Super_L || Clutter.Super_L)) {
                                 this._endHotkeyPreviewCycle();
                             }
         
