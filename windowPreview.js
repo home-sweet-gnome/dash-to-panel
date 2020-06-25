@@ -953,8 +953,9 @@ var Preview = Utils.defineClass({
             let icon = this._previewMenu.getCurrentAppIcon().app.create_icon_texture(iconTextureSize);
             let workspaceIndex = '';
             let workspaceStyle = null;
+            let fontScale = Me.desktopSettings.get_double('text-scaling-factor');
             let commonTitleStyles = 'color: ' + Me.settings.get_string('window-preview-title-font-color') + ';' +
-                                    'font-size: ' + Me.settings.get_int('window-preview-title-font-size') + 'px;' +
+                                    'font-size: ' + Me.settings.get_int('window-preview-title-font-size') * fontScale + 'px;' +
                                     'font-weight: ' + Me.settings.get_string('window-preview-title-font-weight') + ';';
             
             this._iconBin.destroy_all_children();
