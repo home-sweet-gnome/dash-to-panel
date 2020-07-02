@@ -178,6 +178,10 @@ var dtpOverview = Utils.defineClass({
 
             if (Me.settings.get_boolean('shortcut-previews') && windowCount > 1 && 
                 !(Clutter.get_current_event().get_state() & ~(Clutter.ModifierType.MOD1_MASK | Clutter.ModifierType.MOD4_MASK))) { //ignore the alt (MOD1_MASK) and super key (MOD4_MASK)
+                if (this._hotkeyPreviewCycleInfo && this._hotkeyPreviewCycleInfo.appIcon != appIcon) {
+                    this._endHotkeyPreviewCycle();
+                }
+                
                 if (!this._hotkeyPreviewCycleInfo) {
                     this._hotkeyPreviewCycleInfo = {
                         appIcon: appIcon,
@@ -185,7 +189,7 @@ var dtpOverview = Utils.defineClass({
                         keyFocusOutId: appIcon.actor.connect('key-focus-out', () => appIcon.actor.grab_key_focus()),
                         capturedEventId: global.stage.connect('captured-event', (actor, e) => {
                             if (e.type() == Clutter.EventType.KEY_RELEASE && e.get_key_symbol() == (Clutter.KEY_Super_L || Clutter.Super_L)) {
-                                this._endHotkeyPreviewCycle();
+                                this._endHotkeyPreviewCycle(true);
                             }
         
                             return Clutter.EVENT_PROPAGATE;
@@ -208,12 +212,15 @@ var dtpOverview = Utils.defineClass({
         }
     },
 
-    _endHotkeyPreviewCycle: function() {
+    _endHotkeyPreviewCycle: function(focusWindow) {
         if (this._hotkeyPreviewCycleInfo) {
             global.stage.disconnect(this._hotkeyPreviewCycleInfo.capturedEventId);
             this._hotkeyPreviewCycleInfo.appIcon.actor.disconnect(this._hotkeyPreviewCycleInfo.keyFocusOutId);
 
-            this._hotkeyPreviewCycleInfo.appIcon._previewMenu.activateFocused();
+            if (focusWindow) {
+                this._hotkeyPreviewCycleInfo.appIcon._previewMenu.activateFocused();
+            }
+
             this._hotkeyPreviewCycleInfo.appIcon.window = this._hotkeyPreviewCycleInfo.currentWindow;
             delete this._hotkeyPreviewCycleInfo.appIcon._hotkeysCycle;
             this._hotkeyPreviewCycleInfo = 0;
