@@ -79,7 +79,7 @@ var dtpPanelStyle = Utils.defineClass({
         this._rightBoxOperations = [];
         
         let trayPadding = Me.settings.get_int('tray-padding');
-        let isVertical = Panel.checkIfVertical();
+        let isVertical = this.panel.checkIfVertical();
         let paddingStyle = 'padding: ' + (isVertical ? '%dpx 0' : '0 %dpx');
 
         if(trayPadding >= 0) {
@@ -193,25 +193,7 @@ var dtpPanelStyle = Utils.defineClass({
             this._overrideStyle(this.panel._leftBox, leftboxContentSizeStyleLine, 0);
         }
 
-
-        /*recurse actors */
-        if(this._rightBoxOperations.length) {
-            let children = this.panel._rightBox.get_children();
-            for(let i in children)
-                this._recursiveApply(children[i], this._rightBoxOperations);
-        }
-
-        if(this._centerBoxOperations.length) {
-            let children = this.panel._centerBox.get_children();
-            for(let i in children)
-                this._recursiveApply(children[i], this._centerBoxOperations);
-        }
-
-        if(this._leftBoxOperations.length) {
-            let children = this.panel._leftBox.get_children();
-            for(let i in children)
-                this._recursiveApply(children[i], this._leftBoxOperations);
-        }
+        this._applyStylesRecursively();
         
         /* connect signal */
         this._rightBoxActorAddedID = this.panel._rightBox.connect('actor-added',
@@ -248,24 +230,32 @@ var dtpPanelStyle = Utils.defineClass({
             this.panel._leftBox.disconnect(this._leftBoxActorAddedID);
 
         this._restoreOriginalStyle(this.panel._rightBox);
-        if(this._rightBoxOperations.length) {
-            let children = this.panel._rightBox.get_children();
-            for(let i in children)
-                this._recursiveApply(children[i], this._rightBoxOperations, true);
-        }
-
         this._restoreOriginalStyle(this.panel._centerBox);
-        if(this._centerBoxOperations.length) {
-            let children = this.panel._centerBox.get_children();
+        this._restoreOriginalStyle(this.panel._leftBox);
+
+        this._applyStylesRecursively(true);
+    },
+
+    _applyStylesRecursively: function(restore) {
+        /*recurse actors */
+        if(this._rightBoxOperations.length) {
+            // add the system menu as we move it from the rightbox to the panel to position it independently
+            let children = this.panel._rightBox.get_children().concat([this.panel.statusArea.aggregateMenu.container]);
             for(let i in children)
-                this._recursiveApply(children[i], this._centerBoxOperations, true);
+                this._recursiveApply(children[i], this._rightBoxOperations, restore);
         }
 
-        this._restoreOriginalStyle(this.panel._leftBox);
+        if(this._centerBoxOperations.length) {
+            // add the date menu as we move it from the centerbox to the panel to position it independently
+            let children = this.panel._centerBox.get_children().concat([this.panel.statusArea.dateMenu.container]);
+            for(let i in children)
+                this._recursiveApply(children[i], this._centerBoxOperations, restore);
+        }
+
         if(this._leftBoxOperations.length) {
             let children = this.panel._leftBox.get_children();
             for(let i in children)
-                this._recursiveApply(children[i], this._leftBoxOperations, true);
+                this._recursiveApply(children[i], this._leftBoxOperations, restore);
         }
     },
 

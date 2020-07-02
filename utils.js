@@ -316,6 +316,14 @@ var findIndex = function(array, predicate) {
     return -1;
 };
 
+var find = function(array, predicate) {
+    let index = findIndex(array, predicate);
+
+    if (index > -1) {
+        return array[index];
+    }
+};
+
 var mergeObjects = function(main, bck) {
     for (var prop in bck) {
         if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {

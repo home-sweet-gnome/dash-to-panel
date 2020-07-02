@@ -53,7 +53,6 @@ const FADE_SIZE = 36;
 const PEEK_INDEX_PROP = '_dtpPeekInitialIndex';
 
 let headerHeight = 0;
-let clipHeight = 0;
 let alphaBg = 0;
 let isLeftButtons = false;
 let isTopHeader = true;
@@ -80,7 +79,7 @@ var PreviewMenu = Utils.defineClass({
         this.isVertical = geom.position == St.Side.LEFT || geom.position == St.Side.RIGHT;
         this._translationProp = 'translation_' + (this.isVertical ? 'x' : 'y');
         this._translationDirection = (geom.position == St.Side.TOP || geom.position == St.Side.LEFT ? -1 : 1);
-        this._translationOffset = Math.min(Panel.size, MAX_TRANSLATION) * this._translationDirection;
+        this._translationOffset = Math.min(panel.dtpSize, MAX_TRANSLATION) * this._translationDirection;
 
         this.menu = new St.Widget({ 
             name: 'preview-menu', 
@@ -192,7 +191,7 @@ var PreviewMenu = Utils.defineClass({
             if (!this.opened) {
                 this._refreshGlobals();
                 
-                this.set_height(clipHeight);
+                this.set_height(this.clipHeight);
                 this.menu.show();
                 
                 setStyle(this.menu, 'background: ' + Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, alphaBg));
@@ -442,25 +441,25 @@ var PreviewMenu = Utils.defineClass({
         
         if (this.isVertical) {
             w = previewSize;
-            clipHeight = this.panel.monitor.height;
+            this.clipHeight = this.panel.monitor.height;
             y = this.panel.monitor.y;
         } else {
             w = this.panel.monitor.width;
-            clipHeight = (previewSize + headerHeight);
+            this.clipHeight = (previewSize + headerHeight);
             x = this.panel.monitor.x;
         }
 
         if (geom.position == St.Side.LEFT) {
-            x = this.panel.monitor.x + Panel.size + panelBoxTheme.get_padding(St.Side.LEFT);
+            x = this.panel.monitor.x + this.panel.dtpSize + panelBoxTheme.get_padding(St.Side.LEFT);
         } else if (geom.position == St.Side.RIGHT) {
-            x = this.panel.monitor.x + this.panel.monitor.width - (Panel.size + previewSize) - panelBoxTheme.get_padding(St.Side.RIGHT);
+            x = this.panel.monitor.x + this.panel.monitor.width - (this.panel.dtpSize + previewSize) - panelBoxTheme.get_padding(St.Side.RIGHT);
         } else if (geom.position == St.Side.TOP) {
-            y = this.panel.monitor.y + Panel.size + panelBoxTheme.get_padding(St.Side.TOP);
+            y = this.panel.monitor.y + this.panel.dtpSize + panelBoxTheme.get_padding(St.Side.TOP);
         } else { //St.Side.BOTTOM
-            y = this.panel.monitor.y + this.panel.monitor.height - (Panel.size + panelBoxTheme.get_padding(St.Side.BOTTOM) + previewSize + headerHeight);
+            y = this.panel.monitor.y + this.panel.monitor.height - (this.panel.dtpSize + panelBoxTheme.get_padding(St.Side.BOTTOM) + previewSize + headerHeight);
         }
 
-        Utils.setClip(this, x, y, w, clipHeight);
+        Utils.setClip(this, x, y, w, this.clipHeight);
     },
 
     _updatePosition: function() {
@@ -526,7 +525,7 @@ var PreviewMenu = Utils.defineClass({
         let endBg = Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, 0)
         let fadeStyle = 'background-gradient-start:' + startBg + 
                         'background-gradient-end:' + endBg + 
-                        'background-gradient-direction:' + Panel.getOrientation();
+                        'background-gradient-direction:' + this.panel.getOrientation();
 
         if (this.isVertical) {
             y = end ? this.panel.monitor.height - FADE_SIZE : 0;

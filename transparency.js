@@ -134,7 +134,7 @@ var DynamicTransparency = Utils.defineClass({
         this._proximityManager.removeWatch(this._proximityWatchId);
 
         if (Me.settings.get_boolean('trans-use-dynamic-opacity')) {
-            let isVertical = Panel.checkIfVertical();
+            let isVertical = this._dtpPanel.checkIfVertical();
             let threshold = Me.settings.get_int('trans-dynamic-distance');
 
             this._proximityWatchId = this._proximityManager.createWatch(
@@ -206,7 +206,7 @@ var DynamicTransparency = Utils.defineClass({
         this._gradientStyle = '';
 
         if (Me.settings.get_boolean('trans-use-custom-gradient')) {
-            this._gradientStyle += 'background-gradient-direction: ' + (Panel.checkIfVertical() ? 'horizontal;' : 'vertical;') +
+            this._gradientStyle += 'background-gradient-direction: ' + (this._dtpPanel.checkIfVertical() ? 'horizontal;' : 'vertical;') +
                                    'background-gradient-start: ' + Utils.getrgbaColor(Me.settings.get_string('trans-gradient-top-color'), 
                                                                                       Me.settings.get_double('trans-gradient-top-opacity')) + 
                                    'background-gradient-end: ' + Utils.getrgbaColor(Me.settings.get_string('trans-gradient-bottom-color'), 
