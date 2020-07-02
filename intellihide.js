@@ -176,7 +176,9 @@ var Intellihide = Utils.defineClass({
                 [
                     'changed::intellihide-use-pressure',
                     'changed::intellihide-hide-from-windows',
-                    'changed::intellihide-behaviour'
+                    'changed::intellihide-behaviour',
+                    'changed::intellihide-pressure-threshold',
+                    'changed::intellihide-pressure-time'
                 ],
                 () => this.reset()
             ],
