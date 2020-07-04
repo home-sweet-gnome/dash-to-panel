@@ -1358,6 +1358,11 @@ var dtpPanel = Utils.defineClass({
             if (direction && scrollAction === 'SWITCH_WORKSPACE') {
                 let args = [global.display];
 
+                //adjust for horizontal workspaces
+                if (Utils.DisplayWrapper.getWorkspaceManager().layout_rows === 1) {
+                    direction = direction == 'up' ? 'left' : 'right';
+                }
+
                 //gnome-shell < 3.30 needs an additional "screen" param
                 global.screen ? args.push(global.screen) : 0;
 
