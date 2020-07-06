@@ -681,6 +681,11 @@ function newUpdateHotCorners() {
     // build new hot corners
     for (let i = 0; i < this.monitors.length; i++) {
         let panel = Utils.find(global.dashToPanel.panels, p => p.monitor.index == i);
+
+        if (!panel) {
+            continue;
+        }
+
         let panelPosition = panel.getPosition();
         let panelTopLeft = panelPosition == St.Side.TOP || panelPosition == St.Side.LEFT;
         let monitor = this.monitors[i];
