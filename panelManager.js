@@ -681,12 +681,7 @@ function newUpdateHotCorners() {
     // build new hot corners
     for (let i = 0; i < this.monitors.length; i++) {
         let panel = Utils.find(global.dashToPanel.panels, p => p.monitor.index == i);
-
-        if (!panel) {
-            continue;
-        }
-
-        let panelPosition = panel.getPosition();
+        let panelPosition = panel ? panel.getPosition() : St.Side.BOTTOM;
         let panelTopLeft = panelPosition == St.Side.TOP || panelPosition == St.Side.LEFT;
         let monitor = this.monitors[i];
         let cornerX = this._rtl ? monitor.x + monitor.width : monitor.x;
@@ -731,7 +726,7 @@ function newUpdateHotCorners() {
             let corner = new Layout.HotCorner(this, monitor, cornerX, cornerY);
 
             corner.setBarrierSize = size => corner.__proto__.setBarrierSize.call(corner, Math.min(size, 32));
-            corner.setBarrierSize(panel.dtpSize);
+            corner.setBarrierSize(panel ? panel.dtpSize : 32);
             this.hotCorners.push(corner);
         } else {
             this.hotCorners.push(null);
