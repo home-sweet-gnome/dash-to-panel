@@ -558,8 +558,15 @@ var dtpPanelManager = Utils.defineClass({
 
         this._workspacesViews.forEach(wv => Main.layoutManager.overviewGroup.add_actor(wv.actor));
 
-        this._updateWorkspacesFullGeometry();
-        this._updateWorkspacesActualGeometry();
+        if (Config.PACKAGE_VERSION > '3.36.3') {
+            if (this._fullGeometry)
+                this._syncWorkspacesFullGeometry();
+            if (this._actualGeometry)
+                this._syncWorkspacesActualGeometry();
+        } else {
+            this._updateWorkspacesFullGeometry();
+            this._updateWorkspacesActualGeometry();
+        }
     },
 
     _newGetShowAppsButton: function() {
