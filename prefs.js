@@ -1572,11 +1572,18 @@ const Settings = new Lang.Class({
                 this._settings.set_int('scroll-panel-delay', widget.get_value());
             }));
 
+            this._settings.bind('scroll-panel-show-ws-popup',
+                            this._builder.get_object('scroll_panel_options_show_ws_popup_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
                     // restore default settings
                     this._settings.set_value('scroll-panel-delay', this._settings.get_default_value('scroll-panel-delay'));
                     this._builder.get_object('scroll_panel_options_delay_spinbutton').set_value(this._settings.get_int('scroll-panel-delay'));
+
+                    this._settings.set_value('scroll-panel-show-ws-popup', this._settings.get_default_value('scroll-panel-show-ws-popup'));
                 } else {
                     // remove the settings box so it doesn't get destroyed;
                     dialog.get_content_area().remove(box);
