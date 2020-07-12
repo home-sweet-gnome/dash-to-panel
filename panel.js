@@ -164,8 +164,10 @@ var dtpPanel = Utils.defineClass({
 
             ['activities', 'aggregateMenu', 'dateMenu'].forEach(b => {
                 let container = this.statusArea[b].container;
-                
-                container.get_parent().remove_child(container);
+                let parent = container.get_parent();
+
+                container._dtpOriginalParent = parent;
+                parent.remove_child(container);
                 this.panel.actor.add_child(container);
             });
         }
@@ -462,15 +464,14 @@ var dtpPanel = Utils.defineClass({
             ['vertical', 'horizontal', 'dashtopanelMainPanel'].forEach(c => this.panel.actor.remove_style_class_name(c));
 
             if (!Main.sessionMode.isLocked) {
-                this.panel.actor.remove_child(this.statusArea.activities.container);
-                this._leftBox.insert_child_at_index(this.statusArea.activities.container, 0);
+                [['activities', 0], ['aggregateMenu', -1], ['dateMenu', 0]].forEach(b => {
+                    let container = this.statusArea[b[0]].container;
+    
+                    this.panel.actor.remove_child(container);
+                    container._dtpOriginalParent.insert_child_at_index(container, b[1]);
+                    delete container._dtpOriginalParent;
+                });
 
-                this.panel.actor.remove_child(this.statusArea.dateMenu.container);
-                this._centerBox.insert_child_at_index(this.statusArea.dateMenu.container, 0);
-
-                this.panel.actor.remove_child(this.statusArea.aggregateMenu.container);
-                this._rightBox.add_child(this.statusArea.aggregateMenu.container);
-                
                 if (this.statusArea.appMenu) {
                     setMenuArrow(this.statusArea.appMenu._arrow, St.Side.TOP);
                     this._leftBox.add_child(this.statusArea.appMenu.container);
