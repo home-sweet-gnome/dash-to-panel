@@ -47,6 +47,7 @@ const PanelMenu = imports.ui.panelMenu;
 const St = imports.gi.St;
 const GLib = imports.gi.GLib;
 const Meta = imports.gi.Meta;
+const Pango = imports.gi.Pango;
 const DND = imports.ui.dnd;
 const Shell = imports.gi.Shell;
 const PopupMenu = imports.ui.popupMenu;
@@ -1209,6 +1210,11 @@ var dtpPanel = Utils.defineClass({
         
                 return !clockText.get_layout().is_ellipsized();
             };
+
+            if (clockText.ellipsize == Pango.EllipsizeMode.NONE) {
+                //on gnome-shell 3.36.4, the clockdisplay isn't ellipsize anymore, so set it back 
+                clockText.ellipsize = Pango.EllipsizeMode.END;
+            }
 
             if (!time) {
                 datetimeParts = datetime.split(' ');
