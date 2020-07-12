@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-07-12 08:00+0900\n"
-"PO-Revision-Date: 2020-07-12 09:00+0900\n"
+"PO-Revision-Date: 2020-07-12 10:30+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese\n"
 "Language: ja\n"
@@ -1023,7 +1023,7 @@ msgstr "終了"
 
 #: appIcons.js:1511
 msgid "Windows"
-msgstr "ウィンドウ"
+msgstr "個のウィンドウ"
 
 #: appIcons.js:1792
 msgid "Power options"
