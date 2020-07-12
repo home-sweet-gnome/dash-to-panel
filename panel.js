@@ -162,14 +162,12 @@ var dtpPanel = Utils.defineClass({
 
             panelBoxes.forEach(p => this[p] = Main.panel[p]);
 
-            this._leftBox.remove_child(this.statusArea.activities.container);
-            this.panel.actor.add_child(this.statusArea.activities.container);
-
-            this._rightBox.remove_child(this.statusArea.aggregateMenu.container);
-            this.panel.actor.add_child(this.statusArea.aggregateMenu.container);
-
-            this._centerBox.remove_child(this.statusArea.dateMenu.container);
-            this.panel.actor.add_child(this.statusArea.dateMenu.container);
+            ['activities', 'aggregateMenu', 'dateMenu'].forEach(b => {
+                let container = this.statusArea[b].container;
+                
+                container.get_parent().remove_child(container);
+                this.panel.actor.add_child(container);
+            });
         }
 
         // Create a wrapper around the real showAppsIcon in order to add a popupMenu. Most of 
