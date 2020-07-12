@@ -558,7 +558,8 @@ var dtpPanelManager = Utils.defineClass({
 
         this._workspacesViews.forEach(wv => Main.layoutManager.overviewGroup.add_actor(wv.actor));
 
-        if (Config.PACKAGE_VERSION > '3.36.3') {
+        if (this._syncWorkspacesFullGeometry) {
+            //gnome-shell 3.36.4
             if (this._fullGeometry)
                 this._syncWorkspacesFullGeometry();
             if (this._actualGeometry)
