@@ -818,7 +818,7 @@ function newUpdatePanelBarrier(panel) {
 
 function _newLookingGlassResize() {
     let primaryMonitorPanel = Utils.find(global.dashToPanel.panels, p => p.monitor == Main.layoutManager.primaryMonitor);
-    let topOffset = primaryMonitorPanel.getPosition() == St.Side.TOP ? primaryMonitorPanel.size : 32;
+    let topOffset = primaryMonitorPanel.getPosition() == St.Side.TOP ? primaryMonitorPanel.dtpSize + 8 : 32;
 
     this._oldResize();
     Utils.wrapActor(this);
