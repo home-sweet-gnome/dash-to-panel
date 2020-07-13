@@ -179,20 +179,8 @@ var dtpPanel = Utils.defineClass({
 
         this.panel.actor._delegate = this;
         
-        if (position == St.Side.TOP) {
-            this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
-            this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
-        }
-
-        Utils.wrapActor(this.panel._leftCorner || 0);
-        Utils.wrapActor(this.panel._rightCorner || 0);
         Utils.wrapActor(this.statusArea.activities);
 
-        if (isStandalone && position == St.Side.TOP) {
-            this.panel.actor.add_child(this.panel._leftCorner.actor);
-            this.panel.actor.add_child(this.panel._rightCorner.actor);
-        }
-        
         this.add_child(this.panel.actor);
 
         if (Main.panel._onButtonPress || Main.panel._tryDragWindow) {
@@ -234,6 +222,17 @@ var dtpPanel = Utils.defineClass({
         });
 
         if (this.geom.position == St.Side.TOP) {
+            this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
+            this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
+
+            Utils.wrapActor(this.panel._leftCorner || 0);
+            Utils.wrapActor(this.panel._rightCorner || 0);
+
+            if (this.isStandalone) {
+                this.panel.actor.add_child(this.panel._leftCorner.actor);
+                this.panel.actor.add_child(this.panel._rightCorner.actor);
+            }
+
             Main.overview._overview.insert_child_at_index(this._myPanelGhost, 0);
         } else {
             let overviewControls = Main.overview._overview._controls || Main.overview._controls;
