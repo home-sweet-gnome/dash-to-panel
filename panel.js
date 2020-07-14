@@ -167,7 +167,7 @@ var dtpPanel = Utils.defineClass({
                 let parent = container.get_parent();
 
                 container._dtpOriginalParent = parent;
-                parent.remove_child(container);
+                parent ? parent.remove_child(container) : null;
                 this.panel.actor.add_child(container);
             });
         }
@@ -465,9 +465,10 @@ var dtpPanel = Utils.defineClass({
             if (!Main.sessionMode.isLocked) {
                 [['activities', 0], ['aggregateMenu', -1], ['dateMenu', 0]].forEach(b => {
                     let container = this.statusArea[b[0]].container;
+                    let originalParent = container._dtpOriginalParent;
     
                     this.panel.actor.remove_child(container);
-                    container._dtpOriginalParent.insert_child_at_index(container, b[1]);
+                    originalParent ? originalParent.insert_child_at_index(container, b[1]) : null;
                     delete container._dtpOriginalParent;
                 });
 
