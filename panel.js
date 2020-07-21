@@ -996,8 +996,10 @@ var dtpPanel = Utils.defineClass({
 
                 let prevGroup = this._elementGroups[i - 1];
                 let nextGroup = this._elementGroups[i + 1];
-                let prevLimit = prevGroup && prevGroup.fixed ? prevGroup[this.varCoord.c2] : panelAlloc[this.varCoord.c1];
-                let nextLimit = nextGroup && nextGroup.fixed ? nextGroup[this.varCoord.c1] : panelAlloc[this.varCoord.c2];
+                let prevLimit = prevGroup && prevGroup.fixed ? prevGroup[this.varCoord.c2] : 
+                                    centeredMonitorGroup && group.index > centeredMonitorGroup.index ? centeredMonitorGroup[this.varCoord.c2] : panelAlloc[this.varCoord.c1];
+                let nextLimit = nextGroup && nextGroup.fixed ? nextGroup[this.varCoord.c1] : 
+                                    centeredMonitorGroup && group.index < centeredMonitorGroup.index ? centeredMonitorGroup[this.varCoord.c1] : panelAlloc[this.varCoord.c2];
 
                 if (group.position == Pos.STACKED_TL) {
                     allocateGroup(group, panelAlloc[this.varCoord.c1], nextLimit);
