@@ -1745,6 +1745,8 @@ var ShowAppsIconWrapper = Utils.defineClass({
         Me.settings.disconnect(this._changedShowAppsIconId);
         Me.settings.disconnect(this._changedAppIconSidePaddingId);
         Me.settings.disconnect(this._changedAppIconPaddingId);
+
+        this.realShowAppsIcon.destroy();
     }
 });
 Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
