@@ -92,6 +92,16 @@
       <summary>Panel size</summary>
       <description>Set the size of the panel.</description>
     </key>
+    <key type="b" name="desktop-line-use-custom-color">
+      <default>false</default>
+      <summary>Override Show Desktop line color</summary>
+      <description>Replace current Show Desktop button line color</description>
+    </key>
+    <key type="s" name="desktop-line-custom-color">
+      <default>"rgba(200,200,200,0.2)"</default>
+      <summary>Custom Show Desktop line color</summary>
+      <description>Custom Show Desktop button line color</description>
+    </key>
     <key name="dot-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
       <summary>Dot position</summary>

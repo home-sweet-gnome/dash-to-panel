@@ -664,7 +664,17 @@ var dtpPanel = Utils.defineClass({
             [
                 Me.settings,
                 'changed::showdesktop-button-width',
-                () => this._setShowDesktopButtonSize()
+                () => this._setShowDesktopButtonStyle()
+            ],
+            [
+                Me.settings,
+                'changed::desktop-line-use-custom-color',
+                () => this._setShowDesktopButtonStyle()
+            ],
+            [
+                Me.settings,
+                'changed::desktop-line-custom-color',
+                () => this._setShowDesktopButtonStyle()
             ],
             [
                 Me.desktopSettings,
@@ -1253,7 +1263,7 @@ var dtpPanel = Utils.defineClass({
                             y_fill: true,
                             track_hover: true });
 
-            this._setShowDesktopButtonSize();
+            this._setShowDesktopButtonStyle();
 
             this._showDesktopButton.connect('button-press-event', () => this._onShowDesktopButtonPress());
             this._showDesktopButton.connect('enter-event', () => {
@@ -1290,11 +1300,16 @@ var dtpPanel = Utils.defineClass({
         }
     },
 
-    _setShowDesktopButtonSize: function() {
+    _setShowDesktopButtonStyle: function() {
         if (this._showDesktopButton) {
             let buttonSize = Me.settings.get_int('showdesktop-button-width') + 'px;';
             let isVertical = this.checkIfVertical();
-            let sytle = isVertical ? 'border-top-width:1px;height:' + buttonSize : 'border-left-width:1px;width:' + buttonSize;
+            
+            let lineRgbaColor = Me.settings.get_string('desktop-line-custom-color');
+            let isLineCustom = Me.settings.get_boolean('desktop-line-use-custom-color');
+            
+            let sytle = isLineCustom ? 'border:0 solid ' + lineRgbaColor + ';' : '';
+            sytle += isVertical ? 'border-top-width:1px;height:' + buttonSize : 'border-left-width:1px;width:' + buttonSize;
             
             this._showDesktopButton.set_style(sytle);
             this._showDesktopButton[(isVertical ? 'x' : 'y') + '_expand'] = true;
