@@ -1049,18 +1049,24 @@ var taskbarAppIcon = Utils.defineClass({
         }
 
         if (type == DOT_STYLE.SOLID || type == DOT_STYLE.METRO) {
+            let hoverSpacing = 4;
+            let fullSize = (isFocused || this.actor.hover || type != DOT_STYLE.METRO) ? true : false;
+            startX = fullSize ? startX : startX + hoverSpacing;
+            areaSizeNew = fullSize ? areaSize : areaSize - (hoverSpacing * 2);
+
             if (type == DOT_STYLE.SOLID || n <= 1) {
                 cr.translate(startX, startY);
                 Clutter.cairo_set_source_color(cr, bodyColor);
                 cr.newSubPath();
-                cr.rectangle.apply(cr, [0, 0].concat(isHorizontalDots ? [areaSize, size] : [size, areaSize]));
+                cr.rectangle.apply(cr, [0, 0].concat(isHorizontalDots ? [areaSizeNew, size] : [size, areaSizeNew]));
                 cr.fill();
+
             } else {
                 let blackenedLength = (1 / 48) * areaSize; // need to scale with the SVG for the stacked highlight
-                let darkenedLength = isFocused ? (2 / 48) * areaSize : (10 / 48) * areaSize;
+                let darkenedLength = (isFocused || (this.actor.hover && type == DOT_STYLE.METRO)) ? (3 / 48) * areaSize : (8 / 48) * areaSize;
                 let blackenedColor = bodyColor.shade(.3);
                 let darkenedColor = bodyColor.shade(.7);
-                let solidDarkLength = areaSize - darkenedLength;
+                let solidDarkLength = areaSizeNew - darkenedLength;
                 let solidLength = solidDarkLength - blackenedLength;
 
                 cr.translate(startX, startY);
