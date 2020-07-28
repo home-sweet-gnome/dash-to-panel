@@ -652,6 +652,7 @@ var dtpPanel = Utils.defineClass({
                 Me.settings,
                 [
                     'changed::appicon-margin',
+                    'changed::app-margin-side',
                     'changed::appicon-padding'
                 ],
                 () => this.taskbar.resetAppIcons()

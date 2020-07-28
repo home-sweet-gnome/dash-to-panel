@@ -494,6 +494,11 @@ const Settings = new Lang.Class({
             panel_size_scale.set_inverted(true);
         }
 
+        this._builder.get_object('appicon_margin_side_combo').set_active_id(this._settings.get_string('app-margin-side'));
+        this._builder.get_object('appicon_margin_side_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('app-margin-side', widget.get_active_id());
+        }));
+
         // Dots Position option
         let dotPosition = this._settings.get_string('dot-position');
 

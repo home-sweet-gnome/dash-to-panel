@@ -575,8 +575,26 @@ var taskbarAppIcon = Utils.defineClass({
     _setAppIconPadding: function() {
         let padding = getIconPadding();
         let margin = Me.settings.get_int('appicon-margin');
+
+        let isVertical = this.dtpPanel.checkIfVertical();
+        let margins ={};
+
+        switch(Me.settings.get_string('app-margin-side')){
+            case 'BOTH':
+                margins = {'v': margin + "px 0 " + margin + "px 0",
+                           'h': "0 " + margin + "px 0 " + margin + "px"};
+                break;
+            case 'RIGHT':
+                margins = {'v': margin + "px 0 0 0",
+                           'h': "0 " + margin + "px 0 0"};
+                break;
+            case 'LEFT':
+                margins = {'v': "0 0 " + margin + "px 0",
+                           'h': "0 0 0 " + margin + "px"}
+                break;
+        }
         
-        this.actor.set_style('padding:' + (this.dtpPanel.checkIfVertical() ? margin + 'px 0' : '0 ' + margin + 'px;'));
+        this.actor.set_style('padding:' + margins[isVertical ? 'v' : 'h']);
         this._iconContainer.set_style('padding: ' + padding + 'px;');
     },
 
