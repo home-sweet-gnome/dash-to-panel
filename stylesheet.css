@@ -114,12 +114,12 @@
 	spacing: 0px; 
 }
 
-.showdesktop-button {
-	border: 0 solid rgba(200, 200, 200, .2);
+.showdesktop-button-dark-hovered {
+	background-color: rgba(200, 200, 200, .4);
 }
 
-.showdesktop-button-hovered {
-	background-color: rgba(200, 200, 200, .4);
+.showdesktop-button-light-hovered {
+	background-color: rgba(55, 55, 55, .4);
 }
 
 .panel-corner.hidden:active, .panel-corner.hidden:overview, .panel-corner.hidden:focus {
