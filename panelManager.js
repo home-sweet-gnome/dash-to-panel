@@ -235,6 +235,8 @@ var dtpPanelManager = Utils.defineClass({
                     'changed::multi-monitors',
                     'changed::isolate-monitors',
                     'changed::panel-positions',
+                    'changed::panel-length',
+                    'changed::panel-anchor',
                     'changed::stockgs-keep-top-panel'
                 ],
                 () => this._reset()

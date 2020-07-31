@@ -35,6 +35,10 @@ var BOTTOM = 'BOTTOM';
 var LEFT = 'LEFT';
 var RIGHT = 'RIGHT';
 
+var START = 'START';
+var MIDDLE = 'MIDDLE';
+var END = 'END';
+
 var defaults = [
     { element: SHOW_APPS_BTN,   visible: true,     position: STACKED_TL },
     { element: ACTIVITIES_BTN,  visible: false,    position: STACKED_TL },

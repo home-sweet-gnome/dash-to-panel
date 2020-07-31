@@ -770,7 +770,24 @@ const Settings = new Lang.Class({
         if (this.monitors.length === 1) {
             this._builder.get_object('multimon_multi_switch').set_sensitive(false);
         }
-        
+
+        // Length and position along screen edge
+
+        // Minimum length could be 0, but a higher value may help prevent confusion about where the panel went.
+        let panel_length_min=10
+        let panel_length_max=100
+        let panel_length_spinbutton = this._builder.get_object('panel_length_spinbutton');
+        panel_length_spinbutton.set_range(panel_length_min, panel_length_max);
+        panel_length_spinbutton.set_value(this._settings.get_int('panel-length'));
+        this._builder.get_object('panel_length_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+            this._settings.set_int('panel-length', widget.get_value());
+        }));
+
+        this._builder.get_object('panel_anchor_combo').set_active_id(this._settings.get_string('panel-anchor'));
+        this._builder.get_object('panel_anchor_combo').connect('changed', Lang.bind (this, function(widget) {
+            this._settings.set_string('panel-anchor', widget.get_active_id());
+        }));
+
         //dynamic opacity
         this._settings.bind('trans-use-custom-bg',
                             this._builder.get_object('trans_bg_switch'),

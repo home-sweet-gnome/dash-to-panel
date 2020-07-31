@@ -798,6 +798,9 @@ var dtpPanel = Utils.defineClass({
         let topPadding = panelBoxTheme.get_padding(St.Side.TOP);
         let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM);
         let position = this.getPosition();
+        let length = Me.settings.get_int('panel-length') / 100;
+        let anchor = Me.settings.get_string('panel-anchor');
+        let anchorPlaceOnMonitor = 0;
         let gsTopPanelOffset = 0;
         let x = 0, y = 0;
         let w = 0, h = 0;
@@ -819,13 +822,13 @@ var dtpPanel = Utils.defineClass({
             this.varCoord = { c1: 'y1', c2: 'y2' };
 
             w = this.dtpSize;
-            h = this.monitor.height - tbPadding - gsTopPanelOffset;
+            h = this.monitor.height * length - tbPadding - gsTopPanelOffset;
         } else {
             this.sizeFunc = 'get_preferred_width';
             this.fixedCoord = { c1: 'y1', c2: 'y2' };
             this.varCoord = { c1: 'x1', c2: 'x2' };
 
-            w = this.monitor.width - lrPadding;
+            w = this.monitor.width * length - lrPadding;
             h = this.dtpSize;
         }
 
@@ -836,8 +839,28 @@ var dtpPanel = Utils.defineClass({
             x = this.monitor.x + this.monitor.width - this.dtpSize - lrPadding;
             y = this.monitor.y + gsTopPanelOffset;
         } else { //BOTTOM
-            x = this.monitor.x; 
+            x = this.monitor.x;
             y = this.monitor.y + this.monitor.height - this.dtpSize - tbPadding;
+        }
+
+        if (this.checkIfVertical()) {
+            if (anchor === Pos.MIDDLE) {
+                anchorPlaceOnMonitor = (this.monitor.height - h) / 2;
+            } else if (anchor === Pos.END) {
+                anchorPlaceOnMonitor = this.monitor.height - h;
+            } else { // Pos.START
+                anchorPlaceOnMonitor = 0;
+            }
+            y = y + anchorPlaceOnMonitor;
+        } else {
+            if (anchor === Pos.MIDDLE) {
+                anchorPlaceOnMonitor = (this.monitor.width - w) / 2;
+            } else if (anchor === Pos.END) {
+                anchorPlaceOnMonitor = this.monitor.width - w;
+            } else { // Pos.START
+                anchorPlaceOnMonitor = 0;
+            }
+            x = x + anchorPlaceOnMonitor;
         }
 
         return {
