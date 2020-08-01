@@ -32,16 +32,21 @@ const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
 const Mainloop = imports.mainloop;
+const IconGrid = imports.ui.iconGrid;
 
 const Meta = imports.gi.Meta;
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
+
+//timeout names
+const T1 = 'swipeEndTimeout';
 
 var dtpOverview = Utils.defineClass({
     Name: 'DashToPanel.Overview',
 
     _init: function() {
         this._numHotkeys = 10;
+        this._timeoutsHandler = new Utils.TimeoutsHandler();
     },
 
     enable : function(panel) {
@@ -55,7 +60,69 @@ var dtpOverview = Utils.defineClass({
         this._optionalHotKeys();
         this._optionalNumberOverlay();
         this._toggleDash();
-        
+
+        Main.overview._overview.reactive = true;
+
+        this._clickAction = new Clutter.ClickAction();
+        this._clickAction.connect('clicked', (obj, obj2) => {
+            
+            if(this._appPageSwiping)
+                return;
+
+            let visibleView;
+            Main.overview.viewSelector.appDisplay._views.every(function(v, index) {
+                if (v.view.actor.visible) {
+                    visibleView = index;
+                    return false;
+                }
+                else
+                    return true;
+            });
+
+
+            if(Main.overview.viewSelector._showAppsButton.checked) {
+                if(Me.settings.get_boolean('animate-show-apps')) {
+                    let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
+                    view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
+                        Main.overview.viewSelector._appsPage.hide();
+                        Main.overview.hide();
+                    }));
+                } else {
+                    Main.overview.hide();
+                }
+            } else {
+                Main.overview.toggle();
+            }
+         });
+         Main.overview._overview.add_action(this._clickAction);
+
+       
+        if(Main.overview.viewSelector.appDisplay._views[1].view._swipeTracker) {
+            this._signalsHandler.add([
+                Main.overview.viewSelector.appDisplay._views[1].view._swipeTracker,
+                'begin', 
+                Lang.bind(this, this._onAppPageSwipeBegin)
+            ],[
+                Main.overview.viewSelector.appDisplay._views[1].view._swipeTracker,
+                'end', 
+                Lang.bind(this, this._onAppPageSwipeEnd)
+            ]);
+        } else if(Main.overview.viewSelector.appDisplay._views[1].view._panAction) {
+            this._signalsHandler.add([
+                Main.overview.viewSelector.appDisplay._views[1].view._panAction,
+                'gesture-begin', 
+                Lang.bind(this, this._onAppPageSwipeBegin)
+            ],[
+                Main.overview.viewSelector.appDisplay._views[1].view._panAction,
+                'gesture-cancel', 
+                Lang.bind(this, this._onAppPageSwipeEnd)
+            ],[
+                Main.overview.viewSelector.appDisplay._views[1].view._panAction,
+                'gesture-end', 
+                Lang.bind(this, this._onAppPageSwipeEnd)
+            ]);
+        }
+
         this._signalsHandler.add([
             Me.settings,
             'changed::stockgs-keep-dash', 
@@ -66,6 +133,8 @@ var dtpOverview = Utils.defineClass({
     disable: function () {
         this._signalsHandler.destroy();
         this._injectionsHandler.destroy();
+
+        Main.overview._overview.remove_action(this._clickAction);
         
         this._toggleDash(true);
 
@@ -390,5 +459,19 @@ var dtpOverview = Utils.defineClass({
             
             this._panel.intellihide.release(Intellihide.Hold.TEMPORARY);
         }));
+    },
+
+    _onAppPageSwipeBegin: function() {
+        this._appPageSwiping = true;
+        return true;
+    },
+
+    _onAppPageSwipeEnd: function() {
+        this._timeoutsHandler.add([
+            T1,
+            0, 
+            () => this._appPageSwiping = false
+        ]);
+        return true;
     }
 });
