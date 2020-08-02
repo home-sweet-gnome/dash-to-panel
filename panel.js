@@ -1312,12 +1312,7 @@ var dtpPanel = Utils.defineClass({
 
     // _getBackgroundBrightness: return true if panel has a bright background color
     _getBackgroundBrightness: function() {
-        let rgb = this.dynamicTransparency.currentBackgroundColor;
-        rgb = rgb.substring(5, rgb.length-3).split(',');
-
-        let brightness = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
-
-        return (brightness > 128) ? true : false;
+        return Utils.checkIfColorIsBright(this.dynamicTransparency.backgroundColorRgb);
     },
 
     _toggleWorkspaceWindows: function(hide, workspace) {
