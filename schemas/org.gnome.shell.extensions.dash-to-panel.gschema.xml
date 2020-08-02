@@ -407,11 +407,6 @@
       <summary>Show activities button</summary>
       <description>Show activities button on the left hand side of the taskbar</description>
     </key>
-    <key type="b" name="show-showdesktop-button">
-      <default>true</default>
-      <summary>Show desktop button</summary>
-      <description>Show button on right side of bar that minimizes/restores all visible windows on current workspace</description>
-    </key>
     <key type="i" name="showdesktop-button-width">
       <default>8</default>
       <summary>Width of show Desktop button</summary>
@@ -491,6 +486,16 @@
       <default>14</default>
       <summary>Window previews title font size</summary>
       <description>This defines the window preview titles font size.</description>
+    </key>
+    <key type="b" name="window-preview-use-custom-icon-size">
+      <default>false</default>
+      <summary>Window previews use custom icon size</summary>
+      <description>Window previews use custom application icon size.</description>
+    </key>
+    <key type="i" name="window-preview-custom-icon-size">
+      <default>16</default>
+      <summary>Window previews custom icon size</summary>
+      <description>Window previews custom application icon size.</description>
     </key>
     <key type="i" name="window-preview-animation-time">
       <default>260</default>

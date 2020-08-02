@@ -948,7 +948,9 @@ var Preview = Utils.defineClass({
 
     _updateHeader: function() {
         if (headerHeight) {
-            let iconTextureSize = headerHeight / scaleFactor * .6;
+            let iconTextureSize = Me.settings.get_boolean('window-preview-use-custom-icon-size') ? 
+                                  Me.settings.get_int('window-preview-custom-icon-size') : 
+                                  headerHeight / scaleFactor * .6;
             let icon = this._previewMenu.getCurrentAppIcon().app.create_icon_texture(iconTextureSize);
             let workspaceIndex = '';
             let workspaceStyle = null;

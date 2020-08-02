@@ -377,14 +377,18 @@ var removeKeybinding = function(key) {
     }
 };
 
+var getrgbColor = function(color) {
+    color = typeof color === 'string' ? Clutter.color_from_string(color)[1] : color;
+
+    return { red: color.red, green: color.green, blue: color.blue };
+};
+
 var getrgbaColor = function(color, alpha, offset) {
     if (alpha <= 0) {
         return 'transparent; ';
     }
 
-    color = typeof color === 'string' ? Clutter.color_from_string(color)[1] : color;
-
-    let rgb = { red: color.red, green: color.green, blue: color.blue };
+    let rgb = getrgbColor(color);
 
     if (offset) {
         ['red', 'green', 'blue'].forEach(k => {
@@ -397,6 +401,13 @@ var getrgbaColor = function(color, alpha, offset) {
     }
 
     return 'rgba(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + ',' + (Math.floor(alpha * 100) * 0.01) + '); ' ;
+};
+
+var checkIfColorIsBright = function(color) {
+    let rgb = getrgbColor(color);
+    let brightness = 0.2126 * rgb.red + 0.7152 * rgb.green + 0.0722 * rgb.blue;
+
+    return brightness > 128;
 };
 
 var getMouseScrollDirection = function(event) {
