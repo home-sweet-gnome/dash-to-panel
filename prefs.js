@@ -1211,6 +1211,10 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
             this._settings.bind('window-preview-show-title',
+                            this._builder.get_object('grid_preview_custom_icon_size'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('window-preview-show-title',
                             this._builder.get_object('grid_preview_title_size'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
