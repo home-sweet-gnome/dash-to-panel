@@ -1355,6 +1355,11 @@ const Settings = new Lang.Class({
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('overview-click-to-exit',
+                            this._builder.get_object('clicktoexit_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         this._settings.bind('group-apps',
                             this._builder.get_object('group_apps_switch'),
                             'active',
