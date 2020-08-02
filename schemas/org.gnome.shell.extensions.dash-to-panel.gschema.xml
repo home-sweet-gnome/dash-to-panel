@@ -537,6 +537,11 @@
       <summary>Provide workspace isolation</summary>
       <description>Dash shows only windows from the current workspace</description>
     </key>
+     <key type="b" name="overview-click-to-exit">
+      <default>false</default>
+      <summary>Close overview by clicking in empty space</summary>
+      <description>Close overview or app grid by clicking in empty space</description>
+    </key>
     <key type="b" name="group-apps">
       <default>true</default>
       <summary>Group applications</summary>
