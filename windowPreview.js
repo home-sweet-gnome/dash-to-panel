@@ -822,12 +822,7 @@ var Preview = Utils.defineClass({
         this._removeWindowSignals();
         this.window = window;
         this._needsCloseButton = window.can_close() && !Utils.checkIfWindowHasTransient(window);
-        
-        if (Me.settings.get_boolean('window-preview-use-custom-icon-size')){
-            this._updateHeader(Me.settings.get_int('window-preview-custom-icon-size'));
-        } else {
-            this._updateHeader(headerHeight / scaleFactor * .6);
-        }
+        this._updateHeader();
     },
 
     animateOut: function() {
@@ -951,8 +946,11 @@ var Preview = Utils.defineClass({
         }
     },
 
-    _updateHeader: function(iconTextureSize) {
+    _updateHeader: function() {
         if (headerHeight) {
+            let iconTextureSize = Me.settings.get_boolean('window-preview-use-custom-icon-size') ? 
+                                  Me.settings.get_int('window-preview-custom-icon-size') : 
+                                  headerHeight / scaleFactor * .6;
             let icon = this._previewMenu.getCurrentAppIcon().app.create_icon_texture(iconTextureSize);
             let workspaceIndex = '';
             let workspaceStyle = null;
