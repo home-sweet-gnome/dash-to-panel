@@ -464,9 +464,10 @@ var dtpOverview = Utils.defineClass({
                     Main.overview.hide();
                 }
             } else if (activePage == ViewSelector.ViewPage.WINDOWS) {
+                let overviewControls = Main.overview._overview._controls || Main.overview._controls;
 
-                if(pickedActor == Main.overview._overview._controls._thumbnailsBox
-                    || pickedActor == Main.overview._overview._controls.dash._container) {
+                if(pickedActor == overviewControls._thumbnailsBox
+                    || pickedActor == overviewControls.dash._container) {
                     return Clutter.EVENT_PROPAGATE;
                 }
                 Main.overview.toggle();
