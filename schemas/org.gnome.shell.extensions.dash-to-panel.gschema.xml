@@ -95,7 +95,7 @@
     <key type="i" name="panel-length">
       <default>100</default>
       <summary>Percentage of screen edge for panel to span</summary>
-      <description>Set the length of the panel, in percent. Horizontal or vertical, according to panel orientation.</description>
+      <description>Length of the panel, in percent.</description>
     </key>
     <key name="panel-anchor" enum="org.gnome.shell.extensions.dash-to-panel.anchor">
       <default>'MIDDLE'</default>

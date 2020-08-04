@@ -42,6 +42,8 @@ const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
 const DEFAULT_FONT_SIZES = [ 96, 64, 48, 32, 24, 16, 0 ];
 const DEFAULT_MARGIN_SIZES = [ 32, 24, 16, 12, 8, 4, 0 ];
 const DEFAULT_PADDING_SIZES = [ 32, 24, 16, 12, 8, 4, 0, -1 ];
+// Minimum length could be 0, but a higher value may help prevent confusion about where the panel went.
+const LENGTH_MARKS = [ 100, 90, 80, 70, 60, 50, 40, 30, 20, 10 ];
 const MAX_WINDOW_INDICATOR = 4;
 
 const SCHEMA_PATH = '/org/gnome/shell/extensions/dash-to-panel/';
@@ -218,6 +220,10 @@ const Settings = new Lang.Class({
         topRadio.set_tooltip_text(!topAvailable ? _('Unavailable when gnome-shell top panel is present') : '');
     },
 
+    /**
+     * Returns an object, with monitor index string keys to values that are Pos.TOP, Pos.BOTTOM, Pos.LEFT,
+     * or Pos.RIGHT.
+     */
     _getPanelPositions: function() {
         return Pos.getSettingsPositions(this._settings, 'panel-positions');
     },
@@ -237,6 +243,7 @@ const Settings = new Lang.Class({
         monitors.forEach(m => panelPositionsSettings[m] = preventTop && this.monitors[0] == m ? Pos.BOTTOM : position);
 
         this._settings.set_string('panel-positions', JSON.stringify(panelPositionsSettings));
+        this._setAnchorLabels();
     },
 
     _setPositionRadios: function(position) {
@@ -258,6 +265,37 @@ const Settings = new Lang.Class({
         }
 
         this._ignorePositionRadios = false;
+    },
+
+    /**
+     * Set panel anchor combo labels according to whether panel is vertical, horizontal, or a mix.
+     */
+    _setAnchorLabels: function() {
+        const positions = this._getPanelPositions();
+        const monitorIndices = Object.getOwnPropertyNames(positions);
+        const allVertical = monitorIndices.every(i => positions[i] === Pos.LEFT || positions[i] === Pos.RIGHT);
+        const allHorizontal = monitorIndices.every(i => positions[i] === Pos.TOP || positions[i] === Pos.BOTTOM);
+
+        const anchor_combo = this._builder.get_object('panel_anchor_combo');
+        const anchor = this._settings.get_string('panel-anchor');
+        anchor_combo.remove_all();
+
+        if (allHorizontal) {
+            anchor_combo.append(Pos.START, _('Left'));
+            anchor_combo.append(Pos.MIDDLE, _('Center'));
+            anchor_combo.append(Pos.END, _('Right'));
+        } else if (allVertical) {
+            anchor_combo.append(Pos.START, _('Top'));
+            anchor_combo.append(Pos.MIDDLE, _('Middle'));
+            anchor_combo.append(Pos.END, _('Bottom'));
+        } else {
+            // Mix of horizontal and vertical panels on different monitors.
+            anchor_combo.append(Pos.START, _('Start'));
+            anchor_combo.append(Pos.MIDDLE, _('Middle'));
+            anchor_combo.append(Pos.END, _('End'));
+        }
+
+        anchor_combo.set_active_id(anchor);
     },
 
     _displayPanelPositionsForMonitor: function(monitorIndex) {
@@ -771,22 +809,35 @@ const Settings = new Lang.Class({
             this._builder.get_object('multimon_multi_switch').set_sensitive(false);
         }
 
-        // Length and position along screen edge
+        // Length and anchoring along screen edge
 
-        // Minimum length could be 0, but a higher value may help prevent confusion about where the panel went.
-        let panel_length_min=10
-        let panel_length_max=100
-        let panel_length_spinbutton = this._builder.get_object('panel_length_spinbutton');
-        panel_length_spinbutton.set_range(panel_length_min, panel_length_max);
-        panel_length_spinbutton.set_value(this._settings.get_int('panel-length'));
-        this._builder.get_object('panel_length_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
-            this._settings.set_int('panel-length', widget.get_value());
+        // Anchor is only relevant if panel length is less than 100%.
+        const setAnchorWidgetSensitivity = (panelLength) => {
+            const isPartialLength = panelLength < 100;
+            this._builder.get_object('panel_anchor_label').set_sensitive(isPartialLength);
+            this._builder.get_object('panel_anchor_combo').set_sensitive(isPartialLength);
+        }
+
+        const panel_length_scale = this._builder.get_object('panel_length_scale');
+        const length = this._settings.get_int('panel-length');
+        panel_length_scale.set_value(length);
+        setAnchorWidgetSensitivity(length);
+        panel_length_scale.connect('value-changed', Lang.bind (this, function(widget) {
+            const value = widget.get_value();
+            this._settings.set_int('panel-length', value);
+            setAnchorWidgetSensitivity(value);
         }));
 
         this._builder.get_object('panel_anchor_combo').set_active_id(this._settings.get_string('panel-anchor'));
         this._builder.get_object('panel_anchor_combo').connect('changed', Lang.bind (this, function(widget) {
-            this._settings.set_string('panel-anchor', widget.get_active_id());
+            const value = widget.get_active_id();
+            // Value can be null while anchor labels are being swapped out
+            if (value !== null) {
+                this._settings.set_string('panel-anchor', value);
+            }
         }));
+
+        this._setAnchorLabels();
 
         //dynamic opacity
         this._settings.bind('trans-use-custom-bg',
@@ -1825,7 +1876,8 @@ const Settings = new Lang.Class({
             {objectName: 'appicon_padding_scale', valueName: 'appicon-padding', range: DEFAULT_MARGIN_SIZES },
             {objectName: 'tray_padding_scale', valueName: 'tray-padding', range: DEFAULT_PADDING_SIZES },
             {objectName: 'leftbox_padding_scale', valueName: 'leftbox-padding', range: DEFAULT_PADDING_SIZES },
-            {objectName: 'statusicon_padding_scale', valueName: 'status-icon-padding', range: DEFAULT_PADDING_SIZES }
+            {objectName: 'statusicon_padding_scale', valueName: 'status-icon-padding', range: DEFAULT_PADDING_SIZES },
+            {objectName: 'panel_length_scale', valueName: 'panel-length', range: LENGTH_MARKS }
         ];
         
         for(var idx in sizeScales) {
@@ -1833,6 +1885,7 @@ const Settings = new Lang.Class({
             let range = sizeScales[idx].range;
             size_scale.set_range(range[range.length-1], range[0]);
             size_scale.set_value(this._settings.get_int(sizeScales[idx].valueName));
+            // Add marks from range arrays, omitting the first and last values.
             range.slice(1, -1).forEach(function(val) {
                 size_scale.add_mark(val, Gtk.PositionType.TOP, val.toString());
             });
@@ -2031,6 +2084,11 @@ const Settings = new Lang.Class({
 		preview_title_position_top_button_toggled_cb: function(button) {
             if (button.get_active())
                 this._settings.set_string('window-preview-title-position', 'TOP');
+        },
+
+
+        panel_length_scale_format_value_cb: function(scale, value) {
+            return value+ '%';
         },
 
         panel_size_scale_format_value_cb: function(scale, value) {
