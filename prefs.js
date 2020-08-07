@@ -920,6 +920,24 @@ const Settings = new Lang.Class({
             dialog.show_all();
 
         }));
+        
+        this._settings.bind('desktop-line-use-custom-color',
+                            this._builder.get_object('override_show_desktop_line_color_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('desktop-line-use-custom-color',
+                            this._builder.get_object('override_show_desktop_line_color_colorbutton'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        
+        rgba.parse(this._settings.get_string('desktop-line-custom-color'));
+        this._builder.get_object('override_show_desktop_line_color_colorbutton').set_rgba(rgba);
+        this._builder.get_object('override_show_desktop_line_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            this._settings.set_string('desktop-line-custom-color', css);
+        }));
 
 
         this._settings.bind('intellihide',
