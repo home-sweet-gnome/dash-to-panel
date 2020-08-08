@@ -430,7 +430,6 @@ var dtpOverview = Utils.defineClass({
             
             if(this._appPageSwiping)
                 return Clutter.EVENT_PROPAGATE;
-
   
             let [x, y] = global.get_pointer();
             let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.ALL, x, y);
@@ -440,7 +439,7 @@ var dtpOverview = Utils.defineClass({
 
                 if(pickedActor != Main.overview._overview 
                     && pickedActor != Main.overview.viewSelector.appDisplay._controls.get_parent()
-                    && pickedActor != Main.overview.viewSelector.appDisplay._views[0].view
+                    && pickedActor != (Main.overview.viewSelector.appDisplay._views[0].view.actor || Main.overview.viewSelector.appDisplay._views[0].view)
                     && pickedActor != Main.overview.viewSelector.appDisplay._views[1].view._scrollView
                     && pickedActor != Main.overview.viewSelector.appDisplay._views[1].view._grid) {
                     return Clutter.EVENT_PROPAGATE;
@@ -524,7 +523,7 @@ var dtpOverview = Utils.defineClass({
 
     _onAppPageSwipeBegin: function() {
         this._appPageSwiping = true;
-        return Clutter.EVENT_PROPAGATE;
+        return true;
     },
 
     _onAppPageSwipeEnd: function() {
@@ -533,6 +532,6 @@ var dtpOverview = Utils.defineClass({
             0, 
             () => this._appPageSwiping = false
         ]);
-        return Clutter.EVENT_PROPAGATE;
+        return true;
     }
 });
