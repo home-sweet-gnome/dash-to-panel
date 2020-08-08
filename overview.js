@@ -439,6 +439,8 @@ var dtpOverview = Utils.defineClass({
             if (activePage == ViewSelector.ViewPage.APPS) {
 
                 if(pickedActor != Main.overview._overview 
+                    && pickedActor != Main.overview.viewSelector.appDisplay._controls.get_parent()
+                    && pickedActor != Main.overview.viewSelector.appDisplay._views[0].view
                     && pickedActor != Main.overview.viewSelector.appDisplay._views[1].view._scrollView
                     && pickedActor != Main.overview.viewSelector.appDisplay._views[1].view._grid) {
                     return Clutter.EVENT_PROPAGATE;
@@ -477,32 +479,33 @@ var dtpOverview = Utils.defineClass({
          });
          Main.overview._overview.add_action(this._clickAction);
 
-       
-        if(Main.overview.viewSelector.appDisplay._views[1].view._swipeTracker) {
-            this._signalsHandler.addWithLabel('clickToExit', [
-                Main.overview.viewSelector.appDisplay._views[1].view._swipeTracker,
-                'begin', 
-                Lang.bind(this, this._onAppPageSwipeBegin)
-            ],[
-                Main.overview.viewSelector.appDisplay._views[1].view._swipeTracker,
-                'end', 
-                Lang.bind(this, this._onAppPageSwipeEnd)
-            ]);
-        } else if(Main.overview.viewSelector.appDisplay._views[1].view._panAction) {
-            this._signalsHandler.addWithLabel('clickToExit', [
-                Main.overview.viewSelector.appDisplay._views[1].view._panAction,
-                'gesture-begin', 
-                Lang.bind(this, this._onAppPageSwipeBegin)
-            ],[
-                Main.overview.viewSelector.appDisplay._views[1].view._panAction,
-                'gesture-cancel', 
-                Lang.bind(this, this._onAppPageSwipeEnd)
-            ],[
-                Main.overview.viewSelector.appDisplay._views[1].view._panAction,
-                'gesture-end', 
-                Lang.bind(this, this._onAppPageSwipeEnd)
-            ]);
-        }
+        Main.overview.viewSelector.appDisplay._views.forEach((v) => {
+            if(v.view._swipeTracker) {
+                this._signalsHandler.addWithLabel('clickToExit', [
+                    v.view._swipeTracker,
+                    'begin',
+                    Lang.bind(this, this._onAppPageSwipeBegin)
+                ],[
+                    v.view._swipeTracker,
+                    'end',
+                    Lang.bind(this, this._onAppPageSwipeEnd)
+                ]);
+            } else if(v.view._panAction) {
+                this._signalsHandler.addWithLabel('clickToExit', [
+                    v.view._panAction,
+                    'gesture-begin',
+                    Lang.bind(this, this._onAppPageSwipeBegin)
+                ],[
+                    v.view._panAction,
+                    'gesture-cancel',
+                    Lang.bind(this, this._onAppPageSwipeEnd)
+                ],[
+                    v.view._panAction,
+                    'gesture-end',
+                    Lang.bind(this, this._onAppPageSwipeEnd)
+                ]);
+            }
+        });
 
         this._clickToExitEnabled = true;
     },
