@@ -228,9 +228,6 @@ var taskbar = Utils.defineClass({
         this.previewMenu = new WindowPreview.PreviewMenu(panel);
         this.previewMenu.enable();
 
-        if (!Me.settings.get_boolean('show-show-apps-button'))
-            this.hideShowAppsButton();
-
         let rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
         this.actor = new St.Bin({ child: this._container,
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
@@ -310,18 +307,6 @@ var taskbar = Utils.defineClass({
                 Main.overview.viewSelector._showAppsButton,
                 'notify::checked',
                 Lang.bind(this, this._syncShowAppsButtonToggled)
-            ],
-            [
-                Me.settings,
-                'changed::show-show-apps-button',
-                Lang.bind(this, function() {
-                    if (Me.settings.get_boolean('show-show-apps-button'))
-                        this.showShowAppsButton();
-                    else
-                        this.hideShowAppsButton();
-
-                    this.resetAppIcons();
-                })
             ],
             [
                 Me.settings,
@@ -1210,12 +1195,6 @@ var taskbar = Utils.defineClass({
         this.showAppsButton.visible = true;
         this.showAppsButton.set_width(-1);
         this.showAppsButton.set_height(-1);
-    },
-
-    hideShowAppsButton: function() {
-        this.showAppsButton.hide();
-        this.showAppsButton.set_width(0);
-        this.showAppsButton.set_height(0);
     },
 
     popupFocusedAppSecondaryMenu: function() {

@@ -357,11 +357,6 @@
       <summary>Intellihide enable start delay</summary>
       <description>The delay before enabling intellihide on start</description>
     </key>
-    <key type="b" name="show-show-apps-button">
-      <default>true</default>
-      <summary>Show applications button</summary>
-      <description>Show appplications button in the dash</description>
-    </key>
     <key type="s" name="show-apps-icon-file">
       <default>""</default>
       <summary>Custom Show Applications icon</summary>
