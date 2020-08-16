@@ -428,7 +428,7 @@ var dtpOverview = Utils.defineClass({
         this._clickAction = new Clutter.ClickAction();
         this._clickAction.connect('clicked', () => {
             
-            if(this._appPageSwiping)
+            if (this._swiping)
                 return Clutter.EVENT_PROPAGATE;
   
             let [x, y] = global.get_pointer();
@@ -478,30 +478,33 @@ var dtpOverview = Utils.defineClass({
          });
          Main.overview._overview.add_action(this._clickAction);
 
-        Main.overview.viewSelector.appDisplay._views.forEach((v) => {
-            if(v.view._swipeTracker) {
+        [
+            Main.overview.viewSelector._workspacesDisplay,
+            Main.overview.viewSelector.appDisplay._views[1].view
+        ].forEach(v => {
+            if (v._swipeTracker) {
                 this._signalsHandler.addWithLabel('clickToExit', [
-                    v.view._swipeTracker,
+                    v._swipeTracker,
                     'begin',
-                    Lang.bind(this, this._onAppPageSwipeBegin)
+                    Lang.bind(this, this._onSwipeBegin)
                 ],[
-                    v.view._swipeTracker,
+                    v._swipeTracker,
                     'end',
-                    Lang.bind(this, this._onAppPageSwipeEnd)
+                    Lang.bind(this, this._onSwipeEnd)
                 ]);
-            } else if(v.view._panAction) {
+            } else if (v._panAction) {
                 this._signalsHandler.addWithLabel('clickToExit', [
-                    v.view._panAction,
+                    v._panAction,
                     'gesture-begin',
-                    Lang.bind(this, this._onAppPageSwipeBegin)
+                    Lang.bind(this, this._onSwipeBegin)
                 ],[
-                    v.view._panAction,
+                    v._panAction,
                     'gesture-cancel',
-                    Lang.bind(this, this._onAppPageSwipeEnd)
+                    Lang.bind(this, this._onSwipeEnd)
                 ],[
-                    v.view._panAction,
+                    v._panAction,
                     'gesture-end',
-                    Lang.bind(this, this._onAppPageSwipeEnd)
+                    Lang.bind(this, this._onSwipeEnd)
                 ]);
             }
         });
@@ -510,7 +513,7 @@ var dtpOverview = Utils.defineClass({
     },
 
     _disableClickToExit: function () {
-        if(!this._clickToExitEnabled)
+        if (!this._clickToExitEnabled)
             return;
         
         Main.overview._overview.remove_action(this._clickAction);
@@ -521,16 +524,16 @@ var dtpOverview = Utils.defineClass({
         this._clickToExitEnabled = false;
     },
 
-    _onAppPageSwipeBegin: function() {
-        this._appPageSwiping = true;
+    _onSwipeBegin: function() {
+        this._swiping = true;
         return true;
     },
 
-    _onAppPageSwipeEnd: function() {
+    _onSwipeEnd: function() {
         this._timeoutsHandler.add([
             T1,
             0, 
-            () => this._appPageSwiping = false
+            () => this._swiping = false
         ]);
         return true;
     }
