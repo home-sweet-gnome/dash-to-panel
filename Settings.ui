@@ -4120,7 +4120,6 @@
                          <property name="receives_default">True</property>
                          <property name="halign">end</property>
                          <property name="use_alpha">True</property>
-                         <property name="show_editor">True</property>
                       </object>
                       <packing>
                          <property name="expand">False</property>
