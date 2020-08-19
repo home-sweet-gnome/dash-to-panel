@@ -480,6 +480,7 @@ var dtpOverview = Utils.defineClass({
 
         [
             Main.overview.viewSelector._workspacesDisplay,
+            Main.overview.viewSelector.appDisplay._views[0].view,
             Main.overview.viewSelector.appDisplay._views[1].view
         ].forEach(v => {
             if (v._swipeTracker) {
