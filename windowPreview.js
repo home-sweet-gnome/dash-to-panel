@@ -24,7 +24,6 @@ const Mainloop = imports.mainloop;
 const Meta = imports.gi.Meta;
 const PopupMenu = imports.ui.popupMenu;
 const Signals = imports.signals;
-const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const WindowManager = imports.ui.windowManager;
 const Workspace = imports.ui.workspace;
@@ -464,7 +463,7 @@ var PreviewMenu = Utils.defineClass({
     _updatePosition: function() {
         let sourceNode = this.currentAppIcon.actor.get_theme_node();
         let sourceContentBox = sourceNode.get_content_box(this.currentAppIcon.actor.get_allocation_box());
-        let sourceAllocation = Shell.util_get_transformed_allocation(this.currentAppIcon.actor);
+        let sourceAllocation = Utils.getTransformedAllocation(this.currentAppIcon.actor);
         let [previewsWidth, previewsHeight] = this._getPreviewsSize();
         let appIconMargin = Me.settings.get_int('appicon-margin') / scaleFactor;
         let x = 0, y = 0;
@@ -706,7 +705,7 @@ var Preview = Utils.defineClass({
         this._previewDimensions = this._getPreviewDimensions();
         this.animatingOut = false;
 
-        let box = new St.Widget({ layout_manager: new Clutter.BoxLayout({ vertical: true }), y_expand: true });
+        let box = new St.Widget({ layout_manager: new Clutter.BoxLayout({ orientation: Clutter.Orientation.VERTICAL }), y_expand: true });
         let [previewBinWidth, previewBinHeight] = this._getBinSize();
         let closeButton = new St.Button({ style_class: 'window-close', accessible_name: 'Close window' });
 
@@ -1127,7 +1126,7 @@ var WindowCloneLayout = Utils.defineClass({
             height + (this.bufferRect.height - this.frameRect.height) * this.ratio
         );
 
-        actor.get_first_child().allocate(box, flags);
+        Utils.allocate(actor.get_first_child(), box, flags);
     }
 });
 

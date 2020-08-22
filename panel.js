@@ -221,17 +221,12 @@ var dtpPanel = Utils.defineClass({
             opacity: 0
         });
 
-        if (this.geom.position == St.Side.TOP) {
+        let isTop = this.geom.position == St.Side.TOP;
+        let cornerFunc = (isTop ? 'add' : 'remove') + '_child';
+
+        if (isTop) {
             this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
             this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
-
-            Utils.wrapActor(this.panel._leftCorner || 0);
-            Utils.wrapActor(this.panel._rightCorner || 0);
-
-            if (this.isStandalone) {
-                this.panel.actor.add_child(this.panel._leftCorner.actor);
-                this.panel.actor.add_child(this.panel._rightCorner.actor);
-            }
 
             Main.overview._overview.insert_child_at_index(this._myPanelGhost, 0);
         } else {
@@ -244,6 +239,14 @@ var dtpPanel = Utils.defineClass({
             } else {
                 overviewControls._group.add_actor(this._myPanelGhost);
             }
+        }
+
+        if (this.panel._leftCorner) {
+            Utils.wrapActor(this.panel._leftCorner);
+            Utils.wrapActor(this.panel._rightCorner);
+
+            this.panel.actor[cornerFunc](this.panel._leftCorner.actor);
+            this.panel.actor[cornerFunc](this.panel._rightCorner.actor);
         }
 
         this._setPanelPosition();
@@ -278,7 +281,7 @@ var dtpPanel = Utils.defineClass({
         panelBoxes.forEach(b => {
             this[b].allocate = (box, flags, isFromDashToPanel) => {
                 if (isFromDashToPanel) {
-                    this[b].__proto__.allocate.call(this[b], box, flags);
+                    Utils.allocate(this[b], box, flags, true);
                 }
             }
         });
@@ -481,6 +484,9 @@ var dtpPanel = Utils.defineClass({
                     setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), St.Side.TOP);
                 }
             }
+
+            this.panel.actor.add_child(this.panel._leftCorner.actor);
+            this.panel.actor.add_child(this.panel._rightCorner.actor);
 
             this._setShowDesktopButton(false);
 
@@ -871,11 +877,11 @@ var dtpPanel = Utils.defineClass({
     },
 
     _mainPanelAllocate: function(actor, box, flags) {
-        this.panel.actor.set_allocation(box, flags);
+        Utils.setAllocation(this.panel.actor, box, flags);
     },
 
     vfunc_allocate: function(box, flags) {
-        this.set_allocation(box, flags);
+        Utils.setAllocation(this, box, flags);
 
         let fixed = 0;
         let centeredMonitorGroup;
@@ -957,16 +963,16 @@ var dtpPanel = Utils.defineClass({
             currentPosition = group.tlOffset + startPosition;
 
             group.elements.forEach(element => {
-                let params = [element.box, flags];
+                let extraParams = [];
 
                 element.box[this.varCoord.c1] = Math.round(currentPosition);
                 element.box[this.varCoord.c2] = Math.round((currentPosition += element.natSize));
 
                 if (element.isBox) {
-                    params.push(1);
+                    extraParams.push(1);
                 } 
 
-                element.actor.allocate.apply(element.actor, params);
+                Utils.allocate(element.actor, element.box, flags, false, extraParams);
             });
 
             group[this.varCoord.c1] = startPosition;
@@ -975,7 +981,7 @@ var dtpPanel = Utils.defineClass({
             ++fixed;
         };
 
-        this.panel.actor.allocate(panelAlloc, flags);
+        Utils.allocate(this.panel.actor, panelAlloc, flags);
 
         this._elementGroups.forEach(group => {
             group.fixed = 0;
@@ -1034,8 +1040,8 @@ var dtpPanel = Utils.defineClass({
             childBoxRightCorner[this.fixedCoord.c1] = panelAllocFixedSize;
             childBoxRightCorner[this.fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
 
-            this.panel._leftCorner.actor.allocate(childBoxLeftCorner, flags);
-            this.panel._rightCorner.actor.allocate(childBoxRightCorner, flags);
+            Utils.allocate(this.panel._leftCorner.actor, childBoxLeftCorner, flags);
+            Utils.allocate(this.panel._rightCorner.actor, childBoxRightCorner, flags);
 
             if (this.cornerSize != currentCornerSize) {
                 this._setPanelClip();
@@ -1255,8 +1261,8 @@ var dtpPanel = Utils.defineClass({
             this._showDesktopButton = new St.Bin({ style_class: 'showdesktop-button',
                             reactive: true,
                             can_focus: true,
-                            x_fill: true,
-                            y_fill: true,
+                            // x_fill: true,
+                            // y_fill: true,
                             track_hover: true });
 
             this._setShowDesktopButtonStyle();
@@ -1439,7 +1445,7 @@ var dtpSecondaryPanel = Utils.defineClass({
     },
 
     vfunc_allocate: function(box, flags) {
-        this.set_allocation(box, flags);
+        Utils.setAllocation(this, box, flags);
     }
 });
 

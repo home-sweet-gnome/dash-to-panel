@@ -421,6 +421,7 @@ var dtpOverview = Utils.defineClass({
         if (this._clickToExitEnabled)
             return;
 
+        let views = Utils.getAppDisplayViews();
         this._oldOverviewReactive = Main.overview._overview.reactive
 
         Main.overview._overview.reactive = true;
@@ -438,15 +439,15 @@ var dtpOverview = Utils.defineClass({
             if (activePage == ViewSelector.ViewPage.APPS) {
 
                 if(pickedActor != Main.overview._overview 
-                    && pickedActor != Main.overview.viewSelector.appDisplay._controls.get_parent()
-                    && pickedActor != (Main.overview.viewSelector.appDisplay._views[0].view.actor || Main.overview.viewSelector.appDisplay._views[0].view)
-                    && pickedActor != Main.overview.viewSelector.appDisplay._views[1].view._scrollView
-                    && pickedActor != Main.overview.viewSelector.appDisplay._views[1].view._grid) {
+                    && (views.length > 1 && pickedActor != Main.overview.viewSelector.appDisplay._controls.get_parent())
+                    && pickedActor != (views[0].view.actor || views[0].view)
+                    && (views.length > 1 && pickedActor != views[1].view._scrollView)
+                    && (views.length > 1 && pickedActor != views[1].view._grid)) {
                     return Clutter.EVENT_PROPAGATE;
                 }
 
                 let visibleView;
-                Main.overview.viewSelector.appDisplay._views.every(function(v, index) {
+                views.every(function(v, index) {
                     if (v.view.actor.visible) {
                         visibleView = index;
                         return false;
@@ -456,7 +457,7 @@ var dtpOverview = Utils.defineClass({
                 });
 
                 if(Me.settings.get_boolean('animate-show-apps')) {
-                    let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
+                    let view = views[visibleView].view;
                     view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
                         Main.overview.viewSelector._appsPage.hide();
                         Main.overview.hide();
@@ -478,11 +479,7 @@ var dtpOverview = Utils.defineClass({
          });
          Main.overview._overview.add_action(this._clickAction);
 
-        [
-            Main.overview.viewSelector._workspacesDisplay,
-            Main.overview.viewSelector.appDisplay._views[0].view,
-            Main.overview.viewSelector.appDisplay._views[1].view
-        ].forEach(v => {
+        [Main.overview.viewSelector._workspacesDisplay].concat(views).forEach(v => {
             if (v._swipeTracker) {
                 this._signalsHandler.addWithLabel('clickToExit', [
                     v._swipeTracker,

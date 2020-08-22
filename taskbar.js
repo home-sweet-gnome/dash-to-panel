@@ -85,7 +85,7 @@ var taskbarActor = Utils.defineClass({
     },
 
     vfunc_allocate: function(box, flags)  {
-        this.set_allocation(box, flags);
+        Utils.setAllocation(this, box, flags);
 
         let panel = this._delegate.dtpPanel;
         let availFixedSize = box[panel.fixedCoord.c2] - box[panel.fixedCoord.c1];
@@ -100,7 +100,7 @@ var taskbarActor = Utils.defineClass({
         childBox[panel.fixedCoord.c1] = box[panel.fixedCoord.c1];
         childBox[panel.fixedCoord.c2] = box[panel.fixedCoord.c2];
 
-        scrollview.allocate(childBox, flags);
+        Utils.allocate(scrollview, childBox, flags);
 
         let [value, , upper, , , pageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
         upper = Math.floor(upper);
@@ -116,11 +116,11 @@ var taskbarActor = Utils.defineClass({
         }
         
         childBox[panel.varCoord.c2] = childBox[panel.varCoord.c1] + (value > 0 ? scrollview._dtpFadeSize : 0);
-        leftFade.allocate(childBox, flags);
+        Utils.allocate(leftFade, childBox, flags);
 
         childBox[panel.varCoord.c1] = box[panel.varCoord.c2] - (value + pageSize < upper ? scrollview._dtpFadeSize : 0);
         childBox[panel.varCoord.c2] = box[panel.varCoord.c2];
-        rightFade.allocate(childBox, flags);
+        Utils.allocate(rightFade, childBox, flags);
     },
 
     // We want to request the natural size of all our children
@@ -1083,7 +1083,7 @@ var taskbar = Utils.defineClass({
         if (selector._showAppsButton.checked !== this.showAppsButton.checked) {
             // find visible view
             let visibleView;
-            Main.overview.viewSelector.appDisplay._views.every(function(v, index) {
+            Utils.getAppDisplayViews().every(function(v, index) {
                 if (v.view.actor.visible) {
                     visibleView = index;
                     return false;
@@ -1110,7 +1110,7 @@ var taskbar = Utils.defineClass({
                 // runs if we are already inside the overview.
                 if (!Main.overview._shown) {
                     this.forcedOverview = true;
-                    let grid = Main.overview.viewSelector.appDisplay._views[visibleView].view._grid;
+                    let grid = Utils.getAppDisplayViews()[visibleView].view._grid;
                     let onShownCb;
                     let overviewShownId = Main.overview.connect('shown', () => {
                         Main.overview.disconnect(overviewShownId);
@@ -1164,7 +1164,7 @@ var taskbar = Utils.defineClass({
                         // Manually trigger springout animation without activating the
                         // workspaceView to avoid the zoomout animation. Hide the appPage
                         // onComplete to avoid ugly flashing of original icons.
-                        let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
+                        let view = Utils.getAppDisplayViews()[visibleView].view;
                         view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
                             Main.overview.viewSelector._appsPage.hide();
                             Main.overview.hide();
