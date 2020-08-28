@@ -370,10 +370,10 @@ var getTransformedAllocation = function(actor) {
     return { x1: topLeft.x, x2: bottomRight.x, y1: topLeft.y, y2: bottomRight.y };
 };
 
-var allocate = function(actor, box, flags, useParent, extraParams) {
+var allocate = function(actor, box, flags, useParent) {
     let allocateObj = useParent ? actor.__proto__ : actor;
 
-    allocateObj.allocate.apply(actor, getAllocationParams(box, flags).concat(extraParams || []));
+    allocateObj.allocate.apply(actor, getAllocationParams(box, flags));
 };
 
 var setAllocation = function(actor, box, flags) {

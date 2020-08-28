@@ -963,16 +963,14 @@ var dtpPanel = Utils.defineClass({
             currentPosition = group.tlOffset + startPosition;
 
             group.elements.forEach(element => {
-                let extraParams = [];
-
                 element.box[this.varCoord.c1] = Math.round(currentPosition);
                 element.box[this.varCoord.c2] = Math.round((currentPosition += element.natSize));
 
                 if (element.isBox) {
-                    extraParams.push(1);
+                    return element.actor.allocate(element.box, flags, true);
                 } 
 
-                Utils.allocate(element.actor, element.box, flags, false, extraParams);
+                Utils.allocate(element.actor, element.box, flags, false);
             });
 
             group[this.varCoord.c1] = startPosition;
