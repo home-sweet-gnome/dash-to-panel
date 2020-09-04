@@ -874,13 +874,16 @@ var Preview = Utils.defineClass({
     },
 
     _onCloseBtnClick: function() {
-        this.window.delete(global.get_current_time());
         this._hideOrShowCloseButton(true);
         this.reactive = false;
 
         if (!Me.settings.get_boolean('group-apps')) {
             this._previewMenu.close();
+        } else {
+            this._previewMenu.endPeekHere();
         }
+
+        this.window.delete(global.get_current_time());
     },
 
     _onButtonReleaseEvent: function(e) {
