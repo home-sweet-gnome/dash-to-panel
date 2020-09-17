@@ -1464,44 +1464,36 @@ var dtpSecondaryAggregateMenu = Utils.defineClass({
         this._indicators = new St.BoxLayout({ style_class: 'panel-status-indicators-box' });
         this.actor.add_child(this._indicators);
 
-        if (Config.HAVE_NETWORKMANAGER && Config.PACKAGE_VERSION >= '3.24') {
-            this._network = new imports.ui.status.network.NMApplet();
-        } else {
-            this._network = null;
-        }
-        if (Config.HAVE_BLUETOOTH) {
-            this._bluetooth = new imports.ui.status.bluetooth.Indicator();
-        } else {
-            this._bluetooth = null;
-        }
-
         this._power = new imports.ui.status.power.Indicator();
         this._volume = new imports.ui.status.volume.Indicator();
         this._brightness = new imports.ui.status.brightness.Indicator();
         this._system = new imports.ui.status.system.Indicator();
-        this._screencast = new imports.ui.status.screencast.Indicator();
+        
+        if (Config.PACKAGE_VERSION >= '3.28') {
+            this._thunderbolt = new imports.ui.status.thunderbolt.Indicator();
+            this._indicators.add_child(Utils.getIndicators(this._thunderbolt));
+        }
+
+        if (Config.PACKAGE_VERSION < '3.37') {
+            this._screencast = new imports.ui.status.screencast.Indicator();
+            this._indicators.add_child(Utils.getIndicators(this._screencast));
+        }
         
         if (Config.PACKAGE_VERSION >= '3.24') {
             this._nightLight = new imports.ui.status.nightLight.Indicator();
-        }
-
-        if (Config.PACKAGE_VERSION >= '3.28') {
-            this._thunderbolt = new imports.ui.status.thunderbolt.Indicator();
-        }
-
-        if (this._thunderbolt) {
-            this._indicators.add_child(Utils.getIndicators(this._thunderbolt));
-        }
-        this._indicators.add_child(Utils.getIndicators(this._screencast));
-        if (this._nightLight) {
             this._indicators.add_child(Utils.getIndicators(this._nightLight));
         }
-        if (this._network) {
+
+        if (Config.HAVE_NETWORKMANAGER && Config.PACKAGE_VERSION >= '3.24') {
+            this._network = new imports.ui.status.network.NMApplet();
             this._indicators.add_child(Utils.getIndicators(this._network));
         }
-        if (this._bluetooth) {
+
+        if (Config.HAVE_BLUETOOTH) {
+            this._bluetooth = new imports.ui.status.bluetooth.Indicator();
             this._indicators.add_child(Utils.getIndicators(this._bluetooth));
         }
+
         this._indicators.add_child(Utils.getIndicators(this._volume));
         this._indicators.add_child(Utils.getIndicators(this._power));
         this._indicators.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
@@ -1512,18 +1504,23 @@ var dtpSecondaryAggregateMenu = Utils.defineClass({
         
         this.menu.addMenuItem(this._brightness.menu);
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+
         if (this._network) {
             this.menu.addMenuItem(this._network.menu);
         }
+
         if (this._bluetooth) {
             this.menu.addMenuItem(this._bluetooth.menu);
         }
+        
         this.menu.addMenuItem(this._power.menu);
         this._power._sync();
 
         if (this._nightLight) {
             this.menu.addMenuItem(this._nightLight.menu);
         }
+
+        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         this.menu.addMenuItem(this._system.menu);
 
         menuLayout.addSizeChild(this._power.menu.actor);
