@@ -479,7 +479,7 @@ var dtpOverview = Utils.defineClass({
          });
          Main.overview._overview.add_action(this._clickAction);
 
-        [Main.overview.viewSelector._workspacesDisplay].concat(views).forEach(v => {
+        [Main.overview.viewSelector._workspacesDisplay].concat(views.map(v => v.view)).forEach(v => {
             if (v._swipeTracker) {
                 this._signalsHandler.addWithLabel('clickToExit', [
                     v._swipeTracker,
