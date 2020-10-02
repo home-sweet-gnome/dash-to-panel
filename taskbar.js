@@ -960,8 +960,6 @@ var taskbar = Utils.defineClass({
         let posProp = isVertical ? 'y' : 'x';
         let pos = isVertical ? y : x;
 
-        pos -= this.showAppsButton[sizeProp];
-
         let currentAppIcons = this._getAppIcons();
         let sourceIndex = currentAppIcons.indexOf(source);
         let hoveredIndex = Utils.findIndex(currentAppIcons, 
