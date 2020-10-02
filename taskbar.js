@@ -948,14 +948,14 @@ var taskbar = Utils.defineClass({
             return DND.DragMotionResult.NO_DROP;
 
         let sourceActor = source instanceof St.Widget ? source : source.actor;
+        let isVertical = this.dtpPanel.checkIfVertical();
 
         if (!this._box.contains(sourceActor) && !source._dashItemContainer) {
             //not an appIcon of the taskbar, probably from the applications view
-            source._dashItemContainer = new DragPlaceholderItem(source, this.iconSize);
+            source._dashItemContainer = new DragPlaceholderItem(source, this.iconSize, isVertical);
             this._box.insert_child_above(source._dashItemContainer, null);
         }
-        
-        let isVertical = this.dtpPanel.checkIfVertical();
+
         let sizeProp = isVertical ? 'height' : 'width';
         let posProp = isVertical ? 'y' : 'x';
         let pos = isVertical ? y : x;
@@ -1220,8 +1220,8 @@ var DragPlaceholderItem = Utils.defineClass({
     Name: 'DashToPanel-DragPlaceholderItem',
     Extends: St.Widget,
 
-    _init: function(appIcon, iconSize) {
-        this.callParent('_init', { style: appIcon.getIconContainerStyle(), layout_manager: new Clutter.BinLayout() });
+    _init: function(appIcon, iconSize, isVertical) {
+        this.callParent('_init', { style: AppIcons.getIconContainerStyle(isVertical), layout_manager: new Clutter.BinLayout() });
 
         this.child = { _delegate: appIcon };
 
