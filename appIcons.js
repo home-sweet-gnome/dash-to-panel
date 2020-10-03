@@ -150,7 +150,7 @@ var taskbarAppIcon = Utils.defineClass({
         
         this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
-        this._dtpIconContainer = new St.Widget({ layout_manager: new Clutter.BinLayout(), style: this.getIconContainerStyle() });
+        this._dtpIconContainer = new St.Widget({ layout_manager: new Clutter.BinLayout(), style: getIconContainerStyle(panel.checkIfVertical()) });
 
         this.actor.remove_actor(this._iconContainer);
         
@@ -1224,19 +1224,6 @@ var taskbarAppIcon = Utils.defineClass({
 
     getAppIconInterestingWindows: function(isolateMonitors) {
         return getInterestingWindows(this.app, this.dtpPanel.monitor, isolateMonitors);
-    },
-
-    getIconContainerStyle: function() {
-        let style = 'padding: ';
-        let isVertical = this.dtpPanel.checkIfVertical();
-    
-        if (Me.settings.get_boolean('group-apps')) {
-            style += (isVertical ? '0;' : '0 ' + DEFAULT_PADDING_SIZE + 'px;');
-        } else {
-            style += (isVertical ? '' : '0 ') + DEFAULT_PADDING_SIZE + 'px;';
-        }
-    
-        return style;
     }
 });
 taskbarAppIcon.prototype.scaleAndFade = taskbarAppIcon.prototype.undoScaleAndFade = () => {};
@@ -1884,4 +1871,16 @@ adjustMenuRedisplay(MyShowAppsIconMenu.prototype);
 
 function adjustMenuRedisplay(menuProto) {
     menuProto[menuRedisplayFunc] = function() { this._dtpRedisplay(menuRedisplayFunc) };
+}
+
+var getIconContainerStyle = function(isVertical) {
+    let style = 'padding: ';
+
+    if (Me.settings.get_boolean('group-apps')) {
+        style += (isVertical ? '0;' : '0 ' + DEFAULT_PADDING_SIZE + 'px;');
+    } else {
+        style += (isVertical ? '' : '0 ') + DEFAULT_PADDING_SIZE + 'px;';
+    }
+
+    return style;
 }
