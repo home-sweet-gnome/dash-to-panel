@@ -446,18 +446,8 @@ var dtpOverview = Utils.defineClass({
                     return Clutter.EVENT_PROPAGATE;
                 }
 
-                let visibleView;
-                views.every(function(v, index) {
-                    if (v.view.actor.visible) {
-                        visibleView = index;
-                        return false;
-                    }
-                    else
-                        return true;
-                });
-
                 if(Me.settings.get_boolean('animate-show-apps')) {
-                    let view = views[visibleView].view;
+                    let view = views.find(v => v.view.actor.visible).view;
                     view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
                         Main.overview.viewSelector._appsPage.hide();
                         Main.overview.hide();
