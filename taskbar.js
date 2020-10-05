@@ -49,6 +49,9 @@ const Panel = Me.imports.panel;
 const Utils = Me.imports.utils;
 const WindowPreview = Me.imports.windowPreview;
 
+const DND_HOLD_TARGET_OPACITY = 50;
+const DND_DROP_TARGET_OPACITY = 255;
+
 var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 var MIN_ICON_SIZE = 4;
@@ -555,11 +558,11 @@ var taskbar = Utils.defineClass({
         if (appIcon._draggable) {
             appIcon._draggable.connect('drag-begin',
                                        Lang.bind(this, function() {
-                                           appIcon.actor.opacity = 50;
+                                           appIcon.actor.opacity = DND_HOLD_TARGET_OPACITY;
                                        }));
             appIcon._draggable.connect('drag-end',
                                        Lang.bind(this, function() {
-                                           appIcon.actor.opacity = 255;
+                                           appIcon.actor.opacity = DND_DROP_TARGET_OPACITY;
                                        }));
         }
 
@@ -953,6 +956,7 @@ var taskbar = Utils.defineClass({
         if (!this._box.contains(sourceActor) && !source._dashItemContainer) {
             //not an appIcon of the taskbar, probably from the applications view
             source._dashItemContainer = new DragPlaceholderItem(source, this.iconSize, isVertical);
+            source._dashItemContainer.actor.opacity = DND_HOLD_TARGET_OPACITY;
             this._box.insert_child_above(source._dashItemContainer, null);
         }
 
