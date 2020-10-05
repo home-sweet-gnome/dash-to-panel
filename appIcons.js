@@ -105,6 +105,8 @@ let menuRedisplayFunc = !!AppDisplay.AppIconMenu.prototype._rebuildMenu ? '_rebu
  *
  */
 
+let primaryMonitor = 0;
+
 var taskbarAppIcon = Utils.defineClass({
     Name: 'DashToPanel.TaskbarAppIcon',
     Extends: AppDisplay.AppIcon,
@@ -261,6 +263,10 @@ var taskbarAppIcon = Utils.defineClass({
         this._progressIndicator = new Progress.ProgressIndicator(this, panel.progressManager);
 
         this._numberOverlay();
+
+        if(this.dtpPanel.isPrimary) {
+            primaryMonitor = this.dtpPanel.monitor;
+        }
     },
 
     getDragActor: function() {
@@ -1348,9 +1354,11 @@ function getInterestingWindows(app, monitor, isolateMonitors) {
         });
 
     if (monitor && Me.settings.get_boolean('multi-monitors') && (isolateMonitors || Me.settings.get_boolean('isolate-monitors'))) {
-        windows = windows.filter(function(w) {
-            return w.get_monitor() == monitor.index;
-        });
+        if(!(Me.settings.get_boolean('always-show-on-primary') && monitor == primaryMonitor)) {
+            windows = windows.filter(function(w) {
+                return w.get_monitor() == monitor.index;
+            });
+        }
     }
     
     return windows;

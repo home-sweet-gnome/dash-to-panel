@@ -1394,7 +1394,12 @@ const Settings = new Lang.Class({
                             this._builder.get_object('multimon_multi_isolate_monitor_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
-
+                            
+        this._settings.bind('always-show-on-primary',
+                            this._builder.get_object('multimon_multi_always_show_primary_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+                            
         this._settings.bind('overview-click-to-exit',
                             this._builder.get_object('clicktoexit_switch'),
                             'active',
