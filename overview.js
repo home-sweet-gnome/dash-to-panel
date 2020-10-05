@@ -472,6 +472,14 @@ var dtpOverview = Utils.defineClass({
                     || pickedActor == overviewControls.dash._container) {
                     return Clutter.EVENT_PROPAGATE;
                 }
+
+                if (pickedActor instanceof Meta.BackgroundActor) {
+                    overviewControls._thumbnailsBox._thumbnails.find(t =>
+                        pickedActor == t._bgManager.backgroundActor
+                    ).activate();
+                    return Clutter.EVENT_STOP;
+                }
+
                 Main.overview.toggle();
             } else {
                 Main.overview.toggle();
