@@ -612,6 +612,11 @@
       <summary>Provide monitor isolation</summary>
       <description>Dash shows only windows from the current monitor</description>
     </key>
+    <key type="b" name="always-show-on-primary">
+      <default>false</default>
+      <summary>Always show icons on primary monitor</summary>
+      <description>When using monitor isolation, always show running apps on the primary monitor</description>
+    </key>
     <key type="b" name="show-favorites-all-monitors">
       <default>true</default>
       <summary>Display the favorites on all monitors</summary>
