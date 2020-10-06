@@ -446,18 +446,8 @@ var dtpOverview = Utils.defineClass({
                     return Clutter.EVENT_PROPAGATE;
                 }
 
-                let visibleView;
-                views.every(function(v, index) {
-                    if (v.view.actor.visible) {
-                        visibleView = index;
-                        return false;
-                    }
-                    else
-                        return true;
-                });
-
                 if(Me.settings.get_boolean('animate-show-apps')) {
-                    let view = views[visibleView].view;
+                    let view = Utils.find(views, v => v.view.actor.visible).view;
                     view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
                         Main.overview.viewSelector._appsPage.hide();
                         Main.overview.hide();
@@ -472,6 +462,14 @@ var dtpOverview = Utils.defineClass({
                     || pickedActor == overviewControls.dash._container) {
                     return Clutter.EVENT_PROPAGATE;
                 }
+
+                if (pickedActor instanceof Meta.BackgroundActor) {
+                    Utils.find(overviewControls._thumbnailsBox._thumbnails, t =>
+                        pickedActor == t._bgManager.backgroundActor
+                    ).activate();
+                    return Clutter.EVENT_STOP;
+                }
+
                 Main.overview.toggle();
             } else {
                 Main.overview.toggle();
