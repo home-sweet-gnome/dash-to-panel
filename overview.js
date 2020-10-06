@@ -447,7 +447,7 @@ var dtpOverview = Utils.defineClass({
                 }
 
                 if(Me.settings.get_boolean('animate-show-apps')) {
-                    let view = views.find(v => v.view.actor.visible).view;
+                    let view = Utils.find(views, v => v.view.actor.visible).view;
                     view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
                         Main.overview.viewSelector._appsPage.hide();
                         Main.overview.hide();
@@ -464,7 +464,7 @@ var dtpOverview = Utils.defineClass({
                 }
 
                 if (pickedActor instanceof Meta.BackgroundActor) {
-                    overviewControls._thumbnailsBox._thumbnails.find(t =>
+                    Utils.find(overviewControls._thumbnailsBox._thumbnails, t =>
                         pickedActor == t._bgManager.backgroundActor
                     ).activate();
                     return Clutter.EVENT_STOP;
