@@ -212,7 +212,7 @@ var dtpPanelManager = Utils.defineClass({
                                 this._needsIconAllocate = currentAppsView != v;
                                 currentAppsView = v;
                             }
-                        ],
+                        ]
                     );
                 }
 
