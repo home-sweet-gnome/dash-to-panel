@@ -222,7 +222,6 @@ var dtpPanel = Utils.defineClass({
         });
 
         let isTop = this.geom.position == St.Side.TOP;
-        let cornerFunc = (isTop ? 'add' : 'remove') + '_child';
 
         if (isTop) {
             this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
@@ -245,8 +244,13 @@ var dtpPanel = Utils.defineClass({
             Utils.wrapActor(this.panel._leftCorner);
             Utils.wrapActor(this.panel._rightCorner);
 
-            this.panel.actor[cornerFunc](this.panel._leftCorner.actor);
-            this.panel.actor[cornerFunc](this.panel._rightCorner.actor);
+            let cornerFunc = isTop && this.isStandalone ? 'add_child' : 
+                             Config.PACKAGE_VERSION >= '3.32' ? 'remove_child' : '';
+
+            if (cornerFunc) {
+                this.panel.actor[cornerFunc](this.panel._leftCorner.actor);
+                this.panel.actor[cornerFunc](this.panel._rightCorner.actor);
+            }
         }
 
         this._setPanelPosition();
@@ -485,8 +489,10 @@ var dtpPanel = Utils.defineClass({
                 }
             }
 
-            this.panel.actor.add_child(this.panel._leftCorner.actor);
-            this.panel.actor.add_child(this.panel._rightCorner.actor);
+            if (!this.panel._leftCorner.actor.mapped) {
+                this.panel.actor.add_child(this.panel._leftCorner.actor);
+                this.panel.actor.add_child(this.panel._rightCorner.actor);
+            }
 
             this._setShowDesktopButton(false);
 
