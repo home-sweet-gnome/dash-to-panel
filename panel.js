@@ -244,12 +244,14 @@ var dtpPanel = Utils.defineClass({
             Utils.wrapActor(this.panel._leftCorner);
             Utils.wrapActor(this.panel._rightCorner);
 
-            let cornerFunc = isTop && this.isStandalone ? 'add_child' : 
-                             Config.PACKAGE_VERSION >= '3.32' ? 'remove_child' : '';
-
-            if (cornerFunc) {
-                this.panel.actor[cornerFunc](this.panel._leftCorner.actor);
-                this.panel.actor[cornerFunc](this.panel._rightCorner.actor);
+            if (isTop) {
+                if (this.isStandalone) {
+                    this.panel.actor.add_child(this.panel._leftCorner.actor);
+                    this.panel.actor.add_child(this.panel._rightCorner.actor);
+                }
+            } else if (Config.PACKAGE_VERSION >= '3.32') {
+                this.panel.actor.remove_child(this.panel._leftCorner.actor);
+                this.panel.actor.remove_child(this.panel._rightCorner.actor);
             }
         }
 
