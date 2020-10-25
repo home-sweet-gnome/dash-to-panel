@@ -32,16 +32,22 @@ const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
 const Mainloop = imports.mainloop;
+const IconGrid = imports.ui.iconGrid;
+const ViewSelector = imports.ui.viewSelector;
 
 const Meta = imports.gi.Meta;
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
+
+//timeout names
+const T1 = 'swipeEndTimeout';
 
 var dtpOverview = Utils.defineClass({
     Name: 'DashToPanel.Overview',
 
     _init: function() {
         this._numHotkeys = 10;
+        this._timeoutsHandler = new Utils.TimeoutsHandler();
     },
 
     enable : function(panel) {
@@ -54,8 +60,9 @@ var dtpOverview = Utils.defineClass({
         this._optionalWorkspaceIsolation();
         this._optionalHotKeys();
         this._optionalNumberOverlay();
+        this._optionalClickToExit();
         this._toggleDash();
-        
+
         this._signalsHandler.add([
             Me.settings,
             'changed::stockgs-keep-dash', 
@@ -72,6 +79,7 @@ var dtpOverview = Utils.defineClass({
         // Remove key bindings
         this._disableHotKeys();
         this._disableExtraShortcut();
+        this._disableClickToExit();
     },
 
     _toggleDash: function(visible) {
@@ -390,5 +398,139 @@ var dtpOverview = Utils.defineClass({
             
             this._panel.intellihide.release(Intellihide.Hold.TEMPORARY);
         }));
+    },
+
+    _optionalClickToExit: function() {
+        this._clickToExitEnabled = false;
+        if (Me.settings.get_boolean('overview-click-to-exit'))
+            this._enableClickToExit();
+
+        this._signalsHandler.add([
+            Me.settings,
+            'changed::overview-click-to-exit',
+            Lang.bind(this, function() {
+                    if (Me.settings.get_boolean('overview-click-to-exit'))
+                        Lang.bind(this, this._enableClickToExit)();
+                    else
+                        Lang.bind(this, this._disableClickToExit)();
+            })
+        ]);
+    },
+
+    _enableClickToExit: function() {
+        if (this._clickToExitEnabled)
+            return;
+
+        let views = Utils.getAppDisplayViews();
+        this._oldOverviewReactive = Main.overview._overview.reactive
+
+        Main.overview._overview.reactive = true;
+
+        this._clickAction = new Clutter.ClickAction();
+        this._clickAction.connect('clicked', () => {
+            
+            if (this._swiping)
+                return Clutter.EVENT_PROPAGATE;
+  
+            let [x, y] = global.get_pointer();
+            let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.ALL, x, y);
+
+            let activePage = Main.overview.viewSelector.getActivePage();
+            if (activePage == ViewSelector.ViewPage.APPS) {
+
+                if(pickedActor != Main.overview._overview 
+                    && (views.length > 1 && pickedActor != Main.overview.viewSelector.appDisplay._controls.get_parent())
+                    && pickedActor != (views[0].view.actor || views[0].view)
+                    && (views.length > 1 && pickedActor != views[1].view._scrollView)
+                    && (views.length > 1 && pickedActor != views[1].view._grid)) {
+                    return Clutter.EVENT_PROPAGATE;
+                }
+
+                if(Me.settings.get_boolean('animate-show-apps')) {
+                    let view = Utils.find(views, v => v.view.actor.visible).view;
+                    view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
+                        Main.overview.viewSelector._appsPage.hide();
+                        Main.overview.hide();
+                    }));
+                } else {
+                    Main.overview.hide();
+                }
+            } else if (activePage == ViewSelector.ViewPage.WINDOWS) {
+                let overviewControls = Main.overview._overview._controls || Main.overview._controls;
+
+                if(pickedActor == overviewControls._thumbnailsBox
+                    || pickedActor == overviewControls.dash._container) {
+                    return Clutter.EVENT_PROPAGATE;
+                }
+
+                if (pickedActor instanceof Meta.BackgroundActor) {
+                    Utils.find(overviewControls._thumbnailsBox._thumbnails, t =>
+                        pickedActor == t._bgManager.backgroundActor
+                    ).activate();
+                    return Clutter.EVENT_STOP;
+                }
+
+                Main.overview.toggle();
+            } else {
+                Main.overview.toggle();
+            }
+         });
+         Main.overview._overview.add_action(this._clickAction);
+
+        [Main.overview.viewSelector._workspacesDisplay].concat(views.map(v => v.view)).forEach(v => {
+            if (v._swipeTracker) {
+                this._signalsHandler.addWithLabel('clickToExit', [
+                    v._swipeTracker,
+                    'begin',
+                    Lang.bind(this, this._onSwipeBegin)
+                ],[
+                    v._swipeTracker,
+                    'end',
+                    Lang.bind(this, this._onSwipeEnd)
+                ]);
+            } else if (v._panAction) {
+                this._signalsHandler.addWithLabel('clickToExit', [
+                    v._panAction,
+                    'gesture-begin',
+                    Lang.bind(this, this._onSwipeBegin)
+                ],[
+                    v._panAction,
+                    'gesture-cancel',
+                    Lang.bind(this, this._onSwipeEnd)
+                ],[
+                    v._panAction,
+                    'gesture-end',
+                    Lang.bind(this, this._onSwipeEnd)
+                ]);
+            }
+        });
+
+        this._clickToExitEnabled = true;
+    },
+
+    _disableClickToExit: function () {
+        if (!this._clickToExitEnabled)
+            return;
+        
+        Main.overview._overview.remove_action(this._clickAction);
+        Main.overview._overview.reactive = this._oldOverviewReactive;
+
+        this._signalsHandler.removeWithLabel('clickToExit');
+    
+        this._clickToExitEnabled = false;
+    },
+
+    _onSwipeBegin: function() {
+        this._swiping = true;
+        return true;
+    },
+
+    _onSwipeEnd: function() {
+        this._timeoutsHandler.add([
+            T1,
+            0, 
+            () => this._swiping = false
+        ]);
+        return true;
     }
 });

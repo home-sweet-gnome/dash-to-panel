@@ -988,6 +988,24 @@ const Settings = new Lang.Class({
             dialog.show_all();
 
         }));
+        
+        this._settings.bind('desktop-line-use-custom-color',
+                            this._builder.get_object('override_show_desktop_line_color_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('desktop-line-use-custom-color',
+                            this._builder.get_object('override_show_desktop_line_color_colorbutton'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        
+        rgba.parse(this._settings.get_string('desktop-line-custom-color'));
+        this._builder.get_object('override_show_desktop_line_color_colorbutton').set_rgba(rgba);
+        this._builder.get_object('override_show_desktop_line_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+            let rgba = button.get_rgba();
+            let css = rgba.to_string();
+            this._settings.set_string('desktop-line-custom-color', css);
+        }));
 
 
         this._settings.bind('intellihide',
@@ -1247,6 +1265,14 @@ const Settings = new Lang.Class({
                             this._builder.get_object('preview_custom_opacity_spinbutton'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('window-preview-use-custom-icon-size',
+                            this._builder.get_object('preview_custom_icon_size_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('window-preview-use-custom-icon-size',
+                            this._builder.get_object('preview_custom_icon_size_spinbutton'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
 
             this._builder.get_object('preview_custom_opacity_spinbutton').set_value(this._settings.get_int('preview-custom-opacity'));
             this._builder.get_object('preview_custom_opacity_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
@@ -1269,6 +1295,10 @@ const Settings = new Lang.Class({
             this._settings.bind('window-preview-show-title',
                             this._builder.get_object('preview_show_title_switch'),
                             'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+            this._settings.bind('window-preview-show-title',
+                            this._builder.get_object('grid_preview_custom_icon_size'),
+                            'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
             this._settings.bind('window-preview-show-title',
                             this._builder.get_object('grid_preview_title_size'),
@@ -1332,6 +1362,11 @@ const Settings = new Lang.Class({
             this._builder.get_object('preview_title_size_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
                 this._settings.set_int('window-preview-title-font-size', widget.get_value());
             }));
+            
+            this._builder.get_object('preview_custom_icon_size_spinbutton').set_value(this._settings.get_int('window-preview-custom-icon-size'));
+            this._builder.get_object('preview_custom_icon_size_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
+                this._settings.set_int('window-preview-custom-icon-size', widget.get_value());
+            }));
 
             this._builder.get_object('grid_preview_title_weight_combo').set_active_id(this._settings.get_string('window-preview-title-font-weight'));
             this._builder.get_object('grid_preview_title_weight_combo').connect('changed', Lang.bind (this, function(widget) {
@@ -1359,6 +1394,8 @@ const Settings = new Lang.Class({
                     this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));
 
                     this._settings.set_value('preview-use-custom-opacity', this._settings.get_default_value('preview-use-custom-opacity'));
+                    
+                    this._settings.set_value('window-preview-use-custom-icon-size', this._settings.get_default_value('window-preview-use-custom-icon-size'));
 
                     this._settings.set_value('preview-custom-opacity', this._settings.get_default_value('preview-custom-opacity'));
                     this._builder.get_object('preview_custom_opacity_spinbutton').set_value(this._settings.get_int('preview-custom-opacity'));
@@ -1392,6 +1429,9 @@ const Settings = new Lang.Class({
 
                     this._settings.set_value('window-preview-title-font-size', this._settings.get_default_value('window-preview-title-font-size'));
                     this._builder.get_object('preview_title_size_spinbutton').set_value(this._settings.get_int('window-preview-title-font-size'));
+                    
+                    this._settings.set_value('window-preview-custom-icon-size', this._settings.get_default_value('window-preview-custom-icon-size'));
+                    this._builder.get_object('preview_custom_icon_size_spinbutton').set_value(this._settings.get_int('window-preview-custom-icon-size'));
 
                     this._settings.set_value('window-preview-title-font-weight', this._settings.get_default_value('window-preview-title-font-weight'));
                     this._builder.get_object('grid_preview_title_weight_combo').set_active_id(this._settings.get_string('window-preview-title-font-weight'));
@@ -1420,6 +1460,11 @@ const Settings = new Lang.Class({
 
         this._settings.bind('isolate-monitors',
                             this._builder.get_object('multimon_multi_isolate_monitor_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('overview-click-to-exit',
+                            this._builder.get_object('clicktoexit_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 

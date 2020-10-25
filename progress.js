@@ -289,7 +289,7 @@ var ProgressIndicator = Utils.defineClass({
         this._notificationBadgeBin.hide();
 
         this._source._dtpIconContainer.add_child(this._notificationBadgeBin);
-        this._source._dtpIconContainer.connect('allocation-changed', this.updateNotificationBadge.bind(this));
+        this._source._dtpIconContainer.connect('notify::allocation', this.updateNotificationBadge.bind(this));
 
         this._progressManagerEntries = [];
         this._progressManager.lookupById(this._source.app.id).forEach(

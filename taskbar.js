@@ -85,7 +85,7 @@ var taskbarActor = Utils.defineClass({
     },
 
     vfunc_allocate: function(box, flags)  {
-        this.set_allocation(box, flags);
+        Utils.setAllocation(this, box, flags);
 
         let panel = this._delegate.dtpPanel;
         let availFixedSize = box[panel.fixedCoord.c2] - box[panel.fixedCoord.c1];
@@ -100,7 +100,7 @@ var taskbarActor = Utils.defineClass({
         childBox[panel.fixedCoord.c1] = box[panel.fixedCoord.c1];
         childBox[panel.fixedCoord.c2] = box[panel.fixedCoord.c2];
 
-        scrollview.allocate(childBox, flags);
+        Utils.allocate(scrollview, childBox, flags);
 
         let [value, , upper, , , pageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
         upper = Math.floor(upper);
@@ -116,11 +116,11 @@ var taskbarActor = Utils.defineClass({
         }
         
         childBox[panel.varCoord.c2] = childBox[panel.varCoord.c1] + (value > 0 ? scrollview._dtpFadeSize : 0);
-        leftFade.allocate(childBox, flags);
+        Utils.allocate(leftFade, childBox, flags);
 
         childBox[panel.varCoord.c1] = box[panel.varCoord.c2] - (value + pageSize < upper ? scrollview._dtpFadeSize : 0);
         childBox[panel.varCoord.c2] = box[panel.varCoord.c2];
-        rightFade.allocate(childBox, flags);
+        Utils.allocate(rightFade, childBox, flags);
     },
 
     // We want to request the natural size of all our children
@@ -228,9 +228,6 @@ var taskbar = Utils.defineClass({
         this.previewMenu = new WindowPreview.PreviewMenu(panel);
         this.previewMenu.enable();
 
-        if (!Me.settings.get_boolean('show-show-apps-button'))
-            this.hideShowAppsButton();
-
         let rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
         this.actor = new St.Bin({ child: this._container,
             y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
@@ -310,18 +307,6 @@ var taskbar = Utils.defineClass({
                 Main.overview.viewSelector._showAppsButton,
                 'notify::checked',
                 Lang.bind(this, this._syncShowAppsButtonToggled)
-            ],
-            [
-                Me.settings,
-                'changed::show-show-apps-button',
-                Lang.bind(this, function() {
-                    if (Me.settings.get_boolean('show-show-apps-button'))
-                        this.showShowAppsButton();
-                    else
-                        this.hideShowAppsButton();
-
-                    this.resetAppIcons();
-                })
             ],
             [
                 Me.settings,
@@ -963,19 +948,17 @@ var taskbar = Utils.defineClass({
             return DND.DragMotionResult.NO_DROP;
 
         let sourceActor = source instanceof St.Widget ? source : source.actor;
+        let isVertical = this.dtpPanel.checkIfVertical();
 
         if (!this._box.contains(sourceActor) && !source._dashItemContainer) {
             //not an appIcon of the taskbar, probably from the applications view
-            source._dashItemContainer = new DragPlaceholderItem(source, this.iconSize);
+            source._dashItemContainer = new DragPlaceholderItem(source, this.iconSize, isVertical);
             this._box.insert_child_above(source._dashItemContainer, null);
         }
-        
-        let isVertical = this.dtpPanel.checkIfVertical();
+
         let sizeProp = isVertical ? 'height' : 'width';
         let posProp = isVertical ? 'y' : 'x';
         let pos = isVertical ? y : x;
-
-        pos -= this.showAppsButton[sizeProp];
 
         let currentAppIcons = this._getAppIcons();
         let sourceIndex = currentAppIcons.indexOf(source);
@@ -1098,7 +1081,7 @@ var taskbar = Utils.defineClass({
         if (selector._showAppsButton.checked !== this.showAppsButton.checked) {
             // find visible view
             let visibleView;
-            Main.overview.viewSelector.appDisplay._views.every(function(v, index) {
+            Utils.getAppDisplayViews().every(function(v, index) {
                 if (v.view.actor.visible) {
                     visibleView = index;
                     return false;
@@ -1125,7 +1108,7 @@ var taskbar = Utils.defineClass({
                 // runs if we are already inside the overview.
                 if (!Main.overview._shown) {
                     this.forcedOverview = true;
-                    let grid = Main.overview.viewSelector.appDisplay._views[visibleView].view._grid;
+                    let grid = Utils.getAppDisplayViews()[visibleView].view._grid;
                     let onShownCb;
                     let overviewShownId = Main.overview.connect('shown', () => {
                         Main.overview.disconnect(overviewShownId);
@@ -1179,7 +1162,7 @@ var taskbar = Utils.defineClass({
                         // Manually trigger springout animation without activating the
                         // workspaceView to avoid the zoomout animation. Hide the appPage
                         // onComplete to avoid ugly flashing of original icons.
-                        let view = Main.overview.viewSelector.appDisplay._views[visibleView].view;
+                        let view = Utils.getAppDisplayViews()[visibleView].view;
                         view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
                             Main.overview.viewSelector._appsPage.hide();
                             Main.overview.hide();
@@ -1212,12 +1195,6 @@ var taskbar = Utils.defineClass({
         this.showAppsButton.set_height(-1);
     },
 
-    hideShowAppsButton: function() {
-        this.showAppsButton.hide();
-        this.showAppsButton.set_width(0);
-        this.showAppsButton.set_height(0);
-    },
-
     popupFocusedAppSecondaryMenu: function() {
         let appIcons = this._getAppIcons();
         let tracker = Shell.WindowTracker.get_default();
@@ -1243,8 +1220,8 @@ var DragPlaceholderItem = Utils.defineClass({
     Name: 'DashToPanel-DragPlaceholderItem',
     Extends: St.Widget,
 
-    _init: function(appIcon, iconSize) {
-        this.callParent('_init', { style: appIcon.getIconContainerStyle(), layout_manager: new Clutter.BinLayout() });
+    _init: function(appIcon, iconSize, isVertical) {
+        this.callParent('_init', { style: AppIcons.getIconContainerStyle(isVertical), layout_manager: new Clutter.BinLayout() });
 
         this.child = { _delegate: appIcon };
 

@@ -46,7 +46,7 @@ var ProximityWatch = Utils.defineClass({
         this.threshold = [xThreshold, yThreshold];
         this.handler = handler;
 
-        this._allocationChangedId = actor.connect('allocation-changed', () => this._update());
+        this._allocationChangedId = actor.connect('notify::allocation', () => this._update());
 
         this._update();
     },
@@ -155,7 +155,7 @@ var ProximityManager = Utils.defineClass({
             let focusedWindowInfo = this._getFocusedWindowInfo(focusedWindow);
 
             if (focusedWindowInfo && this._checkIfHandledWindowType(focusedWindowInfo.metaWindow)) {
-                focusedWindowInfo.allocationId = focusedWindowInfo.window.connect('allocation-changed', () => this._queueUpdate());
+                focusedWindowInfo.allocationId = focusedWindowInfo.window.connect('notify::allocation', () => this._queueUpdate());
                 focusedWindowInfo.destroyId = focusedWindowInfo.window.connect('destroy', () => this._disconnectFocusedWindow(true));
                 
                 this._focusedWindowInfo = focusedWindowInfo;
