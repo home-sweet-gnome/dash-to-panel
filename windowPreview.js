@@ -144,7 +144,7 @@ var PreviewMenu = Utils.defineClass({
             [
                 Me.settings,
                 [
-                    'changed::panel-size',
+                    'changed::panel-sizes',
                     'changed::window-preview-size',
                     'changed::window-preview-padding',
                     'changed::window-preview-show-title'

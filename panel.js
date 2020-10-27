@@ -36,6 +36,7 @@ const AppIcons = Me.imports.appIcons;
 const Utils = Me.imports.utils;
 const Taskbar = Me.imports.taskbar;
 const Pos = Me.imports.panelPositions;
+const PanelSettings = Me.imports.panelSettings;
 const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
 const Main = imports.ui.main;
@@ -535,8 +536,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     getPosition: function() {
-        //for now, use the previous "global" position setting as default. The 'panel-position' should be deleted in the future 
-        let position = this.panelManager.panelPositions[this.monitor.index] || Me.settings.get_string('panel-position');
+        let position = PanelSettings.getPanelPosition(Me.settings, this.monitor.index);
 
         if (position == Pos.TOP) {
             return St.Side.TOP;
@@ -652,12 +652,12 @@ var dtpPanel = Utils.defineClass({
 
     _bindSettingsChanges: function() {
         let isVertical = this.checkIfVertical();
-        
+
         this._signalsHandler.add(
             [
                 Me.settings,
                 [
-                    'changed::panel-size',
+                    'changed::panel-sizes',
                     'changed::group-apps'
                 ],
                 () => this._resetGeometry()
@@ -814,14 +814,15 @@ var dtpPanel = Utils.defineClass({
         let topPadding = panelBoxTheme.get_padding(St.Side.TOP);
         let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM);
         let position = this.getPosition();
-        let length = Me.settings.get_int('panel-length') / 100;
-        let anchor = Me.settings.get_string('panel-anchor');
+        let length = PanelSettings.getPanelLength(Me.settings, this.monitor.index) / 100;
+        let anchor = PanelSettings.getPanelAnchor(Me.settings, this.monitor.index);
         let anchorPlaceOnMonitor = 0;
         let gsTopPanelOffset = 0;
         let x = 0, y = 0;
         let w = 0, h = 0;
 
-        this.dtpSize = Me.settings.get_int('panel-size') * scaleFactor;
+        const panelSize = PanelSettings.getPanelSize(Me.settings, this.monitor.index);
+        this.dtpSize = panelSize * scaleFactor;
 
         if (Me.settings.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
             gsTopPanelOffset = Main.layoutManager.panelBox.height - topPadding;

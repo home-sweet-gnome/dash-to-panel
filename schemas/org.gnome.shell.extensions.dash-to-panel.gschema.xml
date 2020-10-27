@@ -40,11 +40,6 @@
     <value value='2' nick='LEFT'/>
     <value value='3' nick='RIGHT'/>
   </enum>
-  <enum id='org.gnome.shell.extensions.dash-to-panel.anchor'>
-    <value value='0' nick='START'/>
-    <value value='1' nick='MIDDLE'/>
-    <value value='2' nick='END'/>
-  </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.proximityBehavior'>
     <value value='0' nick='ALL_WINDOWS'/>
     <value value='1' nick='FOCUSED_WINDOWS'/>
@@ -74,7 +69,7 @@
     </key>
     <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
-      <summary>Panel position</summary>
+      <summary>Panel position (Deprecated)</summary>
       <description>Panel is shown on the Bottom or Top of the screen.</description>
     </key>
     <key name="panel-element-positions-monitors-sync" type="b">
@@ -92,19 +87,24 @@
       <summary>Panel element positions</summary>
       <description>Panel element positions (JSON).</description>
     </key>
-    <key type="i" name="panel-length">
-      <default>100</default>
-      <summary>Percentage of screen edge for panel to span</summary>
-      <description>Length of the panel, in percent.</description>
+    <key type="s" name="panel-lengths">
+      <default>'{}'</default>
+      <summary>Percentages of screen edge for panel to span</summary>
+      <description>Length of the panels, in percent (JSON).</description>
     </key>
-    <key name="panel-anchor" enum="org.gnome.shell.extensions.dash-to-panel.anchor">
-      <default>'MIDDLE'</default>
-      <summary>Position along screen edge</summary>
-      <description>Where to show the panel if it is not the full length of the screen edge.</description>
+    <key type="s" name="panel-anchors">
+      <default>'{}'</default>
+      <summary>Positions along screen edge</summary>
+      <description>Where to show the panels if it is not the full length of the screen edge (JSON).</description>
+    </key>
+    <key type="s" name="panel-sizes">
+      <default>'{}'</default>
+      <summary>Panel sizes</summary>
+      <description>Sizes of panels, in pixels.</description>
     </key>
     <key type="i" name="panel-size">
       <default>48</default>
-      <summary>Panel size</summary>
+      <summary>Panel size (Deprecated)</summary>
       <description>Set the size of the panel.</description>
     </key>
     <key type="b" name="desktop-line-use-custom-color">

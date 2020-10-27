@@ -56,18 +56,6 @@ var optionDialogFunctions = {};
 optionDialogFunctions[SHOW_APPS_BTN] = '_showShowAppsButtonOptions';
 optionDialogFunctions[DESKTOP_BTN] = '_showDesktopButtonOptions';
 
-function getSettingsPositions(settings, setting) {
-    var positions = null;
-
-    try {
-        positions = JSON.parse(settings.get_string(setting));
-    } catch(e) {
-        log('Error parsing positions: ' + e.message);
-    }
-
-    return positions;
-}
-
 function checkIfCentered(position) {
     return position == CENTERED || position == CENTERED_MONITOR;
 }

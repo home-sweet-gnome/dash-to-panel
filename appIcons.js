@@ -47,6 +47,7 @@ const Workspace = imports.ui.workspace;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Me.imports.utils;
 const Panel = Me.imports.panel;
+const PanelSettings = Me.imports.panelSettings;
 const Taskbar = Me.imports.taskbar;
 const Progress = Me.imports.progress;
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
@@ -573,9 +574,9 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _setAppIconPadding: function() {
-        let padding = getIconPadding();
+        let padding = getIconPadding(this.dtpPanel.monitor.index);
         let margin = Me.settings.get_int('appicon-margin');
-        
+
         this.actor.set_style('padding:' + (this.dtpPanel.checkIfVertical() ? margin + 'px 0' : '0 ' + margin + 'px;'));
         this._iconContainer.set_style('padding: ' + padding + 'px;');
     },
@@ -1365,8 +1366,8 @@ function cssHexTocssRgba(cssHex, opacity) {
     return 'rgba(' + [r, g, b].join(',') + ',' + opacity + ')';
 }
 
-function getIconPadding() {
-    let panelSize = Me.settings.get_int('panel-size');
+function getIconPadding(monitorIndex) {
+    let panelSize = PanelSettings.getPanelSize(Me.settings, monitorIndex);
     let padding = Me.settings.get_int('appicon-padding');
     let availSize = panelSize - Taskbar.MIN_ICON_SIZE - panelSize % 2;
 
@@ -1684,7 +1685,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
     },
 
     setShowAppsPadding: function() {
-        let padding = getIconPadding(); 
+        let padding = getIconPadding(this.realShowAppsIcon._dtpPanel.monitor.index);
         let sidePadding = Me.settings.get_int('show-apps-icon-side-padding');
         let isVertical = this.realShowAppsIcon._dtpPanel.checkIfVertical();
 
