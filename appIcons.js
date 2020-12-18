@@ -110,12 +110,13 @@ var taskbarAppIcon = Utils.defineClass({
     Extends: AppDisplay.AppIcon,
     ParentConstrParams: [[0, 'app'], [2]],
 
-    _init: function(appInfo, panel, iconParams, previewMenu) {
+    _init: function(appInfo, panel, iconParams, previewMenu, iconAnimator) {
         this.dtpPanel = panel;
         this._nWindows = 0;
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
         this._previewMenu = previewMenu;
+        this.iconAnimator = iconAnimator;
 
         this._timeoutsHandler = new Utils.TimeoutsHandler();
 
