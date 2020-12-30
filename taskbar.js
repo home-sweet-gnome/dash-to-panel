@@ -90,10 +90,12 @@ var taskbarActor = Utils.defineClass({
         let panel = this._delegate.dtpPanel;
         let availFixedSize = box[panel.fixedCoord.c2] - box[panel.fixedCoord.c1];
         let availVarSize = box[panel.varCoord.c2] - box[panel.varCoord.c1];
-        let [, scrollview, leftFade, rightFade] = this.get_children();
+        let [dummy, scrollview, leftFade, rightFade] = this.get_children();
         let [, natSize] = this[panel.sizeFunc](availFixedSize);
         let childBox = new Clutter.ActorBox();
         let orientation = panel.getOrientation();
+
+        Utils.allocate(dummy, childBox, flags);
 
         childBox[panel.varCoord.c1] = box[panel.varCoord.c1];
         childBox[panel.varCoord.c2] = Math.min(availVarSize, natSize);
