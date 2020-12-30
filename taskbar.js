@@ -1110,8 +1110,8 @@ var taskbar = Utils.defineClass({
                     this.forcedOverview = true;
                     let grid = Utils.getAppDisplayViews()[visibleView].view._grid;
                     let onShownCb;
-                    let overviewShownId = Main.overview.connect('shown', () => {
-                        Main.overview.disconnect(overviewShownId);
+                    let overviewShowingId = Main.overview.connect('showing', () => {
+                        Main.overview.disconnect(overviewShowingId);
                         onShownCb();
                     });
 
