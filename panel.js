@@ -1334,15 +1334,17 @@ var dtpPanel = Utils.defineClass({
     },
 
     _toggleWorkspaceWindows: function(hide, workspace) {
-        let tweenOpts = {
-            opacity: hide ? 0 : 255,
-            time: Me.settings.get_int('show-showdesktop-time') * .001,
-            transition: 'easeOutQuad'
-        };
+        let time = Me.settings.get_int('show-showdesktop-time') * .001;
 
         workspace.list_windows().forEach(w => {
             if (!w.minimized) {
-                Utils.animateWindowOpacity(w.get_compositor_private(), tweenOpts)
+                let tweenOpts = {
+                    opacity: hide ? 0 : 255,
+                    time: time,
+                    transition: 'easeOutQuad'
+                };
+                
+                Utils.animateWindowOpacity(w.get_compositor_private(), tweenOpts);
             }
         });
     },
