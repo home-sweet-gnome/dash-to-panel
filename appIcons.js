@@ -588,6 +588,10 @@ var taskbarAppIcon = Utils.defineClass({
             this._draggable.fakeRelease();
         }
 
+        if (this.isDragged) {
+            return;
+        }
+
         if (!this._menu) {
             this._menu = new taskbarSecondaryMenu(this, this.dtpPanel);
             this._menu.connect('activate-window', Lang.bind(this, function (menu, window) {

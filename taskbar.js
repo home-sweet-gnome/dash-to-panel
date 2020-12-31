@@ -558,10 +558,13 @@ var taskbar = Utils.defineClass({
             appIcon._draggable.connect('drag-begin',
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 50;
+                                           appIcon.isDragged = 1;
                                        }));
             appIcon._draggable.connect('drag-end',
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 255;
+                                           delete appIcon.isDragged;
+                                           this._updateAppIcons();
                                        }));
         }
 
