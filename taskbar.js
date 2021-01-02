@@ -1115,7 +1115,8 @@ var taskbar = Utils.defineClass({
                     this.forcedOverview = true;
                     let grid = Utils.getAppDisplayViews()[visibleView].view._grid;
                     let onShownCb;
-                    let overviewShowingId = Main.overview.connect('showing', () => {
+                    let overviewSignal = Config.PACKAGE_VERSION > '3.38.1' ? 'showing' : 'shown';
+                    let overviewShowingId = Main.overview.connect(overviewSignal, () => {
                         Main.overview.disconnect(overviewShowingId);
                         onShownCb();
                     });
