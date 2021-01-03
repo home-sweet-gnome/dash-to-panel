@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-03 21:05+0900\n"
-"PO-Revision-Date: 2021-01-03 21:40+0900\n"
+"PO-Revision-Date: 2021-01-03 21:52+0900\n"
 "Last-Translator: sicklylife <translation@sicklylife.jp>\n"
 "Language-Team: Japanese\n"
 "Language: ja\n"
@@ -137,7 +137,7 @@ msgstr "非フォーカスの場合は異なる色を使用"
 
 #: Settings.ui:1141
 msgid "Font size (px) of the application titles (default is 14)"
-msgstr "アプリケーションタイトルのフォントサイズ (px) (デフォルトは 14)"
+msgstr "アプリケーションタイトルのフォントサイズ (px) (初期値は 14)"
 
 #: Settings.ui:1172
 msgid "Font weight of application titles"
@@ -173,7 +173,7 @@ msgstr "アプリケーションタイトルのフォントの色 (最小化時)
 
 #: Settings.ui:1306
 msgid "Maximum width (px) of the application titles (default is 160)"
-msgstr "アプリケーションタイトルの最大幅 (px) (デフォルトは 160)"
+msgstr "アプリケーションタイトルの最大幅 (px) (初期値は 160)"
 
 #: Settings.ui:1351
 msgid "Use a fixed width for the application titles"
@@ -262,7 +262,7 @@ msgstr "起動時に Intellihide を有効にする前の遅延 (ミリ秒)"
 
 #: Settings.ui:2158
 msgid "Time (ms) before showing (400 is default)"
-msgstr "表示までの時間 (ミリ秒) (デフォルトは 400)"
+msgstr "表示までの時間 (ミリ秒) (初期値は 400)"
 
 #: Settings.ui:2172
 msgid "Animation time (ms)"
@@ -270,7 +270,7 @@ msgstr "アニメーション時間 (ミリ秒)"
 
 #: Settings.ui:2205
 msgid "Time (ms) before hiding (100 is default)"
-msgstr "隠すまでの時間 (ミリ秒) (デフォルトは 100)"
+msgstr "隠すまでの時間 (ミリ秒) (初期値は 100)"
 
 #: Settings.ui:2229
 msgid "Immediate on application icon click"
@@ -672,7 +672,7 @@ msgid ""
 "(default is 48)"
 msgstr ""
 "パネルのサイズ\n"
-"(デフォルトは 48)"
+"(初期値は 48)"
 
 #: Settings.ui:5086
 msgid ""
@@ -680,7 +680,7 @@ msgid ""
 "(default is 8)"
 msgstr ""
 "アプリのアイコンのマージン\n"
-"(デフォルトは 8)"
+"(初期値は 8)"
 
 #: Settings.ui:5135
 msgid ""
@@ -688,7 +688,7 @@ msgid ""
 "(default is 4)"
 msgstr ""
 "アプリのアイコンのパディング\n"
-"(デフォルトは 4)"
+"(初期値は 4)"
 
 #: Settings.ui:5208
 msgid "Running indicator position"
@@ -890,7 +890,7 @@ msgid ""
 "(0 = theme default)"
 msgstr ""
 "トレイのフォントサイズ\n"
-"(0 = テーマのデフォルト)"
+"(0 = テーマの既定値)"
 
 #: Settings.ui:6964
 msgid ""
@@ -898,7 +898,7 @@ msgid ""
 "(0 = theme default)"
 msgstr ""
 "LeftBox のフォントサイズ\n"
-"(0 = テーマのデフォルト)"
+"(0 = テーマの既定値)"
 
 #: Settings.ui:7037
 msgid ""
@@ -906,7 +906,7 @@ msgid ""
 "(-1 = theme default)"
 msgstr ""
 "トレイアイテムのパディング\n"
-"(-1 = テーマのデフォルト)"
+"(-1 = テーマの既定値)"
 
 #: Settings.ui:7068
 msgid ""
@@ -914,7 +914,7 @@ msgid ""
 "(-1 = theme default)"
 msgstr ""
 "ステータスアイコンのパディング\n"
-"(-1 = テーマのデフォルト)"
+"(-1 = テーマの既定値)"
 
 #: Settings.ui:7099
 msgid ""
@@ -922,7 +922,7 @@ msgid ""
 "(-1 = theme default)"
 msgstr ""
 "LeftBox のパディング\n"
-"(-1 = テーマのデフォルト)"
+"(-1 = テーマの既定値)"
 
 #: Settings.ui:7170
 msgid "Animate switching applications"
@@ -1208,7 +1208,7 @@ msgstr "アプリケーション表示のオプション"
 #: prefs.js:1164 prefs.js:1450 prefs.js:1545 prefs.js:1610 prefs.js:1653
 #: prefs.js:1750 prefs.js:1784 prefs.js:1826
 msgid "Reset to defaults"
-msgstr "デフォルトに戻す"
+msgstr "初期設定に戻す"
 
 #: prefs.js:426
 msgid "Show Desktop options"
