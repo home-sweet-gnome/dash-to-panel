@@ -208,7 +208,7 @@ msgstr "Options d'alimentation"
 
 #: appIcons.js:1790
 msgid "Event logs"
-msgstr ""
+msgstr "Journaux d'événements"
 
 #: appIcons.js:1795
 msgid "System"
@@ -216,11 +216,11 @@ msgstr "Système"
 
 #: appIcons.js:1800
 msgid "Device Management"
-msgstr "Gestion des périphériques"
+msgstr "Gestionnaire de périphériques"
 
 #: appIcons.js:1805
 msgid "Disk Management"
-msgstr "Gestion des disques"
+msgstr "Gestionnaire de disques"
 
 #: appIcons.js:1819
 msgid "Terminal"
@@ -1388,30 +1388,6 @@ msgstr "À propos"
 
 #~ msgid "Multi-monitors options"
 #~ msgstr "Options multi-écran"
-
-#~ msgid "Event logs"
-#~ msgstr "Journaux d'évènements"
-
-#~ msgid "System"
-#~ msgstr "Système"
-
-#~ msgid "Device Management"
-#~ msgstr "Gestionnaire de périphériques"
-
-#~ msgid "Disk Management"
-#~ msgstr "Gestionnaire de disques"
-
-#~ msgid "Terminal"
-#~ msgstr "Terminal"
-
-#~ msgid "Files"
-#~ msgstr "Fichiers"
-
-#~ msgid "Extensions"
-#~ msgstr "Extensions"
-
-#~ msgid "Settings"
-#~ msgstr "Paramètres"
 
 #~ msgid "Display favorite applications on all monitors"
 #~ msgstr "Afficher les applications favorites sur tous les écrans"
