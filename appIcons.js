@@ -1782,27 +1782,27 @@ var MyShowAppsIconMenu = Utils.defineClass({
 
         if (this.sourceActor != Main.layoutManager.dummyCursor) {
             _appendItem(this, {
-                title: 'Power options',
+                title: _('Power options'),
                 cmd: ['gnome-control-center', 'power']
             });
 
             _appendItem(this, {
-                title: 'Event logs',
+                title: _('Event logs'),
                 cmd: ['gnome-logs']
             });
 
             _appendItem(this, {
-                title: 'System',
+                title: _('System'),
                 cmd: ['gnome-control-center', 'info-overview']
             });
 
             _appendItem(this, {
-                title: 'Device Management',
+                title: _('Device Management'),
                 cmd: ['gnome-control-center', 'display']
             });
 
             _appendItem(this, {
-                title: 'Disk Management',
+                title: _('Disk Management'),
                 cmd: ['gnome-disks']
             });
 
@@ -1816,27 +1816,27 @@ var MyShowAppsIconMenu = Utils.defineClass({
         }
 
         _appendItem(this, {
-            title: 'Terminal',
+            title: _('Terminal'),
             cmd: ['gnome-terminal']
         });
 
         _appendItem(this, {
-            title: 'System monitor',
+            title: _('System monitor'),
             cmd: ['gnome-system-monitor']
         });
 
         _appendItem(this, {
-            title: 'Files',
+            title: _('Files'),
             cmd: ['nautilus']
         });
 
         _appendItem(this, {
-            title: 'Extensions',
+            title: _('Extensions'),
             cmd: ['gnome-shell-extension-prefs']
         });
 
         _appendItem(this, {
-            title: 'Settings',
+            title: _('Settings'),
             cmd: ['gnome-control-center', 'wifi']
         });
 
