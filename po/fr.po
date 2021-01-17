@@ -236,7 +236,7 @@ msgstr "Fichiers"
 
 #: appIcons.js:1834
 msgid "Extensions"
-msgstr "Éxtensions"
+msgstr "Extensions"
 
 #: appIcons.js:1839
 msgid "Settings"
