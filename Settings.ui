@@ -4535,10 +4535,10 @@
         <property name="can_focus">False</property>
         <property name="margin_left">24</property>
         <property name="margin_right">24</property>
-        <property name="margin_top">24</property>
-        <property name="margin_bottom">24</property>
+        <property name="margin_top">12</property>
+        <property name="margin_bottom">12</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">24</property>
+        <property name="spacing">12</property>
         <child>
           <object class="GtkFrame" id="multimon_frame">
             <property name="visible">True</property>
@@ -4560,10 +4560,10 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="row_spacing">32</property>
-                        <property name="column_spacing">32</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
+                        <property name="row_spacing">6</property>
+                        <property name="column_spacing">24</property>
                         <child>
                           <object class="GtkLabel" id="multimon_primary_label">
                             <property name="visible">True</property>
@@ -4602,8 +4602,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
@@ -5000,10 +5000,10 @@
         <property name="can_focus">False</property>
         <property name="margin_left">24</property>
         <property name="margin_right">24</property>
-        <property name="margin_top">24</property>
-        <property name="margin_bottom">24</property>
+        <property name="margin_top">12</property>
+        <property name="margin_bottom">12</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">24</property>
+        <property name="spacing">12</property>
         <child>
           <object class="GtkFrame" id="panel_style">
             <property name="visible">True</property>
@@ -5077,7 +5077,7 @@
                         <property name="margin_right">12</property>
                         <property name="margin_top">6</property>
                         <property name="margin_bottom">6</property>
-                        <property name="row_spacing">12</property>
+                        <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="appicon_margin_label">
@@ -5197,9 +5197,9 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="spacing">32</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
+                        <property name="spacing">24</property>
                         <child>
                           <object class="GtkLabel" id="dots_position_label">
                             <property name="visible">True</property>
@@ -5218,7 +5218,7 @@
                           <object class="GtkBox" id="dots_position_butttons_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="spacing">32</property>
+                            <property name="spacing">24</property>
                             <child>
                               <object class="GtkRadioButton" id="dots_bottom_button">
                                 <property name="label" translatable="yes">Bottom</property>
@@ -5310,9 +5310,9 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="spacing">32</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
+                        <property name="spacing">24</property>
                         <child>
                           <object class="GtkLabel" id="dot_style_label">
                             <property name="visible">True</property>
@@ -5399,9 +5399,9 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="spacing">32</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
+                        <property name="spacing">24</property>
                         <child>
                           <object class="GtkLabel" id="dot_style_unfocused_label">
                             <property name="visible">True</property>
@@ -5475,8 +5475,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="trans_bg_label">
@@ -5548,8 +5548,8 @@
                             <property name="can_focus">False</property>
                             <property name="margin_left">12</property>
                             <property name="margin_right">12</property>
-                            <property name="margin_top">12</property>
-                            <property name="margin_bottom">12</property>
+                            <property name="margin_top">6</property>
+                            <property name="margin_bottom">6</property>
                             <property name="column_spacing">32</property>
                             <child>
                               <object class="GtkLabel" id="trans_opacity_override_label">
@@ -5737,8 +5737,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="trans_gradient_label">
@@ -5771,7 +5771,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_left">12</property>
-                            <property name="margin_top">12</property>
+                            <property name="margin_top">6</property>
                             <property name="row_spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="trans_gradient_color1_label">
@@ -5920,10 +5920,10 @@
         <property name="can_focus">False</property>
         <property name="margin_left">24</property>
         <property name="margin_right">24</property>
-        <property name="margin_top">24</property>
-        <property name="margin_bottom">24</property>
+        <property name="margin_top">12</property>
+        <property name="margin_bottom">12</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">24</property>
+        <property name="spacing">12</property>
         <child>
           <object class="GtkFrame" id="customize_theme1">
             <property name="visible">True</property>
@@ -5945,8 +5945,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
@@ -6040,8 +6040,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkSwitch" id="show_appmenu_switch">
@@ -6103,8 +6103,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="row_spacing">4</property>
                         <property name="column_spacing">32</property>
                         <child>
@@ -6211,8 +6211,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
@@ -6282,8 +6282,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
@@ -6327,8 +6327,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="group_apps_label">
@@ -6431,10 +6431,10 @@
         <property name="can_focus">False</property>
         <property name="margin_left">24</property>
         <property name="margin_right">24</property>
-        <property name="margin_top">24</property>
-        <property name="margin_bottom">24</property>
+        <property name="margin_top">12</property>
+        <property name="margin_bottom">12</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">24</property>
+        <property name="spacing">12</property>
         <child>
           <object class="GtkFrame" id="built_in_theme_frame3">
             <property name="can_focus">False</property>
@@ -6455,8 +6455,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="builtin_theme_description5">
@@ -6570,9 +6570,9 @@
                 <property name="can_focus">False</property>
                 <property name="margin_left">12</property>
                 <property name="margin_right">12</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <property name="row_spacing">16</property>
+                <property name="margin_top">6</property>
+                <property name="margin_bottom">6</property>
+                <property name="row_spacing">12</property>
                 <property name="column_spacing">6</property>
                 <child>
                   <object class="GtkBox" id="scroll_panel_description_box">
@@ -6774,8 +6774,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="hot_keys_description">
@@ -6896,10 +6896,10 @@
         <property name="can_focus">False</property>
         <property name="margin_left">24</property>
         <property name="margin_right">24</property>
-        <property name="margin_top">24</property>
-        <property name="margin_bottom">24</property>
+        <property name="margin_top">12</property>
+        <property name="margin_bottom">12</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">24</property>
+        <property name="spacing">12</property>
         <child>
           <object class="GtkFrame" id="content_size_frame">
             <property name="visible">True</property>
@@ -6924,7 +6924,7 @@
                         <property name="margin_right">12</property>
                         <property name="margin_top">6</property>
                         <property name="margin_bottom">6</property>
-                        <property name="row_spacing">12</property>
+                        <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="tray_size_label">
@@ -7026,9 +7026,9 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="row_spacing">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
+                        <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="tray_padding_label">
@@ -7158,8 +7158,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
@@ -7246,8 +7246,8 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
                         <property name="row_spacing">6</property>
                         <property name="column_spacing">32</property>
                         <child>
@@ -7388,9 +7388,9 @@
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="margin_right">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="row_spacing">20</property>
+                        <property name="margin_top">6</property>
+                        <property name="margin_bottom">6</property>
+                        <property name="row_spacing">12</property>
                         <property name="column_spacing">32</property>
                         <child>
                           <object class="GtkLabel" id="secondarymenu_options_label">
