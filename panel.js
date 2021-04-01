@@ -74,17 +74,20 @@ const T6 = 'scrollPanelDelayTimeout';
 const T7 = 'waitPanelBoxAllocation';
 
 function setMenuArrow(arrowIcon, side) {
-    let parent = arrowIcon.get_parent();
-    let iconNames = {
-        '0': 'pan-down-symbolic',   //TOP
-        '1': 'pan-start-symbolic',  //RIGHT
-        '2': 'pan-up-symbolic',     //BOTTOM
-        '3': 'pan-end-symbolic'     //LEFT
-    };
+    if (arrowIcon)
+    {
+        let parent = arrowIcon.get_parent();
+        let iconNames = {
+            '0': 'pan-down-symbolic',   //TOP
+            '1': 'pan-start-symbolic',  //RIGHT
+            '2': 'pan-up-symbolic',     //BOTTOM
+            '3': 'pan-end-symbolic'     //LEFT
+        };
 
-    parent.remove_child(arrowIcon);
-    arrowIcon.set_icon_name(iconNames[side]);
-    parent.add_child(arrowIcon);
+        parent.remove_child(arrowIcon);
+        arrowIcon.set_icon_name(iconNames[side]);
+        parent.add_child(arrowIcon);
+    }
 }
 
 var dtpPanel = Utils.defineClass({
