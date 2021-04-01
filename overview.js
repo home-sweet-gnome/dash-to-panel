@@ -33,7 +33,7 @@ const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
 const Mainloop = imports.mainloop;
 const IconGrid = imports.ui.iconGrid;
-const ViewSelector = imports.ui.viewSelector;
+const ViewSelector = imports.ui.searchController;
 
 const Meta = imports.gi.Meta;
 
