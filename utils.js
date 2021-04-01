@@ -304,7 +304,7 @@ var getScaleFactor = function() {
 
 var getAppDisplayViews = function() {
     //gnome-shell 3.38 only has one view and it is now the appDisplay
-    return Main.overview.viewSelector.appDisplay._views || [{ view: Main.overview.viewSelector.appDisplay }];
+    return imports.ui.appDisplay._views || [{ view: imports.ui.appDisplay }];
 };
 
 var findIndex = function(array, predicate) {

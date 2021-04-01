@@ -323,8 +323,8 @@ var dtpPanel = Utils.defineClass({
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
-        if(Main.overview.viewSelector._activePage == null)
-            Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
+        if(imports.ui.searchController._activePage == null)
+            imports.ui.searchController._activePage = imports.ui.searchController._workspacesPage;
 
         this._setPanelGhostSize();
 

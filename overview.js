@@ -435,11 +435,11 @@ var dtpOverview = Utils.defineClass({
             let [x, y] = global.get_pointer();
             let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.ALL, x, y);
 
-            let activePage = Main.overview.viewSelector.getActivePage();
+            let activePage = imports.ui.searchController.getActivePage();
             if (activePage == ViewSelector.ViewPage.APPS) {
 
                 if(pickedActor != Main.overview._overview 
-                    && (views.length > 1 && pickedActor != Main.overview.viewSelector.appDisplay._controls.get_parent())
+                    && (views.length > 1 && pickedActor != imports.ui.appDisplay._controls.get_parent())
                     && pickedActor != (views[0].view.actor || views[0].view)
                     && (views.length > 1 && pickedActor != views[1].view._scrollView)
                     && (views.length > 1 && pickedActor != views[1].view._grid)) {
@@ -449,7 +449,7 @@ var dtpOverview = Utils.defineClass({
                 if(Me.settings.get_boolean('animate-show-apps')) {
                     let view = Utils.find(views, v => v.view.actor.visible).view;
                     view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
-                        Main.overview.viewSelector._appsPage.hide();
+                        imports.ui.searchController._appsPage.hide();
                         Main.overview.hide();
                     }));
                 } else {
@@ -477,7 +477,7 @@ var dtpOverview = Utils.defineClass({
          });
          Main.overview._overview.add_action(this._clickAction);
 
-        [Main.overview.viewSelector._workspacesDisplay].concat(views.map(v => v.view)).forEach(v => {
+        [imports.ui.searchController._workspacesDisplay].concat(views.map(v => v.view)).forEach(v => {
             if (v._swipeTracker) {
                 this._signalsHandler.addWithLabel('clickToExit', [
                     v._swipeTracker,

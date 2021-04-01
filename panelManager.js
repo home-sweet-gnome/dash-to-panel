@@ -128,10 +128,10 @@ var dtpPanelManager = Utils.defineClass({
         
         if (reset) return;
 
-        this._oldViewSelectorAnimateIn = Main.overview.viewSelector._animateIn;
-        Main.overview.viewSelector._animateIn = Lang.bind(this.primaryPanel, newViewSelectorAnimateIn);
-        this._oldViewSelectorAnimateOut = Main.overview.viewSelector._animateOut;
-        Main.overview.viewSelector._animateOut = Lang.bind(this.primaryPanel, newViewSelectorAnimateOut);
+        this._oldViewSelectorAnimateIn = imports.ui.searchController._animateIn;
+        imports.ui.searchController._animateIn = Lang.bind(this.primaryPanel, newViewSelectorAnimateIn);
+        this._oldViewSelectorAnimateOut = imports.ui.searchController._animateOut;
+        imports.ui.searchController._animateOut = Lang.bind(this.primaryPanel, newViewSelectorAnimateOut);
 
         if (Config.PACKAGE_VERSION > '3.35.1') {
             this._oldDoSpringAnimation = AppDisplay.BaseAppView.prototype._doSpringAnimation;
@@ -159,8 +159,8 @@ var dtpPanelManager = Utils.defineClass({
         this._oldOverviewRelayout = Main.overview._relayout;
         Main.overview._relayout = Lang.bind(Main.overview, this._newOverviewRelayout);
 
-        this._oldUpdateWorkspacesViews = Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews;
-        Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview.viewSelector._workspacesDisplay, this._newUpdateWorkspacesViews);
+        this._oldUpdateWorkspacesViews = imports.ui.searchController._workspacesDisplay._updateWorkspacesViews;
+        imports.ui.searchController._workspacesDisplay._updateWorkspacesViews = Lang.bind(imports.ui.searchController._workspacesDisplay, this._newUpdateWorkspacesViews);
 
         this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
@@ -173,8 +173,8 @@ var dtpPanelManager = Utils.defineClass({
             
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
-        if(Main.overview.viewSelector._activePage == null)
-            Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
+        if(imports.ui.searchController._activePage == null)
+            imports.ui.searchController._activePage = imports.ui.searchController._workspacesPage;
 
         LookingGlass.LookingGlass.prototype._oldResize = LookingGlass.LookingGlass.prototype._resize;
         LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize;
@@ -340,13 +340,13 @@ var dtpPanelManager = Utils.defineClass({
         Main.layoutManager._updatePanelBarrier = this._oldUpdatePanelBarrier;
         Main.layoutManager._updatePanelBarrier();
 
-        Main.overview.viewSelector._animateIn = this._oldViewSelectorAnimateIn;
-        Main.overview.viewSelector._animateOut = this._oldViewSelectorAnimateOut;
+        imports.ui.searchController._animateIn = this._oldViewSelectorAnimateIn;
+        imports.ui.searchController._animateOut = this._oldViewSelectorAnimateOut;
 
         Main.overview._relayout = this._oldOverviewRelayout;
         Main.overview._relayout();
 
-        Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
+        imports.ui.searchController._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
 
         Utils.getPanelGhost().set_size(-1, -1);
 
@@ -373,7 +373,7 @@ var dtpPanelManager = Utils.defineClass({
         this._needsIconAllocate = 1;
         
         if (!this.checkIfFocusedMonitor(monitor)) {
-            Main.overview.viewSelector._workspacesDisplay._primaryIndex = monitor.index;
+            imports.ui.searchController._workspacesDisplay._primaryIndex = monitor.index;
             
             Main.overview._overview.clear_constraints();
             Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
@@ -397,7 +397,7 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     checkIfFocusedMonitor: function(monitor) {
-        return Main.overview.viewSelector._workspacesDisplay._primaryIndex == monitor.index;
+        return imports.ui.searchController._workspacesDisplay._primaryIndex == monitor.index;
     },
 
     _createPanel: function(monitor, isStandalone) {
@@ -521,7 +521,7 @@ var dtpPanelManager = Utils.defineClass({
         // when it is next shown.
         this.hide();
 
-        let workArea = Main.layoutManager.getWorkAreaForMonitor(Main.overview.viewSelector._workspacesDisplay._primaryIndex);
+        let workArea = Main.layoutManager.getWorkAreaForMonitor(imports.ui.searchController._workspacesDisplay._primaryIndex);
 
         this._coverPane.set_position(0, workArea.y);
         this._coverPane.set_size(workArea.width, workArea.height);
@@ -609,7 +609,7 @@ function newViewSelectorAnimateIn(oldPage) {
     if (oldPage)
         oldPage.hide();
 
-    let vs = Main.overview.viewSelector;
+    let vs = imports.ui.searchController;
 
     vs.emit('page-empty');
 
@@ -628,7 +628,7 @@ function newViewSelectorAnimateIn(oldPage) {
 
 function newViewSelectorAnimateOut(page) {
     let oldPage = page;
-    let vs = Main.overview.viewSelector;
+    let vs = imports.ui.searchController;
 
     if (page == vs._appsPage &&
         vs._activePage == vs._workspacesPage &&
