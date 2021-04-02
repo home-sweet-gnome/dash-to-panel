@@ -203,7 +203,7 @@ var taskbar = Utils.defineClass({
         }
 
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
-        this.showAppsButton.checked = imports.ui.searchController._showAppsButton.checked;
+        this.showAppsButton.checked = (imports.ui.searchController._showAppsButton) ? imports.ui.searchController._showAppsButton.checked : false;
 
         this._showAppsIcon.childScale = 1;
         this._showAppsIcon.childOpacity = 255;
@@ -1083,7 +1083,8 @@ var taskbar = Utils.defineClass({
         let animate = Me.settings.get_boolean('animate-show-apps');
         let selector = imports.ui.searchController;
 
-        if (selector._showAppsButton.checked !== this.showAppsButton.checked) {
+        if (selector._showAppsButton &&
+            selector._showAppsButton.checked !== this.showAppsButton.checked) {
             // find visible view
             let visibleView;
             Utils.getAppDisplayViews().every(function(v, index) {
