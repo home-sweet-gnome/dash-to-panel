@@ -23,7 +23,6 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label_xalign">0</property>
-        <property name="shadow_type">in</property>
         <child>
           <object class="GtkListBox" id="listbox_advanced_options">
             <property name="visible">True</property>
@@ -69,7 +68,6 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label_xalign">0</property>
-        <property name="shadow_type">in</property>
         <child>
           <object class="GtkListBox" id="listbox_middle_click_options">
             <property name="visible">True</property>
@@ -307,7 +305,6 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label_xalign">0</property>
-        <property name="shadow_type">in</property>
         <child>
           <object class="GtkListBox" id="listbox_secondarymenu_options">
             <property name="visible">True</property>
@@ -452,7 +449,6 @@
         <property name="margin_top">12</property>
         <property name="margin_bottom">12</property>
         <property name="label_xalign">0</property>
-        <property name="shadow_type">in</property>
         <child>
           <object class="GtkListBox" id="listbox_dots_options">
             <property name="visible">True</property>
@@ -1099,7 +1095,6 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label_xalign">0</property>
-        <property name="shadow_type">in</property>
         <child>
           <object class="GtkListBox" id="listbox_group_apps_options">
             <property name="visible">True</property>
@@ -1523,7 +1518,6 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label_xalign">0</property>
-        <property name="shadow_type">in</property>
         <child>
           <object class="GtkListBox" id="listbox_intellihide_options">
             <property name="visible">True</property>
@@ -2105,7 +2099,6 @@
   <object class="GtkScrolledWindow" id="box_window_preview_options">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
-    <property name="shadow_type">in</property>
     <property name="min_content_width">460</property>
     <property name="min_content_height">480</property>
     <child>
@@ -3414,7 +3407,6 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label_xalign">0</property>
-        <property name="shadow_type">in</property>
         <child>
           <object class="GtkListBox" id="listbox_overlay_shortcut">
             <property name="visible">True</property>
@@ -4544,7 +4536,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="multimon_listbox">
                 <property name="visible">True</property>
@@ -4653,7 +4644,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="intellihide_listbox">
                 <property name="visible">True</property>
@@ -4776,7 +4766,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkBox" id="taskbar_display_box">
                 <property name="visible">True</property>
@@ -5009,7 +4998,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="panel_style_listbox">
                 <property name="visible">True</property>
@@ -5180,7 +5168,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="dots_listbox">
                 <property name="visible">True</property>
@@ -5459,7 +5446,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="dynamic_trans_listbox">
                 <property name="visible">True</property>
@@ -5929,7 +5915,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="listbox9">
                 <property name="visible">True</property>
@@ -6439,7 +6424,6 @@
           <object class="GtkFrame" id="built_in_theme_frame3">
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="listbox6">
                 <property name="visible">True</property>
@@ -6563,7 +6547,6 @@
           <object class="GtkFrame" id="scroll_action_frame">
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkGrid" id="scroll_action_grid">
                 <property name="visible">True</property>
@@ -6758,7 +6741,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="hot_keys_listbox">
                 <property name="visible">True</property>
@@ -6905,7 +6887,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="listbox1">
                 <property name="visible">True</property>
@@ -7009,7 +6990,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="listbox3">
                 <property name="visible">True</property>
@@ -7141,7 +7121,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="listbox4">
                 <property name="visible">True</property>
@@ -7230,7 +7209,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="stockgs_listbox">
                 <property name="visible">True</property>
@@ -7371,7 +7349,6 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="listbox5">
                 <property name="visible">True</property>
@@ -7570,7 +7547,6 @@
             <property name="can_focus">False</property>
             <property name="margin_top">20</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="importexport_listbox">
                 <property name="visible">True</property>
@@ -7667,7 +7643,6 @@
             <property name="can_focus">False</property>
             <property name="margin_top">20</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">in</property>
             <child>
               <object class="GtkListBox" id="updates_listbox">
                 <property name="visible">True</property>
