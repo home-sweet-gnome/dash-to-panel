@@ -159,8 +159,8 @@ var dtpPanelManager = Utils.defineClass({
         this._oldOverviewRelayout = Main.overview._relayout;
         Main.overview._relayout = Lang.bind(Main.overview, this._newOverviewRelayout);
 
-        this._oldUpdateWorkspacesViews = imports.ui.searchController._workspacesDisplay._updateWorkspacesViews;
-        imports.ui.searchController._workspacesDisplay._updateWorkspacesViews = Lang.bind(imports.ui.searchController._workspacesDisplay, this._newUpdateWorkspacesViews);
+        this._oldUpdateWorkspacesViews = Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews;
+        Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview._overview._controls._workspacesDisplay, this._newUpdateWorkspacesViews);
 
         this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
@@ -346,7 +346,7 @@ var dtpPanelManager = Utils.defineClass({
         Main.overview._relayout = this._oldOverviewRelayout;
         Main.overview._relayout();
 
-        imports.ui.searchController._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
+        Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
 
         Utils.getPanelGhost().set_size(-1, -1);
 
@@ -373,8 +373,8 @@ var dtpPanelManager = Utils.defineClass({
         this._needsIconAllocate = 1;
         
         if (!this.checkIfFocusedMonitor(monitor)) {
-            imports.ui.searchController._workspacesDisplay._primaryIndex = monitor.index;
-            
+            Main._overview.overview._controls._workspacesDisplay._primaryIndex = monitor.index;
+
             Main.overview._overview.clear_constraints();
             Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
             
@@ -397,7 +397,7 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     checkIfFocusedMonitor: function(monitor) {
-        return imports.ui.searchController._workspacesDisplay._primaryIndex == monitor.index;
+        return Main.overview._overview._controls._workspacesDisplay._primaryIndex == monitor.index;
     },
 
     _createPanel: function(monitor, isStandalone) {
@@ -520,12 +520,10 @@ var dtpPanelManager = Utils.defineClass({
         // we just hide the overview. The positions will be updated
         // when it is next shown.
         this.hide();
-
-        let workArea = Main.layoutManager.getWorkAreaForMonitor(imports.ui.searchController._workspacesDisplay._primaryIndex);
+        let workArea = Main.layoutManager.getWorkAreaForMonitor(Main._overview.overview._controls._workspacesDisplay._primaryIndex);
 
         this._coverPane.set_position(0, workArea.y);
         this._coverPane.set_size(workArea.width, workArea.height);
-
         this._updateBackgrounds();
     },
 
