@@ -477,7 +477,7 @@ var dtpOverview = Utils.defineClass({
          });
          Main.overview._overview.add_action(this._clickAction);
 
-        [imports.ui.searchController._workspacesDisplay].concat(views.map(v => v.view)).forEach(v => {
+        [imports.ui._overview._workspacesDisplay].concat(views.map(v => v.view)).forEach(v => {
             if (v._swipeTracker) {
                 this._signalsHandler.addWithLabel('clickToExit', [
                     v._swipeTracker,
