@@ -85,7 +85,7 @@ function setMenuArrow(arrowIcon, side) {
         };
 
         parent.remove_child(arrowIcon);
-        arrowIcon.set_icon_name(iconNames[side]);
+        //arrowIcon.set_icon_name(iconNames[side]);
         parent.add_child(arrowIcon);
     }
 }
@@ -308,7 +308,7 @@ var dtpPanel = Utils.defineClass({
         }
 
         if (this.statusArea.keyboard) {
-            setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), position);
+            //setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), position);
         }
 
         this.dynamicTransparency = new Transparency.DynamicTransparency(this);
@@ -490,7 +490,7 @@ var dtpPanel = Utils.defineClass({
                 }
 
                 if (this.statusArea.keyboard) {
-                    setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), St.Side.TOP);
+                    //setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), St.Side.TOP);
                 }
             }
 
