@@ -53,8 +53,8 @@
   <object class="GtkBox" id="box_middle_click_options">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin_left">12</property>
-    <property name="margin_right">12</property>
+    <property name="margin_start">12</property>
+    <property name="margin_end">12</property>
     <property name="margin_top">12</property>
     <property name="margin_bottom">12</property>
     <property name="orientation">vertical</property>
@@ -78,8 +78,8 @@
                   <object class="GtkGrid" id="buitin_theme7">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -136,8 +136,8 @@
                   <object class="GtkGrid" id="grid_middle_click">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -194,8 +194,8 @@
                   <object class="GtkGrid" id="grid_shift_middle_click">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -272,8 +272,8 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="valign">center</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -310,8 +310,8 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="valign">center</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -374,8 +374,8 @@
       <object class="GtkFrame" id="frame_dots_options">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">12</property>
-        <property name="margin_right">12</property>
+        <property name="margin_start">12</property>
+        <property name="margin_end">12</property>
         <property name="margin_top">12</property>
         <property name="margin_bottom">12</property>
         <property name="label_xalign">0</property>
@@ -393,8 +393,8 @@
                   <object class="GtkGrid" id="grid_focus_highlight">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="row_spacing">12</property>
@@ -420,7 +420,7 @@
                       <object class="GtkGrid" id="grid_focus_highlight_options">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
+                        <property name="margin_start">12</property>
                         <property name="row_spacing">8</property>
                         <child>
                           <object class="GtkLabel" id="focus_highlight_dominant_label">
@@ -490,8 +490,8 @@
                   <object class="GtkGrid" id="grid_dot_size">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -526,8 +526,8 @@
                   <object class="GtkGrid" id="grid_dot_dominant">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -562,8 +562,8 @@
                   <object class="GtkBox" id="box_dot_color">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkBox" id="dot_color_override_box">
@@ -592,7 +592,7 @@
                       <object class="GtkGrid" id="grid_dot_color">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
+                        <property name="margin_start">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">4</property>
@@ -691,7 +691,7 @@
                           <object class="GtkBox" id="dot_color_unfocused_different_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="margin_left">12</property>
+                            <property name="margin_start">12</property>
                             <child>
                               <object class="GtkLabel" id="dot_color_unfocused_label">
                                 <property name="visible">True</property>
@@ -715,7 +715,7 @@
                           <object class="GtkGrid" id="grid_dot_color_unfocused">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="margin_left">12</property>
+                            <property name="margin_start">12</property>
                             <property name="margin_top">12</property>
                             <property name="margin_bottom">12</property>
                             <property name="row_spacing">4</property>
@@ -849,8 +849,8 @@
                   <object class="GtkGrid" id="grid_group_apps_label_font_size">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -887,8 +887,8 @@
                   <object class="GtkGrid" id="grid_group_apps_label_font_weight">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -927,8 +927,8 @@
                   <object class="GtkGrid" id="grid_group_apps_label_font_color">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -962,8 +962,8 @@
                   <object class="GtkGrid" id="grid_group_apps_label_font_color_minimized">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -997,8 +997,8 @@
                   <object class="GtkGrid" id="grid_group_apps_label_max_width">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -1034,8 +1034,8 @@
                   <object class="GtkGrid" id="grid_group_apps_use_fixed_width">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -1082,8 +1082,8 @@
                   <object class="GtkGrid" id="grid_group_apps_underline_unfocused">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -1116,8 +1116,8 @@
                   <object class="GtkGrid" id="grid_group_apps_use_launchers">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -1198,8 +1198,8 @@
                   <object class="GtkGrid" id="grid_intellihide_behaviour">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="row_spacing">12</property>
@@ -1227,7 +1227,7 @@
                       <object class="GtkGrid" id="intellihide_behaviour_options">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
+                        <property name="margin_start">12</property>
                         <property name="row_spacing">4</property>
                         <child>
                           <object class="GtkLabel" id="intellihide_behaviour_label">
@@ -1264,8 +1264,8 @@
                   <object class="GtkGrid" id="grid_intellihide_pressure">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="row_spacing">12</property>
@@ -1292,7 +1292,7 @@
                       <object class="GtkGrid" id="intellihide_use_pressure_options">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
+                        <property name="margin_start">12</property>
                         <property name="row_spacing">4</property>
                         <child>
                           <object class="GtkLabel" id="intellihide_pressure_threshold_label">
@@ -1351,8 +1351,8 @@
                   <object class="GtkGrid" id="grid_intellihide_show_in_fullscreen">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="row_spacing">12</property>
@@ -1387,8 +1387,8 @@
                   <object class="GtkGrid" id="grid_intellihide_only_secondary">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="row_spacing">12</property>
@@ -1423,8 +1423,8 @@
                   <object class="GtkGrid" id="grid_intellihide_toggle">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -1470,8 +1470,8 @@
                   <object class="GtkGrid" id="grid_intellihide_animation_time">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -1508,8 +1508,8 @@
                   <object class="GtkGrid" id="grid_intellihide_close_delay">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -1546,8 +1546,8 @@
                   <object class="GtkGrid" id="grid_intellihide_enable_start_delay">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="row_spacing">12</property>
@@ -1681,8 +1681,8 @@
                   <object class="GtkGrid" id="grid_times">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="row_spacing">12</property>
@@ -1747,7 +1747,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="margin_left">12</property>
+                            <property name="margin_start">12</property>
                             <property name="margin_top">4</property>
                             <property name="draw_indicator">True</property>
                             <child>
@@ -1756,7 +1756,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="margin_left">4</property>
+                                <property name="margin_start">4</property>
                                 <property name="label" translatable="yes">Immediate on application icon click</property>
                                 <property name="use_markup">True</property>
                               </object>
@@ -1790,8 +1790,8 @@
                   <object class="GtkGrid" id="grid_preview_middle_click_close">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -1825,8 +1825,8 @@
                   <object class="GtkGrid" id="grid_sizes">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="row_spacing">12</property>
@@ -2005,8 +2005,8 @@
                   <object class="GtkGrid" id="grid_preview_custom_opacity">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -2072,8 +2072,8 @@
                   <object class="GtkBox" id="preview_title_position_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="spacing">32</property>
@@ -2133,8 +2133,8 @@
                   <object class="GtkGrid" id="grid_preview_show_title">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -2316,8 +2316,8 @@
                   <object class="GtkGrid" id="grid_peek_mode">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -2469,8 +2469,8 @@
               <object class="GtkGrid" id="grid_scroll_icon_options_delay">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
                 <property name="column_spacing">32</property>
@@ -2539,8 +2539,8 @@
               <object class="GtkGrid" id="grid_scroll_panel_options_delay">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
                 <property name="column_spacing">32</property>
@@ -2592,8 +2592,8 @@
               <object class="GtkGrid" id="grid_scroll_panel_options_show_ws_popup">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
                 <property name="column_spacing">32</property>
@@ -2643,8 +2643,8 @@
   <object class="GtkBox" id="box_overlay_shortcut">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin_left">12</property>
-    <property name="margin_right">12</property>
+    <property name="margin_start">12</property>
+    <property name="margin_end">12</property>
     <property name="margin_top">12</property>
     <property name="margin_bottom">12</property>
     <property name="orientation">vertical</property>
@@ -2668,8 +2668,8 @@
                   <object class="GtkGrid" id="grid_hotkey_prefix">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -2720,8 +2720,8 @@
                   <object class="GtkGrid" id="grid_overlay">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -2771,8 +2771,8 @@
                   <object class="GtkGrid" id="grid_timeout">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="hexpand">True</property>
@@ -2807,8 +2807,8 @@
                   <object class="GtkGrid" id="grid_shortcut">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -2854,8 +2854,8 @@
                   <object class="GtkGrid" id="grid_shortcut_preview">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -2903,8 +2903,8 @@
                   <object class="GtkGrid" id="grid_shortcut_num_keys">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <property name="column_spacing">32</property>
@@ -2969,8 +2969,8 @@
           <object class="GtkGrid" id="show_applications_icon_file_grid">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">12</property>
-            <property name="margin_right">12</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">12</property>
             <property name="margin_top">12</property>
             <property name="margin_bottom">12</property>
             <property name="row_spacing">12</property>
@@ -3027,8 +3027,8 @@
           <object class="GtkGrid" id="grid_show_applications_side_padding">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">12</property>
-            <property name="margin_right">12</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">12</property>
             <property name="margin_top">12</property>
             <property name="margin_bottom">12</property>
             <property name="hexpand">True</property>
@@ -3064,8 +3064,8 @@
           <object class="GtkGrid" id="grid_show_applications_esc_key">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">12</property>
-            <property name="margin_right">12</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">12</property>
             <property name="margin_top">12</property>
             <property name="margin_bottom">12</property>
             <property name="column_spacing">32</property>
@@ -3099,8 +3099,8 @@
           <object class="GtkGrid" id="shrink_dash3">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">12</property>
-            <property name="margin_right">12</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">12</property>
             <property name="margin_top">12</property>
             <property name="margin_bottom">12</property>
             <property name="column_spacing">32</property>
@@ -3160,8 +3160,8 @@
               <object class="GtkGrid" id="grid_show_showdesktop_width">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
                 <property name="row_spacing">4</property>
@@ -3232,8 +3232,8 @@
               <object class="GtkGrid" id="grid_show_showdesktop_hide">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
                 <property name="row_spacing">12</property>
@@ -3367,8 +3367,8 @@
               <object class="GtkGrid" id="trans_options_window_type_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
                 <property name="row_spacing">4</property>
@@ -3405,8 +3405,8 @@
               <object class="GtkGrid" id="grid_trans_options_distance">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
                 <property name="column_spacing">32</property>
@@ -3444,15 +3444,15 @@
               <object class="GtkBox" id="trans_options_min_opacity_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
                 <child>
                   <object class="GtkLabel" id="trans_options_min_opacity_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_end">12</property>
                     <property name="label" translatable="yes">Change opacity to (%)</property>
                     <property name="use_markup">True</property>
                     <property name="xalign">0</property>
@@ -3479,8 +3479,8 @@
               <object class="GtkGrid" id="grid_trans_options_anim_time">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
                 <property name="column_spacing">32</property>
@@ -3532,8 +3532,8 @@
       <object class="GtkBox" id="position">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">24</property>
-        <property name="margin_right">24</property>
+        <property name="margin_start">24</property>
+        <property name="margin_end">24</property>
         <property name="margin_top">24</property>
         <property name="margin_bottom">24</property>
         <property name="orientation">vertical</property>
@@ -3556,8 +3556,8 @@
                       <object class="GtkGrid" id="multimon_primary_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">32</property>
@@ -3590,8 +3590,8 @@
                       <object class="GtkGrid" id="multimon_multi_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">6</property>
@@ -3644,8 +3644,8 @@
                       <object class="GtkGrid" id="intellihide_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="column_spacing">32</property>
@@ -3733,8 +3733,8 @@
                   <object class="GtkGrid" id="taskbar_position_grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="margin_right">12</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
                     <property name="margin_top">12</property>
                     <property name="margin_bottom">12</property>
                     <child>
@@ -3880,8 +3880,8 @@
       <object class="GtkBox" id="style">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">24</property>
-        <property name="margin_right">24</property>
+        <property name="margin_start">24</property>
+        <property name="margin_end">24</property>
         <property name="margin_top">24</property>
         <property name="margin_bottom">24</property>
         <property name="orientation">vertical</property>
@@ -3905,8 +3905,8 @@
                       <object class="GtkGrid" id="panel_size_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">6</property>
                         <property name="margin_bottom">6</property>
                         <property name="column_spacing">32</property>
@@ -3946,8 +3946,8 @@
                       <object class="GtkGrid" id="margins_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">6</property>
                         <property name="margin_bottom">6</property>
                         <property name="row_spacing">12</property>
@@ -3988,8 +3988,8 @@
                       <object class="GtkGrid" id="appicon_padding_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">6</property>
                         <property name="margin_bottom">6</property>
                         <property name="column_spacing">32</property>
@@ -4046,8 +4046,8 @@
                       <object class="GtkBox" id="dots_position_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="spacing">32</property>
@@ -4129,8 +4129,8 @@
                       <object class="GtkBox" id="dot_style_focuse_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="spacing">32</property>
@@ -4198,8 +4198,8 @@
                       <object class="GtkBox" id="dot_style_unfocused_box">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="spacing">32</property>
@@ -4258,8 +4258,8 @@
                       <object class="GtkGrid" id="trans_bg_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="column_spacing">32</property>
@@ -4313,8 +4313,8 @@
                           <object class="GtkGrid" id="trans_opacity_grid">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="margin_left">12</property>
-                            <property name="margin_right">12</property>
+                            <property name="margin_start">12</property>
+                            <property name="margin_end">12</property>
                             <property name="margin_top">12</property>
                             <property name="margin_bottom">12</property>
                             <property name="column_spacing">32</property>
@@ -4340,7 +4340,7 @@
                               <object class="GtkGrid" id="trans_opacity_box">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="margin_left">12</property>
+                                <property name="margin_start">12</property>
                                 <property name="margin_top">12</property>
                                 <property name="row_spacing">6</property>
                                 <child>
@@ -4448,8 +4448,8 @@
                       <object class="GtkGrid" id="trans_gradient_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="column_spacing">32</property>
@@ -4475,7 +4475,7 @@
                           <object class="GtkGrid" id="trans_gradient_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="margin_left">12</property>
+                            <property name="margin_start">12</property>
                             <property name="margin_top">12</property>
                             <property name="row_spacing">6</property>
                             <child>
@@ -4570,8 +4570,8 @@
       <object class="GtkBox" id="behaviour">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">24</property>
-        <property name="margin_right">24</property>
+        <property name="margin_start">24</property>
+        <property name="margin_end">24</property>
         <property name="margin_top">24</property>
         <property name="margin_bottom">24</property>
         <property name="orientation">vertical</property>
@@ -4594,8 +4594,8 @@
                       <object class="GtkGrid" id="shrink_dash1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">6</property>
@@ -4665,8 +4665,8 @@
                       <object class="GtkGrid" id="show_appmenu_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="column_spacing">32</property>
@@ -4715,8 +4715,8 @@
                       <object class="GtkGrid" id="show_hover_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">4</property>
@@ -4797,8 +4797,8 @@
                       <object class="GtkGrid" id="isolate_workspaces_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">6</property>
@@ -4852,8 +4852,8 @@
                       <object class="GtkGrid" id="clicktoexit_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">6</property>
@@ -4889,8 +4889,8 @@
                       <object class="GtkGrid" id="group_apps_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="column_spacing">32</property>
@@ -4963,8 +4963,8 @@
       <object class="GtkBox" id="action">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">24</property>
-        <property name="margin_right">24</property>
+        <property name="margin_start">24</property>
+        <property name="margin_end">24</property>
         <property name="margin_top">24</property>
         <property name="margin_bottom">24</property>
         <property name="orientation">vertical</property>
@@ -4986,8 +4986,8 @@
                       <object class="GtkGrid" id="buitin_theme5">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="column_spacing">32</property>
@@ -5072,8 +5072,8 @@
               <object class="GtkGrid" id="scroll_action_grid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
+                <property name="margin_start">12</property>
+                <property name="margin_end">12</property>
                 <property name="margin_top">12</property>
                 <property name="margin_bottom">12</property>
                 <property name="row_spacing">16</property>
@@ -5226,8 +5226,8 @@
                       <object class="GtkGrid" id="hot_keys_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="column_spacing">32</property>
@@ -5313,8 +5313,8 @@
       <object class="GtkBox" id="fine-tune">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">24</property>
-        <property name="margin_right">24</property>
+        <property name="margin_start">24</property>
+        <property name="margin_end">24</property>
         <property name="margin_top">24</property>
         <property name="margin_bottom">24</property>
         <property name="orientation">vertical</property>
@@ -5338,8 +5338,8 @@
                       <object class="GtkGrid" id="content_size_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">6</property>
                         <property name="margin_bottom">6</property>
                         <property name="row_spacing">12</property>
@@ -5420,8 +5420,8 @@
                       <object class="GtkGrid" id="padding_size_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">12</property>
@@ -5522,8 +5522,8 @@
                       <object class="GtkGrid" id="content_size_grid1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">6</property>
@@ -5588,8 +5588,8 @@
                       <object class="GtkGrid" id="stockgs_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">6</property>
@@ -5692,8 +5692,8 @@
                       <object class="GtkGrid" id="content_size_grid2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">20</property>
@@ -5758,8 +5758,8 @@
     <child>
       <object class="GtkBox" id="about">
         <property name="can_focus">False</property>
-        <property name="margin_left">24</property>
-        <property name="margin_right">24</property>
+        <property name="margin_start">24</property>
+        <property name="margin_end">24</property>
         <property name="margin_top">24</property>
         <property name="margin_bottom">24</property>
         <property name="hexpand">True</property>
@@ -5834,8 +5834,8 @@
                       <object class="GtkGrid" id="importexport_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">6</property>
@@ -5907,8 +5907,8 @@
                       <object class="GtkGrid" id="updates_grid">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="margin_left">12</property>
-                        <property name="margin_right">12</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_end">12</property>
                         <property name="margin_top">12</property>
                         <property name="margin_bottom">12</property>
                         <property name="row_spacing">6</property>
