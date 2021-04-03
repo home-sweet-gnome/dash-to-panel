@@ -5771,9 +5771,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="events"/>
                 <property name="halign">center</property>
-                <property name="relief">none</property>
                 <property name="uri">https://github.com/jderose9/dash-to-panel</property>
               </object>
             </child>
