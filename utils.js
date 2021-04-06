@@ -187,11 +187,13 @@ var GlobalSignalsHandler = defineClass({
             let object = item[0];
             let event = item[1][i];
             let callback = item[2]
-            if (object)
-            {
+            try {
                 let id = object.connect(event, callback);
 
                 handlers.push([object, id]);
+            } catch (e) 
+            {
+
             }
         }
 
