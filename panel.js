@@ -769,7 +769,7 @@ var dtpPanel = Utils.defineClass({
             let paddingSide = this.getPosition() == St.Side.LEFT ? 'left' : 'right';
             let scaleFactor = Utils.getScaleFactor();
             let style = offset ? 'padding-' + paddingSide + ':' + (offset / scaleFactor) + 'px;' : null;
-            let searchEntry = Main.overview._searchEntry || Main.overview._overview._searchEntry;
+            let searchEntry = Main.overview._controls._searchEntry;
             
             searchEntry.get_parent().set_style(style);
         }
