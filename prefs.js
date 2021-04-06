@@ -359,7 +359,7 @@ const Settings = new Lang.Class({
 
     _showShowAppsButtonOptions: function() {
         let dialog = new Gtk.Dialog({ title: _('Show Applications options'),
-                                        transient_for: this.widget.get_toplevel(),
+                                        transient_for: this.widget.get_root(),
                                         use_header_bar: true,
                                         modal: true });
 
@@ -411,12 +411,12 @@ const Settings = new Lang.Class({
             return;
         }));
 
-        dialog.show_all();
+        dialog.show();
     },
 
     _showDesktopButtonOptions: function() {
         let dialog = new Gtk.Dialog({ title: _('Show Desktop options'),
-                                        transient_for: this.widget.get_toplevel(),
+                                        transient_for: this.widget.get_root(),
                                         use_header_bar: true,
                                         modal: true });
 
@@ -463,7 +463,7 @@ const Settings = new Lang.Class({
             return;
         }));
 
-        dialog.show_all();
+        dialog.show();
     },
 
     _bindSettings: function() {
@@ -559,7 +559,7 @@ const Settings = new Lang.Class({
         this._builder.get_object('dot_style_options_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Running Indicator Options'),
-                                          transient_for: this.widget.get_toplevel(),
+                                          transient_for: this.widget.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -701,7 +701,7 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
 
@@ -877,7 +877,7 @@ const Settings = new Lang.Class({
 
         this._builder.get_object('trans_dyn_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Dynamic opacity options'),
-                                            transient_for: this.widget.get_toplevel(),
+                                            transient_for: this.widget.get_root(),
                                             use_header_bar: true,
                                             modal: true });
 
@@ -909,7 +909,7 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
         
@@ -1020,7 +1020,7 @@ const Settings = new Lang.Class({
 
         this._builder.get_object('intellihide_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Intellihide options'),
-                                          transient_for: this.widget.get_toplevel(),
+                                          transient_for: this.widget.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1064,7 +1064,7 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
 
@@ -1147,7 +1147,7 @@ const Settings = new Lang.Class({
         this._builder.get_object('show_window_previews_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Window preview options'),
-                                          transient_for: this.widget.get_toplevel(),
+                                          transient_for: this.widget.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1373,7 +1373,7 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
        
@@ -1433,7 +1433,7 @@ const Settings = new Lang.Class({
 
         this._builder.get_object('show_group_apps_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Ungrouped application options'),
-                                          transient_for: this.widget.get_toplevel(),
+                                          transient_for: this.widget.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1504,7 +1504,7 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));    
 
@@ -1528,7 +1528,7 @@ const Settings = new Lang.Class({
         this._builder.get_object('middle_click_options_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Customize middle-click behavior'),
-                                          transient_for: this.widget.get_toplevel(),
+                                          transient_for: this.widget.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1576,7 +1576,7 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
 
@@ -1593,7 +1593,7 @@ const Settings = new Lang.Class({
         // Create dialog for panel scroll options
         this._builder.get_object('scroll_panel_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Customize panel scroll behavior'),
-                                          transient_for: this.widget.get_toplevel(),
+                                          transient_for: this.widget.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1629,14 +1629,14 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
 
         // Create dialog for icon scroll options
         this._builder.get_object('scroll_icon_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Customize icon scroll behavior'),
-                                            transient_for: this.widget.get_toplevel(),
+                                            transient_for: this.widget.get_root(),
                                             use_header_bar: true,
                                             modal: true });
 
@@ -1665,7 +1665,7 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
 
@@ -1733,7 +1733,7 @@ const Settings = new Lang.Class({
         this._builder.get_object('overlay_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Advanced hotkeys options'),
-                                          transient_for: this.widget.get_toplevel(),
+                                          transient_for: this.widget.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1759,7 +1759,7 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
         
@@ -1767,7 +1767,7 @@ const Settings = new Lang.Class({
         this._builder.get_object('secondarymenu_options_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Secondary Menu Options'),
-                                          transient_for: this.widget.get_toplevel(),
+                                          transient_for: this.widget.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1801,7 +1801,7 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
 
@@ -1809,7 +1809,7 @@ const Settings = new Lang.Class({
         this._builder.get_object('button_advanced_options').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Advanced Options'),
-                                          transient_for: this.widget.get_toplevel(),
+                                          transient_for: this.widget.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1832,7 +1832,7 @@ const Settings = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
 
@@ -1986,7 +1986,7 @@ const Settings = new Lang.Class({
     },
 
     _showFileChooser: function(title, params, acceptBtn, acceptHandler) {
-        let dialog = new Gtk.FileChooserDialog(mergeObjects({ title: title, transient_for: this.widget.get_toplevel() }, params));
+        let dialog = new Gtk.FileChooserDialog(mergeObjects({ title: title, transient_for: this.widget.get_root() }, params));
 
         dialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL);
         dialog.add_button(acceptBtn, Gtk.ResponseType.ACCEPT);
@@ -2212,15 +2212,30 @@ function buildPrefsWidget() {
 
     // I'd like the scrolled window to default to a size large enough to show all without scrolling, if it fits on the screen
     // But, it doesn't seem possible, so I'm setting a minimum size if there seems to be enough screen real estate
-    //adjustScrollableHeight(settings.viewport, widget);
+    adjustScrollableHeight(settings.viewport, widget);
     
     return widget;
 }
 
 // todo get_screen no longer available?
-//function adjustScrollableHeight(viewport, scrollableWindow) {
-//    let viewportSize = viewport.get_size_request();
-//    let screenHeight = scrollableWindow.get_screen().get_height() - 120;
-//    
-//    scrollableWindow.set_size_request(viewportSize.width, viewportSize.height > screenHeight ? screenHeight : viewportSize.height);  
-//}
+function adjustScrollableHeight(viewport, scrollableWindow) {
+    // todo multi monitor? sizes correct?
+    let viewportSize = viewport.get_preferred_size();
+    try {
+        let screenHeight = scrollableWindow.get_display().get_monitors().get_item(0).get_height_mm() - 20;
+        if (viewportSize.height === undefined)
+        {
+            viewportSize.height = 60;
+        }
+        if (viewportSize.width === undefined)
+        {
+            viewportSize.width = 100;
+        }
+        print("screen-height: " + screenHeight);
+        print("viewport-height: " + viewportSize.height);
+        print("viewport-width: " + viewportSize.width);
+        scrollableWindow.set_size_request(viewportSize.width, viewportSize.height > screenHeight ? screenHeight : viewportSize.height);
+    } catch (e) {
+        print("adjustScrollableHeight exception: " + e.toString());
+    }
+}
