@@ -328,11 +328,11 @@ const Settings = new Lang.Class({
             upBtn.set_child(upImg);
             downBtn.set_child(downImg);
 
-            upDownGrid.attach(upBtn, 0, 0, 0, 0);
-            upDownGrid.attach(downBtn, 0, 0, 0, 0);
+            upDownGrid.attach(upBtn, 0, 0, 1, 1);
+            upDownGrid.attach(downBtn, 1, 0, 1, 1);
 
-            grid.attach(upDownGrid, 0, 0, 0, 0);
-            grid.attach(new Gtk.Label({ label: labels[el.element], xalign: 0, hexpand: true }), 0, 0, 0, 0);
+            grid.attach(upDownGrid, 0, 0, 1, 1);
+            grid.attach(new Gtk.Label({ label: labels[el.element], xalign: 0, hexpand: true }), 1, 0, 1, 1);
 
             if (Pos.optionDialogFunctions[el.element]) {
                 let cogImg = new Gtk.Image({ icon_name: 'emblem-system-symbolic' });
@@ -340,20 +340,20 @@ const Settings = new Lang.Class({
                 
                 optionsBtn.get_style_context().add_class('circular');
                 optionsBtn.set_child(cogImg);
-                grid.attach(optionsBtn, 0, 0, 0, 0);
+                grid.attach(optionsBtn, 2, 0, 1, 1);
 
                 optionsBtn.connect('clicked', () => this[Pos.optionDialogFunctions[el.element]]());
             }
 
-            grid.attach(visibleToggleBtn, 0, 0, 0, 0);
-            grid.attach(positionCombo, 0, 0, 0, 0);
+            grid.attach(visibleToggleBtn, 3, 0, 1, 1);
+            grid.attach(positionCombo, 4, 0, 1, 1);
 
             row.id = el.element;
             row.visibleToggleBtn = visibleToggleBtn;
             row.positionCombo = positionCombo;
 
             row.set_child(grid);
-            taskbarListBox.insert(row, 0);
+            taskbarListBox.insert(row, -1);
         });
     },
 
