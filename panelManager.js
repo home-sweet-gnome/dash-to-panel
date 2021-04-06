@@ -160,7 +160,8 @@ var dtpPanelManager = Utils.defineClass({
         Main.overview._relayout = Lang.bind(Main.overview, this._newOverviewRelayout);
 
         this._oldUpdateWorkspacesViews = Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews;
-        Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview._overview._controls._workspacesDisplay, this._newUpdateWorkspacesViews);
+        // todo does not work at the moment
+        //Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview._overview._controls._workspacesDisplay, this._newUpdateWorkspacesViews);
 
         this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
