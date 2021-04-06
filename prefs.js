@@ -160,19 +160,16 @@ const Settings = new Lang.Class({
 
     _init: function() {
         this._settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
-
         this._rtl = (Gtk.Widget.get_default_direction() == Gtk.TextDirection.RTL);
-
         this._builder = new Gtk.Builder();
+        this._builder.set_scope(new BuilderScope(this._settings));
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
         this._builder.add_from_file(Me.path + '/Settings.ui');
-
         this.notebook = this._builder.get_object('settings_notebook');
         this.viewport = new Gtk.Viewport();
-        this.viewport.add(this.notebook);
+        this.viewport.set_child(this.notebook);
         this.widget = new Gtk.ScrolledWindow();
-        this.widget.add(this.viewport);
-        
+        this.widget.set_child(this.viewport);
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
@@ -185,10 +182,7 @@ const Settings = new Lang.Class({
         this._tray_padding_timeout = 0;
         this._statusicon_padding_timeout = 0;
         this._leftbox_padding_timeout = 0;
-
         this._bindSettings();
-
-        this._builder.connect_signals_full(Lang.bind(this, this._connector));
     },
 
     /**
@@ -263,7 +257,7 @@ const Settings = new Lang.Class({
     _displayPanelPositionsForMonitor: function(monitorIndex) {
         let taskbarListBox = this._builder.get_object('taskbar_display_listbox');
         
-        taskbarListBox.get_children().forEach(c => c.destroy());
+        //taskbarListBox.get_children().forEach(c => c.destroy());
 
         let labels = {};
         let panelPosition = this._getPanelPosition(monitorIndex);
@@ -302,7 +296,7 @@ const Settings = new Lang.Class({
 
         panelElementPositions.forEach(el => {
             let row = new Gtk.ListBoxRow();
-            let grid = new Gtk.Grid({ margin: 2, margin_left: 12, margin_right: 12, column_spacing: 8 });
+            let grid = new Gtk.Grid({ margin_start: 12, margin_end: 12, column_spacing: 8 });
             let upDownGrid = new Gtk.Grid({ column_spacing: 2 });
             let upBtn = new Gtk.Button({ tooltip_text: _('Move up') });
             let upImg = new Gtk.Image({ icon_name: 'go-up-symbolic', pixel_size: 12 });
@@ -331,38 +325,36 @@ const Settings = new Lang.Class({
             visibleToggleBtn.connect('toggled', () => updateElementsSettings());
             positionCombo.connect('changed', () => updateElementsSettings());
 
-            upBtn.add(upImg);
-            downBtn.add(downImg);
+            upBtn.set_child(upImg);
+            downBtn.set_child(downImg);
 
-            upDownGrid.add(upBtn);
-            upDownGrid.add(downBtn);
+            upDownGrid.attach(upBtn, 0, 0, 0, 0);
+            upDownGrid.attach(downBtn, 0, 0, 0, 0);
 
-            grid.add(upDownGrid);
-            grid.add(new Gtk.Label({ label: labels[el.element], xalign: 0, hexpand: true }));
+            grid.attach(upDownGrid, 0, 0, 0, 0);
+            grid.attach(new Gtk.Label({ label: labels[el.element], xalign: 0, hexpand: true }), 0, 0, 0, 0);
 
             if (Pos.optionDialogFunctions[el.element]) {
                 let cogImg = new Gtk.Image({ icon_name: 'emblem-system-symbolic' });
                 let optionsBtn = new Gtk.Button({ tooltip_text: _('More options') });
                 
                 optionsBtn.get_style_context().add_class('circular');
-                optionsBtn.add(cogImg);
-                grid.add(optionsBtn);
+                optionsBtn.set_child(cogImg);
+                grid.attach(optionsBtn, 0, 0, 0, 0);
 
                 optionsBtn.connect('clicked', () => this[Pos.optionDialogFunctions[el.element]]());
             }
 
-            grid.add(visibleToggleBtn);
-            grid.add(positionCombo);
+            grid.attach(visibleToggleBtn, 0, 0, 0, 0);
+            grid.attach(positionCombo, 0, 0, 0, 0);
 
             row.id = el.element;
             row.visibleToggleBtn = visibleToggleBtn;
             row.positionCombo = positionCombo;
 
-            row.add(grid);
-            taskbarListBox.add(row);
+            row.set_child(grid);
+            taskbarListBox.insert(row, 0);
         });
-
-        taskbarListBox.show_all();
     },
 
     _showShowAppsButtonOptions: function() {
@@ -376,7 +368,7 @@ const Settings = new Lang.Class({
         dialog.add_button(_('Reset to defaults'), 1);
 
         let box = this._builder.get_object('show_applications_options');
-        dialog.get_content_area().add(box);
+        dialog.get_content_area().append(box);
 
         let fileChooser = this._builder.get_object('show_applications_icon_file_filebutton');
         let fileImage = this._builder.get_object('show_applications_current_icon_image');
@@ -433,7 +425,7 @@ const Settings = new Lang.Class({
         dialog.add_button(_('Reset to defaults'), 1);
 
         let box = this._builder.get_object('box_show_showdesktop_options');
-        dialog.get_content_area().add(box);
+        dialog.get_content_area().append(box);
 
         this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
         this._builder.get_object('show_showdesktop_width_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
@@ -576,7 +568,7 @@ const Settings = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('box_dots_options');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             this._settings.bind('dot-color-dominant',
                             this._builder.get_object('dot_color_dominant_switch'),
@@ -894,7 +886,7 @@ const Settings = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('box_dynamic_opacity_options');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
@@ -1037,7 +1029,7 @@ const Settings = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('box_intellihide_options');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
@@ -1167,7 +1159,7 @@ const Settings = new Lang.Class({
 
             adjustScrollableHeight(this._builder.get_object('viewport_window_preview_options'), scrolledWindow);
             
-            dialog.get_content_area().add(scrolledWindow);
+            dialog.get_content_area().append(scrolledWindow);
 
             this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
             this._builder.get_object('preview_timeout_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
@@ -1450,7 +1442,7 @@ const Settings = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('box_group_apps_options');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             this._builder.get_object('group_apps_label_font_size_spinbutton').set_value(this._settings.get_int('group-apps-label-font-size'));
             this._builder.get_object('group_apps_label_font_size_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
@@ -1545,7 +1537,7 @@ const Settings = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('box_middle_click_options');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             this._builder.get_object('shift_click_action_combo').set_active_id(this._settings.get_string('shift-click-action'));
 
@@ -1610,7 +1602,7 @@ const Settings = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('scroll_panel_options_box');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             this._builder.get_object('scroll_panel_options_delay_spinbutton').set_value(this._settings.get_int('scroll-panel-delay'));
             this._builder.get_object('scroll_panel_options_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
@@ -1653,7 +1645,7 @@ const Settings = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('scroll_icon_options_box');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             this._builder.get_object('scroll_icon_options_delay_spinbutton').set_value(this._settings.get_int('scroll-icon-delay'));
             this._builder.get_object('scroll_icon_options_delay_spinbutton').connect('value-changed', Lang.bind (this, function(widget) {
@@ -1750,7 +1742,7 @@ const Settings = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('box_overlay_shortcut');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
@@ -1784,7 +1776,7 @@ const Settings = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('box_secondarymenu_options');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             this._settings.bind('secondarymenu-contains-appmenu',
                     this._builder.get_object('secondarymenu_appmenu_switch'),
@@ -1826,7 +1818,7 @@ const Settings = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('box_advanced_options');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
@@ -2008,186 +2000,205 @@ const Settings = new Lang.Class({
         }
 
         dialog.destroy();
-    },
+    }
+});
 
-    /**
-     * Object containing all signals defined in the glade file
-     */
-    _SignalHandler: {
+
+const BuilderScope = GObject.registerClass({
+    Implements: [Gtk.BuilderScope],
+}, class BuilderScope extends GObject.Object {
+  
+    _init(settings) {
+        this._settings = settings;
+        super._init();
+    }
+
+    vfunc_create_closure(builder, handlerName, flags, connectObject) {
+        if (flags & Gtk.BuilderClosureFlags.SWAPPED)
+            throw new Error('Unsupported template signal flag "swapped"');
         
-        position_bottom_button_clicked_cb: function(button) {
-            if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.BOTTOM);
-        },
-		
-		position_top_button_clicked_cb: function(button) {
-            if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.TOP);
-        },
+        if (typeof this[handlerName] === 'undefined')
+            throw new Error(`${handlerName} is undefined`);
         
-        position_left_button_clicked_cb: function(button) {
-            if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.LEFT);
-        },
-		
-		position_right_button_clicked_cb: function(button) {
-            if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.RIGHT);
-        },
+        return this[handlerName].bind(connectObject || this);
+    }
+    
+    on_btn_click(connectObject) {
+        connectObject.set_label("Clicked");
+    }
 
-        dots_bottom_button_toggled_cb: function(button) {
-            if (button.get_active())
-                this._settings.set_string('dot-position', "BOTTOM");
-        },
-		
-		dots_top_button_toggled_cb: function(button) {
-            if (button.get_active())
-                this._settings.set_string('dot-position', "TOP");
-        },
+    position_bottom_button_clicked_cb(button) {
+        if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.BOTTOM);
+    }
 
-        dots_left_button_toggled_cb: function(button) {
-            if (button.get_active())
-                this._settings.set_string('dot-position', "LEFT");
-        },
-		
-		dots_right_button_toggled_cb: function(button) {
-            if (button.get_active())
-                this._settings.set_string('dot-position', "RIGHT");
-        },
+    position_top_button_clicked_cb(button) {
+        if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.TOP);
+    }
+    
+    position_left_button_clicked_cb(button) {
+        if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.LEFT);
+    }
 
-        preview_title_position_bottom_button_toggled_cb: function(button) {
-            if (button.get_active())
-                this._settings.set_string('window-preview-title-position', 'BOTTOM');
-        },
-		
-		preview_title_position_top_button_toggled_cb: function(button) {
-            if (button.get_active())
-                this._settings.set_string('window-preview-title-position', 'TOP');
-        },
+    position_right_button_clicked_cb(button) {
+        if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.RIGHT);
+    }
 
-        panel_size_scale_format_value_cb: function(scale, value) {
-            return value+ ' px';
-        },
+    dots_bottom_button_toggled_cb(button) {
+        if (button.get_active())
+            this._settings.set_string('dot-position', "BOTTOM");
+    }
 
-        panel_size_scale_value_changed_cb: function(scale) {
-            // Avoid settings the size consinuosly
-            if (this._panel_size_timeout > 0)
-                Mainloop.source_remove(this._panel_size_timeout);
+    dots_top_button_toggled_cb(button) {
+        if (button.get_active())
+            this._settings.set_string('dot-position', "TOP");
+    }
 
-            this._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-                this._settings.set_int('panel-size', scale.get_value());
-                this._panel_size_timeout = 0;
-                return GLib.SOURCE_REMOVE;
-            }));
-        },
+    dots_left_button_toggled_cb(button) {
+        if (button.get_active())
+            this._settings.set_string('dot-position', "LEFT");
+    }
 
-        tray_size_scale_format_value_cb: function(scale, value) {
-            return value+ ' px';
-        },
+    dots_right_button_toggled_cb(button) {
+        if (button.get_active())
+            this._settings.set_string('dot-position', "RIGHT");
+    }
 
-        tray_size_scale_value_changed_cb: function(scale) {
-            // Avoid settings the size consinuosly
-            if (this._tray_size_timeout > 0)
-                Mainloop.source_remove(this._tray_size_timeout);
+    preview_title_position_bottom_button_toggled_cb(button) {
+        if (button.get_active())
+            this._settings.set_string('window-preview-title-position', 'BOTTOM');
+    }
 
-            this._tray_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-                this._settings.set_int('tray-size', scale.get_value());
-                this._tray_size_timeout = 0;
-                return GLib.SOURCE_REMOVE;
-            }));
-        },
+    preview_title_position_top_button_toggled_cb(button) {
+        if (button.get_active())
+            this._settings.set_string('window-preview-title-position', 'TOP');
+    }
 
-        leftbox_size_scale_format_value_cb: function(scale, value) {
-            return value+ ' px';
-        },
+    panel_size_scale_format_value_cb(scale, value) {
+        return value+ ' px';
+    }
 
-        leftbox_size_scale_value_changed_cb: function(scale) {
-            // Avoid settings the size consinuosly
-            if (this._leftbox_size_timeout > 0)
-                Mainloop.source_remove(this._leftbox_size_timeout);
+    panel_size_scale_value_changed_cb(scale) {
+        // Avoid settings the size consinuosly
+        if (this._panel_size_timeout > 0)
+            Mainloop.source_remove(this._panel_size_timeout);
 
-            this._leftbox_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-                this._settings.set_int('leftbox-size', scale.get_value());
-                this._leftbox_size_timeout = 0;
-                return GLib.SOURCE_REMOVE;
-            }));
-        },
+        this._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings.set_int('panel-size', scale.get_value());
+            this._panel_size_timeout = 0;
+            return GLib.SOURCE_REMOVE;
+        }));
+    }
 
-        appicon_margin_scale_format_value_cb: function(scale, value) {
-            return value+ ' px';
-        },
+    tray_size_scale_format_value_cb(scale, value) {
+        return value+ ' px';
+    }
 
-        appicon_margin_scale_value_changed_cb: function(scale) {
-            // Avoid settings the size consinuosly
-            if (this._appicon_margin_timeout > 0)
-                Mainloop.source_remove(this._appicon_margin_timeout);
+    tray_size_scale_value_changed_cb(scale) {
+        // Avoid settings the size consinuosly
+        if (this._tray_size_timeout > 0)
+            Mainloop.source_remove(this._tray_size_timeout);
 
-            this._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-                this._settings.set_int('appicon-margin', scale.get_value());
-                this._appicon_margin_timeout = 0;
-                return GLib.SOURCE_REMOVE;
-            }));
-        },
+        this._tray_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings.set_int('tray-size', scale.get_value());
+            this._tray_size_timeout = 0;
+            return GLib.SOURCE_REMOVE;
+        }));
+    }
 
-        appicon_padding_scale_format_value_cb: function(scale, value) {
-            return value + ' px';
-        },
+    leftbox_size_scale_format_value_cb(scale, value) {
+        return value+ ' px';
+    }
 
-        appicon_padding_scale_value_changed_cb: function(scale) {
-            // Avoid settings the size consinuosly
-            if (this._appicon_padding_timeout > 0)
-                Mainloop.source_remove(this._appicon_padding_timeout);
+    leftbox_size_scale_value_changed_cb(scale) {
+        // Avoid settings the size consinuosly
+        if (this._leftbox_size_timeout > 0)
+            Mainloop.source_remove(this._leftbox_size_timeout);
 
-            this._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-                this._settings.set_int('appicon-padding', scale.get_value());
-                this._appicon_padding_timeout = 0;
-                return GLib.SOURCE_REMOVE;
-            }));
-        },
+        this._leftbox_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings.set_int('leftbox-size', scale.get_value());
+            this._leftbox_size_timeout = 0;
+            return GLib.SOURCE_REMOVE;
+        }));
+    }
 
-        tray_padding_scale_format_value_cb: function(scale, value) {
-            return value+ ' px';
-        },
+    appicon_margin_scale_format_value_cb(scale, value) {
+        return value+ ' px';
+    }
 
-        tray_padding_scale_value_changed_cb: function(scale) {
-            // Avoid settings the size consinuosly
-            if (this._tray_padding_timeout > 0)
-                Mainloop.source_remove(this._tray_padding_timeout);
+    appicon_margin_scale_value_changed_cb(scale) {
+        // Avoid settings the size consinuosly
+        if (this._appicon_margin_timeout > 0)
+            Mainloop.source_remove(this._appicon_margin_timeout);
 
-            this._tray_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-                this._settings.set_int('tray-padding', scale.get_value());
-                this._tray_padding_timeout = 0;
-                return GLib.SOURCE_REMOVE;
-            }));
-        },
+        this._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings.set_int('appicon-margin', scale.get_value());
+            this._appicon_margin_timeout = 0;
+            return GLib.SOURCE_REMOVE;
+        }));
+    }
 
-        statusicon_padding_scale_format_value_cb: function(scale, value) {
-            return value+ ' px';
-        },
+    appicon_padding_scale_format_value_cb(scale, value) {
+        return value + ' px';
+    }
 
-        statusicon_padding_scale_value_changed_cb: function(scale) {
-            // Avoid settings the size consinuosly
-            if (this._statusicon_padding_timeout > 0)
-                Mainloop.source_remove(this._statusicon_padding_timeout);
+    appicon_padding_scale_value_changed_cb(scale) {
+        // Avoid settings the size consinuosly
+        if (this._appicon_padding_timeout > 0)
+            Mainloop.source_remove(this._appicon_padding_timeout);
 
-            this._statusicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-                this._settings.set_int('status-icon-padding', scale.get_value());
-                this._statusicon_padding_timeout = 0;
-                return GLib.SOURCE_REMOVE;
-            }));
-        },
+        this._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings.set_int('appicon-padding', scale.get_value());
+            this._appicon_padding_timeout = 0;
+            return GLib.SOURCE_REMOVE;
+        }));
+    }
 
-        leftbox_padding_scale_format_value_cb: function(scale, value) {
-            return value+ ' px';
-        },
+    tray_padding_scale_format_value_cb(scale, value) {
+        return value+ ' px';
+    }
 
-        leftbox_padding_scale_value_changed_cb: function(scale) {
-            // Avoid settings the size consinuosly
-            if (this._leftbox_padding_timeout > 0)
-                Mainloop.source_remove(this._leftbox_padding_timeout);
+    tray_padding_scale_value_changed_cb(scale) {
+        // Avoid settings the size consinuosly
+        if (this._tray_padding_timeout > 0)
+            Mainloop.source_remove(this._tray_padding_timeout);
 
-            this._leftbox_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-                this._settings.set_int('leftbox-padding', scale.get_value());
-                this._leftbox_padding_timeout = 0;
-                return GLib.SOURCE_REMOVE;
-            }));
-        }
+        this._tray_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings.set_int('tray-padding', scale.get_value());
+            this._tray_padding_timeout = 0;
+            return GLib.SOURCE_REMOVE;
+        }));
+    }
+
+    statusicon_padding_scale_format_value_cb(scale, value) {
+        return value+ ' px';
+    }
+
+    statusicon_padding_scale_value_changed_cb(scale) {
+        // Avoid settings the size consinuosly
+        if (this._statusicon_padding_timeout > 0)
+            Mainloop.source_remove(this._statusicon_padding_timeout);
+
+        this._statusicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings.set_int('status-icon-padding', scale.get_value());
+            this._statusicon_padding_timeout = 0;
+            return GLib.SOURCE_REMOVE;
+        }));
+    }
+
+    leftbox_padding_scale_format_value_cb(scale, value) {
+        return value+ ' px';
+    }
+
+    leftbox_padding_scale_value_changed_cb(scale) {
+        // Avoid settings the size consinuosly
+        if (this._leftbox_padding_timeout > 0)
+            Mainloop.source_remove(this._leftbox_padding_timeout);
+
+        this._leftbox_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings.set_int('leftbox-padding', scale.get_value());
+            this._leftbox_padding_timeout = 0;
+            return GLib.SOURCE_REMOVE;
+        }));
     }
 });
 
@@ -2201,15 +2212,15 @@ function buildPrefsWidget() {
 
     // I'd like the scrolled window to default to a size large enough to show all without scrolling, if it fits on the screen
     // But, it doesn't seem possible, so I'm setting a minimum size if there seems to be enough screen real estate
-    widget.show_all();
-    adjustScrollableHeight(settings.viewport, widget);
+    //adjustScrollableHeight(settings.viewport, widget);
     
     return widget;
 }
 
-function adjustScrollableHeight(viewport, scrollableWindow) {
-    let viewportSize = viewport.size_request();
-    let screenHeight = scrollableWindow.get_screen().get_height() - 120;
-    
-    scrollableWindow.set_size_request(viewportSize.width, viewportSize.height > screenHeight ? screenHeight : viewportSize.height);  
-}
+// todo get_screen no longer available?
+//function adjustScrollableHeight(viewport, scrollableWindow) {
+//    let viewportSize = viewport.get_size_request();
+//    let screenHeight = scrollableWindow.get_screen().get_height() - 120;
+//    
+//    scrollableWindow.set_size_request(viewportSize.width, viewportSize.height > screenHeight ? screenHeight : viewportSize.height);  
+//}
