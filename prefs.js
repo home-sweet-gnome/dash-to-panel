@@ -370,30 +370,37 @@ const Settings = new Lang.Class({
         let box = this._builder.get_object('show_applications_options');
         dialog.get_content_area().append(box);
 
-        let fileChooser = this._builder.get_object('show_applications_icon_file_filebutton');
+        let fileChooserButton = this._builder.get_object('show_applications_icon_file_filebutton');
+        let fileChooser = new Gtk.FileChooserNative({ title: _('Open icon'), transient_for: dialog });
         let fileImage = this._builder.get_object('show_applications_current_icon_image');
         let fileFilter = new Gtk.FileFilter();
+        fileFilter.add_pixbuf_formats();
+        fileChooser.filter = fileFilter;
+
         let handleIconChange = function(newIconPath) {
             if (newIconPath && GLib.file_test(newIconPath, GLib.FileTest.EXISTS)) {
-                let file = Gio.File.new_for_path(newIconPath)
+                let file = Gio.File.new_for_path(newIconPath);
                 let pixbuf = GdkPixbuf.Pixbuf.new_from_stream_at_scale(file.read(null), 32, 32, true, null);
 
                 fileImage.set_from_pixbuf(pixbuf);
-                fileChooser.set_filename(newIconPath);
+                fileChooser.set_file(file);
+                fileChooserButton.set_label(newIconPath);
             } else {
                 newIconPath = '';
-                fileImage.set_from_icon_name('view-app-grid-symbolic', 32);
-                fileChooser.unselect_all();
-                fileChooser.set_current_folder(GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES));
+                fileImage.set_from_icon_name('view-app-grid-symbolic');
+                let picturesFolder = Gio.File.new_for_path(GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES));
+                fileChooser.set_file(picturesFolder);
+                fileChooserButton.set_label("(None)");
             }
 
             this._settings.set_string('show-apps-icon-file', newIconPath || '');
         };
-        
-        fileFilter.add_pixbuf_formats();
-        fileChooser.filter = fileFilter;
 
-        fileChooser.connect('file-set', widget => handleIconChange.call(this, widget.get_filename()));
+        fileChooserButton.connect('clicked', Lang.bind(this, function() {
+            fileChooser.show();
+        }));
+
+        fileChooser.connect('response', widget => handleIconChange.call(this, widget.get_file().get_path()));
         handleIconChange.call(this, this._settings.get_string('show-apps-icon-file'));
 
         dialog.connect('response', Lang.bind(this, function(dialog, id) {
