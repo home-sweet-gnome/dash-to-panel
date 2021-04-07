@@ -162,7 +162,7 @@ const Settings = new Lang.Class({
         this._settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
         this._rtl = (Gtk.Widget.get_default_direction() == Gtk.TextDirection.RTL);
         this._builder = new Gtk.Builder();
-        this._builder.set_scope(new BuilderScope(this._settings));
+        this._builder.set_scope(new BuilderScope(this));
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
         this._builder.add_from_file(Me.path + '/Settings.ui');
         this.notebook = this._builder.get_object('settings_notebook');
@@ -2035,49 +2035,49 @@ const BuilderScope = GObject.registerClass({
     }
 
     position_bottom_button_clicked_cb(button) {
-        if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.BOTTOM);
+        if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.BOTTOM);
     }
 
     position_top_button_clicked_cb(button) {
-        if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.TOP);
+        if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.TOP);
     }
     
     position_left_button_clicked_cb(button) {
-        if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.LEFT);
+        if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.LEFT);
     }
 
     position_right_button_clicked_cb(button) {
-        if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.RIGHT);
+        if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.RIGHT);
     }
 
     dots_bottom_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings.set_string('dot-position', "BOTTOM");
+            this._settings._settings.set_string('dot-position', "BOTTOM");
     }
 
     dots_top_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings.set_string('dot-position', "TOP");
+            this._settings._settings.set_string('dot-position', "TOP");
     }
 
     dots_left_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings.set_string('dot-position', "LEFT");
+            this._settings._settings.set_string('dot-position', "LEFT");
     }
 
     dots_right_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings.set_string('dot-position', "RIGHT");
+            this._settings._settings.set_string('dot-position', "RIGHT");
     }
 
     preview_title_position_bottom_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings.set_string('window-preview-title-position', 'BOTTOM');
+            this._settings._settings.set_string('window-preview-title-position', 'BOTTOM');
     }
 
     preview_title_position_top_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings.set_string('window-preview-title-position', 'TOP');
+            this._settings._settings.set_string('window-preview-title-position', 'TOP');
     }
 
     panel_size_scale_format_value_cb(scale, value) {
@@ -2086,12 +2086,12 @@ const BuilderScope = GObject.registerClass({
 
     panel_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._panel_size_timeout > 0)
-            Mainloop.source_remove(this._panel_size_timeout);
+        if (this._settings._panel_size_timeout > 0)
+            Mainloop.source_remove(this._settings._panel_size_timeout);
 
-        this._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings.set_int('panel-size', scale.get_value());
-            this._panel_size_timeout = 0;
+        this._settings._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings._settings.set_int('panel-size', scale.get_value());
+            this._settings._panel_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2102,12 +2102,12 @@ const BuilderScope = GObject.registerClass({
 
     tray_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._tray_size_timeout > 0)
-            Mainloop.source_remove(this._tray_size_timeout);
+        if (this._settings._tray_size_timeout > 0)
+            Mainloop.source_remove(this._settings._tray_size_timeout);
 
-        this._tray_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings.set_int('tray-size', scale.get_value());
-            this._tray_size_timeout = 0;
+        this._settings._tray_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings._settings.set_int('tray-size', scale.get_value());
+            this._settings._tray_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2118,12 +2118,12 @@ const BuilderScope = GObject.registerClass({
 
     leftbox_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._leftbox_size_timeout > 0)
-            Mainloop.source_remove(this._leftbox_size_timeout);
+        if (this._settings._leftbox_size_timeout > 0)
+            Mainloop.source_remove(this._settings._leftbox_size_timeout);
 
-        this._leftbox_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings.set_int('leftbox-size', scale.get_value());
-            this._leftbox_size_timeout = 0;
+        this._settings._leftbox_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings._settings.set_int('leftbox-size', scale.get_value());
+            this._settings._leftbox_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2134,12 +2134,12 @@ const BuilderScope = GObject.registerClass({
 
     appicon_margin_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._appicon_margin_timeout > 0)
-            Mainloop.source_remove(this._appicon_margin_timeout);
+        if (this._settings._appicon_margin_timeout > 0)
+            Mainloop.source_remove(this._settings._appicon_margin_timeout);
 
-        this._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings.set_int('appicon-margin', scale.get_value());
-            this._appicon_margin_timeout = 0;
+        this._settings._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings._settings.set_int('appicon-margin', scale.get_value());
+            this._settings._appicon_margin_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2150,12 +2150,12 @@ const BuilderScope = GObject.registerClass({
 
     appicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._appicon_padding_timeout > 0)
-            Mainloop.source_remove(this._appicon_padding_timeout);
+        if (this._settings._appicon_padding_timeout > 0)
+            Mainloop.source_remove(this._settings._appicon_padding_timeout);
 
-        this._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings.set_int('appicon-padding', scale.get_value());
-            this._appicon_padding_timeout = 0;
+        this._settings._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings._settings.set_int('appicon-padding', scale.get_value());
+            this._settings._appicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2166,12 +2166,12 @@ const BuilderScope = GObject.registerClass({
 
     tray_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._tray_padding_timeout > 0)
-            Mainloop.source_remove(this._tray_padding_timeout);
+        if (this._settings._tray_padding_timeout > 0)
+            Mainloop.source_remove(this._settings._tray_padding_timeout);
 
-        this._tray_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings.set_int('tray-padding', scale.get_value());
-            this._tray_padding_timeout = 0;
+        this._settings._tray_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings._settings.set_int('tray-padding', scale.get_value());
+            this._settings._tray_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2182,12 +2182,12 @@ const BuilderScope = GObject.registerClass({
 
     statusicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._statusicon_padding_timeout > 0)
-            Mainloop.source_remove(this._statusicon_padding_timeout);
+        if (this._settings._statusicon_padding_timeout > 0)
+            Mainloop.source_remove(this._settings._statusicon_padding_timeout);
 
-        this._statusicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings.set_int('status-icon-padding', scale.get_value());
-            this._statusicon_padding_timeout = 0;
+        this._settings._statusicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings._settings.set_int('status-icon-padding', scale.get_value());
+            this._settings._statusicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2198,12 +2198,12 @@ const BuilderScope = GObject.registerClass({
 
     leftbox_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._leftbox_padding_timeout > 0)
-            Mainloop.source_remove(this._leftbox_padding_timeout);
+        if (this._settings._leftbox_padding_timeout > 0)
+            Mainloop.source_remove(this._settings._leftbox_padding_timeout);
 
-        this._leftbox_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings.set_int('leftbox-padding', scale.get_value());
-            this._leftbox_padding_timeout = 0;
+        this._settings._leftbox_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._settings._settings.set_int('leftbox-padding', scale.get_value());
+            this._settings._leftbox_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
