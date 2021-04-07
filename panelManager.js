@@ -374,7 +374,7 @@ var dtpPanelManager = Utils.defineClass({
         this._needsIconAllocate = 1;
         
         if (!this.checkIfFocusedMonitor(monitor)) {
-            Main._overview.overview._controls._workspacesDisplay._primaryIndex = monitor.index;
+            Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
 
             Main.overview._overview.clear_constraints();
             Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
@@ -521,11 +521,11 @@ var dtpPanelManager = Utils.defineClass({
         // we just hide the overview. The positions will be updated
         // when it is next shown.
         this.hide();
-        let workArea = Main.layoutManager.getWorkAreaForMonitor(Main._overview.overview._controls._workspacesDisplay._primaryIndex);
+        let workArea = Main.layoutManager.getWorkAreaForMonitor(Main.overview._overview._controls._workspacesDisplay._primaryIndex);
 
         this._coverPane.set_position(0, workArea.y);
         this._coverPane.set_size(workArea.width, workArea.height);
-        this._updateBackgrounds();
+        Main.layoutManager._updateBackgrounds();
     },
 
     _newUpdateWorkspacesViews: function() {
