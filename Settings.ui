@@ -144,6 +144,7 @@
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
+                          <property name="row-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -227,6 +228,7 @@
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
+                          <property name="row-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -310,6 +312,7 @@
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
+                          <property name="row-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -660,6 +663,7 @@
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -1590,6 +1594,7 @@
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -1850,6 +1855,7 @@
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -1993,6 +1999,7 @@
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -2132,6 +2139,7 @@
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
+                          <property name="row-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -2684,6 +2692,7 @@
                         <layout>
                           <property name="row">0</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -2719,6 +2728,7 @@
                         <layout>
                           <property name="row">2</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -2738,6 +2748,7 @@
                         <layout>
                           <property name="row">3</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -2844,6 +2855,7 @@
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -2969,6 +2981,7 @@
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -3233,6 +3246,7 @@
                             <layout>
                               <property name="row">1</property>
                               <property name="column">0</property>
+                              <property name="column-span">2</property>
                             </layout>
                           </object>
                           <!-- <packing>
@@ -3244,6 +3258,7 @@
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -3299,6 +3314,7 @@
                         <layout>
                           <property name="row">2</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -3356,6 +3372,7 @@
                         <layout>
                           <property name="row">3</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -3407,6 +3424,7 @@
                         <layout>
                           <property name="row">4</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -3482,6 +3500,7 @@
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -3548,6 +3567,7 @@
                             <layout>
                               <property name="row">1</property>
                               <property name="column">0</property>
+                              <property name="column-span">2</property>
                             </layout>
                           </object>
                           <!-- <packing>
@@ -3559,6 +3579,7 @@
                         <layout>
                           <property name="row">2</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -3624,6 +3645,7 @@
                             <layout>
                               <property name="row">1</property>
                               <property name="column">0</property>
+                              <property name="column-span">2</property>
                             </layout>
                           </object>
                           <!-- <packing>
@@ -3635,6 +3657,7 @@
                         <layout>
                           <property name="row">3</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -3693,6 +3716,7 @@
                     <layout>
                       <property name="row">0</property>
                       <property name="column">1</property>
+                      <property name="row-span">2</property>
                     </layout>
                   </object>
                   <!-- <packing>
@@ -3793,6 +3817,7 @@
                     <layout>
                       <property name="row">0</property>
                       <property name="column">1</property>
+                      <property name="row-span">2</property>
                     </layout>
                   </object>
                   <!-- <packing>
@@ -3905,6 +3930,7 @@
                     <layout>
                       <property name="row">0</property>
                       <property name="column">1</property>
+                      <property name="row-span">2</property>
                     </layout>
                   </object>
                   <!-- <packing>
@@ -3975,6 +4001,7 @@
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
+                          <property name="row-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -4053,6 +4080,7 @@
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
+                          <property name="row-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -4177,6 +4205,7 @@
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
+                          <property name="row-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -4267,6 +4296,7 @@
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
+                          <property name="row-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -4328,6 +4358,7 @@
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
+                          <property name="row-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -4932,6 +4963,7 @@
                     <layout>
                       <property name="row">1</property>
                       <property name="column">0</property>
+                      <property name="column-span">2</property>
                     </layout>
                   </object>
                   <!-- <packing>
@@ -5451,6 +5483,7 @@
                             <layout>
                               <property name="row">0</property>
                               <property name="column">1</property>
+                              <property name="row-span">2</property>
                             </layout>
                           </object>
                           <!-- <packing>
@@ -5668,6 +5701,7 @@
                         <layout>
                           <property name="row">2</property>
                           <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                       <!-- <packing>
@@ -6485,6 +6519,7 @@
                                 <layout>
                                   <property name="row">1</property>
                                   <property name="column">0</property>
+                                  <property name="column-span">2</property>
                                 </layout>
                               </object>
                               <!-- <packing>
@@ -6679,6 +6714,7 @@
                             <layout>
                               <property name="row">1</property>
                               <property name="column">0</property>
+                              <property name="column-span">2</property>
                             </layout>
                           </object>
                           <!-- <packing>
@@ -6880,6 +6916,7 @@
                             <layout>
                               <property name="row">0</property>
                               <property name="column">1</property>
+                              <property name="row-span">2</property>
                             </layout>
                           </object>
                           <!-- <packing>
@@ -7429,6 +7466,11 @@
                                 <property name="position">1</property>
                               </packing> -->
                             </child>
+                            <layout>
+                              <property name="row">0</property>
+                              <property name="column">1</property>
+                              <property name="row-span">2</property>
+                            </layout>
                           </object>
                           <!-- <packing>
                             <property name="left_attach">1</property>
@@ -7773,6 +7815,11 @@
                                 <property name="position">1</property>
                               </packing> -->
                             </child>
+                            <layout>
+                              <property name="row">0</property>
+                              <property name="column">1</property>
+                              <property name="row-span">2</property>
+                            </layout>
                           </object>
                           <!-- <packing>
                             <property name="left_attach">1</property>
@@ -8607,6 +8654,11 @@
                             <style>
                               <class name="dim-label"/>
                             </style>
+                            <layout>
+                              <property name="row">1</property>
+                              <property name="column">0</property>
+                              <property name="column-span">2</property>
+                            </layout>
                           </object>
                           <!-- <packing>
                             <property name="left_attach">0</property>
@@ -8620,6 +8672,11 @@
                             <property name="can_focus">False</property>
                             <property name="halign">start</property>
                             <property name="label" translatable="yes">Export and import settings</property>
+                            <layout>
+                              <property name="row">0</property>
+                              <property name="column">0</property>
+                              <property name="column-span">2</property>
+                            </layout>
                           </object>
                           <!-- <packing>
                             <property name="left_attach">0</property>
@@ -8714,6 +8771,7 @@
                             <layout>
                               <property name="row">1</property>
                               <property name="column">0</property>
+                              <property name="column-span">2</property>
                             </layout>
                           </object>
                           <!-- <packing>
@@ -8731,6 +8789,7 @@
                             <layout>
                               <property name="row">0</property>
                               <property name="column">0</property>
+                              <property name="column-span">2</property>
                             </layout>
                           </object>
                           <!-- <packing>
@@ -8811,6 +8870,7 @@
                             <layout>
                               <property name="row">2</property>
                               <property name="column">0</property>
+                              <property name="column-span">2</property>
                             </layout>
                           </object>
                           <!-- <packing>
