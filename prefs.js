@@ -2227,22 +2227,16 @@ function buildPrefsWidget() {
 // todo get_screen no longer available?
 function adjustScrollableHeight(viewport, scrollableWindow) {
     // todo multi monitor? sizes correct?
-    let viewportSize = viewport.get_preferred_size();
-    try {
-        let screenHeight = scrollableWindow.get_display().get_monitors().get_item(0).get_height_mm() - 20;
-        if (viewportSize.height === undefined)
-        {
-            viewportSize.height = 60;
-        }
-        if (viewportSize.width === undefined)
-        {
-            viewportSize.width = 100;
-        }
-        print("screen-height: " + screenHeight);
-        print("viewport-height: " + viewportSize.height);
-        print("viewport-width: " + viewportSize.width);
-        scrollableWindow.set_size_request(viewportSize.width, viewportSize.height > screenHeight ? screenHeight : viewportSize.height);
-    } catch (e) {
-        print("adjustScrollableHeight exception: " + e.toString());
+    let viewportSize = scrollableWindow.get_preferred_size();
+    let screenSize = scrollableWindow.get_display().get_monitors().get_item(0).get_geometry();
+    if (viewportSize.height === undefined)
+    {
+        viewportSize.height = screenSize.height * 0.8;
     }
+    if (viewportSize.width === undefined)
+    {
+        viewportSize.width = 700;
+    }
+
+    scrollableWindow.set_size_request(viewportSize.width, viewportSize.height > screenSize.height ? screenSize.height : viewportSize.height);
 }
