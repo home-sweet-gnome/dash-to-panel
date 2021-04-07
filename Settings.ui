@@ -105,10 +105,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="builtin_theme_label4">
@@ -122,10 +118,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkComboBoxText" id="shift_click_action_combo">
@@ -147,11 +139,6 @@
                           <property name="row-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                        <property name="height">2</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -189,10 +176,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="label_middle_click">
@@ -206,10 +189,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkComboBoxText" id="middle_click_action_combo">
@@ -231,11 +210,6 @@
                           <property name="row-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                        <property name="height">2</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -273,10 +247,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="label_shift_middle_click">
@@ -290,10 +260,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkComboBoxText" id="shift_middle_click_action_combo">
@@ -315,11 +281,6 @@
                           <property name="row-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                        <property name="height">2</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -378,10 +339,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="secondarymenu_appmenu_switch">
@@ -394,10 +351,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -432,10 +385,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="secondarymenu_showdetails_switch">
@@ -448,10 +397,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -536,10 +481,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="focus_highlight_switch">
@@ -552,10 +493,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkGrid" id="grid_focus_highlight_options">
@@ -575,10 +512,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="focus_highlight_dominant_switch">
@@ -587,10 +520,6 @@
                             <property name="halign">end</property>
                             <property name="valign">center</property>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="focus_highlight_color_label">
@@ -604,10 +533,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkColorButton" id="focus_highlight_color_colorbutton">
@@ -620,10 +545,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="focus_highlight_opacity_label">
@@ -637,10 +558,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSpinButton" id="focus_highlight_opacity_spinbutton">
@@ -655,10 +572,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">1</property>
@@ -666,11 +579,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -702,10 +610,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="dot_size_spinbutton">
@@ -719,10 +623,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -754,10 +654,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="dot_color_dominant_switch">
@@ -770,10 +666,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -851,10 +743,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkBox" id="dot_color_1_box">
@@ -893,10 +781,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="dot_color_2_label">
@@ -910,10 +794,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="dot_color_3_label">
@@ -927,10 +807,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="dot_color_4_label">
@@ -944,10 +820,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">3</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkColorButton" id="dot_color_2_colorbutton">
@@ -960,10 +832,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkColorButton" id="dot_color_3_colorbutton">
@@ -976,10 +844,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkColorButton" id="dot_color_4_colorbutton">
@@ -992,10 +856,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">3</property>
-                          </packing> -->
                         </child>
                       </object>
                       <!-- <packing>
@@ -1069,10 +929,6 @@
                                   <property name="column">0</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkBox" id="dot_color_unfocused_1_box">
@@ -1111,10 +967,6 @@
                                   <property name="column">1</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">0</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkLabel" id="dot_color_unfocused_2_label">
@@ -1128,10 +980,6 @@
                                   <property name="column">0</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkColorButton" id="dot_color_unfocused_2_colorbutton">
@@ -1144,10 +992,6 @@
                                   <property name="column">1</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">1</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkLabel" id="dot_color_unfocused_3_label">
@@ -1161,10 +1005,6 @@
                                   <property name="column">0</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">2</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkColorButton" id="dot_color_unfocused_3_colorbutton">
@@ -1177,10 +1017,6 @@
                                   <property name="column">1</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">2</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkLabel" id="dot_color_unfocused_4_label">
@@ -1194,10 +1030,6 @@
                                   <property name="column">0</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">3</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkColorButton" id="dot_color_unfocused_4_colorbutton">
@@ -1210,10 +1042,6 @@
                                   <property name="column">1</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">3</property>
-                              </packing> -->
                             </child>
                           </object>
                           <!-- <packing>
@@ -1295,10 +1123,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="group_apps_label_font_size_label">
@@ -1313,10 +1137,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -1347,10 +1167,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkComboBoxText" id="group_apps_label_font_weight_combo">
@@ -1369,10 +1185,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -1404,10 +1216,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkColorButton" id="group_apps_label_font_color_colorbutton">
@@ -1420,10 +1228,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -1455,10 +1259,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkColorButton" id="group_apps_label_font_color_minimized_colorbutton">
@@ -1471,10 +1271,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -1505,10 +1301,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="group_apps_label_max_width_spinbutton">
@@ -1524,10 +1316,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -1558,10 +1346,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="group_apps_use_fixed_width_switch">
@@ -1574,10 +1358,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="group_apps_use_fixed_width_description">
@@ -1597,11 +1377,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -1632,10 +1407,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="group_apps_underline_unfocused_switch">
@@ -1648,10 +1419,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -1682,10 +1449,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="group_apps_use_launchers_switch">
@@ -1698,10 +1461,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -1788,10 +1547,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="intellihide_window_hide_switch">
@@ -1804,10 +1559,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkGrid" id="intellihide_behaviour_options">
@@ -1827,10 +1578,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkComboBoxText" id="intellihide_behaviour_combo">
@@ -1847,10 +1594,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">1</property>
@@ -1858,11 +1601,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -1895,10 +1633,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="intellihide_use_pressure_switch">
@@ -1911,10 +1645,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkGrid" id="intellihide_use_pressure_options">
@@ -1935,10 +1665,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSpinButton" id="intellihide_pressure_threshold_spinbutton">
@@ -1954,10 +1680,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="intellihide_pressure_time_label">
@@ -1972,10 +1694,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSpinButton" id="intellihide_pressure_time_spinbutton">
@@ -1991,10 +1709,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">1</property>
@@ -2002,11 +1716,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -2040,10 +1749,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="intellihide_show_in_fullscreen_switch">
@@ -2056,10 +1761,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -2092,10 +1793,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="intellihide_only_secondary_switch">
@@ -2108,10 +1805,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -2142,11 +1835,6 @@
                           <property name="row-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                        <property name="height">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="intellihide_toggle_label">
@@ -2160,10 +1848,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="intellihide_toggle_description">
@@ -2181,10 +1865,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -2215,10 +1895,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="intellihide_animation_time_spinbutton">
@@ -2234,10 +1910,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -2269,10 +1941,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="intellihide_close_delay_spinbutton">
@@ -2289,10 +1957,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -2325,10 +1989,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="intellihide_enable_start_delay_spinbutton">
@@ -2345,10 +2005,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -2482,10 +2138,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="preview_timeout_label">
@@ -2500,10 +2152,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="animation_time_label">
@@ -2513,10 +2161,6 @@
                         <property name="label" translatable="yes">Animation time (ms)</property>
                         <property name="xalign">0</property>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="animation_time_spinbutton">
@@ -2532,10 +2176,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkBox" id="preview_hide_box">
@@ -2586,10 +2226,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="leave_timeout_spinbutton">
@@ -2607,10 +2243,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -2642,10 +2274,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="preview_middle_click_close_switch">
@@ -2658,10 +2286,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -2695,11 +2319,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                        <property name="width">3</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="preview_size_spinbutton">
@@ -2712,10 +2331,6 @@
                         <property name="numeric">True</property>
                         <property name="value">100</property>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">2</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="preview_aspect_ratio_y_label">
@@ -2731,11 +2346,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">2</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="preview_padding_label">
@@ -2751,11 +2361,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">3</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="preview_padding_spinbutton">
@@ -2772,10 +2377,6 @@
                           <property name="column">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">2</property>
-                        <property name="top_attach">3</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkBox">
@@ -2839,10 +2440,6 @@
                           <property name="column">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">2</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="preview_aspect_ratio_x_label">
@@ -2858,11 +2455,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkBox">
@@ -2926,10 +2518,6 @@
                           <property name="column">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">2</property>
-                        <property name="top_attach">2</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -2961,10 +2549,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="preview_custom_opacity_description">
@@ -2984,11 +2568,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkBox">
@@ -3029,10 +2608,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -3142,10 +2717,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="preview_show_title_switch">
@@ -3158,10 +2729,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkGrid" id="grid_preview_custom_icon_size">
@@ -3198,20 +2765,12 @@
                                     <property name="numeric">True</property>
                                     <property name="value">6</property>
                                   </object>
-                                  <!-- <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="top_attach">0</property>
-                                    <property name="position">2</property>
-                                  </packing> -->
                                 </child>
                                 <layout>
                                   <property name="row">0</property>
                                   <property name="column">1</property>
                                 </layout>
                             </object>
-                            <!-- <packing>
-                                <property name="left_attach">1</property>
-                            </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="preview_custom_icon_size_label">
@@ -3226,10 +2785,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="preview_custom_icon_size_description">
@@ -3249,11 +2804,6 @@
                               <property name="column-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                            <property name="width">2</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">1</property>
@@ -3261,11 +2811,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkGrid" id="grid_preview_title_size">
@@ -3288,10 +2833,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="preview_title_size_label">
@@ -3306,10 +2847,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">2</property>
@@ -3317,11 +2854,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">2</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkGrid" id="grid_preview_title_weight">
@@ -3341,10 +2873,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkComboBoxText" id="grid_preview_title_weight_combo">
@@ -3364,10 +2892,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">3</property>
@@ -3375,11 +2899,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">3</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkGrid" id="grid_preview_title_font_color">
@@ -3400,10 +2919,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkColorButton" id="grid_preview_title_font_color_colorbutton">
@@ -3416,10 +2931,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">4</property>
@@ -3427,11 +2938,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">4</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -3464,10 +2970,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="peek_mode_switch">
@@ -3480,10 +2982,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="peek_mode_description">
@@ -3503,11 +3001,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkGrid" id="grid_enter_peek_mode_timeout">
@@ -3527,10 +3020,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSpinButton" id="enter_peek_mode_timeout_spinbutton">
@@ -3547,10 +3036,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="enter_peek_mode_timeout_description">
@@ -3570,11 +3055,6 @@
                               <property name="column-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                            <property name="width">2</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">2</property>
@@ -3582,11 +3062,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">2</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkGrid" id="grid_peek_mode_opacity">
@@ -3606,10 +3081,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSpinButton" id="peek_mode_opacity_spinbutton">
@@ -3625,10 +3096,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="peek_mode_opacity_description">
@@ -3648,11 +3115,6 @@
                               <property name="column-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                            <property name="width">2</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">3</property>
@@ -3660,11 +3122,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">3</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -3719,11 +3176,6 @@
                       <property name="row-span">2</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                    <property name="height">2</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkLabel" id="scroll_icon_options_delay_label">
@@ -3738,10 +3190,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkLabel" id="scroll_icon_options_delay_description">
@@ -3759,10 +3207,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing> -->
                 </child>
               </object>
             </child>
@@ -3820,11 +3264,6 @@
                       <property name="row-span">2</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                    <property name="height">2</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkLabel" id="scroll_panel_options_delay_label">
@@ -3839,10 +3278,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkLabel" id="scroll_panel_options_delay_description">
@@ -3860,10 +3295,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing> -->
                 </child>
               </object>
             </child>
@@ -3895,10 +3326,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkLabel" id="scroll_panel_options_show_ws_popup_description">
@@ -3916,10 +3343,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkSwitch" id="scroll_panel_options_show_ws_popup_switch">
@@ -3933,11 +3356,6 @@
                       <property name="row-span">2</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                    <property name="height">2</property>
-                  </packing> -->
                 </child>
               </object>
             </child>
@@ -4004,11 +3422,6 @@
                           <property name="row-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                        <property name="height">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="hotkey_prefix_label">
@@ -4022,10 +3435,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="hotkey_prefix_description">
@@ -4043,10 +3452,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -4083,11 +3488,6 @@
                           <property name="row-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                        <property name="height">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="overlay_label">
@@ -4101,10 +3501,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="overlay_description">
@@ -4122,10 +3518,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -4157,10 +3549,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="shortcut_timeout_label">
@@ -4174,10 +3562,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -4208,11 +3592,6 @@
                           <property name="row-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                        <property name="height">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="shortcut_label">
@@ -4226,10 +3605,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="shortcut_description">
@@ -4247,10 +3622,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -4282,10 +3653,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="shortcut_preview_switch">
@@ -4299,11 +3666,6 @@
                           <property name="row-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                        <property name="height">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="shortcut_preview_description">
@@ -4322,10 +3684,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -4361,11 +3719,6 @@
                           <property name="row-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                        <property name="height">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="shortcut_num_keys_label">
@@ -4379,10 +3732,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="shortcut_num_keys_description">
@@ -4400,10 +3749,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -4455,10 +3800,6 @@
                   <property name="column">0</property>
                 </layout>
               </object>
-              <!-- <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing> -->
             </child>
             <child>
               <object class="GtkImage" id="show_applications_current_icon_image">
@@ -4474,10 +3815,6 @@
                   <property name="column">1</property>
                 </layout>
               </object>
-              <!-- <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-              </packing> -->
             </child>
             <child>
               <object class="GtkButton" id="show_applications_icon_file_filebutton">
@@ -4488,10 +3825,6 @@
                   <property name="column">1</property>
                 </layout>
               </object>
-              <!-- <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">1</property>
-              </packing> -->
             </child>
             <child>
               <object class="GtkLabel" id="show_applications_custom_icon_file_label">
@@ -4506,10 +3839,6 @@
                   <property name="column">0</property>
                 </layout>
               </object>
-              <!-- <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
-              </packing> -->
             </child>
           </object>
         </child>
@@ -4547,10 +3876,6 @@
                   <property name="column">1</property>
                 </layout>
               </object>
-              <!-- <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-              </packing> -->
             </child>
             <child>
               <object class="GtkLabel" id="show_applications_side_padding_label">
@@ -4564,10 +3889,6 @@
                   <property name="column">0</property>
                 </layout>
               </object>
-              <!-- <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing> -->
             </child>
           </object>
         </child>
@@ -4602,10 +3923,6 @@
                   <property name="column">1</property>
                 </layout>
               </object>
-              <!-- <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-              </packing> -->
             </child>
             <child>
               <object class="GtkLabel" id="show_applications_esc_key_label">
@@ -4620,10 +3937,6 @@
                   <property name="column">0</property>
                 </layout>
               </object>
-              <!-- <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing> -->
             </child>
           </object>
         </child>
@@ -4660,10 +3973,6 @@
                   <property name="column">0</property>
                 </layout>
               </object>
-              <!-- <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing> -->
             </child>
             <child>
               <object class="GtkSwitch" id="application_button_animation_switch">
@@ -4676,10 +3985,6 @@
                   <property name="column">1</property>
                 </layout>
               </object>
-              <!-- <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-              </packing> -->
             </child>
           </object>
         </child>
@@ -4741,10 +4046,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkSpinButton" id="show_showdesktop_width_spinbutton">
@@ -4761,10 +4062,6 @@
                       <property name="column">1</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkLabel" id="override_show_desktop_line_color_label">
@@ -4778,10 +4075,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkBox" id="override_show_desktop_line_color_box">
@@ -4817,15 +4110,10 @@
                       </packing> -->
                     </child>
                     <layout>
-                      <property name="row">0</property>
+                      <property name="row">1</property>
                       <property name="column">1</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                     <property name="left_attach">1</property>
-                     <property name="top_attach">0</property>
-                     <property name="top_attach">1</property>
-                  </packing> -->
                 </child>
               </object>
             </child>
@@ -4858,10 +4146,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkSwitch" id="show_showdesktop_hide_switch">
@@ -4874,10 +4158,6 @@
                       <property name="column">1</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkGrid" id="grid_show_showdesktop_hide_options">
@@ -4897,10 +4177,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="show_showdesktop_delay_spinbutton">
@@ -4917,10 +4193,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkLabel" id="show_showdesktop_time_label">
@@ -4935,10 +4207,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSpinButton" id="show_showdesktop_time_spinbutton">
@@ -4955,10 +4223,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                     <layout>
                       <property name="row">1</property>
@@ -4966,11 +4230,6 @@
                       <property name="column-span">2</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                    <property name="width">2</property>
-                  </packing> -->
                 </child>
               </object>
             </child>
@@ -5054,10 +4313,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkComboBoxText" id="trans_options_window_type_combo">
@@ -5074,10 +4329,6 @@
                       <property name="column">1</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
               </object>
             </child>
@@ -5111,10 +4362,6 @@
                       <property name="column">1</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkLabel" id="trans_options_distance_label">
@@ -5129,10 +4376,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
               </object>
             </child>
@@ -5212,10 +4455,6 @@
                       <property name="column">1</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkLabel" id="trans_options_anim_time_label">
@@ -5230,10 +4469,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
               </object>
             </child>
@@ -5308,10 +4543,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkComboBoxText" id="multimon_primary_combo">
@@ -5323,10 +4554,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -5359,10 +4586,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="multimon_multi_switch">
@@ -5375,10 +4598,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -5433,10 +4652,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkBox" id="intellihide_box">
@@ -5486,11 +4701,6 @@
                               <property name="row-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                            <property name="height">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="intellihide_description">
@@ -5509,10 +4719,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -5560,10 +4766,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkComboBoxText" id="taskbar_position_monitor_combo">
@@ -5575,10 +4777,6 @@
                           <property name="column">1</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkCheckButton" id="taskbar_position_sync_button">
@@ -5592,10 +4790,6 @@
                           <property name="column">0</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkBox" id="panel_position_box">
@@ -5704,11 +4898,6 @@
                           <property name="column-span">2</property>
                         </layout>
                       </object>
-                      <!-- <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">2</property>
-                        <property name="width">2</property>
-                      </packing> -->
                     </child>
                     <child>
                       <placeholder/>
@@ -5803,10 +4992,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkScale" id="panel_size_scale">
@@ -5824,10 +5009,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -5860,10 +5041,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkScale" id="appicon_margin_scale">
@@ -5881,10 +5058,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -5916,10 +5089,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkScale" id="appicon_padding_scale">
@@ -5937,10 +5106,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -6267,10 +5432,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkBox" id="trans_bg_box">
@@ -6308,10 +5469,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -6348,10 +5505,6 @@
                                   <property name="column">0</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkSwitch" id="trans_opacity_override_switch">
@@ -6364,10 +5517,6 @@
                                   <property name="column">1</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">0</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkGrid" id="trans_opacity_box">
@@ -6389,10 +5538,6 @@
                                       <property name="column">0</property>
                                     </layout>
                                   </object>
-                                  <!-- <packing>
-                                    <property name="left_attach">0</property>
-                                    <property name="top_attach">0</property>
-                                  </packing> -->
                                 </child>
                                 <child>
                                   <object class="GtkSpinButton" id="trans_opacity_spinbutton">
@@ -6407,10 +5552,6 @@
                                       <property name="column">1</property>
                                     </layout>
                                   </object>
-                                  <!-- <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="top_attach">0</property>
-                                  </packing> -->
                                 </child>
                                 <child>
                                   <object class="GtkBox">
@@ -6457,10 +5598,6 @@
                                       <property name="column">0</property>
                                     </layout>
                                   </object>
-                                  <!-- <packing>
-                                    <property name="left_attach">0</property>
-                                    <property name="top_attach">1</property>
-                                  </packing> -->
                                 </child>
                                 <child>
                                   <object class="GtkBox" id="trans_dyn_box">
@@ -6511,10 +5648,6 @@
                                       <property name="column">1</property>
                                     </layout>
                                   </object>
-                                  <!-- <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="top_attach">1</property>
-                                  </packing> -->
                                 </child>
                                 <layout>
                                   <property name="row">1</property>
@@ -6522,11 +5655,6 @@
                                   <property name="column-span">2</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
-                                <property name="width">2</property>
-                              </packing> -->
                             </child>
                           </object>
                           <!-- <packing>
@@ -6565,10 +5693,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="trans_gradient_switch">
@@ -6581,10 +5705,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkGrid" id="trans_gradient_box">
@@ -6605,10 +5725,6 @@
                                   <property name="column">0</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">0</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkLabel" id="trans_gradient_color2_label">
@@ -6622,10 +5738,6 @@
                                   <property name="column">0</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">0</property>
-                                <property name="top_attach">1</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkBox" id="trans_gradient_color1_box">
@@ -6664,10 +5776,6 @@
                                   <property name="column">1</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">0</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkBox" id="trans_gradient_color2_box">
@@ -6706,10 +5814,6 @@
                                   <property name="column">1</property>
                                 </layout>
                               </object>
-                              <!-- <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">1</property>
-                              </packing> -->
                             </child>
                             <layout>
                               <property name="row">1</property>
@@ -6717,11 +5821,6 @@
                               <property name="column-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                            <property name="width">2</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -6800,10 +5899,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="show_favorite_label">
@@ -6817,10 +5912,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="show_running_apps_label">
@@ -6834,10 +5925,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="show_runnning_apps_switch">
@@ -6850,10 +5937,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="multimon_multi_show_favorites_switch">
@@ -6866,10 +5949,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="multimon_multi_show_favorites_label">
@@ -6884,10 +5963,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -6919,11 +5994,6 @@
                               <property name="row-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                            <property name="height">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="show_appmenu_label">
@@ -6938,10 +6008,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="show_appmenu_description">
@@ -6960,10 +6026,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -7031,10 +6093,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="show_window_previews_label">
@@ -7049,10 +6107,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="show_tooltip_switch">
@@ -7065,10 +6119,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="show_tooltip_label">
@@ -7083,10 +6133,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -7118,10 +6164,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="isolate_workspaces_label">
@@ -7136,10 +6178,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="multimon_multi_isolate_monitor_switch">
@@ -7152,10 +6190,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="multimon_multi_isolate_monitor_label">
@@ -7170,10 +6204,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -7205,10 +6235,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="clicktoexit_label">
@@ -7223,10 +6249,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -7259,10 +6281,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkBox" id="group_apps_box">
@@ -7311,10 +6329,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -7396,10 +6410,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="builtin_theme_label5">
@@ -7413,10 +6423,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkBox" id="click_box">
@@ -7472,11 +6478,6 @@
                               <property name="row-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                            <property name="height">2</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -7550,10 +6551,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkBox" id="scroll_icon_description_box">
@@ -7597,10 +6594,6 @@
                       <property name="column">0</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkButton" id="scroll_panel_options_button">
@@ -7624,10 +6617,6 @@
                       <property name="column">1</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkComboBoxText" id="scroll_panel_combo">
@@ -7646,10 +6635,6 @@
                       <property name="column">2</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">2</property>
-                    <property name="top_attach">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkComboBoxText" id="scroll_icon_combo">
@@ -7667,10 +6652,6 @@
                       <property name="column">2</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">2</property>
-                    <property name="top_attach">1</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkButton" id="scroll_icon_options_button">
@@ -7694,10 +6675,6 @@
                       <property name="column">1</property>
                     </layout>
                   </object>
-                  <!-- <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                  </packing> -->
                 </child>
               </object>
             </child>
@@ -7751,10 +6728,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="hot_keys_label">
@@ -7768,10 +6741,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkBox" id="overlay_box">
@@ -7821,11 +6790,6 @@
                               <property name="row-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                            <property name="height">2</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -7906,10 +6870,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkScale" id="tray_size_scale">
@@ -7927,10 +6887,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="leftbox_size_label">
@@ -7944,10 +6900,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkScale" id="leftbox_size_scale">
@@ -7965,10 +6917,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -8023,10 +6971,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkScale" id="tray_padding_scale">
@@ -8044,10 +6988,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="statusicon_padding_label">
@@ -8061,10 +7001,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkScale" id="statusicon_padding_scale">
@@ -8082,10 +7018,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="leftbox_padding_label">
@@ -8099,10 +7031,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkScale" id="leftbox_padding_scale">
@@ -8120,10 +7048,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -8175,10 +7099,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="animate_app_switch_switch">
@@ -8191,10 +7111,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="animate_window_launch_switch">
@@ -8207,10 +7123,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="animate_window_launch_label">
@@ -8224,10 +7136,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -8278,10 +7186,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="stockgs_dash_switch">
@@ -8294,10 +7198,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="stockgs_hotcorner_label">
@@ -8311,10 +7211,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">3</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="stockgs_hotcorner_switch">
@@ -8327,10 +7223,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">3</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="stockgs_panelbtn_label">
@@ -8344,10 +7236,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="stockgs_panelbtn_switch">
@@ -8360,10 +7248,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="stockgs_top_panel_label">
@@ -8377,10 +7261,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="stockgs_top_panel_switch">
@@ -8393,10 +7273,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">1</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -8451,10 +7327,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkButton" id="secondarymenu_options_button">
@@ -8477,10 +7349,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">0</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -8660,11 +7528,6 @@
                               <property name="column-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                            <property name="width">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="importexport_label">
@@ -8678,11 +7541,6 @@
                               <property name="column-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                            <property name="width">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkButton" id="importexport_export_button">
@@ -8695,10 +7553,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkButton" id="importexport_import_button">
@@ -8711,10 +7565,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">2</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
@@ -8774,11 +7624,6 @@
                               <property name="column-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">1</property>
-                            <property name="width">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="updates_label">
@@ -8792,11 +7637,6 @@
                               <property name="column-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">0</property>
-                            <property name="width">2</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="updates_check_label">
@@ -8809,10 +7649,6 @@
                               <property name="column">0</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">3</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkBox">
@@ -8853,10 +7689,6 @@
                               <property name="column">1</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">1</property>
-                            <property name="top_attach">3</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkLabel" id="updates_warning_label">
@@ -8873,11 +7705,6 @@
                               <property name="column-span">2</property>
                             </layout>
                           </object>
-                          <!-- <packing>
-                            <property name="left_attach">0</property>
-                            <property name="top_attach">2</property>
-                            <property name="width">2</property>
-                          </packing> -->
                         </child>
                       </object>
                     </child>
