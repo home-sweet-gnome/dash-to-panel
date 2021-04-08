@@ -1661,7 +1661,11 @@ var ShowAppsIconWrapper = Utils.defineClass({
     _onButtonPress: function(_actor, event) {
         let button = event.get_button();
         if (button == 1) {
-            this._setPopupTimeout();
+            if (Main.overview.visible) {
+                Main.overview.hide();
+            } else {
+                Main.overview.show(2 /*APP_GRID*/);
+            }
         } else if (button == 3) {
             this.popupMenu();
             return Clutter.EVENT_STOP;
