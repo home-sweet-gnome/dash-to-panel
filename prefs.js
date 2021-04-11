@@ -166,7 +166,7 @@ const Settings = new Lang.Class({
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
         this._builder.add_from_file(Me.path + '/Settings.ui');
         this.notebook = this._builder.get_object('settings_notebook');
-        this.notebook.set_size_request(630, 0); // todo set width to 630, so everything fits
+        this.notebook.set_size_request(680, 700); // todo set width to 680, so everything fits
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
@@ -254,7 +254,10 @@ const Settings = new Lang.Class({
     _displayPanelPositionsForMonitor: function(monitorIndex) {
         let taskbarListBox = this._builder.get_object('taskbar_display_listbox');
         
-        //taskbarListBox.get_children().forEach(c => c.destroy());
+        while(taskbarListBox.get_first_child())
+        {
+            taskbarListBox.remove(taskbarListBox.get_first_child());
+        }
 
         let labels = {};
         let panelPosition = this._getPanelPosition(monitorIndex);
@@ -266,13 +269,16 @@ const Settings = new Lang.Class({
             let monitorSync = this._settings.get_boolean('panel-element-positions-monitors-sync');
             let monitors = monitorSync ? this.monitors : [monitorIndex];
 
-            taskbarListBox.get_children().forEach(c => {
+            let child = taskbarListBox.get_first_child();
+            while (child != null)
+            {
                 newPanelElementPositions.push({
-                    element: c.id,
-                    visible: c.visibleToggleBtn.get_active(),
-                    position: c.positionCombo.get_active_id()
+                    element: child.id,
+                    visible: child.visibleToggleBtn.get_active(),
+                    position: child.positionCombo.get_active_id()
                 });
-            });
+                child = child.get_next_sibling();
+            }
             
             monitors.forEach(m => panelElementPositionsSettings[m] = newPanelElementPositions);
             this._settings.set_string('panel-element-positions', JSON.stringify(panelElementPositionsSettings));
