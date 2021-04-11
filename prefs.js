@@ -155,8 +155,8 @@ function mergeObjects(main, bck) {
     return main;
 };
 
-const Settings = new Lang.Class({
-    Name: 'DashToPanel.Settings',
+const Preferences = new Lang.Class({
+    Name: 'DashToPanel.Preferences',
 
     _init: function() {
         this._settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
@@ -2019,8 +2019,8 @@ const BuilderScope = GObject.registerClass({
     Implements: [Gtk.BuilderScope],
 }, class BuilderScope extends GObject.Object {
   
-    _init(settings) {
-        this._settings = settings;
+    _init(preferences) {
+        this._preferences = preferences;
         super._init();
     }
 
@@ -2039,50 +2039,50 @@ const BuilderScope = GObject.registerClass({
     }
 
     position_bottom_button_clicked_cb(button) {
-        if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.BOTTOM);
+        if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.BOTTOM);
     }
 
     position_top_button_clicked_cb(button) {
-        if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.TOP);
+        if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.TOP);
     }
     
     // todo panel on the side not working atm
     //position_left_button_clicked_cb(button) {
-    //    if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.LEFT);
+    //    if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.LEFT);
     //}
     //
     //position_right_button_clicked_cb(button) {
-    //    if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.RIGHT);
+    //    if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.RIGHT);
     //}
 
     dots_bottom_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings._settings.set_string('dot-position', "BOTTOM");
+            this._preferences._settings.set_string('dot-position', "BOTTOM");
     }
 
     dots_top_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings._settings.set_string('dot-position', "TOP");
+            this._preferences._settings.set_string('dot-position', "TOP");
     }
 
     dots_left_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings._settings.set_string('dot-position', "LEFT");
+            this._preferences._settings.set_string('dot-position', "LEFT");
     }
 
     dots_right_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings._settings.set_string('dot-position', "RIGHT");
+            this._preferences._settings.set_string('dot-position', "RIGHT");
     }
 
     preview_title_position_bottom_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings._settings.set_string('window-preview-title-position', 'BOTTOM');
+            this._preferences._settings.set_string('window-preview-title-position', 'BOTTOM');
     }
 
     preview_title_position_top_button_toggled_cb(button) {
         if (button.get_active())
-            this._settings._settings.set_string('window-preview-title-position', 'TOP');
+            this._preferences._settings.set_string('window-preview-title-position', 'TOP');
     }
 
     panel_size_scale_format_value_cb(scale, value) {
@@ -2091,12 +2091,12 @@ const BuilderScope = GObject.registerClass({
 
     panel_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._settings._panel_size_timeout > 0)
-            Mainloop.source_remove(this._settings._panel_size_timeout);
+        if (this._preferences._panel_size_timeout > 0)
+            Mainloop.source_remove(this._preferences._panel_size_timeout);
 
-        this._settings._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings._settings.set_int('panel-size', scale.get_value());
-            this._settings._panel_size_timeout = 0;
+        this._preferences._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._setti_preferencesngs._settings.set_int('panel-size', scale.get_value());
+            this._preferences._panel_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2107,12 +2107,12 @@ const BuilderScope = GObject.registerClass({
 
     tray_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._settings._tray_size_timeout > 0)
-            Mainloop.source_remove(this._settings._tray_size_timeout);
+        if (this._preferences._tray_size_timeout > 0)
+            Mainloop.source_remove(this._preferences._tray_size_timeout);
 
-        this._settings._tray_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings._settings.set_int('tray-size', scale.get_value());
-            this._settings._tray_size_timeout = 0;
+        this._preferences._tray_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._preferences._settings.set_int('tray-size', scale.get_value());
+            this._preferences._tray_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2123,12 +2123,12 @@ const BuilderScope = GObject.registerClass({
 
     leftbox_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._settings._leftbox_size_timeout > 0)
-            Mainloop.source_remove(this._settings._leftbox_size_timeout);
+        if (this._preferences._leftbox_size_timeout > 0)
+            Mainloop.source_remove(this._preferences._leftbox_size_timeout);
 
-        this._settings._leftbox_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings._settings.set_int('leftbox-size', scale.get_value());
-            this._settings._leftbox_size_timeout = 0;
+        this._preferences._leftbox_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._preferences._settings.set_int('leftbox-size', scale.get_value());
+            this._preferences._leftbox_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2139,12 +2139,12 @@ const BuilderScope = GObject.registerClass({
 
     appicon_margin_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._settings._appicon_margin_timeout > 0)
-            Mainloop.source_remove(this._settings._appicon_margin_timeout);
+        if (this._preferences._appicon_margin_timeout > 0)
+            Mainloop.source_remove(this._preferences._appicon_margin_timeout);
 
-        this._settings._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings._settings.set_int('appicon-margin', scale.get_value());
-            this._settings._appicon_margin_timeout = 0;
+        this._preferences._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._preferences._settings.set_int('appicon-margin', scale.get_value());
+            this._preferences._appicon_margin_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2155,12 +2155,12 @@ const BuilderScope = GObject.registerClass({
 
     appicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._settings._appicon_padding_timeout > 0)
-            Mainloop.source_remove(this._settings._appicon_padding_timeout);
+        if (this._preferences._appicon_padding_timeout > 0)
+            Mainloop.source_remove(this._preferences._appicon_padding_timeout);
 
-        this._settings._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings._settings.set_int('appicon-padding', scale.get_value());
-            this._settings._appicon_padding_timeout = 0;
+        this._preferences._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._preferences._settings.set_int('appicon-padding', scale.get_value());
+            this._preferences._appicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2171,12 +2171,12 @@ const BuilderScope = GObject.registerClass({
 
     tray_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._settings._tray_padding_timeout > 0)
-            Mainloop.source_remove(this._settings._tray_padding_timeout);
+        if (this._preferences._tray_padding_timeout > 0)
+            Mainloop.source_remove(this._preferences._tray_padding_timeout);
 
-        this._settings._tray_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings._settings.set_int('tray-padding', scale.get_value());
-            this._settings._tray_padding_timeout = 0;
+        this._preferences._tray_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._preferences._settings.set_int('tray-padding', scale.get_value());
+            this._preferences._tray_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2187,12 +2187,12 @@ const BuilderScope = GObject.registerClass({
 
     statusicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._settings._statusicon_padding_timeout > 0)
-            Mainloop.source_remove(this._settings._statusicon_padding_timeout);
+        if (this._preferences._statusicon_padding_timeout > 0)
+            Mainloop.source_remove(this._preferences._statusicon_padding_timeout);
 
-        this._settings._statusicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings._settings.set_int('status-icon-padding', scale.get_value());
-            this._settings._statusicon_padding_timeout = 0;
+        this._preferences._statusicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._preferences._settings.set_int('status-icon-padding', scale.get_value());
+            this._preferences._statusicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2203,12 +2203,12 @@ const BuilderScope = GObject.registerClass({
 
     leftbox_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
-        if (this._settings._leftbox_padding_timeout > 0)
-            Mainloop.source_remove(this._settings._leftbox_padding_timeout);
+        if (this._preferences._leftbox_padding_timeout > 0)
+            Mainloop.source_remove(this._preferences._leftbox_padding_timeout);
 
-        this._settings._leftbox_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._settings._settings.set_int('leftbox-padding', scale.get_value());
-            this._settings._leftbox_padding_timeout = 0;
+        this._preferences._leftbox_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
+            this._preferences._settings.set_int('leftbox-padding', scale.get_value());
+            this._preferences._leftbox_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
@@ -2219,13 +2219,13 @@ function init() {
 }
 
 function buildPrefsWidget() {
-    let settings = new Settings();
+    let preferences = new Preferences();
 
     // I'd like the scrolled window to default to a size large enough to show all without scrolling, if it fits on the screen
     // But, it doesn't seem possible, so I'm setting a minimum size if there seems to be enough screen real estate
     //adjustScrollableHeight(settings);
     
-    return settings.notebook;
+    return preferences.notebook;
 }
 
 // todo get_screen no longer available?
