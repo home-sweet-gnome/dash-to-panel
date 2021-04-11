@@ -2262,7 +2262,6 @@
                         <layout>
                           <property name="row">2</property>
                           <property name="column">0</property>
-                          <property name="column-span">2</property>
                         </layout>
                       </object>
                     </child>
@@ -2277,7 +2276,6 @@
                         <layout>
                           <property name="row">3</property>
                           <property name="column">0</property>
-                          <property name="column-span">2</property>
                         </layout>
                       </object>
                     </child>
@@ -2293,7 +2291,7 @@
                         <property name="value">50</property>
                         <layout>
                           <property name="row">3</property>
-                          <property name="column">2</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>
@@ -2334,11 +2332,6 @@
                               <item id="21" translatable="yes">21</item>
                             </items>
                           </object>
-                          <!-- <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="preview_aspect_ratio_x_fixed_togglebutton">
@@ -2348,15 +2341,10 @@
                             <property name="receives_default">True</property>
                             <property name="halign">end</property>
                           </object>
-                          <!-- <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">1</property>
-                          <property name="column">2</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>
@@ -2371,7 +2359,6 @@
                         <layout>
                           <property name="row">1</property>
                           <property name="column">0</property>
-                          <property name="column-span">2</property>
                         </layout>
                       </object>
                     </child>
@@ -2412,11 +2399,6 @@
                               <item id="21" translatable="yes">21</item>
                             </items>
                           </object>
-                          <!-- <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkToggleButton" id="preview_aspect_ratio_y_fixed_togglebutton">
@@ -2426,15 +2408,10 @@
                             <property name="receives_default">True</property>
                             <property name="halign">end</property>
                           </object>
-                          <!-- <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing> -->
                         </child>
                         <layout>
                           <property name="row">2</property>
-                          <property name="column">2</property>
+                          <property name="column">1</property>
                         </layout>
                       </object>
                     </child>

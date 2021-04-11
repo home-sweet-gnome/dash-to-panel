@@ -1172,7 +1172,7 @@ const Preferences = new Lang.Class({
 
             let scrolledWindow = this._builder.get_object('box_window_preview_options');
 
-            adjustScrollableHeight(this._builder.get_object('viewport_window_preview_options'), scrolledWindow);
+            //adjustScrollableHeight(this._builder.get_object('viewport_window_preview_options'), scrolledWindow);
             
             dialog.get_content_area().append(scrolledWindow);
 
@@ -2240,9 +2240,8 @@ function buildPrefsWidget() {
     return preferences.notebook;
 }
 
-// todo get_screen no longer available?
 function adjustScrollableHeight(viewport, scrollableWindow) {
-    // todo multi monitor? sizes correct?
+    // todo get correct monitor, scaling is wrong on wayland
     let viewportSize = scrollableWindow.get_preferred_size();
     let screenSize = scrollableWindow.get_display().get_monitors().get_item(0).get_geometry();
     if (viewportSize.height === undefined)
