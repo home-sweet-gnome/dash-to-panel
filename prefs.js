@@ -166,7 +166,7 @@ const Settings = new Lang.Class({
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
         this._builder.add_from_file(Me.path + '/Settings.ui');
         this.notebook = this._builder.get_object('settings_notebook');
-        this.notebook.set_size_request(680, 700); // todo set width to 680, so everything fits
+        this.notebook.set_size_request(680, 740); // todo set width to 680, so everything fits
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
@@ -1919,69 +1919,70 @@ const Settings = new Lang.Class({
 
         this._builder.get_object('extension_version').set_label(Me.metadata.version.toString() + (Me.metadata.commit ? ' (' + Me.metadata.commit + ')' : ''));
 
-        this._builder.get_object('importexport_export_button').connect('clicked', widget => {
-            this._showFileChooser(
-                _('Export settings'),
-                { action: Gtk.FileChooserAction.SAVE,
-                  do_overwrite_confirmation: true },
-                Gtk.STOCK_SAVE,
-                filename => {
-                    let file = Gio.file_new_for_path(filename);
-                    let raw = file.replace(null, false, Gio.FileCreateFlags.NONE, null);
-                    let out = Gio.BufferedOutputStream.new_sized(raw, 4096);
+        // todo not working atm
+//         this._builder.get_object('importexport_export_button').connect('clicked', widget => {
+//             this._showFileChooser(
+//                 _('Export settings'),
+//                 { action: Gtk.FileChooserAction.SAVE,
+//                   do_overwrite_confirmation: true },
+//                 Gtk.STOCK_SAVE,
+//                 filename => {
+//                     let file = Gio.file_new_for_path(filename);
+//                     let raw = file.replace(null, false, Gio.FileCreateFlags.NONE, null);
+//                     let out = Gio.BufferedOutputStream.new_sized(raw, 4096);
 
-                    out.write_all(GLib.spawn_command_line_sync('dconf dump ' + SCHEMA_PATH)[1], null);
-                    out.close(null);
-                }
-            );
-        });
+//                     out.write_all(GLib.spawn_command_line_sync('dconf dump ' + SCHEMA_PATH)[1], null);
+//                     out.close(null);
+//                 }
+//             );
+//         });
 
-        this._builder.get_object('importexport_import_button').connect('clicked', widget => {
-            this._showFileChooser(
-                _('Import settings'),
-                { action: Gtk.FileChooserAction.OPEN },
-                Gtk.STOCK_OPEN,
-                filename => {
-                    let settingsFile = Gio.File.new_for_path(filename);
-                    let [ , pid, stdin, stdout, stderr] = 
-                        GLib.spawn_async_with_pipes(
-                            null,
-                            ['dconf', 'load', SCHEMA_PATH],
-                            null,
-                            GLib.SpawnFlags.SEARCH_PATH | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
-                            null
-                        );
+//         this._builder.get_object('importexport_import_button').connect('clicked', widget => {
+//             this._showFileChooser(
+//                 _('Import settings'),
+//                 { action: Gtk.FileChooserAction.OPEN },
+//                 Gtk.STOCK_OPEN,
+//                 filename => {
+//                     let settingsFile = Gio.File.new_for_path(filename);
+//                     let [ , pid, stdin, stdout, stderr] = 
+//                         GLib.spawn_async_with_pipes(
+//                             null,
+//                             ['dconf', 'load', SCHEMA_PATH],
+//                             null,
+//                             GLib.SpawnFlags.SEARCH_PATH | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+//                             null
+//                         );
         
-                    stdin = new Gio.UnixOutputStream({ fd: stdin, close_fd: true });
-                    GLib.close(stdout);
-                    GLib.close(stderr);
+//                     stdin = new Gio.UnixOutputStream({ fd: stdin, close_fd: true });
+//                     GLib.close(stdout);
+//                     GLib.close(stderr);
                                         
-                    let [ , , , retCode] = GLib.spawn_command_line_sync(GSET + ' -d ' + Me.uuid);
+//                     let [ , , , retCode] = GLib.spawn_command_line_sync(GSET + ' -d ' + Me.uuid);
                                         
-                    if (retCode == 0) {
-                        GLib.child_watch_add(GLib.PRIORITY_DEFAULT, pid, () => GLib.spawn_command_line_sync(GSET + ' -e ' + Me.uuid));
-                    }
+//                     if (retCode == 0) {
+//                         GLib.child_watch_add(GLib.PRIORITY_DEFAULT, pid, () => GLib.spawn_command_line_sync(GSET + ' -e ' + Me.uuid));
+//                     }
 
-                    stdin.splice(settingsFile.read(null), Gio.OutputStreamSpliceFlags.CLOSE_SOURCE | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, null);
-                }
-            );
-        });
+//                     stdin.splice(settingsFile.read(null), Gio.OutputStreamSpliceFlags.CLOSE_SOURCE | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, null);
+//                 }
+//             );
+//         });
 
-        let updateCheckSwitch = this._builder.get_object('updates_check_switch');
+//         let updateCheckSwitch = this._builder.get_object('updates_check_switch');
 
-        updateCheckSwitch.set_sensitive(false);
+//         updateCheckSwitch.set_sensitive(false);
 
-        this._builder.get_object('updates_check_now_button').connect('clicked', widget => {
-            this._settings.set_boolean('force-check-update', true);
-        });
+//         this._builder.get_object('updates_check_now_button').connect('clicked', widget => {
+//             this._settings.set_boolean('force-check-update', true);
+//         });
 
-//!start-update
-        updateCheckSwitch.set_sensitive(true);
-        this._settings.bind('check-update',
-                            updateCheckSwitch,
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-//!end-update
+// //!start-update
+//         updateCheckSwitch.set_sensitive(true);
+//         this._settings.bind('check-update',
+//                             updateCheckSwitch,
+//                             'active',
+//                             Gio.SettingsBindFlags.DEFAULT);
+// //!end-update
     },
 
     _setPreviewTitlePosition: function() {
@@ -2045,13 +2046,14 @@ const BuilderScope = GObject.registerClass({
         if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.TOP);
     }
     
-    position_left_button_clicked_cb(button) {
-        if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.LEFT);
-    }
-
-    position_right_button_clicked_cb(button) {
-        if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.RIGHT);
-    }
+    // todo panel on the side not working atm
+    //position_left_button_clicked_cb(button) {
+    //    if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.LEFT);
+    //}
+    //
+    //position_right_button_clicked_cb(button) {
+    //    if (!this._settings._ignorePositionRadios && button.get_active()) this._settings._setPanelPosition(Pos.RIGHT);
+    //}
 
     dots_bottom_button_toggled_cb(button) {
         if (button.get_active())

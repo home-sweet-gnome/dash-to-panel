@@ -4853,7 +4853,7 @@
                                     <property name="position">1</property>
                                   </packing> -->
                                 </child>
-                                <child>
+                                <!-- <child>
                                   <object class="GtkToggleButton" id="position_left_button">
                                     <property name="label" translatable="yes">Left</property>
                                     <property name="visible">True</property>
@@ -4864,11 +4864,11 @@
                                     <property name="group">position_bottom_button</property>
                                     <signal name="clicked" handler="position_left_button_clicked_cb" swapped="no"/>
                                   </object>
-                                  <!-- <packing>
+                                  <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
                                     <property name="position">2</property>
-                                  </packing> -->
+                                  </packing>
                                 </child>
                                 <child>
                                   <object class="GtkToggleButton" id="position_right_button">
@@ -4881,12 +4881,12 @@
                                     <property name="group">position_bottom_button</property>
                                     <signal name="clicked" handler="position_right_button_clicked_cb" swapped="no"/>
                                   </object>
-                                  <!-- <packing>
+                                  <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
                                     <property name="position">3</property>
-                                  </packing> -->
-                                </child>
+                                  </packing>
+                                </child> -->
                               </object>
                               <!-- <packing>
                                 <property name="expand">False</property>
@@ -7500,7 +7500,7 @@
                 <property name="position">0</property>
               </packing> -->
             </child>
-            <child>
+            <!-- <child>
               <object class="GtkFrame" id="importexport_frame">
                 <property name="can_focus">False</property>
                 <property name="margin_top">20</property>
@@ -7590,13 +7590,13 @@
                   <placeholder/>
                 </child>
               </object>
-              <!-- <packing>
+              <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
-              </packing> -->
-            </child>
-            <child>
+              </packing>
+            </child> -->
+            <!-- <child>
               <object class="GtkFrame" id="updates_frame">
                 <property name="can_focus">False</property>
                 <property name="margin_top">20</property>
@@ -7677,11 +7677,11 @@
                                     <property name="halign">end</property>
                                     <property name="valign">center</property>
                                   </object>
-                                  <!-- <packing>
+                                  <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
                                     <property name="position">0</property>
-                                  </packing> -->
+                                  </packing>
                                 </child>
                                 <child>
                                   <object class="GtkButton" id="updates_check_now_button">
@@ -7692,11 +7692,11 @@
                                     <property name="halign">end</property>
                                     <property name="valign">center</property>
                                   </object>
-                                  <!-- <packing>
+                                  <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">True</property>
                                     <property name="position">1</property>
-                                  </packing> -->
+                                  </packing>
                                 </child>
                                 <layout>
                                   <property name="row">3</property>
@@ -7730,12 +7730,12 @@
                   <placeholder/>
                 </child>
               </object>
-              <!-- <packing>
+              <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">2</property>
-              </packing> -->
-            </child>
+              </packing>
+            </child> -->
             <child>
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
