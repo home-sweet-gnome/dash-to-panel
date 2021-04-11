@@ -166,10 +166,7 @@ const Settings = new Lang.Class({
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
         this._builder.add_from_file(Me.path + '/Settings.ui');
         this.notebook = this._builder.get_object('settings_notebook');
-        this.viewport = new Gtk.Viewport();
-        this.viewport.set_child(this.notebook);
-        this.widget = new Gtk.ScrolledWindow();
-        this.widget.set_child(this.viewport);
+        this.notebook.set_size_request(630, 0); // todo set width to 630, so everything fits
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
@@ -2215,13 +2212,12 @@ function init() {
 
 function buildPrefsWidget() {
     let settings = new Settings();
-    let widget = settings.widget;
 
     // I'd like the scrolled window to default to a size large enough to show all without scrolling, if it fits on the screen
     // But, it doesn't seem possible, so I'm setting a minimum size if there seems to be enough screen real estate
-    adjustScrollableHeight(settings.viewport, widget);
+    //adjustScrollableHeight(settings);
     
-    return widget;
+    return settings.notebook;
 }
 
 // todo get_screen no longer available?
