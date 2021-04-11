@@ -362,7 +362,7 @@ const Preferences = new Lang.Class({
 
     _showShowAppsButtonOptions: function() {
         let dialog = new Gtk.Dialog({ title: _('Show Applications options'),
-                                        transient_for: this.widget.get_root(),
+                                        transient_for: this.notebook.get_root(),
                                         use_header_bar: true,
                                         modal: true });
 
@@ -426,7 +426,7 @@ const Preferences = new Lang.Class({
 
     _showDesktopButtonOptions: function() {
         let dialog = new Gtk.Dialog({ title: _('Show Desktop options'),
-                                        transient_for: this.widget.get_root(),
+                                        transient_for: this.notebook.get_root(),
                                         use_header_bar: true,
                                         modal: true });
 
@@ -569,7 +569,7 @@ const Preferences = new Lang.Class({
         this._builder.get_object('dot_style_options_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Running Indicator Options'),
-                                          transient_for: this.widget.get_root(),
+                                          transient_for: this.notebook.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -887,7 +887,7 @@ const Preferences = new Lang.Class({
 
         this._builder.get_object('trans_dyn_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Dynamic opacity options'),
-                                            transient_for: this.widget.get_root(),
+                                            transient_for: this.notebook.get_root(),
                                             use_header_bar: true,
                                             modal: true });
 
@@ -1030,7 +1030,7 @@ const Preferences = new Lang.Class({
 
         this._builder.get_object('intellihide_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Intellihide options'),
-                                          transient_for: this.widget.get_root(),
+                                          transient_for: this.notebook.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1157,7 +1157,7 @@ const Preferences = new Lang.Class({
         this._builder.get_object('show_window_previews_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Window preview options'),
-                                          transient_for: this.widget.get_root(),
+                                          transient_for: this.notebook.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1443,7 +1443,7 @@ const Preferences = new Lang.Class({
 
         this._builder.get_object('show_group_apps_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Ungrouped application options'),
-                                          transient_for: this.widget.get_root(),
+                                          transient_for: this.notebook.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1538,7 +1538,7 @@ const Preferences = new Lang.Class({
         this._builder.get_object('middle_click_options_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Customize middle-click behavior'),
-                                          transient_for: this.widget.get_root(),
+                                          transient_for: this.notebook.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1603,7 +1603,7 @@ const Preferences = new Lang.Class({
         // Create dialog for panel scroll options
         this._builder.get_object('scroll_panel_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Customize panel scroll behavior'),
-                                          transient_for: this.widget.get_root(),
+                                          transient_for: this.notebook.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1646,7 +1646,7 @@ const Preferences = new Lang.Class({
         // Create dialog for icon scroll options
         this._builder.get_object('scroll_icon_options_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('Customize icon scroll behavior'),
-                                            transient_for: this.widget.get_root(),
+                                            transient_for: this.notebook.get_root(),
                                             use_header_bar: true,
                                             modal: true });
 
@@ -1743,7 +1743,7 @@ const Preferences = new Lang.Class({
         this._builder.get_object('overlay_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Advanced hotkeys options'),
-                                          transient_for: this.widget.get_root(),
+                                          transient_for: this.notebook.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1777,7 +1777,7 @@ const Preferences = new Lang.Class({
         this._builder.get_object('secondarymenu_options_button').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Secondary Menu Options'),
-                                          transient_for: this.widget.get_root(),
+                                          transient_for: this.notebook.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1819,7 +1819,7 @@ const Preferences = new Lang.Class({
         this._builder.get_object('button_advanced_options').connect('clicked', Lang.bind(this, function() {
 
             let dialog = new Gtk.Dialog({ title: _('Advanced Options'),
-                                          transient_for: this.widget.get_root(),
+                                          transient_for: this.notebook.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -1997,7 +1997,7 @@ const Preferences = new Lang.Class({
     },
 
     _showFileChooser: function(title, params, acceptBtn, acceptHandler) {
-        let dialog = new Gtk.FileChooserDialog(mergeObjects({ title: title, transient_for: this.widget.get_root() }, params));
+        let dialog = new Gtk.FileChooserDialog(mergeObjects({ title: title, transient_for: this.notebook.get_root() }, params));
 
         dialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL);
         dialog.add_button(acceptBtn, Gtk.ResponseType.ACCEPT);
