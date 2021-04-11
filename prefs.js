@@ -422,6 +422,7 @@ const Preferences = new Lang.Class({
         }));
 
         dialog.show();
+        dialog.set_default_size(1, 1);
     },
 
     _showDesktopButtonOptions: function() {
@@ -474,6 +475,7 @@ const Preferences = new Lang.Class({
         }));
 
         dialog.show();
+        dialog.set_default_size(1, 1);
     },
 
     _bindSettings: function() {
@@ -712,6 +714,7 @@ const Preferences = new Lang.Class({
             }));
 
             dialog.show();
+            dialog.set_default_size(1, 1);
 
         }));
 
@@ -920,6 +923,7 @@ const Preferences = new Lang.Class({
             }));
 
             dialog.show();
+            dialog.set_default_size(1, 1);
 
         }));
         
@@ -1075,6 +1079,7 @@ const Preferences = new Lang.Class({
             }));
 
             dialog.show();
+            dialog.set_default_size(1, 1);
 
         }));
 
@@ -1515,6 +1520,7 @@ const Preferences = new Lang.Class({
             }));
 
             dialog.show();
+            dialog.set_default_size(600, 1);
 
         }));    
 
@@ -1587,6 +1593,7 @@ const Preferences = new Lang.Class({
             }));
 
             dialog.show();
+            dialog.set_default_size(700, 1);
 
         }));
 
@@ -1640,6 +1647,7 @@ const Preferences = new Lang.Class({
             }));
 
             dialog.show();
+            dialog.set_default_size(640, 1);
 
         }));
 
@@ -1676,6 +1684,7 @@ const Preferences = new Lang.Class({
             }));
 
             dialog.show();
+            dialog.set_default_size(640, 1);
 
         }));
 
@@ -1770,6 +1779,7 @@ const Preferences = new Lang.Class({
             }));
 
             dialog.show();
+            dialog.set_default_size(600, 1);
 
         }));
         
@@ -1812,6 +1822,7 @@ const Preferences = new Lang.Class({
             }));
 
             dialog.show();
+            dialog.set_default_size(480, 1);
 
         }));
 
@@ -1843,6 +1854,7 @@ const Preferences = new Lang.Class({
             }));
 
             dialog.show();
+            dialog.set_default_size(480, 1);
 
         }));
 
@@ -2095,7 +2107,7 @@ const BuilderScope = GObject.registerClass({
             Mainloop.source_remove(this._preferences._panel_size_timeout);
 
         this._preferences._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this, function() {
-            this._setti_preferencesngs._settings.set_int('panel-size', scale.get_value());
+            this._preferences._settings.set_int('panel-size', scale.get_value());
             this._preferences._panel_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));

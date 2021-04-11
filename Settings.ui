@@ -18,6 +18,8 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkFrame" id="frame_advanced_options">
         <property name="visible">True</property>
@@ -48,11 +50,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkBox" id="box_middle_click_options">
@@ -63,6 +60,8 @@
     <property name="margin_top">12</property>
     <property name="margin_bottom">12</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkFrame" id="frame_middle_click_options">
         <property name="visible">True</property>
@@ -289,17 +288,14 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkBox" id="box_secondarymenu_options">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkFrame" id="frame_secondarymenu_options">
         <property name="visible">True</property>
@@ -405,11 +401,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkAdjustment" id="dot_border_width_adjustment">
@@ -440,6 +431,8 @@
     <property name="margin_top">12</property>
     <property name="margin_bottom">12</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkFrame" id="frame_dots_options">
         <property name="visible">True</property>
@@ -696,11 +689,6 @@
                             <property name="label" translatable="yes">Indicator color - Override Theme</property>
                             <property name="xalign">0</property>
                           </object>
-                          <!-- <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkSwitch" id="dot_color_override_switch">
@@ -709,18 +697,8 @@
                             <property name="halign">end</property>
                             <property name="valign">center</property>
                           </object>
-                          <!-- <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing> -->
                         </child>
                       </object>
-                      <!-- <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkGrid" id="grid_dot_color">
@@ -756,12 +734,6 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                               </object>
-                              <!-- <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="padding">4</property>
-                                <property name="position">0</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkColorButton" id="dot_color_1_colorbutton">
@@ -770,11 +742,6 @@
                                 <property name="receives_default">True</property>
                                 <property name="halign">end</property>
                               </object>
-                              <!-- <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing> -->
                             </child>
                             <layout>
                               <property name="row">0</property>
@@ -858,11 +825,6 @@
                           </object>
                         </child>
                       </object>
-                      <!-- <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkBox" id="dot_color_unfocused_box">
@@ -882,11 +844,6 @@
                                 <property name="label" translatable="yes">Use different for unfocused</property>
                                 <property name="xalign">0</property>
                               </object>
-                              <!-- <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing> -->
                             </child>
                             <child>
                               <object class="GtkSwitch" id="dot_color_unfocused_different_switch">
@@ -895,18 +852,8 @@
                                 <property name="halign">end</property>
                                 <property name="valign">center</property>
                               </object>
-                              <!-- <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing> -->
                             </child>
                           </object>
-                          <!-- <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing> -->
                         </child>
                         <child>
                           <object class="GtkGrid" id="grid_dot_color_unfocused">
@@ -942,12 +889,6 @@
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                   </object>
-                                  <!-- <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="padding">4</property>
-                                    <property name="position">0</property>
-                                  </packing> -->
                                 </child>
                                 <child>
                                   <object class="GtkColorButton" id="dot_color_unfocused_1_colorbutton">
@@ -956,11 +897,6 @@
                                     <property name="receives_default">True</property>
                                     <property name="halign">end</property>
                                   </object>
-                                  <!-- <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing> -->
                                 </child>
                                 <layout>
                                   <property name="row">0</property>
@@ -1044,18 +980,8 @@
                               </object>
                             </child>
                           </object>
-                          <!-- <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing> -->
                         </child>
                       </object>
-                      <!-- <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">4</property>
-                      </packing> -->
                     </child>
                   </object>
                 </child>
@@ -1064,11 +990,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkAdjustment" id="group_apps_label_font_size_adjustment">
@@ -1086,6 +1007,8 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkFrame" id="frame_group_apps_options">
         <property name="visible">True</property>
@@ -1469,11 +1392,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkAdjustment" id="intellihide_animation_time_adjustment">
@@ -1509,6 +1427,8 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkFrame" id="frame_intellihide_options">
         <property name="visible">True</property>
@@ -2013,11 +1933,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkAdjustment" id="leave_timeout_adjustment">
@@ -2160,6 +2075,10 @@
                         <property name="hexpand">True</property>
                         <property name="label" translatable="yes">Animation time (ms)</property>
                         <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">2</property>
+                          <property name="column">0</property>
+                        </layout>
                       </object>
                     </child>
                     <child>
@@ -3141,6 +3060,8 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkListBox" id="scroll_icon_options_listbox">
         <property name="visible">True</property>
@@ -3213,11 +3134,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkAdjustment" id="scroll_panel_options_delay_adjustment">
@@ -3229,6 +3145,8 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkListBox" id="scroll_panel_options_listbox">
         <property name="visible">True</property>
@@ -3362,11 +3280,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkAdjustment" id="shortcut_time_adjustment">
@@ -3382,6 +3295,8 @@
     <property name="margin_top">12</property>
     <property name="margin_bottom">12</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkFrame" id="frame_overlay_show_dock">
         <property name="visible">True</property>
@@ -3757,11 +3672,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkAdjustment" id="show_applications_side_padding_adjustment">
@@ -3773,6 +3683,8 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkListBoxRow" id="listbox_show_applications_icon_file">
         <property name="visible">True</property>
@@ -3843,11 +3755,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
     <child>
       <object class="GtkListBoxRow" id="listboxrow_show_applications_side_padding">
@@ -3893,11 +3800,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing> -->
     </child>
     <child>
       <object class="GtkListBoxRow" id="listboxrow_show_applications_esc_key">
@@ -3941,11 +3843,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">2</property>
-      </packing> -->
     </child>
     <child>
       <object class="GtkListBoxRow" id="listboxrow17">
@@ -3989,11 +3886,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">3</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkAdjustment" id="show_showdesktop_delay_adjustment">
@@ -4021,6 +3913,8 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="selection_mode">none</property>
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
         <child>
           <object class="GtkListBoxRow" id="listboxrow_show_showdesktop_width">
             <property name="visible">True</property>
@@ -4090,11 +3984,6 @@
                          <property name="halign">end</property>
                          <property name="use_alpha">True</property>
                       </object>
-                      <!-- <packing>
-                         <property name="expand">False</property>
-                         <property name="fill">True</property>
-                         <property name="position">0</property>
-                      </packing> -->
                     </child>
                     <child>
                       <object class="GtkSwitch" id="override_show_desktop_line_color_switch">
@@ -4103,11 +3992,6 @@
                          <property name="halign">end</property>
                          <property name="valign">center</property>
                       </object>
-                      <!-- <packing>
-                         <property name="expand">False</property>
-                         <property name="fill">True</property>
-                         <property name="position">1</property>
-                      </packing> -->
                     </child>
                     <layout>
                       <property name="row">1</property>
@@ -4236,11 +4120,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">2</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkAdjustment" id="statusicon_padding_adjustment">
@@ -4283,6 +4162,8 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
       <object class="GtkListBox" id="trans_options_listbox">
         <property name="visible">True</property>
@@ -4402,11 +4283,6 @@
                     <property name="use_markup">True</property>
                     <property name="xalign">0</property>
                   </object>
-                  <!-- <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing> -->
                 </child>
                 <child>
                   <object class="GtkSpinButton" id="trans_options_min_opacity_spinbutton">
@@ -4416,12 +4292,6 @@
                     <property name="text" translatable="yes">0</property>
                     <property name="adjustment">trans_opacity_min_adjustment</property>
                   </object>
-                  <!-- <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">1</property>
-                  </packing> -->
                 </child>
               </object>
             </child>
@@ -4475,11 +4345,6 @@
           </object>
         </child>
       </object>
-      <!-- <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing> -->
     </child>
   </object>
   <object class="GtkAdjustment" id="tray_padding_adjustment">
@@ -7379,16 +7244,11 @@
             <child>
               <object class="GtkButton" id="button_advanced_options">
                 <property name="label" translatable="yes">Advanced Options</property>
-                <property name="visible">True</property>
+                <property name="visible">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="halign">start</property>
               </object>
-              <!-- <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">5</property>
-              </packing> -->
             </child>
           </object>
           <!-- <packing>
