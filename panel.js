@@ -73,23 +73,6 @@ const T5 = 'trackerFocusAppTimeout';
 const T6 = 'scrollPanelDelayTimeout';
 const T7 = 'waitPanelBoxAllocation';
 
-function setMenuArrow(arrowIcon, side) {
-    if (arrowIcon)
-    {
-        let parent = arrowIcon.get_parent();
-        let iconNames = {
-            '0': 'pan-down-symbolic',   //TOP
-            '1': 'pan-start-symbolic',  //RIGHT
-            '2': 'pan-up-symbolic',     //BOTTOM
-            '3': 'pan-end-symbolic'     //LEFT
-        };
-
-        parent.remove_child(arrowIcon);
-        //arrowIcon.set_icon_name(iconNames[side]);
-        parent.add_child(arrowIcon);
-    }
-}
-
 var dtpPanel = Utils.defineClass({
     Name: 'DashToPanel-Panel',
     Extends: St.Widget,
@@ -149,10 +132,6 @@ var dtpPanel = Utils.defineClass({
             this._setPanelMenu('dateMenu', DateMenu.DateMenuButton, this.panel.actor);
             this._setPanelMenu('activities', Panel.ActivitiesButton, this.panel.actor);
 
-            if (this.statusArea.aggregateMenu) {
-                setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), position);
-            }
-
             this.panel.add_child(this._leftBox);
             this.panel.add_child(this._centerBox);
             this.panel.add_child(this._rightBox);
@@ -160,8 +139,6 @@ var dtpPanel = Utils.defineClass({
             this.panel = Main.panel;
             this.statusArea = Main.panel.statusArea;
             this.menuManager = Main.panel.menuManager;
-
-            setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), position);
 
             panelBoxes.forEach(p => this[p] = Main.panel[p]);
 
@@ -301,15 +278,6 @@ var dtpPanel = Utils.defineClass({
                 this.menuManager._oldChangeMenu(menu);
             }
         };
-
-        if (this.statusArea.appMenu) {
-            setMenuArrow(this.statusArea.appMenu._arrow, position);
-            this._leftBox.remove_child(this.statusArea.appMenu.container);
-        }
-
-        if (this.statusArea.keyboard) {
-            //setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), position);
-        }
 
         this.dynamicTransparency = new Transparency.DynamicTransparency(this);
         
@@ -483,15 +451,6 @@ var dtpPanel = Utils.defineClass({
                     originalParent ? originalParent.insert_child_at_index(container, b[1]) : null;
                     delete container._dtpOriginalParent;
                 });
-
-                if (this.statusArea.appMenu) {
-                    setMenuArrow(this.statusArea.appMenu._arrow, St.Side.TOP);
-                    this._leftBox.add_child(this.statusArea.appMenu.container);
-                }
-
-                if (this.statusArea.keyboard) {
-                    //setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), St.Side.TOP);
-                }
             }
 
             if (!this.panel._leftCorner.actor.mapped) {
@@ -502,7 +461,6 @@ var dtpPanel = Utils.defineClass({
             this._setShowDesktopButton(false);
 
             delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
-            setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
 
             if (DateMenu.IndicatorPad) {
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
@@ -1508,7 +1466,6 @@ var dtpSecondaryAggregateMenu = Utils.defineClass({
 
         this._indicators.add_child(Utils.getIndicators(this._volume));
         this._indicators.add_child(Utils.getIndicators(this._power));
-        this._indicators.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
 
         this.menu.addMenuItem(this._volume.menu);
         this._volume._volumeMenu._readOutput();
