@@ -77,6 +77,8 @@ var dtpPanelManager = Utils.defineClass({
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
         this.proximityManager = new Proximity.ProximityManager();
 
+        this._oldGetShowAppsButton = imports.ui.main.overview.dash.showAppsButton;
+
         Utils.wrapActor(Main.panel);
         Utils.wrapActor(Main.overview.dash || 0);
 
@@ -163,7 +165,6 @@ var dtpPanelManager = Utils.defineClass({
         // todo does not work at the moment
         //Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview._overview._controls._workspacesDisplay, this._newUpdateWorkspacesViews);
 
-        this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
 
         this._needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');

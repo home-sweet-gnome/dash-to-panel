@@ -166,7 +166,7 @@ const Preferences = new Lang.Class({
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
         this._builder.add_from_file(Me.path + '/Settings.ui');
         this.notebook = this._builder.get_object('settings_notebook');
-        this.notebook.set_size_request(680, 740); // todo set width to 680, so everything fits
+        this.notebook.set_size_request(680, 740);
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
