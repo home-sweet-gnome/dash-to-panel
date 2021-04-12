@@ -34,7 +34,8 @@ const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const Mainloop = imports.mainloop;
 
-const AppDisplay = imports.ui.appDisplay;
+const SearchController = imports.ui.main.overview._overview._controls._searchController
+const AppDisplay = imports.ui.main.overview._overview._controls.appDisplay;
 const AppFavorites = imports.ui.appFavorites;
 const Dash = imports.ui.dash;
 const DND = imports.ui.dnd;
@@ -203,7 +204,8 @@ var taskbar = Utils.defineClass({
         }
 
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
-        this.showAppsButton.checked = (imports.ui.searchController._showAppsButton) ? imports.ui.searchController._showAppsButton.checked : false;
+
+        this.showAppsButton.checked = (SearchController._showAppsButton) ? SearchController._showAppsButton.checked : false;
 
         this._showAppsIcon.childScale = 1;
         this._showAppsIcon.childOpacity = 255;
@@ -306,7 +308,7 @@ var taskbar = Utils.defineClass({
             ],
             [
                 // Ensure the ShowAppsButton status is kept in sync
-                imports.ui.searchController._showAppsButton,
+                SearchController._showAppsButton,
                 'notify::checked',
                 Lang.bind(this, this._syncShowAppsButtonToggled)
             ],
@@ -1079,27 +1081,17 @@ var taskbar = Utils.defineClass({
         // application button, cutomize the behaviour. Otherwise the shell has changed the
         // status (due to the _syncShowAppsButtonToggled function below) and it
         // has already performed the desired action.
-
         let animate = Me.settings.get_boolean('animate-show-apps');
-        let selector = imports.ui.searchController;
+        let selector = SearchController;
 
         if (selector._showAppsButton &&
             selector._showAppsButton.checked !== this.showAppsButton.checked) {
             // find visible view
-            let visibleView;
-            Utils.getAppDisplayViews().every(function(v, index) {
-                if (v.view.actor.visible) {
-                    visibleView = index;
-                    return false;
-                }
-                else
-                    return true;
-            });
 
             if (this.showAppsButton.checked) {
                 if (Me.settings.get_boolean('show-apps-override-escape')) {
                     //override escape key to return to the desktop when entering the overview using the showapps button
-                    imports.ui.searchController._onStageKeyPress = function(actor, event) {
+                    SearchController._onStageKeyPress = function(actor, event) {
                         if (Main.modalCount == 1 && event.get_key_symbol() === Clutter.KEY_Escape) {
                             this._searchActive ? this.reset() : Main.overview.hide();
     
@@ -1114,7 +1106,7 @@ var taskbar = Utils.defineClass({
                 // runs if we are already inside the overview.
                 if (!Main.overview._shown) {
                     this.forcedOverview = true;
-                    let grid = Utils.getAppDisplayViews()[visibleView].view._grid;
+                    let grid = AppDisplay._grid;
                     let onShownCb;
                     let overviewSignal = Config.PACKAGE_VERSION > '3.38.1' ? 'showing' : 'shown';
                     let overviewShowingId = Main.overview.connect(overviewSignal, () => {
@@ -1123,13 +1115,6 @@ var taskbar = Utils.defineClass({
                     });
 
                     if (animate) {
-                        // Animate in the the appview, hide the appGrid to avoiud flashing
-                        // Go to the appView before entering the overview, skipping the workspaces.
-                        // Do this manually avoiding opacity in transitions so that the setting of the opacity
-                        // to 0 doesn't get overwritten.
-                        imports.ui.searchController._activePage.hide();
-                        imports.ui.searchController._activePage = imports.ui.searchController._appsPage;
-                        imports.ui.searchController._activePage.show();
                         grid.actor.opacity = 0;
 
                         // The animation has to be trigered manually because the AppDisplay.animate
@@ -1142,8 +1127,6 @@ var taskbar = Utils.defineClass({
                             grid.animateSpring(IconGrid.AnimationDirection.IN, this.showAppsButton);
                         });
                     } else {
-                        imports.ui.searchController._activePage = imports.ui.searchController._appsPage;
-                        imports.ui.searchController._activePage.show();
                         onShownCb = () => grid.emit('animation-done');
                     }
                 }
@@ -1154,12 +1137,12 @@ var taskbar = Utils.defineClass({
 
                 let overviewHiddenId = Main.overview.connect('hidden', () => {
                     Main.overview.disconnect(overviewHiddenId);
-                    delete imports.ui.searchController._onStageKeyPress;
+                    delete SearchController._onStageKeyPress;
                 });
 
                 // Finally show the overview
                 selector._showAppsButton.checked = true;
-                Main.overview.show();
+                Main.overview.show(2 /*APP_GRID*/);
             }
             else {
                 if (this.forcedOverview) {
@@ -1169,9 +1152,7 @@ var taskbar = Utils.defineClass({
                         // Manually trigger springout animation without activating the
                         // workspaceView to avoid the zoomout animation. Hide the appPage
                         // onComplete to avoid ugly flashing of original icons.
-                        let view = Utils.getAppDisplayViews()[visibleView].view;
-                        view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
-                            imports.ui.searchController._appsPage.hide();
+                        AppDisplay.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
                             Main.overview.hide();
                             selector._showAppsButton.checked = false;
                             this.forcedOverview = false;
@@ -1191,7 +1172,7 @@ var taskbar = Utils.defineClass({
     },
     
     _syncShowAppsButtonToggled: function() {
-        let status = imports.ui.searchController._showAppsButton.checked;
+        let status = SearchController._showAppsButton.checked;
         if (this.showAppsButton.checked !== status)
             this.showAppsButton.checked = status;
     },

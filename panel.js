@@ -294,6 +294,7 @@ var dtpPanel = Utils.defineClass({
 
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
+        print("imports.ui.searchController");
         if(imports.ui.searchController._activePage == null)
             imports.ui.searchController._activePage = imports.ui.searchController._workspacesPage;
 
