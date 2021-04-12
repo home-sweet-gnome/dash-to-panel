@@ -130,11 +130,6 @@ var dtpPanelManager = Utils.defineClass({
         
         if (reset) return;
 
-        this._oldViewSelectorAnimateIn = imports.ui.searchController._animateIn;
-        imports.ui.searchController._animateIn = Lang.bind(this.primaryPanel, newViewSelectorAnimateIn);
-        this._oldViewSelectorAnimateOut = imports.ui.searchController._animateOut;
-        imports.ui.searchController._animateOut = Lang.bind(this.primaryPanel, newViewSelectorAnimateOut);
-
         if (Config.PACKAGE_VERSION > '3.35.1') {
             this._oldDoSpringAnimation = AppDisplay.BaseAppView.prototype._doSpringAnimation;
             AppDisplay.BaseAppView.prototype._doSpringAnimation = newDoSpringAnimation;
@@ -172,11 +167,6 @@ var dtpPanelManager = Utils.defineClass({
         if (this._needsDashItemContainerAllocate) {
             Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', this._newDashItemContainerAllocate);
         }
-            
-        // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
-        //animate a null target since some variables are not initialized when the viewSelector is created
-        if(imports.ui.searchController._activePage == null)
-            imports.ui.searchController._activePage = imports.ui.searchController._workspacesPage;
 
         LookingGlass.LookingGlass.prototype._oldResize = LookingGlass.LookingGlass.prototype._resize;
         LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize;
@@ -341,9 +331,6 @@ var dtpPanelManager = Utils.defineClass({
 
         Main.layoutManager._updatePanelBarrier = this._oldUpdatePanelBarrier;
         Main.layoutManager._updatePanelBarrier();
-
-        imports.ui.searchController._animateIn = this._oldViewSelectorAnimateIn;
-        imports.ui.searchController._animateOut = this._oldViewSelectorAnimateOut;
 
         Main.overview._relayout = this._oldOverviewRelayout;
         Main.overview._relayout();

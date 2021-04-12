@@ -52,7 +52,6 @@ const DND = imports.ui.dnd;
 const Shell = imports.gi.Shell;
 const PopupMenu = imports.ui.popupMenu;
 const IconGrid = imports.ui.iconGrid;
-const ViewSelector = imports.ui.searchController;
 const DateMenu = imports.ui.dateMenu;
 const Volume = imports.ui.status.volume;
 const Progress = Me.imports.progress;
@@ -291,12 +290,6 @@ var dtpPanel = Utils.defineClass({
         this._setAllocationMap();
 
         this.panel.actor.add_style_class_name('dashtopanelMainPanel ' + this.getOrientation());
-
-        // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
-        //animate a null target since some variables are not initialized when the viewSelector is created
-        print("imports.ui.searchController");
-        if(imports.ui.searchController._activePage == null)
-            imports.ui.searchController._activePage = imports.ui.searchController._workspacesPage;
 
         this._setPanelGhostSize();
 

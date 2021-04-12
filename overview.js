@@ -33,7 +33,6 @@ const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
 const Mainloop = imports.mainloop;
 const IconGrid = imports.ui.iconGrid;
-const ViewSelector = imports.ui.searchController;
 
 const Meta = imports.gi.Meta;
 
@@ -421,7 +420,7 @@ var dtpOverview = Utils.defineClass({
         if (this._clickToExitEnabled)
             return;
 
-        let views = Utils.getAppDisplayViews();
+        let view = imports.ui.appDisplay;
         this._oldOverviewReactive = Main.overview._overview.reactive
 
         Main.overview._overview.reactive = true;
@@ -435,75 +434,9 @@ var dtpOverview = Utils.defineClass({
             let [x, y] = global.get_pointer();
             let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.ALL, x, y);
 
-            let activePage = imports.ui.searchController.getActivePage();
-            if (activePage == ViewSelector.ViewPage.APPS) {
-
-                if(pickedActor != Main.overview._overview 
-                    && (views.length > 1 && pickedActor != imports.ui.appDisplay._controls.get_parent())
-                    && pickedActor != (views[0].view.actor || views[0].view)
-                    && (views.length > 1 && pickedActor != views[1].view._scrollView)
-                    && (views.length > 1 && pickedActor != views[1].view._grid)) {
-                    return Clutter.EVENT_PROPAGATE;
-                }
-
-                if(Me.settings.get_boolean('animate-show-apps')) {
-                    let view = Utils.find(views, v => v.view.actor.visible).view;
-                    view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
-                        imports.ui.searchController._appsPage.hide();
-                        Main.overview.hide();
-                    }));
-                } else {
-                    Main.overview.hide();
-                }
-            } else if (activePage == ViewSelector.ViewPage.WINDOWS) {
-                let overviewControls = Main.overview._overview._controls || Main.overview._controls;
-
-                if(pickedActor == overviewControls._thumbnailsBox
-                    || pickedActor == overviewControls.dash._container) {
-                    return Clutter.EVENT_PROPAGATE;
-                }
-
-                if (pickedActor instanceof Meta.BackgroundActor) {
-                    Utils.find(overviewControls._thumbnailsBox._thumbnails, t =>
-                        pickedActor == t._bgManager.backgroundActor
-                    ).activate();
-                    return Clutter.EVENT_STOP;
-                }
-
-                Main.overview.toggle();
-            } else {
-                Main.overview.toggle();
-            }
+            Main.overview.toggle();
          });
          Main.overview._overview.add_action(this._clickAction);
-
-        [imports.ui._overview._workspacesDisplay].concat(views.map(v => v.view)).forEach(v => {
-            if (v._swipeTracker) {
-                this._signalsHandler.addWithLabel('clickToExit', [
-                    v._swipeTracker,
-                    'begin',
-                    Lang.bind(this, this._onSwipeBegin)
-                ],[
-                    v._swipeTracker,
-                    'end',
-                    Lang.bind(this, this._onSwipeEnd)
-                ]);
-            } else if (v._panAction) {
-                this._signalsHandler.addWithLabel('clickToExit', [
-                    v._panAction,
-                    'gesture-begin',
-                    Lang.bind(this, this._onSwipeBegin)
-                ],[
-                    v._panAction,
-                    'gesture-cancel',
-                    Lang.bind(this, this._onSwipeEnd)
-                ],[
-                    v._panAction,
-                    'gesture-end',
-                    Lang.bind(this, this._onSwipeEnd)
-                ]);
-            }
-        });
 
         this._clickToExitEnabled = true;
     },
