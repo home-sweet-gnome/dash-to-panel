@@ -1172,8 +1172,6 @@ const Preferences = new Lang.Class({
 
             let scrolledWindow = this._builder.get_object('box_window_preview_options');
 
-            //adjustScrollableHeight(this._builder.get_object('viewport_window_preview_options'), scrolledWindow);
-            
             dialog.get_content_area().append(scrolledWindow);
 
             this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
@@ -2232,26 +2230,6 @@ function init() {
 
 function buildPrefsWidget() {
     let preferences = new Preferences();
-
-    // I'd like the scrolled window to default to a size large enough to show all without scrolling, if it fits on the screen
-    // But, it doesn't seem possible, so I'm setting a minimum size if there seems to be enough screen real estate
-    //adjustScrollableHeight(settings);
     
     return preferences.notebook;
-}
-
-function adjustScrollableHeight(viewport, scrollableWindow) {
-    // todo get correct monitor, scaling is wrong on wayland
-    let viewportSize = scrollableWindow.get_preferred_size();
-    let screenSize = scrollableWindow.get_display().get_monitors().get_item(0).get_geometry();
-    if (viewportSize.height === undefined)
-    {
-        viewportSize.height = screenSize.height * 0.8;
-    }
-    if (viewportSize.width === undefined)
-    {
-        viewportSize.width = 700;
-    }
-
-    scrollableWindow.set_size_request(viewportSize.width, viewportSize.height > screenSize.height ? screenSize.height : viewportSize.height);
 }
