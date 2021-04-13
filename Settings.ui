@@ -6942,7 +6942,7 @@
                 </child>
               </object>
             </child>
-            <!-- <child>
+            <child>
               <object class="GtkFrame" id="importexport_frame">
                 <property name="can_focus">False</property>
                 <property name="margin_top">20</property>
@@ -7032,7 +7032,7 @@
                   <placeholder/>
                 </child>
               </object>
-            </child> -->
+            </child>
             <!-- <child>
               <object class="GtkFrame" id="updates_frame">
                 <property name="can_focus">False</property>
