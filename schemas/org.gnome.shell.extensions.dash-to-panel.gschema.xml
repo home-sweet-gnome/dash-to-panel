@@ -547,6 +547,11 @@
       <summary>Close overview by clicking in empty space</summary>
       <description>Close overview or app grid by clicking in empty space</description>
     </key>
+    <key type="b" name="hide-overview-on-startup">
+      <default>false</default>
+      <summary>Hide overview on startup</summary>
+      <description>Hide overview on startup, which would be shown by default at gnome startup.</description>
+    </key>
     <key type="b" name="group-apps">
       <default>true</default>
       <summary>Group applications</summary>

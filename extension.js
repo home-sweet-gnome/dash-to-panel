@@ -113,6 +113,13 @@ function _enable() {
     // right position of the appShowButton.
     oldDash = Main.overview._dash;
     Main.overview._dash = panelManager.primaryPanel.taskbar;
+
+    if (Me.settings.get_boolean('hide-overview-on-startup')) {
+       let overviewShowingId = Main.overview.connect('shown', () => {
+           Main.overview.disconnect(overviewShowingId);
+           Main.overview.hide();
+       });
+    }
 }
 
 function disable(reset) {
