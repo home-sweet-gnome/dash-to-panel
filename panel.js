@@ -209,14 +209,7 @@ var dtpPanel = Utils.defineClass({
             Main.overview._overview.insert_child_at_index(this._myPanelGhost, 0);
         } else {
             let overviewControls = Main.overview._overview._controls || Main.overview._controls;
-            
-             if (this.geom.position == St.Side.BOTTOM) {
-                Main.overview._overview.add_actor(this._myPanelGhost);
-            } else if (this.geom.position == St.Side.LEFT) {
-                overviewControls._group.insert_child_at_index(this._myPanelGhost, 0);
-            } else {
-                overviewControls._group.add_actor(this._myPanelGhost);
-            }
+            Main.overview._overview.add_actor(this._myPanelGhost);
         }
 
         if (this.panel._leftCorner) {

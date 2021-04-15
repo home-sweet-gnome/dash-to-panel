@@ -4572,7 +4572,7 @@
                                     <signal name="clicked" handler="position_top_button_clicked_cb" swapped="no"/>
                                   </object>
                                 </child>
-                                <!-- <child>
+                                <child>
                                   <object class="GtkToggleButton" id="position_left_button">
                                     <property name="label" translatable="yes">Left</property>
                                     <property name="visible">True</property>
@@ -4595,7 +4595,7 @@
                                     <property name="group">position_bottom_button</property>
                                     <signal name="clicked" handler="position_right_button_clicked_cb" swapped="no"/>
                                   </object>
-                                </child> -->
+                                </child>
                               </object>
                             </child>
                             <layout>

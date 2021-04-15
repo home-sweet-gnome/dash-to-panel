@@ -2053,14 +2053,13 @@ const BuilderScope = GObject.registerClass({
         if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.TOP);
     }
     
-    // todo panel on the side not working atm
-    //position_left_button_clicked_cb(button) {
-    //    if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.LEFT);
-    //}
-    //
-    //position_right_button_clicked_cb(button) {
-    //    if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.RIGHT);
-    //}
+    position_left_button_clicked_cb(button) {
+       if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.LEFT);
+    }
+
+    position_right_button_clicked_cb(button) {
+       if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.RIGHT);
+    }
 
     dots_bottom_button_toggled_cb(button) {
         if (button.get_active())
