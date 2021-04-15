@@ -592,47 +592,6 @@ var dtpPanelManager = Utils.defineClass({
     },
 });
 
-function newViewSelectorAnimateIn(oldPage) {
-    if (oldPage)
-        oldPage.hide();
-
-    let vs = imports.ui.searchController;
-
-    vs.emit('page-empty');
-
-    vs._activePage.show();
-
-    if (vs._activePage == vs._appsPage && oldPage == vs._workspacesPage) {
-        // Restore opacity, in case we animated via _fadePageOut
-        vs._activePage.opacity = 255;
-        let animate = Me.settings.get_boolean('animate-show-apps');
-        if(animate)
-            vs.appDisplay.animate(IconGrid.AnimationDirection.IN);
-    } else {
-        vs._fadePageIn();
-    }
-}
-
-function newViewSelectorAnimateOut(page) {
-    let oldPage = page;
-    let vs = imports.ui.searchController;
-
-    if (page == vs._appsPage &&
-        vs._activePage == vs._workspacesPage &&
-        !Main.overview.animationInProgress) {
-        let animate = Me.settings.get_boolean('animate-show-apps');
-        if(animate)
-            vs.appDisplay.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this,
-                function() {
-                    vs._animateIn(oldPage)
-            }));
-        else
-            vs._animateIn(oldPage)
-    } else {
-        vs._fadePageOut(page);
-    }
-}
-
 function newGetPositionForDirection(direction, fromWs, toWs) {
     let [xDest, yDest] = WM.WindowManager.prototype._getPositionForDirection(direction, fromWs, toWs);
 

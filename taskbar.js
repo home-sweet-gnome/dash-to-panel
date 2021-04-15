@@ -1081,7 +1081,6 @@ var taskbar = Utils.defineClass({
         // application button, cutomize the behaviour. Otherwise the shell has changed the
         // status (due to the _syncShowAppsButtonToggled function below) and it
         // has already performed the desired action.
-        let animate = Me.settings.get_boolean('animate-show-apps');
         let selector = SearchController;
 
         if (selector._showAppsButton &&
@@ -1114,21 +1113,7 @@ var taskbar = Utils.defineClass({
                         onShownCb();
                     });
 
-                    if (animate) {
-                        grid.actor.opacity = 0;
-
-                        // The animation has to be trigered manually because the AppDisplay.animate
-                        // method is waiting for an allocation not happening, as we skip the workspace view
-                        // and the appgrid could already be allocated from previous shown.
-                        // It has to be triggered after the overview is shown as wrong coordinates are obtained
-                        // otherwise.
-                        onShownCb = () => Meta.later_add(Meta.LaterType.BEFORE_REDRAW, () => {
-                            grid.actor.opacity = 255;
-                            grid.animateSpring(IconGrid.AnimationDirection.IN, this.showAppsButton);
-                        });
-                    } else {
-                        onShownCb = () => grid.emit('animation-done');
-                    }
+                    onShownCb = () => grid.emit('animation-done');
                 }
 
                 //temporarily use as primary the monitor on which the showapps btn was clicked, this is
@@ -1148,20 +1133,8 @@ var taskbar = Utils.defineClass({
                 if (this.forcedOverview) {
                     // force exiting overview if needed
 
-                    if (animate) {
-                        // Manually trigger springout animation without activating the
-                        // workspaceView to avoid the zoomout animation. Hide the appPage
-                        // onComplete to avoid ugly flashing of original icons.
-                        AppDisplay.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
-                            Main.overview.hide();
-                            selector._showAppsButton.checked = false;
-                            this.forcedOverview = false;
-                        }));
-                    }
-                    else {
-                        Main.overview.hide();
-                        this.forcedOverview = false;
-                    }
+                    Main.overview.hide();
+                    this.forcedOverview = false;
                 }
                 else {
                     selector._showAppsButton.checked = false;

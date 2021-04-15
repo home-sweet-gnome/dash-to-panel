@@ -1090,11 +1090,6 @@ const Preferences = new Lang.Class({
             this._settings.set_int('show-apps-icon-side-padding', widget.get_value());
         }));
 
-        this._settings.bind('animate-show-apps',
-                            this._builder.get_object('application_button_animation_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-
         this._settings.bind('show-apps-override-escape',
                             this._builder.get_object('show_applications_esc_key_switch'),
                             'active',
