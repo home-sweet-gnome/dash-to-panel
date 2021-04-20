@@ -1382,7 +1382,7 @@ var dtpPanel = Utils.defineClass({
     _checkIfIgnoredScrollSource: function(source) {
         let ignoredConstr = ['WorkspaceIndicator'];
 
-        return source._dtpIgnoreScroll || ignoredConstr.indexOf(source.constructor.name) >= 0;
+        return source.get_parent()._dtpIgnoreScroll || ignoredConstr.indexOf(source.constructor.name) >= 0;
     },
 
     _initProgressManager: function() {
