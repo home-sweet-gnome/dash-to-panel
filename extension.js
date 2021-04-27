@@ -38,7 +38,6 @@ const Utils = Me.imports.utils;
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
 let panelManager;
-let oldDash;
 let extensionChangedHandler;
 let disabledUbuntuDock;
 let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
@@ -109,11 +108,6 @@ function _enable() {
         Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
     );
 
-    // Pretend I'm the dash: meant to make appgrd swarm animation come from the
-    // right position of the appShowButton.
-    oldDash = Main.overview._dash;
-    Main.overview._dash = panelManager.primaryPanel.taskbar;
-
     if (Me.settings.get_boolean('hide-overview-on-startup')) {
        let overviewShowingId = Main.overview.connect('shown', () => {
            Main.overview.disconnect(overviewShowingId);
@@ -124,12 +118,10 @@ function _enable() {
 
 function disable(reset) {
     panelManager.disable();
-    Main.overview._dash = oldDash;
     Me.settings.run_dispose();
     Me.desktopSettings.run_dispose();
 
     delete Me.settings;
-    oldDash = null;
     panelManager = null;
     
     Utils.removeKeybinding('open-application-menu');
