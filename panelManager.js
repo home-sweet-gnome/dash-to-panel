@@ -360,16 +360,17 @@ var dtpPanelManager = Utils.defineClass({
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {
         this._needsIconAllocate = 1;
-        
+
         if (!this.checkIfFocusedMonitor(monitor)) {
             Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
 
-            Main.overview._overview.clear_constraints();
-            Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
+            // todo causes display issues on Xorg
+            // Main.overview._overview.clear_constraints();
+            // Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
             
-            if (ignoreRelayout) return;
+            // if (ignoreRelayout) return;
 
-            this._newOverviewRelayout.call(Main.overview);
+            // this._newOverviewRelayout.call(Main.overview);
         }
     },
 
