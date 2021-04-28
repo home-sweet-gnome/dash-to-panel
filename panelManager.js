@@ -347,15 +347,16 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {
-        this._needsIconAllocate = 1;
+        // todo show overview on non primary monitor is not working right now on gnome40
 
-        if (!this.checkIfFocusedMonitor(monitor)) {
-            Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
+        // this._needsIconAllocate = 1;
 
-            // todo causes display issues on Xorg
-            // Main.overview._overview.clear_constraints();
-            // Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
-        }
+        // if (!this.checkIfFocusedMonitor(monitor)) {
+        //     Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
+
+        //     Main.overview._overview.clear_constraints();
+        //     Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
+        // }
     },
 
     _saveMonitors: function() {
