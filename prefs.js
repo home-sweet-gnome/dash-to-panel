@@ -1929,7 +1929,6 @@ const Preferences = new Lang.Class({
 
         this._builder.get_object('extension_version').set_label(Me.metadata.version.toString() + (Me.metadata.commit ? ' (' + Me.metadata.commit + ')' : ''));
 
-        // todo not working atm
         this._builder.get_object('importexport_export_button').connect('clicked', widget => {
             this._showFileChooser(
                 _('Export settings'),
