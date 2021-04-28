@@ -43,6 +43,8 @@ let disabledUbuntuDock;
 let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
 
 function init() {
+    this._realHasOverview = Main.sessionMode.hasOverview;
+
     Convenience.initTranslations(Utils.TRANSLATION_DOMAIN);
     
     //create an object that persists until gnome-shell is restarted, even if the extension is disabled
@@ -91,6 +93,14 @@ function _enable() {
     Me.desktopSettings = Convenience.getSettings('org.gnome.desktop.interface');
 
     Me.imports.update.init();
+
+    if (Me.settings.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
+        Main.sessionMode.hasOverview = false;
+        Main.layoutManager.connect('startup-complete', () => {
+            Main.sessionMode.hasOverview = this._realHasOverview
+        });
+    }
+
     panelManager = new PanelManager.dtpPanelManager();
 
     panelManager.enable();
@@ -107,13 +117,6 @@ function _enable() {
         }),
         Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
     );
-
-    if (Me.settings.get_boolean('hide-overview-on-startup')) {
-       let overviewShowingId = Main.overview.connect('shown', () => {
-           Main.overview.disconnect(overviewShowingId);
-           Main.overview.hide();
-       });
-    }
 }
 
 function disable(reset) {
@@ -141,4 +144,6 @@ function disable(reset) {
             (extensionSystem._callExtensionEnable || extensionSystem.enableExtension).call(extensionSystem, UBUNTU_DOCK_UUID);
         }
     }
+
+    Main.sessionMode.hasOverview = this._realHasOverview;
 }
