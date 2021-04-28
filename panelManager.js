@@ -153,10 +153,6 @@ var dtpPanelManager = Utils.defineClass({
             this._enableHotCornersId = Main.layoutManager._interfaceSettings.connect('changed::enable-hot-corners', () => Main.layoutManager._updateHotCorners());
         }
 
-        this._oldUpdateWorkspacesViews = Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews;
-        // todo does not work at the moment
-        //Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview._overview._controls._workspacesDisplay, this._newUpdateWorkspacesViews);
-
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
 
         this._needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');
@@ -329,8 +325,6 @@ var dtpPanelManager = Utils.defineClass({
         Main.layoutManager._updatePanelBarrier = this._oldUpdatePanelBarrier;
         Main.layoutManager._updatePanelBarrier();
 
-        Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
-
         Utils.getPanelGhost().set_size(-1, -1);
 
         if (this._needsDashItemContainerAllocate) {
@@ -493,52 +487,6 @@ var dtpPanelManager = Utils.defineClass({
                 Utils.addKeybinding(k, Me.settings, keys[k], Shell.ActionMode.NORMAL);
             }
         });
-    },
-
-    _newUpdateWorkspacesViews: function() {
-        for (let i = 0; i < this._workspacesViews.length; i++)
-            this._workspacesViews[i].destroy();
-
-        this._workspacesViews = [];
-
-        let monitors = Main.layoutManager.monitors;
-
-        for (let i = 0; i < monitors.length; i++) {
-            let workspaces;
-            let view;
-            if (this._workspacesOnlyOnPrimary && i != Main.layoutManager.primaryIndex) {
-                view = new WorkspacesView.ExtraWorkspaceView(i);
-                view.getActiveWorkspace = view.getActiveWorkspace || function() { return this._workspace; };
-                workspaces = [view._workspace];
-            } else {
-                view = new WorkspacesView.WorkspacesView(i, this._scrollAdjustment || 0);
-                workspaces = view._workspaces;
-            }
-
-            Utils.wrapActor(view);
-            view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
-            if (i == Main.layoutManager.primaryIndex && view.scrollAdjustment) {
-                this._scrollAdjustment = view.scrollAdjustment;
-                this._scrollAdjustment.connect('notify::value',
-                                            this._scrollValueChanged.bind(this));
-            }
-
-            workspaces.forEach(w => w.setFullGeometry = geom => w._fullGeometry = geom);
-            this._workspacesViews.push(view);
-        }
-
-        this._workspacesViews.forEach(wv => Main.layoutManager.overviewGroup.add_actor(wv.actor));
-
-        if (this._syncWorkspacesFullGeometry) {
-            //gnome-shell 3.36.4
-            if (this._fullGeometry)
-                this._syncWorkspacesFullGeometry();
-            if (this._actualGeometry)
-                this._syncWorkspacesActualGeometry();
-        } else if (this._updateWorkspacesFullGeometry) {
-            this._updateWorkspacesFullGeometry();
-            this._updateWorkspacesActualGeometry();
-        }
     },
 
     _newGetShowAppsButton: function() {
