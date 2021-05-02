@@ -46,6 +46,7 @@ const Workspace = imports.ui.workspace;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const AppIcons = Me.imports.appIcons;
 const Panel = Me.imports.panel;
+const PanelSettings = Me.imports.panelSettings;
 const Utils = Me.imports.utils;
 const WindowPreview = Me.imports.windowPreview;
 
@@ -705,7 +706,8 @@ var taskbar = Utils.defineClass({
     },
 
     _adjustIconSize: function() {
-        let panelSize = Me.settings.get_int('panel-size');
+        const thisMonitorIndex = this.dtpPanel.monitor.index;
+        let panelSize = PanelSettings.getPanelSize(Me.settings, thisMonitorIndex);
         let availSize = panelSize - Me.settings.get_int('appicon-padding') * 2;
         let minIconSize = MIN_ICON_SIZE + panelSize % 2;
 
