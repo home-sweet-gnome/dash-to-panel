@@ -1988,14 +1988,104 @@ const Settings = new Lang.Class({
         }
 
         this._settings.bind('animate-app-switch',
-                    this._builder.get_object('animate_app_switch_switch'),
-                    'active',
-                    Gio.SettingsBindFlags.DEFAULT);
+                            this._builder.get_object('animate_app_switch_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
 
         this._settings.bind('animate-window-launch',
-                    this._builder.get_object('animate_window_launch_switch'),
-                    'active',
-                    Gio.SettingsBindFlags.DEFAULT);
+                            this._builder.get_object('animate_window_launch_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('animate-appicon-hover',
+                            this._builder.get_object('animate_appicon_hover_switch'),
+                            'active',
+                             Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('animate-appicon-hover',
+                            this._builder.get_object('animate_appicon_hover_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        {
+            this._settings.bind('animate-appicon-hover-animation-type',
+                                this._builder.get_object('animate_appicon_hover_options_type_combo'),
+                                'active-id',
+                                Gio.SettingsBindFlags.DEFAULT);
+
+            let scales = [
+                ['animate_appicon_hover_options_duration_scale', 'animate-appicon-hover-animation-duration', 1],
+                ['animate_appicon_hover_options_rotation_scale', 'animate-appicon-hover-animation-rotation', 1],
+                ['animate_appicon_hover_options_travel_scale', 'animate-appicon-hover-animation-travel', 100],
+                ['animate_appicon_hover_options_zoom_scale', 'animate-appicon-hover-animation-zoom', 100],
+                ['animate_appicon_hover_options_convexity_scale', 'animate-appicon-hover-animation-convexity', 1],
+                ['animate_appicon_hover_options_extent_scale', 'animate-appicon-hover-animation-extent', 1],
+            ];
+
+            let updateScale = scale => {
+                let [id, key, factor] = scale;
+                let type = this._settings.get_string('animate-appicon-hover-animation-type');
+                let value = this._settings.get_value(key).deep_unpack()[type];
+                let defaultValue = this._settings.get_default_value(key).deep_unpack()[type];
+                this._builder.get_object(id).sensitive = defaultValue !== undefined;
+                this._builder.get_object(id).set_value(value * factor || 0);
+                this._builder.get_object(id).clear_marks();
+                this._builder.get_object(id).add_mark(defaultValue * factor, Gtk.PositionType.TOP,
+                                                      defaultValue !== undefined ? (defaultValue * factor).toString() : ' ');
+            };
+
+            scales.forEach(scale => {
+                let [id, key, factor] = scale;
+                this._settings.connect('changed::' + key, () => updateScale(scale));
+                this._builder.get_object(id).connect('value-changed', widget => {
+                    let type = this._settings.get_string('animate-appicon-hover-animation-type');
+                    let variant = this._settings.get_value(key);
+                    let unpacked = variant.deep_unpack();
+                    if (unpacked[type] != widget.get_value() / factor) {
+                        unpacked[type] = widget.get_value() / factor;
+                        this._settings.set_value(key, new GLib.Variant(variant.get_type_string(), unpacked));
+                    }
+                });
+            });
+
+            this._settings.connect('changed::animate-appicon-hover-animation-type', () => scales.forEach(updateScale));
+            scales.forEach(updateScale);
+        }
+
+        this._builder.get_object('animate_appicon_hover_button').connect('clicked', Lang.bind(this, function() {
+            let dialog = new Gtk.Dialog({ title: _('App icon animation options'),
+                                          transient_for: this.widget.get_toplevel(),
+                                          use_header_bar: true,
+                                          modal: true });
+
+            // GTK+ leaves positive values for application-defined response ids.
+            // Use +1 for the reset action
+            dialog.add_button(_('Reset to defaults'), 1);
+
+            let box = this._builder.get_object('animate_appicon_hover_options');
+            dialog.get_content_area().add(box);
+
+            dialog.connect('response', Lang.bind(this, function(dialog, id) {
+                if (id == 1) {
+                    // restore default settings
+                    this._settings.set_value('animate-appicon-hover-animation-type', this._settings.get_default_value('animate-appicon-hover-animation-type'));
+                    this._settings.set_value('animate-appicon-hover-animation-duration', this._settings.get_default_value('animate-appicon-hover-animation-duration'));
+                    this._settings.set_value('animate-appicon-hover-animation-rotation', this._settings.get_default_value('animate-appicon-hover-animation-rotation'));
+                    this._settings.set_value('animate-appicon-hover-animation-travel', this._settings.get_default_value('animate-appicon-hover-animation-travel'));
+                    this._settings.set_value('animate-appicon-hover-animation-zoom', this._settings.get_default_value('animate-appicon-hover-animation-zoom'));
+                    this._settings.set_value('animate-appicon-hover-animation-convexity', this._settings.get_default_value('animate-appicon-hover-animation-convexity'));
+                    this._settings.set_value('animate-appicon-hover-animation-extent', this._settings.get_default_value('animate-appicon-hover-animation-extent'));
+                } else {
+                    // remove the settings box so it doesn't get destroyed;
+                    dialog.get_content_area().remove(box);
+                    dialog.destroy();
+                }
+                return;
+            }));
+
+            dialog.show_all();
+
+        }));
 
         this._settings.bind('stockgs-keep-dash',
                             this._builder.get_object('stockgs_dash_switch'),
@@ -2124,7 +2214,30 @@ const Settings = new Lang.Class({
      * Object containing all signals defined in the glade file
      */
     _SignalHandler: {
-        
+        animate_appicon_hover_options_duration_scale_format_value_cb: function(scale, value) {
+            return _("%d ms").format(value);
+        },
+
+        animate_appicon_hover_options_rotation_scale_format_value_cb: function(scale, value) {
+            return _("%d °").format(value);
+        },
+
+        animate_appicon_hover_options_travel_scale_format_value_cb: function(scale, value) {
+            return _("%d %%").format(value);
+        },
+
+        animate_appicon_hover_options_zoom_scale_format_value_cb: function(scale, value) {
+            return _("%d %%").format(value);
+        },
+
+        animate_appicon_hover_options_convexity_scale_format_value_cb: function(scale, value) {
+            return _("%.1f").format(value);
+        },
+
+        animate_appicon_hover_options_extent_scale_format_value_cb: function(scale, value) {
+            return Gettext.ngettext("%d icon", "%d icons", value).format(value);
+        },
+
         position_bottom_button_clicked_cb: function(button) {
             if (!this._ignorePositionRadios && button.get_active()) this._setPanelPosition(Pos.BOTTOM);
         },

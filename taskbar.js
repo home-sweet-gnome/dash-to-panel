@@ -26,6 +26,7 @@ const Clutter = imports.gi.Clutter;
 const Config = imports.misc.config;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
+const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Signals = imports.signals;
 const Lang = imports.lang;
@@ -48,6 +49,7 @@ const AppIcons = Me.imports.appIcons;
 const Panel = Me.imports.panel;
 const PanelManager = Me.imports.panelManager;
 const PanelSettings = Me.imports.panelSettings;
+const Pos = Me.imports.panelPositions;
 const Utils = Me.imports.utils;
 const WindowPreview = Me.imports.windowPreview;
 
@@ -66,6 +68,44 @@ var MIN_ICON_SIZE = 4;
 
 function extendDashItemContainer(dashItemContainer) {
     dashItemContainer.showLabel = AppIcons.ItemShowLabel;
+};
+
+const iconAnimationSettings = {
+    _getDictValue: function(key) {
+        let type = Me.settings.get_string('animate-appicon-hover-animation-type');
+        return Me.settings.get_value(key).deep_unpack()[type] || 0;
+    },
+
+    get type() {
+        if (!Me.settings.get_boolean('animate-appicon-hover'))
+            return "";
+
+        return Me.settings.get_string('animate-appicon-hover-animation-type');
+    },
+
+    get convexity() {
+        return Math.max(0, this._getDictValue('animate-appicon-hover-animation-convexity'));
+    },
+
+    get duration() {
+        return this._getDictValue('animate-appicon-hover-animation-duration');
+    },
+
+    get extent() {
+        return Math.max(1, this._getDictValue('animate-appicon-hover-animation-extent'));
+    },
+
+    get rotation() {
+        return this._getDictValue('animate-appicon-hover-animation-rotation');
+    },
+
+    get travel() {
+        return Math.max(0, this._getDictValue('animate-appicon-hover-animation-travel'));
+    },
+
+    get zoom() {
+        return Math.max(1, this._getDictValue('animate-appicon-hover-animation-zoom'));
+    },
 };
 
 /* This class is a fork of the upstream DashActor class (ui.dash.js)
@@ -189,7 +229,9 @@ var taskbar = Utils.defineClass({
                                                vscrollbar_policy: Gtk.PolicyType.NEVER,
                                                enable_mouse_scrolling: true });
 
-        this._scrollView.connect('scroll-event', Lang.bind(this, this._onScrollEvent ));
+        this._scrollView.connect('leave-event', Lang.bind(this, this._onLeaveEvent));
+        this._scrollView.connect('motion-event', Lang.bind(this, this._onMotionEvent));
+        this._scrollView.connect('scroll-event', Lang.bind(this, this._onScrollEvent));
         this._scrollView.add_actor(this._box);
 
         this._showAppsIconWrapper = panel.showAppsIconWrapper;
@@ -368,6 +410,74 @@ var taskbar = Utils.defineClass({
         this.previewMenu.destroy();
 
         this._disconnectWorkspaceSignals();
+    },
+
+    _dropIconAnimations: function() {
+        this._getTaskbarIcons().forEach(item => {
+            item.raise(0);
+            item.stretch(0);
+        });
+    },
+
+    _updateIconAnimations: function(pointerX, pointerY) {
+        this._iconAnimationTimestamp = Date.now();
+        let type = iconAnimationSettings.type;
+
+        if (!pointerX || !pointerY)
+            [pointerX, pointerY] = global.get_pointer();
+
+        this._getTaskbarIcons().forEach(item => {
+            let [x, y] = item.get_transformed_position();
+            let [width, height] = item.get_transformed_size();
+            let [centerX, centerY] = [x + width / 2, y + height / 2];
+            let size = this._box.vertical ? height : width;
+            let difference = this._box.vertical ? pointerY - centerY : pointerX - centerX;
+            let distance = Math.abs(difference);
+            let maxDistance = (iconAnimationSettings.extent / 2) * size;
+
+            if (type == 'PLANK') {
+                // Make the position stable for items that are far from the pointer.
+                let translation = distance <= maxDistance ?
+                                  distance / (2 + 8 * distance / maxDistance) :
+                                  // the previous expression with distance = maxDistance
+                                  maxDistance / 10;
+
+                if (difference > 0)
+                    translation *= -1;
+
+                item.stretch(translation);
+            }
+
+            if (distance <= maxDistance) {
+                let level = (maxDistance - distance) / maxDistance;
+                level = Math.pow(level, iconAnimationSettings.convexity);
+                item.raise(level);
+            } else {
+                item.raise(0);
+            }
+        });
+    },
+
+    _onLeaveEvent: function(actor) {
+        let [stageX, stageY] = global.get_pointer();
+        let [success, x, y] = actor.transform_stage_point(stageX, stageY);
+        if (success && !actor.allocation.contains(x, y) && (iconAnimationSettings.type == 'RIPPLE' || iconAnimationSettings.type == 'PLANK'))
+            this._dropIconAnimations();
+
+        return Clutter.EVENT_PROPAGATE;
+    },
+
+    _onMotionEvent: function(actor_, event) {
+        if (iconAnimationSettings.type == 'RIPPLE' || iconAnimationSettings.type == 'PLANK') {
+            let timestamp = Date.now();
+            if (!this._iconAnimationTimestamp ||
+                (timestamp - this._iconAnimationTimestamp >= iconAnimationSettings.duration / 2)) {
+                let [pointerX, pointerY] = event.get_coords();
+                this._updateIconAnimations(pointerX, pointerY);
+            }
+        }
+
+        return Clutter.EVENT_PROPAGATE;
     },
 
     _onScrollEvent: function(actor, event) {
@@ -566,6 +676,7 @@ var taskbar = Utils.defineClass({
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 50;
                                            appIcon.isDragged = 1;
+                                           this._dropIconAnimations();
                                        }));
             appIcon._draggable.connect('drag-end',
                                        Lang.bind(this, function() {
@@ -580,7 +691,7 @@ var taskbar = Utils.defineClass({
                             this._itemMenuStateChanged(item, opened);
                         }));
 
-        let item = new Dash.DashItemContainer();
+        let item = new TaskbarItemContainer();
 
         item._dtpPanel = this.dtpPanel
         extendDashItemContainer(item);
@@ -595,11 +706,19 @@ var taskbar = Utils.defineClass({
                     this._ensureAppIconVisibilityTimeoutId = 0;
                     return GLib.SOURCE_REMOVE;
                 }));
+
+                if (!appIcon.isDragged && iconAnimationSettings.type == 'SIMPLE')
+                    appIcon.actor.get_parent().raise(1);
+                else if (!appIcon.isDragged && (iconAnimationSettings.type == 'RIPPLE' || iconAnimationSettings.type == 'PLANK'))
+                    this._updateIconAnimations();
             } else {
                 if (this._ensureAppIconVisibilityTimeoutId>0) {
                     Mainloop.source_remove(this._ensureAppIconVisibilityTimeoutId);
                     this._ensureAppIconVisibilityTimeoutId = 0;
                 }
+
+                if (!appIcon.isDragged && iconAnimationSettings.type == 'SIMPLE')
+                    appIcon.actor.get_parent().raise(0);
             }
         }));
 
@@ -672,6 +791,14 @@ var taskbar = Utils.defineClass({
             // add a custom signal to the appIcon, since gnome 3.8 the signal
             // calling this callback was added upstream.
             this.emit('menu-closed');
+
+            // The icon menu grabs the events and, once it is closed, the pointer is maybe
+            // no longer over the taskbar and the animations are not dropped.
+            if (iconAnimationSettings.type == 'RIPPLE' || iconAnimationSettings.type == 'PLANK') {
+                this._scrollView.sync_hover();
+                if (!this._scrollView.hover)
+                    this._dropIconAnimations();
+            }
         }
     },
 
@@ -1229,6 +1356,187 @@ var taskbar = Utils.defineClass({
 });
 
 Signals.addSignalMethods(taskbar.prototype);
+
+const CloneContainerConstraint = Utils.defineClass({
+    Name: 'DashToPanel-CloneContainerConstraint',
+    Extends: Clutter.BindConstraint,
+
+    vfunc_update_allocation: function(actor, actorBox) {
+        if (!this.source)
+            return;
+
+        let [stageX, stageY] = this.source.get_transformed_position();
+        let [width, height] = this.source.get_transformed_size();
+
+        actorBox.set_origin(stageX, stageY);
+        actorBox.set_size(width, height);
+    },
+});
+
+const TaskbarItemContainer = Utils.defineClass({
+    Name: 'DashToPanel-TaskbarItemContainer',
+    Extends: Dash.DashItemContainer,
+
+    // In case appIcon is removed from the taskbar while it is hovered,
+    // restore opacity before dashItemContainer.animateOutAndDestroy does the destroy animation.
+    animateOutAndDestroy: function() {
+        if (this._raisedClone) {
+            this._raisedClone.source.opacity = 255;
+            this._raisedClone.destroy();
+        }
+
+        this.callParent('animateOutAndDestroy');
+    },
+
+    // For ItemShowLabel
+    _getIconAnimationOffset: function() {
+        if (!Me.settings.get_boolean('animate-appicon-hover'))
+            return 0;
+
+        let travel = iconAnimationSettings.travel;
+        let zoom = iconAnimationSettings.zoom;
+        return this._dtpPanel.dtpSize * (travel + (zoom - 1) / 2);
+    },
+
+    _updateCloneContainerPosition: function(cloneContainer) {
+        let [stageX, stageY] = this.get_transformed_position();
+
+        if (Config.PACKAGE_VERSION >= '3.36')
+            cloneContainer.set_position(stageX - this.translation_x, stageY - this.translation_y);
+        else
+            cloneContainer.set_position(stageX, stageY);
+    },
+
+    _createRaisedClone: function() {
+        let [width, height] = this.get_transformed_size();
+
+        // "clone" of this child (appIcon actor)
+        let cloneButton = this.child._delegate.getCloneButton();
+
+        // "clone" of this (taskbarItemContainer)
+        let cloneContainer = new St.Bin({
+            child: cloneButton,
+            width: width, height: height,
+            reactive: false,
+        });
+
+        this._updateCloneContainerPosition(cloneContainer);
+
+        // For the stretch animation
+        if (Config.PACKAGE_VERSION >= '3.36') {
+            let boundProperty = this._dtpPanel.checkIfVertical() ? 'translation_y' : 'translation_x';
+            this.bind_property(boundProperty, cloneContainer, boundProperty, GObject.BindingFlags.SYNC_CREATE);
+        } else {
+            let constraint = new CloneContainerConstraint({ source: this });
+            cloneContainer.add_constraint(constraint);
+        }
+
+        // The clone follows its source when the taskbar is scrolled.
+        let taskbarScrollView = this.get_parent().get_parent();
+        let adjustment = this._dtpPanel.checkIfVertical() ? taskbarScrollView.vscroll.get_adjustment() : taskbarScrollView.hscroll.get_adjustment();
+        let adjustmentChangedId = adjustment.connect('notify::value', () => this._updateCloneContainerPosition(cloneContainer));
+
+        // Update clone position when an item is added to / removed from the taskbar.
+        let taskbarBox = this.get_parent();
+        let taskbarBoxAllocationChangedId = taskbarBox.connect('notify::allocation', () => this._updateCloneContainerPosition(cloneContainer));
+
+        // The clone itself
+        this._raisedClone = cloneButton.child;
+        this._raisedClone.connect('destroy', () => {
+            adjustment.disconnect(adjustmentChangedId);
+            taskbarBox.disconnect(taskbarBoxAllocationChangedId);
+            Mainloop.idle_add(() => cloneContainer.destroy());
+            delete this._raisedClone;
+        });
+
+        this._raisedClone.source.opacity = 0;
+        Main.uiGroup.add_actor(cloneContainer);
+    },
+
+    // Animate the clone.
+    // AppIcon actors cannot go outside the taskbar so the animation is done with a clone.
+    // If level is zero, the clone is dropped and destroyed.
+    raise: function(level) {
+        if (this._raisedClone)
+            Utils.stopAnimations(this._raisedClone);
+        else if (level)
+            this._createRaisedClone();
+        else
+            return;
+
+        let panelPosition = this._dtpPanel.getPosition();
+        let panelElementPositions = this._dtpPanel.panelManager.panelsElementPositions[this._dtpPanel.monitor.index] || Pos.defaults;
+        let taskbarPosition = panelElementPositions.filter(pos => pos.element == 'taskbar')[0].position;
+
+        let vertical = panelPosition == St.Side.LEFT || panelPosition == St.Side.RIGHT;
+        let translationDirection = panelPosition == St.Side.TOP || panelPosition == St.Side.LEFT ? 1 : -1;
+        let rotationDirection;
+        if (panelPosition == St.Side.LEFT || taskbarPosition == Pos.STACKED_TL)
+            rotationDirection = -1;
+        else if (panelPosition == St.Side.RIGHT || taskbarPosition == Pos.STACKED_BR)
+            rotationDirection = 1;
+        else {
+            let items = this.get_parent().get_children();
+            let index = items.indexOf(this);
+            rotationDirection = (index - (items.length - 1) / 2) / ((items.length - 1) / 2);
+        }
+
+        let duration = iconAnimationSettings.duration / 1000;
+        let rotation = iconAnimationSettings.rotation;
+        let travel = iconAnimationSettings.travel;
+        let zoom = iconAnimationSettings.zoom;
+
+        // level is about 1 for the icon that is hovered, less for others.
+        // time depends on the translation to do.
+        let [width, height] = this._raisedClone.source.get_transformed_size();
+        let translationMax = (vertical ? width : height) * (travel + (zoom - 1) / 2);
+        let translationEnd = translationMax * level;
+        let translationDone = vertical ? this._raisedClone.translation_x : this._raisedClone.translation_y;
+        let translationTodo = Math.abs(translationEnd - translationDone);
+        let scale = 1 + (zoom - 1) * level;
+        let rotationAngleZ = rotationDirection * rotation * level;
+        let time = duration * translationTodo / translationMax;
+
+        let options = {
+            scale_x: scale, scale_y: scale,
+            rotation_angle_z: rotationAngleZ,
+            time: time,
+            transition: 'easeOutQuad',
+            onComplete: () => {
+                if (!level) {
+                    this._raisedClone.source.opacity = 255;
+                    this._raisedClone.destroy();
+                    delete this._raisedClone;
+                }
+            },
+        };
+        options[vertical ? 'translation_x' : 'translation_y'] = translationDirection * translationEnd;
+
+        Utils.animate(this._raisedClone, options);
+    },
+
+    // Animate this and cloneContainer, since cloneContainer translation is bound to this.
+    stretch: function(translation) {
+        let duration = iconAnimationSettings.duration / 1000;
+        let zoom = iconAnimationSettings.zoom;
+        let animatedProperty = this._dtpPanel.checkIfVertical() ? 'translation_y' : 'translation_x';
+        let isShowing = this.opacity != 255 || this.child.opacity != 255;
+
+        if (isShowing) {
+            // Do no stop the animation initiated in DashItemContainer.show.
+            this[animatedProperty] = zoom * translation;
+        } else {
+            let options = {
+                time: duration,
+                transition: 'easeOutQuad',
+            };
+            options[animatedProperty] = zoom * translation;
+
+            Utils.stopAnimations(this);
+            Utils.animate(this, options);
+        }
+    },
+});
 
 var DragPlaceholderItem = Utils.defineClass({
     Name: 'DashToPanel-DragPlaceholderItem',

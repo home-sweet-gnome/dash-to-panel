@@ -50,6 +50,10 @@
 	background-color: rgba(238, 238, 236, 0.1);
 }
 
+#dashtopanelScrollview .app-well-app:hover .dtp-container.animate-appicon-hover {
+	background: none;
+}
+
 #dashtopanelScrollview .app-well-app:active .dtp-container {
 	background-color: rgba(238, 238, 236, 0.18);
 }

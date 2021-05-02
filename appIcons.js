@@ -194,6 +194,7 @@ var taskbarAppIcon = Utils.defineClass({
             this._stateChangedId = 0;
         }
 
+        this._onAnimateAppiconHoverChanged();
         this._setAppIconPadding();
         this._showDots();
 
@@ -230,6 +231,7 @@ var taskbarAppIcon = Utils.defineClass({
         this._hoverChangeId = this.actor.connect('notify::hover', () => this._onAppIconHoverChanged());
         
         this._dtpSettingsSignalIds = [
+            Me.settings.connect('changed::animate-appicon-hover', Lang.bind(this, this._onAnimateAppiconHoverChanged)),
             Me.settings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::dot-size', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh)),
@@ -267,6 +269,29 @@ var taskbarAppIcon = Utils.defineClass({
 
     getDragActor: function() {
         return this.app.create_icon_texture(this.dtpPanel.taskbar.iconSize);
+    },
+
+    // Used by TaskbarItemContainer to animate appIcons on hover
+    getCloneButton: function() {
+        // The source of the clone is this._container,
+        // using this.actor directly would break DnD style.
+        let clone = new Clutter.Clone({
+            source: this.actor.child,
+            x: this.actor.child.x, y: this.actor.child.y,
+            width: this.actor.child.width, height: this.actor.child.height,
+            pivot_point: new Utils.getPoint({ x: 0.5, y: 0.5 }),
+            opacity: 255,
+            reactive: false,
+            x_align: Clutter.ActorAlign.CENTER, y_align: Clutter.ActorAlign.CENTER,
+        });
+
+        // "clone" of this.actor
+        return new St.Button({
+            child: clone,
+            x: this.actor.x, y: this.actor.y,
+            width: this.actor.width, height: this.actor.height,
+            reactive: false,
+        });
     },
 
     shouldShowTooltip: function() {
@@ -376,6 +401,36 @@ var taskbarAppIcon = Utils.defineClass({
         windows.forEach(function(w) {
             w.set_icon_geometry(rect);
         });
+    },
+
+    _onAnimateAppiconHoverChanged: function() {
+        if (Me.settings.get_boolean('animate-appicon-hover')) {
+            this._container.add_style_class_name('animate-appicon-hover');
+
+            // Workaround to prevent scaled icon from being ugly when it is animated on hover.
+            // It increases the "resolution" of the icon without changing the icon size.
+            this.icon.createIcon = (iconSize) => this.app.create_icon_texture(2 * iconSize);
+            this._iconIconBinActorAddedId = this.icon._iconBin.connect('actor-added', () => {
+                if (this.icon._iconBin.child.mapped) {
+                    this.icon._iconBin.child.set_size(this.icon.iconSize, this.icon.iconSize);
+                } else {
+                    let iconMappedId = this.icon._iconBin.child.connect('notify::mapped', () => {
+                        this.icon._iconBin.child.set_size(this.icon.iconSize, this.icon.iconSize);
+                        this.icon._iconBin.child.disconnect(iconMappedId);
+                    });
+                }
+            });
+            if (this.icon._iconBin.child)
+                this.icon._createIconTexture(this.icon.iconSize);
+        } else {
+            this._container.remove_style_class_name('animate-appicon-hover');
+
+            if (this._iconIconBinActorAddedId) {
+                this.icon._iconBin.disconnect(this._iconIconBinActorAddedId);
+                this._iconIconBinActorAddedId = 0;
+                this.icon.createIcon = Lang.bind(this, this._createIcon);
+            }
+        }
     },
 
     _onMouseScroll: function(actor, event) {
@@ -1552,6 +1607,10 @@ function ItemShowLabel()  {
 
     let position = this._dtpPanel.getPosition();
     let labelOffset = node.get_length('-x-offset');
+
+    // From TaskbarItemContainer
+    if (this._getIconAnimationOffset)
+        labelOffset += this._getIconAnimationOffset();
 
     let xOffset = Math.floor((itemWidth - labelWidth) / 2);
     let x = stageX + xOffset
