@@ -144,7 +144,7 @@ var PreviewMenu = Utils.defineClass({
             [
                 Me.settings,
                 [
-                    'changed::panel-size',
+                    'changed::panel-sizes',
                     'changed::window-preview-size',
                     'changed::window-preview-padding',
                     'changed::window-preview-show-title'
@@ -637,10 +637,6 @@ var PreviewMenu = Utils.defineClass({
     },
 
     _focusMetaWindow: function(dimOpacity, window, immediate, ignoreFocus) {
-        if (Main.overview.visibleTarget) {
-            return;
-        }
-
         window.get_workspace().list_windows().forEach(mw => {
             let wa = mw.get_compositor_private();
             let isFocused = !ignoreFocus && mw == window;

@@ -47,6 +47,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const AppIcons = Me.imports.appIcons;
 const Panel = Me.imports.panel;
 const PanelManager = Me.imports.panelManager;
+const PanelSettings = Me.imports.panelSettings;
 const Utils = Me.imports.utils;
 const WindowPreview = Me.imports.windowPreview;
 
@@ -91,10 +92,12 @@ var taskbarActor = Utils.defineClass({
         let panel = this._delegate.dtpPanel;
         let availFixedSize = box[panel.fixedCoord.c2] - box[panel.fixedCoord.c1];
         let availVarSize = box[panel.varCoord.c2] - box[panel.varCoord.c1];
-        let [, scrollview, leftFade, rightFade] = this.get_children();
+        let [dummy, scrollview, leftFade, rightFade] = this.get_children();
         let [, natSize] = this[panel.sizeFunc](availFixedSize);
         let childBox = new Clutter.ActorBox();
         let orientation = panel.getOrientation();
+
+        Utils.allocate(dummy, childBox, flags);
 
         childBox[panel.varCoord.c1] = box[panel.varCoord.c1];
         childBox[panel.varCoord.c2] = Math.min(availVarSize, natSize);
@@ -562,10 +565,13 @@ var taskbar = Utils.defineClass({
             appIcon._draggable.connect('drag-begin',
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 50;
+                                           appIcon.isDragged = 1;
                                        }));
             appIcon._draggable.connect('drag-end',
                                        Lang.bind(this, function() {
                                            appIcon.actor.opacity = 255;
+                                           delete appIcon.isDragged;
+                                           this._updateAppIcons();
                                        }));
         }
 
@@ -706,7 +712,8 @@ var taskbar = Utils.defineClass({
     },
 
     _adjustIconSize: function() {
-        let panelSize = Me.settings.get_int('panel-size');
+        const thisMonitorIndex = this.dtpPanel.monitor.index;
+        let panelSize = PanelSettings.getPanelSize(Me.settings, thisMonitorIndex);
         let availSize = panelSize - Me.settings.get_int('appicon-padding') * 2;
         let minIconSize = MIN_ICON_SIZE + panelSize % 2;
 
@@ -1116,8 +1123,9 @@ var taskbar = Utils.defineClass({
                     this.forcedOverview = true;
                     let grid = Utils.getAppDisplayViews()[visibleView].view._grid;
                     let onShownCb;
-                    let overviewShownId = Main.overview.connect('shown', () => {
-                        Main.overview.disconnect(overviewShownId);
+                    let overviewSignal = Config.PACKAGE_VERSION > '3.38.1' ? 'showing' : 'shown';
+                    let overviewShowingId = Main.overview.connect(overviewSignal, () => {
+                        Main.overview.disconnect(overviewShowingId);
                         onShownCb();
                     });
 

@@ -30,7 +30,7 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Overview = Me.imports.overview;
 const Panel = Me.imports.panel;
-const Pos = Me.imports.panelPositions;
+const PanelSettings = Me.imports.panelSettings;
 const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
@@ -72,8 +72,7 @@ var dtpPanelManager = Utils.defineClass({
 
     enable: function(reset) {
         let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
-        
-        this.panelPositions = Pos.getSettingsPositions(Me.settings, 'panel-positions');
+
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
         this.proximityManager = new Proximity.ProximityManager();
 
@@ -242,6 +241,8 @@ var dtpPanelManager = Utils.defineClass({
                     'changed::multi-monitors',
                     'changed::isolate-monitors',
                     'changed::panel-positions',
+                    'changed::panel-lengths',
+                    'changed::panel-anchors',
                     'changed::stockgs-keep-top-panel'
                 ],
                 () => this._reset()
@@ -439,7 +440,7 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     _updatePanelElementPositions: function() {
-        this.panelsElementPositions = Pos.getSettingsPositions(Me.settings, 'panel-element-positions');
+        this.panelsElementPositions = PanelSettings.getSettingsJson(Me.settings, 'panel-element-positions');
         this.allPanels.forEach(p => p.updateElementPositions());
     },
 
