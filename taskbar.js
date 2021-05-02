@@ -46,6 +46,7 @@ const Workspace = imports.ui.workspace;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const AppIcons = Me.imports.appIcons;
 const Panel = Me.imports.panel;
+const PanelManager = Me.imports.panelManager;
 const PanelSettings = Me.imports.panelSettings;
 const Utils = Me.imports.utils;
 const WindowPreview = Me.imports.windowPreview;
@@ -244,6 +245,8 @@ var taskbar = Utils.defineClass({
 
         this._appSystem = Shell.AppSystem.get_default();
 
+        this.iconAnimator = new PanelManager.IconAnimator(this.dtpPanel.panel.actor);
+
         this._signalsHandler.add(
             [
                 this.dtpPanel.panel.actor,
@@ -354,6 +357,8 @@ var taskbar = Utils.defineClass({
     },
 
     destroy: function() {
+        this.iconAnimator.destroy();
+
         this._signalsHandler.destroy();
         this._signalsHandler = 0;
 
@@ -552,7 +557,8 @@ var taskbar = Utils.defineClass({
                 showLabel: false,
                 isDraggable: !Me.settings.get_boolean('taskbar-locked'),
             },
-            this.previewMenu
+            this.previewMenu,
+            this.iconAnimator
         );
 
         if (appIcon._draggable) {
