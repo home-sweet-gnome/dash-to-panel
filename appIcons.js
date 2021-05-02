@@ -817,9 +817,9 @@ var taskbarAppIcon = Utils.defineClass({
             if (this.window && !handleAsGrouped) {
                 //ungrouped applications behaviors
                 switch (buttonAction) {
-                    case 'RAISE': case 'CYCLE': case 'CYCLE-MIN': case 'MINIMIZE': case 'TOGGLE-SHOWPREVIEW':
+                    case 'RAISE': case 'CYCLE': case 'CYCLE-MIN': case 'MINIMIZE': case 'TOGGLE-SHOWPREVIEW': case 'TOGGLE-CYCLE':
                         if (!Main.overview._shown && 
-                            (buttonAction == 'MINIMIZE' || buttonAction == 'TOGGLE-SHOWPREVIEW' || buttonAction == 'CYCLE-MIN') && 
+                            (buttonAction == 'MINIMIZE' || buttonAction == 'TOGGLE-SHOWPREVIEW' || buttonAction == 'TOGGLE-CYCLE' || buttonAction == 'CYCLE-MIN') && 
                             (this._isFocusedWindow() || (buttonAction == 'MINIMIZE' && (button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK)))) {
                                 this.window.minimize();
                         } else {
@@ -912,7 +912,20 @@ var taskbarAppIcon = Utils.defineClass({
                         else
                             this.app.activate();
                         break;
-        
+                    case "TOGGLE-CYCLE":
+                        if (!Main.overview._shown) {
+                            if (appCount == 1) {
+                                if (appHasFocus)
+                                    minimizeWindow(this.app, false, monitor);
+                                else
+                                    activateFirstWindow(this.app, monitor);
+                            } else {
+                                cycleThroughWindows(this.app, false, false, monitor);
+                            } 
+                        }
+                        else
+                            this.app.activate();
+                        break;
                     case "QUIT":
                         closeAllWindows(this.app, monitor);
                         break;
