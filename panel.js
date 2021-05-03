@@ -36,6 +36,7 @@ const AppIcons = Me.imports.appIcons;
 const Utils = Me.imports.utils;
 const Taskbar = Me.imports.taskbar;
 const Pos = Me.imports.panelPositions;
+const PanelSettings = Me.imports.panelSettings;
 const PanelStyle = Me.imports.panelStyle;
 const Lang = imports.lang;
 const Main = imports.ui.main;
@@ -222,7 +223,6 @@ var dtpPanel = Utils.defineClass({
         });
 
         let isTop = this.geom.position == St.Side.TOP;
-        let cornerFunc = (isTop ? 'add' : 'remove') + '_child';
 
         if (isTop) {
             this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
@@ -245,8 +245,15 @@ var dtpPanel = Utils.defineClass({
             Utils.wrapActor(this.panel._leftCorner);
             Utils.wrapActor(this.panel._rightCorner);
 
-            this.panel.actor[cornerFunc](this.panel._leftCorner.actor);
-            this.panel.actor[cornerFunc](this.panel._rightCorner.actor);
+            if (isTop) {
+                if (this.isStandalone) {
+                    this.panel.actor.add_child(this.panel._leftCorner.actor);
+                    this.panel.actor.add_child(this.panel._rightCorner.actor);
+                }
+            } else if (Config.PACKAGE_VERSION >= '3.32') {
+                this.panel.actor.remove_child(this.panel._leftCorner.actor);
+                this.panel.actor.remove_child(this.panel._rightCorner.actor);
+            }
         }
 
         this._setPanelPosition();
@@ -485,8 +492,10 @@ var dtpPanel = Utils.defineClass({
                 }
             }
 
-            this.panel.actor.add_child(this.panel._leftCorner.actor);
-            this.panel.actor.add_child(this.panel._rightCorner.actor);
+            if (!this.panel._leftCorner.actor.mapped) {
+                this.panel.actor.add_child(this.panel._leftCorner.actor);
+                this.panel.actor.add_child(this.panel._rightCorner.actor);
+            }
 
             this._setShowDesktopButton(false);
 
@@ -527,8 +536,7 @@ var dtpPanel = Utils.defineClass({
     },
 
     getPosition: function() {
-        //for now, use the previous "global" position setting as default. The 'panel-position' should be deleted in the future 
-        let position = this.panelManager.panelPositions[this.monitor.index] || Me.settings.get_string('panel-position');
+        let position = PanelSettings.getPanelPosition(Me.settings, this.monitor.index);
 
         if (position == Pos.TOP) {
             return St.Side.TOP;
@@ -644,12 +652,12 @@ var dtpPanel = Utils.defineClass({
 
     _bindSettingsChanges: function() {
         let isVertical = this.checkIfVertical();
-        
+
         this._signalsHandler.add(
             [
                 Me.settings,
                 [
-                    'changed::panel-size',
+                    'changed::panel-sizes',
                     'changed::group-apps'
                 ],
                 () => this._resetGeometry()
@@ -806,11 +814,15 @@ var dtpPanel = Utils.defineClass({
         let topPadding = panelBoxTheme.get_padding(St.Side.TOP);
         let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM);
         let position = this.getPosition();
+        let length = PanelSettings.getPanelLength(Me.settings, this.monitor.index) / 100;
+        let anchor = PanelSettings.getPanelAnchor(Me.settings, this.monitor.index);
+        let anchorPlaceOnMonitor = 0;
         let gsTopPanelOffset = 0;
         let x = 0, y = 0;
         let w = 0, h = 0;
 
-        this.dtpSize = Me.settings.get_int('panel-size') * scaleFactor;
+        const panelSize = PanelSettings.getPanelSize(Me.settings, this.monitor.index);
+        this.dtpSize = panelSize * scaleFactor;
 
         if (Me.settings.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
             gsTopPanelOffset = Main.layoutManager.panelBox.height - topPadding;
@@ -827,13 +839,13 @@ var dtpPanel = Utils.defineClass({
             this.varCoord = { c1: 'y1', c2: 'y2' };
 
             w = this.dtpSize;
-            h = this.monitor.height - tbPadding - gsTopPanelOffset;
+            h = this.monitor.height * length - tbPadding - gsTopPanelOffset;
         } else {
             this.sizeFunc = 'get_preferred_width';
             this.fixedCoord = { c1: 'y1', c2: 'y2' };
             this.varCoord = { c1: 'x1', c2: 'x2' };
 
-            w = this.monitor.width - lrPadding;
+            w = this.monitor.width * length - lrPadding;
             h = this.dtpSize;
         }
 
@@ -844,8 +856,28 @@ var dtpPanel = Utils.defineClass({
             x = this.monitor.x + this.monitor.width - this.dtpSize - lrPadding;
             y = this.monitor.y + gsTopPanelOffset;
         } else { //BOTTOM
-            x = this.monitor.x; 
+            x = this.monitor.x;
             y = this.monitor.y + this.monitor.height - this.dtpSize - tbPadding;
+        }
+
+        if (this.checkIfVertical()) {
+            if (anchor === Pos.MIDDLE) {
+                anchorPlaceOnMonitor = (this.monitor.height - h) / 2;
+            } else if (anchor === Pos.END) {
+                anchorPlaceOnMonitor = this.monitor.height - h;
+            } else { // Pos.START
+                anchorPlaceOnMonitor = 0;
+            }
+            y = y + anchorPlaceOnMonitor;
+        } else {
+            if (anchor === Pos.MIDDLE) {
+                anchorPlaceOnMonitor = (this.monitor.width - w) / 2;
+            } else if (anchor === Pos.END) {
+                anchorPlaceOnMonitor = this.monitor.width - w;
+            } else { // Pos.START
+                anchorPlaceOnMonitor = 0;
+            }
+            x = x + anchorPlaceOnMonitor;
         }
 
         return {
@@ -1326,15 +1358,17 @@ var dtpPanel = Utils.defineClass({
     },
 
     _toggleWorkspaceWindows: function(hide, workspace) {
-        let tweenOpts = {
-            opacity: hide ? 0 : 255,
-            time: Me.settings.get_int('show-showdesktop-time') * .001,
-            transition: 'easeOutQuad'
-        };
+        let time = Me.settings.get_int('show-showdesktop-time') * .001;
 
         workspace.list_windows().forEach(w => {
             if (!w.minimized) {
-                Utils.animateWindowOpacity(w.get_compositor_private(), tweenOpts)
+                let tweenOpts = {
+                    opacity: hide ? 0 : 255,
+                    time: time,
+                    transition: 'easeOutQuad'
+                };
+                
+                Utils.animateWindowOpacity(w.get_compositor_private(), tweenOpts);
             }
         });
     },

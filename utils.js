@@ -23,7 +23,7 @@
 
 const Clutter = imports.gi.Clutter;
 const Config = imports.misc.config;
-const GdkPixbuf = imports.gi.GdkPixbuf
+const GdkPixbuf = imports.gi.GdkPixbuf;
 const Gi = imports._gi;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
@@ -500,12 +500,21 @@ var animateWindowOpacity = function(window, tweenOpts) {
         let visible = tweenOpts.opacity > 0;
         let windowActor = window;
 
-        if (!windowActor.visible && visible) {
-            windowActor.visible = visible;
-        } 
-
         window = windowActor.get_first_child() || windowActor;
-        tweenOpts.onComplete = () => windowActor.visible = visible;
+
+        if (!windowActor.visible && visible) {
+            window.opacity = 0;
+            windowActor.visible = visible;
+        }
+        
+        if (!visible) {
+            let initialOpacity = window.opacity;
+
+            tweenOpts.onComplete = () => { 
+                windowActor.visible = visible; 
+                window.opacity = initialOpacity; 
+            };
+        }
     } else if (Config.PACKAGE_VERSION > '3.33') {
         //the workaround only works on 3.35+, so on 3.34, let's just hide the 
         //window without animation

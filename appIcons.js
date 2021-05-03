@@ -47,6 +47,7 @@ const Workspace = imports.ui.workspace;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Me.imports.utils;
 const Panel = Me.imports.panel;
+const PanelSettings = Me.imports.panelSettings;
 const Taskbar = Me.imports.taskbar;
 const Progress = Me.imports.progress;
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
@@ -110,12 +111,13 @@ var taskbarAppIcon = Utils.defineClass({
     Extends: AppDisplay.AppIcon,
     ParentConstrParams: [[0, 'app'], [2]],
 
-    _init: function(appInfo, panel, iconParams, previewMenu) {
+    _init: function(appInfo, panel, iconParams, previewMenu, iconAnimator) {
         this.dtpPanel = panel;
         this._nWindows = 0;
         this.window = appInfo.window;
         this.isLauncher = appInfo.isLauncher;
         this._previewMenu = previewMenu;
+        this.iconAnimator = iconAnimator;
 
         this._timeoutsHandler = new Utils.TimeoutsHandler();
 
@@ -192,6 +194,7 @@ var taskbarAppIcon = Utils.defineClass({
             this._stateChangedId = 0;
         }
 
+        this._onAnimateAppiconHoverChanged();
         this._setAppIconPadding();
         this._showDots();
 
@@ -228,6 +231,7 @@ var taskbarAppIcon = Utils.defineClass({
         this._hoverChangeId = this.actor.connect('notify::hover', () => this._onAppIconHoverChanged());
         
         this._dtpSettingsSignalIds = [
+            Me.settings.connect('changed::animate-appicon-hover', Lang.bind(this, this._onAnimateAppiconHoverChanged)),
             Me.settings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::dot-size', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh)),
@@ -265,6 +269,29 @@ var taskbarAppIcon = Utils.defineClass({
 
     getDragActor: function() {
         return this.app.create_icon_texture(this.dtpPanel.taskbar.iconSize);
+    },
+
+    // Used by TaskbarItemContainer to animate appIcons on hover
+    getCloneButton: function() {
+        // The source of the clone is this._container,
+        // using this.actor directly would break DnD style.
+        let clone = new Clutter.Clone({
+            source: this.actor.child,
+            x: this.actor.child.x, y: this.actor.child.y,
+            width: this.actor.child.width, height: this.actor.child.height,
+            pivot_point: new Utils.getPoint({ x: 0.5, y: 0.5 }),
+            opacity: 255,
+            reactive: false,
+            x_align: Clutter.ActorAlign.CENTER, y_align: Clutter.ActorAlign.CENTER,
+        });
+
+        // "clone" of this.actor
+        return new St.Button({
+            child: clone,
+            x: this.actor.x, y: this.actor.y,
+            width: this.actor.width, height: this.actor.height,
+            reactive: false,
+        });
     },
 
     shouldShowTooltip: function() {
@@ -374,6 +401,36 @@ var taskbarAppIcon = Utils.defineClass({
         windows.forEach(function(w) {
             w.set_icon_geometry(rect);
         });
+    },
+
+    _onAnimateAppiconHoverChanged: function() {
+        if (Me.settings.get_boolean('animate-appicon-hover')) {
+            this._container.add_style_class_name('animate-appicon-hover');
+
+            // Workaround to prevent scaled icon from being ugly when it is animated on hover.
+            // It increases the "resolution" of the icon without changing the icon size.
+            this.icon.createIcon = (iconSize) => this.app.create_icon_texture(2 * iconSize);
+            this._iconIconBinActorAddedId = this.icon._iconBin.connect('actor-added', () => {
+                if (this.icon._iconBin.child.mapped) {
+                    this.icon._iconBin.child.set_size(this.icon.iconSize, this.icon.iconSize);
+                } else {
+                    let iconMappedId = this.icon._iconBin.child.connect('notify::mapped', () => {
+                        this.icon._iconBin.child.set_size(this.icon.iconSize, this.icon.iconSize);
+                        this.icon._iconBin.child.disconnect(iconMappedId);
+                    });
+                }
+            });
+            if (this.icon._iconBin.child)
+                this.icon._createIconTexture(this.icon.iconSize);
+        } else {
+            this._container.remove_style_class_name('animate-appicon-hover');
+
+            if (this._iconIconBinActorAddedId) {
+                this.icon._iconBin.disconnect(this._iconIconBinActorAddedId);
+                this._iconIconBinActorAddedId = 0;
+                this.icon.createIcon = Lang.bind(this, this._createIcon);
+            }
+        }
     },
 
     _onMouseScroll: function(actor, event) {
@@ -573,9 +630,9 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     _setAppIconPadding: function() {
-        let padding = getIconPadding();
+        let padding = getIconPadding(this.dtpPanel.monitor.index);
         let margin = Me.settings.get_int('appicon-margin');
-        
+
         this.actor.set_style('padding:' + (this.dtpPanel.checkIfVertical() ? margin + 'px 0' : '0 ' + margin + 'px;'));
         this._iconContainer.set_style('padding: ' + padding + 'px;');
     },
@@ -586,6 +643,10 @@ var taskbarAppIcon = Utils.defineClass({
         
         if (this._draggable) { 
             this._draggable.fakeRelease();
+        }
+
+        if (this.isDragged) {
+            return;
         }
 
         if (!this._menu) {
@@ -811,9 +872,9 @@ var taskbarAppIcon = Utils.defineClass({
             if (this.window && !handleAsGrouped) {
                 //ungrouped applications behaviors
                 switch (buttonAction) {
-                    case 'RAISE': case 'CYCLE': case 'CYCLE-MIN': case 'MINIMIZE': case 'TOGGLE-SHOWPREVIEW':
+                    case 'RAISE': case 'CYCLE': case 'CYCLE-MIN': case 'MINIMIZE': case 'TOGGLE-SHOWPREVIEW': case 'TOGGLE-CYCLE':
                         if (!Main.overview._shown && 
-                            (buttonAction == 'MINIMIZE' || buttonAction == 'TOGGLE-SHOWPREVIEW' || buttonAction == 'CYCLE-MIN') && 
+                            (buttonAction == 'MINIMIZE' || buttonAction == 'TOGGLE-SHOWPREVIEW' || buttonAction == 'TOGGLE-CYCLE' || buttonAction == 'CYCLE-MIN') && 
                             (this._isFocusedWindow() || (buttonAction == 'MINIMIZE' && (button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK)))) {
                                 this.window.minimize();
                         } else {
@@ -906,7 +967,20 @@ var taskbarAppIcon = Utils.defineClass({
                         else
                             this.app.activate();
                         break;
-        
+                    case "TOGGLE-CYCLE":
+                        if (!Main.overview._shown) {
+                            if (appCount == 1) {
+                                if (appHasFocus)
+                                    minimizeWindow(this.app, false, monitor);
+                                else
+                                    activateFirstWindow(this.app, monitor);
+                            } else {
+                                cycleThroughWindows(this.app, false, false, monitor);
+                            } 
+                        }
+                        else
+                            this.app.activate();
+                        break;
                     case "QUIT":
                         closeAllWindows(this.app, monitor);
                         break;
@@ -1365,8 +1439,8 @@ function cssHexTocssRgba(cssHex, opacity) {
     return 'rgba(' + [r, g, b].join(',') + ',' + opacity + ')';
 }
 
-function getIconPadding() {
-    let panelSize = Me.settings.get_int('panel-size');
+function getIconPadding(monitorIndex) {
+    let panelSize = PanelSettings.getPanelSize(Me.settings, monitorIndex);
     let padding = Me.settings.get_int('appicon-padding');
     let availSize = panelSize - Taskbar.MIN_ICON_SIZE - panelSize % 2;
 
@@ -1534,6 +1608,10 @@ function ItemShowLabel()  {
     let position = this._dtpPanel.getPosition();
     let labelOffset = node.get_length('-x-offset');
 
+    // From TaskbarItemContainer
+    if (this._getIconAnimationOffset)
+        labelOffset += this._getIconAnimationOffset();
+
     let xOffset = Math.floor((itemWidth - labelWidth) / 2);
     let x = stageX + xOffset
     let y = stageY + (itemHeight - labelHeight) * .5;
@@ -1684,7 +1762,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
     },
 
     setShowAppsPadding: function() {
-        let padding = getIconPadding(); 
+        let padding = getIconPadding(this.realShowAppsIcon._dtpPanel.monitor.index);
         let sidePadding = Me.settings.get_int('show-apps-icon-side-padding');
         let isVertical = this.realShowAppsIcon._dtpPanel.checkIfVertical();
 
