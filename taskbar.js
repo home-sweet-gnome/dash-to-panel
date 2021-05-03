@@ -599,7 +599,7 @@ var taskbar = Utils.defineClass({
         if (app == null)
             return DND.DragMotionResult.CONTINUE;
 
-         let showAppsHovered = this._showAppsIcon.contains(dragEvent.targetActor);
+        let showAppsHovered = this._showAppsIcon.contains(dragEvent.targetActor);
 
         if (showAppsHovered)
             this._showAppsIcon.setDragApp(app);
@@ -674,7 +674,7 @@ var taskbar = Utils.defineClass({
         if (appIcon._draggable) {
             appIcon._draggable.connect('drag-begin',
                                        Lang.bind(this, function() {
-                                           appIcon.actor.opacity = 50;
+                                           appIcon.actor.opacity = 0;
                                            appIcon.isDragged = 1;
                                            this._dropIconAnimations();
                                        }));
