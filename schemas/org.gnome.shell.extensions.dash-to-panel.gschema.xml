@@ -64,15 +64,6 @@
     <value value='2' nick='PLANK'/>
   </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
-    <key type="b" name="check-update">
-      <default>false</default>
-    </key>
-    <key type="b" name="force-check-update">
-      <default>false</default>
-    </key>
-    <key type="s" name="version-to-install">
-      <default>''</default>
-    </key>
     <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
       <summary>Panel position (Deprecated)</summary>

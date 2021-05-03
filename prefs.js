@@ -34,7 +34,6 @@ const Convenience = Me.imports.convenience;
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 const N_ = function(e) { return e };
-const Update = Me.imports.update;
 const PanelSettings = Me.imports.panelSettings;
 const Pos = Me.imports.panelPositions;
 
@@ -2165,21 +2164,6 @@ const Settings = new Lang.Class({
             );
         });
 
-        let updateCheckSwitch = this._builder.get_object('updates_check_switch');
-
-        updateCheckSwitch.set_sensitive(false);
-
-        this._builder.get_object('updates_check_now_button').connect('clicked', widget => {
-            this._settings.set_boolean('force-check-update', true);
-        });
-
-//!start-update
-        updateCheckSwitch.set_sensitive(true);
-        this._settings.bind('check-update',
-                            updateCheckSwitch,
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-//!end-update
     },
 
     _setPreviewTitlePosition: function() {
