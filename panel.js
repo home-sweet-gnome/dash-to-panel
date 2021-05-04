@@ -1175,7 +1175,7 @@ var dtpPanel = Utils.defineClass({
 
     _setVertical: function(actor, isVertical) {
         let _set = (actor, isVertical) => {
-            if (!actor || actor instanceof Dash.DashItemContainer) {
+            if (!actor || actor instanceof Dash.DashItemContainer || actor instanceof Taskbar.TaskbarItemContainer) {
                 return;
             }
 

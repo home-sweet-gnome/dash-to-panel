@@ -166,12 +166,7 @@ var dtpPanelManager = Utils.defineClass({
         this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
 
-        this._needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');
-
-        if (this._needsDashItemContainerAllocate) {
-            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', this._newDashItemContainerAllocate);
-        }
-            
+        
         // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
         //animate a null target since some variables are not initialized when the viewSelector is created
         if(Main.overview.viewSelector._activePage == null)
@@ -354,10 +349,6 @@ var dtpPanelManager = Utils.defineClass({
         Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
 
         Utils.getPanelGhost().set_size(-1, -1);
-
-        if (this._needsDashItemContainerAllocate) {
-            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });
-        }
 
         if (this._oldDoSpringAnimation) {
             AppDisplay.BaseAppView.prototype._doSpringAnimation = this._oldDoSpringAnimation;
@@ -584,30 +575,7 @@ var dtpPanelManager = Utils.defineClass({
         let focusedMonitorIndex = Utils.findIndex(this.allPanels, p => this.checkIfFocusedMonitor(p.monitor));
         
         return this.allPanels[focusedMonitorIndex].taskbar.showAppsButton;
-    },
-
-    _newDashItemContainerAllocate: function(box, flags) {
-        if (this.child == null)
-            return;
-
-        Utils.setAllocation(this, box, flags);
-
-        let availWidth = box.x2 - box.x1;
-        let availHeight = box.y2 - box.y1;
-        let [minChildWidth, minChildHeight, natChildWidth, natChildHeight] = this.child.get_preferred_size();
-        let [childScaleX, childScaleY] = this.child.get_scale();
-
-        let childWidth = Math.min(natChildWidth * childScaleX, availWidth);
-        let childHeight = Math.min(natChildHeight * childScaleY, availHeight);
-        let childBox = new Clutter.ActorBox();
-
-        childBox.x1 = (availWidth - childWidth) / 2;
-        childBox.y1 = (availHeight - childHeight) / 2;
-        childBox.x2 = childBox.x1 + childWidth;
-        childBox.y2 = childBox.y1 + childHeight;
-
-        Utils.allocate(this.child, childBox, flags);
-    },
+    }
 });
 
 // This class drives long-running icon animations, to keep them running in sync
