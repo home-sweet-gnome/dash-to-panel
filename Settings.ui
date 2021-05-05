@@ -4870,7 +4870,7 @@
                                           <object class="GtkLabel" id="panel_size_label">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Panel thickness(default is 48)</property>
+                                            <property name="label" translatable="yes">Panel thickness&#10;(default is 48)</property>
                                             <property name="xalign">0</property>
                                             <layout>
                                               <property name="row">1</property>
@@ -4882,7 +4882,7 @@
                                           <object class="GtkLabel" id="panel_length_label">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Panel length (%)(default is 100)</property>
+                                            <property name="label" translatable="yes">Panel length (%)&#10;(default is 100)</property>
                                             <property name="xalign">0</property>
                                             <layout>
                                               <property name="row">2</property>
@@ -5125,49 +5125,49 @@
                             </child>
                           </object>
                         </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBoxRow" id="appicon_padding_listboxrow">
+                        <property name="width_request">100</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
                         <child>
-                          <object class="GtkListBoxRow" id="appicon_padding_listboxrow">
-                            <property name="width_request">100</property>
+                          <object class="GtkGrid" id="appicon_padding_grid">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_start">12</property>
+                            <property name="margin_end">12</property>
+                            <property name="margin_top">6</property>
+                            <property name="margin_bottom">6</property>
+                            <property name="column_spacing">32</property>
                             <child>
-                              <object class="GtkGrid" id="appicon_padding_grid">
+                              <object class="GtkLabel" id="appicon_padding_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="margin_start">12</property>
-                                <property name="margin_end">12</property>
-                                <property name="margin_top">6</property>
-                                <property name="margin_bottom">6</property>
-                                <property name="column_spacing">32</property>
-                                <child>
-                                  <object class="GtkLabel" id="appicon_padding_label">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">App Icon Padding&#10;(default is 4)</property>
-                                    <property name="xalign">0</property>
-                                    <layout>
-                                      <property name="row">0</property>
-                                      <property name="column">0</property>
-                                    </layout>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkScale" id="appicon_padding_scale">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="valign">baseline</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="adjustment">appicon_padding_adjustment</property>
-                                    <property name="round_digits">0</property>
-                                    <property name="digits">0</property>
-                                    <property name="value_pos">right</property>
-                                    <signal name="value-changed" handler="appicon_padding_scale_value_changed_cb" swapped="no"/>
-                                    <layout>
-                                      <property name="row">0</property>
-                                      <property name="column">1</property>
-                                    </layout>
-                                  </object>
-                                </child>
+                                <property name="label" translatable="yes">App Icon Padding&#10;(default is 4)</property>
+                                <property name="xalign">0</property>
+                                <layout>
+                                  <property name="row">0</property>
+                                  <property name="column">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkScale" id="appicon_padding_scale">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="valign">baseline</property>
+                                <property name="hexpand">True</property>
+                                <property name="adjustment">appicon_padding_adjustment</property>
+                                <property name="round_digits">0</property>
+                                <property name="digits">0</property>
+                                <property name="value_pos">right</property>
+                                <signal name="value-changed" handler="appicon_padding_scale_value_changed_cb" swapped="no"/>
+                                <layout>
+                                  <property name="row">0</property>
+                                  <property name="column">1</property>
+                                </layout>
                               </object>
                             </child>
                           </object>
@@ -5771,6 +5771,87 @@
                 </child>
               </object>
             </child>
+            <child>
+              <object class="GtkFrame" id="anim_trans">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <child>
+                  <object class="GtkListBox" id="anim_listbox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="selection_mode">none</property>
+                    <child>
+                      <object class="GtkListBoxRow" id="anim_bg_row">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <child>
+                          <object class="GtkGrid" id="anim_gradient_grid">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_start">12</property>
+                            <property name="margin_end">12</property>
+                            <property name="margin_top">12</property>
+                            <property name="margin_bottom">12</property>
+                            <property name="column_spacing">32</property>
+                            <child>
+                              <object class="GtkLabel" id="animate_appicon_hover_label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">Animate hovering app icons</property>
+                                <property name="xalign">0</property>
+                                <layout>
+                                  <property name="row">2</property>
+                                  <property name="column">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="animate_appicon_hover_box">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkButton" id="animate_appicon_hover_button">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="valign">center</property>
+                                    <child>
+                                      <object class="GtkImage" id="animate_appicon_hover_options_image">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="icon_name">emblem-system-symbolic</property>
+                                      </object>
+                                    </child>
+                                    <style>
+                                      <class name="circular"/>
+                                    </style>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkSwitch" id="animate_appicon_hover_switch">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+                                <layout>
+                                  <property name="row">2</property>
+                                  <property name="column">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </child>
       </object>
@@ -6293,87 +6374,6 @@
                 </child>
                 <child type="label_item">
                   <placeholder/>
-                </child>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkFrame" id="anim_trans">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label_xalign">0</property>
-            <child>
-              <object class="GtkListBox" id="anim_listbox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="selection_mode">none</property>
-                <child>
-                  <object class="GtkListBoxRow" id="anim_bg_row">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <child>
-                      <object class="GtkGrid" id="anim_gradient_grid">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="margin_start">12</property>
-                        <property name="margin_end">12</property>
-                        <property name="margin_top">12</property>
-                        <property name="margin_bottom">12</property>
-                        <property name="column_spacing">32</property>
-                        <child>
-                          <object class="GtkLabel" id="animate_appicon_hover_label">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="hexpand">True</property>
-                            <property name="label" translatable="yes">Animate hovering app icons</property>
-                            <property name="xalign">0</property>
-                            <layout>
-                              <property name="row">2</property>
-                              <property name="column">0</property>
-                            </layout>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkBox" id="animate_appicon_hover_box">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="spacing">6</property>
-                            <child>
-                              <object class="GtkButton" id="animate_appicon_hover_button">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <property name="valign">center</property>
-                                <child>
-                                  <object class="GtkImage" id="animate_appicon_hover_options_image">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="icon_name">emblem-system-symbolic</property>
-                                  </object>
-                                </child>
-                                <style>
-                                  <class name="circular"/>
-                                </style>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkSwitch" id="animate_appicon_hover_switch">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="halign">end</property>
-                                <property name="valign">center</property>
-                              </object>
-                            </child>
-                            <layout>
-                              <property name="row">2</property>
-                              <property name="column">1</property>
-                            </layout>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
                 </child>
               </object>
             </child>
