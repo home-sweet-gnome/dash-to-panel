@@ -611,7 +611,7 @@ var IconAnimator = Utils.defineClass({
     destroy: function() {
         this._timeline.stop();
         this._timeline = null;
-        for (const name in this._animations) {
+        for (let name in this._animations) {
             const pairs = this._animations[name];
             for (let i = 0, iMax = pairs.length; i < iMax; i++) {
                 const pair = pairs[i];
@@ -637,7 +637,7 @@ var IconAnimator = Utils.defineClass({
 
     addAnimation: function(target, name) {
         const targetDestroyId = target.connect('destroy', () => this.removeAnimation(target, name));
-        this._animations[name].push({ target, targetDestroyId });
+        this._animations[name].push({ target: target, targetDestroyId: targetDestroyId });
         if (this._started && this._count === 0) {
             this._timeline.start();
         }

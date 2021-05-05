@@ -47,7 +47,7 @@ function getPanelSize(settings, monitorIndex) {
 
 function setPanelSize(settings, monitorIndex, value) {
     if (!(Number.isInteger(value) && value <= 128 && value >= 16)) {
-        log(`Not setting invalid panel size: ${value}`);
+        log('Not setting invalid panel size: ' + value);
         return;
     }
     let sizes = getSettingsJson(settings, 'panel-sizes');
@@ -67,7 +67,7 @@ function getPanelLength(settings, monitorIndex) {
 
 function setPanelLength(settings, monitorIndex, value) {
     if (!(Number.isInteger(value) && value <= 100 && value >= 0)) {
-        log(`Not setting invalid panel length: ${value}`);
+        log('Not setting invalid panel length: ' + value);
         return;
     }
     let lengths = getSettingsJson(settings, 'panel-lengths');
@@ -86,7 +86,7 @@ function getPanelPosition(settings, monitorIndex) {
 function setPanelPosition(settings, monitorIndex, value) {
     if (!(value === Pos.TOP || value === Pos.BOTTOM || value === Pos.LEFT
         || value === Pos.RIGHT)) {
-        log(`Not setting invalid panel position: ${value}`);
+        log('Not setting invalid panel position: ' + value);
         return;
     }
     const positions = getSettingsJson(settings, 'panel-positions');
@@ -103,7 +103,7 @@ function getPanelAnchor(settings, monitorIndex) {
 
 function setPanelAnchor(settings, monitorIndex, value) {
     if (!(value === Pos.START || value === Pos.MIDDLE || value === Pos.END)) {
-        log(`Not setting invalid panel anchor: ${value}`);
+        log('Not setting invalid panel anchor: ' + value);
         return;
     }
     const anchors = getSettingsJson(settings, 'panel-anchors');

@@ -579,7 +579,7 @@ var ProgressIndicator = Utils.defineClass({
         this._isUrgent = false;
     },
 
-    setUrgent(urgent) {
+    setUrgent: function(urgent) {
         const icon = this._source.icon._iconBin;
         if (urgent) {
             if (!this._isUrgent) {
