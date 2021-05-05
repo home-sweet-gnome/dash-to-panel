@@ -34,7 +34,7 @@ const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const Mainloop = imports.mainloop;
 
-const SearchController = imports.ui.main.overview._overview._controls._searchController
+const SearchController = imports.ui.main.overview._overview._controls._searchController;
 const AppDisplay = imports.ui.main.overview._overview._controls.appDisplay;
 const AppFavorites = imports.ui.appFavorites;
 const Dash = imports.ui.dash;
