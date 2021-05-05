@@ -23,7 +23,7 @@
 
 const Clutter = imports.gi.Clutter;
 const Config = imports.misc.config;
-const GdkPixbuf = imports.gi.GdkPixbuf
+const GdkPixbuf = imports.gi.GdkPixbuf;
 const Gi = imports._gi;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;

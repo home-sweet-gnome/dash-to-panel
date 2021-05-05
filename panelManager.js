@@ -30,7 +30,7 @@
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Overview = Me.imports.overview;
 const Panel = Me.imports.panel;
-const Pos = Me.imports.panelPositions;
+const PanelSettings = Me.imports.panelSettings;
 const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
@@ -72,8 +72,7 @@ var dtpPanelManager = Utils.defineClass({
 
     enable: function(reset) {
         let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
-        
-        this.panelPositions = Pos.getSettingsPositions(Me.settings, 'panel-positions');
+
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
         this.proximityManager = new Proximity.ProximityManager();
 
@@ -106,6 +105,8 @@ var dtpPanelManager = Utils.defineClass({
             );
 
             this._findPanelMenuButtons(p.panelBox).forEach(pmb => this._adjustPanelMenuButton(pmb, p.monitor, panelPosition));
+            
+            p.taskbar.iconAnimator.start();
         });
 
         //in 3.32, BoxPointer now inherits St.Widget
@@ -225,6 +226,8 @@ var dtpPanelManager = Utils.defineClass({
                     'changed::multi-monitors',
                     'changed::isolate-monitors',
                     'changed::panel-positions',
+                    'changed::panel-lengths',
+                    'changed::panel-anchors',
                     'changed::stockgs-keep-top-panel'
                 ],
                 () => this._reset()
@@ -263,6 +266,8 @@ var dtpPanelManager = Utils.defineClass({
         this.proximityManager.destroy();
 
         this.allPanels.forEach(p => {
+            p.taskbar.iconAnimator.pause();
+
             this._findPanelMenuButtons(p.panelBox).forEach(pmb => {
                 if (pmb.menu._boxPointer._dtpGetPreferredHeightId) {
                     pmb.menu._boxPointer._container.disconnect(pmb.menu._boxPointer._dtpGetPreferredHeightId);
@@ -326,10 +331,6 @@ var dtpPanelManager = Utils.defineClass({
         Main.layoutManager._updatePanelBarrier();
 
         Utils.getPanelGhost().set_size(-1, -1);
-
-        if (this._needsDashItemContainerAllocate) {
-            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', function(box, flags) { this.vfunc_allocate(box, flags); });
-        }
 
         if (this._oldDoSpringAnimation) {
             AppDisplay.BaseAppView.prototype._doSpringAnimation = this._oldDoSpringAnimation;
@@ -410,7 +411,7 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     _updatePanelElementPositions: function() {
-        this.panelsElementPositions = Pos.getSettingsPositions(Me.settings, 'panel-element-positions');
+        this.panelsElementPositions = PanelSettings.getSettingsJson(Me.settings, 'panel-element-positions');
         this.allPanels.forEach(p => p.updateElementPositions());
     },
 
@@ -494,30 +495,90 @@ var dtpPanelManager = Utils.defineClass({
         let focusedMonitorIndex = Utils.findIndex(this.allPanels, p => this.checkIfFocusedMonitor(p.monitor));
         
         return this.allPanels[focusedMonitorIndex].taskbar.showAppsButton;
+    }
+});
+
+// This class drives long-running icon animations, to keep them running in sync
+// with each other.
+var IconAnimator = Utils.defineClass({
+    Name: 'DashToPanel.IconAnimator',
+
+    _init: function(actor) {
+        this._count = 0;
+        this._started = false;
+        this._animations = {
+            dance: [],
+        };
+        this._timeline = new Clutter.Timeline({
+            duration: 3000,
+            repeat_count: -1,
+        });
+
+        /* Just use the construction property when no need to support 3.36 */
+        if (this._timeline.set_actor)
+            this._timeline.set_actor(actor);
+
+        this._timeline.connect('new-frame', () => {
+            const progress = this._timeline.get_progress();
+            const danceRotation = progress < 1/6 ? 15*Math.sin(progress*24*Math.PI) : 0;
+            const dancers = this._animations.dance;
+            for (let i = 0, iMax = dancers.length; i < iMax; i++) {
+                dancers[i].target.rotation_angle_z = danceRotation;
+            }
+        });
     },
 
-    _newDashItemContainerAllocate: function(box, flags) {
-        if (this.child == null)
-            return;
-
-        Utils.setAllocation(this, box, flags);
-
-        let availWidth = box.x2 - box.x1;
-        let availHeight = box.y2 - box.y1;
-        let [minChildWidth, minChildHeight, natChildWidth, natChildHeight] = this.child.get_preferred_size();
-        let [childScaleX, childScaleY] = this.child.get_scale();
-
-        let childWidth = Math.min(natChildWidth * childScaleX, availWidth);
-        let childHeight = Math.min(natChildHeight * childScaleY, availHeight);
-        let childBox = new Clutter.ActorBox();
-
-        childBox.x1 = (availWidth - childWidth) / 2;
-        childBox.y1 = (availHeight - childHeight) / 2;
-        childBox.x2 = childBox.x1 + childWidth;
-        childBox.y2 = childBox.y1 + childHeight;
-
-        Utils.allocate(this.child, childBox, flags);
+    destroy: function() {
+        this._timeline.stop();
+        this._timeline = null;
+        for (let name in this._animations) {
+            const pairs = this._animations[name];
+            for (let i = 0, iMax = pairs.length; i < iMax; i++) {
+                const pair = pairs[i];
+                pair.target.disconnect(pair.targetDestroyId);
+            }
+        }
+        this._animations = null;
     },
+
+    pause: function() {
+        if (this._started && this._count > 0) {
+            this._timeline.stop();
+        }
+        this._started = false;
+    },
+
+    start: function() {
+        if (!this._started && this._count > 0) {
+            this._timeline.start();
+        }
+        this._started = true;
+    },
+
+    addAnimation: function(target, name) {
+        const targetDestroyId = target.connect('destroy', () => this.removeAnimation(target, name));
+        this._animations[name].push({ target: target, targetDestroyId: targetDestroyId });
+        if (this._started && this._count === 0) {
+            this._timeline.start();
+        }
+        this._count++;
+    },
+
+    removeAnimation: function(target, name) {
+        const pairs = this._animations[name];
+        for (let i = 0, iMax = pairs.length; i < iMax; i++) {
+            const pair = pairs[i];
+            if (pair.target === target) {
+                target.disconnect(pair.targetDestroyId);
+                pairs.splice(i, 1);
+                this._count--;
+                if (this._started && this._count === 0) {
+                    this._timeline.stop();
+                }
+                return;
+            }
+        }
+    }
 });
 
 function newGetPositionForDirection(direction, fromWs, toWs) {

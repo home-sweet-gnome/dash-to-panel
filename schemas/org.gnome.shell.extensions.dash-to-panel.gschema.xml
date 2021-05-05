@@ -17,6 +17,7 @@
     <value value='4' nick='CYCLE-MIN'/>
     <value value='5' nick='QUIT'/>
     <value value='6' nick='TOGGLE-SHOWPREVIEW'/>
+    <value value='7' nick='TOGGLE-CYCLE'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.scrollAction'>
     <value value='0' nick='NOTHING'/>
@@ -57,19 +58,15 @@
     <value value='1' nick='NUM_KEYPAD'/>
     <value value='2' nick='BOTH'/>
   </enum>
+  <enum id='org.gnome.shell.extensions.dash-to-panel.appIconHoverAnimationType'>
+    <value value='0' nick='SIMPLE'/>
+    <value value='1' nick='RIPPLE'/>
+    <value value='2' nick='PLANK'/>
+  </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
-    <key type="b" name="check-update">
-      <default>false</default>
-    </key>
-    <key type="b" name="force-check-update">
-      <default>false</default>
-    </key>
-    <key type="s" name="version-to-install">
-      <default>''</default>
-    </key>
     <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
-      <summary>Panel position</summary>
+      <summary>Panel position (Deprecated)</summary>
       <description>Panel is shown on the Bottom or Top of the screen.</description>
     </key>
     <key name="panel-element-positions-monitors-sync" type="b">
@@ -87,9 +84,24 @@
       <summary>Panel element positions</summary>
       <description>Panel element positions (JSON).</description>
     </key>
+    <key type="s" name="panel-lengths">
+      <default>'{}'</default>
+      <summary>Percentages of screen edge for panel to span</summary>
+      <description>Length of the panels, in percent (JSON).</description>
+    </key>
+    <key type="s" name="panel-anchors">
+      <default>'{}'</default>
+      <summary>Positions along screen edge</summary>
+      <description>Where to show the panels if it is not the full length of the screen edge (JSON).</description>
+    </key>
+    <key type="s" name="panel-sizes">
+      <default>'{}'</default>
+      <summary>Panel sizes</summary>
+      <description>Sizes of panels, in pixels.</description>
+    </key>
     <key type="i" name="panel-size">
       <default>48</default>
-      <summary>Panel size</summary>
+      <summary>Panel size (Deprecated)</summary>
       <description>Set the size of the panel.</description>
     </key>
     <key type="b" name="desktop-line-use-custom-color">
@@ -746,6 +758,38 @@
     <key type="b" name="animate-window-launch">
       <default>true</default>
       <summary>Animate when new window launched</summary>
+    </key>
+    <key type="b" name="animate-appicon-hover">
+      <default>false</default>
+      <summary>Animate app icon on hover</summary>
+    </key>
+    <key name="animate-appicon-hover-animation-type" enum="org.gnome.shell.extensions.dash-to-panel.appIconHoverAnimationType">
+      <default>'SIMPLE'</default>
+      <summary>App icon hover animation type</summary>
+    </key>
+    <key type="a{sd}" name="animate-appicon-hover-animation-convexity">
+      <default>{'RIPPLE':2,'PLANK':1}</default>
+      <summary>App icon hover animation curve convexity (1 is linear, more is convex, less is concave)</summary>
+    </key>
+    <key type="a{su}" name="animate-appicon-hover-animation-duration">
+      <default>{'SIMPLE':160,'RIPPLE':130,'PLANK':100}</default>
+      <summary>App icon hover animation duration in milliseconds</summary>
+    </key>
+    <key type="a{si}" name="animate-appicon-hover-animation-extent">
+      <default>{'RIPPLE':4,'PLANK':4}</default>
+      <summary>App icon hover animation extent (maximum number of animated icons)</summary>
+    </key>
+    <key type="a{si}" name="animate-appicon-hover-animation-rotation">
+      <default>{'SIMPLE':0,'RIPPLE':10,'PLANK':0}</default>
+      <summary>App icon hover animation rotation in degrees</summary>
+    </key>
+    <key type="a{sd}" name="animate-appicon-hover-animation-travel">
+      <default>{'SIMPLE':0.30,'RIPPLE':0.40,'PLANK':0}</default>
+      <summary>App icon hover animation travel translation in relation to the app icon size</summary>
+    </key>
+    <key type="a{sd}" name="animate-appicon-hover-animation-zoom">
+      <default>{'SIMPLE':1,'RIPPLE':1.25,'PLANK':2}</default>
+      <summary>App icon hover animation zoom scale in relation to the app icon size</summary>
     </key>
     <key type="b" name="secondarymenu-contains-appmenu">
       <default>true</default>
