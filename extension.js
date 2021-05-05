@@ -92,8 +92,6 @@ function _enable() {
     Me.settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     Me.desktopSettings = Convenience.getSettings('org.gnome.desktop.interface');
 
-    Me.imports.update.init();
-
     if (Me.settings.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
         Main.sessionMode.hasOverview = false;
         Main.layoutManager.connect('startup-complete', () => {
