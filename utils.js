@@ -345,7 +345,7 @@ var mergeObjects = function(main, bck) {
 };
 
 var hookVfunc = function(proto, symbol, func) {
-    if (Gi.hook_up_vfunc_symbol) {
+    if (Gi.hook_up_vfunc_symbol && func) {
         //gjs > 1.53.3
         proto[Gi.hook_up_vfunc_symbol](symbol, func);
     } else {
