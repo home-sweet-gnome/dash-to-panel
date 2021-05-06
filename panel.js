@@ -861,10 +861,12 @@ var dtpPanel = Utils.defineClass({
         }
 
         if (this.checkIfVertical()) {
+            let viewHeight = this.monitor.height - gsTopPanelOffset;
+            
             if (anchor === Pos.MIDDLE) {
-                anchorPlaceOnMonitor = (this.monitor.height - h) / 2;
+                anchorPlaceOnMonitor = (viewHeight - h) / 2;
             } else if (anchor === Pos.END) {
-                anchorPlaceOnMonitor = this.monitor.height - h;
+                anchorPlaceOnMonitor = viewHeight - h;
             } else { // Pos.START
                 anchorPlaceOnMonitor = 0;
             }
