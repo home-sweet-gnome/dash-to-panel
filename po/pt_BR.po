@@ -100,7 +100,7 @@ msgstr "Percorrer as janelas"
 
 #: Settings.ui.h:7
 msgid "Cycle windows + minimize"
-msgstr "Ciclo de janelas + minimizar"
+msgstr "Percorrer as janelas + minimizar"
 
 #: Settings.ui.h:9
 msgid "Behavior for Middle-Click."
@@ -365,7 +365,7 @@ msgstr ""
 
 #: Settings.ui.h:70
 msgid "Use hotkeys to activate apps"
-msgstr "Utilziar teclas de atalho para ativar os aplicativos"
+msgstr "Utilizar teclas de atalho para ativar os aplicativos"
 
 #: Settings.ui.h:71
 msgid "Behavior"
