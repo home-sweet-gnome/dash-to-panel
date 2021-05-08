@@ -187,9 +187,14 @@ var GlobalSignalsHandler = defineClass({
             let object = item[0];
             let event = item[1][i];
             let callback = item[2]
-            let id = object.connect(event, callback);
+            try {
+                let id = object.connect(event, callback);
 
-            handlers.push([object, id]);
+                handlers.push([object, id]);
+            } catch (e) 
+            {
+
+            }
         }
 
         return handlers;
@@ -304,7 +309,7 @@ var getScaleFactor = function() {
 
 var getAppDisplayViews = function() {
     //gnome-shell 3.38 only has one view and it is now the appDisplay
-    return Main.overview.viewSelector.appDisplay._views || [{ view: Main.overview.viewSelector.appDisplay }];
+    return imports.ui.appDisplay._views || [{ view: imports.ui.appDisplay }];
 };
 
 var findIndex = function(array, predicate) {
@@ -340,7 +345,7 @@ var mergeObjects = function(main, bck) {
 };
 
 var hookVfunc = function(proto, symbol, func) {
-    if (Gi.hook_up_vfunc_symbol) {
+    if (Gi.hook_up_vfunc_symbol && func) {
         //gjs > 1.53.3
         proto[Gi.hook_up_vfunc_symbol](symbol, func);
     } else {

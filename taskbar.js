@@ -35,7 +35,8 @@ const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const Mainloop = imports.mainloop;
 
-const AppDisplay = imports.ui.appDisplay;
+const SearchController = imports.ui.main.overview._overview._controls._searchController;
+const AppDisplay = imports.ui.main.overview._overview._controls.appDisplay;
 const AppFavorites = imports.ui.appFavorites;
 const Dash = imports.ui.dash;
 const DND = imports.ui.dnd;
@@ -247,7 +248,8 @@ var taskbar = Utils.defineClass({
         }
 
         this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
-        this.showAppsButton.checked = Main.overview.viewSelector._showAppsButton.checked;
+
+        this.showAppsButton.checked = (SearchController._showAppsButton) ? SearchController._showAppsButton.checked : false;
 
         this._showAppsIcon.childScale = 1;
         this._showAppsIcon.childOpacity = 255;
@@ -352,7 +354,7 @@ var taskbar = Utils.defineClass({
             ],
             [
                 // Ensure the ShowAppsButton status is kept in sync
-                Main.overview.viewSelector._showAppsButton,
+                SearchController._showAppsButton,
                 'notify::checked',
                 Lang.bind(this, this._syncShowAppsButtonToggled)
             ],
@@ -1214,26 +1216,16 @@ var taskbar = Utils.defineClass({
         // application button, cutomize the behaviour. Otherwise the shell has changed the
         // status (due to the _syncShowAppsButtonToggled function below) and it
         // has already performed the desired action.
+        let selector = SearchController;
 
-        let animate = Me.settings.get_boolean('animate-show-apps');
-        let selector = Main.overview.viewSelector;
-
-        if (selector._showAppsButton.checked !== this.showAppsButton.checked) {
+        if (selector._showAppsButton &&
+            selector._showAppsButton.checked !== this.showAppsButton.checked) {
             // find visible view
-            let visibleView;
-            Utils.getAppDisplayViews().every(function(v, index) {
-                if (v.view.actor.visible) {
-                    visibleView = index;
-                    return false;
-                }
-                else
-                    return true;
-            });
 
             if (this.showAppsButton.checked) {
                 if (Me.settings.get_boolean('show-apps-override-escape')) {
                     //override escape key to return to the desktop when entering the overview using the showapps button
-                    Main.overview.viewSelector._onStageKeyPress = function(actor, event) {
+                    SearchController._onStageKeyPress = function(actor, event) {
                         if (Main.modalCount == 1 && event.get_key_symbol() === Clutter.KEY_Escape) {
                             this._searchActive ? this.reset() : Main.overview.hide();
     
@@ -1248,7 +1240,7 @@ var taskbar = Utils.defineClass({
                 // runs if we are already inside the overview.
                 if (!Main.overview._shown) {
                     this.forcedOverview = true;
-                    let grid = Utils.getAppDisplayViews()[visibleView].view._grid;
+                    let grid = AppDisplay._grid;
                     let onShownCb;
                     let overviewSignal = Config.PACKAGE_VERSION > '3.38.1' ? 'showing' : 'shown';
                     let overviewShowingId = Main.overview.connect(overviewSignal, () => {
@@ -1256,30 +1248,7 @@ var taskbar = Utils.defineClass({
                         onShownCb();
                     });
 
-                    if (animate) {
-                        // Animate in the the appview, hide the appGrid to avoiud flashing
-                        // Go to the appView before entering the overview, skipping the workspaces.
-                        // Do this manually avoiding opacity in transitions so that the setting of the opacity
-                        // to 0 doesn't get overwritten.
-                        Main.overview.viewSelector._activePage.hide();
-                        Main.overview.viewSelector._activePage = Main.overview.viewSelector._appsPage;
-                        Main.overview.viewSelector._activePage.show();
-                        grid.actor.opacity = 0;
-
-                        // The animation has to be trigered manually because the AppDisplay.animate
-                        // method is waiting for an allocation not happening, as we skip the workspace view
-                        // and the appgrid could already be allocated from previous shown.
-                        // It has to be triggered after the overview is shown as wrong coordinates are obtained
-                        // otherwise.
-                        onShownCb = () => Meta.later_add(Meta.LaterType.BEFORE_REDRAW, () => {
-                            grid.actor.opacity = 255;
-                            grid.animateSpring(IconGrid.AnimationDirection.IN, this.showAppsButton);
-                        });
-                    } else {
-                        Main.overview.viewSelector._activePage = Main.overview.viewSelector._appsPage;
-                        Main.overview.viewSelector._activePage.show();
-                        onShownCb = () => grid.emit('animation-done');
-                    }
+                    onShownCb = () => grid.emit('animation-done');
                 }
 
                 //temporarily use as primary the monitor on which the showapps btn was clicked, this is
@@ -1288,33 +1257,19 @@ var taskbar = Utils.defineClass({
 
                 let overviewHiddenId = Main.overview.connect('hidden', () => {
                     Main.overview.disconnect(overviewHiddenId);
-                    delete Main.overview.viewSelector._onStageKeyPress;
+                    delete SearchController._onStageKeyPress;
                 });
 
                 // Finally show the overview
                 selector._showAppsButton.checked = true;
-                Main.overview.show();
+                Main.overview.show(2 /*APP_GRID*/);
             }
             else {
                 if (this.forcedOverview) {
                     // force exiting overview if needed
 
-                    if (animate) {
-                        // Manually trigger springout animation without activating the
-                        // workspaceView to avoid the zoomout animation. Hide the appPage
-                        // onComplete to avoid ugly flashing of original icons.
-                        let view = Utils.getAppDisplayViews()[visibleView].view;
-                        view.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this, function() {
-                            Main.overview.viewSelector._appsPage.hide();
-                            Main.overview.hide();
-                            selector._showAppsButton.checked = false;
-                            this.forcedOverview = false;
-                        }));
-                    }
-                    else {
-                        Main.overview.hide();
-                        this.forcedOverview = false;
-                    }
+                    Main.overview.hide();
+                    this.forcedOverview = false;
                 }
                 else {
                     selector._showAppsButton.checked = false;
@@ -1325,7 +1280,7 @@ var taskbar = Utils.defineClass({
     },
     
     _syncShowAppsButtonToggled: function() {
-        let status = Main.overview.viewSelector._showAppsButton.checked;
+        let status = SearchController._showAppsButton.checked;
         if (this.showAppsButton.checked !== status)
             this.showAppsButton.checked = status;
     },

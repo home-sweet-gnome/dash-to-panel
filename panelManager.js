@@ -76,6 +76,8 @@ var dtpPanelManager = Utils.defineClass({
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
         this.proximityManager = new Proximity.ProximityManager();
 
+        this._oldGetShowAppsButton = imports.ui.main.overview.dash.showAppsButton;
+
         Utils.wrapActor(Main.panel);
         Utils.wrapActor(Main.overview.dash || 0);
 
@@ -129,11 +131,6 @@ var dtpPanelManager = Utils.defineClass({
         
         if (reset) return;
 
-        this._oldViewSelectorAnimateIn = Main.overview.viewSelector._animateIn;
-        Main.overview.viewSelector._animateIn = Lang.bind(this.primaryPanel, newViewSelectorAnimateIn);
-        this._oldViewSelectorAnimateOut = Main.overview.viewSelector._animateOut;
-        Main.overview.viewSelector._animateOut = Lang.bind(this.primaryPanel, newViewSelectorAnimateOut);
-
         if (Config.PACKAGE_VERSION > '3.35.1') {
             this._oldDoSpringAnimation = AppDisplay.BaseAppView.prototype._doSpringAnimation;
             AppDisplay.BaseAppView.prototype._doSpringAnimation = newDoSpringAnimation;
@@ -157,20 +154,13 @@ var dtpPanelManager = Utils.defineClass({
             this._enableHotCornersId = Main.layoutManager._interfaceSettings.connect('changed::enable-hot-corners', () => Main.layoutManager._updateHotCorners());
         }
 
-        this._oldOverviewRelayout = Main.overview._relayout;
-        Main.overview._relayout = Lang.bind(Main.overview, this._newOverviewRelayout);
-
-        this._oldUpdateWorkspacesViews = Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews;
-        Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = Lang.bind(Main.overview.viewSelector._workspacesDisplay, this._newUpdateWorkspacesViews);
-
-        this._oldGetShowAppsButton = Main.overview.getShowAppsButton;
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
 
-        
-        // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
-        //animate a null target since some variables are not initialized when the viewSelector is created
-        if(Main.overview.viewSelector._activePage == null)
-            Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
+        this._needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');
+
+        if (this._needsDashItemContainerAllocate) {
+            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', this._newDashItemContainerAllocate);
+        }
 
         LookingGlass.LookingGlass.prototype._oldResize = LookingGlass.LookingGlass.prototype._resize;
         LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize;
@@ -340,14 +330,6 @@ var dtpPanelManager = Utils.defineClass({
         Main.layoutManager._updatePanelBarrier = this._oldUpdatePanelBarrier;
         Main.layoutManager._updatePanelBarrier();
 
-        Main.overview.viewSelector._animateIn = this._oldViewSelectorAnimateIn;
-        Main.overview.viewSelector._animateOut = this._oldViewSelectorAnimateOut;
-
-        Main.overview._relayout = this._oldOverviewRelayout;
-        Main.overview._relayout();
-
-        Main.overview.viewSelector._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
-
         Utils.getPanelGhost().set_size(-1, -1);
 
         if (this._oldDoSpringAnimation) {
@@ -366,18 +348,16 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {
-        this._needsIconAllocate = 1;
-        
-        if (!this.checkIfFocusedMonitor(monitor)) {
-            Main.overview.viewSelector._workspacesDisplay._primaryIndex = monitor.index;
-            
-            Main.overview._overview.clear_constraints();
-            Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
-            
-            if (ignoreRelayout) return;
+        // todo show overview on non primary monitor is not working right now on gnome40
 
-            this._newOverviewRelayout.call(Main.overview);
-        }
+        // this._needsIconAllocate = 1;
+
+        // if (!this.checkIfFocusedMonitor(monitor)) {
+        //     Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
+
+        //     Main.overview._overview.clear_constraints();
+        //     Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
+        // }
     },
 
     _saveMonitors: function() {
@@ -393,7 +373,7 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     checkIfFocusedMonitor: function(monitor) {
-        return Main.overview.viewSelector._workspacesDisplay._primaryIndex == monitor.index;
+        return Main.overview._overview._controls._workspacesDisplay._primaryIndex == monitor.index;
     },
 
     _createPanel: function(monitor, isStandalone) {
@@ -511,66 +491,6 @@ var dtpPanelManager = Utils.defineClass({
         });
     },
 
-    _newOverviewRelayout: function() {
-        // To avoid updating the position and size of the workspaces
-        // we just hide the overview. The positions will be updated
-        // when it is next shown.
-        this.hide();
-
-        let workArea = Main.layoutManager.getWorkAreaForMonitor(Main.overview.viewSelector._workspacesDisplay._primaryIndex);
-
-        this._coverPane.set_position(0, workArea.y);
-        this._coverPane.set_size(workArea.width, workArea.height);
-
-        this._updateBackgrounds();
-    },
-
-    _newUpdateWorkspacesViews: function() {
-        for (let i = 0; i < this._workspacesViews.length; i++)
-            this._workspacesViews[i].destroy();
-
-        this._workspacesViews = [];
-
-        let monitors = Main.layoutManager.monitors;
-
-        for (let i = 0; i < monitors.length; i++) {
-            let workspaces;
-            let view;
-            if (this._workspacesOnlyOnPrimary && i != Main.layoutManager.primaryIndex) {
-                view = new WorkspacesView.ExtraWorkspaceView(i);
-                view.getActiveWorkspace = view.getActiveWorkspace || function() { return this._workspace; };
-                workspaces = [view._workspace];
-            } else {
-                view = new WorkspacesView.WorkspacesView(i, this._scrollAdjustment || 0);
-                workspaces = view._workspaces;
-            }
-
-            Utils.wrapActor(view);
-            view.actor.connect('scroll-event', this._onScrollEvent.bind(this));
-            if (i == Main.layoutManager.primaryIndex && view.scrollAdjustment) {
-                this._scrollAdjustment = view.scrollAdjustment;
-                this._scrollAdjustment.connect('notify::value',
-                                            this._scrollValueChanged.bind(this));
-            }
-
-            workspaces.forEach(w => w.setFullGeometry = geom => w._fullGeometry = geom);
-            this._workspacesViews.push(view);
-        }
-
-        this._workspacesViews.forEach(wv => Main.layoutManager.overviewGroup.add_actor(wv.actor));
-
-        if (this._syncWorkspacesFullGeometry) {
-            //gnome-shell 3.36.4
-            if (this._fullGeometry)
-                this._syncWorkspacesFullGeometry();
-            if (this._actualGeometry)
-                this._syncWorkspacesActualGeometry();
-        } else if (this._updateWorkspacesFullGeometry) {
-            this._updateWorkspacesFullGeometry();
-            this._updateWorkspacesActualGeometry();
-        }
-    },
-
     _newGetShowAppsButton: function() {
         let focusedMonitorIndex = Utils.findIndex(this.allPanels, p => this.checkIfFocusedMonitor(p.monitor));
         
@@ -660,47 +580,6 @@ var IconAnimator = Utils.defineClass({
         }
     }
 });
-
-function newViewSelectorAnimateIn(oldPage) {
-    if (oldPage)
-        oldPage.hide();
-
-    let vs = Main.overview.viewSelector;
-
-    vs.emit('page-empty');
-
-    vs._activePage.show();
-
-    if (vs._activePage == vs._appsPage && oldPage == vs._workspacesPage) {
-        // Restore opacity, in case we animated via _fadePageOut
-        vs._activePage.opacity = 255;
-        let animate = Me.settings.get_boolean('animate-show-apps');
-        if(animate)
-            vs.appDisplay.animate(IconGrid.AnimationDirection.IN);
-    } else {
-        vs._fadePageIn();
-    }
-}
-
-function newViewSelectorAnimateOut(page) {
-    let oldPage = page;
-    let vs = Main.overview.viewSelector;
-
-    if (page == vs._appsPage &&
-        vs._activePage == vs._workspacesPage &&
-        !Main.overview.animationInProgress) {
-        let animate = Me.settings.get_boolean('animate-show-apps');
-        if(animate)
-            vs.appDisplay.animate(IconGrid.AnimationDirection.OUT, Lang.bind(this,
-                function() {
-                    vs._animateIn(oldPage)
-            }));
-        else
-            vs._animateIn(oldPage)
-    } else {
-        vs._fadePageOut(page);
-    }
-}
 
 function newGetPositionForDirection(direction, fromWs, toWs) {
     let [xDest, yDest] = WM.WindowManager.prototype._getPositionForDirection(direction, fromWs, toWs);

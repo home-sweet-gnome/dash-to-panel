@@ -53,7 +53,6 @@ const DND = imports.ui.dnd;
 const Shell = imports.gi.Shell;
 const PopupMenu = imports.ui.popupMenu;
 const IconGrid = imports.ui.iconGrid;
-const ViewSelector = imports.ui.viewSelector;
 const DateMenu = imports.ui.dateMenu;
 const Volume = imports.ui.status.volume;
 const Progress = Me.imports.progress;
@@ -73,20 +72,6 @@ const T4 = 'showDesktopTimeout';
 const T5 = 'trackerFocusAppTimeout';
 const T6 = 'scrollPanelDelayTimeout';
 const T7 = 'waitPanelBoxAllocation';
-
-function setMenuArrow(arrowIcon, side) {
-    let parent = arrowIcon.get_parent();
-    let iconNames = {
-        '0': 'pan-down-symbolic',   //TOP
-        '1': 'pan-start-symbolic',  //RIGHT
-        '2': 'pan-up-symbolic',     //BOTTOM
-        '3': 'pan-end-symbolic'     //LEFT
-    };
-
-    parent.remove_child(arrowIcon);
-    arrowIcon.set_icon_name(iconNames[side]);
-    parent.add_child(arrowIcon);
-}
 
 var dtpPanel = Utils.defineClass({
     Name: 'DashToPanel-Panel',
@@ -147,10 +132,6 @@ var dtpPanel = Utils.defineClass({
             this._setPanelMenu('dateMenu', DateMenu.DateMenuButton, this.panel.actor);
             this._setPanelMenu('activities', Panel.ActivitiesButton, this.panel.actor);
 
-            if (this.statusArea.aggregateMenu) {
-                setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), position);
-            }
-
             this.panel.add_child(this._leftBox);
             this.panel.add_child(this._centerBox);
             this.panel.add_child(this._rightBox);
@@ -158,8 +139,6 @@ var dtpPanel = Utils.defineClass({
             this.panel = Main.panel;
             this.statusArea = Main.panel.statusArea;
             this.menuManager = Main.panel.menuManager;
-
-            setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), position);
 
             panelBoxes.forEach(p => this[p] = Main.panel[p]);
 
@@ -231,14 +210,7 @@ var dtpPanel = Utils.defineClass({
             Main.overview._overview.insert_child_at_index(this._myPanelGhost, 0);
         } else {
             let overviewControls = Main.overview._overview._controls || Main.overview._controls;
-            
-             if (this.geom.position == St.Side.BOTTOM) {
-                Main.overview._overview.add_actor(this._myPanelGhost);
-            } else if (this.geom.position == St.Side.LEFT) {
-                overviewControls._group.insert_child_at_index(this._myPanelGhost, 0);
-            } else {
-                overviewControls._group.add_actor(this._myPanelGhost);
-            }
+            Main.overview._overview.add_actor(this._myPanelGhost);
         }
 
         if (this.panel._leftCorner) {
@@ -300,15 +272,6 @@ var dtpPanel = Utils.defineClass({
             }
         };
 
-        if (this.statusArea.appMenu) {
-            setMenuArrow(this.statusArea.appMenu._arrow, position);
-            this._leftBox.remove_child(this.statusArea.appMenu.container);
-        }
-
-        if (this.statusArea.keyboard) {
-            setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), position);
-        }
-
         this.dynamicTransparency = new Transparency.DynamicTransparency(this);
         
         this.taskbar = new Taskbar.taskbar(this);
@@ -321,11 +284,6 @@ var dtpPanel = Utils.defineClass({
         this._setAllocationMap();
 
         this.panel.actor.add_style_class_name('dashtopanelMainPanel ' + this.getOrientation());
-
-        // Since Gnome 3.8 dragging an app without having opened the overview before cause the attemp to
-        //animate a null target since some variables are not initialized when the viewSelector is created
-        if(Main.overview.viewSelector._activePage == null)
-            Main.overview.viewSelector._activePage = Main.overview.viewSelector._workspacesPage;
 
         this._setPanelGhostSize();
 
@@ -366,6 +324,7 @@ var dtpPanel = Utils.defineClass({
                 this.statusArea.activities.actor,
                 'captured-event', 
                 (actor, e) => {
+                    // todo this is not being called right now, so the overview is not shown on the correct monitor
                     if (e.type() == Clutter.EventType.BUTTON_PRESS || e.type() == Clutter.EventType.TOUCH_BEGIN) {
                         //temporarily use as primary the monitor on which the activities btn was clicked 
                         this.panelManager.setFocusedMonitor(this.monitor, true);
@@ -481,15 +440,6 @@ var dtpPanel = Utils.defineClass({
                     originalParent ? originalParent.insert_child_at_index(container, b[1]) : null;
                     delete container._dtpOriginalParent;
                 });
-
-                if (this.statusArea.appMenu) {
-                    setMenuArrow(this.statusArea.appMenu._arrow, St.Side.TOP);
-                    this._leftBox.add_child(this.statusArea.appMenu.container);
-                }
-
-                if (this.statusArea.keyboard) {
-                    setMenuArrow(this.statusArea.keyboard._hbox.get_last_child(), St.Side.TOP);
-                }
             }
 
             if (!this.panel._leftCorner.actor.mapped) {
@@ -500,7 +450,6 @@ var dtpPanel = Utils.defineClass({
             this._setShowDesktopButton(false);
 
             delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
-            setMenuArrow(this.statusArea.aggregateMenu._indicators.get_last_child(), St.Side.TOP);
 
             if (DateMenu.IndicatorPad) {
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
@@ -766,8 +715,7 @@ var dtpPanel = Utils.defineClass({
             let paddingSide = this.getPosition() == St.Side.LEFT ? 'left' : 'right';
             let scaleFactor = Utils.getScaleFactor();
             let style = offset ? 'padding-' + paddingSide + ':' + (offset / scaleFactor) + 'px;' : null;
-            let searchEntry = Main.overview._searchEntry || Main.overview._overview._searchEntry;
-            
+            let searchEntry = Main.overview._overview._controls._searchEntry;
             searchEntry.get_parent().set_style(style);
         }
     },
@@ -1461,7 +1409,7 @@ var dtpPanel = Utils.defineClass({
     _checkIfIgnoredScrollSource: function(source) {
         let ignoredConstr = ['WorkspaceIndicator'];
 
-        return source._dtpIgnoreScroll || ignoredConstr.indexOf(source.constructor.name) >= 0;
+        return source.get_parent()._dtpIgnoreScroll || ignoredConstr.indexOf(source.constructor.name) >= 0;
     },
 
     _initProgressManager: function() {
@@ -1532,7 +1480,6 @@ var dtpSecondaryAggregateMenu = Utils.defineClass({
 
         this._indicators.add_child(Utils.getIndicators(this._volume));
         this._indicators.add_child(Utils.getIndicators(this._power));
-        this._indicators.add_child(PopupMenu.arrowIcon(St.Side.BOTTOM));
 
         this.menu.addMenuItem(this._volume.menu);
         this._volume._volumeMenu._readOutput();

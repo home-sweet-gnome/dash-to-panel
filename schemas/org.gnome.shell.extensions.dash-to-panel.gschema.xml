@@ -384,11 +384,6 @@
       <summary>Override escape key</summary>
       <description>Override the escape key to return to the desktop when entering the overview using the Show Applications button</description>
     </key>
-    <key type="b" name="animate-show-apps">
-      <default>true</default>
-      <summary>Animate Show Applications from the desktop</summary>
-      <description>Animate Show Applications from the desktop</description>
-    </key>
     <key type="as" name="show-apps-button-context-menu-commands">
      <default>[]</default>
      <summary>Show Apps button context menu commands</summary>
@@ -558,6 +553,11 @@
       <default>false</default>
       <summary>Close overview by clicking in empty space</summary>
       <description>Close overview or app grid by clicking in empty space</description>
+    </key>
+    <key type="b" name="hide-overview-on-startup">
+      <default>false</default>
+      <summary>Hide overview on startup</summary>
+      <description>Hide overview on startup, which would be shown by default at gnome startup.</description>
     </key>
     <key type="b" name="group-apps">
       <default>true</default>

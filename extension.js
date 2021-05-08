@@ -38,12 +38,13 @@ const Utils = Me.imports.utils;
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
 let panelManager;
-let oldDash;
 let extensionChangedHandler;
 let disabledUbuntuDock;
 let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
 
 function init() {
+    this._realHasOverview = Main.sessionMode.hasOverview;
+
     Convenience.initTranslations(Utils.TRANSLATION_DOMAIN);
     
     //create an object that persists until gnome-shell is restarted, even if the extension is disabled
@@ -91,6 +92,13 @@ function _enable() {
     Me.settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
     Me.desktopSettings = Convenience.getSettings('org.gnome.desktop.interface');
 
+    if (Me.settings.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
+        Main.sessionMode.hasOverview = false;
+        Main.layoutManager.connect('startup-complete', () => {
+            Main.sessionMode.hasOverview = this._realHasOverview
+        });
+    }
+
     panelManager = new PanelManager.dtpPanelManager();
 
     panelManager.enable();
@@ -107,21 +115,14 @@ function _enable() {
         }),
         Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
     );
-
-    // Pretend I'm the dash: meant to make appgrd swarm animation come from the
-    // right position of the appShowButton.
-    oldDash = Main.overview._dash;
-    Main.overview._dash = panelManager.primaryPanel.taskbar;
 }
 
 function disable(reset) {
     panelManager.disable();
-    Main.overview._dash = oldDash;
     Me.settings.run_dispose();
     Me.desktopSettings.run_dispose();
 
     delete Me.settings;
-    oldDash = null;
     panelManager = null;
     
     Utils.removeKeybinding('open-application-menu');
@@ -141,4 +142,6 @@ function disable(reset) {
             (extensionSystem._callExtensionEnable || extensionSystem.enableExtension).call(extensionSystem, UBUNTU_DOCK_UUID);
         }
     }
+
+    Main.sessionMode.hasOverview = this._realHasOverview;
 }
