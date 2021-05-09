@@ -2305,7 +2305,7 @@ const BuilderScope = GObject.registerClass({
     panel_size_scale_value_changed_cb(scale) {
         // Avoid settings the size continuously
         if (this._preferences._panel_size_timeout > 0)
-        Mainloop.source_remove(this._panel_size_timeout);
+        Mainloop.source_remove(this._preferences._panel_size_timeout);
 
         this._preferences._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, Lang.bind(this._preferences, function() {
             const value = scale.get_value();
@@ -2315,7 +2315,7 @@ const BuilderScope = GObject.registerClass({
                 PanelSettings.setPanelSize(this._settings, monitorIndex, value);
             });
 
-            this._preferences._panel_size_timeout = 0;
+            this._panel_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
     }
