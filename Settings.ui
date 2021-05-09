@@ -6,247 +6,242 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
     <child>
-      <object class="GtkListBox" id="animate_appicon_hover_options_listbox">
+      <object class="GtkListBoxRow" id="animate_appicon_hover_options_type_listboxrow">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="selection_mode">none</property>
+        <property name="can_focus">True</property>
+        <property name="activatable">False</property>
         <child>
-          <object class="GtkListBoxRow" id="animate_appicon_hover_options_type_listboxrow">
+          <object class="GtkBox" id="animate_appicon_hover_options_type_box">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="activatable">False</property>
+            <property name="can_focus">False</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">12</property>
+            <property name="margin_top">12</property>
+            <property name="margin_bottom">12</property>
+            <property name="spacing">32</property>
             <child>
-              <object class="GtkBox" id="animate_appicon_hover_options_type_box">
+              <object class="GtkLabel" id="animate_appicon_hover_options_type_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_start">12</property>
-                <property name="margin_end">12</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <property name="spacing">32</property>
-                <child>
-                  <object class="GtkLabel" id="animate_appicon_hover_options_type_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">Animation type</property>
-                    <property name="xalign">0</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkComboBoxText" id="animate_appicon_hover_options_type_combo">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="valign">center</property>
-                    <items>
-                      <item id="SIMPLE" translatable="yes">Simple</item>
-                      <item id="RIPPLE" translatable="yes">Ripple</item>
-                      <item id="PLANK" translatable="yes">Plank</item>
-                    </items>
-                  </object>
-                </child>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Animation type</property>
+                <property name="xalign">0</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="animate_appicon_hover_options_type_combo">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">center</property>
+                <items>
+                  <item id="SIMPLE" translatable="yes">Simple</item>
+                  <item id="RIPPLE" translatable="yes">Ripple</item>
+                  <item id="PLANK" translatable="yes">Plank</item>
+                </items>
               </object>
             </child>
           </object>
         </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkListBoxRow" id="animate_appicon_hover_options_params_listboxrow">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="activatable">False</property>
         <child>
-          <object class="GtkListBoxRow" id="animate_appicon_hover_options_params_listboxrow">
+          <object class="GtkGrid" id="animate_appicon_hover_options_params_grid">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="activatable">False</property>
+            <property name="can_focus">False</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">12</property>
+            <property name="margin_top">12</property>
+            <property name="margin_bottom">12</property>
+            <property name="row_spacing">24</property>
+            <property name="column_spacing">32</property>
             <child>
-              <object class="GtkGrid" id="animate_appicon_hover_options_params_grid">
+              <object class="GtkLabel" id="animate_appicon_hover_options_duration_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_start">12</property>
                 <property name="margin_end">12</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <property name="row_spacing">24</property>
-                <property name="column_spacing">32</property>
-                <child>
-                  <object class="GtkLabel" id="animate_appicon_hover_options_duration_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="margin_end">12</property>
-                    <property name="label" translatable="yes">Duration</property>
-                    <property name="use_markup">True</property>
-                    <property name="xalign">0</property>
-                    <property name="valign">end</property>
-                    <layout>
-                      <property name="row">0</property>
-                      <property name="column">0</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkScale" id="animate_appicon_hover_options_duration_scale">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="valign">end</property>
-                    <property name="hexpand">True</property>
-                    <property name="adjustment">animate_appicon_hover_options_duration_adjustment</property>
-                    <property name="round_digits">0</property>
-                    <property name="digits">0</property>
-                    <property name="value_pos">right</property>
-                    <property name="draw_value">True</property>
-                    <layout>
-                      <property name="row">0</property>
-                      <property name="column">1</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="animate_appicon_hover_options_extent_rotation">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Rotation</property>
-                    <property name="xalign">0</property>
-                    <property name="valign">end</property>
-                    <layout>
-                      <property name="row">1</property>
-                      <property name="column">0</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkScale" id="animate_appicon_hover_options_rotation_scale">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="valign">end</property>
-                    <property name="hexpand">True</property>
-                    <property name="adjustment">animate_appicon_hover_options_rotation_adjustment</property>
-                    <property name="round_digits">0</property>
-                    <property name="digits">0</property>
-                    <property name="value_pos">right</property>
-                    <property name="draw_value">True</property>
-                    <layout>
-                      <property name="row">1</property>
-                      <property name="column">1</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="animate_appicon_hover_options_travel_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Travel</property>
-                    <property name="xalign">0</property>
-                    <property name="valign">end</property>
-                    <layout>
-                      <property name="row">2</property>
-                      <property name="column">0</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkScale" id="animate_appicon_hover_options_travel_scale">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="valign">end</property>
-                    <property name="hexpand">True</property>
-                    <property name="adjustment">animate_appicon_hover_options_travel_adjustment</property>
-                    <property name="round_digits">0</property>
-                    <property name="digits">0</property>
-                    <property name="value_pos">right</property>
-                    <property name="draw_value">True</property>
-                    <layout>
-                      <property name="row">2</property>
-                      <property name="column">1</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="animate_appicon_hover_options_zoom_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Zoom</property>
-                    <property name="xalign">0</property>
-                    <property name="valign">end</property>
-                    <layout>
-                      <property name="row">3</property>
-                      <property name="column">0</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkScale" id="animate_appicon_hover_options_zoom_scale">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="valign">end</property>
-                    <property name="hexpand">True</property>
-                    <property name="adjustment">animate_appicon_hover_options_zoom_adjustment</property>
-                    <property name="round_digits">0</property>
-                    <property name="digits">0</property>
-                    <property name="value_pos">right</property>
-                    <property name="draw_value">True</property>
-                    <layout>
-                      <property name="row">3</property>
-                      <property name="column">1</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="animate_appicon_hover_options_convexity_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Convexity</property>
-                    <property name="xalign">0</property>
-                    <property name="valign">end</property>
-                    <layout>
-                      <property name="row">4</property>
-                      <property name="column">0</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkScale" id="animate_appicon_hover_options_convexity_scale">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="valign">end</property>
-                    <property name="hexpand">True</property>
-                    <property name="adjustment">animate_appicon_hover_options_convexity_adjustment</property>
-                    <property name="round_digits">1</property>
-                    <property name="digits">1</property>
-                    <property name="value_pos">right</property>
-                    <property name="draw_value">True</property>
-                    <layout>
-                      <property name="row">4</property>
-                      <property name="column">1</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="animate_appicon_hover_options_extent_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Extent</property>
-                    <property name="xalign">0</property>
-                    <property name="valign">end</property>
-                    <layout>
-                      <property name="row">0</property>
-                      <property name="column">5</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkScale" id="animate_appicon_hover_options_extent_scale">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="valign">end</property>
-                    <property name="hexpand">True</property>
-                    <property name="adjustment">animate_appicon_hover_options_extent_adjustment</property>
-                    <property name="round_digits">0</property>
-                    <property name="digits">0</property>
-                    <property name="value_pos">right</property>
-                    <property name="draw_value">True</property>
-                    <layout>
-                      <property name="row">5</property>
-                      <property name="column">1</property>
-                    </layout>
-                  </object>
-                </child>
+                <property name="label" translatable="yes">Duration</property>
+                <property name="use_markup">True</property>
+                <property name="xalign">0</property>
+                <property name="valign">end</property>
+                <layout>
+                  <property name="row">0</property>
+                  <property name="column">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScale" id="animate_appicon_hover_options_duration_scale">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="valign">end</property>
+                <property name="hexpand">True</property>
+                <property name="adjustment">animate_appicon_hover_options_duration_adjustment</property>
+                <property name="round_digits">0</property>
+                <property name="digits">0</property>
+                <property name="value_pos">right</property>
+                <property name="draw_value">True</property>
+                <layout>
+                  <property name="row">0</property>
+                  <property name="column">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="animate_appicon_hover_options_extent_rotation">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Rotation</property>
+                <property name="xalign">0</property>
+                <property name="valign">end</property>
+                <layout>
+                  <property name="row">1</property>
+                  <property name="column">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScale" id="animate_appicon_hover_options_rotation_scale">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="valign">end</property>
+                <property name="hexpand">True</property>
+                <property name="adjustment">animate_appicon_hover_options_rotation_adjustment</property>
+                <property name="round_digits">0</property>
+                <property name="digits">0</property>
+                <property name="value_pos">right</property>
+                <property name="draw_value">True</property>
+                <layout>
+                  <property name="row">1</property>
+                  <property name="column">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="animate_appicon_hover_options_travel_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Travel</property>
+                <property name="xalign">0</property>
+                <property name="valign">end</property>
+                <layout>
+                  <property name="row">2</property>
+                  <property name="column">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScale" id="animate_appicon_hover_options_travel_scale">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="valign">end</property>
+                <property name="hexpand">True</property>
+                <property name="adjustment">animate_appicon_hover_options_travel_adjustment</property>
+                <property name="round_digits">0</property>
+                <property name="digits">0</property>
+                <property name="value_pos">right</property>
+                <property name="draw_value">True</property>
+                <layout>
+                  <property name="row">2</property>
+                  <property name="column">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="animate_appicon_hover_options_zoom_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Zoom</property>
+                <property name="xalign">0</property>
+                <property name="valign">end</property>
+                <layout>
+                  <property name="row">3</property>
+                  <property name="column">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScale" id="animate_appicon_hover_options_zoom_scale">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="valign">end</property>
+                <property name="hexpand">True</property>
+                <property name="adjustment">animate_appicon_hover_options_zoom_adjustment</property>
+                <property name="round_digits">0</property>
+                <property name="digits">0</property>
+                <property name="value_pos">right</property>
+                <property name="draw_value">True</property>
+                <layout>
+                  <property name="row">3</property>
+                  <property name="column">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="animate_appicon_hover_options_convexity_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Convexity</property>
+                <property name="xalign">0</property>
+                <property name="valign">end</property>
+                <layout>
+                  <property name="row">4</property>
+                  <property name="column">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScale" id="animate_appicon_hover_options_convexity_scale">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="valign">end</property>
+                <property name="hexpand">True</property>
+                <property name="adjustment">animate_appicon_hover_options_convexity_adjustment</property>
+                <property name="round_digits">1</property>
+                <property name="digits">1</property>
+                <property name="value_pos">right</property>
+                <property name="draw_value">True</property>
+                <layout>
+                  <property name="row">4</property>
+                  <property name="column">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="animate_appicon_hover_options_extent_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Extent</property>
+                <property name="xalign">0</property>
+                <property name="valign">end</property>
+                <layout>
+                  <property name="row">5</property>
+                  <property name="column">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkScale" id="animate_appicon_hover_options_extent_scale">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="valign">end</property>
+                <property name="hexpand">True</property>
+                <property name="adjustment">animate_appicon_hover_options_extent_adjustment</property>
+                <property name="round_digits">0</property>
+                <property name="digits">0</property>
+                <property name="value_pos">right</property>
+                <property name="draw_value">True</property>
+                <layout>
+                  <property name="row">5</property>
+                  <property name="column">1</property>
+                </layout>
               </object>
             </child>
           </object>
