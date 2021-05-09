@@ -90,7 +90,7 @@
                     <property name="round_digits">0</property>
                     <property name="digits">0</property>
                     <property name="value_pos">right</property>
-                    <!-- <signal name="format-value" handler="animate_appicon_hover_options_duration_scale_format_value_cb" swapped="no"/> -->
+                    <property name="draw_value">True</property>
                     <layout>
                       <property name="row">0</property>
                       <property name="column">1</property>
@@ -120,7 +120,7 @@
                     <property name="round_digits">0</property>
                     <property name="digits">0</property>
                     <property name="value_pos">right</property>
-                    <!-- <signal name="format-value" handler="animate_appicon_hover_options_rotation_scale_format_value_cb" swapped="no"/> -->
+                    <property name="draw_value">True</property>
                     <layout>
                       <property name="row">1</property>
                       <property name="column">1</property>
@@ -150,7 +150,7 @@
                     <property name="round_digits">0</property>
                     <property name="digits">0</property>
                     <property name="value_pos">right</property>
-                    <!-- <signal name="format-value" handler="animate_appicon_hover_options_travel_scale_format_value_cb" swapped="no"/> -->
+                    <property name="draw_value">True</property>
                     <layout>
                       <property name="row">2</property>
                       <property name="column">1</property>
@@ -180,7 +180,7 @@
                     <property name="round_digits">0</property>
                     <property name="digits">0</property>
                     <property name="value_pos">right</property>
-                    <!-- <signal name="format-value" handler="animate_appicon_hover_options_zoom_scale_format_value_cb" swapped="no"/> -->
+                    <property name="draw_value">True</property>
                     <layout>
                       <property name="row">3</property>
                       <property name="column">1</property>
@@ -210,7 +210,7 @@
                     <property name="round_digits">1</property>
                     <property name="digits">1</property>
                     <property name="value_pos">right</property>
-                    <!-- <signal name="format-value" handler="animate_appicon_hover_options_convexity_scale_format_value_cb" swapped="no"/> -->
+                    <property name="draw_value">True</property>
                     <layout>
                       <property name="row">4</property>
                       <property name="column">1</property>
@@ -240,7 +240,7 @@
                     <property name="round_digits">0</property>
                     <property name="digits">0</property>
                     <property name="value_pos">right</property>
-                    <!-- <signal name="format-value" handler="animate_appicon_hover_options_extent_scale_format_value_cb" swapped="no"/> -->
+                    <property name="draw_value">True</property>
                     <layout>
                       <property name="row">5</property>
                       <property name="column">1</property>
@@ -4858,7 +4858,7 @@
                                             <property name="round_digits">0</property>
                                             <property name="digits">0</property>
                                             <property name="value_pos">right</property>
-                                            <!-- <signal name="format-value" handler="panel_size_scale_format_value_cb" swapped="no"/> -->
+                                            <property name="draw_value">True</property>
                                             <signal name="value-changed" handler="panel_size_scale_value_changed_cb" swapped="no"/>
                                             <layout>
                                               <property name="row">1</property>
@@ -4900,6 +4900,7 @@
                                             <property name="round_digits">0</property>
                                             <property name="digits">0</property>
                                             <property name="value_pos">right</property>
+                                            <property name="draw_value">True</property>
                                             <layout>
                                               <property name="row">2</property>
                                               <property name="column">1</property>
@@ -5116,6 +5117,7 @@
                                 <property name="round_digits">0</property>
                                 <property name="digits">0</property>
                                 <property name="value_pos">right</property>
+                                <property name="draw_value">True</property>
                                 <signal name="value-changed" handler="appicon_margin_scale_value_changed_cb" swapped="no"/>
                                 <layout>
                                   <property name="row">0</property>
@@ -5163,6 +5165,7 @@
                                 <property name="round_digits">0</property>
                                 <property name="digits">0</property>
                                 <property name="value_pos">right</property>
+                                <property name="draw_value">True</property>
                                 <signal name="value-changed" handler="appicon_padding_scale_value_changed_cb" swapped="no"/>
                                 <layout>
                                   <property name="row">0</property>
@@ -6850,6 +6853,7 @@
                                 <property name="round_digits">0</property>
                                 <property name="digits">0</property>
                                 <property name="value_pos">right</property>
+                                <property name="draw_value">True</property>
                                 <signal name="value-changed" handler="tray_size_scale_value_changed_cb" swapped="no"/>
                                 <layout>
                                   <property name="row">0</property>
@@ -6879,6 +6883,7 @@
                                 <property name="round_digits">0</property>
                                 <property name="digits">0</property>
                                 <property name="value_pos">right</property>
+                                <property name="draw_value">True</property>
                                 <signal name="value-changed" handler="leftbox_size_scale_value_changed_cb" swapped="no"/>
                                 <layout>
                                   <property name="row">1</property>
@@ -6944,6 +6949,7 @@
                                 <property name="round_digits">0</property>
                                 <property name="digits">0</property>
                                 <property name="value_pos">right</property>
+                                <property name="draw_value">True</property>
                                 <signal name="value-changed" handler="tray_padding_scale_value_changed_cb" swapped="no"/>
                                 <layout>
                                   <property name="row">0</property>
@@ -6973,6 +6979,7 @@
                                 <property name="round_digits">0</property>
                                 <property name="digits">0</property>
                                 <property name="value_pos">right</property>
+                                <property name="draw_value">True</property>
                                 <signal name="value-changed" handler="statusicon_padding_scale_value_changed_cb" swapped="no"/>
                                 <layout>
                                   <property name="row">1</property>
@@ -7002,6 +7009,7 @@
                                 <property name="round_digits">0</property>
                                 <property name="digits">0</property>
                                 <property name="value_pos">right</property>
+                                <property name="draw_value">True</property>
                                 <signal name="value-changed" handler="leftbox_padding_scale_value_changed_cb" swapped="no"/>
                                 <layout>
                                   <property name="row">2</property>
