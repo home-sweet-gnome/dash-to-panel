@@ -857,98 +857,103 @@ var DominantColorExtractor = defineClass({
      * so it more or less works the same way.
      */
     _getColorPalette: function() {
-        if (iconCacheMap.get(this._app.get_id())) {
-            // We already know the answer
-            return iconCacheMap.get(this._app.get_id());
-        }
-
-        let pixBuf = this._getIconPixBuf();
-        if (pixBuf == null)
-            return null;
-
-        let pixels = pixBuf.get_pixels(),
-            offset = 0;
-
-        let total  = 0,
-            rTotal = 0,
-            gTotal = 0,
-            bTotal = 0;
-
-        let resample_y = 1,
-            resample_x = 1;
-
-        // Resampling of large icons
-        // We resample icons larger than twice the desired size, as the resampling
-        // to a size s
-        // DOMINANT_COLOR_ICON_SIZE < s < 2*DOMINANT_COLOR_ICON_SIZE,
-        // most of the case exactly DOMINANT_COLOR_ICON_SIZE as the icon size is tipycally
-        // a multiple of it.
-        let width = pixBuf.get_width();
-        let height = pixBuf.get_height();
-
-        // Resample
-        if (height >= 2* DOMINANT_COLOR_ICON_SIZE)
-            resample_y = Math.floor(height/DOMINANT_COLOR_ICON_SIZE);
-
-        if (width >= 2* DOMINANT_COLOR_ICON_SIZE)
-            resample_x = Math.floor(width/DOMINANT_COLOR_ICON_SIZE);
-
-        if (resample_x !==1 || resample_y !== 1)
-            pixels = this._resamplePixels(pixels, resample_x, resample_y);
-
-        // computing the limit outside the for (where it would be repeated at each iteration)
-        // for performance reasons
-        let limit = pixels.length;
-        for (let offset = 0; offset < limit; offset+=4) {
-            let r = pixels[offset],
-                g = pixels[offset + 1],
-                b = pixels[offset + 2],
-                a = pixels[offset + 3];
-
-            let saturation = (Math.max(r,g, b) - Math.min(r,g, b));
-            let relevance  = 0.1 * 255 * 255 + 0.9 * a * saturation;
-
-            rTotal += r * relevance;
-            gTotal += g * relevance;
-            bTotal += b * relevance;
-
-            total += relevance;
-        }
-
-        total = total * 255;
-
-        let r = rTotal / total,
-            g = gTotal / total,
-            b = bTotal / total;
-
-        let hsv = ColorUtils.RGBtoHSV(r * 255, g * 255, b * 255);
-
-        if (hsv.s > 0.15)
-            hsv.s = 0.65;
-        hsv.v = 0.90;
-
-        let rgb = ColorUtils.HSVtoRGB(hsv.h, hsv.s, hsv.v);
-
-        // Cache the result.
-        let backgroundColor = {
-            lighter:  ColorUtils.colorLuminance(rgb.r, rgb.g, rgb.b, 0.2),
-            original: ColorUtils.colorLuminance(rgb.r, rgb.g, rgb.b, 0),
-            darker:   ColorUtils.colorLuminance(rgb.r, rgb.g, rgb.b, -0.5)
-        };
-
-        if (iconCacheMap.size >= MAX_CACHED_ITEMS) {
-            //delete oldest cached values (which are in order of insertions)
-            let ctr=0;
-            for (let key of iconCacheMap.keys()) {
-                if (++ctr > BATCH_SIZE_TO_DELETE)
-                    break;
-                iconCacheMap.delete(key);
+        try {
+            if (iconCacheMap.get(this._app.get_id())) {
+                // We already know the answer
+                return iconCacheMap.get(this._app.get_id());
             }
+
+            let pixBuf = this._getIconPixBuf();
+            if (pixBuf == null) {
+                return null;
+            }
+
+            let pixels = pixBuf.get_pixels(),
+                offset = 0;
+
+            let total  = 0,
+                rTotal = 0,
+                gTotal = 0,
+                bTotal = 0;
+
+            let resample_y = 1,
+                resample_x = 1;
+
+            // Resampling of large icons
+            // We resample icons larger than twice the desired size, as the resampling
+            // to a size s
+            // DOMINANT_COLOR_ICON_SIZE < s < 2*DOMINANT_COLOR_ICON_SIZE,
+            // most of the case exactly DOMINANT_COLOR_ICON_SIZE as the icon size is tipycally
+            // a multiple of it.
+            let width = pixBuf.get_width();
+            let height = pixBuf.get_height();
+
+            // Resample
+            if (height >= 2* DOMINANT_COLOR_ICON_SIZE)
+                resample_y = Math.floor(height/DOMINANT_COLOR_ICON_SIZE);
+
+            if (width >= 2* DOMINANT_COLOR_ICON_SIZE)
+                resample_x = Math.floor(width/DOMINANT_COLOR_ICON_SIZE);
+
+            if (resample_x !==1 || resample_y !== 1)
+                pixels = this._resamplePixels(pixels, resample_x, resample_y);
+
+            // computing the limit outside the for (where it would be repeated at each iteration)
+            // for performance reasons
+            let limit = pixels.length;
+            for (let offset = 0; offset < limit; offset+=4) {
+                let r = pixels[offset],
+                    g = pixels[offset + 1],
+                    b = pixels[offset + 2],
+                    a = pixels[offset + 3];
+
+                let saturation = (Math.max(r,g, b) - Math.min(r,g, b));
+                let relevance  = 0.1 * 255 * 255 + 0.9 * a * saturation;
+
+                rTotal += r * relevance;
+                gTotal += g * relevance;
+                bTotal += b * relevance;
+
+                total += relevance;
+            }
+
+            total = total * 255;
+
+            let r = rTotal / total,
+                g = gTotal / total,
+                b = bTotal / total;
+
+            let hsv = ColorUtils.RGBtoHSV(r * 255, g * 255, b * 255);
+
+            if (hsv.s > 0.15)
+                hsv.s = 0.65;
+            hsv.v = 0.90;
+
+            let rgb = ColorUtils.HSVtoRGB(hsv.h, hsv.s, hsv.v);
+
+            // Cache the result.
+            let backgroundColor = {
+                lighter:  ColorUtils.colorLuminance(rgb.r, rgb.g, rgb.b, 0.2),
+                original: ColorUtils.colorLuminance(rgb.r, rgb.g, rgb.b, 0),
+                darker:   ColorUtils.colorLuminance(rgb.r, rgb.g, rgb.b, -0.5)
+            };
+
+            if (iconCacheMap.size >= MAX_CACHED_ITEMS) {
+                //delete oldest cached values (which are in order of insertions)
+                let ctr=0;
+                for (let key of iconCacheMap.keys()) {
+                    if (++ctr > BATCH_SIZE_TO_DELETE)
+                        break;
+                    iconCacheMap.delete(key);
+                }
+            }
+
+            iconCacheMap.set(this._app.get_id(), backgroundColor);
+
+            return backgroundColor;
+        } catch (e) {
+            return null;
         }
-
-        iconCacheMap.set(this._app.get_id(), backgroundColor);
-
-        return backgroundColor;
     },
 
     /**
