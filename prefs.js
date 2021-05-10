@@ -181,6 +181,7 @@ const Preferences = new Lang.Class({
         this._tray_padding_timeout = 0;
         this._statusicon_padding_timeout = 0;
         this._leftbox_padding_timeout = 0;
+        this._addFormatValueCallbacks();
         this._bindSettings();
     },
 
@@ -551,6 +552,83 @@ const Preferences = new Lang.Class({
 
         dialog.show();
         dialog.set_default_size(1, 1);
+    },
+
+    _addFormatValueCallbacks: function() {
+        // position
+        this._builder.get_object('panel_size_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return value + ' px';
+        }));
+
+        // style
+        this._builder.get_object('appicon_margin_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return value + ' px';
+        }));
+
+        this._builder.get_object('appicon_padding_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return value + ' px';
+        }));
+
+        // fine-tune box1
+        this._builder.get_object('tray_size_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return value + ' px';
+        }));
+
+        this._builder.get_object('leftbox_size_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return value + ' px';
+        }));
+
+        // fine-tune box2
+        this._builder.get_object('tray_padding_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return value + ' px';
+        }));
+
+        this._builder.get_object('statusicon_padding_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return value + ' px';
+        }));
+
+        this._builder.get_object('leftbox_padding_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return value + ' px';
+        }));
+
+        // animate hovering app icons dialog
+        this._builder.get_object('animate_appicon_hover_options_duration_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return _("%d ms").format(value);
+        }));
+
+        this._builder.get_object('animate_appicon_hover_options_rotation_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return _("%d °").format(value);
+        }));
+
+        this._builder.get_object('animate_appicon_hover_options_travel_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return _("%d %%").format(value);
+        }));
+
+        this._builder.get_object('animate_appicon_hover_options_zoom_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return _("%d %%").format(value);
+        }));
+
+        this._builder.get_object('animate_appicon_hover_options_convexity_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return _("%.1f").format(value);
+        }));
+
+        this._builder.get_object('animate_appicon_hover_options_extent_scale')
+        .set_format_value_func(Lang.bind(this, function(scale, value) {
+            return Gettext.ngettext("%d icon", "%d icons", value).format(value);
+        }));
     },
 
     _bindSettings: function() {
@@ -2065,7 +2143,7 @@ const Preferences = new Lang.Class({
 
         this._builder.get_object('animate_appicon_hover_button').connect('clicked', Lang.bind(this, function() {
             let dialog = new Gtk.Dialog({ title: _('App icon animation options'),
-                                          transient_for: this.widget.get_toplevel(),
+                                          transient_for: this.notebook.get_root(),
                                           use_header_bar: true,
                                           modal: true });
 
@@ -2074,7 +2152,7 @@ const Preferences = new Lang.Class({
             dialog.add_button(_('Reset to defaults'), 1);
 
             let box = this._builder.get_object('animate_appicon_hover_options');
-            dialog.get_content_area().add(box);
+            dialog.get_content_area().append(box);
 
             dialog.connect('response', Lang.bind(this, function(dialog, id) {
                 if (id == 1) {
@@ -2094,7 +2172,7 @@ const Preferences = new Lang.Class({
                 return;
             }));
 
-            dialog.show_all();
+            dialog.show();
 
         }));
 
@@ -2228,30 +2306,6 @@ const BuilderScope = GObject.registerClass({
         connectObject.set_label("Clicked");
     }
 
-    animate_appicon_hover_options_duration_scale_format_value_cb(scale, value) {
-        return _("%d ms").format(value);
-    }
-
-    animate_appicon_hover_options_rotation_scale_format_value_cb(scale, value) {
-        return _("%d °").format(value);
-    }
-
-    animate_appicon_hover_options_travel_scale_format_value_cb(scale, value) {
-        return _("%d %%").format(value);
-    }
-
-    animate_appicon_hover_options_zoom_scale_format_value_cb(scale, value) {
-        return _("%d %%").format(value);
-    }
-
-    animate_appicon_hover_options_convexity_scale_format_value_cb(scale, value) {
-        return _("%.1f").format(value);
-    }
-
-    animate_appicon_hover_options_extent_scale_format_value_cb(scale, value) {
-        return Gettext.ngettext("%d icon", "%d icons", value).format(value);
-    }
-
     position_bottom_button_clicked_cb(button) {
         if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.BOTTOM);
     }
@@ -2298,10 +2352,6 @@ const BuilderScope = GObject.registerClass({
             this._preferences._settings.set_string('window-preview-title-position', 'TOP');
     }
 
-    panel_size_scale_format_value_cb(scale, value) {
-        return value+ ' px';
-    }
-
     panel_size_scale_value_changed_cb(scale) {
         // Avoid settings the size continuously
         if (this._preferences._panel_size_timeout > 0)
@@ -2320,10 +2370,6 @@ const BuilderScope = GObject.registerClass({
         }));
     }
 
-    tray_size_scale_format_value_cb(scale, value) {
-        return value+ ' px';
-    }
-
     tray_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._tray_size_timeout > 0)
@@ -2334,10 +2380,6 @@ const BuilderScope = GObject.registerClass({
             this._preferences._tray_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
-    }
-
-    leftbox_size_scale_format_value_cb(scale, value) {
-        return value+ ' px';
     }
 
     leftbox_size_scale_value_changed_cb(scale) {
@@ -2352,10 +2394,6 @@ const BuilderScope = GObject.registerClass({
         }));
     }
 
-    appicon_margin_scale_format_value_cb(scale, value) {
-        return value+ ' px';
-    }
-
     appicon_margin_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._appicon_margin_timeout > 0)
@@ -2366,10 +2404,6 @@ const BuilderScope = GObject.registerClass({
             this._preferences._appicon_margin_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
-    }
-
-    appicon_padding_scale_format_value_cb(scale, value) {
-        return value + ' px';
     }
 
     appicon_padding_scale_value_changed_cb(scale) {
@@ -2384,10 +2418,6 @@ const BuilderScope = GObject.registerClass({
         }));
     }
 
-    tray_padding_scale_format_value_cb(scale, value) {
-        return value+ ' px';
-    }
-
     tray_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._tray_padding_timeout > 0)
@@ -2400,10 +2430,6 @@ const BuilderScope = GObject.registerClass({
         }));
     }
 
-    statusicon_padding_scale_format_value_cb(scale, value) {
-        return value+ ' px';
-    }
-
     statusicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._statusicon_padding_timeout > 0)
@@ -2414,10 +2440,6 @@ const BuilderScope = GObject.registerClass({
             this._preferences._statusicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
         }));
-    }
-
-    leftbox_padding_scale_format_value_cb(scale, value) {
-        return value+ ' px';
     }
 
     leftbox_padding_scale_value_changed_cb(scale) {
