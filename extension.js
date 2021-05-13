@@ -44,6 +44,11 @@ let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
 
 function init() {
     this._realHasOverview = Main.sessionMode.hasOverview;
+    Main.overview._hideDoneClone = Main.overview._hideDone;
+    Main.overview._hideDone = function() {
+        Main.overview._hideDoneClone();
+        Main.loadTheme();
+    };
 
     Convenience.initTranslations(Utils.TRANSLATION_DOMAIN);
     
@@ -144,4 +149,5 @@ function disable(reset) {
     }
 
     Main.sessionMode.hasOverview = this._realHasOverview;
+    Main.overview._hideDone = Main.overview._hideDoneClone;
 }
