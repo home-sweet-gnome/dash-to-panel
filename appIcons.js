@@ -378,7 +378,6 @@ var taskbarAppIcon = Utils.defineClass({
 
     _onMouseScroll: function(actor, event) {
         let scrollAction = Me.settings.get_string('scroll-icon-action');
-        
         if (scrollAction === 'PASS_THROUGH') {
             return this.dtpPanel._onPanelMouseScroll(actor, event);
         } else if (scrollAction === 'NOTHING' || (!this.window && !this._nWindows)) {
@@ -386,6 +385,17 @@ var taskbarAppIcon = Utils.defineClass({
         }
 
         let direction = Utils.getMouseScrollDirection(event);
+
+        let monitor = this.dtpPanel.monitor;
+
+        if (scrollAction === "MINIMIZE_MAXIMIZE"){
+            if (direction == "down"){
+                minimizeWindow(this.app, false, monitor);
+            } else if (direction == "up"){
+                this.app.activate();
+            }
+            return;
+        }
 
         if (direction && !this._timeoutsHandler.getId(T2)) {
             this._timeoutsHandler.add([T2, Me.settings.get_int('scroll-icon-delay'), () => {}]);

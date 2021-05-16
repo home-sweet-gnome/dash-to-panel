@@ -6711,6 +6711,7 @@
                       <item id="NOTHING" translatable="yes">Do nothing</item>
                       <item id="CYCLE_WINDOWS" translatable="yes">Cycle windows</item>
                       <item id="PASS_THROUGH" translatable="yes">Same as panel</item>
+                      <item id="MINIMIZE_MAXIMIZE" translatable="yes">Minimize/Maximize window</item>                                            
                     </items>
                   </object>
                   <packing>

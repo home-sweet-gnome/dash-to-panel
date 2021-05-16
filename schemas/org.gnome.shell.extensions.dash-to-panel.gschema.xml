@@ -24,6 +24,7 @@
     <value value='2' nick='CYCLE_WINDOWS'/>
     <value value='3' nick='PASS_THROUGH'/>
     <value value='4' nick='CHANGE_VOLUME'/>
+    <value value='5' nick='MINIMIZE_MAXIMIZE'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.hotkeyPrefix'>
     <value value='0' nick='Super'/>
