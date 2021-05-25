@@ -103,7 +103,7 @@ var dtpPanel = Utils.defineClass({
 
         let position = this.getPosition();
 
-        if (isStandalone) {
+        if (true) { // force the isStandalone path, transparency will work, but lots of others stuff breaks
             this.panel = new dtpSecondaryPanel({ name: 'panel', reactive: true });
             this.statusArea = this.panel.statusArea = {};
 
