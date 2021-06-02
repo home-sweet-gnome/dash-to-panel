@@ -398,7 +398,10 @@ var dtpPanelManager = Utils.defineClass({
         panelBox.add(panel);
         panel.enable();
 
-        panelBox.visible = !monitor.inFullscreen;
+        panelBox.visible = true;
+        if (monitor.inFullscreen) {
+            panelBox.hide();
+        }
         panelBox.set_position(0, 0);
 
         return panel;
