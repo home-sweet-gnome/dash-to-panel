@@ -1328,7 +1328,7 @@ const CloneContainerConstraint = Utils.defineClass({
     },
 });
 
-const TaskbarItemContainer = Utils.defineClass({
+var TaskbarItemContainer = Utils.defineClass({
     Name: 'DashToPanel-TaskbarItemContainer',
     Extends: Dash.DashItemContainer,
 

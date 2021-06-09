@@ -41,6 +41,8 @@ const Meta = imports.gi.Meta;
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
 const BACKGROUND_MARGIN = 12;
+const SMALL_WORKSPACE_RATIO = 0.15;
+const DASH_MAX_HEIGHT_RATIO = 0.15;
 
 
 //timeout names
@@ -523,7 +525,7 @@ var dtpOverview = Utils.defineClass({
             availableHeight -= searchHeight + spacing;
         
             // Dash
-            const maxDashHeight = Math.round(box.get_height() * OverviewControls.DASH_MAX_HEIGHT_RATIO);
+            const maxDashHeight = Math.round(box.get_height() * DASH_MAX_HEIGHT_RATIO);
             this._dash.setMaxSize(width, maxDashHeight);
         
             let [, dashHeight] = this._dash.get_preferred_height(width);
@@ -624,7 +626,7 @@ var dtpOverview = Utils.defineClass({
                 workspaceBox.set_origin(startX, startY + searchHeight + spacing);
                 workspaceBox.set_size(
                     width,
-                    Math.round(height * OverviewControls.SMALL_WORKSPACE_RATIO));
+                    Math.round(height * SMALL_WORKSPACE_RATIO));
                 break;
             }
     
