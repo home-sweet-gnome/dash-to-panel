@@ -33,10 +33,15 @@ const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
 const Mainloop = imports.mainloop;
 const IconGrid = imports.ui.iconGrid;
+const OverviewControls = imports.ui.overviewControls;
+const Workspace = imports.ui.workspace;
+const St = imports.gi.St;
 
 const Meta = imports.gi.Meta;
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
+const BACKGROUND_MARGIN = 12;
+
 
 //timeout names
 const T1 = 'swipeEndTimeout';
@@ -61,15 +66,21 @@ var dtpOverview = Utils.defineClass({
         this._optionalNumberOverlay();
         this._optionalClickToExit();
         this._toggleDash();
+        this._hookupAllocation();
 
         this._signalsHandler.add([
             Me.settings,
             'changed::stockgs-keep-dash', 
             () => this._toggleDash()
         ]);
+    
     },
 
     disable: function () {
+        Utils.hookVfunc(Workspace.WorkspaceBackground.prototype, 'allocate', Workspace.WorkspaceBackground.prototype.vfunc_allocate);
+        Utils.hookVfunc(OverviewControls.ControlsManagerLayout.prototype, 'allocate', OverviewControls.ControlsManagerLayout.prototype.vfunc_allocate);
+        OverviewControls.ControlsManagerLayout.prototype._computeWorkspacesBoxForState = this._oldComputeWorkspacesBoxForState;
+
         this._signalsHandler.destroy();
         this._injectionsHandler.destroy();
         
@@ -465,5 +476,213 @@ var dtpOverview = Utils.defineClass({
             () => this._swiping = false
         ]);
         return true;
+    },
+
+    _hookupAllocation: function() {
+        Utils.hookVfunc(OverviewControls.ControlsManagerLayout.prototype, 'allocate', function vfunc_allocate(container, box) {
+            const childBox = new Clutter.ActorBox();
+        
+            const { spacing } = this;
+        
+            let startY = 0;
+            let startX = 0;
+
+            if (Me.settings.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.panelBox.y === Main.layoutManager.primaryMonitor.y) {
+                startY = Main.layoutManager.panelBox.height;
+                box.y1 += startY;
+            }
+            
+            const panel = global.dashToPanel.panels[0];
+            if(panel) {
+                switch (panel.getPosition()) {
+                    case St.Side.TOP:
+                        startY = panel.panelBox.height;
+                        box.y1 += startY;
+                        break;
+                    case St.Side.LEFT:
+                        startX = panel.panelBox.width;
+                        box.x1 += startX;
+                        break;
+                    case St.Side.RIGHT:
+                        box.x2 -= panel.panelBox.width;
+                        break;
+
+                }
+            }
+                 
+            
+            const [width, height] = box.get_size();
+            let availableHeight = height;
+        
+            // Search entry
+            let [searchHeight] = this._searchEntry.get_preferred_height(width);
+            childBox.set_origin(startX, startY);
+            childBox.set_size(width, searchHeight);
+            this._searchEntry.allocate(childBox);
+        
+            availableHeight -= searchHeight + spacing;
+        
+            // Dash
+            const maxDashHeight = Math.round(box.get_height() * OverviewControls.DASH_MAX_HEIGHT_RATIO);
+            this._dash.setMaxSize(width, maxDashHeight);
+        
+            let [, dashHeight] = this._dash.get_preferred_height(width);
+            dashHeight = Math.min(dashHeight, maxDashHeight);
+            childBox.set_origin(startX, startY + height - dashHeight);
+            childBox.set_size(width, dashHeight);
+            this._dash.allocate(childBox);
+        
+            availableHeight -= dashHeight + spacing;
+        
+            // Workspace Thumbnails
+            let thumbnailsHeight = 0;
+            if (this._workspacesThumbnails.visible) {
+                const { expandFraction } = this._workspacesThumbnails;
+                [thumbnailsHeight] =
+                    this._workspacesThumbnails.get_preferred_height(width);
+                thumbnailsHeight = Math.min(
+                    thumbnailsHeight * expandFraction,
+                    height * WorkspaceThumbnail.MAX_THUMBNAIL_SCALE);
+                childBox.set_origin(startX, startY + searchHeight + spacing);
+                childBox.set_size(width, thumbnailsHeight);
+                this._workspacesThumbnails.allocate(childBox);
+            }
+        
+            // Workspaces
+            let params = [box, startX, startY, searchHeight, dashHeight, thumbnailsHeight];
+            const transitionParams = this._stateAdjustment.getStateTransitionParams();
+        
+            // Update cached boxes
+            for (const state of Object.values(OverviewControls.ControlsState)) {
+                this._cachedWorkspaceBoxes.set(
+                    state, this._computeWorkspacesBoxForState(state, ...params));
+            }
+        
+            let workspacesBox;
+            if (!transitionParams.transitioning) {
+                workspacesBox = this._cachedWorkspaceBoxes.get(transitionParams.currentState);
+            } else {
+                const initialBox = this._cachedWorkspaceBoxes.get(transitionParams.initialState);
+                const finalBox = this._cachedWorkspaceBoxes.get(transitionParams.finalState);
+                workspacesBox = initialBox.interpolate(finalBox, transitionParams.progress);
+            }
+        
+            this._workspacesDisplay.allocate(workspacesBox);
+        
+            // AppDisplay
+            if (this._appDisplay.visible) {
+                const workspaceAppGridBox =
+                    this._cachedWorkspaceBoxes.get(OverviewControls.ControlsState.APP_GRID);
+        
+                params = [box, startY, searchHeight, dashHeight, workspaceAppGridBox];
+                let appDisplayBox;
+                if (!transitionParams.transitioning) {
+                    appDisplayBox =
+                        this._getAppDisplayBoxForState(transitionParams.currentState, ...params);
+                } else {
+                    const initialBox =
+                        this._getAppDisplayBoxForState(transitionParams.initialState, ...params);
+                    const finalBox =
+                        this._getAppDisplayBoxForState(transitionParams.finalState, ...params);
+        
+                    appDisplayBox = initialBox.interpolate(finalBox, transitionParams.progress);
+                }
+        
+                this._appDisplay.allocate(appDisplayBox);
+            }
+        
+            // Search
+            childBox.set_origin(0, startY + searchHeight + spacing);
+            childBox.set_size(width, availableHeight);
+        
+            this._searchController.allocate(childBox);
+        
+            this._runPostAllocation();
+        });
+
+        this._oldComputeWorkspacesBoxForState = OverviewControls.ControlsManagerLayout.prototype._computeWorkspacesBoxForState;
+        OverviewControls.ControlsManagerLayout.prototype._computeWorkspacesBoxForState = function _computeWorkspacesBoxForState(state, box, startX, startY, searchHeight, dashHeight, thumbnailsHeight) {
+            const workspaceBox = box.copy();
+            const [width, height] = workspaceBox.get_size();
+            const { spacing } = this;
+            const { expandFraction } = this._workspacesThumbnails;
+
+            switch (state) {
+            case OverviewControls.ControlsState.HIDDEN:
+                break;
+            case OverviewControls.ControlsState.WINDOW_PICKER:
+                workspaceBox.set_origin(startX,
+                    startY + searchHeight + spacing +
+                    thumbnailsHeight + spacing * expandFraction);
+                workspaceBox.set_size(width,
+                    height - 
+                    dashHeight - spacing -
+                    searchHeight - spacing -
+                    thumbnailsHeight - spacing * expandFraction);
+                break;
+            case OverviewControls.ControlsState.APP_GRID:
+                workspaceBox.set_origin(startX, startY + searchHeight + spacing);
+                workspaceBox.set_size(
+                    width,
+                    Math.round(height * OverviewControls.SMALL_WORKSPACE_RATIO));
+                break;
+            }
+    
+            return workspaceBox;
+        }
+
+        Utils.hookVfunc(Workspace.WorkspaceBackground.prototype, 'allocate', function vfunc_allocate(box) {
+            const [width, height] = box.get_size();
+            const { scaleFactor } = St.ThemeContext.get_for_stage(global.stage);
+            const scaledHeight = height - (BACKGROUND_MARGIN * 2 * scaleFactor);
+            const scaledWidth = (scaledHeight / height) * width;
+    
+            const scaledBox = box.copy();
+            scaledBox.set_origin(
+                box.x1 + (width - scaledWidth) / 2,
+                box.y1 + (height - scaledHeight) / 2);
+            scaledBox.set_size(scaledWidth, scaledHeight);
+    
+            const progress = this._stateAdjustment.value;
+    
+            if (progress === 1)
+                box = scaledBox;
+            else if (progress !== 0)
+                box = box.interpolate(scaledBox, progress);
+    
+            this.set_allocation(box);
+    
+            const themeNode = this.get_theme_node();
+            const contentBox = themeNode.get_content_box(box);
+    
+            this._bin.allocate(contentBox);
+    
+            
+            const [contentWidth, contentHeight] = contentBox.get_size();
+            const monitor = Main.layoutManager.monitors[this._monitorIndex];
+            let xOff = (contentWidth / this._workarea.width) *
+                (this._workarea.x - monitor.x);
+            let yOff = (contentHeight / this._workarea.height) *
+                (this._workarea.y - monitor.y);
+    
+            let startX = -xOff;
+            let startY = -yOff;
+            const panel = Utils.find(global.dashToPanel.panels, p => p.monitor.index == this._monitorIndex);
+            switch (panel.getPosition()) {
+                case St.Side.TOP:
+                    yOff += panel.panelBox.height;
+                    startY -= panel.panelBox.height;
+                    break;
+                case St.Side.BOTTOM:
+                    yOff += panel.panelBox.height;
+                    break;
+                case St.Side.RIGHT:
+                    xOff += panel.panelBox.width;
+                    break;
+            }
+            contentBox.set_origin(startX, startY);
+            contentBox.set_size(xOff + contentWidth, yOff + contentHeight);
+            this._backgroundGroup.allocate(contentBox);
+        });
     }
 });
