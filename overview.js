@@ -529,7 +529,10 @@ var dtpOverview = Utils.defineClass({
             this._dash.setMaxSize(width, maxDashHeight);
         
             let [, dashHeight] = this._dash.get_preferred_height(width);
-            dashHeight = Math.min(dashHeight, maxDashHeight);
+            if (Me.settings.get_boolean('stockgs-keep-dash'))
+                dashHeight = Math.min(dashHeight, maxDashHeight);
+            else
+                dashHeight = spacing*5; // todo: determine proper spacing for window labels on maximized windows on workspace display
             childBox.set_origin(startX, startY + height - dashHeight);
             childBox.set_size(width, dashHeight);
             this._dash.allocate(childBox);
