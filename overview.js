@@ -36,6 +36,7 @@ const IconGrid = imports.ui.iconGrid;
 const OverviewControls = imports.ui.overviewControls;
 const Workspace = imports.ui.workspace;
 const St = imports.gi.St;
+const WorkspaceThumbnail = imports.ui.workspaceThumbnail;
 
 const Meta = imports.gi.Meta;
 
