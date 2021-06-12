@@ -83,6 +83,7 @@ var dtpOverview = Utils.defineClass({
         Utils.hookVfunc(Workspace.WorkspaceBackground.prototype, 'allocate', Workspace.WorkspaceBackground.prototype.vfunc_allocate);
         Utils.hookVfunc(OverviewControls.ControlsManagerLayout.prototype, 'allocate', OverviewControls.ControlsManagerLayout.prototype.vfunc_allocate);
         OverviewControls.ControlsManagerLayout.prototype._computeWorkspacesBoxForState = this._oldComputeWorkspacesBoxForState;
+        Main.overview._hideDone = this._oldHideDone;
 
         this._signalsHandler.destroy();
         this._injectionsHandler.destroy();
@@ -690,5 +691,30 @@ var dtpOverview = Utils.defineClass({
             contentBox.set_size(xOff + contentWidth, yOff + contentHeight);
             this._backgroundGroup.allocate(contentBox);
         });
+
+        this._oldHideDone = Main.overview._hideDone;
+        Main.overview._hideDone = function() {
+            // Re-enable unredirection
+            Meta.enable_unredirect_for_display(global.display);
+    
+            this._desktopFade.hide();
+            this._coverPane.hide();
+    
+            this._visible = false;
+            this._animationInProgress = false;
+    
+            this.emit('hidden');
+            // Handle any calls to show* while we were hiding
+            if (this._shown)
+                this._animateVisible(OverviewControls.ControlsState.WINDOW_PICKER);
+            else
+                Main.layoutManager.hideOverview();
+    
+            if (Me.settings.get_boolean('stockgs-keep-top-panel')) {
+                Main.panel.style = null;
+            }
+           
+            this._syncGrab();
+        }
     }
 });
