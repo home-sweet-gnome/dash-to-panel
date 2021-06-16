@@ -680,14 +680,14 @@ const Preferences = new Lang.Class({
 
         for (let i = 1; i <= MAX_WINDOW_INDICATOR; i++) {
             let idx = i;
-            this._builder.get_object('dot_color_' + idx + '_colorbutton').connect('notify::color', Lang.bind(this, function(button) {
+            this._builder.get_object('dot_color_' + idx + '_colorbutton').connect('color-set', Lang.bind(this, function(button) {
                 let rgba = button.get_rgba();
                 let css = rgba.to_string();
                 let hexString = cssHexString(css);
                 this._settings.set_string('dot-color-' + idx, hexString);
             }));
 
-            this._builder.get_object('dot_color_unfocused_' + idx + '_colorbutton').connect('notify::color', Lang.bind(this, function(button) {
+            this._builder.get_object('dot_color_unfocused_' + idx + '_colorbutton').connect('color-set', Lang.bind(this, function(button) {
                 let rgba = button.get_rgba();
                 let css = rgba.to_string();
                 let hexString = cssHexString(css);
@@ -713,7 +713,7 @@ const Preferences = new Lang.Class({
             }
         }));
 
-        this._builder.get_object('focus_highlight_color_colorbutton').connect('notify::color', Lang.bind(this, function(button) {
+        this._builder.get_object('focus_highlight_color_colorbutton').connect('color-set', Lang.bind(this, function(button) {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
             let hexString = cssHexString(css);
@@ -970,7 +970,7 @@ const Preferences = new Lang.Class({
         rgba.parse(this._settings.get_string('trans-bg-color'));
         this._builder.get_object('trans_bg_color_colorbutton').set_rgba(rgba);
 
-        this._builder.get_object('trans_bg_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+        this._builder.get_object('trans_bg_color_colorbutton').connect('color-set', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
             let hexString = cssHexString(css);
@@ -1025,7 +1025,7 @@ const Preferences = new Lang.Class({
         rgba.parse(this._settings.get_string('trans-gradient-top-color'));
         this._builder.get_object('trans_gradient_color1_colorbutton').set_rgba(rgba);
 
-        this._builder.get_object('trans_gradient_color1_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+        this._builder.get_object('trans_gradient_color1_colorbutton').connect('color-set', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
             let hexString = cssHexString(css);
@@ -1040,7 +1040,7 @@ const Preferences = new Lang.Class({
         rgba.parse(this._settings.get_string('trans-gradient-bottom-color'));
         this._builder.get_object('trans_gradient_color2_colorbutton').set_rgba(rgba);
 
-        this._builder.get_object('trans_gradient_color2_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+        this._builder.get_object('trans_gradient_color2_colorbutton').connect('color-set', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
             let hexString = cssHexString(css);
@@ -1118,7 +1118,7 @@ const Preferences = new Lang.Class({
         
         rgba.parse(this._settings.get_string('desktop-line-custom-color'));
         this._builder.get_object('override_show_desktop_line_color_colorbutton').set_rgba(rgba);
-        this._builder.get_object('override_show_desktop_line_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+        this._builder.get_object('override_show_desktop_line_color_colorbutton').connect('color-set', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
             this._settings.set_string('desktop-line-custom-color', css);
@@ -1326,7 +1326,7 @@ const Preferences = new Lang.Class({
 
         this._setPreviewTitlePosition();
 
-        this._builder.get_object('grid_preview_title_font_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+        this._builder.get_object('grid_preview_title_font_color_colorbutton').connect('color-set', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
             let hexString = cssHexString(css);
@@ -1594,14 +1594,14 @@ const Preferences = new Lang.Class({
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
-        this._builder.get_object('group_apps_label_font_color_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+        this._builder.get_object('group_apps_label_font_color_colorbutton').connect('color-set', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
             let hexString = cssHexString(css);
             this._settings.set_string('group-apps-label-font-color', hexString);
         }));
 
-        this._builder.get_object('group_apps_label_font_color_minimized_colorbutton').connect('notify::color', Lang.bind(this, function (button) {
+        this._builder.get_object('group_apps_label_font_color_minimized_colorbutton').connect('color-set', Lang.bind(this, function (button) {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
             let hexString = cssHexString(css);
