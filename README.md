@@ -176,15 +176,16 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @ArtyomZorin for animated urgent icons
 - @jvpessoa10 for additional click window cycle options
 - @marksvc for assigning percent of display for panel length
+- @philippun1 for GNOME 40 support :rocket:
 
 #### Bug Fixes: 
-@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan, @Zkdc, @leebickmtu, @l3nn4rt, @Melix19, @Aikatsui, @melix99
+@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan, @Zkdc, @leebickmtu, @l3nn4rt, @Melix19, @Aikatsui, @melix99, @kyrillzorin, @oneshadab, , @CorvetteCole
 
 #### Documentation Improvements:
 @BoQsc, @zakkak, @dandv
 
 #### Translations: 
-@frnogueira (pt_BR), @zeten30 (cs), @franglais125 / @calotam / @oeramirez (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius / @linuxr01 (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / @MartinPL / @alex4401 (pl), @AlexGluck / @GoodNike / @rjapolov / @vantu5z (ru), @sicklylife-jp / @ryonakano (ja), @oltulu / @TeknoMobil / @daenney (tr), @sbadux / @kowalski7cc / @l3nn4rt (it), @OriginCode / @pan93412 (zh\_TW), @ojn (sv), @frandieguez (gl)
+@frnogueira / @victorwpbastos (pt_BR), @zeten30 (cs), @franglais125 / @calotam / @oeramirez (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius / @linuxr01 (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / @MartinPL / @alex4401 (pl), @AlexGluck / @GoodNike / @rjapolov / @vantu5z (ru), @sicklylife-jp / @ryonakano (ja), @oltulu / @TeknoMobil / @daenney (tr), @sbadux / @kowalski7cc / @l3nn4rt (it), @OriginCode / @pan93412 (zh\_TW), @ojn (sv), @frandieguez (gl)
 
 
 ## 
