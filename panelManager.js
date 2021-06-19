@@ -259,6 +259,10 @@ var dtpPanelManager = Utils.defineClass({
         ));
 
         this._setKeyBindings(true);
+
+        // keep GS overview.js from blowing away custom panel styles
+        if(!Me.settings.get_boolean('stockgs-keep-top-panel'))
+            Object.defineProperty(Main.panel, "style", {set: function(v) {}});
     },
 
     disable: function(reset) {
@@ -345,6 +349,8 @@ var dtpPanelManager = Utils.defineClass({
 
         LookingGlass.LookingGlass.prototype.open = LookingGlass.LookingGlass.prototype._oldOpen;
         delete LookingGlass.LookingGlass.prototype._oldOpen
+
+        delete Main.panel.style;
     },
 
     setFocusedMonitor: function(monitor, ignoreRelayout) {
