@@ -262,7 +262,7 @@ var dtpPanelManager = Utils.defineClass({
 
         // keep GS overview.js from blowing away custom panel styles
         if(!Me.settings.get_boolean('stockgs-keep-top-panel'))
-            Object.defineProperty(Main.panel, "style", {set: function(v) {}});
+            Object.defineProperty(Main.panel, "style", {configurable: true, set: function(v) {}});
     },
 
     disable: function(reset) {
