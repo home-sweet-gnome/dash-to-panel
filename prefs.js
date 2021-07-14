@@ -492,6 +492,7 @@ const Preferences = new Lang.Class({
                 // remove the settings box so it doesn't get destroyed;
                 dialog.get_content_area().remove(box);
                 dialog.destroy();
+                fileChooser.destroy();
             }
             return;
         }));
