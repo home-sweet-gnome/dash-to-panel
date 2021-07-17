@@ -6,471 +6,529 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dash-to-panel 24\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-18 10:58-0400\n"
-"PO-Revision-Date: 2019-10-18 11:00-0400\n"
-"Last-Translator: Boyuan Yang <073plan@gmail.com>\n"
+"POT-Creation-Date: 2021-07-10 18:36+0800\n"
+"PO-Revision-Date: 2021-07-11 12:04+0800\n"
+"Last-Translator: mars <18466397+zhmars@users.noreply.github.com>\n"
 "Language-Team: Chinese (Simplified) <debian-l10n-chinese@lists.debian.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: prefs.js:211
-msgid "Top, with plugin icons collapsed to bottom"
-msgstr "顶部，并且插件图标收缩到底部"
-
-#: prefs.js:211
-msgid "Left, with plugin icons collapsed to right"
-msgstr "左侧，并且插件图标收缩到右侧"
-
-#: prefs.js:212
-msgid "Top, with fixed center plugin icons"
-msgstr "顶部，并且固定居中插件图标"
-
-#: prefs.js:212
-msgid "Left, with fixed center plugin icons"
-msgstr "左侧，并且固定居中插件图标"
-
-#: prefs.js:213
-msgid "Top, with floating center plugin icons"
-msgstr "顶部，并且浮动居中插件图标"
-
-#: prefs.js:213
-msgid "Left, with floating center plugin icons"
-msgstr "左侧，并且浮动居中插件图标"
-
-#: prefs.js:214
-msgid "Center, fixed in middle of monitor"
-msgstr "中间，固定在显示屏中间"
-
-#: prefs.js:215
-msgid "Center, floating between top and bottom elements"
-msgstr "中间，在顶部元素和底部元素之间浮动"
-
-#: prefs.js:215
-msgid "Center, floating between left and right elements"
-msgstr "中间，在左侧元素和右侧元素之间浮动"
-
-#: prefs.js:219
-msgid "Top of plugin icons"
-msgstr "插件图标上侧"
-
-#: prefs.js:219
-msgid "Left of plugin icons"
-msgstr "插件图标左侧"
-
-#: prefs.js:220
-msgid "Bottom of plugin icons"
-msgstr "插件图标下侧"
-
-#: prefs.js:220
-msgid "Right of plugin icons"
-msgstr "插件图标右侧"
-
-#: prefs.js:221
-msgid "Top of system indicators"
-msgstr "系统指示器上侧"
-
-#: prefs.js:221
-msgid "Left of system indicators"
-msgstr "系统指示器左侧"
-
-#: prefs.js:222
-msgid "Bottom of system indicators"
-msgstr "系统指示器下侧"
-
-#: prefs.js:222
-msgid "Right of system indicators"
-msgstr "系统指示器右侧"
-
-#: prefs.js:223
-msgid "Top of taskbar"
-msgstr "任务栏上侧"
-
-#: prefs.js:223
-msgid "Left of taskbar"
-msgstr "任务栏左侧"
-
-#: prefs.js:224
-msgid "Bottom of taskbar"
-msgstr "任务栏下侧"
-
-#: prefs.js:224
-msgid "Right of taskbar"
-msgstr "任务栏右侧"
-
-#: prefs.js:230
+#: prefs.js:200
 msgid "Show Desktop button height (px)"
 msgstr "“显示桌面”按钮图标高度（像素）"
 
-#: prefs.js:230
+#: prefs.js:200
 msgid "Show Desktop button width (px)"
 msgstr "“显示桌面”按钮图标宽度（像素）"
 
-#: prefs.js:364
-msgid "Running Indicator Options"
-msgstr "运行指示器选项"
+#: prefs.js:212
+msgid "Unavailable when gnome-shell top panel is present"
+msgstr "GNOME-Shell 顶部面板存在时不可用"
 
-#: prefs.js:371 prefs.js:569 prefs.js:712 prefs.js:837 prefs.js:904
-#: prefs.js:992 prefs.js:1078 prefs.js:1325 prefs.js:1409 prefs.js:1474
-#: prefs.js:1510 prefs.js:1607 prefs.js:1641 prefs.js:1683
-msgid "Reset to defaults"
-msgstr "恢复默认值"
+#: prefs.js:270 Settings.ui.h:171
+msgid "Left"
+msgstr "左侧"
 
-#: prefs.js:514
-msgid "Default (Primary monitor)"
-msgstr "主显示器"
+#: prefs.js:271
+msgid "Center"
+msgstr "中间"
 
-#: prefs.js:517
-msgid "Monitor "
-msgstr "显示器 "
+#: prefs.js:272 Settings.ui.h:172
+msgid "Right"
+msgstr "右侧"
 
-#: prefs.js:562
-msgid "Multi-monitors options"
-msgstr "多显示器选项"
+#: prefs.js:274 Settings.ui.h:106
+msgid "Top"
+msgstr "顶部"
 
-#: prefs.js:705
-msgid "Dynamic opacity options"
-msgstr "动态半透明选项"
+#: prefs.js:275 prefs.js:280 Settings.ui.h:167
+msgid "Middle"
+msgstr "中部"
 
-#: prefs.js:830
-msgid "Intellihide options"
-msgstr "智能隐藏选项"
+#: prefs.js:276 Settings.ui.h:105
+msgid "Bottom"
+msgstr "底部"
 
-#: prefs.js:897
+#: prefs.js:279 Settings.ui.h:166
+msgid "Start"
+msgstr "首部"
+
+#: prefs.js:281 Settings.ui.h:168
+msgid "End"
+msgstr "尾部"
+
+#: prefs.js:366
+msgid "Show Applications button"
+msgstr "“显示应用程序”按钮"
+
+#: prefs.js:367
+msgid "Activities button"
+msgstr "“活动”按钮"
+
+#: prefs.js:368
+msgid "Taskbar"
+msgstr "任务栏"
+
+#: prefs.js:369
+msgid "Date menu"
+msgstr "日期菜单"
+
+#: prefs.js:370
+msgid "System menu"
+msgstr "系统菜单"
+
+#: prefs.js:371
+msgid "Left box"
+msgstr "Left box"
+
+#: prefs.js:372
+msgid "Center box"
+msgstr "Center box"
+
+#: prefs.js:373
+msgid "Right box"
+msgstr "Right box"
+
+#: prefs.js:374
+msgid "Desktop button"
+msgstr "“桌面”按钮"
+
+#: prefs.js:380
+msgid "Move up"
+msgstr "上移"
+
+#: prefs.js:382
+msgid "Move down"
+msgstr "下移"
+
+#: prefs.js:384
+msgid "Visible"
+msgstr "显示"
+
+#: prefs.js:385
+msgid "Select element position"
+msgstr "选择元素位置"
+
+#: prefs.js:396
+msgid "Stacked to top"
+msgstr "堆叠到顶部"
+
+#: prefs.js:396
+msgid "Stacked to left"
+msgstr "堆叠到左侧"
+
+#: prefs.js:397
+msgid "Stacked to bottom"
+msgstr "堆叠到底部"
+
+#: prefs.js:397
+msgid "Stacked to right"
+msgstr "堆叠到右侧"
+
+#: prefs.js:398
+msgid "Centered"
+msgstr "居中"
+
+#: prefs.js:399
+msgid "Monitor Center"
+msgstr "显示器中间"
+
+#: prefs.js:418
+msgid "More options"
+msgstr "更多选项"
+
+#: prefs.js:440
 msgid "Show Applications options"
 msgstr "“显示应用程序”选项"
 
-#: prefs.js:985
+#: prefs.js:447 prefs.js:512 prefs.js:732 prefs.js:1078 prefs.js:1222
+#: prefs.js:1345 prefs.js:1634 prefs.js:1730 prefs.js:1796 prefs.js:1840
+#: prefs.js:1938 prefs.js:1973 prefs.js:2016 prefs.js:2152
+msgid "Reset to defaults"
+msgstr "恢复默认值"
+
+#: prefs.js:453
+msgid "Open icon"
+msgstr "打开图标"
+
+#: prefs.js:505
 msgid "Show Desktop options"
 msgstr "“显示桌面”选项"
 
+#: prefs.js:605
+#, javascript-format
+msgid "%d ms"
+msgstr "%d ms"
+
+#: prefs.js:610
+#, javascript-format
+msgid "%d ."
+msgstr "%d ."
+
+#: prefs.js:615 prefs.js:620
+#, javascript-format
+msgid "%d %%"
+msgstr "%d %%"
+
+#: prefs.js:625
+#, javascript-format
+msgid "%.1f"
+msgstr "%.1f"
+
+#: prefs.js:630
+#, javascript-format
+msgid "%d icon"
+msgid_plural "%d icons"
+msgstr[0] "%d icon"
+
+#: prefs.js:725
+msgid "Running Indicator Options"
+msgstr "运行指示器选项"
+
+#: prefs.js:889
+msgid "Primary monitor"
+msgstr "主显示器"
+
+#: prefs.js:889
+msgid "Monitor "
+msgstr "显示器 "
+
 #: prefs.js:1071
+msgid "Dynamic opacity options"
+msgstr "动态半透明选项"
+
+#: prefs.js:1215
+msgid "Intellihide options"
+msgstr "智能隐藏选项"
+
+#: prefs.js:1338
 msgid "Window preview options"
 msgstr "窗口预览选项"
 
-#: prefs.js:1318
+#: prefs.js:1627
 msgid "Ungrouped application options"
 msgstr "未分组的应用程序选项"
 
-#: prefs.js:1402
+#: prefs.js:1723
 msgid "Customize middle-click behavior"
 msgstr "自定义中键点击行为"
 
-#: prefs.js:1467
+#: prefs.js:1789
 msgid "Customize panel scroll behavior"
 msgstr "自定义面板滚动行为"
 
-#: prefs.js:1503
+#: prefs.js:1833
 msgid "Customize icon scroll behavior"
 msgstr "自定义图标滚动行为"
 
-#: prefs.js:1600
+#: prefs.js:1931
 msgid "Advanced hotkeys options"
 msgstr "高级热键选项"
 
-#: prefs.js:1634
+#: prefs.js:1966
 msgid "Secondary Menu Options"
 msgstr "次级菜单选项"
 
-#: prefs.js:1676 Settings.ui.h:223
+#: prefs.js:2009 Settings.ui.h:239
 msgid "Advanced Options"
 msgstr "高级选项"
 
-#: prefs.js:1763
+#: prefs.js:2145
+msgid "App icon animation options"
+msgstr "应用图标动画选项"
+
+#: prefs.js:2211
 msgid "Export settings"
 msgstr "导出设置"
 
-#: prefs.js:1780
+#: prefs.js:2227
 msgid "Import settings"
 msgstr "导入设置"
 
-#: appIcons.js:1380
+#: appIcons.js:1492
 msgid "Show Details"
 msgstr "显示细节"
 
-#: appIcons.js:1398
+#: appIcons.js:1510
 msgid "New Window"
 msgstr "新建窗口"
 
-#: appIcons.js:1398 appIcons.js:1458 appIcons.js:1460 Settings.ui.h:10
+#: appIcons.js:1510 appIcons.js:1570 appIcons.js:1572 Settings.ui.h:21
 msgid "Quit"
 msgstr "退出"
 
-#: appIcons.js:1460
+# 上面的 Quit 和 这里的 Windows 组合，实际显示成“Quit %d Windows”，为更符合中文习惯，这里加了“个”
+#: appIcons.js:1572
 msgid "Windows"
-msgstr "窗口"
+msgstr "个窗口"
 
-#: appIcons.js:1684
+#: appIcons.js:1859
 msgid "Power options"
 msgstr "电源选项"
 
-#: appIcons.js:1689
+#: appIcons.js:1864
 msgid "Event logs"
 msgstr "事件日志"
 
-#: appIcons.js:1694
+#: appIcons.js:1869
 msgid "System"
-msgstr "系统"
+msgstr "系统信息"
 
-#: appIcons.js:1699
+#: appIcons.js:1874
 msgid "Device Management"
 msgstr "设备管理"
 
-#: appIcons.js:1704
+#: appIcons.js:1879
 msgid "Disk Management"
 msgstr "磁盘管理"
 
-#: appIcons.js:1711
+#: appIcons.js:1893
 msgid "Terminal"
 msgstr "终端"
 
-#: appIcons.js:1716
+#: appIcons.js:1898
 msgid "System monitor"
 msgstr "系统监视器"
 
-#: appIcons.js:1721
+#: appIcons.js:1903
 msgid "Files"
 msgstr "文件"
 
-#: appIcons.js:1726
-msgid "Settings"
-msgstr "导出设置设置"
+#: appIcons.js:1908
+msgid "Extensions"
+msgstr "扩展"
 
-#: appIcons.js:1733
+#: appIcons.js:1913
+msgid "Settings"
+msgstr "设置"
+
+#: appIcons.js:1925
 msgid "Unlock taskbar"
 msgstr "解锁任务栏"
 
-#: appIcons.js:1733
+#: appIcons.js:1925
 msgid "Lock taskbar"
 msgstr "锁定任务栏"
 
-#: appIcons.js:1738
+#: appIcons.js:1930
 msgid "Dash to Panel Settings"
 msgstr "Dash to Panel 设置"
 
-#: appIcons.js:1745
+#: appIcons.js:1943
 msgid "Restore Windows"
 msgstr "恢复窗口"
 
-#: appIcons.js:1745
+#: appIcons.js:1943
 msgid "Show Desktop"
 msgstr "显示桌面"
 
-#: update.js:58
-#, javascript-format
-msgid "Version %s (%s) is available"
-msgstr "版本 %s（%s）已经可用"
-
-#: update.js:59
-msgid "Details"
-msgstr "详细信息"
-
-#: update.js:60
-msgid "Update"
-msgstr "更新"
-
-#: update.js:63
-msgid "Already up to date"
-msgstr "已经处于最新状态"
-
-#: update.js:148
-msgid "Update successful, please log out/in"
-msgstr "更新成功，请注销并重新登录"
-
-#: update.js:149
-msgid "Log out"
-msgstr "注销"
-
-#: update.js:153
-msgid "Update successful, please restart GNOME Shell"
-msgstr "更新成功，请重新启动 GNOME Shell"
-
-#: update.js:154
-msgid "Restart GNOME Shell"
-msgstr "重新启动 GNOME Shell"
-
-#: update.js:154
-msgid "Restarting GNOME Shell..."
-msgstr "正在重新启动 GNOME Shell……"
-
-#: update.js:160
-msgid "Error: "
-msgstr "错误："
-
 #: Settings.ui.h:1
+msgid "Animation type"
+msgstr "动画类型"
+
+#: Settings.ui.h:2
+msgid "Simple"
+msgstr "简单"
+
+#: Settings.ui.h:3
+msgid "Ripple"
+msgstr "波纹"
+
+#: Settings.ui.h:4
+msgid "Plank"
+msgstr "木板"
+
+#: Settings.ui.h:5
+msgid "Duration"
+msgstr "Duration"
+
+#: Settings.ui.h:6
+msgid "Rotation"
+msgstr "Rotation"
+
+#: Settings.ui.h:7
+msgid "Travel"
+msgstr "Travel"
+
+#: Settings.ui.h:8
+msgid "Zoom"
+msgstr "Zoom"
+
+#: Settings.ui.h:9
+msgid "Convexity"
+msgstr "Convexity"
+
+#: Settings.ui.h:10
+msgid "Extent"
+msgstr "Extent"
+
+#: Settings.ui.h:11
 msgid "Nothing yet!"
 msgstr "暂时什么都没有！"
 
-#: Settings.ui.h:2
+#: Settings.ui.h:12
 msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
 msgstr "设置为最小化时，双击将最小化该应用程序的所有窗口。"
 
-#: Settings.ui.h:3
+#: Settings.ui.h:13
 msgid "Shift+Click action"
 msgstr "Shift+点击动作"
 
-#: Settings.ui.h:4
+#: Settings.ui.h:14
 msgid "Raise windows"
 msgstr "提升窗口"
 
-#: Settings.ui.h:5
+#: Settings.ui.h:15
 msgid "Minimize window"
 msgstr "最小化窗口"
 
-#: Settings.ui.h:6
+#: Settings.ui.h:16
 msgid "Launch new instance"
 msgstr "启动新实例"
 
-#: Settings.ui.h:7
+#: Settings.ui.h:17
 msgid "Cycle through windows"
 msgstr "在窗口间循环切换"
 
-#: Settings.ui.h:8
+#: Settings.ui.h:18
 msgid "Cycle windows + minimize"
 msgstr "循环窗口 + 最小化"
 
-#: Settings.ui.h:9
+#: Settings.ui.h:19
 msgid "Toggle single / Preview multiple"
 msgstr "切换单个 / 预览多个"
 
-#: Settings.ui.h:11
+#: Settings.ui.h:20
+msgid "Toggle single / Cycle multiple"
+msgstr "切换单个 / 循环多个"
+
+#: Settings.ui.h:22
 msgid "Behavior for Middle-Click."
 msgstr "中键点击行为。"
 
-#: Settings.ui.h:12
+#: Settings.ui.h:23
 msgid "Middle-Click action"
 msgstr "中键点击动作"
 
-#: Settings.ui.h:13
+#: Settings.ui.h:24
 msgid "Behavior for Shift+Middle-Click."
 msgstr "Shift+中键点击的行为。"
 
-#: Settings.ui.h:14
+#: Settings.ui.h:25
 msgid "Shift+Middle-Click action"
 msgstr "Shift+中键点击动作"
 
-#: Settings.ui.h:15
-msgid "Isolate monitors"
-msgstr "隔离显示器"
-
-#: Settings.ui.h:16
-msgid "Display favorite applications on all monitors"
-msgstr "在所有显示器上显示收藏的应用程序"
-
-#: Settings.ui.h:17
-msgid "Display the clock on all monitors"
-msgstr "在所有显示器上显示时钟"
-
-#: Settings.ui.h:18
-msgid "Display the status menu on all monitors"
-msgstr "在所有显示器上显示状态菜单"
-
-#: Settings.ui.h:19
+#: Settings.ui.h:26
 msgid "Integrate <i>AppMenu</i> items"
-msgstr "集成<b>应用菜单</b>项"
+msgstr "集成 <b>应用菜单</b> 项"
 
-#: Settings.ui.h:20
+#: Settings.ui.h:27
 msgid "<i>Show Details</i> menu item"
-msgstr "<b>显示细节</b>菜单项"
+msgstr "<b>显示细节</b> 菜单项"
 
-#: Settings.ui.h:21
+#: Settings.ui.h:28
 msgid "Highlight focused application"
 msgstr "高亮显示取得焦点的应用程序"
 
-#: Settings.ui.h:22
+#: Settings.ui.h:29
 msgid "Icon dominant color"
 msgstr "图标主颜色"
 
-#: Settings.ui.h:23
+#: Settings.ui.h:30
 msgid "Custom color"
 msgstr "自定义颜色"
 
-#: Settings.ui.h:24
+#: Settings.ui.h:31
 msgid "Highlight opacity"
 msgstr "高亮不透明度"
 
-#: Settings.ui.h:25
-msgid "Indicator height (px)"
-msgstr "指示器高度（像素）"
+#: Settings.ui.h:32
+msgid "Indicator size (px)"
+msgstr "指示器大小（像素）"
 
-#: Settings.ui.h:26
+#: Settings.ui.h:33
 msgid "Indicator color - Icon Dominant"
 msgstr "指示器颜色 - 图标主色"
 
-#: Settings.ui.h:27
+#: Settings.ui.h:34
 msgid "Indicator color - Override Theme"
 msgstr "指示器颜色 - 覆盖主题"
 
-#: Settings.ui.h:28
+#: Settings.ui.h:35
 msgid "1 window open (or ungrouped)"
 msgstr "1 窗口开启（或未分组）"
 
-#: Settings.ui.h:29
+#: Settings.ui.h:36
 msgid "Apply to all"
 msgstr "应用至全部"
 
-#: Settings.ui.h:30
+#: Settings.ui.h:37
 msgid "2 windows open"
 msgstr "2 窗口开启"
 
-#: Settings.ui.h:31
+#: Settings.ui.h:38
 msgid "3 windows open"
 msgstr "3 窗口开启"
 
-#: Settings.ui.h:32
+#: Settings.ui.h:39
 msgid "4+ windows open"
 msgstr "4+ 窗口开启"
 
-#: Settings.ui.h:33
+#: Settings.ui.h:40
 msgid "Use different for unfocused"
 msgstr "为未取得焦点的程序使用不同方案"
 
-#: Settings.ui.h:34
+#: Settings.ui.h:41
 msgid "Font size (px) of the application titles (default is 14)"
 msgstr "应用程序标题字体大小（像素）（默认值为 14）"
 
-#: Settings.ui.h:35
+#: Settings.ui.h:42
 msgid "Font weight of application titles"
 msgstr "应用程序标题字体粗细"
 
-#: Settings.ui.h:36
+#: Settings.ui.h:43
 msgid "inherit from theme"
 msgstr "继承自主题"
 
-#: Settings.ui.h:37
+#: Settings.ui.h:44
 msgid "normal"
 msgstr "正常"
 
-#: Settings.ui.h:38
+#: Settings.ui.h:45
 msgid "lighter"
 msgstr "较细"
 
-#: Settings.ui.h:39
+#: Settings.ui.h:46
 msgid "bold"
 msgstr "粗体"
 
-#: Settings.ui.h:40
+#: Settings.ui.h:47
 msgid "bolder"
 msgstr "更粗"
 
-#: Settings.ui.h:41
+#: Settings.ui.h:48
 msgid "Font color of the application titles"
 msgstr "应用程序标题字体颜色"
 
-#: Settings.ui.h:42
+#: Settings.ui.h:49
+msgid "Font color of the minimized application titles"
+msgstr "最小化应用程序标题字体颜色"
+
+#: Settings.ui.h:50
 msgid "Maximum width (px) of the application titles (default is 160)"
-msgstr "应用程序最大宽度（像素）（默认值为 160）"
+msgstr "应用程序标题最大宽度（像素）（默认值为 160）"
 
-#: Settings.ui.h:43
+#: Settings.ui.h:51
 msgid "Use a fixed width for the application titles"
-msgstr "为应用程序标题使用固定宽度"
+msgstr "应用程序标题使用固定宽度"
 
-#: Settings.ui.h:44
+#: Settings.ui.h:52
 msgid ""
 "The application titles all have the same width, even if their texts are "
 "shorter than the maximum width. The maximum width value is used as the fixed "
@@ -479,730 +537,731 @@ msgstr ""
 "应用程序标题都将使用相同宽度，即使其文本宽度无法达到最大宽度。最大宽度值将被"
 "用于固定宽度值。"
 
-#: Settings.ui.h:45
+#: Settings.ui.h:53
 msgid "Display running indicators on unfocused applications"
 msgstr "在未取得焦点的应用上显示运行指示器"
 
-#: Settings.ui.h:46
+#: Settings.ui.h:54
 msgid "Use the favorite icons as application launchers"
 msgstr "使用收藏的图标作为应用程序启动器"
 
-#: Settings.ui.h:47
+#: Settings.ui.h:55
 msgid "Only hide the panel when it is obstructed by windows "
 msgstr "仅在面板被窗口阻挡时隐藏 "
 
-#: Settings.ui.h:48
+#: Settings.ui.h:56
 msgid "The panel hides from"
 msgstr "触发面板隐藏的对象"
 
-#: Settings.ui.h:49
+#: Settings.ui.h:57
 msgid "All windows"
 msgstr "所有窗口"
 
-#: Settings.ui.h:50
+#: Settings.ui.h:58
 msgid "Focused windows"
 msgstr "获得焦点的窗口"
 
-#: Settings.ui.h:51
+#: Settings.ui.h:59
 msgid "Maximized windows"
 msgstr "最大化窗口"
 
-#: Settings.ui.h:52
+#: Settings.ui.h:60
 msgid "Require pressure at the edge of the screen to reveal the panel"
 msgstr "在屏幕边缘受到一定光标压力时显示面板"
 
-#: Settings.ui.h:53
+#: Settings.ui.h:61
 msgid "Required pressure threshold (px)"
 msgstr "所需压力阈值（像素）"
 
-#: Settings.ui.h:54
+#: Settings.ui.h:62
 msgid "Required pressure timeout (ms)"
 msgstr "所需压力超时（毫秒）"
 
-#: Settings.ui.h:55
+#: Settings.ui.h:63
 msgid "Allow the panel to be revealed while in fullscreen mode"
 msgstr "允许面板在全屏幕模式下显示"
 
-#: Settings.ui.h:56
+#: Settings.ui.h:64
 msgid "Only hide secondary panels (requires multi-monitors option)"
-msgstr "只隐藏次要面板（需要多显示器选项）"
+msgstr "仅隐藏次要面板（需要多显示器选项）"
 
-#: Settings.ui.h:57
+#: Settings.ui.h:65
 msgid "e.g. <Super>i"
 msgstr "例如 <Super>i"
 
-#: Settings.ui.h:58
+#: Settings.ui.h:66
 msgid "Keyboard shortcut to reveal and hold the panel"
 msgstr "显示并保持面板的键盘快捷键"
 
-#: Settings.ui.h:59
+#: Settings.ui.h:67
 msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
 msgstr "语法：<Shift>, <Ctrl>, <Alt>, <Super>"
 
-#: Settings.ui.h:60
+#: Settings.ui.h:68
 msgid "Hide and reveal animation duration (ms)"
 msgstr "隐藏与显示动画持续时间（毫秒）"
 
-#: Settings.ui.h:61
+#: Settings.ui.h:69
 msgid "Delay before hiding the panel (ms)"
 msgstr "隐藏面板之前的延时（毫秒）"
 
-#: Settings.ui.h:62
+#: Settings.ui.h:70
 msgid "Delay before enabling intellihide on start (ms)"
 msgstr "启动后到启用智能隐藏之间的延时（毫秒）"
 
-#: Settings.ui.h:63
-msgid "Time (ms) before showing (100 is default)"
-msgstr "显示前的延时（毫秒，默认为 100）"
+#: Settings.ui.h:71
+msgid "Time (ms) before showing (400 is default)"
+msgstr "显示前的延时（毫秒，默认为 400）"
 
-#: Settings.ui.h:64
+#: Settings.ui.h:72
 msgid "Animation time (ms)"
 msgstr "动画时间（毫秒）"
 
-#: Settings.ui.h:65
+#: Settings.ui.h:73
 msgid "Time (ms) before hiding (100 is default)"
 msgstr "隐藏前的延时（毫秒，默认为 100）"
 
-#: Settings.ui.h:66
+#: Settings.ui.h:74
 msgid "Immediate on application icon click"
 msgstr "点击应用程序图标后立即触发"
 
-#: Settings.ui.h:67
+#: Settings.ui.h:75
 msgid "Middle click on the preview to close the window"
 msgstr "在预览上中键点击以关闭窗口"
 
-#: Settings.ui.h:68
+#: Settings.ui.h:76
 msgid "Window previews preferred size (px)"
 msgstr "窗口预览偏好大小（像素）"
 
-#: Settings.ui.h:69
+#: Settings.ui.h:77
 msgid "Window previews aspect ratio Y (height)"
 msgstr "窗口预览长宽比 X（高度）"
 
-#: Settings.ui.h:70
+#: Settings.ui.h:78
 msgid "Window previews padding (px)"
 msgstr "窗口预览填充距离（像素）"
 
-#: Settings.ui.h:71
+#: Settings.ui.h:79
 msgid "1"
 msgstr "1"
 
-#: Settings.ui.h:72
+#: Settings.ui.h:80
 msgid "2"
 msgstr "2"
 
-#: Settings.ui.h:73
+#: Settings.ui.h:81
 msgid "3"
 msgstr "3"
 
-#: Settings.ui.h:74
+#: Settings.ui.h:82
 msgid "4"
 msgstr "4"
 
-#: Settings.ui.h:75
+#: Settings.ui.h:83
 msgid "5"
 msgstr "5"
 
-#: Settings.ui.h:76
+#: Settings.ui.h:84
 msgid "6"
 msgstr "6"
 
-#: Settings.ui.h:77
+#: Settings.ui.h:85
 msgid "7"
 msgstr "7"
 
-#: Settings.ui.h:78
+#: Settings.ui.h:86
 msgid "8"
 msgstr "8"
 
-#: Settings.ui.h:79
+#: Settings.ui.h:87
 msgid "9"
 msgstr "9"
 
-#: Settings.ui.h:80
+#: Settings.ui.h:88
 msgid "10"
 msgstr "10"
 
-#: Settings.ui.h:81
+#: Settings.ui.h:89
 msgid "11"
 msgstr "11"
 
-#: Settings.ui.h:82
+#: Settings.ui.h:90
 msgid "12"
 msgstr "12"
 
-#: Settings.ui.h:83
+#: Settings.ui.h:91
 msgid "13"
 msgstr "13"
 
-#: Settings.ui.h:84
+#: Settings.ui.h:92
 msgid "14"
 msgstr "14"
 
-#: Settings.ui.h:85
+#: Settings.ui.h:93
 msgid "15"
 msgstr "15"
 
-#: Settings.ui.h:86
+#: Settings.ui.h:94
 msgid "16"
 msgstr "16"
 
-#: Settings.ui.h:87
+#: Settings.ui.h:95
 msgid "17"
 msgstr "17"
 
-#: Settings.ui.h:88
+#: Settings.ui.h:96
 msgid "18"
 msgstr "18"
 
-#: Settings.ui.h:89
+#: Settings.ui.h:97
 msgid "19"
 msgstr "19"
 
-#: Settings.ui.h:90
+#: Settings.ui.h:98
 msgid "20"
 msgstr "20"
 
-#: Settings.ui.h:91
+#: Settings.ui.h:99
 msgid "21"
 msgstr "21"
 
-#: Settings.ui.h:92
+#: Settings.ui.h:100
 msgid "Fixed"
 msgstr "固定"
 
-#: Settings.ui.h:93
+#: Settings.ui.h:101
 msgid "Window previews aspect ratio X (width)"
 msgstr "窗口预览长宽比 X（宽度）"
 
-#: Settings.ui.h:94
+#: Settings.ui.h:102
 msgid "Use custom opacity for the previews background"
 msgstr "为预览背景使用自定义不透明度"
 
-#: Settings.ui.h:95
+#: Settings.ui.h:103
 msgid "If disabled, the previews background have the same opacity as the panel"
 msgstr "如果禁用，预览的背景与面板的不透明度将保持一致"
 
-#: Settings.ui.h:96
+#: Settings.ui.h:104
 msgid "Close button and header position"
 msgstr "关闭按钮和头部的位置"
 
-#: Settings.ui.h:97
-msgid "Bottom"
-msgstr "底部"
-
-#: Settings.ui.h:98
-msgid "Top"
-msgstr "顶部"
-
-#: Settings.ui.h:99
+#: Settings.ui.h:107
 msgid "Display window preview headers"
 msgstr "显示窗口预览头部"
 
-#: Settings.ui.h:100
+#: Settings.ui.h:108
+msgid "Icon size (px) of the window preview"
+msgstr "预览窗口的图标大小（像素）"
+
+#: Settings.ui.h:109
+msgid "If disabled, the previews icon size will be based on headerbar size"
+msgstr "如果禁用，预览图标将基于标题栏的大小"
+
+#: Settings.ui.h:110
 msgid "Font size (px) of the preview titles"
 msgstr "预览标题的字体大小（像素）"
 
-#: Settings.ui.h:101
+#: Settings.ui.h:111
 msgid "Font weight of the preview titles"
 msgstr "预览标题的字重"
 
-#: Settings.ui.h:102
+#: Settings.ui.h:112
 msgid "Font color of the preview titles"
 msgstr "预览标题的字体颜色"
 
-#: Settings.ui.h:103
+#: Settings.ui.h:113
 msgid "Enable window peeking"
 msgstr "启用窗口概览功能"
 
-#: Settings.ui.h:104
+#: Settings.ui.h:114
 msgid ""
 "When hovering over a window preview for some time, the window gets "
 "distinguished."
 msgstr "在窗口预览上悬浮一定时间后，该窗口将被区别显示。"
 
-#: Settings.ui.h:105
+#: Settings.ui.h:115
 msgid "Enter window peeking mode timeout (ms)"
 msgstr "进入窗口概览模式延时（毫秒）"
 
-#: Settings.ui.h:106
+#: Settings.ui.h:116
 msgid "50"
 msgstr "50"
 
-#: Settings.ui.h:107
+#: Settings.ui.h:117
 msgid ""
 "Time of inactivity while hovering over a window preview needed to enter the "
 "window peeking mode."
 msgstr "为进入窗口概览模式，需要光标悬浮在预览窗口上不活动的时间。"
 
-#: Settings.ui.h:108
+#: Settings.ui.h:118
 msgid "Window peeking mode opacity"
 msgstr "窗口概览模式不透明度"
 
-#: Settings.ui.h:109
+#: Settings.ui.h:119
 msgid "0"
 msgstr "0"
 
-#: Settings.ui.h:110
+#: Settings.ui.h:120
 msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
 msgstr "除正在处于概览状态的窗口外，其它所有窗口的不透明度将被设置为同一个值。"
 
-#: Settings.ui.h:111
+#: Settings.ui.h:121
 msgid "Delay between mouse scroll events (ms)"
 msgstr "鼠标滚动事件之间的延迟（毫秒）"
 
-#: Settings.ui.h:112
+#: Settings.ui.h:122
 msgid "Use this value to limit the number of captured mouse scroll events."
 msgstr "使用这个值来限制对鼠标滚动事件捕捉的频率。"
 
-#: Settings.ui.h:113
+#: Settings.ui.h:123
+msgid "Show popup when changing workspace"
+msgstr "切换工作区时显示弹窗"
+
+#: Settings.ui.h:124
+msgid "This affects workspace popup when scrolling on the panel only."
+msgstr "仅影响在面板上滚动时的工作区弹窗。"
+
+#: Settings.ui.h:125
 msgid "Super"
 msgstr "Super"
 
-#: Settings.ui.h:114
+#: Settings.ui.h:126
 msgid "Super + Alt"
 msgstr "Super + Alt"
 
-#: Settings.ui.h:115
+#: Settings.ui.h:127
 msgid "Hotkeys prefix"
 msgstr "热键前缀"
 
-#: Settings.ui.h:116
+#: Settings.ui.h:128
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
 msgstr "热键可以是 Super+数字 或者 Super+Alt+数字"
 
-#: Settings.ui.h:117
+#: Settings.ui.h:129
 msgid "Never"
 msgstr "从不"
 
-#: Settings.ui.h:118
+#: Settings.ui.h:130
 msgid "Show temporarily"
 msgstr "暂时显示"
 
-#: Settings.ui.h:119
+#: Settings.ui.h:131
 msgid "Always visible"
 msgstr "总是可见"
 
-#: Settings.ui.h:120
+#: Settings.ui.h:132
 msgid "Number overlay"
 msgstr "数字附加显示"
 
-#: Settings.ui.h:121
+#: Settings.ui.h:133
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
 msgstr "使用热键时在应用图标上临时显示其对应数字。"
 
-#: Settings.ui.h:122
+#: Settings.ui.h:134
 msgid "Hide timeout (ms)"
 msgstr "隐藏延时（毫秒）"
 
-#: Settings.ui.h:123
+#: Settings.ui.h:135
 msgid "e.g. <Super>q"
 msgstr "例如 <Super>q"
 
-#: Settings.ui.h:124
+#: Settings.ui.h:136
 msgid "Shortcut to show the overlay for 2 seconds"
 msgstr "显示两秒钟附加数字的快捷键"
 
-#: Settings.ui.h:125
+#: Settings.ui.h:137
 msgid "Show window previews on hotkey"
 msgstr "按下热键时显示窗口预览"
 
-#: Settings.ui.h:126
+#: Settings.ui.h:138
 msgid "Show previews when the application have multiple instances"
 msgstr "应用程序有多个实例时显示预览"
 
-#: Settings.ui.h:127
+#: Settings.ui.h:139
 msgid "Number row"
 msgstr "键盘主数字行"
 
-#: Settings.ui.h:128
+#: Settings.ui.h:140
 msgid "Numeric keypad"
 msgstr "数字小键盘"
 
-#: Settings.ui.h:129
+#: Settings.ui.h:141
 msgid "Both"
 msgstr "两者"
 
-#: Settings.ui.h:130
+#: Settings.ui.h:142
 msgid "Hotkeys are activated with"
 msgstr "热键激活来源"
 
-#: Settings.ui.h:131
+#: Settings.ui.h:143
 msgid "Select which keyboard number keys are used to activate the hotkeys"
 msgstr "选择用于激活热键的键盘数字键"
 
-#: Settings.ui.h:132
+#: Settings.ui.h:144
 msgid "Current Show Applications icon"
 msgstr "当前“显示应用程序”图标"
 
-#: Settings.ui.h:133
-msgid "Select a Show Applications image icon"
-msgstr "选择一个“显示应用程序”图标图像"
-
-#: Settings.ui.h:134
+#: Settings.ui.h:145
 msgid "Custom Show Applications image icon"
 msgstr "自定义“显示应用程序”图标图像"
 
-#: Settings.ui.h:135
+#: Settings.ui.h:146
 msgid "Show Applications icon side padding (px)"
 msgstr "“显示应用程序”图标侧边距（像素）"
 
-#: Settings.ui.h:136
-msgid "Reveal the desktop when hovering the Show Desktop button"
-msgstr "悬停在显示桌面按钮时展示桌面预览"
+#: Settings.ui.h:147
+msgid "Override escape key and return to desktop"
+msgstr "覆盖 Esc 键并返回桌面"
 
-#: Settings.ui.h:137
+#: Settings.ui.h:148
+msgid "Override Show Desktop line color"
+msgstr "覆盖“显示桌面”线条颜色"
+
+#: Settings.ui.h:149
+msgid "Reveal the desktop when hovering the Show Desktop button"
+msgstr "悬停在“显示桌面”按钮时展示桌面预览"
+
+#: Settings.ui.h:150
 msgid "Delay before revealing the desktop (ms)"
 msgstr "展示桌面预览之前的延时（毫秒）"
 
-#: Settings.ui.h:138
+#: Settings.ui.h:151
 msgid "Fade duration (ms)"
 msgstr "淡出延时（毫秒）"
 
-#: Settings.ui.h:139
+#: Settings.ui.h:152
 msgid "The panel background opacity is affected by"
 msgstr "面板背景不透明度的影响因素"
 
-#: Settings.ui.h:140
+#: Settings.ui.h:153
 msgid "Change opacity when a window gets closer than (px)"
 msgstr "在窗口多靠近时修改不透明度（像素 px）"
 
-#: Settings.ui.h:142
+#: Settings.ui.h:155
 #, no-c-format
 msgid "Change opacity to (%)"
 msgstr "将不透明度修改为（%）"
 
-#: Settings.ui.h:143
+#: Settings.ui.h:156
 msgid "Opacity change animation duration (ms)"
 msgstr "不透明度变更动画持续时间（毫秒）"
 
-#: Settings.ui.h:144
-msgid "Panel screen position"
-msgstr "面板屏幕位置"
-
-#: Settings.ui.h:145
-msgid "Left"
-msgstr "左侧"
-
-#: Settings.ui.h:146
-msgid "Right"
-msgstr "右侧"
-
-#: Settings.ui.h:147
-msgid "Taskbar position"
-msgstr "任务栏位置"
-
-#: Settings.ui.h:148
-msgid "Clock location"
-msgstr "时钟位置"
-
-#: Settings.ui.h:149
+#: Settings.ui.h:157
 msgid "Display the main panel on"
 msgstr "将主面板显示于"
 
-#: Settings.ui.h:150
+#: Settings.ui.h:158
 msgid "Display panels on all monitors"
 msgstr "在所有显示器上显示面板"
 
-#: Settings.ui.h:151
+#: Settings.ui.h:159
 msgid "Panel Intellihide"
 msgstr "面板智能隐藏"
 
-#: Settings.ui.h:152
+#: Settings.ui.h:160
 msgid "Hide and reveal the panel according to preferences"
 msgstr "按照配置隐藏和显示面板"
 
-#: Settings.ui.h:153
+#: Settings.ui.h:161
+msgid "Order and positions on monitor"
+msgstr "显示次序和位置"
+
+#: Settings.ui.h:162
+msgid "Apply changes to all monitors"
+msgstr "应用修改到所有显示器"
+
+#: Settings.ui.h:163
+msgid "Panel thickness&#10;(default is 48)"
+msgstr "面板厚度&#10;（默认为 48）"
+
+#: Settings.ui.h:165
+#, no-c-format
+msgid "Panel length (%)&#10;(default is 100)"
+msgstr "面板长度（%）&#10;（默认为 100）"
+
+#: Settings.ui.h:169
+msgid "Anchor"
+msgstr "锚点"
+
+#: Settings.ui.h:170
+msgid "Panel screen position"
+msgstr "面板屏幕位置"
+
+#: Settings.ui.h:173
 msgid "Position"
 msgstr "位置"
 
-#: Settings.ui.h:154
-msgid ""
-"Panel Size\n"
-"(default is 48)"
-msgstr ""
-"面板大小\n"
-"（默认为 48）"
+#: Settings.ui.h:174
+msgid "App Icon Margin&#10;(default is 8)"
+msgstr "应用图标边缘空白&#10;（默认为 8）"
 
-#: Settings.ui.h:156
-msgid ""
-"App Icon Margin\n"
-"(default is 8)"
-msgstr ""
-"应用图标边缘空白\n"
-"（默认为 8）"
+#: Settings.ui.h:175
+msgid "App Icon Padding&#10;(default is 4)"
+msgstr "应用图标边缘空白&#10;（默认为 4）"
 
-#: Settings.ui.h:158
-msgid ""
-"App Icon Padding\n"
-"(default is 4)"
-msgstr ""
-"应用图标边缘空白\n"
-"（默认为 4）"
-
-#: Settings.ui.h:160
+#: Settings.ui.h:176
 msgid "Running indicator position"
 msgstr "运行指示器位置"
 
-#: Settings.ui.h:161
+#: Settings.ui.h:177
 msgid "Running indicator style (Focused app)"
 msgstr "运行指示器风格（取得焦点的应用）"
 
-#: Settings.ui.h:162
+#: Settings.ui.h:178
 msgid "Dots"
 msgstr "点"
 
-#: Settings.ui.h:163
+#: Settings.ui.h:179
 msgid "Squares"
 msgstr "方块"
 
-#: Settings.ui.h:164
+#: Settings.ui.h:180
 msgid "Dashes"
 msgstr "横线"
 
-#: Settings.ui.h:165
+#: Settings.ui.h:181
 msgid "Segmented"
 msgstr "间断线"
 
-#: Settings.ui.h:166
+#: Settings.ui.h:182
 msgid "Solid"
 msgstr "实心"
 
-#: Settings.ui.h:167
+#: Settings.ui.h:183
 msgid "Ciliora"
 msgstr "Ciliora"
 
-#: Settings.ui.h:168
+#: Settings.ui.h:184
 msgid "Metro"
 msgstr "Metro"
 
-#: Settings.ui.h:169
+#: Settings.ui.h:185
 msgid "Running indicator style (Unfocused apps)"
 msgstr "运行指示器风格（未取得焦点的应用）"
 
-#: Settings.ui.h:170
+#: Settings.ui.h:186
 msgid "Override panel theme background color "
 msgstr "覆盖面板主题背景颜色 "
 
-#: Settings.ui.h:171
+#: Settings.ui.h:187
 msgid "Override panel theme background opacity"
 msgstr "覆盖面板主题背景不透明度"
 
-#: Settings.ui.h:173
+#: Settings.ui.h:189
 #, no-c-format
 msgid "Panel background opacity (%)"
 msgstr "面板背景不透明度（%）"
 
-#: Settings.ui.h:174
+#: Settings.ui.h:190
 msgid "Dynamic background opacity"
 msgstr "动态背景不透明度"
 
-#: Settings.ui.h:175
+#: Settings.ui.h:191
 msgid "Change opacity when a window gets close to the panel"
 msgstr "在有窗口接近面板时修改不透明度"
 
-#: Settings.ui.h:176
+#: Settings.ui.h:192
 msgid "Override panel theme gradient "
 msgstr "覆盖面板主题渐变 "
 
-#: Settings.ui.h:178
+#: Settings.ui.h:194
 #, no-c-format
 msgid "Gradient top color and opacity (%)"
 msgstr "渐变顶部颜色和不透明度（%）"
 
-#: Settings.ui.h:180
+#: Settings.ui.h:196
 #, no-c-format
 msgid "Gradient bottom color and opacity (%)"
 msgstr "渐变底部颜色和不透明度（%）"
 
-#: Settings.ui.h:181
+#: Settings.ui.h:197
+msgid "Animate hovering app icons"
+msgstr "动画悬停应用图标"
+
+#: Settings.ui.h:198
 msgid "Style"
 msgstr "风格"
 
-#: Settings.ui.h:182
+#: Settings.ui.h:199
 msgid "Show favorite applications"
 msgstr "显示收藏的应用程序"
 
-#: Settings.ui.h:183
+#: Settings.ui.h:200
 msgid "Show running applications"
 msgstr "显示正在运行的应用程序"
 
-#: Settings.ui.h:184
-msgid "Show <i>Applications</i> icon"
-msgstr "显示<b>应用</b>图标"
+#: Settings.ui.h:201
+msgid "Show favorite applications on secondary panels"
+msgstr "次要面板显示收藏的应用程序"
 
-#: Settings.ui.h:185
-msgid "Animate <i>Show Applications</i>."
-msgstr "动画化<b>显示应用程序</b>。"
-
-#: Settings.ui.h:186
-msgid "Show <i>Activities</i> button"
-msgstr "显示<b>活动</b>按钮"
-
-#: Settings.ui.h:187
-msgid "Show <i>Desktop</i> button"
-msgstr "显示<b>桌面</b>按钮"
-
-#: Settings.ui.h:188
+#: Settings.ui.h:202
 msgid "Show <i>AppMenu</i> button"
-msgstr "显示<b>应用菜单</b>按钮"
+msgstr "显示 <b>应用菜单</b> 按钮"
 
-#: Settings.ui.h:189
+#: Settings.ui.h:203
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
 msgstr "必须在优化工具中启用顶栏 > 显示应用菜单"
 
-#: Settings.ui.h:190
+#: Settings.ui.h:204
 msgid "Show window previews on hover"
 msgstr "悬停时显示窗口预览"
 
-#: Settings.ui.h:191
+#: Settings.ui.h:205
 msgid "Show tooltip on hover"
-msgstr "悬停时显示工具提示"
+msgstr "悬停时显示文字提示"
 
-#: Settings.ui.h:192
+#: Settings.ui.h:206
 msgid "Isolate Workspaces"
 msgstr "隔离工作区"
 
-#: Settings.ui.h:193
+#: Settings.ui.h:207
+msgid "Isolate monitors"
+msgstr "隔离显示器"
+
+#: Settings.ui.h:208
+msgid "Click empty space to close overview"
+msgstr "点击空白区域时关闭概览"
+
+#: Settings.ui.h:209
+msgid "Disable show overview on startup"
+msgstr "取消启动时显示概览"
+
+#: Settings.ui.h:210
 msgid "Ungroup applications"
 msgstr "取消应用程序分组"
 
-#: Settings.ui.h:194
+#: Settings.ui.h:211
 msgid "Behavior"
-msgstr "行为"
+msgstr "习惯"
 
-#: Settings.ui.h:195
+#: Settings.ui.h:212
 msgid "Behaviour when clicking on the icon of a running application."
 msgstr "点击正在运行应用程序图标时的行为。"
 
-#: Settings.ui.h:196
+#: Settings.ui.h:213
 msgid "Click action"
 msgstr "点击行为"
 
-#: Settings.ui.h:197
+#: Settings.ui.h:214
 msgid "Toggle windows"
 msgstr "切换窗口"
 
-#: Settings.ui.h:198
+#: Settings.ui.h:215
 msgid "Scroll panel action"
 msgstr "滚动面板行为"
 
-#: Settings.ui.h:199
+#: Settings.ui.h:216
 msgid "Behavior when mouse scrolling over the panel."
 msgstr "在面板上滚动鼠标滚轮时的行为。"
 
-#: Settings.ui.h:200
+#: Settings.ui.h:217
 msgid "Scroll icon action"
 msgstr "滚动行为"
 
-#: Settings.ui.h:201
+#: Settings.ui.h:218
 msgid "Behavior when mouse scrolling over an application icon."
 msgstr "在正在运行应用程序图标上滚动鼠标滚轮时的行为。"
 
-#: Settings.ui.h:202
+#: Settings.ui.h:219
 msgid "Do nothing"
 msgstr "什么也不做"
 
-#: Settings.ui.h:203
+#: Settings.ui.h:220
 msgid "Switch workspace"
 msgstr "切换工作区"
 
-#: Settings.ui.h:204
+#: Settings.ui.h:221
 msgid "Cycle windows"
 msgstr "循环窗口"
 
-#: Settings.ui.h:205
+#: Settings.ui.h:222
+msgid "Change volume"
+msgstr "改变音量"
+
+#: Settings.ui.h:223
+msgid "Same as panel"
+msgstr "与面板保持一致"
+
+#: Settings.ui.h:224
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
 msgstr ""
 "将 Super+(0-9) 作为激活应用程序的快捷键。它也可以和 Shift 或 Ctrl 共同使用。"
 
-#: Settings.ui.h:206
+#: Settings.ui.h:225
 msgid "Use hotkeys to activate apps"
 msgstr "使用热键激活应用"
 
-#: Settings.ui.h:207
+#: Settings.ui.h:226
 msgid "Action"
 msgstr "行为"
 
-#: Settings.ui.h:208
-msgid ""
-"Tray Font Size\n"
-"(0 = theme default)"
-msgstr ""
-"托盘字体大小\n"
-"（0 = 主题默认）"
+#: Settings.ui.h:227
+msgid "Tray Font Size&#10;(0 = theme default)"
+msgstr "托盘字体大小&#10;（0 = 主题默认）"
 
-#: Settings.ui.h:210
-msgid ""
-"LeftBox Font Size\n"
-"(0 = theme default)"
-msgstr ""
-"LeftBox 字体大小\n"
-"（0 = 主题默认）"
+#: Settings.ui.h:228
+msgid "LeftBox Font Size&#10;(0 = theme default)"
+msgstr "LeftBox 字体大小&#10;（0 = 主题默认）"
 
-#: Settings.ui.h:212
-msgid ""
-"Tray Item Padding\n"
-"(-1 = theme default)"
-msgstr ""
-"托盘项边缘空白\n"
-"（-1 = 主题默认）"
+#: Settings.ui.h:229
+msgid "Tray Item Padding&#10;(-1 = theme default)"
+msgstr "托盘项边缘空白&#10;（-1 = 主题默认）"
 
-#: Settings.ui.h:214
-msgid ""
-"Status Icon Padding\n"
-"(-1 = theme default)"
-msgstr ""
-"状态图标边缘空白\n"
-"（-1 = 主题默认）"
+#: Settings.ui.h:230
+msgid "Status Icon Padding&#10;(-1 = theme default)"
+msgstr "状态图标边缘空白&#10;（-1 = 主题默认）"
 
-#: Settings.ui.h:216
-msgid ""
-"LeftBox Padding\n"
-"(-1 = theme default)"
-msgstr ""
-"LeftBox 边缘空白\n"
-"（-1 = 主题默认）"
+#: Settings.ui.h:231
+msgid "LeftBox Padding&#10;(-1 = theme default)"
+msgstr "LeftBox 边缘空白&#10;（-1 = 主题默认）"
 
-#: Settings.ui.h:218
+#: Settings.ui.h:232
 msgid "Animate switching applications"
 msgstr "动画切换应用程序"
 
-#: Settings.ui.h:219
+#: Settings.ui.h:233
 msgid "Animate launching new windows"
 msgstr "动画启动新窗口"
 
-#: Settings.ui.h:220
+#: Settings.ui.h:234
 msgid "Keep original gnome-shell dash (overview)"
-msgstr "保持原始 gnome-shell dash（预览）"
+msgstr "保留原始 GNOME-Shell Dash（概览）"
 
-#: Settings.ui.h:221
+#: Settings.ui.h:235
+msgid "Force Activities hot corner on primary monitor"
+msgstr "主显示器强制活动热区"
+
+#: Settings.ui.h:236
 msgid "Activate panel menu buttons (e.g. date menu) on click only"
-msgstr "只在点击时激活面板菜单按钮（例如：日期菜单）"
+msgstr "仅在点击时激活面板菜单按钮（例如：日期菜单）"
 
-#: Settings.ui.h:222
+#: Settings.ui.h:237
+msgid "Keep original gnome-shell top panel"
+msgstr "保留原始 GNOME-Shell 顶部面板"
+
+#: Settings.ui.h:238
 msgid "App icon secondary (right-click) menu"
 msgstr "应用图标次级（右键点击）菜单"
 
-#: Settings.ui.h:224
+#: Settings.ui.h:240
 msgid "Fine-Tune"
 msgstr "微调"
 
-#: Settings.ui.h:225
+#: Settings.ui.h:241
 msgid "version: "
-msgstr "版本："
+msgstr "版本： "
 
-#: Settings.ui.h:226
+#: Settings.ui.h:242
 msgid "GitHub"
 msgstr "GitHub"
 
-#: Settings.ui.h:227
+#: Settings.ui.h:243
 msgid ""
 "Use the buttons below to create a settings file from your current "
 "preferences that can be imported on a different machine."
@@ -1210,58 +1269,172 @@ msgstr ""
 "使用下面的按钮以基于您当前的首选项创建一个设置文件；您稍后可使用该文件在其他"
 "机器上导入设置。"
 
-#: Settings.ui.h:228
+#: Settings.ui.h:244
 msgid "Export and import settings"
 msgstr "导入导出设置"
 
-#: Settings.ui.h:229
+#: Settings.ui.h:245
 msgid "Export to file"
 msgstr "导出至文件"
 
-#: Settings.ui.h:230
+#: Settings.ui.h:246
 msgid "Import from file"
 msgstr "从文件导入"
 
-#: Settings.ui.h:231
+#: Settings.ui.h:247
 msgid ""
-"This allows you to update the extension directly from the GitHub repository."
-msgstr "这样可以帮助您直接从 GitHub 仓库更新本扩展。"
-
-#: Settings.ui.h:232
-msgid "Updates"
-msgstr "更新"
-
-#: Settings.ui.h:233
-msgid "Periodically check for updates"
-msgstr "定期检查更新"
-
-#: Settings.ui.h:234
-msgid "Check now"
-msgstr "立刻检查"
-
-#: Settings.ui.h:235
-msgid ""
-"<span weight=\"bold\" color=\"#B42B30\">Be aware, these official Dash to "
-"Panel releases might not be reviewed yet on extensions.gnome.org!</span>  <a "
-"href=\"https://extensions.gnome.org/about/\">Read more</a>"
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.&#10;See "
+"the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\">GNU "
+"General Public License, version 2 or later</a> for details.</span>"
 msgstr ""
-"<span weight=\"bold\" color=\"#B42B30\">请注意，这些官方发布的 Dash to Panel "
-"版本可能还没有通过 extensions.gnome.org 的审查！</span>  <a href=\"https://"
-"extensions.gnome.org/about/\">详细了解</a>"
+"<span size=\"small\">本程序不提供任何担保。&#10;请查看 <a href=\"https://www."
+"gnu.org/licenses/old-licenses/gpl-2.0.html\">GNU 通用公共许可证，第二版或更新"
+"版本</a> 以了解详情。</span>"
 
-#: Settings.ui.h:236
-msgid ""
-"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
-"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
-"\">GNU General Public License, version 2 or later</a> for details.</span>"
-msgstr ""
-"<span size=\"small\">本程序不提供任何担保。\n"
-"请查看 <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
-"\">GNU 通用公共许可证，第二版或更新版本</a> 以了解详情。</span>"
-
-#: Settings.ui.h:238
+#: Settings.ui.h:248
 msgid "About"
 msgstr "关于"
+
+#~ msgid "Top, with plugin icons collapsed to bottom"
+#~ msgstr "顶部，并且插件图标收缩到底部"
+
+#~ msgid "Left, with plugin icons collapsed to right"
+#~ msgstr "左侧，并且插件图标收缩到右侧"
+
+#~ msgid "Top, with fixed center plugin icons"
+#~ msgstr "顶部，并且固定居中插件图标"
+
+#~ msgid "Left, with fixed center plugin icons"
+#~ msgstr "左侧，并且固定居中插件图标"
+
+#~ msgid "Top, with floating center plugin icons"
+#~ msgstr "顶部，并且浮动居中插件图标"
+
+#~ msgid "Left, with floating center plugin icons"
+#~ msgstr "左侧，并且浮动居中插件图标"
+
+#~ msgid "Center, fixed in middle of monitor"
+#~ msgstr "中间，固定在显示屏中间"
+
+#~ msgid "Center, floating between top and bottom elements"
+#~ msgstr "中间，在顶部元素和底部元素之间浮动"
+
+#~ msgid "Center, floating between left and right elements"
+#~ msgstr "中间，在左侧元素和右侧元素之间浮动"
+
+#~ msgid "Top of plugin icons"
+#~ msgstr "插件图标上侧"
+
+#~ msgid "Left of plugin icons"
+#~ msgstr "插件图标左侧"
+
+#~ msgid "Bottom of plugin icons"
+#~ msgstr "插件图标下侧"
+
+#~ msgid "Right of plugin icons"
+#~ msgstr "插件图标右侧"
+
+#~ msgid "Top of system indicators"
+#~ msgstr "系统指示器上侧"
+
+#~ msgid "Left of system indicators"
+#~ msgstr "系统指示器左侧"
+
+#~ msgid "Bottom of system indicators"
+#~ msgstr "系统指示器下侧"
+
+#~ msgid "Right of system indicators"
+#~ msgstr "系统指示器右侧"
+
+#~ msgid "Left of taskbar"
+#~ msgstr "任务栏左侧"
+
+#~ msgid "Bottom of taskbar"
+#~ msgstr "任务栏下侧"
+
+#~ msgid "Right of taskbar"
+#~ msgstr "任务栏右侧"
+
+#~ msgid "Multi-monitors options"
+#~ msgstr "多显示器选项"
+
+#, javascript-format
+#~ msgid "Version %s (%s) is available"
+#~ msgstr "版本 %s（%s）已经可用"
+
+#~ msgid "Details"
+#~ msgstr "详细信息"
+
+#~ msgid "Update"
+#~ msgstr "更新"
+
+#~ msgid "Already up to date"
+#~ msgstr "已经处于最新状态"
+
+#~ msgid "Update successful, please log out/in"
+#~ msgstr "更新成功，请注销并重新登录"
+
+#~ msgid "Log out"
+#~ msgstr "注销"
+
+#~ msgid "Update successful, please restart GNOME Shell"
+#~ msgstr "更新成功，请重新启动 GNOME Shell"
+
+#~ msgid "Restart GNOME Shell"
+#~ msgstr "重新启动 GNOME Shell"
+
+#~ msgid "Restarting GNOME Shell..."
+#~ msgstr "正在重新启动 GNOME Shell……"
+
+#~ msgid "Error: "
+#~ msgstr "错误："
+
+#~ msgid "Display favorite applications on all monitors"
+#~ msgstr "在所有显示器上显示收藏的应用程序"
+
+#~ msgid "Display the clock on all monitors"
+#~ msgstr "在所有显示器上显示时钟"
+
+#~ msgid "Display the status menu on all monitors"
+#~ msgstr "在所有显示器上显示状态菜单"
+
+#~ msgid "Select a Show Applications image icon"
+#~ msgstr "选择一个“显示应用程序”图标图像"
+
+#~ msgid "Taskbar position"
+#~ msgstr "任务栏位置"
+
+#~ msgid "Clock location"
+#~ msgstr "时钟位置"
+
+#~ msgid "Show <i>Applications</i> icon"
+#~ msgstr "显示<b>应用</b>图标"
+
+#~ msgid "Animate <i>Show Applications</i>."
+#~ msgstr "动画化<b>显示应用程序</b>。"
+
+#~ msgid ""
+#~ "This allows you to update the extension directly from the GitHub "
+#~ "repository."
+#~ msgstr "这样可以帮助您直接从 GitHub 仓库更新本扩展。"
+
+#~ msgid "Updates"
+#~ msgstr "更新"
+
+#~ msgid "Periodically check for updates"
+#~ msgstr "定期检查更新"
+
+#~ msgid "Check now"
+#~ msgstr "立刻检查"
+
+#~ msgid ""
+#~ "<span weight=\"bold\" color=\"#B42B30\">Be aware, these official Dash to "
+#~ "Panel releases might not be reviewed yet on extensions.gnome.org!</span>  "
+#~ "<a href=\"https://extensions.gnome.org/about/\">Read more</a>"
+#~ msgstr ""
+#~ "<span weight=\"bold\" color=\"#B42B30\">请注意，这些官方发布的 Dash to "
+#~ "Panel 版本可能还没有通过 extensions.gnome.org 的审查！</span>  <a href="
+#~ "\"https://extensions.gnome.org/about/\">详细了解</a>"
 
 #~ msgid "Highlight color"
 #~ msgstr "高亮颜色"
