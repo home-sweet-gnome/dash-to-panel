@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-26 15:22+0200\n"
-"PO-Revision-Date: 2021-07-26 15:44+0200\n"
+"POT-Creation-Date: 2021-07-26 15:53+0200\n"
+"PO-Revision-Date: 2021-07-26 16:07+0200\n"
 "Last-Translator: Antoine Lebeault <antoine.lebeault@numericable.fr>\n"
 "Language-Team: French - Canada <>\n"
 "Language: fr_CA\n"
@@ -19,7 +19,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Poedit-Basepath: .\n"
 
 #: Settings.ui:30
 msgid "Animation type"
@@ -66,12 +65,8 @@ msgid "Nothing yet!"
 msgstr "Rien pour l'instant !"
 
 #: Settings.ui:383
-msgid ""
-"When set to minimize, double clicking minimizes all the windows of the "
-"application."
-msgstr ""
-"Quand minimiser est sélectionné, un double-clic réduit toutes les fenêtres "
-"de l'application."
+msgid "When set to minimize, double clicking minimizes all the windows of the application."
+msgstr "Quand minimiser est sélectionné, un double-clic réduit toutes les fenêtres de l'application."
 
 #: Settings.ui:401
 msgid "Shift+Click action"
@@ -231,14 +226,8 @@ msgid "Use a fixed width for the application titles"
 msgstr "Utiliser une largeur fixe pour les titres d'application"
 
 #: Settings.ui:1579
-msgid ""
-"The application titles all have the same width, even if their texts are "
-"shorter than the maximum width. The maximum width value is used as the fixed "
-"width."
-msgstr ""
-"Les titres d'application ont tous la même longueur, même si leur texte est "
-"plus petit que la taille maximum. La valeur maximale de longueur est "
-"utilisée comme longueur fixe."
+msgid "The application titles all have the same width, even if their texts are shorter than the maximum width. The maximum width value is used as the fixed width."
+msgstr "Les titres d'application ont tous la même longueur, même si leur texte est plus petit que la taille maximum. La valeur maximale de longueur est utilisée comme longueur fixe."
 
 #: Settings.ui:1615
 msgid "Display running indicators on unfocused applications"
@@ -466,8 +455,7 @@ msgstr "Taille (px) du texte des prévisualisations"
 
 #: Settings.ui:2934
 msgid "If disabled, the previews icon size will be based on headerbar size"
-msgstr ""
-"Si désactivé, la taille des icônes sera basé sur celle de la bar d'en-tête"
+msgstr "Si désactivé, la taille des icônes sera basé sur celle de la bar d'en-tête"
 
 #: Settings.ui:2982
 msgid "Font size (px) of the preview titles"
@@ -486,12 +474,8 @@ msgid "Enable window peeking"
 msgstr "Activer la vue de fenêtre"
 
 #: Settings.ui:3131
-msgid ""
-"When hovering over a window preview for some time, the window gets "
-"distinguished."
-msgstr ""
-"Le survol sur la prévisualisation de la fenêtre, pendant un certain temps, "
-"la met en avant."
+msgid "When hovering over a window preview for some time, the window gets distinguished."
+msgstr "Le survol sur la prévisualisation de la fenêtre, pendant un certain temps, la met en avant."
 
 #: Settings.ui:3156
 msgid "Enter window peeking mode timeout (ms)"
@@ -502,12 +486,8 @@ msgid "50"
 msgstr "50"
 
 #: Settings.ui:3185
-msgid ""
-"Time of inactivity while hovering over a window preview needed to enter the "
-"window peeking mode."
-msgstr ""
-"Temps d'inactivité pendant le survol de la prévisualisation d'une fenêtre "
-"nécessaire pour activer la vue de la fenêtre."
+msgid "Time of inactivity while hovering over a window preview needed to enter the window peeking mode."
+msgstr "Temps d'inactivité pendant le survol de la prévisualisation d'une fenêtre nécessaire pour activer la vue de la fenêtre."
 
 #: Settings.ui:3217
 msgid "Window peeking mode opacity"
@@ -519,12 +499,8 @@ msgid "0"
 msgstr "0"
 
 #: Settings.ui:3245
-msgid ""
-"All windows except for the peeked one have their opacity set to the same "
-"value."
-msgstr ""
-"Toutes les fenêtres, mis à part celle prévisualisée, ont leur opacité mise à "
-"la même valeur."
+msgid "All windows except for the peeked one have their opacity set to the same value."
+msgstr "Toutes les fenêtres, mis à part celle prévisualisée, ont leur opacité mise à la même valeur."
 
 #: Settings.ui:3327 Settings.ui:3412
 msgid "Delay between mouse scroll events (ms)"
@@ -532,9 +508,7 @@ msgstr "Délai entre les évènements de défilement de la souris (ms)"
 
 #: Settings.ui:3341 Settings.ui:3426
 msgid "Use this value to limit the number of captured mouse scroll events."
-msgstr ""
-"Utiliser cette valeur pour limiter le nombre d'évènements de défilement de "
-"la souris (ms)"
+msgstr "Utiliser cette valeur pour limiter le nombre d'évènements de défilement de la souris (ms)"
 
 #: Settings.ui:3460
 msgid "Show popup when changing workspace"
@@ -542,9 +516,7 @@ msgstr "Afficher l'indicateur de changement d'espace de travail"
 
 #: Settings.ui:3474
 msgid "This affects workspace popup when scrolling on the panel only."
-msgstr ""
-"Affecte uniquement l'indicateur de changement d'espace de travail au "
-"défilement de la souris sur le panneau."
+msgstr "Affecte uniquement l'indicateur de changement d'espace de travail au défilement de la souris sur le panneau."
 
 #: Settings.ui:3552
 msgid "Super"
@@ -579,12 +551,8 @@ msgid "Number overlay"
 msgstr "Superposition des nombres"
 
 #: Settings.ui:3645
-msgid ""
-"Temporarily show the application numbers over the icons when using the "
-"hotkeys."
-msgstr ""
-"Afficher temporairement les numéros des applications par dessus les icônes "
-"lors de l'utilisation des raccourcis."
+msgid "Temporarily show the application numbers over the icons when using the hotkeys."
+msgstr "Afficher temporairement les numéros des applications par dessus les icônes lors de l'utilisation des raccourcis."
 
 #: Settings.ui:3694
 msgid "Hide timeout (ms)"
@@ -604,8 +572,7 @@ msgstr "Afficher les aperçus des fenêtres lors de l'utilisation d'un raccourci
 
 #: Settings.ui:3811
 msgid "Show previews when the application have multiple instances"
-msgstr ""
-"Afficher les aperçus lorsque les applications possèdent plusieurs fenêtres"
+msgstr "Afficher les aperçus lorsque les applications possèdent plusieurs fenêtres"
 
 #: Settings.ui:3848
 msgid "Number row"
@@ -625,9 +592,7 @@ msgstr "Les raccourcis sont activés par"
 
 #: Settings.ui:3876
 msgid "Select which keyboard number keys are used to activate the hotkeys"
-msgstr ""
-"Sélectionner quelles touches numériques sont utilisées pour activer les "
-"raccourcis"
+msgstr "Sélectionner quelles touches numériques sont utilisées pour activer les raccourcis"
 
 #: Settings.ui:3928
 msgid "Current Show Applications icon"
@@ -643,8 +608,7 @@ msgstr "Marge interne du bouton \"Afficher les Applications\""
 
 #: Settings.ui:4055
 msgid "Override escape key and return to desktop"
-msgstr ""
-"Remplacer l'action de la touche d'échappement et retourner sur le bureau"
+msgstr "Remplacer l'action de la touche d'échappement et retourner sur le bureau"
 
 #: Settings.ui:4143
 msgid "Override Show Desktop line color"
@@ -703,19 +667,15 @@ msgid "Apply changes to all monitors"
 msgstr "Appliquer les changements sur tous les écrans"
 
 #: Settings.ui:4868
-msgid ""
-"Panel thickness\n"
+msgid "Panel thickness\n"
 "(default is 48)"
-msgstr ""
-"Épaisseur du panneau\n"
+msgstr "Épaisseur du panneau\n"
 "(la valeur par défaut est 48)"
 
 #: Settings.ui:4880
-msgid ""
-"Panel length (%)\n"
+msgid "Panel length (%)\n"
 "(default is 100)"
-msgstr ""
-"Largeur du panneau\n"
+msgstr "Largeur du panneau\n"
 "(la valeur par défaut est 100%)"
 
 #: Settings.ui:4911 prefs.js:278
@@ -751,19 +711,15 @@ msgid "Position"
 msgstr "Position"
 
 #: Settings.ui:5097
-msgid ""
-"App Icon Margin\n"
+msgid "App Icon Margin\n"
 "(default is 8)"
-msgstr ""
-"Marge ext. de l'icône d'application\n"
+msgstr "Marge ext. de l'icône d'application\n"
 "(la valeur par défaut est 8)"
 
 #: Settings.ui:5145
-msgid ""
-"App Icon Padding\n"
+msgid "App Icon Padding\n"
 "(default is 4)"
-msgstr ""
-"Marge int. de l'icône d'application\n"
+msgstr "Marge int. de l'icône d'application\n"
 "(la valeur par défaut est 4)"
 
 #: Settings.ui:5211
@@ -864,9 +820,7 @@ msgstr "Afficher le bouton <i>Menu d'Applications</i>"
 
 #: Settings.ui:6026
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
-msgstr ""
-"Barre supérieure > Afficher le menu de l'application doit être activé dans "
-"Ajustements"
+msgstr "Barre supérieure > Afficher le menu de l'application doit être activé dans Ajustements"
 
 #: Settings.ui:6101
 msgid "Show window previews on hover"
@@ -949,12 +903,8 @@ msgid "Same as panel"
 msgstr "Comme le panneau"
 
 #: Settings.ui:6705
-msgid ""
-"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
-"together with Shift and Ctrl."
-msgstr ""
-"Activer Super+(0-9) comme raccourcis pour lancer les applications. Maj et "
-"Ctrl peuvent aussi être utilisés."
+msgid "Enable Super+(0-9) as shortcuts to activate apps. It can also be used together with Shift and Ctrl."
+msgstr "Activer Super+(0-9) comme raccourcis pour lancer les applications. Maj et Ctrl peuvent aussi être utilisés."
 
 #: Settings.ui:6723
 msgid "Use hotkeys to activate apps"
@@ -965,43 +915,33 @@ msgid "Action"
 msgstr "Action"
 
 #: Settings.ui:6833
-msgid ""
-"Tray Font Size\n"
+msgid "Tray Font Size\n"
 "(0 = theme default)"
-msgstr ""
-"Taille de la police\n"
+msgstr "Taille de la police\n"
 "(0 = par défaut)"
 
 #: Settings.ui:6863
-msgid ""
-"LeftBox Font Size\n"
+msgid "LeftBox Font Size\n"
 "(0 = theme default)"
-msgstr ""
-"Taille de la police de la zone de gauche\n"
+msgstr "Taille de la police de la zone de gauche\n"
 "(0 = par défaut)"
 
 #: Settings.ui:6929
-msgid ""
-"Tray Item Padding\n"
+msgid "Tray Item Padding\n"
 "(-1 = theme default)"
-msgstr ""
-"Marge des éléments de la barre d'état\n"
+msgstr "Marge des éléments de la barre d'état\n"
 "(-1 = par défaut)"
 
 #: Settings.ui:6959
-msgid ""
-"Status Icon Padding\n"
+msgid "Status Icon Padding\n"
 "(-1 = theme default)"
-msgstr ""
-"Marge des icônes de statut\n"
+msgstr "Marge des icônes de statut\n"
 "(-1 = par défaut)"
 
 #: Settings.ui:6989
-msgid ""
-"LeftBox Padding\n"
+msgid "LeftBox Padding\n"
 "(-1 = theme default)"
-msgstr ""
-"Marge de la zone de gauche\n"
+msgstr "Marge de la zone de gauche\n"
 "(-1 = par défaut)"
 
 #: Settings.ui:7053
@@ -1049,12 +989,8 @@ msgid "GitHub"
 msgstr "GitHub"
 
 #: Settings.ui:7424
-msgid ""
-"Use the buttons below to create a settings file from your current "
-"preferences that can be imported on a different machine."
-msgstr ""
-"Utiliser les boutons ci-dessous pour créer un fichier de paramètres à partir "
-"de vos préférences actuelles qui pourra être importé sur une autre machine."
+msgid "Use the buttons below to create a settings file from your current preferences that can be imported on a different machine."
+msgstr "Utiliser les boutons ci-dessous pour créer un fichier de paramètres à partir de vos préférences actuelles qui pourra être importé sur une autre machine."
 
 #: Settings.ui:7442
 msgid "Export and import settings"
@@ -1069,15 +1005,10 @@ msgid "Import from file"
 msgstr "Importer à partir d'un fichier"
 
 #: Settings.ui:7490
-msgid ""
-"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
-"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
-"\">GNU General Public License, version 2 or later</a> for details.</span>"
-msgstr ""
-"<span size=\"small\">Ce programme est fourni SANS AUCUNE GARANTIE.\n"
-"Pour plus de détails, visitez la <a href=\"https://www.gnu.org/licenses/old-"
-"licenses/gpl-2.0.fr.html\">Licence publique générale GNU, version 2 ou "
-"ultérieure</a></span>"
+msgid "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\">GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr "<span size=\"small\">Ce programme est fourni SANS AUCUNE GARANTIE.\n"
+"Pour plus de détails, visitez la <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.fr.html\">Licence publique générale GNU, version 2 ou ultérieure</a></span>"
 
 #: Settings.ui:7504
 msgid "About"
@@ -1094,6 +1025,26 @@ msgstr "Nouvelle fenêtre"
 #: appIcons.js:1572
 msgid "Windows"
 msgstr "Fenêtres"
+
+#: appIcons.js:1893
+msgid "Terminal"
+msgstr "Terminal"
+
+#: appIcons.js:1898
+msgid "System monitor"
+msgstr "Moniteur Système"
+
+#: appIcons.js:1903
+msgid "Files"
+msgstr "Fichiers"
+
+#: appIcons.js:1908
+msgid "Extensions"
+msgstr "Extensions"
+
+#: appIcons.js:1913
+msgid "Settings"
+msgstr "Paramètres"
 
 #: appIcons.js:1925
 msgid "Unlock taskbar"
@@ -1453,18 +1404,6 @@ msgstr "Importer des paramètres"
 
 #~ msgid "Device Management"
 #~ msgstr "Gestionnaire de périphériques"
-
-#~ msgid "Disk Management"
-#~ msgstr "Gestionnaire de disques"
-
-#~ msgid "Terminal"
-#~ msgstr "Terminal"
-
-#~ msgid "Files"
-#~ msgstr "Fichiers"
-
-#~ msgid "Settings"
-#~ msgstr "Paramètres"
 
 #~ msgid "Display favorite applications on all monitors"
 #~ msgstr "Afficher les applications favorites sur tous les écrans"
