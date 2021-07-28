@@ -2,275 +2,339 @@
 # Copyright (C) 2017
 # This file is distributed under the same license as the PACKAGE package.
 # Alex Gluck <alexgluck@bk.ru>, 2017.
+# vantu5z <vantu5z@mail.ru>, 2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-06 08:17-0300\n"
-"PO-Revision-Date: 2020-11-06 13:38-0300\n"
+"POT-Creation-Date: 2021-07-26 08:17+0300\n"
+"PO-Revision-Date: 2021-07-27 16:58+0300\n"
 "Last-Translator: vantu5z <vantu5z@mail.ru>\n"
-"Language-Team: \n"
+"Language-Team: Russian <>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Gtranslator 40.0\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: prefs.js:206
+#: prefs.js:199
 msgid "Show Desktop button height (px)"
 msgstr "Высота кнопки \"Рабочий стол\" (в пикселях)"
 
-#: prefs.js:206
+#: prefs.js:199
 msgid "Show Desktop button width (px)"
 msgstr "Ширина кнопки \"Рабочий стол\" (в пикселях)"
 
-#: prefs.js:218
+#: prefs.js:211
 msgid "Unavailable when gnome-shell top panel is present"
 msgstr "Недоступно, если включена верхняя панель GNOME"
 
-#: prefs.js:293
+#: prefs.js:269 Settings.ui.h:171
+msgid "Left"
+msgstr "Слева"
+
+#: prefs.js:270
+msgid "Center"
+msgstr "Центр"
+
+#: prefs.js:271 Settings.ui.h:172
+msgid "Right"
+msgstr "Справа"
+
+#: prefs.js:273 Settings.ui.h:106
+msgid "Top"
+msgstr "Наверху"
+
+#: prefs.js:274 prefs.js:279 Settings.ui.h:167
+msgid "Middle"
+msgstr "Середина"
+
+#: prefs.js:275 Settings.ui.h:105
+msgid "Bottom"
+msgstr "Внизу"
+
+#: prefs.js:278 Settings.ui.h:166
+msgid "Start"
+msgstr "Начало"
+
+#: prefs.js:280 Settings.ui.h:168
+msgid "End"
+msgstr "Конец"
+
+#: prefs.js:365
 msgid "Show Applications button"
 msgstr "Кнопка \"Приложения\""
 
-#: prefs.js:294
+#: prefs.js:366
 msgid "Activities button"
 msgstr "Кнопка \"Обзор\""
 
-#: prefs.js:295
+#: prefs.js:367
 msgid "Taskbar"
 msgstr "Панель задач"
 
-#: prefs.js:296
+#: prefs.js:368
 msgid "Date menu"
 msgstr "Дата и время"
 
-#: prefs.js:297
+#: prefs.js:369
 msgid "System menu"
 msgstr "Системное меню"
 
-#: prefs.js:298
+#: prefs.js:370
 msgid "Left box"
 msgstr "Левый блок"
 
-#: prefs.js:299
+#: prefs.js:371
 msgid "Center box"
 msgstr "Центральный блок"
 
-#: prefs.js:300
+#: prefs.js:372
 msgid "Right box"
 msgstr "Правый блок"
 
-#: prefs.js:301
+#: prefs.js:373
 msgid "Desktop button"
 msgstr "Кнопка \"Рабочий стол\""
 
-#: prefs.js:307
+#: prefs.js:379
 msgid "Move up"
 msgstr "Переместить выше"
 
-#: prefs.js:309
+#: prefs.js:381
 msgid "Move down"
 msgstr "Переместить ниже"
 
-#: prefs.js:311
+#: prefs.js:383
 msgid "Visible"
 msgstr "Видимый"
 
-#: prefs.js:312
+#: prefs.js:384
 msgid "Select element position"
 msgstr "Выбор позиции элемента"
 
-#: prefs.js:323
+#: prefs.js:395
 msgid "Stacked to top"
 msgstr "Сверху"
 
-#: prefs.js:323
+#: prefs.js:395
 msgid "Stacked to left"
 msgstr "Слева"
 
-#: prefs.js:324
+#: prefs.js:396
 msgid "Stacked to bottom"
 msgstr "Снизу"
 
-#: prefs.js:324
+#: prefs.js:396
 msgid "Stacked to right"
 msgstr "Справа"
 
-#: prefs.js:325
+#: prefs.js:397
 msgid "Centered"
 msgstr "По центру"
 
-#: prefs.js:326
+#: prefs.js:398
 msgid "Monitor Center"
 msgstr "Центр монитора"
 
-#: prefs.js:345
+#: prefs.js:417
 msgid "More options"
 msgstr "Дополнительные параметры"
 
-#: prefs.js:369
+#: prefs.js:439
 msgid "Show Applications options"
 msgstr "Настройка меню \"Приложения\""
 
-#: prefs.js:376 prefs.js:433 prefs.js:576 prefs.js:894 prefs.js:1037
-#: prefs.js:1164 prefs.js:1450 prefs.js:1545 prefs.js:1610 prefs.js:1653
-#: prefs.js:1750 prefs.js:1784 prefs.js:1826
+#: prefs.js:446 prefs.js:512 prefs.js:732 prefs.js:1078 prefs.js:1222
+#: prefs.js:1345 prefs.js:1634 prefs.js:1730 prefs.js:1796 prefs.js:1840
+#: prefs.js:1938 prefs.js:1973 prefs.js:2016 prefs.js:2152
 msgid "Reset to defaults"
 msgstr "По умолчанию"
 
-#: prefs.js:426
+#: prefs.js:452
+msgid "Open icon"
+msgstr "Открыть значок"
+
+#: prefs.js:505
 msgid "Show Desktop options"
 msgstr "Настройки кнопки \"Рабочий стол\""
 
-#: prefs.js:569
+#: prefs.js:605
+#, javascript-format
+msgid "%d ms"
+msgstr "%d мс"
+
+#: prefs.js:610
+#, javascript-format
+msgid "%d °"
+msgstr "%d °"
+
+#: prefs.js:615 prefs.js:620
+#, javascript-format
+msgid "%d %%"
+msgstr "%d %%"
+
+#: prefs.js:625
+#, javascript-format
+msgid "%.1f"
+msgstr "%.1f"
+
+#: prefs.js:630
+#, javascript-format
+msgid "%d icon"
+msgid_plural "%d icons"
+msgstr[0] "%d значок"
+msgstr[1] "%d значка"
+msgstr[2] "%d значков"
+
+#: prefs.js:725
 msgid "Running Indicator Options"
 msgstr "Параметры индикации запущенных приложений"
 
-#: prefs.js:732
+#: prefs.js:889
 msgid "Primary monitor"
 msgstr "Основной монитор"
 
-#: prefs.js:732
+#: prefs.js:889
 msgid "Monitor "
 msgstr "Монитор "
 
-#: prefs.js:887
+#: prefs.js:1071
 msgid "Dynamic opacity options"
 msgstr "Настройки динамической прозрачности"
 
-#: prefs.js:1030
+#: prefs.js:1215
 msgid "Intellihide options"
 msgstr "Настройки автоскрытия"
 
-#: prefs.js:1157
+#: prefs.js:1338
 msgid "Window preview options"
 msgstr "Настройки предпросмотра"
 
-#: prefs.js:1443
+#: prefs.js:1627
 msgid "Ungrouped application options"
 msgstr "Отображение разгруппированных приложений"
 
-#: prefs.js:1538
+#: prefs.js:1723
 msgid "Customize middle-click behavior"
 msgstr "Средняя кнопка мышки"
 
-#: prefs.js:1603
+#: prefs.js:1789
 msgid "Customize panel scroll behavior"
 msgstr "Прокручивание панелей"
 
-#: prefs.js:1646
+#: prefs.js:1833
 msgid "Customize icon scroll behavior"
 msgstr "Прокручивание значков"
 
-#: prefs.js:1743
+#: prefs.js:1931
 msgid "Advanced hotkeys options"
 msgstr "Расширенные настройки горячих клавиш"
 
-#: prefs.js:1777
+#: prefs.js:1966
 msgid "Secondary Menu Options"
 msgstr "Дополнительные настройки меню"
 
-#: prefs.js:1819 Settings.ui.h:230
+#: prefs.js:2009 Settings.ui.h:239
 msgid "Advanced Options"
 msgstr "Расширенные настройки"
 
-#: prefs.js:1922
+#: prefs.js:2145
+msgid "App icon animation options"
+msgstr "Настройка анимации значков приложений"
+
+#: prefs.js:2211
 msgid "Export settings"
 msgstr "Сохранение"
 
-#: prefs.js:1939
+#: prefs.js:2227
 msgid "Import settings"
 msgstr "Загрузка"
 
-#: appIcons.js:1418
+#: appIcons.js:1492
 msgid "Show Details"
 msgstr "Показать подробности"
 
-#: appIcons.js:1436
+#: appIcons.js:1510
 msgid "New Window"
 msgstr "Новое окно"
 
-#: appIcons.js:1436 appIcons.js:1496 appIcons.js:1498 Settings.ui.h:10
+#: appIcons.js:1510 appIcons.js:1570 appIcons.js:1572 Settings.ui.h:21
 msgid "Quit"
 msgstr "Выйти"
 
-#: appIcons.js:1498
+#: appIcons.js:1572
 msgid "Windows"
 msgstr "Окна"
 
-#: appIcons.js:1847
+#: appIcons.js:1925
 msgid "Unlock taskbar"
 msgstr "Открепить список задач"
 
-#: appIcons.js:1847
+#: appIcons.js:1925
 msgid "Lock taskbar"
 msgstr "Закрепить список задач"
 
-#: appIcons.js:1852
+#: appIcons.js:1930
 msgid "Dash to Panel Settings"
 msgstr "Настройки Dash to Panel"
 
-#: appIcons.js:1865
+#: appIcons.js:1943
 msgid "Restore Windows"
 msgstr "Восстановить окна"
 
-#: appIcons.js:1865
+#: appIcons.js:1943
 msgid "Show Desktop"
 msgstr "Свернуть всё"
 
-#: update.js:48
-msgid "Unavailable when installed from extensions.gnome.org"
-msgstr "Недоступно, если установлено из extensions.gnome.org"
-
-#: update.js:62
-#, javascript-format
-msgid "Version %s (%s) is available"
-msgstr "Доступна версия %s (%s)"
-
-#: update.js:63
-msgid "Details"
-msgstr "Подробнее"
-
-#: update.js:64
-msgid "Update"
-msgstr "Обновление"
-
-#: update.js:67
-msgid "Already up to date"
-msgstr "Обновлений нет"
-
-#: update.js:75
-msgid "Error: "
-msgstr "Ошибка: "
-
-#: update.js:168
-msgid "Update successful, please log out/in"
-msgstr "Обновление успешно, перезайдите в систему"
-
-#: update.js:169
-msgid "Log out"
-msgstr "Выход из системы"
-
-#: update.js:173
-msgid "Update successful, please restart GNOME Shell"
-msgstr "Обновление успешно, перезапустите GNOME Shell"
-
-#: update.js:174
-msgid "Restart GNOME Shell"
-msgstr "Перезапуск GNOME Shell"
-
-#: update.js:174
-msgid "Restarting GNOME Shell..."
-msgstr "Перезапускаем GNOME Shell..."
-
 #: Settings.ui.h:1
+msgid "Animation type"
+msgstr "Тип анимации"
+
+#: Settings.ui.h:2
+msgid "Simple"
+msgstr "Простой"
+
+#: Settings.ui.h:3
+msgid "Ripple"
+msgstr "Рябь"
+
+#: Settings.ui.h:4
+msgid "Plank"
+msgstr "Plank"
+
+#: Settings.ui.h:5
+msgid "Duration"
+msgstr "Продолжительность"
+
+#: Settings.ui.h:6
+msgid "Rotation"
+msgstr "Поворот"
+
+#: Settings.ui.h:7
+msgid "Travel"
+msgstr "Смещение"
+
+#: Settings.ui.h:8
+msgid "Zoom"
+msgstr "Масштаб"
+
+#: Settings.ui.h:9
+msgid "Convexity"
+msgstr "Выпуклость"
+
+#: Settings.ui.h:10
+msgid "Extent"
+msgstr "Ширина"
+
+#: Settings.ui.h:11
 msgid "Nothing yet!"
 msgstr "Пока пусто!"
 
-#: Settings.ui.h:2
+#: Settings.ui.h:12
 msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
@@ -278,156 +342,160 @@ msgstr ""
 "Если выбрано \"Свернуть окно\", двойной щелчок сворачивает все окна "
 "приложения."
 
-#: Settings.ui.h:3
+#: Settings.ui.h:13
 msgid "Shift+Click action"
 msgstr "Действия для Shift+Щелчок"
 
-#: Settings.ui.h:4
+#: Settings.ui.h:14
 msgid "Raise windows"
 msgstr "Показать окно приложения"
 
-#: Settings.ui.h:5
+#: Settings.ui.h:15
 msgid "Minimize window"
 msgstr "Свернуть окно"
 
-#: Settings.ui.h:6
+#: Settings.ui.h:16
 msgid "Launch new instance"
 msgstr "Запустить ещё одну копию"
 
-#: Settings.ui.h:7
+#: Settings.ui.h:17
 msgid "Cycle through windows"
 msgstr "Переключение между окнами"
 
-#: Settings.ui.h:8
+#: Settings.ui.h:18
 msgid "Cycle windows + minimize"
 msgstr "Переключение между окнами + Свернуть"
 
-#: Settings.ui.h:9
+#: Settings.ui.h:19
 msgid "Toggle single / Preview multiple"
 msgstr "Переключить одно / Просмотр нескольких"
 
-#: Settings.ui.h:11
+#: Settings.ui.h:20
+msgid "Toggle single / Cycle multiple"
+msgstr "Переключить одно / Переключение между несколькими"
+
+#: Settings.ui.h:22
 msgid "Behavior for Middle-Click."
 msgstr "Поведение для средней кнопки мыши."
 
-#: Settings.ui.h:12
+#: Settings.ui.h:23
 msgid "Middle-Click action"
 msgstr "Действие на нажатие средней кнопки"
 
-#: Settings.ui.h:13
+#: Settings.ui.h:24
 msgid "Behavior for Shift+Middle-Click."
 msgstr "Поведение для Shift+средняя_кнопка."
 
-#: Settings.ui.h:14
+#: Settings.ui.h:25
 msgid "Shift+Middle-Click action"
 msgstr "Действие на нажатие Shift+средняя_кнопка"
 
-#: Settings.ui.h:15
+#: Settings.ui.h:26
 msgid "Integrate <i>AppMenu</i> items"
 msgstr "Интегрировать <i>Меню Приложения</i>"
 
-#: Settings.ui.h:16
+#: Settings.ui.h:27
 msgid "<i>Show Details</i> menu item"
 msgstr "Меню <i>Показать детали</i>"
 
-#: Settings.ui.h:17
+#: Settings.ui.h:28
 msgid "Highlight focused application"
 msgstr "Подсвечивать приложение в фокусе"
 
-#: Settings.ui.h:18
+#: Settings.ui.h:29
 msgid "Icon dominant color"
 msgstr "Основной цвет значка"
 
-#: Settings.ui.h:19
+#: Settings.ui.h:30
 msgid "Custom color"
 msgstr "Задать цвет"
 
-#: Settings.ui.h:20
+#: Settings.ui.h:31
 msgid "Highlight opacity"
 msgstr "Прозрачность подсветки"
 
-#: Settings.ui.h:21
+#: Settings.ui.h:32
 msgid "Indicator size (px)"
 msgstr "Размер индикатора (в пикселях)"
 
-#: Settings.ui.h:22
+#: Settings.ui.h:33
 msgid "Indicator color - Icon Dominant"
 msgstr "Цвет индикатора по основному цвету значка"
 
-#: Settings.ui.h:23
+#: Settings.ui.h:34
 msgid "Indicator color - Override Theme"
 msgstr "Переназначить цвета темы"
 
-#: Settings.ui.h:24
+#: Settings.ui.h:35
 msgid "1 window open (or ungrouped)"
 msgstr "Когда одно окно открыто (или не сгруппировано)"
 
-#: Settings.ui.h:25
+#: Settings.ui.h:36
 msgid "Apply to all"
 msgstr "Применить ко всем"
 
-#: Settings.ui.h:26
+#: Settings.ui.h:37
 msgid "2 windows open"
 msgstr "Когда два окна открыто"
 
-#: Settings.ui.h:27
+#: Settings.ui.h:38
 msgid "3 windows open"
 msgstr "Когда три окна открыто"
 
-#: Settings.ui.h:28
+#: Settings.ui.h:39
 msgid "4+ windows open"
 msgstr "Когда четыре+ окна открыто"
 
-#: Settings.ui.h:29
+#: Settings.ui.h:40
 msgid "Use different for unfocused"
 msgstr "Использовать другой когда не в фокусе"
 
-#: Settings.ui.h:30
+#: Settings.ui.h:41
 msgid "Font size (px) of the application titles (default is 14)"
 msgstr "Размер шрифта (в пикселях) заголовка приложений (по умолчанию 14)"
 
-#: Settings.ui.h:31
+#: Settings.ui.h:42
 msgid "Font weight of application titles"
 msgstr "Жирность шрифта заголовка приложений"
 
-#: Settings.ui.h:32
+#: Settings.ui.h:43
 msgid "inherit from theme"
 msgstr "значение из темы"
 
-#: Settings.ui.h:33
+#: Settings.ui.h:44
 msgid "normal"
 msgstr "средний"
 
-#: Settings.ui.h:34
+#: Settings.ui.h:45
 msgid "lighter"
 msgstr "узкий"
 
-#: Settings.ui.h:35
+#: Settings.ui.h:46
 msgid "bold"
 msgstr "жирный"
 
-#: Settings.ui.h:36
+#: Settings.ui.h:47
 msgid "bolder"
 msgstr "самый жирный"
 
-#: Settings.ui.h:37
+#: Settings.ui.h:48
 msgid "Font color of the application titles"
 msgstr "Цвет шрифта заголовка приложений"
 
-#: Settings.ui.h:38
+#: Settings.ui.h:49
 msgid "Font color of the minimized application titles"
 msgstr "Цвет шрифта заголовка свернутых приложений"
 
-#: Settings.ui.h:39
+#: Settings.ui.h:50
 msgid "Maximum width (px) of the application titles (default is 160)"
 msgstr ""
 "Максимальная ширина (в пикселях) заголовка приложений (по умолчанию 160)"
 
-#: Settings.ui.h:40
+#: Settings.ui.h:51
 msgid "Use a fixed width for the application titles"
 msgstr "Использовать фиксированную ширину заголовков"
 
-#: Settings.ui.h:41
+#: Settings.ui.h:52
 msgid ""
 "The application titles all have the same width, even if their texts are "
 "shorter than the maximum width. The maximum width value is used as the fixed "
@@ -437,266 +505,258 @@ msgstr ""
 "максимальной ширины. Максимальное значение ширины используется как "
 "фиксированная ширина."
 
-#: Settings.ui.h:42
+#: Settings.ui.h:53
 msgid "Display running indicators on unfocused applications"
 msgstr "Индикатор запущенного приложения, когда окно не в фокусе"
 
-#: Settings.ui.h:43
+#: Settings.ui.h:54
 msgid "Use the favorite icons as application launchers"
 msgstr "Показывать избранные приложения"
 
-#: Settings.ui.h:44
+#: Settings.ui.h:55
 msgid "Only hide the panel when it is obstructed by windows "
 msgstr "Скрывать только при наложении окон "
 
-#: Settings.ui.h:45
+#: Settings.ui.h:56
 msgid "The panel hides from"
 msgstr "Скрывать панель с"
 
-#: Settings.ui.h:46
+#: Settings.ui.h:57
 msgid "All windows"
 msgstr "Все окна"
 
-#: Settings.ui.h:47
+#: Settings.ui.h:58
 msgid "Focused windows"
 msgstr "Окна в фокусе"
 
-#: Settings.ui.h:48
+#: Settings.ui.h:59
 msgid "Maximized windows"
 msgstr "Развернутые окна"
 
-#: Settings.ui.h:49
+#: Settings.ui.h:60
 msgid "Require pressure at the edge of the screen to reveal the panel"
 msgstr "Требуется давление на краю экрана, чтобы открыть панель"
 
-#: Settings.ui.h:50
+#: Settings.ui.h:61
 msgid "Required pressure threshold (px)"
 msgstr "Область у границы для показа панели (в пикселях)"
 
-#: Settings.ui.h:51
+#: Settings.ui.h:62
 msgid "Required pressure timeout (ms)"
 msgstr "Задержка показа при приближении к краю (в мс)"
 
-#: Settings.ui.h:52
+#: Settings.ui.h:63
 msgid "Allow the panel to be revealed while in fullscreen mode"
 msgstr "Разрешить отображение панели в полноэкранном режиме"
 
-#: Settings.ui.h:53
+#: Settings.ui.h:64
 msgid "Only hide secondary panels (requires multi-monitors option)"
 msgstr ""
 "Скрывать дополнительные панели (требуется показ на нескольких мониторах)"
 
-#: Settings.ui.h:54
+#: Settings.ui.h:65
 msgid "e.g. <Super>i"
 msgstr "например,  <Super>i"
 
-#: Settings.ui.h:55
+#: Settings.ui.h:66
 msgid "Keyboard shortcut to reveal and hold the panel"
 msgstr "Комбинация клавиш для показа панели"
 
-#: Settings.ui.h:56
+#: Settings.ui.h:67
 msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
 msgstr "Синтакс: <Shift>, <Ctrl>, <Alt>, <Super>"
 
-#: Settings.ui.h:57
+#: Settings.ui.h:68
 msgid "Hide and reveal animation duration (ms)"
 msgstr "Длительность анимации (в мс)"
 
-#: Settings.ui.h:58
+#: Settings.ui.h:69
 msgid "Delay before hiding the panel (ms)"
 msgstr "Задержка перед скрытием панели (в мс)"
 
-#: Settings.ui.h:59
+#: Settings.ui.h:70
 msgid "Delay before enabling intellihide on start (ms)"
 msgstr "Задержка на скрытие при запуске (в мс)"
 
-#: Settings.ui.h:60
+#: Settings.ui.h:71
 msgid "Time (ms) before showing (400 is default)"
 msgstr "Задержка (в мс) перед показом (400 по умолчанию)"
 
-#: Settings.ui.h:61
+#: Settings.ui.h:72
 msgid "Animation time (ms)"
 msgstr "Время анимации (в мс)"
 
-#: Settings.ui.h:62
+#: Settings.ui.h:73
 msgid "Time (ms) before hiding (100 is default)"
 msgstr "Задержка (в мс) перед скрытием (100 по умолчанию)"
 
-#: Settings.ui.h:63
+#: Settings.ui.h:74
 msgid "Immediate on application icon click"
 msgstr "Сразу по переходу в приложение"
 
-#: Settings.ui.h:64
+#: Settings.ui.h:75
 msgid "Middle click on the preview to close the window"
 msgstr "Нажатие средней кнопкой по предпросмотру закрывает окно"
 
-#: Settings.ui.h:65
+#: Settings.ui.h:76
 msgid "Window previews preferred size (px)"
 msgstr "Предпочитаемый размер окна предпросмотра (пикселей)"
 
-#: Settings.ui.h:66
+#: Settings.ui.h:77
 msgid "Window previews aspect ratio Y (height)"
 msgstr "Коэффициент по оси Y (высота)"
 
-#: Settings.ui.h:67
+#: Settings.ui.h:78
 msgid "Window previews padding (px)"
 msgstr "Отступ окон между собой (пикселей)"
 
-#: Settings.ui.h:68
+#: Settings.ui.h:79
 msgid "1"
 msgstr "1"
 
-#: Settings.ui.h:69
+#: Settings.ui.h:80
 msgid "2"
 msgstr "2"
 
-#: Settings.ui.h:70
+#: Settings.ui.h:81
 msgid "3"
 msgstr "3"
 
-#: Settings.ui.h:71
+#: Settings.ui.h:82
 msgid "4"
 msgstr "4"
 
-#: Settings.ui.h:72
+#: Settings.ui.h:83
 msgid "5"
 msgstr "5"
 
-#: Settings.ui.h:73
+#: Settings.ui.h:84
 msgid "6"
 msgstr "6"
 
-#: Settings.ui.h:74
+#: Settings.ui.h:85
 msgid "7"
 msgstr "7"
 
-#: Settings.ui.h:75
+#: Settings.ui.h:86
 msgid "8"
 msgstr "8"
 
-#: Settings.ui.h:76
+#: Settings.ui.h:87
 msgid "9"
 msgstr "9"
 
-#: Settings.ui.h:77
+#: Settings.ui.h:88
 msgid "10"
 msgstr "10"
 
-#: Settings.ui.h:78
+#: Settings.ui.h:89
 msgid "11"
 msgstr "11"
 
-#: Settings.ui.h:79
+#: Settings.ui.h:90
 msgid "12"
 msgstr "12"
 
-#: Settings.ui.h:80
+#: Settings.ui.h:91
 msgid "13"
 msgstr "13"
 
-#: Settings.ui.h:81
+#: Settings.ui.h:92
 msgid "14"
 msgstr "14"
 
-#: Settings.ui.h:82
+#: Settings.ui.h:93
 msgid "15"
 msgstr "15"
 
-#: Settings.ui.h:83
+#: Settings.ui.h:94
 msgid "16"
 msgstr "16"
 
-#: Settings.ui.h:84
+#: Settings.ui.h:95
 msgid "17"
 msgstr "17"
 
-#: Settings.ui.h:85
+#: Settings.ui.h:96
 msgid "18"
 msgstr "18"
 
-#: Settings.ui.h:86
+#: Settings.ui.h:97
 msgid "19"
 msgstr "19"
 
-#: Settings.ui.h:87
+#: Settings.ui.h:98
 msgid "20"
 msgstr "20"
 
-#: Settings.ui.h:88
+#: Settings.ui.h:99
 msgid "21"
 msgstr "21"
 
-#: Settings.ui.h:89
+#: Settings.ui.h:100
 msgid "Fixed"
 msgstr "Закреплено"
 
-#: Settings.ui.h:90
+#: Settings.ui.h:101
 msgid "Window previews aspect ratio X (width)"
 msgstr "Коэффициент по оси Y (ширина)"
 
-#: Settings.ui.h:91
+#: Settings.ui.h:102
 msgid "Use custom opacity for the previews background"
 msgstr "Использовать прозрачность для окна предпросмотра"
 
-#: Settings.ui.h:92
+#: Settings.ui.h:103
 msgid "If disabled, the previews background have the same opacity as the panel"
 msgstr "Если отключено используется прозрачность из настроек панели"
 
-#: Settings.ui.h:93
+#: Settings.ui.h:104
 msgid "Close button and header position"
 msgstr "Кнопка закрытия и заголовок"
 
-#: Settings.ui.h:94
-msgid "Bottom"
-msgstr "Внизу"
-
-#: Settings.ui.h:95
-msgid "Top"
-msgstr "Наверху"
-
-#: Settings.ui.h:96
+#: Settings.ui.h:107
 msgid "Display window preview headers"
 msgstr "Показать заголовок окна"
 
-#: Settings.ui.h:97
+#: Settings.ui.h:108
 msgid "Icon size (px) of the window preview"
 msgstr "Размер значка (в пикселях) в окне предпросмотра"
 
-#: Settings.ui.h:98
+#: Settings.ui.h:109
 msgid "If disabled, the previews icon size will be based on headerbar size"
 msgstr "Если отключено будет использован размер значков по размеру заголовка"
 
-#: Settings.ui.h:99
+#: Settings.ui.h:110
 msgid "Font size (px) of the preview titles"
 msgstr "Размер шрифта (в пикселях) для заголовка"
 
-#: Settings.ui.h:100
+#: Settings.ui.h:111
 msgid "Font weight of the preview titles"
 msgstr "Жирность шрифта заголовка"
 
-#: Settings.ui.h:101
+#: Settings.ui.h:112
 msgid "Font color of the preview titles"
 msgstr "Цвет шрифта заголовка"
 
-#: Settings.ui.h:102
+#: Settings.ui.h:113
 msgid "Enable window peeking"
 msgstr "Переводить окно на передний план"
 
-#: Settings.ui.h:103
+#: Settings.ui.h:114
 msgid ""
 "When hovering over a window preview for some time, the window gets "
 "distinguished."
 msgstr "Выделение окна приложения при наведении на окно предпросмотра,"
 
-#: Settings.ui.h:104
+#: Settings.ui.h:115
 msgid "Enter window peeking mode timeout (ms)"
 msgstr "Задержка перед помещением окна на передний план (в мс)"
 
-#: Settings.ui.h:105
+#: Settings.ui.h:116
 msgid "50"
 msgstr "50"
 
-#: Settings.ui.h:106
+#: Settings.ui.h:117
 msgid ""
 "Time of inactivity while hovering over a window preview needed to enter the "
 "window peeking mode."
@@ -704,418 +764,423 @@ msgstr ""
 "Время бездействия при наведении указателя на окно предпросмотра для перевода "
 "окна на передний план."
 
-#: Settings.ui.h:107
+#: Settings.ui.h:118
 msgid "Window peeking mode opacity"
 msgstr "Режим прозрачности выделенного окна"
 
-#: Settings.ui.h:108
+#: Settings.ui.h:119
 msgid "0"
 msgstr "0"
 
-#: Settings.ui.h:109
+#: Settings.ui.h:120
 msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
 msgstr "Все окна, кроме выделенного, имеют прозрачность."
 
-#: Settings.ui.h:110
+#: Settings.ui.h:121
 msgid "Delay between mouse scroll events (ms)"
 msgstr "Задержка между событиями вращения колесика мышки (мс)"
 
-#: Settings.ui.h:111
+#: Settings.ui.h:122
 msgid "Use this value to limit the number of captured mouse scroll events."
 msgstr ""
 "Это значение ограничивает количество получаемых сообщений вращения колесика "
 "мышки."
 
-#: Settings.ui.h:112
+#: Settings.ui.h:123
 msgid "Show popup when changing workspace"
-msgstr ""
+msgstr "Показывать всплывающее окно при переключении рабочего стола"
 
-#: Settings.ui.h:113
+#: Settings.ui.h:124
 msgid "This affects workspace popup when scrolling on the panel only."
-msgstr ""
+msgstr "Переключение рабочих столов при помощи прокрутки."
 
-#: Settings.ui.h:114
+#: Settings.ui.h:125
 msgid "Super"
 msgstr "Super"
 
-#: Settings.ui.h:115
+#: Settings.ui.h:126
 msgid "Super + Alt"
 msgstr "Super + Alt"
 
-#: Settings.ui.h:116
+#: Settings.ui.h:127
 msgid "Hotkeys prefix"
 msgstr "Префикс горячих клавиш"
 
-#: Settings.ui.h:117
+#: Settings.ui.h:128
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
 msgstr ""
 "Комбинации клавиш для приложений на панели либо Super+Number, либо Super+Alt"
 "+Num"
 
-#: Settings.ui.h:118
+#: Settings.ui.h:129
 msgid "Never"
 msgstr "Никогда"
 
-#: Settings.ui.h:119
+#: Settings.ui.h:130
 msgid "Show temporarily"
 msgstr "Показать временно"
 
-#: Settings.ui.h:120
+#: Settings.ui.h:131
 msgid "Always visible"
 msgstr "Всегда видимый"
 
-#: Settings.ui.h:121
+#: Settings.ui.h:132
 msgid "Number overlay"
 msgstr "Наложение цифр"
 
-#: Settings.ui.h:122
+#: Settings.ui.h:133
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
 msgstr ""
 "Временно показывать цифры на значках приложений при нажатии горячей клавиши."
 
-#: Settings.ui.h:123
+#: Settings.ui.h:134
 msgid "Hide timeout (ms)"
 msgstr "Задержка скрытия (в мс)"
 
-#: Settings.ui.h:124
+#: Settings.ui.h:135
 msgid "e.g. <Super>q"
 msgstr "например, <Super>q"
 
-#: Settings.ui.h:125
+#: Settings.ui.h:136
 msgid "Shortcut to show the overlay for 2 seconds"
 msgstr "Показать оверлей на значках на 2 секунды"
 
-#: Settings.ui.h:126
+#: Settings.ui.h:137
 msgid "Show window previews on hotkey"
 msgstr "Предпросмотр приложений"
 
-#: Settings.ui.h:127
+#: Settings.ui.h:138
 msgid "Show previews when the application have multiple instances"
 msgstr "Показывать предпросмотр приложений с несколькими экземплярами"
 
-#: Settings.ui.h:128
+#: Settings.ui.h:139
 msgid "Number row"
 msgstr "Основной"
 
-#: Settings.ui.h:129
+#: Settings.ui.h:140
 msgid "Numeric keypad"
 msgstr "Дополнительной"
 
-#: Settings.ui.h:130
+#: Settings.ui.h:141
 msgid "Both"
 msgstr "Оба"
 
-#: Settings.ui.h:131
+#: Settings.ui.h:142
 msgid "Hotkeys are activated with"
 msgstr "Используются горячие клавиши с клавиатуры"
 
-#: Settings.ui.h:132
+#: Settings.ui.h:143
 msgid "Select which keyboard number keys are used to activate the hotkeys"
 msgstr "Выберите какой набор цифровых кнопок используется для горячих клавиш"
 
-#: Settings.ui.h:133
+#: Settings.ui.h:144
 msgid "Current Show Applications icon"
 msgstr "Текущий значок \"Приложения\""
 
-#: Settings.ui.h:134
-msgid "Select a Show Applications image icon"
-msgstr "Выбрать значок \"Приложения\""
-
-#: Settings.ui.h:135
+#: Settings.ui.h:145
 msgid "Custom Show Applications image icon"
 msgstr "Собственный значок \"Приложения\""
 
-#: Settings.ui.h:136
+#: Settings.ui.h:146
 msgid "Show Applications icon side padding (px)"
 msgstr "Отступ от значка (в пикселях)"
 
-#: Settings.ui.h:137
+#: Settings.ui.h:147
 msgid "Override escape key and return to desktop"
-msgstr ""
+msgstr "Возвращаться на рабочий стол по кнопке \"Esc\""
 
-#: Settings.ui.h:138
-msgid "Animate <i>Show Applications</i>."
-msgstr "Анимировать <i>Показ списка приложений</i>."
-
-#: Settings.ui.h:139
+#: Settings.ui.h:148
 msgid "Override Show Desktop line color"
 msgstr "Выбрать цвет разделительной линии"
 
-#: Settings.ui.h:140
+#: Settings.ui.h:149
 msgid "Reveal the desktop when hovering the Show Desktop button"
 msgstr "Показать рабочий стол при наведении на кнопку"
 
-#: Settings.ui.h:141
+#: Settings.ui.h:150
 msgid "Delay before revealing the desktop (ms)"
 msgstr "Задержка показа рабочего стола (в мс)"
 
-#: Settings.ui.h:142
+#: Settings.ui.h:151
 msgid "Fade duration (ms)"
 msgstr "Задержка скрытия (в мс)"
 
-#: Settings.ui.h:143
+#: Settings.ui.h:152
 msgid "The panel background opacity is affected by"
 msgstr "Влияние на прозрачность панели оказывают"
 
-#: Settings.ui.h:144
+#: Settings.ui.h:153
 msgid "Change opacity when a window gets closer than (px)"
 msgstr ""
 "Изменять прозрачность при приближении окна к панели ближе чем (в пикселях)"
 
-#: Settings.ui.h:146
+#: Settings.ui.h:155
 #, no-c-format
 msgid "Change opacity to (%)"
 msgstr "Изменять прозрачность на (%)"
 
-#: Settings.ui.h:147
+#: Settings.ui.h:156
 msgid "Opacity change animation duration (ms)"
 msgstr "Скрыть и показать задержка анимации (в мс)"
 
-#: Settings.ui.h:148
+#: Settings.ui.h:157
 msgid "Display the main panel on"
 msgstr "Показать панель на"
 
-#: Settings.ui.h:149
+#: Settings.ui.h:158
 msgid "Display panels on all monitors"
 msgstr "Показать панель на всех мониторах"
 
-#: Settings.ui.h:150
+#: Settings.ui.h:159
 msgid "Panel Intellihide"
 msgstr "Автоскрытие панели"
 
-#: Settings.ui.h:151
+#: Settings.ui.h:160
 msgid "Hide and reveal the panel according to preferences"
 msgstr "Скрывать и показывать панель в зависимости от настроек"
 
-#: Settings.ui.h:152
+#: Settings.ui.h:161
 msgid "Order and positions on monitor"
 msgstr "Порядок и расположение на мониторе"
 
-#: Settings.ui.h:153
+#: Settings.ui.h:162
 msgid "Apply changes to all monitors"
 msgstr "Применить изменения ко всем мониторам"
 
-#: Settings.ui.h:154
-msgid "Panel screen position"
-msgstr "Расположение панели на экране"
-
-#: Settings.ui.h:155
-msgid "Left"
-msgstr "Слева"
-
-#: Settings.ui.h:156
-msgid "Right"
-msgstr "Справа"
-
-#: Settings.ui.h:157
-msgid "Position"
-msgstr "Расположение"
-
-#: Settings.ui.h:158
+#: Settings.ui.h:163
 msgid ""
-"Panel Size\n"
+"Panel thickness\n"
 "(default is 48)"
 msgstr ""
 "Ширина панели\n"
-"(По умолчанию 48 пикселей)"
+"(По умолчанию 48)"
 
-#: Settings.ui.h:160
+#: Settings.ui.h:165
+#, no-c-format
+msgid ""
+"Panel length (%)\n"
+"(default is 100)"
+msgstr ""
+"Длина панели(%)\n"
+"(По умолчанию 100)"
+
+#: Settings.ui.h:169
+msgid "Anchor"
+msgstr "Привязка"
+
+#: Settings.ui.h:170
+msgid "Panel screen position"
+msgstr "Расположение панели на экране"
+
+#: Settings.ui.h:173
+msgid "Position"
+msgstr "Расположение"
+
+#: Settings.ui.h:174
 msgid ""
 "App Icon Margin\n"
 "(default is 8)"
 msgstr ""
 "Отступ между значками приложений\n"
-"(по умолчанию 8 пикселей)"
+"(по умолчанию 8)"
 
-#: Settings.ui.h:162
+#: Settings.ui.h:175
 msgid ""
 "App Icon Padding\n"
 "(default is 4)"
 msgstr ""
 "Отступ вокруг значков приложений\n"
-"(по умолчанию 4 пикселя)"
+"(по умолчанию 4)"
 
-#: Settings.ui.h:164
+#: Settings.ui.h:176
 msgid "Running indicator position"
 msgstr "Позиция индикаторов запущенных приложений"
 
-#: Settings.ui.h:165
+#: Settings.ui.h:177
 msgid "Running indicator style (Focused app)"
 msgstr "Индикатор запущенного приложения (когда в фокусе)"
 
-#: Settings.ui.h:166
+#: Settings.ui.h:178
 msgid "Dots"
 msgstr "Точки"
 
-#: Settings.ui.h:167
+#: Settings.ui.h:179
 msgid "Squares"
 msgstr "Квадраты"
 
-#: Settings.ui.h:168
+#: Settings.ui.h:180
 msgid "Dashes"
 msgstr "Линии"
 
-#: Settings.ui.h:169
+#: Settings.ui.h:181
 msgid "Segmented"
 msgstr "Сегменты"
 
-#: Settings.ui.h:170
+#: Settings.ui.h:182
 msgid "Solid"
 msgstr "Жирные линии"
 
-#: Settings.ui.h:171
+#: Settings.ui.h:183
 msgid "Ciliora"
 msgstr "Линии с точками"
 
-#: Settings.ui.h:172
+#: Settings.ui.h:184
 msgid "Metro"
 msgstr "Метро"
 
-#: Settings.ui.h:173
+#: Settings.ui.h:185
 msgid "Running indicator style (Unfocused apps)"
 msgstr "Индикатор запущенного приложения (когда в не фокусе)"
 
-#: Settings.ui.h:174
+#: Settings.ui.h:186
 msgid "Override panel theme background color "
 msgstr "Цвет панели "
 
-#: Settings.ui.h:175
+#: Settings.ui.h:187
 msgid "Override panel theme background opacity"
 msgstr "Прозрачность панели"
 
-#: Settings.ui.h:177
+#: Settings.ui.h:189
 #, no-c-format
 msgid "Panel background opacity (%)"
 msgstr "Прозрачность панели (%)"
 
-#: Settings.ui.h:178
+#: Settings.ui.h:190
 msgid "Dynamic background opacity"
 msgstr "Динамическая прозрачность"
 
-#: Settings.ui.h:179
+#: Settings.ui.h:191
 msgid "Change opacity when a window gets close to the panel"
 msgstr "Изменять прозрачность при приближении окно к панели"
 
-#: Settings.ui.h:180
+#: Settings.ui.h:192
 msgid "Override panel theme gradient "
 msgstr "Градиент панели "
 
-#: Settings.ui.h:182
+#: Settings.ui.h:194
 #, no-c-format
 msgid "Gradient top color and opacity (%)"
 msgstr "Значение цвета и прозрачности (%) сверху"
 
-#: Settings.ui.h:184
+#: Settings.ui.h:196
 #, no-c-format
 msgid "Gradient bottom color and opacity (%)"
 msgstr "Значение цвета и прозрачности (%) снизу"
 
-#: Settings.ui.h:185
+#: Settings.ui.h:197
+msgid "Animate hovering app icons"
+msgstr "Анимация значков приложений"
+
+#: Settings.ui.h:198
 msgid "Style"
 msgstr "Вид"
 
-#: Settings.ui.h:186
+#: Settings.ui.h:199
 msgid "Show favorite applications"
 msgstr "Показывать избранные приложения"
 
-#: Settings.ui.h:187
+#: Settings.ui.h:200
 msgid "Show running applications"
 msgstr "Показывать запущенные приложения"
 
-#: Settings.ui.h:188
+#: Settings.ui.h:201
 msgid "Show favorite applications on secondary panels"
 msgstr "Показывать избранные приложения на вторичных панелях"
 
-#: Settings.ui.h:189
+#: Settings.ui.h:202
 msgid "Show <i>AppMenu</i> button"
 msgstr "Показывать кнопку <i>Меню приложения</i>"
 
-#: Settings.ui.h:190
+#: Settings.ui.h:203
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
 msgstr ""
 "Верхняя панель > Показать меню приложения, должно быть включено в Tweak Tool"
 
-#: Settings.ui.h:191
+#: Settings.ui.h:204
 msgid "Show window previews on hover"
 msgstr "Показывать предпросмотр окон при наведении"
 
-#: Settings.ui.h:192
+#: Settings.ui.h:205
 msgid "Show tooltip on hover"
 msgstr "Показывать подсказку при наведении"
 
-#: Settings.ui.h:193
+#: Settings.ui.h:206
 msgid "Isolate Workspaces"
 msgstr "Изолировать рабочие столы"
 
-#: Settings.ui.h:194
+#: Settings.ui.h:207
 msgid "Isolate monitors"
 msgstr "Изолировать мониторы"
 
-#: Settings.ui.h:195
+#: Settings.ui.h:208
 msgid "Click empty space to close overview"
 msgstr "Закрывать обзор при щелчке на свободном месте"
 
-#: Settings.ui.h:196
+#: Settings.ui.h:209
+msgid "Disable show overview on startup"
+msgstr "Отключить переход в \"Обзор\" после загрузки системы"
+
+#: Settings.ui.h:210
 msgid "Ungroup applications"
 msgstr "Разгруппировать приложения"
 
-#: Settings.ui.h:197
+#: Settings.ui.h:211
 msgid "Behavior"
 msgstr "Поведение"
 
-#: Settings.ui.h:198
+#: Settings.ui.h:212
 msgid "Behaviour when clicking on the icon of a running application."
 msgstr "Поведение при щелчке на значке запущенного приложения."
 
-#: Settings.ui.h:199
+#: Settings.ui.h:213
 msgid "Click action"
 msgstr "Действие при щелчке"
 
-#: Settings.ui.h:200
+#: Settings.ui.h:214
 msgid "Toggle windows"
 msgstr "Показать или свернуть"
 
-#: Settings.ui.h:201
+#: Settings.ui.h:215
 msgid "Scroll panel action"
 msgstr "При прокрутке над панелью"
 
-#: Settings.ui.h:202
+#: Settings.ui.h:216
 msgid "Behavior when mouse scrolling over the panel."
 msgstr "Поведение при прокрутке колесиком мыши над панелью."
 
-#: Settings.ui.h:203
+#: Settings.ui.h:217
 msgid "Scroll icon action"
 msgstr "При прокрутке над значком приложения"
 
-#: Settings.ui.h:204
+#: Settings.ui.h:218
 msgid "Behavior when mouse scrolling over an application icon."
 msgstr "Поведение при прокрутке колесиком мыши над значком приложения."
 
-#: Settings.ui.h:205
+#: Settings.ui.h:219
 msgid "Do nothing"
 msgstr "Ничего не делать"
 
-#: Settings.ui.h:206
+#: Settings.ui.h:220
 msgid "Switch workspace"
 msgstr "Переключать рабочий стол"
 
-#: Settings.ui.h:207
+#: Settings.ui.h:221
 msgid "Cycle windows"
 msgstr "Переключать окна"
 
-#: Settings.ui.h:208
+#: Settings.ui.h:222
 msgid "Change volume"
 msgstr "Изменить громкость"
 
-#: Settings.ui.h:209
+#: Settings.ui.h:223
 msgid "Same as panel"
 msgstr "Как на панеле"
 
-#: Settings.ui.h:210
+#: Settings.ui.h:224
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
@@ -1123,15 +1188,15 @@ msgstr ""
 "Использовать Super+(0-9) как горячие клавиши запуска приложений. Доступно "
 "использование Shift и Ctrl."
 
-#: Settings.ui.h:211
+#: Settings.ui.h:225
 msgid "Use hotkeys to activate apps"
 msgstr "Использовать горячие клавиши для запуска приложений"
 
-#: Settings.ui.h:212
+#: Settings.ui.h:226
 msgid "Action"
 msgstr "Действия"
 
-#: Settings.ui.h:213
+#: Settings.ui.h:227
 msgid ""
 "Tray Font Size\n"
 "(0 = theme default)"
@@ -1139,7 +1204,7 @@ msgstr ""
 "Размер шрифта в трее\n"
 "(0 = значение из темы)"
 
-#: Settings.ui.h:215
+#: Settings.ui.h:228
 msgid ""
 "LeftBox Font Size\n"
 "(0 = theme default)"
@@ -1147,7 +1212,7 @@ msgstr ""
 "Размер шрифта левой панели\n"
 "(0 = значение из темы)"
 
-#: Settings.ui.h:217
+#: Settings.ui.h:229
 msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
@@ -1155,65 +1220,65 @@ msgstr ""
 "Отступ между значками в трее\n"
 "(-1 = значение из темы)"
 
-#: Settings.ui.h:219
+#: Settings.ui.h:230
 msgid ""
 "Status Icon Padding\n"
 "(-1 = theme default)"
 msgstr ""
-"Значки статуса\n"
+"Отступ между значками статуса\n"
 "(-1 = значение из темы)"
 
-#: Settings.ui.h:221
+#: Settings.ui.h:231
 msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
 msgstr ""
 "Отступ левой панели\n"
-"(0 = значение из темы)"
+"(-1 = значение из темы)"
 
-#: Settings.ui.h:223
+#: Settings.ui.h:232
 msgid "Animate switching applications"
 msgstr "Анимировать переключение приложений"
 
-#: Settings.ui.h:224
+#: Settings.ui.h:233
 msgid "Animate launching new windows"
 msgstr "Анимировать запуск нового окна"
 
-#: Settings.ui.h:225
+#: Settings.ui.h:234
 msgid "Keep original gnome-shell dash (overview)"
 msgstr "Сохранить панель GNOME при показе приложений"
 
-#: Settings.ui.h:226
+#: Settings.ui.h:235
 msgid "Force Activities hot corner on primary monitor"
 msgstr ""
 
-#: Settings.ui.h:227
+#: Settings.ui.h:236
 msgid "Activate panel menu buttons (e.g. date menu) on click only"
 msgstr ""
 "Активировать кнопки на панели меню (например, меню даты) только при нажатии "
 "на кнопку"
 
-#: Settings.ui.h:228
+#: Settings.ui.h:237
 msgid "Keep original gnome-shell top panel"
 msgstr "Сохранить верхнюю панель GNOME"
 
-#: Settings.ui.h:229
+#: Settings.ui.h:238
 msgid "App icon secondary (right-click) menu"
 msgstr "Меню приложения по щелчку правой кнопкой мыши"
 
-#: Settings.ui.h:231
+#: Settings.ui.h:240
 msgid "Fine-Tune"
 msgstr "Тонкая настройка"
 
-#: Settings.ui.h:232
+#: Settings.ui.h:241
 msgid "version: "
 msgstr "версия: "
 
-#: Settings.ui.h:233
+#: Settings.ui.h:242
 msgid "GitHub"
 msgstr "GitHub"
 
-#: Settings.ui.h:234
+#: Settings.ui.h:243
 msgid ""
 "Use the buttons below to create a settings file from your current "
 "preferences that can be imported on a different machine."
@@ -1221,46 +1286,19 @@ msgstr ""
 "Кнопками ниже можно сохранить текущие настройки в файл для загрузки на "
 "другой машине."
 
-#: Settings.ui.h:235
+#: Settings.ui.h:244
 msgid "Export and import settings"
 msgstr "Сохранение и загрузка настроек"
 
-#: Settings.ui.h:236
+#: Settings.ui.h:245
 msgid "Export to file"
 msgstr "Сохранение настроек"
 
-#: Settings.ui.h:237
+#: Settings.ui.h:246
 msgid "Import from file"
 msgstr "Загрузка настроек"
 
-#: Settings.ui.h:238
-msgid ""
-"This allows you to update the extension directly from the GitHub repository."
-msgstr "Позволяет обновлять приложение прямо с GitHub."
-
-#: Settings.ui.h:239
-msgid "Updates"
-msgstr "Обновления"
-
-#: Settings.ui.h:240
-msgid "Periodically check for updates"
-msgstr "Периодически проверять обновления"
-
-#: Settings.ui.h:241
-msgid "Check now"
-msgstr "Проверить сейчас"
-
-#: Settings.ui.h:242
-msgid ""
-"<span weight=\"bold\" color=\"#B42B30\">Be aware, these official Dash to "
-"Panel releases might not be reviewed yet on extensions.gnome.org!</span>  <a "
-"href=\"https://extensions.gnome.org/about/\">Read more</a>"
-msgstr ""
-"<span weight=\"bold\" color=\"#B42B30\">Внимание! Хоть релизы и выходят "
-"официально, они могут быть еще выложены на extensions.gnome.org!</span>  <a "
-"href=\"https://extensions.gnome.org/about/\">Прочитать</a>"
-
-#: Settings.ui.h:243
+#: Settings.ui.h:247
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
@@ -1268,11 +1306,74 @@ msgid ""
 msgstr ""
 "<span size=\"small\">Эта программа поставляется без каких-либо гарантий.\n"
 "Подробнее на <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
-"\">GNU General Public License, version 2 or later</a></span>"
+"\">GNU General Public License, версии 2 или позднее</a>.</span>"
 
-#: Settings.ui.h:245
+#: Settings.ui.h:248
 msgid "About"
 msgstr "О приложении"
+
+#~ msgid "Unavailable when installed from extensions.gnome.org"
+#~ msgstr "Недоступно, если установлено из extensions.gnome.org"
+
+#, javascript-format
+#~ msgid "Version %s (%s) is available"
+#~ msgstr "Доступна версия %s (%s)"
+
+#~ msgid "Details"
+#~ msgstr "Подробнее"
+
+#~ msgid "Update"
+#~ msgstr "Обновление"
+
+#~ msgid "Already up to date"
+#~ msgstr "Обновлений нет"
+
+#~ msgid "Error: "
+#~ msgstr "Ошибка: "
+
+#~ msgid "Update successful, please log out/in"
+#~ msgstr "Обновление успешно, перезайдите в систему"
+
+#~ msgid "Log out"
+#~ msgstr "Выход из системы"
+
+#~ msgid "Update successful, please restart GNOME Shell"
+#~ msgstr "Обновление успешно, перезапустите GNOME Shell"
+
+#~ msgid "Restart GNOME Shell"
+#~ msgstr "Перезапуск GNOME Shell"
+
+#~ msgid "Restarting GNOME Shell..."
+#~ msgstr "Перезапускаем GNOME Shell..."
+
+#~ msgid "Select a Show Applications image icon"
+#~ msgstr "Выбрать значок \"Приложения\""
+
+#~ msgid "Animate <i>Show Applications</i>."
+#~ msgstr "Анимировать <i>Показ списка приложений</i>."
+
+#~ msgid ""
+#~ "This allows you to update the extension directly from the GitHub "
+#~ "repository."
+#~ msgstr "Позволяет обновлять приложение прямо с GitHub."
+
+#~ msgid "Updates"
+#~ msgstr "Обновления"
+
+#~ msgid "Periodically check for updates"
+#~ msgstr "Периодически проверять обновления"
+
+#~ msgid "Check now"
+#~ msgstr "Проверить сейчас"
+
+#~ msgid ""
+#~ "<span weight=\"bold\" color=\"#B42B30\">Be aware, these official Dash to "
+#~ "Panel releases might not be reviewed yet on extensions.gnome.org!</span>  "
+#~ "<a href=\"https://extensions.gnome.org/about/\">Read more</a>"
+#~ msgstr ""
+#~ "<span weight=\"bold\" color=\"#B42B30\">Внимание! Хоть релизы и выходят "
+#~ "официально, они могут быть еще выложены на extensions.gnome.org!</span>  "
+#~ "<a href=\"https://extensions.gnome.org/about/\">Прочитать</a>"
 
 #~ msgid "Top, with plugin icons collapsed to bottom"
 #~ msgstr "Сверху, иконки плагинов снизу"
