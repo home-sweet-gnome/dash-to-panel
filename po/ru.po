@@ -1,15 +1,15 @@
-# SOME DESCRIPTIVE TITLE.
+# Russian Dash-to-Panel translation.
 # Copyright (C) 2017
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the dash-to-panel package.
 # Alex Gluck <alexgluck@bk.ru>, 2017.
 # vantu5z <vantu5z@mail.ru>, 2021.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: dash-to-panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-26 08:17+0300\n"
-"PO-Revision-Date: 2021-07-27 16:58+0300\n"
+"POT-Creation-Date: 2021-07-30 08:34+0300\n"
+"PO-Revision-Date: 2021-07-30 08:42+0300\n"
 "Last-Translator: vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <>\n"
 "Language: ru\n"
@@ -269,6 +269,42 @@ msgstr "Выйти"
 #: appIcons.js:1572
 msgid "Windows"
 msgstr "Окна"
+
+#: appIcons.js:1859
+msgid "Power options"
+msgstr "Параметры питания"
+
+#: appIcons.js:1864
+msgid "Event logs"
+msgstr "Просмотр логов"
+
+#: appIcons.js:1869
+msgid "System"
+msgstr "Система"
+
+#: appIcons.js:1874
+msgid "Device Management"
+msgstr "Управление устройствами"
+
+#: appIcons.js:1893
+msgid "Terminal"
+msgstr "Терминал"
+
+#: appIcons.js:1898
+msgid "System monitor"
+msgstr "Системный монитор"
+
+#: appIcons.js:1903
+msgid "Files"
+msgstr "Файлы"
+
+#: appIcons.js:1908
+msgid "Extensions"
+msgstr "Расширения"
+
+#: appIcons.js:1913
+msgid "Settings"
+msgstr "Настройки"
 
 #: appIcons.js:1925
 msgid "Unlock taskbar"
@@ -965,7 +1001,7 @@ msgid ""
 "Panel length (%)\n"
 "(default is 100)"
 msgstr ""
-"Длина панели(%)\n"
+"Длина панели (%)\n"
 "(По умолчанию 100)"
 
 #: Settings.ui.h:169
@@ -1438,26 +1474,8 @@ msgstr "О приложении"
 #~ msgid "Multi-monitors options"
 #~ msgstr "Настройки для нескольких мониторов"
 
-#~ msgid "Event logs"
-#~ msgstr "Просмотр логов"
-
-#~ msgid "System"
-#~ msgstr "Система"
-
-#~ msgid "Device Management"
-#~ msgstr "Управление устройствами"
-
 #~ msgid "Disk Management"
 #~ msgstr "Управление дисками"
-
-#~ msgid "Terminal"
-#~ msgstr "Терминал"
-
-#~ msgid "Files"
-#~ msgstr "Файлы"
-
-#~ msgid "Settings"
-#~ msgstr "Настройки"
 
 #~ msgid "Display favorite applications on all monitors"
 #~ msgstr "Показывать закрепленные приложения на всех мониторах"
