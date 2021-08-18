@@ -25,6 +25,7 @@ const Intellihide = Me.imports.intellihide;
 const Utils = Me.imports.utils;
 
 const Clutter = imports.gi.Clutter;
+const Config = imports.misc.config;
 const Lang = imports.lang;
 const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
@@ -579,8 +580,20 @@ var dtpOverview = Utils.defineClass({
             if (this._appDisplay.visible) {
                 const workspaceAppGridBox =
                     this._cachedWorkspaceBoxes.get(OverviewControls.ControlsState.APP_GRID);
-        
-                params = [box, startY, searchHeight, dashHeight, workspaceAppGridBox];
+    
+                if (Config.PACKAGE_VERSION > '40.3') {
+                    const monitor = Main.layoutManager.findMonitorForActor(this._container);
+                    const workArea = Main.layoutManager.getWorkAreaForMonitor(monitor.index);
+                    const workAreaBox = new Clutter.ActorBox();
+    
+                    workAreaBox.set_origin(startX, startY);
+                    workAreaBox.set_size(workArea.width, workArea.height);
+    
+                    params = [workAreaBox, searchHeight, dashHeight, workspaceAppGridBox]
+                } else {
+                    params = [box, startX, searchHeight, dashHeight, workspaceAppGridBox];
+                }
+
                 let appDisplayBox;
                 if (!transitionParams.transitioning) {
                     appDisplayBox =
