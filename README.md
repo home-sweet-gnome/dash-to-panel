@@ -133,8 +133,6 @@ This extension has been tested with Gnome 3.18+.
 
 This extension manipulates the Gnome Main Panel, aka Top Bar. So, most other extensions which operate on the top bar should be compatible.
 
-[![Donate via Paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Y5PBB2CRJ6F2W&source=url)
-
 ##
 ### Volunteers needed!
 
