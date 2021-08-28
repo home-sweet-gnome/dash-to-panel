@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-03 21:05+0900\n"
-"PO-Revision-Date: 2021-08-28 12:02+0900\n"
+"PO-Revision-Date: 2021-08-28 12:05+0900\n"
 "Last-Translator: nexryai <nexryai@outlook.com>\n"
 "Language-Team: Japanese\n"
 "Language: ja\n"
@@ -489,8 +489,7 @@ msgstr "ワークスペース切り替え時にポップアップを表示"
 #: Settings.ui:3362
 msgid "This affects workspace popup when scrolling on the panel only."
 msgstr ""
-"これはパネル上でスクロールしたときのワークスペースのポップアップにのみ影響し"
-"ます。"
+"これはパネル上でスクロールしたときのワークスペースのポップアップにのみ影響します。"
 
 #: Settings.ui:3444
 msgid "Super"
