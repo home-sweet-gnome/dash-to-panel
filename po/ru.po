@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dash-to-panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-30 08:34+0300\n"
-"PO-Revision-Date: 2021-07-30 08:42+0300\n"
+"POT-Creation-Date: 2021-08-31 09:29+0300\n"
+"PO-Revision-Date: 2021-08-31 09:54+0300\n"
 "Last-Translator: vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <>\n"
 "Language: ru\n"
@@ -285,6 +285,10 @@ msgstr "Система"
 #: appIcons.js:1874
 msgid "Device Management"
 msgstr "Управление устройствами"
+
+#: appIcons.js:1879
+msgid "Disk Management"
+msgstr "Управление дисками"
 
 #: appIcons.js:1893
 msgid "Terminal"
@@ -1473,9 +1477,6 @@ msgstr "О приложении"
 
 #~ msgid "Multi-monitors options"
 #~ msgstr "Настройки для нескольких мониторов"
-
-#~ msgid "Disk Management"
-#~ msgstr "Управление дисками"
 
 #~ msgid "Display favorite applications on all monitors"
 #~ msgstr "Показывать закрепленные приложения на всех мониторах"
