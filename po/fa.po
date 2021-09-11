@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-29 19:15+0430\n"
-"PO-Revision-Date: 2021-08-29 18:43+0430\n"
+"PO-Revision-Date: 2021-09-11 11:29+0430\n"
 "Last-Translator: eshagh <eshagh094@gmail.com>\n"
 "Language-Team: persian\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
 
 #: prefs.js:199
@@ -30,7 +30,7 @@ msgstr "عرض قابل رویت دکمهٔ میزکار (پیکسل)"
 
 #: prefs.js:211
 msgid "Unavailable when gnome-shell top panel is present"
-msgstr "در صورت وجود تابلوی بالای پوستهٔ-گنوم، در دسترس نیست"
+msgstr "در صورت وجود تابلوی بالای پوستهٔ گنوم، در دسترس نیست"
 
 #: prefs.js:269 Settings.ui.h:171
 msgid "Left"
@@ -156,7 +156,7 @@ msgstr "بازنشانی به پیش‌گزیده"
 
 #: prefs.js:452
 msgid "Open icon"
-msgstr "گشودن آیکون"
+msgstr "گشودن نقشک"
 
 #: prefs.js:505
 msgid "Show Desktop options"
@@ -186,8 +186,8 @@ msgstr "%.1f"
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
-msgstr[0] "%d آیکون"
-msgstr[1] "%d آیکون"
+msgstr[0] "%d نقشک"
+msgstr[1] "%d نقشک"
 
 #: prefs.js:725
 msgid "Running Indicator Options"
@@ -207,7 +207,7 @@ msgstr "گزینه‌های کدری پویا"
 
 #: prefs.js:1215
 msgid "Intellihide options"
-msgstr "گزینه‌های پنهان شدن هوشمند"
+msgstr "گزینه‌های پنهان‌کردن هوشمند"
 
 #: prefs.js:1338
 msgid "Window preview options"
@@ -227,11 +227,11 @@ msgstr "سفارشی‌سازی رفتار لغزش تابلو"
 
 #: prefs.js:1833
 msgid "Customize icon scroll behavior"
-msgstr "سفارشی‌سازی رفتار لغزش آیکون"
+msgstr "سفارشی‌سازی رفتار لغزش نقشک"
 
 #: prefs.js:1931
 msgid "Advanced hotkeys options"
-msgstr "گزینه‌های پیشرفتهٔ کلید‌های داغ"
+msgstr "گزینه‌های پیشرفتهٔ کلید‌های میانبُر"
 
 #: prefs.js:1966
 msgid "Secondary Menu Options"
@@ -243,7 +243,7 @@ msgstr "گزینه‌های پیشرفته"
 
 #: prefs.js:2145
 msgid "App icon animation options"
-msgstr "گزینه‌های پویانمایی آیکون برنامه‌ها"
+msgstr "گزینه‌های پویانمایی نقشک برنامه‌ها"
 
 #: prefs.js:2211
 msgid "Export settings"
@@ -323,7 +323,7 @@ msgstr "بزرگنمایی"
 
 #: Settings.ui.h:9
 msgid "Convexity"
-msgstr "برآمدگی"
+msgstr "کوژی"
 
 #: Settings.ui.h:10
 msgid "Extent"
@@ -338,6 +338,7 @@ msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
 msgstr ""
+"هنگامی که به کمینه تنظیم شود، دابل کلیک همهٔ پنجره‌های برنامه را کمینه می‌کند."
 
 #: Settings.ui.h:13
 msgid "Shift+Click action"
@@ -345,11 +346,11 @@ msgstr "کنش تبدیل+کلیک"
 
 #: Settings.ui.h:14
 msgid "Raise windows"
-msgstr ""
+msgstr "پیش آوردن پنجره‌ها"
 
 #: Settings.ui.h:15
 msgid "Minimize window"
-msgstr "کمینه کردن پنجره"
+msgstr "کمینه‌کردن پنجره"
 
 #: Settings.ui.h:16
 msgid "Launch new instance"
@@ -357,19 +358,19 @@ msgstr "اجرای نمونهٔ جدید"
 
 #: Settings.ui.h:17
 msgid "Cycle through windows"
-msgstr ""
+msgstr "گردش بین پنجره‌ها‍"
 
 #: Settings.ui.h:18
 msgid "Cycle windows + minimize"
-msgstr ""
+msgstr "گردش بین پنجره‌ها‍ + کمینه‌کردن"
 
 #: Settings.ui.h:19
 msgid "Toggle single / Preview multiple"
-msgstr ""
+msgstr "تغییر وضعیت یکی / پیش‌نمایش چندتا"
 
 #: Settings.ui.h:20
 msgid "Toggle single / Cycle multiple"
-msgstr ""
+msgstr "تغییر وضعیت یکی / گردش بین چندتا"
 
 #: Settings.ui.h:22
 msgid "Behavior for Middle-Click."
@@ -401,7 +402,7 @@ msgstr "برجسته کردن برنامه متمرکز"
 
 #: Settings.ui.h:29
 msgid "Icon dominant color"
-msgstr "رنگ غالب آیکون"
+msgstr "رنگ غالب نقشک"
 
 #: Settings.ui.h:30
 msgid "Custom color"
@@ -417,11 +418,11 @@ msgstr "اندازهٔ نشانگر (پیکسل)"
 
 #: Settings.ui.h:33
 msgid "Indicator color - Icon Dominant"
-msgstr "رنگ نشانگر - غالب آیکون"
+msgstr "رنگ نشانگر - غالب نقشک"
 
 #: Settings.ui.h:34
 msgid "Indicator color - Override Theme"
-msgstr "رنگ نشانگر - نادیده گرفتن زمینه"
+msgstr "رنگ نشانگر - جانشانی زمینه"
 
 #: Settings.ui.h:35
 msgid "1 window open (or ungrouped)"
@@ -497,6 +498,8 @@ msgid ""
 "shorter than the maximum width. The maximum width value is used as the fixed "
 "width."
 msgstr ""
+"عنوان برنامه‌ها همه دارای عرض یکسانی هستند، حتی اگر متن آنها کوتاه‌تر از "
+"بیشینهٔ عرض باشد. بیشینهٔ مقدار عرض به عنوان عرض ثابت استفاده می‌شود."
 
 #: Settings.ui.h:53
 msgid "Display running indicators on unfocused applications"
@@ -504,15 +507,15 @@ msgstr "نمایش نشانگرهای در حال اجرا در برنامه‌�
 
 #: Settings.ui.h:54
 msgid "Use the favorite icons as application launchers"
-msgstr ""
+msgstr "استفاده از نقشک دلخواه به عنوان راه‌انداز برنامه‌ها"
 
 #: Settings.ui.h:55
 msgid "Only hide the panel when it is obstructed by windows "
-msgstr ""
+msgstr "فقط هنگامی تابلو را پنهان می‌کند که توسط پنجره‌ها مسدود شود"
 
 #: Settings.ui.h:56
 msgid "The panel hides from"
-msgstr ""
+msgstr "تابلو پنهان شود از"
 
 #: Settings.ui.h:57
 msgid "All windows"
@@ -524,7 +527,7 @@ msgstr "پنجره‌های متمرکز"
 
 #: Settings.ui.h:59
 msgid "Maximized windows"
-msgstr "بیشینه کردن پنجره‌ها"
+msgstr "پنجره‌های بیشینه‌شده"
 
 #: Settings.ui.h:60
 msgid "Require pressure at the edge of the screen to reveal the panel"
@@ -540,7 +543,7 @@ msgstr ""
 
 #: Settings.ui.h:63
 msgid "Allow the panel to be revealed while in fullscreen mode"
-msgstr ""
+msgstr "به تابلو اجازه دهید در حالت تمام‌صفحه نمایش داده شود"
 
 #: Settings.ui.h:64
 msgid "Only hide secondary panels (requires multi-monitors option)"
@@ -564,11 +567,11 @@ msgstr "مدّت پویانمایی پنهان و بازگردانیش (میلی
 
 #: Settings.ui.h:69
 msgid "Delay before hiding the panel (ms)"
-msgstr "تاخیر پیش از پنهان شدن تابلو (میلی‌ثانیه)"
+msgstr "تأخیر پیش از پنهان‌کردن تابلو (میلی‌ثانیه)"
 
 #: Settings.ui.h:70
 msgid "Delay before enabling intellihide on start (ms)"
-msgstr ""
+msgstr "تأخیر پیش از به کار انداختن پنهان‌کردن هوشمند در شروع (میلی‌ثانیه)"
 
 #: Settings.ui.h:71
 msgid "Time (ms) before showing (400 is default)"
@@ -580,7 +583,7 @@ msgstr "زمان پویانمایی (میلی‌ثانیه)"
 
 #: Settings.ui.h:73
 msgid "Time (ms) before hiding (100 is default)"
-msgstr ""
+msgstr "زمان (میلی‌ثانیه) پیش از پنهان‌کردن (پیش‌گزیده 100 است)"
 
 #: Settings.ui.h:74
 msgid "Immediate on application icon click"
@@ -588,19 +591,19 @@ msgstr ""
 
 #: Settings.ui.h:75
 msgid "Middle click on the preview to close the window"
-msgstr ""
+msgstr "کلید میانی روی پیش‌نمایش برای بستن پنجره"
 
 #: Settings.ui.h:76
 msgid "Window previews preferred size (px)"
-msgstr ""
+msgstr "اندازهٔ ترجیحی پنجرهٔ پیش‌نمایش (پیکسل)"
 
 #: Settings.ui.h:77
 msgid "Window previews aspect ratio Y (height)"
-msgstr ""
+msgstr "نسبت ابعاد Y پیش‌نمایش پنجره (ارتفاع)"
 
 #: Settings.ui.h:78
 msgid "Window previews padding (px)"
-msgstr "پدینگ پیش‌نمایش پنجره‌ها (پیکسل)"
+msgstr "لایه‌گذاری پیش‌نمایش پنجره‌ها (پیکسل)"
 
 #: Settings.ui.h:79
 msgid "1"
@@ -692,7 +695,7 @@ msgstr "ثابت"
 
 #: Settings.ui.h:101
 msgid "Window previews aspect ratio X (width)"
-msgstr ""
+msgstr "نسبت ابعاد X پیش‌نمایش پنجره (عرض)"
 
 #: Settings.ui.h:102
 msgid "Use custom opacity for the previews background"
@@ -712,7 +715,7 @@ msgstr "نمایش سربرگ پیش‌نمایش پنجره‌ها"
 
 #: Settings.ui.h:108
 msgid "Icon size (px) of the window preview"
-msgstr "اندازهٔ آیکون (پیکسل) پیش‌نمایش پنجره"
+msgstr "اندازهٔ نقشک (پیکسل) پیش‌نمایش پنجره"
 
 #: Settings.ui.h:109
 msgid "If disabled, the previews icon size will be based on headerbar size"
@@ -732,17 +735,17 @@ msgstr "رنگ قلم عنوان پیش‌نمایش‌ها"
 
 #: Settings.ui.h:113
 msgid "Enable window peeking"
-msgstr ""
+msgstr "به کار انداختن نگاه زیرکانهٔ پنجره"
 
 #: Settings.ui.h:114
 msgid ""
 "When hovering over a window preview for some time, the window gets "
 "distinguished."
-msgstr ""
+msgstr "وقتی مدتی روی پیش‌نمایش پنجره‌ای شناور می‌شوید، پنجره برجسته می‌شود."
 
 #: Settings.ui.h:115
 msgid "Enter window peeking mode timeout (ms)"
-msgstr ""
+msgstr "زمان انقضاء حالت نگاه زیرکانهٔ پنجره را وارد کنید (میلی‌ثانیه)"
 
 #: Settings.ui.h:116
 msgid "50"
@@ -756,7 +759,7 @@ msgstr ""
 
 #: Settings.ui.h:118
 msgid "Window peeking mode opacity"
-msgstr ""
+msgstr "کدری حالت نگاه زیرکانهٔ پنجره"
 
 #: Settings.ui.h:119
 msgid "0"
@@ -770,15 +773,16 @@ msgstr ""
 
 #: Settings.ui.h:121
 msgid "Delay between mouse scroll events (ms)"
-msgstr ""
+msgstr "تأخیر میان رویدادهای لغزش موشی (میلی‌ثانیه)"
 
 #: Settings.ui.h:122
 msgid "Use this value to limit the number of captured mouse scroll events."
 msgstr ""
+"از این مقدار برای محدود کردن تعداد رویدادهای گرفته‌شدهٔ لغزش موشی استفاده کنید."
 
 #: Settings.ui.h:123
 msgid "Show popup when changing workspace"
-msgstr ""
+msgstr "نمایش پنجرهٔ بازشو هنگام تغییر فضای‌کار"
 
 #: Settings.ui.h:124
 msgid "This affects workspace popup when scrolling on the panel only."
@@ -806,7 +810,7 @@ msgstr "هرگز"
 
 #: Settings.ui.h:130
 msgid "Show temporarily"
-msgstr ""
+msgstr "نمایش موقتی"
 
 #: Settings.ui.h:131
 msgid "Always visible"
@@ -824,7 +828,7 @@ msgstr ""
 
 #: Settings.ui.h:134
 msgid "Hide timeout (ms)"
-msgstr ""
+msgstr "زمان انقضاء پنهان (میلی‌ثانیه)"
 
 #: Settings.ui.h:135
 msgid "e.g. <Super>q"
@@ -864,15 +868,15 @@ msgstr ""
 
 #: Settings.ui.h:144
 msgid "Current Show Applications icon"
-msgstr "آیکن فعلی نشان دادن برنامه‌ها"
+msgstr "نقشک فعلی نشان دادن برنامه‌ها"
 
 #: Settings.ui.h:145
 msgid "Custom Show Applications image icon"
-msgstr "تصویر سفارشی آیکن نشان دادن برنامه‌ها"
+msgstr "تصویر سفارشی نقشک نمایش برنامه‌ها"
 
 #: Settings.ui.h:146
 msgid "Show Applications icon side padding (px)"
-msgstr "پدینگ کنار آیکن نشان دادن برنامه‌ها"
+msgstr "لایه‌گذاری کناری نقشک نمایش برنامه‌ها"
 
 #: Settings.ui.h:147
 msgid "Override escape key and return to desktop"
@@ -880,7 +884,7 @@ msgstr "نادیده گرفتن کلید گریز و بازگشت به میزک�
 
 #: Settings.ui.h:148
 msgid "Override Show Desktop line color"
-msgstr ""
+msgstr "جانشانی رنگ خط نشان دادن میزکار"
 
 #: Settings.ui.h:149
 msgid "Reveal the desktop when hovering the Show Desktop button"
@@ -909,7 +913,7 @@ msgstr "تغییر کدری به (%)"
 
 #: Settings.ui.h:156
 msgid "Opacity change animation duration (ms)"
-msgstr "تاخیر پویانمایی تغییر کدری (میلی‌ثانیه)"
+msgstr "تأخیر پویانمایی تغییر کدری (میلی‌ثانیه)"
 
 #: Settings.ui.h:157
 msgid "Display the main panel on"
@@ -921,7 +925,7 @@ msgstr "نمایش تابلوها روی همه نمایشگرها"
 
 #: Settings.ui.h:159
 msgid "Panel Intellihide"
-msgstr "پنهان کردن هوشمند تابلو"
+msgstr "پنهان‌کردن هوشمند تابلو"
 
 #: Settings.ui.h:160
 msgid "Hide and reveal the panel according to preferences"
@@ -969,7 +973,7 @@ msgid ""
 "App Icon Margin\n"
 "(default is 8)"
 msgstr ""
-"حاشیهٔ آیکون برنامه\n"
+"حاشیهٔ نقشک برنامه\n"
 "(پیش‌گزیده 8 است)"
 
 #: Settings.ui.h:175
@@ -977,7 +981,7 @@ msgid ""
 "App Icon Padding\n"
 "(default is 4)"
 msgstr ""
-"پدینگ آیکون برنامه\n"
+"لایه‌گذاری نقشک برنامه\n"
 "(پیش‌گزیده 4 است)"
 
 #: Settings.ui.h:176
@@ -1022,7 +1026,7 @@ msgstr "سَبک نشانگر در حال اجرا (برنامه نامتمرک�
 
 #: Settings.ui.h:186
 msgid "Override panel theme background color "
-msgstr "نادیده گرفتن رنگ پس‌زمینهٔ زمینه تابلو"
+msgstr "باطل کردن رنگ پس‌زمینهٔ زمینه تابلو"
 
 #: Settings.ui.h:187
 msgid "Override panel theme background opacity"
@@ -1043,7 +1047,7 @@ msgstr ""
 
 #: Settings.ui.h:192
 msgid "Override panel theme gradient "
-msgstr "نادیده گرفتن گرادیان زمینه تابلو"
+msgstr "باطل کردن گرادیان زمینه تابلو"
 
 #: Settings.ui.h:194
 #, no-c-format
@@ -1057,7 +1061,7 @@ msgstr "رنگ و کدری پایین گرادیان (%)"
 
 #: Settings.ui.h:197
 msgid "Animate hovering app icons"
-msgstr "پویانمایی شناوری آیکون برنامه‌ها"
+msgstr "پویانمایی شناوری نقشک برنامه‌ها"
 
 #: Settings.ui.h:198
 msgid "Style"
@@ -1137,7 +1141,7 @@ msgstr ""
 
 #: Settings.ui.h:217
 msgid "Scroll icon action"
-msgstr "کنش لغزش آیکون"
+msgstr "کنش لغزش نقشک"
 
 #: Settings.ui.h:218
 msgid "Behavior when mouse scrolling over an application icon."
@@ -1171,7 +1175,7 @@ msgstr ""
 
 #: Settings.ui.h:225
 msgid "Use hotkeys to activate apps"
-msgstr "استفاده از کلید‌های داغ برای فعال کردن برنامه‌ها"
+msgstr "استفاده از کلید‌های میانبُر برای فعال‌کردن برنامه‌ها"
 
 #: Settings.ui.h:226
 msgid "Action"
@@ -1198,7 +1202,7 @@ msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
 msgstr ""
-"پدینگ مورد سینی\n"
+"لایه‌گذاری موارد سینی\n"
 "(پیش‌گزیدهٔ زمینه = ‎-1)"
 
 #: Settings.ui.h:230
@@ -1206,7 +1210,7 @@ msgid ""
 "Status Icon Padding\n"
 "(-1 = theme default)"
 msgstr ""
-"پدینگ آیکون وضعیت\n"
+"لایه‌گذاری نقشک وضعیت\n"
 "(پیش‌گزیدهٔ زمینه = ‎-1)"
 
 #: Settings.ui.h:231
@@ -1214,7 +1218,7 @@ msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
 msgstr ""
-"پدینگ جعبهٔ چپ\n"
+"لایه‌گذاری جعبهٔ چپ\n"
 "(پیش‌گزیدهٔ زمینه = ‎-1)"
 
 #: Settings.ui.h:232
@@ -1239,7 +1243,7 @@ msgstr ""
 
 #: Settings.ui.h:237
 msgid "Keep original gnome-shell top panel"
-msgstr "نگه‌داشتن تابلوی اصلی بالای پوستهٔ-گنوم"
+msgstr "نگه‌داشتن تابلوی اصلی بالای پوستهٔ گنوم"
 
 #: Settings.ui.h:238
 msgid "App icon secondary (right-click) menu"
