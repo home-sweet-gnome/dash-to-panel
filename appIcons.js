@@ -91,7 +91,7 @@ let recentlyClickedAppIndex = 0;
 let recentlyClickedAppMonitorIndex;
 
 let tracker = Shell.WindowTracker.get_default();
-let menuRedisplayFunc = !!AppDisplay.AppMenu.prototype._rebuildMenu ? '_rebuildMenu' : '_redisplay';
+let menuRedisplayFunc = !!(AppDisplay.AppMenu || AppDisplay.AppIconMenu).prototype._rebuildMenu ? '_rebuildMenu' : '_redisplay';
 
 /**
  * Extend AppIcon
@@ -1452,7 +1452,7 @@ function getIconPadding(monitorIndex) {
 }
 
 /**
- * Extend AppMenu
+ * Extend AppMenu (AppIconMenu for pre gnome 41)
  *
  * - set popup arrow side based on taskbar orientation
  * - Add close windows option based on quitfromdash extension
@@ -1461,7 +1461,7 @@ function getIconPadding(monitorIndex) {
 
 var taskbarSecondaryMenu = Utils.defineClass({
     Name: 'DashToPanel.SecondaryMenu',
-    Extends: AppDisplay.AppMenu,
+    Extends: (AppDisplay.AppMenu || AppDisplay.AppIconMenu),
     ParentConstrParams: [[0]],
 
     _init: function(source, panel) {
