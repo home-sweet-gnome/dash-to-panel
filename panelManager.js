@@ -34,6 +34,7 @@ const PanelSettings = Me.imports.panelSettings;
 const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
+const DesktopIconsIntegration = Me.imports.desktopIconsIntegration;
 
 const Gi = imports._gi;
 const GLib = imports.gi.GLib;
@@ -64,6 +65,9 @@ var PanelManager = class {
     }
 
     enable(reset) {
+        if (!reset)
+            this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass();
+
         let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
 
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
@@ -97,6 +101,7 @@ var PanelManager = class {
             p.taskbar.iconAnimator.start();
         });
 
+        this._setDesktopIconsMargins();
         //in 3.32, BoxPointer now inherits St.Widget
         if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
             let panelManager = this;
@@ -168,6 +173,16 @@ var PanelManager = class {
                 Me.settings,
                 'changed::intellihide-key-toggle-text',
                 () => this._setKeyBindings(true)
+            ],
+            [
+                Me.settings,
+                'changed::panel-sizes',
+                () => {
+                    GLib.idle_add(GLib.PRIORITY_LOW, () => {
+                        this._setDesktopIconsMargins();
+                        return GLib.SOURCE_REMOVE;
+                    });
+                }
             ],
             [
                 Utils.DisplayWrapper.getMonitorManager(),
@@ -268,6 +283,28 @@ var PanelManager = class {
         delete LookingGlass.LookingGlass.prototype._oldOpen
 
         delete Main.panel.style;
+        this._desktopIconsUsableArea.destroy();
+        this._desktopIconsUsableArea = null;
+    }
+
+    _setDesktopIconsMargins() {
+        this._desktopIconsUsableArea?.resetMargins();
+        this.allPanels.forEach(p => {
+            switch(p.geom.position) {
+                case St.Side.TOP:
+                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, p.geom.h, 0, 0, 0);
+                    break;
+                case St.Side.BOTTOM:
+                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, p.geom.h, 0, 0);
+                    break;
+                case St.Side.LEFT:
+                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, 0, p.geom.w, 0);
+                    break;
+                case St.Side.RIGHT:
+                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, 0, 0, p.geom.w);
+                    break;
+            }
+        });
     }
 
     setFocusedMonitor(monitor) {
