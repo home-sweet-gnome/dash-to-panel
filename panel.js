@@ -1309,8 +1309,11 @@ var dtpPanel = Utils.defineClass({
 
     _toggleWorkspaceWindows: function(hide, workspace) {
         let time = Me.settings.get_int('show-showdesktop-time') * .001;
-
-        workspace.list_windows().forEach(w => {
+        let current_workspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
+        let windows = current_workspace.list_windows().filter(function (w) {
+            return w.showing_on_its_workspace() && !w.skip_taskbar;
+        });
+        windows.forEach(w => {
             if (!w.minimized) {
                 let tweenOpts = {
                     opacity: hide ? 0 : 255,
