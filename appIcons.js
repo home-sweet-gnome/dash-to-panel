@@ -43,6 +43,7 @@ const Main = imports.ui.main;
 const PopupMenu = imports.ui.popupMenu;
 const Util = imports.misc.util;
 const Workspace = imports.ui.workspace;
+const BoxPointer = imports.ui.boxpointer;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Me.imports.utils;
@@ -637,7 +638,7 @@ var taskbarAppIcon = Utils.defineClass({
         this._iconContainer.set_style('padding: ' + padding + 'px;');
     },
 
-    popupMenu: function() {
+    popupMenu: function(side = St.Side.BOTTOM) {
         this._removeMenuTimeout();
         this.actor.fake_release();
         
@@ -650,33 +651,38 @@ var taskbarAppIcon = Utils.defineClass({
         }
 
         if (!this._menu) {
-            this._menu = new taskbarSecondaryMenu(this, this.dtpPanel);
-            this._menu.connect('activate-window', Lang.bind(this, function (menu, window) {
-                this.activateWindow(window, Me.settings);
-            }));
-            this._menu.connect('open-state-changed', Lang.bind(this, function (menu, isPoppedUp) {
+            this._menu = new AppDisplay.AppMenu(this, side, {
+                favoritesSection: true,
+                showSingleWindows: true,
+            });
+            this._menu.setApp(this.app);
+            this._menu.connect('open-state-changed', (menu, isPoppedUp) => {
                 if (!isPoppedUp)
                     this._onMenuPoppedDown();
-            }));
-            let id = Main.overview.connect('hiding', Lang.bind(this, function () { this._menu.close(); }));
-            this._menu.actor.connect('destroy', function() {
+            });
+            let id = Main.overview.connect('hiding', () => {
+                this._menu.close();
+            });
+            this.connect('destroy', () => {
                 Main.overview.disconnect(id);
             });
 
+            // We want to keep the item hovered while the menu is up
+            this._menu.blockSourceEvents = true;
+
+            Main.uiGroup.add_actor(this._menu.actor);
             this._menuManager.addMenu(this._menu);
         }
 
         this.emit('menu-state-changed', true);
 
-        this._previewMenu.close(true);
-
-        this.actor.set_hover(true);
-        this._menu.actor.add_style_class_name('dashtopanelSecondaryMenu');
-        this._menu.popup();
+        this.set_hover(true);
+        this._menu.open(BoxPointer.PopupAnimation.FULL);
         this._menuManager.ignoreRelease();
         this.emit('sync-tooltip');
 
         return false;
+
     },
 
     _onFocusAppChanged: function(windowTracker) {
@@ -1794,7 +1800,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         //this.emit('menu-state-changed', true);
 
         this.actor.set_hover(true);
-        this._menu.popup();
+        this._menu.open(BoxPointer.PopupAnimation.FULL);
         this._menuManager.ignoreRelease();
         this.emit('sync-tooltip');
 
