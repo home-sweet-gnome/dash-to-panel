@@ -676,6 +676,8 @@ var taskbarAppIcon = Utils.defineClass({
 
         this.emit('menu-state-changed', true);
 
+        this._previewMenu.close(true);
+
         this.set_hover(true);
         this._menu.open(BoxPointer.PopupAnimation.FULL);
         this._menuManager.ignoreRelease();
