@@ -43,6 +43,7 @@ const Main = imports.ui.main;
 const PopupMenu = imports.ui.popupMenu;
 const Util = imports.misc.util;
 const Workspace = imports.ui.workspace;
+const BoxPointer = imports.ui.boxpointer;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Utils = Me.imports.utils;
@@ -639,40 +640,33 @@ var taskbarAppIcon = Utils.defineClass({
 
     popupMenu: function() {
         this._removeMenuTimeout();
-        this.actor.fake_release();
-        
-        if (this._draggable) { 
-            this._draggable.fakeRelease();
-        }
-
-        if (this.isDragged) {
-            return;
-        }
+        this.fake_release();
 
         if (!this._menu) {
-            this._menu = new taskbarSecondaryMenu(this, this.dtpPanel);
-            this._menu.connect('activate-window', Lang.bind(this, function (menu, window) {
-                this.activateWindow(window, Me.settings);
-            }));
-            this._menu.connect('open-state-changed', Lang.bind(this, function (menu, isPoppedUp) {
+            this._menu = new taskbarSecondaryMenu(this, this.dtpPanel.geom.position);
+            this._menu.setApp(this.app);
+            this._menu.connect('open-state-changed', (menu, isPoppedUp) => {
                 if (!isPoppedUp)
                     this._onMenuPoppedDown();
-            }));
-            let id = Main.overview.connect('hiding', Lang.bind(this, function () { this._menu.close(); }));
-            this._menu.actor.connect('destroy', function() {
+            });
+            let id = Main.overview.connect('hiding', () => {
+                this._menu.close();
+            });
+            this.connect('destroy', () => {
                 Main.overview.disconnect(id);
             });
 
+            // We want to keep the item hovered while the menu is up
+            this._menu.blockSourceEvents = true;
+
+            Main.uiGroup.add_actor(this._menu.actor);
             this._menuManager.addMenu(this._menu);
         }
 
         this.emit('menu-state-changed', true);
 
-        this._previewMenu.close(true);
-
-        this.actor.set_hover(true);
-        this._menu.actor.add_style_class_name('dashtopanelSecondaryMenu');
-        this._menu.popup();
+        this.set_hover(true);
+        this._menu.open(BoxPointer.PopupAnimation.FULL);
         this._menuManager.ignoreRelease();
         this.emit('sync-tooltip');
 
@@ -1461,16 +1455,12 @@ function getIconPadding(monitorIndex) {
 
 var taskbarSecondaryMenu = Utils.defineClass({
     Name: 'DashToPanel.SecondaryMenu',
-    Extends: (AppDisplay.AppMenu || AppDisplay.AppIconMenu),
-    ParentConstrParams: [[0]],
+    Extends: AppDisplay.AppMenu,
+    ParentConstrParams: [[0], [1]],
 
-    _init: function(source, panel) {
-        // Damm it, there has to be a proper way of doing this...
-        // As I can't call the parent parent constructor (?) passing the side
-        // parameter, I overwite what I need later
-        this.callParent('_init', source);
+    _init: function(source, side) {
+        this.callParent('_init', source, side);
 
-        let side = panel.getPosition();
         // Change the initialized side where required.
         this._arrowSide = side;
         this._boxPointer._arrowSide = side;
@@ -1750,7 +1740,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
 
     _onTouchEvent: function(actor, event) {
         if (event.type() == Clutter.EventType.TOUCH_BEGIN)
-            this._setPopupTimeout();
+        this._setPopupTimeout();
 
         return Clutter.EVENT_PROPAGATE;
     },
@@ -1771,17 +1761,23 @@ var ShowAppsIconWrapper = Utils.defineClass({
 
     createMenu: function() {
         if (!this._menu) {
-            this._menu = new MyShowAppsIconMenu(this.actor, this.realShowAppsIcon._dtpPanel);
-            this._menu.connect('open-state-changed', Lang.bind(this, function(menu, isPoppedUp) {
+            this._menu = new MyShowAppsIconMenu(this.actor, this.realShowAppsIcon._dtpPanel.getPosition());
+            //this._menu.setApp(this.realShowAppsIcon);
+            this._menu.connect('open-state-changed', (menu, isPoppedUp) => {
                 if (!isPoppedUp)
                     this._onMenuPoppedDown();
-            }));
-            let id = Main.overview.connect('hiding', Lang.bind(this, function() {
+            });
+            let id = Main.overview.connect('hiding', () => {
                 this._menu.close();
-            }));
-            this._menu.actor.connect('destroy', function() {
+            });
+            this._menu.actor.connect('destroy', () => {
                 Main.overview.disconnect(id);
             });
+
+            // We want to keep the item hovered while the menu is up
+            this._menu.blockSourceEvents = true;
+
+            Main.uiGroup.add_actor(this._menu.actor);
             this._menuManager.addMenu(this._menu);
         }
     },
@@ -1789,12 +1785,12 @@ var ShowAppsIconWrapper = Utils.defineClass({
     popupMenu: function() {
         this._removeMenuTimeout();
         this.actor.fake_release();
-        this.createMenu(this.actor);
+        this.createMenu();
 
         //this.emit('menu-state-changed', true);
 
         this.actor.set_hover(true);
-        this._menu.popup();
+        this._menu.open(BoxPointer.PopupAnimation.FULL);
         this._menuManager.ignoreRelease();
         this.emit('sync-tooltip');
 
@@ -1821,67 +1817,40 @@ Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
  */
 var MyShowAppsIconMenu = Utils.defineClass({
     Name: 'DashToPanel.ShowAppsIconMenu',
-    Extends: taskbarSecondaryMenu,
-    ParentConstrParams: [[0], [1]],
+    Extends: PopupMenu.PopupMenu,
 
-    _dtpRedisplay: function() {
+    _init: function(actor, side) {
+        this.callParent('_init', actor, 0, side);
+
         this.removeAll();
-        
-        // Only add menu entries for commands that exist in path
-        function _appendItem(obj, info) {
-            if (Utils.checkIfCommandExists(info.cmd[0])) {
-                let item = obj._appendMenuItem(_(info.title));
-
-                item.connect('activate', function() {
-                    Util.spawn(info.cmd);
-                });
-                return item;
-            }
-
-            return null;
-        }
-        
-        function _appendList(obj, commandList, titleList) {
-            if (commandList.length != titleList.length) {
-                return;
-            }
-            
-            for (var entry = 0; entry < commandList.length; entry++) {
-                _appendItem(obj, {
-                    title: titleList[entry],
-                    cmd: commandList[entry].split(' ')
-                });
-            }
-        }
 
         if (this.sourceActor != Main.layoutManager.dummyCursor) {
-            _appendItem(this, {
+            this._appendItem({
                 title: 'Power options',
                 cmd: ['gnome-control-center', 'power']
             });
 
-            _appendItem(this, {
+            this._appendItem({
                 title: 'Event logs',
                 cmd: ['gnome-logs']
             });
 
-            _appendItem(this, {
+            this._appendItem({
                 title: 'System',
                 cmd: ['gnome-control-center', 'info-overview']
             });
 
-            _appendItem(this, {
+            this._appendItem({
                 title: 'Device Management',
                 cmd: ['gnome-control-center', 'display']
             });
 
-            _appendItem(this, {
+            this._appendItem({
                 title: 'Disk Management',
                 cmd: ['gnome-disks']
             });
 
-            _appendList(
-                this,
+            this._appendList(
                 Me.settings.get_strv('show-apps-button-context-menu-commands'),
                 Me.settings.get_strv('show-apps-button-context-menu-titles')
             )
@@ -1889,33 +1858,32 @@ var MyShowAppsIconMenu = Utils.defineClass({
             this._appendSeparator();
         }
 
-        _appendItem(this, {
+        this._appendItem({
             title: 'Terminal',
             cmd: ['gnome-terminal']
         });
 
-        _appendItem(this, {
+        this._appendItem({
             title: 'System monitor',
             cmd: ['gnome-system-monitor']
         });
 
-        _appendItem(this, {
+        this._appendItem({
             title: 'Files',
             cmd: ['nautilus']
         });
 
-        _appendItem(this, {
+        this._appendItem({
             title: 'Extensions',
             cmd: ['gnome-shell-extension-prefs']
         });
 
-        _appendItem(this, {
+        this._appendItem({
             title: 'Settings',
             cmd: ['gnome-control-center', 'wifi']
         });
 
-        _appendList(
-            this,
+        this._appendList(
             Me.settings.get_strv('panel-context-menu-commands'),
             Me.settings.get_strv('panel-context-menu-titles')
         )
@@ -1938,14 +1906,57 @@ var MyShowAppsIconMenu = Utils.defineClass({
             Util.spawn(command.concat([Me.metadata.uuid]));
         });
 
-        if(this._source._dtpPanel) {
-            this._appendSeparator();
-            let item = this._appendMenuItem(this._source._dtpPanel._restoreWindowList ? _('Restore Windows') : _('Show Desktop'));
-            item.connect('activate', Lang.bind(this._source._dtpPanel, this._source._dtpPanel._onShowDesktopButtonPress));
+        // todo
+        //if(this._source._dtpPanel) {
+        //    this._appendSeparator();
+        //    let item = this._appendMenuItem(this._source._dtpPanel._restoreWindowList ? _('Restore Windows') : _('Show Desktop'));
+        //    item.connect('activate', Lang.bind(this._source._dtpPanel, this._source._dtpPanel._onShowDesktopButtonPress));
+        //}
+    },
+
+
+    // Only add menu entries for commands that exist in path
+    _appendItem(info) {
+        if (Utils.checkIfCommandExists(info.cmd[0])) {
+            let item = this._appendMenuItem(_(info.title));
+
+            item.connect('activate', function() {
+                print("activated: " + info.title);
+                Util.spawn(info.cmd);
+            });
+            return item;
         }
-    }
+
+        return null;
+    },
+    
+    _appendList(commandList, titleList) {
+        if (commandList.length != titleList.length) {
+            return;
+        }
+        
+        for (var entry = 0; entry < commandList.length; entry++) {
+            _appendItem({
+                title: titleList[entry],
+                cmd: commandList[entry].split(' ')
+            });
+        }
+    },
+
+    _appendSeparator() {
+        let separator = new PopupMenu.PopupSeparatorMenuItem();
+        this.addMenuItem(separator);
+    },
+
+    _appendMenuItem(labelText) {
+        // FIXME: app-well-menu-item style
+        let item = new PopupMenu.PopupMenuItem(labelText);
+        this.addMenuItem(item);
+        return item;
+    },
 });
-adjustMenuRedisplay(MyShowAppsIconMenu.prototype);
+// todo no longer possible, since we inherit directly from PopupMenu
+//adjustMenuRedisplay(MyShowAppsIconMenu.prototype);
 
 function adjustMenuRedisplay(menuProto) {
     menuProto[menuRedisplayFunc] = function() { this._dtpRedisplay(menuRedisplayFunc) };
