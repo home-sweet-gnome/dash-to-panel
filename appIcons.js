@@ -638,7 +638,38 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     popupMenu: function() {
-        return this.callParent('popupMenu', this.dtpPanel.geom.position);
+        this._removeMenuTimeout();
+        this.fake_release();
+
+        if (!this._menu) {
+            this._menu = new taskbarSecondaryMenu(this, this.dtpPanel.geom.position);
+            this._menu.setApp(this.app);
+            this._menu.connect('open-state-changed', (menu, isPoppedUp) => {
+                if (!isPoppedUp)
+                    this._onMenuPoppedDown();
+            });
+            let id = Main.overview.connect('hiding', () => {
+                this._menu.close();
+            });
+            this.connect('destroy', () => {
+                Main.overview.disconnect(id);
+            });
+
+            // We want to keep the item hovered while the menu is up
+            this._menu.blockSourceEvents = true;
+
+            Main.uiGroup.add_actor(this._menu.actor);
+            this._menuManager.addMenu(this._menu);
+        }
+
+        this.emit('menu-state-changed', true);
+
+        this.set_hover(true);
+        this._menu.open(BoxPointer.PopupAnimation.FULL);
+        this._menuManager.ignoreRelease();
+        this.emit('sync-tooltip');
+
+        return false;
     },
 
     _onFocusAppChanged: function(windowTracker) {
@@ -1411,6 +1442,54 @@ function getIconPadding(monitorIndex) {
     }
 
     return padding;
+}
+
+/**
+ * Extend AppMenu (AppIconMenu for pre gnome 41)
+ *
+ * - hide 'Show Details' according to setting
+ * - show windows header only if show-window-previews is disabled
+ * - Add close windows option based on quitfromdash extension
+ *   (https://github.com/deuill/shell-extension-quitfromdash)
+ */
+
+ var taskbarSecondaryMenu = Utils.defineClass({
+    Name: 'DashToPanel.SecondaryMenu',
+    Extends: AppDisplay.AppMenu,
+    ParentConstrParams: [[0], [1]],
+
+    _init: function(source, side) {
+        this.callParent('_init', source, side);
+        // constructor parameter does nos work for some reason
+        this._enableFavorites = true;
+        this._showSingleWindows = true;
+
+        // Remove "Show Details" menu item
+        if(!Me.settings.get_boolean('secondarymenu-contains-showdetails')) {
+            let existingMenuItems = this._getMenuItems();
+            for (let i = 0; i < existingMenuItems.length; i++) {
+                let item = existingMenuItems[i];
+                if (item !== undefined && item.label !== undefined) {
+                    if (item.label.text == "Show Details") {
+                        this.box.remove_child(item.actor);
+                    }
+                }
+            }
+        }
+    },
+
+    // helper function for the quit windows abilities
+    _closeWindowInstance: function(metaWindow) {
+        metaWindow.delete(global.get_current_time());
+    }
+});
+taskbarSecondaryMenu.prototype['_updateWindowsSection'] = function() {
+    if (Me.settings.get_boolean('show-window-previews')) {
+        this._windowSection.removeAll();
+        this._openWindowsHeader.hide();
+    } else {
+        this.callParent('_updateWindowsSection');
+    }
 }
 
 /**
