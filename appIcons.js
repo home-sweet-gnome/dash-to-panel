@@ -1588,7 +1588,6 @@ var ShowAppsIconWrapper = Utils.defineClass({
         /* the variable equivalent to toggleButton has a different name in the appIcon class
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
-        print("constructor actor: " + this.actor);
         this.realShowAppsIcon.show(false);
 
         // Re-use appIcon methods
@@ -1664,7 +1663,6 @@ var ShowAppsIconWrapper = Utils.defineClass({
     },
 
     _onMenuPoppedDown: function() {
-        print("_onMenuPoppedDown actor: " + this.actor);
         this._menu.sourceActor = this.actor;
         this.actor.sync_hover();
         this.emit('menu-state-changed', false);
@@ -1680,9 +1678,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
 
     createMenu: function() {
         if (!this._menu) {
-            print("createMenu");
-            this._menu = new MyShowAppsIconMenu(this.realShowAppsIcon, this.realShowAppsIcon._dtpPanel.getPosition());
-            //this._menu.setApp(this.realShowAppsIcon);
+            this._menu = new MyShowAppsIconMenu(this.realShowAppsIcon, this.realShowAppsIcon._dtpPanel);
             this._menu.connect('open-state-changed', (menu, isPoppedUp) => {
                 if (!isPoppedUp)
                     this._onMenuPoppedDown();
@@ -1702,18 +1698,13 @@ var ShowAppsIconWrapper = Utils.defineClass({
         }
     },
 
-    popupMenu: function() {
+    popupMenu: function(sourceActor = null) {
         this._removeMenuTimeout();
         this.actor.fake_release();
         this.createMenu();
 
-        //this.emit('menu-state-changed', true);
-        print("popupMenu2 box:");
-        // fooArray = Object.entries(this._menu._boxPointer);
+        this._menu.updateItems(sourceActor == null ? this.realShowAppsIcon : sourceActor);
 
-        // fooArray.forEach(([key, value]) => {
-        // print("key: " + key + ", value: " + value);
-        // })
         this.actor.set_hover(true);
         this._menu.open(BoxPointer.PopupAnimation.FULL);
         this._menuManager.ignoreRelease();
@@ -1740,12 +1731,18 @@ Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
 /**
  * A menu for the showAppsIcon
  */
-var MyShowAppsIconMenu = Utils.defineClass({
-    Name: 'DashToPanel.ShowAppsIconMenu',
-    Extends: PopupMenu.PopupMenu,
+var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
-    _init: function(actor, side) {
-        this.callParent('_init', actor, 0, side);
+    constructor(actor, dtpPanel) {
+        super(actor, 0, dtpPanel.getPosition());
+
+        this._dtpPanel = dtpPanel;
+
+        this.updateItems(actor);
+    }
+
+    updateItems(sourceActor) {
+        this.sourceActor = sourceActor;
 
         this.removeAll();
 
@@ -1831,13 +1828,12 @@ var MyShowAppsIconMenu = Utils.defineClass({
             Util.spawn(command.concat([Me.metadata.uuid]));
         });
 
-        // todo
-        //if(this._source._dtpPanel) {
-        //    this._appendSeparator();
-        //    let item = this._appendMenuItem(this._source._dtpPanel._restoreWindowList ? _('Restore Windows') : _('Show Desktop'));
-        //    item.connect('activate', Lang.bind(this._source._dtpPanel, this._source._dtpPanel._onShowDesktopButtonPress));
-        //}
-    },
+        if(this.sourceActor == Main.layoutManager.dummyCursor) {
+            this._appendSeparator();
+            let item = this._appendMenuItem(this._dtpPanel._restoreWindowList ? _('Restore Windows') : _('Show Desktop'));
+            item.connect('activate', Lang.bind(this._dtpPanel, this._dtpPanel._onShowDesktopButtonPress));
+        }
+    }
 
 
     // Only add menu entries for commands that exist in path
@@ -1853,7 +1849,7 @@ var MyShowAppsIconMenu = Utils.defineClass({
         }
 
         return null;
-    },
+    }
     
     _appendList(commandList, titleList) {
         if (commandList.length != titleList.length) {
@@ -1866,20 +1862,20 @@ var MyShowAppsIconMenu = Utils.defineClass({
                 cmd: commandList[entry].split(' ')
             });
         }
-    },
+    }
 
     _appendSeparator() {
         let separator = new PopupMenu.PopupSeparatorMenuItem();
         this.addMenuItem(separator);
-    },
+    }
 
     _appendMenuItem(labelText) {
         // FIXME: app-well-menu-item style
         let item = new PopupMenu.PopupMenuItem(labelText);
         this.addMenuItem(item);
         return item;
-    },
-});
+    }
+};
 
 
 var getIconContainerStyle = function(isVertical) {
