@@ -92,7 +92,6 @@ let recentlyClickedAppIndex = 0;
 let recentlyClickedAppMonitorIndex;
 
 let tracker = Shell.WindowTracker.get_default();
-let menuRedisplayFunc = !!(AppDisplay.AppMenu || AppDisplay.AppIconMenu).prototype._rebuildMenu ? '_rebuildMenu' : '_redisplay';
 
 /**
  * Extend AppIcon
@@ -639,38 +638,7 @@ var taskbarAppIcon = Utils.defineClass({
     },
 
     popupMenu: function() {
-        this._removeMenuTimeout();
-        this.fake_release();
-
-        if (!this._menu) {
-            this._menu = new taskbarSecondaryMenu(this, this.dtpPanel.geom.position);
-            this._menu.setApp(this.app);
-            this._menu.connect('open-state-changed', (menu, isPoppedUp) => {
-                if (!isPoppedUp)
-                    this._onMenuPoppedDown();
-            });
-            let id = Main.overview.connect('hiding', () => {
-                this._menu.close();
-            });
-            this.connect('destroy', () => {
-                Main.overview.disconnect(id);
-            });
-
-            // We want to keep the item hovered while the menu is up
-            this._menu.blockSourceEvents = true;
-
-            Main.uiGroup.add_actor(this._menu.actor);
-            this._menuManager.addMenu(this._menu);
-        }
-
-        this.emit('menu-state-changed', true);
-
-        this.set_hover(true);
-        this._menu.open(BoxPointer.PopupAnimation.FULL);
-        this._menuManager.ignoreRelease();
-        this.emit('sync-tooltip');
-
-        return false;
+        return this.callParent('popupMenu', this.dtpPanel.geom.position);
     },
 
     _onFocusAppChanged: function(windowTracker) {
@@ -1446,136 +1414,6 @@ function getIconPadding(monitorIndex) {
 }
 
 /**
- * Extend AppMenu (AppIconMenu for pre gnome 41)
- *
- * - set popup arrow side based on taskbar orientation
- * - Add close windows option based on quitfromdash extension
- *   (https://github.com/deuill/shell-extension-quitfromdash)
- */
-
-var taskbarSecondaryMenu = Utils.defineClass({
-    Name: 'DashToPanel.SecondaryMenu',
-    Extends: AppDisplay.AppMenu,
-    ParentConstrParams: [[0], [1]],
-
-    _init: function(source, side) {
-        this.callParent('_init', source, side);
-
-        // Change the initialized side where required.
-        this._arrowSide = side;
-        this._boxPointer._arrowSide = side;
-        this._boxPointer._userArrowSide = side;
-    },
-
-    // helper function for the quit windows abilities
-    _closeWindowInstance: function(metaWindow) {
-        metaWindow.delete(global.get_current_time());
-    },
-
-    _dtpRedisplay: function(parentFunc) {
-        this.callParent(parentFunc);
-
-        // Remove "Show Details" menu item
-        if(!Me.settings.get_boolean('secondarymenu-contains-showdetails')) {
-            let existingMenuItems = this._getMenuItems();
-            for(let idx in existingMenuItems) {
-                if(existingMenuItems[idx].actor.label_actor.text == _("Show Details")) {
-                    this.box.remove_child(existingMenuItems[idx].actor);
-                    if(existingMenuItems[idx-1] instanceof PopupMenu.PopupSeparatorMenuItem)
-                        this.box.remove_child(existingMenuItems[idx-1].actor);
-                    break;
-                }
-            }
-        }
-
-        // prepend items from the appMenu (for native gnome apps)
-        if(Me.settings.get_boolean('secondarymenu-contains-appmenu')) {
-            let appMenu = this._source.app.menu;
-            if(appMenu) {
-                let remoteMenu = new imports.ui.remoteMenu.RemoteMenu(this._source.actor, this._source.app.menu, this._source.app.action_group);
-                let appMenuItems = remoteMenu._getMenuItems();
-                for(var i = 0, l = appMenuItems.length || 0; i < l; ++i) {
-                    let menuItem = appMenuItems[i];
-                    let labelText = menuItem.actor.label_actor.text;
-                    if(labelText == _("New Window") || labelText == _("Quit"))
-                        continue;
-                    
-                    if(menuItem instanceof PopupMenu.PopupSeparatorMenuItem)
-                        continue;
-
-                    // this ends up getting called multiple times, and bombing due to the signal id's being invalid
-                    // on a 2nd pass. disconnect the base handler and attach our own that wraps the id's in if statements
-                    menuItem.disconnect(menuItem._popupMenuDestroyId)
-                    menuItem._popupMenuDestroyId = menuItem.connect('destroy', Lang.bind(this, function(menuItem) {
-                        if(menuItem._popupMenuDestroyId) {
-                            menuItem.disconnect(menuItem._popupMenuDestroyId);
-                            menuItem._popupMenuDestroyId = 0;
-                        }
-                        if(menuItem._activateId) {
-                            menuItem.disconnect(menuItem._activateId);
-                            menuItem._activateId = 0;
-                        }
-                        if(menuItem._activeChangeId) {
-                            menuItem.disconnect(menuItem._activeChangeId);
-                            menuItem._activeChangeId = 0;
-                        }
-                        if(menuItem._sensitiveChangeId) {
-                            menuItem.disconnect(menuItem._sensitiveChangeId);
-                            menuItem._sensitiveChangeId = 0;
-                        }
-                        this.disconnect(menuItem._parentSensitiveChangeId);
-                        if (menuItem == this._activeMenuItem)
-                            this._activeMenuItem = null;
-                    }));
-
-                    menuItem.actor.get_parent().remove_child(menuItem.actor);
-                    if(menuItem instanceof PopupMenu.PopupSubMenuMenuItem) {
-                        let newSubMenuMenuItem = new PopupMenu.PopupSubMenuMenuItem(labelText);
-                        let appSubMenuItems = menuItem.menu._getMenuItems();
-                        for(let appSubMenuIdx in appSubMenuItems){
-                            let subMenuItem = appSubMenuItems[appSubMenuIdx];
-                            subMenuItem.actor.get_parent().remove_child(subMenuItem.actor);
-                            newSubMenuMenuItem.menu.addMenuItem(subMenuItem);
-                        }
-                        this.addMenuItem(newSubMenuMenuItem, i);
-                    } else 
-                        this.addMenuItem(menuItem, i);
-                }
-                
-                if(i > 0) {
-                    let separator = new PopupMenu.PopupSeparatorMenuItem();
-                    this.addMenuItem(separator, i);
-                }
-            }
-        }
-
-        // quit menu
-        let app = this._source.app;
-        let window = this._source.window;
-        let count = window ? 1 : getInterestingWindows(app).length;
-        if ( count > 0) {
-            this._appendSeparator();
-            let quitFromTaskbarMenuText = "";
-            if (count == 1)
-                quitFromTaskbarMenuText = _("Quit");
-            else
-                quitFromTaskbarMenuText = _("Quit") + ' ' + count + ' ' + _("Windows");
-
-            this._quitfromTaskbarMenuItem = this._appendMenuItem(quitFromTaskbarMenuText);
-            this._quitfromTaskbarMenuItem.connect('activate', Lang.bind(this, function() {
-                let app = this._source.app;
-                let windows = window ? [window] : app.get_windows();
-                for (i = 0; i < windows.length; i++) {
-                    this._closeWindowInstance(windows[i])
-                }
-            }));
-        }
-    }
-});
-Signals.addSignalMethods(taskbarSecondaryMenu.prototype);
-adjustMenuRedisplay(taskbarSecondaryMenu.prototype);
-
-/**
  * This function is used for extendDashItemContainer
  */
 function ItemShowLabel()  {
@@ -1671,6 +1509,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
         /* the variable equivalent to toggleButton has a different name in the appIcon class
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
+        print("constructor actor: " + this.actor);
         this.realShowAppsIcon.show(false);
 
         // Re-use appIcon methods
@@ -1746,6 +1585,7 @@ var ShowAppsIconWrapper = Utils.defineClass({
     },
 
     _onMenuPoppedDown: function() {
+        print("_onMenuPoppedDown actor: " + this.actor);
         this._menu.sourceActor = this.actor;
         this.actor.sync_hover();
         this.emit('menu-state-changed', false);
@@ -1761,7 +1601,8 @@ var ShowAppsIconWrapper = Utils.defineClass({
 
     createMenu: function() {
         if (!this._menu) {
-            this._menu = new MyShowAppsIconMenu(this.actor, this.realShowAppsIcon._dtpPanel.getPosition());
+            print("createMenu");
+            this._menu = new MyShowAppsIconMenu(this.realShowAppsIcon, this.realShowAppsIcon._dtpPanel.getPosition());
             //this._menu.setApp(this.realShowAppsIcon);
             this._menu.connect('open-state-changed', (menu, isPoppedUp) => {
                 if (!isPoppedUp)
@@ -1788,7 +1629,12 @@ var ShowAppsIconWrapper = Utils.defineClass({
         this.createMenu();
 
         //this.emit('menu-state-changed', true);
+        print("popupMenu2 box:");
+        // fooArray = Object.entries(this._menu._boxPointer);
 
+        // fooArray.forEach(([key, value]) => {
+        // print("key: " + key + ", value: " + value);
+        // })
         this.actor.set_hover(true);
         this._menu.open(BoxPointer.PopupAnimation.FULL);
         this._menuManager.ignoreRelease();
@@ -1955,12 +1801,7 @@ var MyShowAppsIconMenu = Utils.defineClass({
         return item;
     },
 });
-// todo no longer possible, since we inherit directly from PopupMenu
-//adjustMenuRedisplay(MyShowAppsIconMenu.prototype);
 
-function adjustMenuRedisplay(menuProto) {
-    menuProto[menuRedisplayFunc] = function() { this._dtpRedisplay(menuRedisplayFunc) };
-}
 
 var getIconContainerStyle = function(isVertical) {
     let style = 'padding: ';
