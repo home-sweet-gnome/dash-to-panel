@@ -1,0 +1,1247 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-04 20:47+0200\n"
+"PO-Revision-Date: 2021-07-29 14:21+0200\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
+"Language-Team: Dutch\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: prefs.js:211
+msgid "Top, with plugin icons collapsed to bottom"
+msgstr "Bovenaan, met pictogrammen ingeklapt aan de onderkant"
+
+#: prefs.js:211
+msgid "Left, with plugin icons collapsed to right"
+msgstr "Links, met pictogrammen ingeklapt aan de rechterkant"
+
+#: prefs.js:212
+msgid "Top, with fixed center plugin icons"
+msgstr "Bovenaan, met gecentreerde pictogrammen"
+
+#: prefs.js:212
+msgid "Left, with fixed center plugin icons"
+msgstr "Links, met gecentreerde pictogrammen"
+
+#: prefs.js:213
+msgid "Top, with floating center plugin icons"
+msgstr "Bovenaan, met zwevende gecentreerde pictogrammen"
+
+#: prefs.js:213
+msgid "Left, with floating center plugin icons"
+msgstr "Links, met zwevende gecentreerde pictogrammen"
+
+#: prefs.js:214
+msgid "Center, fixed in middle of monitor"
+msgstr "Op het midden van het scherm"
+
+#: prefs.js:215
+msgid "Center, floating between top and bottom elements"
+msgstr "Midden, zwevend tussen de boven- en onderkant"
+
+#: prefs.js:215
+msgid "Center, floating between left and right elements"
+msgstr "Midden, zwevend tussen de linker- en rechterkant"
+
+#: prefs.js:219
+msgid "Top of plugin icons"
+msgstr "Boven pictogrammen"
+
+#: prefs.js:219
+msgid "Left of plugin icons"
+msgstr "Links van pictogrammen"
+
+#: prefs.js:220
+msgid "Bottom of plugin icons"
+msgstr "Onder pictogrammen"
+
+#: prefs.js:220
+msgid "Right of plugin icons"
+msgstr "Rechts van pictogrammen"
+
+#: prefs.js:221
+msgid "Top of system indicators"
+msgstr "Boven indicatoren"
+
+#: prefs.js:221
+msgid "Left of system indicators"
+msgstr "Links van indicatoren"
+
+#: prefs.js:222
+msgid "Bottom of system indicators"
+msgstr "Onder indicatoren"
+
+#: prefs.js:222
+msgid "Right of system indicators"
+msgstr "Rechts van indicatoren"
+
+#: prefs.js:223
+msgid "Top of taskbar"
+msgstr "Boven taakbalk"
+
+#: prefs.js:223
+msgid "Left of taskbar"
+msgstr "Links van taakbalk"
+
+#: prefs.js:224
+msgid "Bottom of taskbar"
+msgstr "Onder taakbalk"
+
+#: prefs.js:224
+msgid "Right of taskbar"
+msgstr "Rechts van taakbalk"
+
+#: prefs.js:230
+msgid "Show Desktop button height (px)"
+msgstr "Hoogte van knop ‘Bureaublad tonen’ (in px)"
+
+#: prefs.js:230
+msgid "Show Desktop button width (px)"
+msgstr "Breedte van knop ‘Bureaublad tonen’ (in px)"
+
+#: prefs.js:364
+msgid "Running Indicator Options"
+msgstr "Opties omtrent actieve indicatoren"
+
+#: prefs.js:371 prefs.js:569 prefs.js:712 prefs.js:837 prefs.js:904
+#: prefs.js:992 prefs.js:1078 prefs.js:1325 prefs.js:1409 prefs.js:1474
+#: prefs.js:1510 prefs.js:1607 prefs.js:1641 prefs.js:1683
+msgid "Reset to defaults"
+msgstr "Standaardwaarden"
+
+#: prefs.js:514
+msgid "Default (Primary monitor)"
+msgstr "Standaard (primair beeldscherm)"
+
+#: prefs.js:517
+msgid "Monitor "
+msgstr "Beeldscherm "
+
+#: prefs.js:562
+msgid "Multi-monitors options"
+msgstr "Meerdere beeldschermen"
+
+#: prefs.js:705
+msgid "Dynamic opacity options"
+msgstr "Dynamische doorzichtigheid"
+
+#: prefs.js:830
+msgid "Intellihide options"
+msgstr "Intelligent verbergen"
+
+#: prefs.js:897
+msgid "Show Applications options"
+msgstr "Toepassingsopties tonen"
+
+#: prefs.js:985
+msgid "Show Desktop options"
+msgstr "Bureaubladopties tonen"
+
+#: prefs.js:1071
+msgid "Window preview options"
+msgstr "Vensterminiaturen"
+
+#: prefs.js:1318
+msgid "Ungrouped application options"
+msgstr "Ongegroepeerde toepassingen"
+
+#: prefs.js:1402
+msgid "Customize middle-click behavior"
+msgstr "Middelklikgedrag aanpassen"
+
+#: prefs.js:1467
+msgid "Customize panel scroll behavior"
+msgstr "Scrollgedrag op paneel aanpassen"
+
+#: prefs.js:1503
+msgid "Customize icon scroll behavior"
+msgstr "Scrollgedrag op pictogrammen aanpassen"
+
+#: prefs.js:1600
+msgid "Advanced hotkeys options"
+msgstr "Geavanceerde sneltoetsen"
+
+#: prefs.js:1634
+msgid "Secondary Menu Options"
+msgstr "Rechtermuisknopmenu"
+
+#: prefs.js:1676 Settings.ui.h:223
+msgid "Advanced Options"
+msgstr "Geavanceerd"
+
+#: prefs.js:1763
+msgid "Export settings"
+msgstr "Voorkeuren exporteren"
+
+#: prefs.js:1780
+msgid "Import settings"
+msgstr "Voorkeuren importeren"
+
+#: appIcons.js:1380
+msgid "Show Details"
+msgstr "Details tonen"
+
+#: appIcons.js:1398
+msgid "New Window"
+msgstr "Nieuw venster"
+
+#: appIcons.js:1398 appIcons.js:1458 appIcons.js:1460 Settings.ui.h:10
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: appIcons.js:1460
+msgid "Windows"
+msgstr "Vensters"
+
+#: appIcons.js:1684
+msgid "Power options"
+msgstr "Afsluitopties"
+
+#: appIcons.js:1689
+msgid "Event logs"
+msgstr "Logboeken"
+
+#: appIcons.js:1694
+msgid "System"
+msgstr "Systeem"
+
+#: appIcons.js:1699
+msgid "Device Management"
+msgstr "Apparaatbeheer"
+
+#: appIcons.js:1704
+msgid "Disk Management"
+msgstr "Schijfbeheer"
+
+#: appIcons.js:1711
+msgid "Terminal"
+msgstr "Terminalvenster"
+
+#: appIcons.js:1716
+msgid "System monitor"
+msgstr "Systeemmonitor"
+
+#: appIcons.js:1721
+msgid "Files"
+msgstr "Bestanden"
+
+#: appIcons.js:1726
+msgid "Settings"
+msgstr "Voorkeuren"
+
+#: appIcons.js:1733
+msgid "Unlock taskbar"
+msgstr "Taakbalk ontgrendelen"
+
+#: appIcons.js:1733
+msgid "Lock taskbar"
+msgstr "Taakbalk vergrendelen"
+
+#: appIcons.js:1738
+msgid "Dash to Panel Settings"
+msgstr "Uitbreidingsvoorkeuren"
+
+#: appIcons.js:1745
+msgid "Restore Windows"
+msgstr "Vensters herstellen"
+
+#: appIcons.js:1745
+msgid "Show Desktop"
+msgstr "Bureaublad tonen"
+
+#: Settings.ui.h:1
+msgid "Nothing yet!"
+msgstr "Hier is nog niks!"
+
+#: Settings.ui.h:2
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr ""
+"Stel in op minimaliseren om alle toepassingsvensters te minimaliseren door "
+"te dubbelklikken."
+
+#: Settings.ui.h:3
+msgid "Shift+Click action"
+msgstr "Shift+klik-actie"
+
+#: Settings.ui.h:4
+msgid "Raise windows"
+msgstr "Vensters herstellen"
+
+#: Settings.ui.h:5
+msgid "Minimize window"
+msgstr "Venster minimaliseren"
+
+#: Settings.ui.h:6
+msgid "Launch new instance"
+msgstr "Nieuw venster openen"
+
+#: Settings.ui.h:7
+msgid "Cycle through windows"
+msgstr "Schakelen tussen vensters"
+
+#: Settings.ui.h:8
+msgid "Cycle windows + minimize"
+msgstr "Schakelen tussen vensters en minimaliseren"
+
+#: Settings.ui.h:9
+msgid "Toggle single / Preview multiple"
+msgstr "Schakelen tussen één en meerdere vensters"
+
+#: Settings.ui.h:11
+msgid "Behavior for Middle-Click."
+msgstr "Middelklikgedrag."
+
+#: Settings.ui.h:12
+msgid "Middle-Click action"
+msgstr "Middelklikactie"
+
+#: Settings.ui.h:13
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Shift+middelklikgedrag."
+
+#: Settings.ui.h:14
+msgid "Shift+Middle-Click action"
+msgstr "Shift+middelklikactie"
+
+#: Settings.ui.h:15
+msgid "Isolate monitors"
+msgstr "Beeldschermen onafhankelijk bedienen"
+
+#: Settings.ui.h:16
+msgid "Display favorite applications on all monitors"
+msgstr "Favoriete toepassingen op alle beeldschermen tonen"
+
+#: Settings.ui.h:17
+msgid "Display the clock on all monitors"
+msgstr "Klok op alle beeldschermen tonen"
+
+#: Settings.ui.h:18
+msgid "Display the status menu on all monitors"
+msgstr "Statusmenu op alle beeldschermen tonen"
+
+#: Settings.ui.h:19
+msgid "Integrate <i>AppMenu</i> items"
+msgstr "<i>Toepassingsmenu</i>-items integreren"
+
+#: Settings.ui.h:20
+msgid "<i>Show Details</i> menu item"
+msgstr "Menu-item <i>Details tonen</i>"
+
+#: Settings.ui.h:21
+msgid "Highlight focused application"
+msgstr "Gefocuste toepassing markeren"
+
+#: Settings.ui.h:22
+msgid "Icon dominant color"
+msgstr "Dominante pictogramkleur"
+
+#: Settings.ui.h:23
+msgid "Custom color"
+msgstr "Eigen kleur"
+
+#: Settings.ui.h:24
+msgid "Highlight opacity"
+msgstr "Doorzichtigheid van markeerkleur"
+
+#: Settings.ui.h:25
+msgid "Indicator height (px)"
+msgstr "Indicatorhoogte (in px)"
+
+#: Settings.ui.h:26
+msgid "Indicator color - Icon Dominant"
+msgstr "Indicatorkleur - Dominant"
+
+#: Settings.ui.h:27
+msgid "Indicator color - Override Theme"
+msgstr "Indicatorkleur - Themakleur negeren"
+
+#: Settings.ui.h:28
+msgid "1 window open (or ungrouped)"
+msgstr "1 geopend venster (of ongegroepeerd)"
+
+#: Settings.ui.h:29
+msgid "Apply to all"
+msgstr "Toepassen op alles"
+
+#: Settings.ui.h:30
+msgid "2 windows open"
+msgstr "2 geopende vensters"
+
+#: Settings.ui.h:31
+msgid "3 windows open"
+msgstr "3 geopende vensters"
+
+#: Settings.ui.h:32
+msgid "4+ windows open"
+msgstr "4 of meer geopende vensters"
+
+#: Settings.ui.h:33
+msgid "Use different for unfocused"
+msgstr "Andere kleur gebruiken bij ongefocuste vensters"
+
+#: Settings.ui.h:34
+msgid "Font size (px) of the application titles (default is 14)"
+msgstr "Tekstgrootte (in px) van toepassingstitels (standaard: 14)"
+
+#: Settings.ui.h:35
+msgid "Font weight of application titles"
+msgstr "Dikte van toepassingstitels"
+
+#: Settings.ui.h:36
+msgid "inherit from theme"
+msgstr "Overnemen uit thema"
+
+#: Settings.ui.h:37
+msgid "normal"
+msgstr "normaal"
+
+#: Settings.ui.h:38
+msgid "lighter"
+msgstr "lichter"
+
+#: Settings.ui.h:39
+msgid "bold"
+msgstr "vetgedrukt"
+
+#: Settings.ui.h:40
+msgid "bolder"
+msgstr "erg vetgedrukt"
+
+#: Settings.ui.h:41
+msgid "Font color of the application titles"
+msgstr "Tekstkleur van toepassingstitels"
+
+#: Settings.ui.h:42
+msgid "Maximum width (px) of the application titles (default is 160)"
+msgstr "Maximale breedte (in px) van toepassingstitels (standaard: 160)"
+
+#: Settings.ui.h:43
+msgid "Use a fixed width for the application titles"
+msgstr "Vaste breedte van toepassingstitels aanhouden"
+
+#: Settings.ui.h:44
+msgid ""
+"The application titles all have the same width, even if their texts are "
+"shorter than the maximum width. The maximum width value is used as the fixed "
+"width."
+msgstr ""
+"Toepassingstitels hebben allen dezelfde breedte, zelfs als hun tekst korter "
+"is dan de maximale breedte. De waarde van de maximale breedte wordt "
+"aangehouden als vaste breedte."
+
+#: Settings.ui.h:45
+msgid "Display running indicators on unfocused applications"
+msgstr "Actieve indicatoren tonen op ongefocuste toepassingen"
+
+#: Settings.ui.h:46
+msgid "Use the favorite icons as application launchers"
+msgstr "Favorieten gebruiken als toepassingsstarters"
+
+#: Settings.ui.h:47
+msgid "Only hide the panel when it is obstructed by windows "
+msgstr "Paneel alleen verbergen indien er sprake is van vensteroverlapping "
+
+#: Settings.ui.h:48
+msgid "The panel hides from"
+msgstr "Paneel verbergen bij"
+
+#: Settings.ui.h:49
+msgid "All windows"
+msgstr "Alle vensters"
+
+#: Settings.ui.h:50
+msgid "Focused windows"
+msgstr "Gefocuste vensters"
+
+#: Settings.ui.h:51
+msgid "Maximized windows"
+msgstr "Gemaximaliseerde vensters"
+
+#: Settings.ui.h:52
+msgid "Require pressure at the edge of the screen to reveal the panel"
+msgstr "Randdruk gebruiken om paneel te tonen"
+
+#: Settings.ui.h:53
+msgid "Required pressure threshold (px)"
+msgstr "Randdrukwaarde (in px)"
+
+#: Settings.ui.h:54
+msgid "Required pressure timeout (ms)"
+msgstr "Time-out bij druk (in ms)"
+
+#: Settings.ui.h:55
+msgid "Allow the panel to be revealed while in fullscreen mode"
+msgstr "Paneel tonen in beeldvullende modus"
+
+#: Settings.ui.h:56
+msgid "Only hide secondary panels (requires multi-monitors option)"
+msgstr ""
+"Alleen secundaire panelen verbergen (vereist de optie ‘Meerdere "
+"beeldschermen’)"
+
+#: Settings.ui.h:57
+msgid "e.g. <Super>i"
+msgstr "bijv. <Super>i"
+
+#: Settings.ui.h:58
+msgid "Keyboard shortcut to reveal and hold the panel"
+msgstr "Sneltoets om paneel te (blijven) tonen"
+
+#: Settings.ui.h:59
+msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+msgstr "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+
+#: Settings.ui.h:60
+msgid "Hide and reveal animation duration (ms)"
+msgstr "Animatieduur bij tonen/verbergen (in ms)"
+
+#: Settings.ui.h:61
+msgid "Delay before hiding the panel (ms)"
+msgstr "Wachttijd alvorens het paneel te verbergen (in ms)"
+
+#: Settings.ui.h:62
+msgid "Delay before enabling intellihide on start (ms)"
+msgstr ""
+"Wachttijd alvorens intelligent verbergen in te schakelen na opstarten (in ms)"
+
+#: Settings.ui.h:63
+msgid "Time (ms) before showing (100 is default)"
+msgstr "Wachttijd (in ms) alvorens het paneel te tonen (standaard: 100)"
+
+#: Settings.ui.h:64
+msgid "Animation time (ms)"
+msgstr "Animatieduur (in ms)"
+
+#: Settings.ui.h:65
+msgid "Time (ms) before hiding (100 is default)"
+msgstr "Wachttijd (in ms) alvorens het paneel te verbergen (standaard: 100)"
+
+#: Settings.ui.h:66
+msgid "Immediate on application icon click"
+msgstr "Onmiddellijk na aanklikken van toepassingspictogram"
+
+#: Settings.ui.h:67
+msgid "Middle click on the preview to close the window"
+msgstr "Middelklikken op voorvertoning om venster te sluiten"
+
+#: Settings.ui.h:68
+msgid "Window previews preferred size (px)"
+msgstr "Voorkeursafmetingen van venstervoorvertoningen (in px)"
+
+#: Settings.ui.h:69
+msgid "Window previews aspect ratio Y (height)"
+msgstr "Beeldverhouding van venstervoorvertoningen (hoogte)"
+
+#: Settings.ui.h:70
+msgid "Window previews padding (px)"
+msgstr "Opvulling van venstervoorvertoningen (in px)"
+
+#: Settings.ui.h:71
+msgid "1"
+msgstr "1"
+
+#: Settings.ui.h:72
+msgid "2"
+msgstr "2"
+
+#: Settings.ui.h:73
+msgid "3"
+msgstr "3"
+
+#: Settings.ui.h:74
+msgid "4"
+msgstr "4"
+
+#: Settings.ui.h:75
+msgid "5"
+msgstr "5"
+
+#: Settings.ui.h:76
+msgid "6"
+msgstr "6"
+
+#: Settings.ui.h:77
+msgid "7"
+msgstr "7"
+
+#: Settings.ui.h:78
+msgid "8"
+msgstr "8"
+
+#: Settings.ui.h:79
+msgid "9"
+msgstr "9"
+
+#: Settings.ui.h:80
+msgid "10"
+msgstr "10"
+
+#: Settings.ui.h:81
+msgid "11"
+msgstr "11"
+
+#: Settings.ui.h:82
+msgid "12"
+msgstr "12"
+
+#: Settings.ui.h:83
+msgid "13"
+msgstr "13"
+
+#: Settings.ui.h:84
+msgid "14"
+msgstr "14"
+
+#: Settings.ui.h:85
+msgid "15"
+msgstr "15"
+
+#: Settings.ui.h:86
+msgid "16"
+msgstr "16"
+
+#: Settings.ui.h:87
+msgid "17"
+msgstr "17"
+
+#: Settings.ui.h:88
+msgid "18"
+msgstr "18"
+
+#: Settings.ui.h:89
+msgid "19"
+msgstr "19"
+
+#: Settings.ui.h:90
+msgid "20"
+msgstr "20"
+
+#: Settings.ui.h:91
+msgid "21"
+msgstr "21"
+
+#: Settings.ui.h:92
+msgid "Fixed"
+msgstr "Vast"
+
+#: Settings.ui.h:93
+msgid "Window previews aspect ratio X (width)"
+msgstr "Beeldverhouding van venstervoorvertoningen (breedte)"
+
+#: Settings.ui.h:94
+msgid "Use custom opacity for the previews background"
+msgstr "Aangepaste doorzichtigheid van voorvertoningsachtergronden"
+
+#: Settings.ui.h:95
+msgid "If disabled, the previews background have the same opacity as the panel"
+msgstr ""
+"Schakel uit om dezelfde doorzichtigheid als die van het paneel te gebruiken"
+
+#: Settings.ui.h:96
+msgid "Close button and header position"
+msgstr "Sluitknop en koppositie"
+
+#: Settings.ui.h:97
+msgid "Bottom"
+msgstr "Onderaan"
+
+#: Settings.ui.h:98
+msgid "Top"
+msgstr "Bovenaan"
+
+#: Settings.ui.h:99
+msgid "Display window preview headers"
+msgstr "Koppen tonen op venstervoorvertoningen"
+
+#: Settings.ui.h:100
+msgid "Font size (px) of the preview titles"
+msgstr "Tekstgrootte (in px) van voorvertoningstitels"
+
+#: Settings.ui.h:101
+msgid "Font weight of the preview titles"
+msgstr "Tekstdikte van voorvertoningstitels"
+
+#: Settings.ui.h:102
+msgid "Font color of the preview titles"
+msgstr "Tekstkleur van voorvertoningstitels"
+
+#: Settings.ui.h:103
+msgid "Enable window peeking"
+msgstr "Vensterbezichtiging inschakelen"
+
+#: Settings.ui.h:104
+msgid ""
+"When hovering over a window preview for some time, the window gets "
+"distinguished."
+msgstr ""
+"Houd de cursor enige tijd op een voorvertoning om het venster in kwestie "
+"beter te bekijken."
+
+#: Settings.ui.h:105
+msgid "Enter window peeking mode timeout (ms)"
+msgstr "Wachttijd alvorens een venster te bezichtigen (in ms)"
+
+#: Settings.ui.h:106
+msgid "50"
+msgstr "50"
+
+#: Settings.ui.h:107
+msgid ""
+"Time of inactivity while hovering over a window preview needed to enter the "
+"window peeking mode."
+msgstr ""
+"De wachttijd alvorens een venstervoorvertoning om te zetten naar een "
+"bezichtiging."
+
+#: Settings.ui.h:108
+msgid "Window peeking mode opacity"
+msgstr "Doorzichtigheid van vensterbezichtiging"
+
+#: Settings.ui.h:109
+msgid "0"
+msgstr "0"
+
+#: Settings.ui.h:110
+msgid ""
+"All windows except for the peeked one have their opacity set to the same "
+"value."
+msgstr ""
+"Alle vensters, behalve de bezichtigde, hebben dezelfde doorzichtigheid."
+
+#: Settings.ui.h:111
+msgid "Delay between mouse scroll events (ms)"
+msgstr "Wachttijd tussen scrollgebeurtenissen (in ms)"
+
+#: Settings.ui.h:112
+msgid "Use this value to limit the number of captured mouse scroll events."
+msgstr "Gebruik deze waarde om het aantal scrollgebeurtenissen te beperken."
+
+#: Settings.ui.h:113
+msgid "Super"
+msgstr "Super"
+
+#: Settings.ui.h:114
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+#: Settings.ui.h:115
+msgid "Hotkeys prefix"
+msgstr "Sneltoets"
+
+#: Settings.ui.h:116
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr "Sneltoetsen zijn ofwel Super+Nummer, ofwel Super+Alt+Nummer"
+
+#: Settings.ui.h:117
+msgid "Never"
+msgstr "Nooit"
+
+#: Settings.ui.h:118
+msgid "Show temporarily"
+msgstr "Tijdelijk tonen"
+
+#: Settings.ui.h:119
+msgid "Always visible"
+msgstr "Altijd tonen"
+
+#: Settings.ui.h:120
+msgid "Number overlay"
+msgstr "Nummerembleem"
+
+#: Settings.ui.h:121
+msgid ""
+"Temporarily show the application numbers over the icons when using the "
+"hotkeys."
+msgstr ""
+"Toon tijdelijk toepassingsnummers op de pictogrammen bij gebruik van de "
+"sneltoetsen."
+
+#: Settings.ui.h:122
+msgid "Hide timeout (ms)"
+msgstr "Wachttijd alvorens te verbergen (in ms)"
+
+#: Settings.ui.h:123
+msgid "e.g. <Super>q"
+msgstr "bijv. <Super>q"
+
+#: Settings.ui.h:124
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr "Sneltoets om emblemen 2 seconden te tonen"
+
+#: Settings.ui.h:125
+msgid "Show window previews on hotkey"
+msgstr "Vensters voorvertonen middels sneltoets"
+
+#: Settings.ui.h:126
+msgid "Show previews when the application have multiple instances"
+msgstr "Vensters voorvertonen als er meerdere vensters geopend zijn"
+
+#: Settings.ui.h:127
+msgid "Number row"
+msgstr "Nummerrij"
+
+#: Settings.ui.h:128
+msgid "Numeric keypad"
+msgstr "Numeriek toetsenblok"
+
+#: Settings.ui.h:129
+msgid "Both"
+msgstr "Beide"
+
+#: Settings.ui.h:130
+msgid "Hotkeys are activated with"
+msgstr "Sneltoetsen activeren met"
+
+#: Settings.ui.h:131
+msgid "Select which keyboard number keys are used to activate the hotkeys"
+msgstr ""
+"Geef aan welke numerieke toetsen moeten worden gebruikt om sneltoetsen te "
+"activeren"
+
+#: Settings.ui.h:132
+msgid "Current Show Applications icon"
+msgstr "Huidig ‘Alle toepassingen’-pictogram"
+
+#: Settings.ui.h:133
+msgid "Select a Show Applications image icon"
+msgstr "Kies een ‘Alle toepassingen’-pictogram"
+
+#: Settings.ui.h:134
+msgid "Custom Show Applications image icon"
+msgstr "Eigen ‘Alle toepassingen’-pictogram"
+
+#: Settings.ui.h:135
+msgid "Show Applications icon side padding (px)"
+msgstr "Opvulling van ‘Alle toepassingen’-pictogram (in px)"
+
+#: Settings.ui.h:136
+msgid "Reveal the desktop when hovering the Show Desktop button"
+msgstr "Bureaublad tonen door cursor boven ‘Bureaublad tonen’-knop te houden"
+
+#: Settings.ui.h:137
+msgid "Delay before revealing the desktop (ms)"
+msgstr "Wachttijd alvorens het bureaublad te tonen (in ms)"
+
+#: Settings.ui.h:138
+msgid "Fade duration (ms)"
+msgstr "Vervaagduur (in ms)"
+
+#: Settings.ui.h:139
+msgid "The panel background opacity is affected by"
+msgstr "De doorzichtigheid van de paneelachtergrond is afhankelijk van"
+
+#: Settings.ui.h:140
+msgid "Change opacity when a window gets closer than (px)"
+msgstr "Doorzichtigheid aanpassen als een venster naderbij is (in px)"
+
+#: Settings.ui.h:142
+#, no-c-format
+msgid "Change opacity to (%)"
+msgstr "Doorzichtigheid aanpassen naar (in %)"
+
+#: Settings.ui.h:143
+msgid "Opacity change animation duration (ms)"
+msgstr "Animatieduur van vervaging (in ms)"
+
+#: Settings.ui.h:144
+msgid "Panel screen position"
+msgstr "Paneelpositie"
+
+#: Settings.ui.h:145
+msgid "Left"
+msgstr "Links"
+
+#: Settings.ui.h:146
+msgid "Right"
+msgstr "Rechts"
+
+#: Settings.ui.h:147
+msgid "Taskbar position"
+msgstr "Taakbalklocatie"
+
+#: Settings.ui.h:148
+msgid "Clock location"
+msgstr "Kloklocatie"
+
+#: Settings.ui.h:149
+msgid "Display the main panel on"
+msgstr "Hoofdpaneel tonen op"
+
+#: Settings.ui.h:150
+msgid "Display panels on all monitors"
+msgstr "Panelen op alle beeldschermen tonen"
+
+#: Settings.ui.h:151
+msgid "Panel Intellihide"
+msgstr "Intelligent verbergen"
+
+#: Settings.ui.h:152
+msgid "Hide and reveal the panel according to preferences"
+msgstr "Paneel verbergen en tonen op basis van voorkeuren"
+
+#: Settings.ui.h:153
+msgid "Position"
+msgstr "Positie"
+
+#: Settings.ui.h:154
+msgid ""
+"Panel Size\n"
+"(default is 48)"
+msgstr ""
+"Paneelgrootte\n"
+"(standaard: 48)"
+
+#: Settings.ui.h:156
+msgid ""
+"App Icon Margin\n"
+"(default is 8)"
+msgstr ""
+"Pictogrammarge\n"
+"(standaard: 8)"
+
+#: Settings.ui.h:158
+msgid ""
+"App Icon Padding\n"
+"(default is 4)"
+msgstr ""
+"Pictogramopvulling\n"
+"(standaard: 4)"
+
+#: Settings.ui.h:160
+msgid "Running indicator position"
+msgstr "Indicatorpositie van actieve toepassingen"
+
+#: Settings.ui.h:161
+msgid "Running indicator style (Focused app)"
+msgstr "Indicatorstijl van actieve toepassingen (gefocust)"
+
+#: Settings.ui.h:162
+msgid "Dots"
+msgstr "Stippen"
+
+#: Settings.ui.h:163
+msgid "Squares"
+msgstr "Vierkanten"
+
+#: Settings.ui.h:164
+msgid "Dashes"
+msgstr "Streepjes"
+
+#: Settings.ui.h:165
+msgid "Segmented"
+msgstr "Opdelen"
+
+#: Settings.ui.h:166
+msgid "Solid"
+msgstr "Vaste kleur"
+
+#: Settings.ui.h:167
+msgid "Ciliora"
+msgstr "Ciliora"
+
+#: Settings.ui.h:168
+msgid "Metro"
+msgstr "Metro"
+
+#: Settings.ui.h:169
+msgid "Running indicator style (Unfocused apps)"
+msgstr "Indicatorstijl van actieve toepassingen (ongefocust)"
+
+#: Settings.ui.h:170
+msgid "Override panel theme background color "
+msgstr "Eigen paneelachtergrondkleur kiezen "
+
+#: Settings.ui.h:171
+msgid "Override panel theme background opacity"
+msgstr "Eigen paneeldoorzichtigheid kiezen"
+
+#: Settings.ui.h:173
+#, no-c-format
+msgid "Panel background opacity (%)"
+msgstr "Paneeldoorzichtigheid (in %)"
+
+#: Settings.ui.h:174
+msgid "Dynamic background opacity"
+msgstr "Dynamische doorzichtigheid"
+
+#: Settings.ui.h:175
+msgid "Change opacity when a window gets close to the panel"
+msgstr "Pas de doorzichtigheid aan als een venster nabij het paneel is"
+
+#: Settings.ui.h:176
+msgid "Override panel theme gradient "
+msgstr "Eigen paneelkleurverloop kiezen "
+
+#: Settings.ui.h:178
+#, no-c-format
+msgid "Gradient top color and opacity (%)"
+msgstr "Bovenste kleur en doorzichtigheid (in %)"
+
+#: Settings.ui.h:180
+#, no-c-format
+msgid "Gradient bottom color and opacity (%)"
+msgstr "Onderste kleur en doorzichtigheid (in %)"
+
+#: Settings.ui.h:181
+msgid "Style"
+msgstr "Stijl"
+
+#: Settings.ui.h:182
+msgid "Show favorite applications"
+msgstr "Favorieten tonen"
+
+#: Settings.ui.h:183
+msgid "Show running applications"
+msgstr "Actieve toepassingen tonen"
+
+#: Settings.ui.h:184
+msgid "Show <i>Applications</i> icon"
+msgstr "<i>Alle toepassingen</i>-pictogram tonen"
+
+#: Settings.ui.h:185
+msgid "Animate <i>Show Applications</i>."
+msgstr "<i>Alle toepassingen</i> voorzien van animatie."
+
+#: Settings.ui.h:186
+msgid "Show <i>Activities</i> button"
+msgstr "<i>Activiteitenoverzicht</i>knop tonen"
+
+#: Settings.ui.h:187
+msgid "Show <i>Desktop</i> button"
+msgstr "<i>Bureaublad</i>knop tonen"
+
+#: Settings.ui.h:188
+msgid "Show <i>AppMenu</i> button"
+msgstr "<i>Toepassingsmenu</i>knop tonen"
+
+#: Settings.ui.h:189
+msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
+msgstr ""
+"Bovenbalk > Toepassingsmenu tonen </i> moet worden ingeschakeld in GNOME "
+"Afstellingen"
+
+#: Settings.ui.h:190
+msgid "Show window previews on hover"
+msgstr "Vensters voorvertonen door ze aan te wijzen"
+
+#: Settings.ui.h:191
+msgid "Show tooltip on hover"
+msgstr "Hulpballon tonen na aanwijzen"
+
+#: Settings.ui.h:192
+msgid "Isolate Workspaces"
+msgstr "Werkbladen isoleren"
+
+#: Settings.ui.h:193
+msgid "Ungroup applications"
+msgstr "Toepassingen degroeperen"
+
+#: Settings.ui.h:194
+msgid "Behavior"
+msgstr "Gedrag"
+
+#: Settings.ui.h:195
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr ""
+"Wat er moet gebeuren na het klikken op een pictogram van een actieve "
+"toepassing."
+
+#: Settings.ui.h:196
+msgid "Click action"
+msgstr "Klikactie"
+
+#: Settings.ui.h:197
+msgid "Toggle windows"
+msgstr "Vensters tonen/verbergen"
+
+#: Settings.ui.h:198
+msgid "Scroll panel action"
+msgstr "Actie na scrollen op paneel"
+
+#: Settings.ui.h:199
+msgid "Behavior when mouse scrolling over the panel."
+msgstr "Wat er moet gebeuren na het scrollen op het paneel."
+
+#: Settings.ui.h:200
+msgid "Scroll icon action"
+msgstr "Actie na scrollen op pictogram"
+
+#: Settings.ui.h:201
+msgid "Behavior when mouse scrolling over an application icon."
+msgstr "Wat er moet gebeuren na het scrollen op een pictogram."
+
+#: Settings.ui.h:202
+msgid "Do nothing"
+msgstr "Niets doen"
+
+#: Settings.ui.h:203
+msgid "Switch workspace"
+msgstr "Van werkblad wisselen"
+
+#: Settings.ui.h:204
+msgid "Cycle windows"
+msgstr "Tussen vensters schakelen"
+
+#: Settings.ui.h:205
+msgid ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
+"together with Shift and Ctrl."
+msgstr ""
+"Gebruik Super+(0-9) om toepassingen te openen/activeren. Kan ook worden "
+"gebruikt in combinatie met Shift of Ctrl."
+
+#: Settings.ui.h:206
+msgid "Use hotkeys to activate apps"
+msgstr "Toepassingen openen/activeren middels sneltoetsen"
+
+#: Settings.ui.h:207
+msgid "Action"
+msgstr "Actie"
+
+#: Settings.ui.h:208
+msgid ""
+"Tray Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Tekstgrootte op systeemvak\n"
+"(0 = standaardinstelling van thema)"
+
+#: Settings.ui.h:210
+msgid ""
+"LeftBox Font Size\n"
+"(0 = theme default)"
+msgstr ""
+"Tekstgrootte op linkervak\n"
+"(0 = standaardinstelling van thema)"
+
+#: Settings.ui.h:212
+msgid ""
+"Tray Item Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Opvulling van systeemvakitems\n"
+"(-1 = standaardinstelling van thema)"
+
+#: Settings.ui.h:214
+msgid ""
+"Status Icon Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Opvulling van statuspictogramitems\n"
+"(-1 = standaardinstelling van thema)"
+
+#: Settings.ui.h:216
+msgid ""
+"LeftBox Padding\n"
+"(-1 = theme default)"
+msgstr ""
+"Opvulling van linkervak\n"
+"(-1 = standaardinstelling van thema)"
+
+#: Settings.ui.h:218
+msgid "Animate switching applications"
+msgstr "Schakelen tussen toepassingen voorzien van animatie"
+
+#: Settings.ui.h:219
+msgid "Animate launching new windows"
+msgstr "Openen van toepassingen voorzien van animatie"
+
+#: Settings.ui.h:220
+msgid "Keep original gnome-shell dash (overview)"
+msgstr "Oorspronkelijk GNOME Shell-activiteitenoverzicht gebruiken"
+
+#: Settings.ui.h:221
+msgid "Activate panel menu buttons (e.g. date menu) on click only"
+msgstr ""
+"Menuknoppen op paneel (bijv. het datummenu) alleen openen na aanklikken"
+
+#: Settings.ui.h:222
+msgid "App icon secondary (right-click) menu"
+msgstr "Rechtermuisknopmenu van items"
+
+#: Settings.ui.h:224
+msgid "Fine-Tune"
+msgstr "Afstellen"
+
+#: Settings.ui.h:225
+msgid "version: "
+msgstr "Versie: "
+
+#: Settings.ui.h:226
+msgid "GitHub"
+msgstr "GitHub"
+
+#: Settings.ui.h:227
+msgid ""
+"Use the buttons below to create a settings file from your current "
+"preferences that can be imported on a different machine."
+msgstr ""
+"Gebruik onderstaande knoppen om een voorkeurenbestand samen te stellen op "
+"basis van de huidige voorkeuren. Dit bestand kan elders worden geïmporteerd."
+
+#: Settings.ui.h:228
+msgid "Export and import settings"
+msgstr "Voorkeuren ex- en importeren"
+
+#: Settings.ui.h:229
+msgid "Export to file"
+msgstr "Exporteren naar bestand"
+
+#: Settings.ui.h:230
+msgid "Import from file"
+msgstr "Importeren uit bestand"
+
+#: Settings.ui.h:231
+msgid ""
+"This allows you to update the extension directly from the GitHub repository."
+msgstr "Hiermee kunt u de uitbreiding direct vanuit de GitHub-repo bijwerken."
+
+#: Settings.ui.h:232
+msgid "Updates"
+msgstr "Updates"
+
+#: Settings.ui.h:233
+msgid "Periodically check for updates"
+msgstr "Automatisch controleren op updates"
+
+#: Settings.ui.h:234
+msgid "Check now"
+msgstr "Nu controleren"
+
+#: Settings.ui.h:235
+msgid ""
+"<span weight=\"bold\" color=\"#B42B30\">Be aware, these official Dash to "
+"Panel releases might not be reviewed yet on extensions.gnome.org!</span>  <a "
+"href=\"https://extensions.gnome.org/about/\">Read more</a>"
+msgstr ""
+"<span weight=\"bold\" color=\"#B42B30\">Let op: deze officiële updates zijn "
+"mogelijk nog niet beoordeeld door het extensions.gnome.org-team!</span>  <a "
+"href=\"https://extensions.gnome.org/about/\">Meer informatie</a>"
+
+#: Settings.ui.h:236
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
+"\">GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">De makers van deze uitbreiding bieden GEEN GARANTIE.\n"
+"Meer informatie is te vinden op <a href=\"https://www.gnu.org/licenses/old-"
+"licenses/gpl-2.0.html\">GNU General Public License, versie 2 of nieuwer</a></"
+"span>"
+
+#: Settings.ui.h:238
+msgid "About"
+msgstr "Over"
