@@ -1066,8 +1066,7 @@ var dtpPanel = Utils.defineClass({
             Main.layoutManager.setDummyCursorGeometry(stageX, stageY, 0, 0);
 
             this.showAppsIconWrapper.createMenu();
-            this.showAppsIconWrapper._menu.sourceActor = Main.layoutManager.dummyCursor;
-            this.showAppsIconWrapper.popupMenu();
+            this.showAppsIconWrapper.popupMenu(Main.layoutManager.dummyCursor);
 
             return Clutter.EVENT_STOP;
         } else if (Main.modalCount > 0 || event.get_source() != actor || 
