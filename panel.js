@@ -1390,7 +1390,7 @@ var dtpPanel = Utils.defineClass({
                 Utils.activateSiblingWindow(windows, direction);
             } else if (scrollAction === 'CHANGE_VOLUME' && !event.is_pointer_emulated()) {
                 var proto = Volume.Indicator.prototype;
-                var func = proto.vfunc_scroll_event || proto._onScrollEvent;
+                var func = proto._handleScrollEvent || proto.vfunc_scroll_event || proto._onScrollEvent;
     
                 func.call(Main.panel.statusArea.aggregateMenu._volume, 0, event);
             } else {
