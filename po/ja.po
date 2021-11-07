@@ -1352,6 +1352,10 @@ msgstr ""
 msgid "Anchor"
 msgstr "アンカー"
 
+#: prefs.js:2145
+msgid "App icon animation options"
+msgstr "アニメーションのオプション"
+
 #: Settings.ui:30
 msgid "Animation type"
 msgstr "アニメーションのタイプ"
