@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-10-11 09:28+0200\n"
-"PO-Revision-Date: 2019-10-11 09:33+0200\n"
+"PO-Revision-Date: 2021-08-04 11:52+0200\n"
 "Last-Translator: Milan Zink <zeten30@gmail.com>\n"
 "Language-Team: \n"
 "Language: cs\n"
@@ -217,7 +217,7 @@ msgstr "Systém"
 
 #: appIcons.js:1699
 msgid "Device Management"
-msgstr "Spáva zařízení"
+msgstr "Správa zařízení"
 
 #: appIcons.js:1704
 msgid "Disk Management"
@@ -1244,7 +1244,7 @@ msgid ""
 "Panel releases might not be reviewed yet on extensions.gnome.org!</span>  <a "
 "href=\"https://extensions.gnome.org/about/\">Read more</a>"
 msgstr ""
-"<span weight=\"bold\" color=\"#B42B30\">Pozor, nové verze nemusím být ještě "
+"<span weight=\"bold\" color=\"#B42B30\">Pozor, nové verze nemusí být ještě "
 "schváleny na portálu extensions.gnome.org!</span>  <a href=\"https://"
 "extensions.gnome.org/about/\">Dozvědět se víc</a>"
 
