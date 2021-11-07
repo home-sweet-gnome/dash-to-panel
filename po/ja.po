@@ -489,8 +489,7 @@ msgstr "ワークスペース切り替え時にポップアップを表示"
 #: Settings.ui:3362
 msgid "This affects workspace popup when scrolling on the panel only."
 msgstr ""
-"これはパネル上でスクロールしたときのワークスペースのポップアップにのみ影響し"
-"ます。"
+"これはパネル上でスクロールしたときのワークスペースのポップアップにのみ影響します。"
 
 #: Settings.ui:3444
 msgid "Super"
