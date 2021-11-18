@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-07 22:13+0200\n"
-"PO-Revision-Date: 2021-08-08 10:32+0200\n"
+"PO-Revision-Date: 2021-11-18 21:02+0100\n"
 "Last-Translator: Onno Giesmann <nutzer3105@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -963,7 +963,7 @@ msgid ""
 "App Icon Padding\n"
 "(default is 4)"
 msgstr ""
-"Symbolabstand\n"
+"Symboleinbettung\n"
 "(Standard ist 4)"
 
 #: Settings.ui.h:176
@@ -1025,7 +1025,7 @@ msgstr "Dynamische Hintergrunddeckkraft"
 
 #: Settings.ui.h:191
 msgid "Change opacity when a window gets close to the panel"
-msgstr "Deckkraft ändern, wenn Fenster der Leiste nahe kommt"
+msgstr "Deckkraft ändern, wenn sich ein Fenster der Leiste nähert"
 
 #: Settings.ui.h:192
 msgid "Override panel theme gradient "
