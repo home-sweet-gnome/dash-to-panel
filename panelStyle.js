@@ -279,7 +279,11 @@ var dtpPanelStyle = Utils.defineClass({
     
     _overrideStyle: function(actor, styleLine, operationIdx) {
         if (actor._dtp_original_inline_style === undefined) {
-            actor._dtp_original_inline_style = actor.get_style();
+            try {
+                actor._dtp_original_inline_style = actor.get_style();
+            } catch {
+                actor._dtp_original_inline_style = actor.get_parent().get_style();
+            }
         }
 
         if(actor._dtp_style_overrides === undefined) {
@@ -290,17 +294,25 @@ var dtpPanelStyle = Utils.defineClass({
         let newStyleLine = '';
         for(let i in actor._dtp_style_overrides)
             newStyleLine += actor._dtp_style_overrides[i] + '; ';
-        actor.set_style(newStyleLine + (actor._dtp_original_inline_style || ''));
+        try {
+            actor.set_style(newStyleLine + (actor._dtp_original_inline_style || ''));
+        } catch {
+            actor.get_parent().set_style(newStyleLine + (actor._dtp_original_inline_style || ''));
+        }
      },
 
     _restoreOriginalStyle: function(actor) {
         if (actor._dtp_original_inline_style !== undefined) {
-            actor.set_style(actor._dtp_original_inline_style);
+            try {
+                actor.set_style(actor._dtp_original_inline_style);
+            } catch {
+                actor.get_parent().set_style(actor._dtp_original_inline_style);
+            }
             delete actor._dtp_original_inline_style;
             delete actor._dtp_style_overrides;
         }
 
-        if (actor.has_style_class_name('panel-button')) {
+        if (actor.has_style_class_name && actor.has_style_class_name('panel-button')) {
             this._refreshPanelButton(actor);
         }
     },
