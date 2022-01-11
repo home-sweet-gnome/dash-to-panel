@@ -661,6 +661,7 @@ var taskbarAppIcon = Utils.defineClass({
             Main.uiGroup.add_actor(this._menu.actor);
             this._menuManager.addMenu(this._menu);
         }
+        this._menu.updateQuitText();
 
         this.emit('menu-state-changed', true);
 
@@ -1476,12 +1477,31 @@ function getIconPadding(monitorIndex) {
                 }
             }
         }
+
+        // replace quit item
+        delete this._quitItem;
+        this._quitItem = this.addAction(_('Quit'), () => this._quitFromTaskbar());
     },
 
-    // helper function for the quit windows abilities
-    _closeWindowInstance: function(metaWindow) {
-        metaWindow.delete(global.get_current_time());
-    }
+    updateQuitText: function() {
+        let count = this.sourceActor.window ? 1 : getInterestingWindows(this.sourceActor.app).length;
+        if ( count > 0) {
+            let quitFromTaskbarMenuText = "";
+            if (count == 1)
+                quitFromTaskbarMenuText = _("Quit");
+            else
+                quitFromTaskbarMenuText = _("Quit") + ' ' + count + ' ' + _("Windows");
+
+            this._quitItem.label.set_text(quitFromTaskbarMenuText);
+        }
+    },
+
+    _quitFromTaskbar: function() {
+        let windows = this.sourceActor.window ? [this.sourceActor.window] : this._app.get_windows();
+        for (i = 0; i < windows.length; i++) {
+            windows[i].delete(global.get_current_time());
+        }
+    },
 });
 taskbarSecondaryMenu.prototype['_updateWindowsSection'] = function() {
     if (Me.settings.get_boolean('show-window-previews')) {
