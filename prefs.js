@@ -965,6 +965,11 @@ const Preferences = new Lang.Class({
                             this._builder.get_object('trans_bg_color_colorbutton'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+        
+        this._settings.bind('trans-use-dominant-icon-color',
+                            this._builder.get_object('trans_bg_icon_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
 
         let rgba = new Gdk.RGBA();
         rgba.parse(this._settings.get_string('trans-bg-color'));

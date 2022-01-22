@@ -87,7 +87,8 @@ var DynamicTransparency = Utils.defineClass({
                 Me.settings,
                 [
                     'changed::trans-use-custom-bg',
-                    'changed::trans-bg-color'
+                    'changed::trans-bg-color',
+                    'changed::trans-use-dominant-icon-color'
                 ],
                 () => this._updateColorAndSet()
             ],
@@ -187,9 +188,16 @@ var DynamicTransparency = Utils.defineClass({
     },
 
     _updateColor: function(themeBackground) {
-        this.backgroundColorRgb = Me.settings.get_boolean('trans-use-custom-bg') ?
-                                  Me.settings.get_string('trans-bg-color') :
-                                  (themeBackground || this._getThemeBackground());
+        this.backgroundColorRgb = (themeBackground || this._getThemeBackground());
+        if (Me.settings.get_boolean('trans-use-custom-bg')){
+            this.backgroundColorRgb = Me.settings.get_string('trans-bg-color');
+        }
+        if (Me.settings.get_boolean('trans-use-dominant-icon-color')){
+            this.backgroundColorRgb = this.currentBackgroundAppColor;
+        }
+        // this.backgroundColorRgb = Me.settings.get_boolean('trans-use-custom-bg') ?
+        //                           Me.settings.get_string('trans-bg-color') :
+        //                           (themeBackground || this._getThemeBackground());
     },
 
     _updateAlpha: function(themeBackground) {
@@ -216,11 +224,11 @@ var DynamicTransparency = Utils.defineClass({
 
     setBackgroundColorToAppColor: function(color){
         this.currentBackgroundAppColor = Utils.getrgbaColor(color, this.alpha);
-        this._setBackground();
+        this._updateColorAndSet();
     },
 
     _setBackground: function() {
-        this.currentBackgroundColor = this.currentBackgroundAppColor || Utils.getrgbaColor(this.backgroundColorRgb, this.alpha);
+        this.currentBackgroundColor = Utils.getrgbaColor(this.backgroundColorRgb, this.alpha);
 
         let transition = 'transition-duration:' + this.animationDuration;
         let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
