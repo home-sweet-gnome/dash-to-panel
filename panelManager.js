@@ -70,7 +70,7 @@ var dtpPanelManager = Utils.defineClass({
         });
     },
 
-    enable: function(reset) {
+    _createPanels() {
         let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
 
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
@@ -83,7 +83,7 @@ var dtpPanelManager = Utils.defineClass({
 
         this.primaryPanel = this._createPanel(this.dtpPrimaryMonitor, Me.settings.get_boolean('stockgs-keep-top-panel'));
         this.allPanels = [ this.primaryPanel ];
-        
+
         this.overview.enable(this.primaryPanel);
 
         if (Me.settings.get_boolean('multi-monitors')) {
@@ -98,14 +98,14 @@ var dtpPanelManager = Utils.defineClass({
         this.allPanels.forEach(p => {
             let panelPosition = p.getPosition();
             let leftOrRight = (panelPosition == St.Side.LEFT || panelPosition == St.Side.RIGHT);
-            
+
             p.panelBox.set_size(
-                leftOrRight ? -1 : p.geom.w + p.geom.lrPadding, 
+                leftOrRight ? -1 : p.geom.w + p.geom.lrPadding,
                 leftOrRight ? p.geom.h + p.geom.tbPadding : -1
             );
 
             this._findPanelMenuButtons(p.panelBox).forEach(pmb => this._adjustPanelMenuButton(pmb, p.monitor, panelPosition));
-            
+
             p.taskbar.iconAnimator.start();
         });
 
@@ -115,7 +115,7 @@ var dtpPanelManager = Utils.defineClass({
 
             Utils.hookVfunc(BoxPointer.BoxPointer.prototype, 'get_preferred_height', function(forWidth) {
                 let alloc = { min_size: 0, natural_size: 0 };
-                
+
                 [alloc.min_size, alloc.natural_size] = this.vfunc_get_preferred_height(forWidth);
 
                 return panelManager._getBoxPointerPreferredHeight(this, alloc);
@@ -124,12 +124,14 @@ var dtpPanelManager = Utils.defineClass({
 
         this._updatePanelElementPositions();
         this.setFocusedMonitor(this.dtpPrimaryMonitor);
-        
+
         if (this.primaryPanel.checkIfVertical()) {
             Main.wm._getPositionForDirection = newGetPositionForDirection;
         }
-        
-        if (reset) return;
+    },
+
+    enable: function() {
+        this._createPanels();
 
         if (Config.PACKAGE_VERSION > '3.35.1') {
             this._oldDoSpringAnimation = AppDisplay.BaseAppView.prototype._doSpringAnimation;
@@ -265,7 +267,7 @@ var dtpPanelManager = Utils.defineClass({
             Object.defineProperty(Main.panel, "style", {configurable: true, set: function(v) {}});
     },
 
-    disable: function(reset) {
+    _destroyPanels() {
         this.overview.disable();
         this.proximityManager.destroy();
 
@@ -315,9 +317,12 @@ var dtpPanelManager = Utils.defineClass({
             Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
             Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
         }
+    },
 
-        if (reset) return;
-        
+    disable: function() {
+
+        this._destroyPanels();
+
         this._setKeyBindings(false);
 
         this._signalsHandler.destroy();
@@ -414,9 +419,9 @@ var dtpPanelManager = Utils.defineClass({
     },
 
     _reset: function() {
-        this.disable(true);
+        this._destroyPanels();
         this.allPanels = [];
-        this.enable(true);
+        this._createPanels();
     },
 
     _updatePanelElementPositions: function() {
