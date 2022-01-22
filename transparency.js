@@ -214,12 +214,17 @@ var DynamicTransparency = Utils.defineClass({
         }
     },
 
+    setBackgroundColorToAppColor: function(color){
+        this.currentBackgroundAppColor = Utils.getrgbaColor(color, this.alpha);
+        this._setBackground();
+    },
+
     _setBackground: function() {
-        this.currentBackgroundColor = Utils.getrgbaColor(this.backgroundColorRgb, this.alpha);
+        this.currentBackgroundColor = this.currentBackgroundAppColor || Utils.getrgbaColor(this.backgroundColorRgb, this.alpha);
 
         let transition = 'transition-duration:' + this.animationDuration;
         let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
-
+        // global.log('panel background-color: ' + this.currentBackgroundColor);
         this._dtpPanel.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles);
         
         if (this._dtpPanel.geom.position == St.Side.TOP) {

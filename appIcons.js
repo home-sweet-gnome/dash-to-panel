@@ -604,6 +604,10 @@ var taskbarAppIcon = Utils.defineClass({
             }
 
             let highlightColor = this._getFocusHighlightColor();
+            if (this.parentPanelColor != highlightColor){
+                global.log('Emitting "changed::focus-highlight-color" with value ' + highlightColor);
+                global.dashToPanel.emit('changed::focus-highlight-color', highlightColor);
+            }
             inlineStyle += "background-color: " + cssHexTocssRgba(highlightColor, Me.settings.get_int('focus-highlight-opacity') * 0.01);
         }
         

@@ -5456,6 +5456,56 @@
                       </object>
                     </child>
                     <child>
+                      <object class="GtkListBoxRow" id="trans_bg_icon_row">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <child>
+                          <object class="GtkGrid" id="trans_bg_icon_grid">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_start">12</property>
+                            <property name="margin_end">12</property>
+                            <property name="margin_top">12</property>
+                            <property name="margin_bottom">12</property>
+                            <property name="column_spacing">32</property>
+                            <child>
+                              <object class="GtkLabel" id="trans_bg_icon_label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">Override panel theme background color with dominant icon color </property>
+                                <property name="use_markup">True</property>
+                                <property name="xalign">0</property>
+                                <layout>
+                                  <property name="row">0</property>
+                                  <property name="column">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="trans_bg_icon_box">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkSwitch" id="trans_bg_icon_switch">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="halign">end</property>
+                                    <property name="valign">center</property>
+                                  </object>
+                                </child>
+                                <layout>
+                                  <property name="row">0</property>
+                                  <property name="column">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkListBoxRow" id="listbox_preview_show_title1">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
