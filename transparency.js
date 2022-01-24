@@ -226,9 +226,10 @@ var DynamicTransparency = Utils.defineClass({
             this.backgroundColorRgbPreview = this.backgroundColorRgb;
         }
         if (Me.settings.get_boolean('trans-apply-dominant-color-to-preview')){
+            let prevBgColor = this.backgroundColorRgb;
             this.backgroundColorRgb = this._modifyColorToDominantAppColor(this.backgroundColorRgb);
             this.backgroundColorRgbPreview = this._modifyColorToDominantAppColor(
-                this.backgroundColorRgb,
+                prevBgColor,
                 Me.settings.get_double('trans-preview-dominant-color-brightness')
             );
         }
