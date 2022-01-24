@@ -394,7 +394,7 @@ var taskbar = Utils.defineClass({
             ],
             [
                 global.dashToPanel,
-                'changed::focus-highlight-color',
+                'changed::focus-dominant-color',
                 Lang.bind(this, function(_, color){
                     this._updatePanelAppColor(color);
                 })
@@ -709,7 +709,7 @@ var taskbar = Utils.defineClass({
         appIcon._dashItemContainer = item;
         this._signalsHandler.add(
             global.dashToPanel,
-            'changed::focus-highlight-color',
+            'changed::focus-dominant-color',
             (_, color) => appIcon.parentPanelColor = this.dtpPanel.dynamicTransparency.currentBackgroundAppColor
         );
 

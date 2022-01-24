@@ -264,6 +264,11 @@
       <summary>Panel opacity</summary>
       <description>Custom opacity for the panel</description>
     </key>
+    <key type="d" name="trans-panel-dominant-color-brightness">
+      <default>0.5</default>
+      <summary>Panel dominant color brightness</summary>
+      <description>Modify brightness of dominant color of app icon used as panel background color</description>
+    </key>
     <key name="trans-dynamic-behavior" enum="org.gnome.shell.extensions.dash-to-panel.proximityBehavior">
       <default>'ALL_WINDOWS'</default>
       <summary>Dynamic opacity behavior</summary>

@@ -249,7 +249,7 @@ var taskbarAppIcon = Utils.defineClass({
             Me.settings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::focus-highlight-dominant', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::focus-highlight-color', Lang.bind(this, this._settingsChangeRefresh)),
+            Me.settings.connect('changed::focus-dominant-color', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::focus-highlight-opacity', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::group-apps-label-font-size', Lang.bind(this, this._updateWindowTitleStyle)),
             Me.settings.connect('changed::group-apps-label-font-weight', Lang.bind(this, this._updateWindowTitleStyle)),
@@ -604,13 +604,18 @@ var taskbarAppIcon = Utils.defineClass({
             }
 
             let highlightColor = this._getFocusHighlightColor();
-            if (this.parentPanelColor != highlightColor){
-                global.log('Emitting "changed::focus-highlight-color" with value ' + highlightColor);
-                global.dashToPanel.emit('changed::focus-highlight-color', highlightColor);
-            }
             inlineStyle += "background-color: " + cssHexTocssRgba(highlightColor, Me.settings.get_int('focus-highlight-opacity') * 0.01);
         }
-        
+
+        if (this._checkIfFocusedApp() && !this.isLauncher &&  
+        (!this.window || isFocused) && !this._isThemeProvidingIndicator() && this._checkIfMonitorHasFocus()){
+            let dominantColor = this._getFocusedAppDominantColor();
+            if (dominantColor && this.parentPanelColor != dominantColor){
+                global.log('Emitting "changed::focus-dominant-color" with value ' + dominantColor);
+                global.dashToPanel.emit('changed::focus-dominant-color', dominantColor);
+            }
+                    
+        }
         if(this._dotsContainer.get_style() != inlineStyle && this._dotsContainer.mapped) {
             if (!this._isGroupApps) {
                 //when the apps are ungrouped, set the style synchronously so the icons don't jump around on taskbar redraw
@@ -1087,11 +1092,17 @@ var taskbarAppIcon = Utils.defineClass({
         return color;
     },
 
+    _getFocusedAppDominantColor: function() {
+        let dce = new Utils.DominantColorExtractor(this.app);
+        let palette = dce._getColorPalette();
+        if (palette) return palette.original;
+        return undefined;
+    },
+
     _getFocusHighlightColor: function() {
         if (Me.settings.get_boolean('focus-highlight-dominant')) {
-            let dce = new Utils.DominantColorExtractor(this.app);
-            let palette = dce._getColorPalette();
-            if (palette) return palette.original;
+            let domColor = this._getFocusedAppDominantColor();
+            if (domColor !== undefined) return domColor;
         }
         return Me.settings.get_string('focus-highlight-color');
     },

@@ -1002,6 +1002,11 @@ const Preferences = new Lang.Class({
             this._settings.set_double('trans-panel-opacity', widget.get_value() * 0.01);
         }));
 
+        this._builder.get_object('trans_bg_icon_brightness_spinbutton').set_value(this._settings.get_double('trans-panel-dominant-color-brightness') * 100);
+        this._builder.get_object('trans_bg_icon_brightness_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_double('trans-panel-dominant-color-brightness', widget.get_value() * 0.01);
+        }));
+
         this._settings.bind('trans-use-dynamic-opacity',
                             this._builder.get_object('trans_dyn_switch'),
                             'active',
