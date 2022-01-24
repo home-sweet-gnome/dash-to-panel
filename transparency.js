@@ -211,9 +211,7 @@ var DynamicTransparency = Utils.defineClass({
             let blendValue = overrideValue || Me.settings.get_double('trans-panel-dominant-color-brightness') || 0.5;
 
             // Apply Linear Light blending (black if value is 0, white if value is 1, same color as input if value is 0.5)
-            log('outputColor BEFORE linearlight: r: ' + outputColor.red + ", g: " + outputColor.green + ", b: " + outputColor.blue + ", blendValue: " + blendValue);
             outputColor = this._linearLight(outputColor, blendValue);
-            log('outputColor AFTER linearlight: r: ' + outputColor.red + ", g: " + outputColor.green + ", b: " + outputColor.blue + ", blendValue: " + blendValue);
         }
         return outputColor;
     },
