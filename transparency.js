@@ -26,6 +26,9 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Panel = Me.imports.panel;
 const Proximity = Me.imports.proximity;
 const Utils = Me.imports.utils;
+const Shell = imports.gi.Shell;
+
+let tracker = Shell.WindowTracker.get_default();
 
 var DynamicTransparency = Utils.defineClass({
     Name: 'DashToPanel.DynamicTransparency',
@@ -49,6 +52,18 @@ var DynamicTransparency = Utils.defineClass({
         this._updateAnimationDuration();
         this._updateAllAndSet();
         this._updateProximityWatch();
+
+        this._focusWindowChangedId = global.display.connect('notify::focus-window', 
+                                                            Lang.bind(this, this._onFocusAppChanged));
+    },
+
+    _onDestroy: function(){
+        if(this._focusWindowChangedId)
+            global.display.disconnect(this._focusWindowChangedId);
+    },
+
+    _onFocusAppChanged: function(){
+        this._updateColorAndSet();
     },
 
     destroy: function() {
@@ -223,13 +238,17 @@ var DynamicTransparency = Utils.defineClass({
             this.backgroundColorRgb = Me.settings.get_string('trans-bg-color');
             this.backgroundColorRgbPreview = this.backgroundColorRgb;
         }
-        if (Me.settings.get_boolean('trans-apply-dominant-color-to-preview')){
+        if (Me.settings.get_boolean('trans-apply-dominant-color-to-preview') && tracker.focus_app){
             let prevBgColor = this.backgroundColorRgb;
             this.backgroundColorRgb = this._modifyColorToDominantAppColor(this.backgroundColorRgb);
             this.backgroundColorRgbPreview = this._modifyColorToDominantAppColor(
                 prevBgColor,
                 Me.settings.get_double('trans-preview-dominant-color-brightness')
             );
+        }
+        else if (tracker.focus_app)
+        {
+            this.backgroundColorRgb = this._modifyColorToDominantAppColor(this.backgroundColorRgb);
         }
     },
 
@@ -261,15 +280,7 @@ var DynamicTransparency = Utils.defineClass({
     },
 
     _setBackground: function() {
-
-        if (Me.settings.get_boolean('trans-apply-dominant-color-to-preview')){
-            this.currentBackgroundColor = Utils.getrgbaColor(this.backgroundColorRgb, this.alpha);
-        }
-        else
-        {
-            this.currentBackgroundColor = this._modifyColorToDominantAppColor(this.backgroundColorRgb);
-            this.currentBackgroundColor = Utils.getrgbaColor(this.currentBackgroundColor, this.alpha);
-        }
+        this.currentBackgroundColor = Utils.getrgbaColor(this.backgroundColorRgb, this.alpha);
 
         let transition = 'transition-duration:' + this.animationDuration;
         let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
