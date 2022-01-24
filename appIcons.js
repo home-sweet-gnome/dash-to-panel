@@ -611,7 +611,6 @@ var taskbarAppIcon = Utils.defineClass({
         (!this.window || isFocused) && !this._isThemeProvidingIndicator() && this._checkIfMonitorHasFocus()){
             let dominantColor = this._getAppDominantColor();
             if (dominantColor && this.parentPanelColor != dominantColor){
-                global.log('Emitting "changed::focus-dominant-color" with value ' + dominantColor);
                 global.dashToPanel.emit('changed::focus-dominant-color', dominantColor);
             }
                     

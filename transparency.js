@@ -89,7 +89,9 @@ var DynamicTransparency = Utils.defineClass({
                     'changed::trans-use-custom-bg',
                     'changed::trans-bg-color',
                     'changed::trans-use-dominant-icon-color',
-                    'changed::trans-panel-dominant-color-brightness'
+                    'changed::trans-panel-dominant-color-brightness',
+                    'changed::trans-apply-dominant-color-to-preview',
+                    'changed::trans-preview-dominant-color-brightness'
                 ],
                 () => this._updateColorAndSet()
             ],
@@ -191,7 +193,6 @@ var DynamicTransparency = Utils.defineClass({
     _linearLight: function(color, value){
         let applyBlend = function(comp){
             let comp01 = comp/256; // Scale from 0-256 to 0-1
-            global.log('comp: ' + comp + ', comp01: ' + comp01);
             return ((value > 0.5)*(comp01 + 2*(value-0.5)) + (value <= 0.5)*(comp01 + 2*value-1))*256
         }
         return {
@@ -201,29 +202,36 @@ var DynamicTransparency = Utils.defineClass({
         }
     },
 
-    _modifyColorToDominantAppColor: function(inputColor){
+    _modifyColorToDominantAppColor: function(inputColor, overrideValue){
         let outputColor = inputColor;
         if (Me.settings.get_boolean('trans-use-dominant-icon-color') && this.currentBackgroundAppColor){
             outputColor = this.currentBackgroundAppColor;
             outputColor = Utils.getrgbColor(outputColor) // Convert to RGB object
 
-            let blendValue = Me.settings.get_double('trans-panel-dominant-color-brightness') || 0.5;
+            let blendValue = overrideValue || Me.settings.get_double('trans-panel-dominant-color-brightness') || 0.5;
 
             // Apply Linear Light blending (black if value is 0, white if value is 1, same color as input if value is 0.5)
-
-            global.log('outputColor BEFORE linearlight: r: ' + outputColor.red + ", g: " + outputColor.green + ", b: " + outputColor.blue + ", blendValue: " + blendValue);
+            log('outputColor BEFORE linearlight: r: ' + outputColor.red + ", g: " + outputColor.green + ", b: " + outputColor.blue + ", blendValue: " + blendValue);
             outputColor = this._linearLight(outputColor, blendValue);
-            global.log('outputColor AFTER linearlight: r: ' + outputColor.red + ", g: " + outputColor.green + ", b: " + outputColor.blue + ", blendValue: " + blendValue);
+            log('outputColor AFTER linearlight: r: ' + outputColor.red + ", g: " + outputColor.green + ", b: " + outputColor.blue + ", blendValue: " + blendValue);
         }
         return outputColor;
     },
 
     _updateColor: function(themeBackground) {
         this.backgroundColorRgb = (themeBackground || this._getThemeBackground());
+        this.backgroundColorRgbPreview = this.backgroundColorRgb;
         if (Me.settings.get_boolean('trans-use-custom-bg')){
             this.backgroundColorRgb = Me.settings.get_string('trans-bg-color');
+            this.backgroundColorRgbPreview = this.backgroundColorRgb;
         }
-        this.backgroundColorRgb = this._modifyColorToDominantAppColor(this.backgroundColorRgb);
+        if (Me.settings.get_boolean('trans-apply-dominant-color-to-preview')){
+            this.backgroundColorRgb = this._modifyColorToDominantAppColor(this.backgroundColorRgb);
+            this.backgroundColorRgbPreview = this._modifyColorToDominantAppColor(
+                this.backgroundColorRgb,
+                Me.settings.get_double('trans-preview-dominant-color-brightness')
+            );
+        }
     },
 
     _updateAlpha: function(themeBackground) {
@@ -254,11 +262,18 @@ var DynamicTransparency = Utils.defineClass({
     },
 
     _setBackground: function() {
-        this.currentBackgroundColor = Utils.getrgbaColor(this.backgroundColorRgb, this.alpha);
+
+        if (Me.settings.get_boolean('trans-apply-dominant-color-to-preview')){
+            this.currentBackgroundColor = Utils.getrgbaColor(this.backgroundColorRgb, this.alpha);
+        }
+        else
+        {
+            this.currentBackgroundColor = this._modifyColorToDominantAppColor(this.backgroundColorRgb);
+            this.currentBackgroundColor = Utils.getrgbaColor(this.currentBackgroundColor, this.alpha);
+        }
 
         let transition = 'transition-duration:' + this.animationDuration;
         let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
-        // global.log('panel background-color: ' + this.currentBackgroundColor);
         this._dtpPanel.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles);
         
         if (this._dtpPanel.geom.position == St.Side.TOP) {

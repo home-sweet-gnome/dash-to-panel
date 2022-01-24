@@ -764,7 +764,6 @@ var taskbar = Utils.defineClass({
     },
 
     _updatePanelAppColor: function (color){
-        global.log('color: ' + color);
         if (color){
             this.dtpPanel.dynamicTransparency.setBackgroundColorToAppColor(color);
         }

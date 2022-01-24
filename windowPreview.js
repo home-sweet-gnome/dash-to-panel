@@ -193,7 +193,7 @@ var PreviewMenu = Utils.defineClass({
                 this.set_height(this.clipHeight);
                 this.menu.show();
                 
-                setStyle(this.menu, 'background: ' + Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, alphaBg));
+                setStyle(this.menu, 'background: ' + Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgbPreview, alphaBg));
             }
 
             this._mergeWindows(appIcon);
@@ -519,8 +519,8 @@ var PreviewMenu = Utils.defineClass({
 
     _getFadeWidget: function(end) {
         let x = 0, y = 0;
-        let startBg = Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, Math.min(alphaBg + .1, 1));
-        let endBg = Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, 0)
+        let startBg = Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgbPreview, Math.min(alphaBg + .1, 1));
+        let endBg = Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgbPreview, 0)
         let fadeStyle = 'background-gradient-start:' + startBg + 
                         'background-gradient-end:' + endBg + 
                         'background-gradient-direction:' + this.panel.getOrientation();
@@ -997,7 +997,7 @@ var Preview = Utils.defineClass({
             alpha = alphaBg;
         }
 
-        return Utils.getrgbaColor(this._previewMenu.panel.dynamicTransparency.backgroundColorRgb, alpha, offset);
+        return Utils.getrgbaColor(this._previewMenu.panel.dynamicTransparency.backgroundColorRgbPreview, alpha, offset);
     },
 
     _addClone: function(newCloneBin, animateSize) {

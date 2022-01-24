@@ -970,6 +970,11 @@ const Preferences = new Lang.Class({
                             this._builder.get_object('trans_bg_icon_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
+        
+        this._settings.bind('trans-apply-dominant-color-to-preview',
+                            this._builder.get_object('trans_bg_icon_preview_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
 
         let rgba = new Gdk.RGBA();
         rgba.parse(this._settings.get_string('trans-bg-color'));
@@ -1005,6 +1010,11 @@ const Preferences = new Lang.Class({
         this._builder.get_object('trans_bg_icon_brightness_spinbutton').set_value(this._settings.get_double('trans-panel-dominant-color-brightness') * 100);
         this._builder.get_object('trans_bg_icon_brightness_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
             this._settings.set_double('trans-panel-dominant-color-brightness', widget.get_value() * 0.01);
+        }));
+
+        this._builder.get_object('trans_bg_icon_preview_brightness_spinbutton').set_value(this._settings.get_double('trans-preview-dominant-color-brightness') * 100);
+        this._builder.get_object('trans_bg_icon_preview_brightness_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
+            this._settings.set_double('trans-preview-dominant-color-brightness', widget.get_value() * 0.01);
         }));
 
         this._settings.bind('trans-use-dynamic-opacity',
