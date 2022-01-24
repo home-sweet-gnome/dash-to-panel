@@ -609,7 +609,7 @@ var taskbarAppIcon = Utils.defineClass({
 
         if (this._checkIfFocusedApp() && !this.isLauncher &&  
         (!this.window || isFocused) && !this._isThemeProvidingIndicator() && this._checkIfMonitorHasFocus()){
-            let dominantColor = this._getFocusedAppDominantColor();
+            let dominantColor = this._getAppDominantColor();
             if (dominantColor && this.parentPanelColor != dominantColor){
                 global.log('Emitting "changed::focus-dominant-color" with value ' + dominantColor);
                 global.dashToPanel.emit('changed::focus-dominant-color', dominantColor);
@@ -1092,7 +1092,7 @@ var taskbarAppIcon = Utils.defineClass({
         return color;
     },
 
-    _getFocusedAppDominantColor: function() {
+    _getAppDominantColor: function() {
         let dce = new Utils.DominantColorExtractor(this.app);
         let palette = dce._getColorPalette();
         if (palette) return palette.original;
@@ -1101,7 +1101,7 @@ var taskbarAppIcon = Utils.defineClass({
 
     _getFocusHighlightColor: function() {
         if (Me.settings.get_boolean('focus-highlight-dominant')) {
-            let domColor = this._getFocusedAppDominantColor();
+            let domColor = this._getAppDominantColor();
             if (domColor !== undefined) return domColor;
         }
         return Me.settings.get_string('focus-highlight-color');
