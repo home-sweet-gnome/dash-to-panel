@@ -1009,12 +1009,26 @@ const Preferences = new Lang.Class({
 
         this._builder.get_object('trans_bg_icon_brightness_spinbutton').set_value(this._settings.get_double('trans-panel-dominant-color-brightness') * 100);
         this._builder.get_object('trans_bg_icon_brightness_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
-            this._settings.set_double('trans-panel-dominant-color-brightness', widget.get_value() * 0.01);
+            if (widget.get_value() < 1){
+                // Somehow fixes bug that resets brightness to 0.5 when user sets to 0
+                this._settings.set_double('trans-panel-dominant-color-brightness', 0.001);
+            }
+            else
+            {
+                this._settings.set_double('trans-panel-dominant-color-brightness', widget.get_value() * 0.01);
+            }
         }));
 
         this._builder.get_object('trans_bg_icon_preview_brightness_spinbutton').set_value(this._settings.get_double('trans-preview-dominant-color-brightness') * 100);
         this._builder.get_object('trans_bg_icon_preview_brightness_spinbutton').connect('value-changed', Lang.bind(this, function (widget) {
-            this._settings.set_double('trans-preview-dominant-color-brightness', widget.get_value() * 0.01);
+            if (widget.get_value() < 1){
+                // Somehow fixes bug that resets brightness to 0.5 when user sets to 0
+                this._settings.set_double('trans-preview-dominant-color-brightness', 0.001);
+            }
+            else
+            {
+                this._settings.set_double('trans-preview-dominant-color-brightness', widget.get_value() * 0.01);
+            }
         }));
 
         this._settings.bind('trans-use-dynamic-opacity',
