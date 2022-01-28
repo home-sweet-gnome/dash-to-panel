@@ -249,6 +249,7 @@ var taskbarAppIcon = Utils.defineClass({
             Me.settings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::focus-highlight-dominant', Lang.bind(this, this._settingsChangeRefresh)),
+            Me.settings.connect('changed::focus-highlight-color', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::focus-dominant-color', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::focus-highlight-opacity', Lang.bind(this, this._settingsChangeRefresh)),
             Me.settings.connect('changed::group-apps-label-font-size', Lang.bind(this, this._updateWindowTitleStyle)),
