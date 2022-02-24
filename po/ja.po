@@ -10,14 +10,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-03 21:05+0900\n"
-"PO-Revision-Date: 2021-01-03 21:52+0900\n"
-"Last-Translator: sicklylife <translation@sicklylife.jp>\n"
+"PO-Revision-Date: 2021-08-28 12:05+0900\n"
+"Last-Translator: nexryai <nexryai@outlook.com>\n"
 "Language-Team: Japanese\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.0\n"
 
 #: Settings.ui:43
 msgid "Nothing yet!"
@@ -636,7 +637,7 @@ msgstr "すべてのモニターにパネルを表示"
 
 #: Settings.ui:4681
 msgid "Panel Intellihide"
-msgstr "パネルの Intellihide"
+msgstr "パネルを自動的に隠す"
 
 #: Settings.ui:4745
 msgid "Hide and reveal the panel according to preferences"
@@ -700,23 +701,23 @@ msgstr "実行中インジケーターのスタイル (フォーカス)"
 
 #: Settings.ui:5365 Settings.ui:5426
 msgid "Dots"
-msgstr ""
+msgstr "ドット"
 
 #: Settings.ui:5366 Settings.ui:5427
 msgid "Squares"
-msgstr ""
+msgstr "四角形"
 
 #: Settings.ui:5367 Settings.ui:5428
 msgid "Dashes"
-msgstr ""
+msgstr "ダッシュ"
 
 #: Settings.ui:5368 Settings.ui:5429
 msgid "Segmented"
-msgstr ""
+msgstr "セグメント"
 
 #: Settings.ui:5369 Settings.ui:5430
 msgid "Solid"
-msgstr ""
+msgstr "ソリッド"
 
 #: Settings.ui:5370 Settings.ui:5431
 msgid "Ciliora"
@@ -724,7 +725,7 @@ msgstr ""
 
 #: Settings.ui:5371 Settings.ui:5432
 msgid "Metro"
-msgstr ""
+msgstr "メトロ"
 
 #: Settings.ui:5410
 msgid "Running indicator style (Unfocused apps)"
@@ -809,8 +810,7 @@ msgstr "モニターを分離"
 
 #: Settings.ui:6306
 msgid "Click empty space to close overview"
-msgstr ""
-"オーバービュー画面で何もないところをクリックしたらデスクトップに戻る"
+msgstr "オーバービュー画面で何もないところをクリックしたらデスクトップに戻る"
 
 #: Settings.ui:6338
 msgid "Ungroup applications"

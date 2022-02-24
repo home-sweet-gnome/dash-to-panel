@@ -1066,8 +1066,7 @@ var dtpPanel = Utils.defineClass({
             Main.layoutManager.setDummyCursorGeometry(stageX, stageY, 0, 0);
 
             this.showAppsIconWrapper.createMenu();
-            this.showAppsIconWrapper._menu.sourceActor = Main.layoutManager.dummyCursor;
-            this.showAppsIconWrapper.popupMenu();
+            this.showAppsIconWrapper.popupMenu(Main.layoutManager.dummyCursor);
 
             return Clutter.EVENT_STOP;
         } else if (Main.modalCount > 0 || event.get_source() != actor || 
@@ -1391,7 +1390,7 @@ var dtpPanel = Utils.defineClass({
                 Utils.activateSiblingWindow(windows, direction);
             } else if (scrollAction === 'CHANGE_VOLUME' && !event.is_pointer_emulated()) {
                 var proto = Volume.Indicator.prototype;
-                var func = proto.vfunc_scroll_event || proto._onScrollEvent;
+                var func = proto._handleScrollEvent || proto.vfunc_scroll_event || proto._onScrollEvent;
     
                 func.call(Main.panel.statusArea.aggregateMenu._volume, 0, event);
             } else {

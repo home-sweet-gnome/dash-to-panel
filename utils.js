@@ -843,11 +843,13 @@ var DominantColorExtractor = defineClass({
         }
 
         // Get the pixel buffer from the icon theme
-        let icon_info = themeLoader.lookup_icon(iconTexture.get_names()[0], DOMINANT_COLOR_ICON_SIZE, 0);
-        if (icon_info !== null)
-            return icon_info.load_icon();
-        else
-            return null;
+        if (iconTexture instanceof Gio.ThemedIcon) {
+            let icon_info = themeLoader.lookup_icon(iconTexture.get_names()[0], DOMINANT_COLOR_ICON_SIZE, 0);
+            if (icon_info !== null)
+                return icon_info.load_icon();
+        }
+
+        return null;
     },
 
     /**
