@@ -80,19 +80,31 @@ var defineClass = function (classDef) {
         return parentArgs;
     };
     
-    let C = eval(
-        '(class C ' + (needsSuper ? 'extends Object' : '') + ' { ' +
-        '     constructor(...args) { ' +
-                  (needsSuper ? 'super(...getParentArgs(args));' : '') +
-                  (needsSuper || !parentProto ? 'this._init(...args);' : '') +
-        '     }' +
-        '     callParent(...args) { ' +
-        '         let func = args.shift(); ' +
-        '         if (!(func === \'_init\' && needsSuper))' +
-        '             super[func](...args); ' +
-        '     }' +    
-        '})'
-    );
+    let C;
+    if (isGObject) {
+        C = eval(
+            '(class C extends GObject.Object { ' +
+            '     callParent(...args) { ' +
+            '         let func = args.shift(); ' +
+            '         super[func](...args); ' +
+            '     }' +
+            '})'
+        );
+    } else {
+        C = eval(
+            '(class C ' + (needsSuper ? 'extends Object' : '') + ' { ' +
+            '     constructor(...args) { ' +
+                    (needsSuper ? 'super(...getParentArgs(args));' : '') +
+                    (needsSuper || !parentProto ? 'this._init(...args);' : '') +
+            '     }' +
+            '     callParent(...args) { ' +
+            '         let func = args.shift(); ' +
+            '         if (!(func === \'_init\' && needsSuper))' +
+            '             super[func](...args); ' +
+            '     }' +    
+            '})'
+        );
+    }
 
     if (parentProto) {
         Object.setPrototypeOf(C.prototype, parentProto);
@@ -347,7 +359,8 @@ var mergeObjects = function(main, bck) {
 var hookVfunc = function(proto, symbol, func) {
     if (Gi.hook_up_vfunc_symbol && func) {
         //gjs > 1.53.3
-        proto[Gi.hook_up_vfunc_symbol](symbol, func);
+        // todo
+        //proto[Gi.hook_up_vfunc_symbol](symbol, func);
     } else {
         //On older gjs, this is how to hook vfunc. It is buggy and can't be used reliably to replace
         //already hooked functions. Since it's our only use for it, disabled for now (and probably forever) 
