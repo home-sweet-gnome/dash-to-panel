@@ -1232,7 +1232,7 @@ var taskbar = Utils.defineClass({
                             return Clutter.EVENT_STOP;
                         }
     
-                        return this.__proto__._onStageKeyPress.call(this, actor, event);
+                        return Object.getPrototypeOf(this)._onStageKeyPress.call(this, actor, event);
                     };
                 }
 

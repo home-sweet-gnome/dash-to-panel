@@ -682,7 +682,7 @@ function newUpdateHotCorners() {
         if (haveTopLeftCorner) {
             let corner = new Layout.HotCorner(this, monitor, cornerX, cornerY);
 
-            corner.setBarrierSize = size => corner.__proto__.setBarrierSize.call(corner, Math.min(size, 32));
+            corner.setBarrierSize = size => Object.getPrototypeOf(corner).setBarrierSize.call(corner, Math.min(size, 32));
             corner.setBarrierSize(panel ? panel.dtpSize : 32);
             this.hotCorners.push(corner);
         } else {

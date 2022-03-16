@@ -99,7 +99,6 @@ var dtpPanel = Utils.defineClass({
         this._sessionStyle = null;
         this._unmappedButtons = [];
         this._elementGroups = [];
-        this.cornerSize = 0;
 
         let position = this.getPosition();
 
@@ -204,28 +203,10 @@ var dtpPanel = Utils.defineClass({
         let isTop = this.geom.position == St.Side.TOP;
 
         if (isTop) {
-            this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
-            this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
-
             Main.overview._overview.insert_child_at_index(this._myPanelGhost, 0);
         } else {
             let overviewControls = Main.overview._overview._controls || Main.overview._controls;
             Main.overview._overview.add_actor(this._myPanelGhost);
-        }
-
-        if (this.panel._leftCorner) {
-            Utils.wrapActor(this.panel._leftCorner);
-            Utils.wrapActor(this.panel._rightCorner);
-
-            if (isTop) {
-                if (this.isStandalone) {
-                    this.panel.actor.add_child(this.panel._leftCorner.actor);
-                    this.panel.actor.add_child(this.panel._rightCorner.actor);
-                }
-            } else if (Config.PACKAGE_VERSION >= '3.32') {
-                this.panel.actor.remove_child(this.panel._leftCorner.actor);
-                this.panel.actor.remove_child(this.panel._rightCorner.actor);
-            }
         }
 
         this._setPanelPosition();
@@ -233,7 +214,7 @@ var dtpPanel = Utils.defineClass({
         if (!this.isStandalone) {
             if (this.panel.vfunc_allocate) {
                 this._panelConnectId = 0;
-                Utils.hookVfunc(this.panel.__proto__, 'allocate', (box, flags) => this._mainPanelAllocate(0, box, flags));
+                Utils.hookVfunc(Object.getPrototypeOf(this.panel), 'allocate', (box, flags) => this._mainPanelAllocate(0, box, flags));
             } else {
                 this._panelConnectId = this.panel.actor.connect('allocate', (actor, box, flags) => this._mainPanelAllocate(actor, box, flags));
             }
@@ -394,8 +375,7 @@ var dtpPanel = Utils.defineClass({
 
         this._timeoutsHandler.destroy();
         this._signalsHandler.destroy();
-        this._disablePanelCornerSignals();
-        
+
         this.panel.actor.remove_child(this.taskbar.actor);
         this._setAppmenuVisible(false);
 
@@ -442,11 +422,6 @@ var dtpPanel = Utils.defineClass({
                 });
             }
 
-            if (!this.panel._leftCorner.actor.mapped) {
-                this.panel.actor.add_child(this.panel._leftCorner.actor);
-                this.panel.actor.add_child(this.panel._rightCorner.actor);
-            }
-
             this._setShowDesktopButton(false);
 
             delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
@@ -459,7 +434,7 @@ var dtpPanel = Utils.defineClass({
             if (this._panelConnectId) {
                 this.panel.actor.disconnect(this._panelConnectId);
             } else {
-                Utils.hookVfunc(this.panel.__proto__, 'allocate', this.panel.__proto__.vfunc_allocate);
+                Utils.hookVfunc(Object.getPrototypeOf(this.panel), 'allocate', Object.getPrototypeOf(this.panel).vfunc_allocate);
             }
             
             this.panel.actor._delegate = this.panel;
@@ -513,26 +488,6 @@ var dtpPanel = Utils.defineClass({
 
         this._updateGroupedElements(panelPositions);
         
-        this._disablePanelCornerSignals();
-
-        if (this.getPosition() == St.Side.TOP) {
-            let visibleElements = panelPositions.filter(pp => pp.visible);
-            let connectCorner = (corner, button) => {
-                corner._button = button;
-                corner._buttonStyleChangedSignalId = button.connect('style-changed', () => {
-                    corner.set_style_pseudo_class(button.get_style_pseudo_class());
-                });
-            }
-
-            if (visibleElements[0].element == Pos.ACTIVITIES_BTN) {
-                connectCorner(this.panel._leftCorner, this.statusArea.activities);
-            }
-
-            if (visibleElements[visibleElements.length - 1].element == Pos.SYSTEM_MENU) {
-                connectCorner(this.panel._rightCorner, this.statusArea.aggregateMenu);
-            }
-        }
-
         this.panel.actor.hide();
         this.panel.actor.show();
     },
@@ -585,18 +540,6 @@ var dtpPanel = Utils.defineClass({
                 previousPosition = currentPosition;
             }
         });
-    },
-
-    _disablePanelCornerSignals: function() {
-        if (this.panel._rightCorner && this.panel._rightCorner._buttonStyleChangedSignalId) {
-            this.panel._rightCorner._button.disconnect(this.panel._rightCorner._buttonStyleChangedSignalId);
-            delete this.panel._rightCorner._buttonStyleChangedSignalId;
-        }
-
-        if (this.panel._leftCorner && this.panel._leftCorner._buttonStyleChangedSignalId) {
-            this.panel._leftCorner._button.disconnect(this.panel._leftCorner._buttonStyleChangedSignalId);
-            delete this.panel._leftCorner._buttonStyleChangedSignalId;
-        }
     },
 
     _bindSettingsChanges: function() {
@@ -1006,26 +949,17 @@ var dtpPanel = Utils.defineClass({
         if (this.geom.position == St.Side.TOP) {
             let childBoxLeftCorner = new Clutter.ActorBox();
             let childBoxRightCorner = new Clutter.ActorBox();
-            let currentCornerSize = this.cornerSize;
             let panelAllocFixedSize = box[this.fixedCoord.c2] - box[this.fixedCoord.c1];
             
-            [ , this.cornerSize] = this.panel._leftCorner.actor[this.sizeFunc](-1);
             childBoxLeftCorner[this.varCoord.c1] = 0;
-            childBoxLeftCorner[this.varCoord.c2] = this.cornerSize;
+            childBoxLeftCorner[this.varCoord.c2] = 0;
             childBoxLeftCorner[this.fixedCoord.c1] = panelAllocFixedSize;
-            childBoxLeftCorner[this.fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
+            childBoxLeftCorner[this.fixedCoord.c2] = panelAllocFixedSize;
 
-            childBoxRightCorner[this.varCoord.c1] = box[this.varCoord.c2] - this.cornerSize;
+            childBoxRightCorner[this.varCoord.c1] = box[this.varCoord.c2];
             childBoxRightCorner[this.varCoord.c2] = box[this.varCoord.c2];
             childBoxRightCorner[this.fixedCoord.c1] = panelAllocFixedSize;
-            childBoxRightCorner[this.fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
-
-            Utils.allocate(this.panel._leftCorner.actor, childBoxLeftCorner, flags);
-            Utils.allocate(this.panel._rightCorner.actor, childBoxRightCorner, flags);
-
-            if (this.cornerSize != currentCornerSize) {
-                this._setPanelClip();
-            }
+            childBoxRightCorner[this.fixedCoord.c2] = panelAllocFixedSize;
         }
     },
 
@@ -1052,7 +986,7 @@ var dtpPanel = Utils.defineClass({
 
     _setPanelClip: function(clipContainer) {
         clipContainer = clipContainer || this.panelBox.get_parent();
-        this._timeoutsHandler.add([T7, 0, () => Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height + this.cornerSize)]);
+        this._timeoutsHandler.add([T7, 0, () => Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height)]);
     },
 
     _onButtonPress: function(actor, event) {

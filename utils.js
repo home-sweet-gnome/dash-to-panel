@@ -359,8 +359,7 @@ var mergeObjects = function(main, bck) {
 var hookVfunc = function(proto, symbol, func) {
     if (Gi.hook_up_vfunc_symbol && func) {
         //gjs > 1.53.3
-        // todo
-        //proto[Gi.hook_up_vfunc_symbol](symbol, func);
+        proto[Gi.gobject_prototype_symbol][Gi.hook_up_vfunc_symbol](symbol, func);
     } else {
         //On older gjs, this is how to hook vfunc. It is buggy and can't be used reliably to replace
         //already hooked functions. Since it's our only use for it, disabled for now (and probably forever) 
@@ -389,7 +388,7 @@ var getTransformedAllocation = function(actor) {
 };
 
 var allocate = function(actor, box, flags, useParent) {
-    let allocateObj = useParent ? actor.__proto__ : actor;
+    let allocateObj = useParent ? Object.getPrototypeOf(actor) : actor;
 
     allocateObj.allocate.apply(actor, getAllocationParams(box, flags));
 };
