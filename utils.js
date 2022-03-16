@@ -358,12 +358,11 @@ var mergeObjects = function(main, bck) {
 
 var hookVfunc = function(proto, symbol, func) {
     if (Gi.hook_up_vfunc_symbol && func) {
-        //gjs > 1.53.3
-        proto[Gi.gobject_prototype_symbol][Gi.hook_up_vfunc_symbol](symbol, func);
-    } else {
-        //On older gjs, this is how to hook vfunc. It is buggy and can't be used reliably to replace
-        //already hooked functions. Since it's our only use for it, disabled for now (and probably forever) 
-        //Gi.hook_up_vfunc(proto, symbol, func);
+        if (Config.PACKAGE_VERSION < '42') {
+            proto[Gi.hook_up_vfunc_symbol](symbol, func);
+        } else {
+            proto[Gi.gobject_prototype_symbol][Gi.hook_up_vfunc_symbol](symbol, func);
+        }
     }
 };
 

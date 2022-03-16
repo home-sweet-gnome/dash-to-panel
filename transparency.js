@@ -21,6 +21,7 @@ const Lang = imports.lang;
 const Main = imports.ui.main;
 const Meta = imports.gi.Meta;
 const St = imports.gi.St;
+const Config = imports.misc.config;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Panel = Me.imports.panel;
@@ -39,6 +40,10 @@ var DynamicTransparency = Utils.defineClass({
 
         this._initialPanelStyle = dtpPanel.panel.actor.get_style();
         
+        if (Config.PACKAGE_VERSION < '42' && this._dtpPanel.geom.position == St.Side.TOP) {
+            this._initialPanelCornerStyle = dtpPanel.panel._leftCorner.actor.get_style();
+        }
+
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._bindSignals();
 
@@ -52,6 +57,11 @@ var DynamicTransparency = Utils.defineClass({
         this._proximityManager.removeWatch(this._proximityWatchId);
 
         this._dtpPanel.panel.actor.set_style(this._initialPanelStyle);
+        
+        if (Config.PACKAGE_VERSION < '42' && this._dtpPanel.geom.position == St.Side.TOP) {
+            this._dtpPanel.panel._leftCorner.actor.set_style(this._initialPanelCornerStyle);
+            this._dtpPanel.panel._rightCorner.actor.set_style(this._initialPanelCornerStyle);
+        }
     },
 
     updateExternalStyle: function() {
@@ -211,6 +221,12 @@ var DynamicTransparency = Utils.defineClass({
         let transition = 'transition-duration:' + this.animationDuration;
 
         this._dtpPanel.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles);
+        
+        if (Config.PACKAGE_VERSION < '42' && this._dtpPanel.geom.position == St.Side.TOP) {
+            let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
+            this._dtpPanel.panel._leftCorner.actor.set_style(cornerStyle);
+            this._dtpPanel.panel._rightCorner.actor.set_style(cornerStyle);
+        }
     },
 
     _setGradient: function() {
