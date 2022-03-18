@@ -35,6 +35,10 @@ const Mainloop = imports.mainloop;
 
 const Config = imports.misc.config;
 const AppDisplay = imports.ui.appDisplay;
+const AppMenu = imports.ui.appMenu;
+if (Config.PACKAGE_VERSION < '42') {
+const AppMenu = imports.ui.appDisplay;
+}
 const AppFavorites = imports.ui.appFavorites;
 const Dash = imports.ui.dash;
 const DND = imports.ui.dnd;
@@ -1456,7 +1460,7 @@ function getIconPadding(monitorIndex) {
 
  var taskbarSecondaryMenu = Utils.defineClass({
     Name: 'DashToPanel.SecondaryMenu',
-    Extends: AppDisplay.AppMenu,
+    Extends: AppMenu.AppMenu,
     ParentConstrParams: [[0], [1]],
 
     _init: function(source, side) {
