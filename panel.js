@@ -204,8 +204,10 @@ var dtpPanel = Utils.defineClass({
         let isTop = this.geom.position == St.Side.TOP;
 
         if (isTop) {
-            this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
-            this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
+            if (Config.PACKAGE_VERSION < '42') {
+                this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
+                this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
+            }
 
             Main.overview._overview.insert_child_at_index(this._myPanelGhost, 0);
         } else {
