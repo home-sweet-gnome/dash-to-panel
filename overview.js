@@ -590,6 +590,9 @@ var dtpOverview = Utils.defineClass({
                     workAreaBox.set_size(workArea.width, workArea.height);
     
                     params = [workAreaBox, searchHeight, dashHeight, workspaceAppGridBox]
+                    if (Config.PACKAGE_VERSION > '42.beta') {
+                        params = [box, workAreaBox, searchHeight, dashHeight, workspaceAppGridBox]
+                    }
                 } else {
                     params = [box, startX, searchHeight, dashHeight, workspaceAppGridBox];
                 }
