@@ -358,10 +358,10 @@ var mergeObjects = function(main, bck) {
 
 var hookVfunc = function(proto, symbol, func) {
     if (Gi.hook_up_vfunc_symbol && func) {
-        if (Config.PACKAGE_VERSION < '42') {
-            proto[Gi.hook_up_vfunc_symbol](symbol, func);
-        } else {
-            proto[Gi.gobject_prototype_symbol][Gi.hook_up_vfunc_symbol](symbol, func);
+        try {
+            proto[Gi.gobject_prototype_symbol][Gi.hook_up_vfunc_symbol] (symbol, func);
+        } catch (e) {
+            proto[Gi.hook_up_vfunc_symbol] (symbol, func);
         }
     }
 };
