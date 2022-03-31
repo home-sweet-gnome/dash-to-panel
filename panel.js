@@ -204,8 +204,10 @@ var dtpPanel = Utils.defineClass({
         let isTop = this.geom.position == St.Side.TOP;
 
         if (isTop) {
-            this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
-            this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
+            if (Config.PACKAGE_VERSION < '42') {
+                this.panel._leftCorner = this.panel._leftCorner || new Panel.PanelCorner(St.Side.LEFT);
+                this.panel._rightCorner = this.panel._rightCorner || new Panel.PanelCorner(St.Side.RIGHT);
+            }
 
             Main.overview._overview.insert_child_at_index(this._myPanelGhost, 0);
         } else {
@@ -213,7 +215,7 @@ var dtpPanel = Utils.defineClass({
             Main.overview._overview.add_actor(this._myPanelGhost);
         }
 
-        if (this.panel._leftCorner) {
+        if (Config.PACKAGE_VERSION < '42' && this.panel._leftCorner) {
             Utils.wrapActor(this.panel._leftCorner);
             Utils.wrapActor(this.panel._rightCorner);
 
@@ -233,7 +235,7 @@ var dtpPanel = Utils.defineClass({
         if (!this.isStandalone) {
             if (this.panel.vfunc_allocate) {
                 this._panelConnectId = 0;
-                Utils.hookVfunc(this.panel.__proto__, 'allocate', (box, flags) => this._mainPanelAllocate(0, box, flags));
+                Utils.hookVfunc(Object.getPrototypeOf(this.panel), 'allocate', (box, flags) => this._mainPanelAllocate(0, box, flags));
             } else {
                 this._panelConnectId = this.panel.actor.connect('allocate', (actor, box, flags) => this._mainPanelAllocate(actor, box, flags));
             }
@@ -442,7 +444,7 @@ var dtpPanel = Utils.defineClass({
                 });
             }
 
-            if (!this.panel._leftCorner.actor.mapped) {
+            if (Config.PACKAGE_VERSION < '42' && !this.panel._leftCorner.actor.mapped) {
                 this.panel.actor.add_child(this.panel._leftCorner.actor);
                 this.panel.actor.add_child(this.panel._rightCorner.actor);
             }
@@ -459,7 +461,7 @@ var dtpPanel = Utils.defineClass({
             if (this._panelConnectId) {
                 this.panel.actor.disconnect(this._panelConnectId);
             } else {
-                Utils.hookVfunc(this.panel.__proto__, 'allocate', this.panel.__proto__.vfunc_allocate);
+                Utils.hookVfunc(Object.getPrototypeOf(this.panel), 'allocate', Object.getPrototypeOf(this.panel).vfunc_allocate);
             }
             
             this.panel.actor._delegate = this.panel;
@@ -515,7 +517,7 @@ var dtpPanel = Utils.defineClass({
         
         this._disablePanelCornerSignals();
 
-        if (this.getPosition() == St.Side.TOP) {
+        if (Config.PACKAGE_VERSION < '42' && this.getPosition() == St.Side.TOP) {
             let visibleElements = panelPositions.filter(pp => pp.visible);
             let connectCorner = (corner, button) => {
                 corner._button = button;
@@ -588,14 +590,16 @@ var dtpPanel = Utils.defineClass({
     },
 
     _disablePanelCornerSignals: function() {
-        if (this.panel._rightCorner && this.panel._rightCorner._buttonStyleChangedSignalId) {
-            this.panel._rightCorner._button.disconnect(this.panel._rightCorner._buttonStyleChangedSignalId);
-            delete this.panel._rightCorner._buttonStyleChangedSignalId;
-        }
+        if (Config.PACKAGE_VERSION < '42') {
+            if (this.panel._rightCorner && this.panel._rightCorner._buttonStyleChangedSignalId) {
+                this.panel._rightCorner._button.disconnect(this.panel._rightCorner._buttonStyleChangedSignalId);
+                delete this.panel._rightCorner._buttonStyleChangedSignalId;
+            }
 
-        if (this.panel._leftCorner && this.panel._leftCorner._buttonStyleChangedSignalId) {
-            this.panel._leftCorner._button.disconnect(this.panel._leftCorner._buttonStyleChangedSignalId);
-            delete this.panel._leftCorner._buttonStyleChangedSignalId;
+            if (this.panel._leftCorner && this.panel._leftCorner._buttonStyleChangedSignalId) {
+                this.panel._leftCorner._button.disconnect(this.panel._leftCorner._buttonStyleChangedSignalId);
+                delete this.panel._leftCorner._buttonStyleChangedSignalId;
+            }
         }
     },
 
@@ -1009,7 +1013,9 @@ var dtpPanel = Utils.defineClass({
             let currentCornerSize = this.cornerSize;
             let panelAllocFixedSize = box[this.fixedCoord.c2] - box[this.fixedCoord.c1];
             
-            [ , this.cornerSize] = this.panel._leftCorner.actor[this.sizeFunc](-1);
+            if (Config.PACKAGE_VERSION < '42') {
+                [ , this.cornerSize] = this.panel._leftCorner.actor[this.sizeFunc](-1);
+            }
             childBoxLeftCorner[this.varCoord.c1] = 0;
             childBoxLeftCorner[this.varCoord.c2] = this.cornerSize;
             childBoxLeftCorner[this.fixedCoord.c1] = panelAllocFixedSize;
@@ -1020,11 +1026,13 @@ var dtpPanel = Utils.defineClass({
             childBoxRightCorner[this.fixedCoord.c1] = panelAllocFixedSize;
             childBoxRightCorner[this.fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
 
-            Utils.allocate(this.panel._leftCorner.actor, childBoxLeftCorner, flags);
-            Utils.allocate(this.panel._rightCorner.actor, childBoxRightCorner, flags);
+            if (Config.PACKAGE_VERSION < '42') {
+                Utils.allocate(this.panel._leftCorner.actor, childBoxLeftCorner, flags);
+                Utils.allocate(this.panel._rightCorner.actor, childBoxRightCorner, flags);
 
-            if (this.cornerSize != currentCornerSize) {
-                this._setPanelClip();
+                if (this.cornerSize != currentCornerSize) {
+                    this._setPanelClip();
+                }
             }
         }
     },

@@ -1232,23 +1232,13 @@ var taskbar = Utils.defineClass({
                             return Clutter.EVENT_STOP;
                         }
     
-                        return this.__proto__._onStageKeyPress.call(this, actor, event);
+                        return Object.getPrototypeOf(this)._onStageKeyPress.call(this, actor, event);
                     };
                 }
 
-                // force spring animation triggering.By default the animation only
-                // runs if we are already inside the overview.
+                // force exiting overview if needed
                 if (!Main.overview._shown) {
                     this.forcedOverview = true;
-                    let grid = AppDisplay._grid;
-                    let onShownCb;
-                    let overviewSignal = Config.PACKAGE_VERSION > '3.38.1' ? 'showing' : 'shown';
-                    let overviewShowingId = Main.overview.connect(overviewSignal, () => {
-                        Main.overview.disconnect(overviewShowingId);
-                        onShownCb();
-                    });
-
-                    onShownCb = () => grid.emit('animation-done');
                 }
 
                 //temporarily use as primary the monitor on which the showapps btn was clicked, this is
