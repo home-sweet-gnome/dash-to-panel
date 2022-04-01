@@ -45,6 +45,7 @@
     <value value='0' nick='ALL_WINDOWS'/>
     <value value='1' nick='FOCUSED_WINDOWS'/>
     <value value='2' nick='MAXIMIZED_WINDOWS'/>
+    <value value='3' nick='HIGHEST_WINDOW_PER_MONITOR'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.fontWeight'>
     <value value='0' nick='inherit'/>

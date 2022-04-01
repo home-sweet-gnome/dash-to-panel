@@ -1797,6 +1797,7 @@
                               <item id="ALL_WINDOWS" translatable="yes">All windows</item>
                               <item id="FOCUSED_WINDOWS" translatable="yes">Focused windows</item>
                               <item id="MAXIMIZED_WINDOWS" translatable="yes">Maximized windows</item>
+                              <item id="HIGHEST_WINDOW_PER_MONITOR" translatable="yes">Highest window per monitor</item>
                             </items>
                             <layout>
                               <property name="row">0</property>

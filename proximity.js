@@ -33,7 +33,8 @@ const T1 = 'limitUpdateTimeout';
 var Mode = {
     ALL_WINDOWS: 0,
     FOCUSED_WINDOWS: 1,
-    MAXIMIZED_WINDOWS: 2
+    MAXIMIZED_WINDOWS: 2,
+    HIGHEST_WINDOW_PER_MONITOR: 3
 };
 
 var ProximityWatch = Utils.defineClass({
@@ -243,7 +244,18 @@ var ProximityManager = Utils.defineClass({
     },
 
     _update: function(watch, metaWindows) {
-        if (watch.mode === Mode.FOCUSED_WINDOWS) {
+        if (watch.mode === Mode.HIGHEST_WINDOW_PER_MONITOR) {
+            if(metaWindows.length < 1) {
+                return false;
+            }
+            for (var i = metaWindows.length - 1; i >= 0; i--){
+                var mw = metaWindows[i];
+                if(mw.get_monitor() == watch.monitorIndex) {
+                    return this._checkProximity(mw, watch);
+                }
+            }
+            return false;
+        } else if (watch.mode === Mode.FOCUSED_WINDOWS) {
             return (this._focusedWindowInfo && 
                     this._checkIfHandledWindow(this._focusedWindowInfo.metaWindow) &&
                     this._checkProximity(this._focusedWindowInfo.metaWindow, watch));
