@@ -80,7 +80,6 @@ var Overview = class {
     }
 
     disable() {
-        Utils.hookVfunc(Workspace.WorkspaceBackground.prototype, 'allocate', Workspace.WorkspaceBackground.prototype.vfunc_allocate);
         Utils.hookVfunc(OverviewControls.ControlsManagerLayout.prototype, 'allocate', OverviewControls.ControlsManagerLayout.prototype.vfunc_allocate);
         OverviewControls.ControlsManagerLayout.prototype._computeWorkspacesBoxForState = this._oldComputeWorkspacesBoxForState;
 
@@ -652,63 +651,6 @@ var Overview = class {
     
             return workspaceBox;
         }
-
-        Utils.hookVfunc(Workspace.WorkspaceBackground.prototype, 'allocate', function vfunc_allocate(box) {
-            const [width, height] = box.get_size();
-            const { scaleFactor } = St.ThemeContext.get_for_stage(global.stage);
-            const scaledHeight = height - (BACKGROUND_MARGIN * 2 * scaleFactor);
-            const scaledWidth = (scaledHeight / height) * width;
-    
-            const scaledBox = box.copy();
-            scaledBox.set_origin(
-                box.x1 + (width - scaledWidth) / 2,
-                box.y1 + (height - scaledHeight) / 2);
-            scaledBox.set_size(scaledWidth, scaledHeight);
-    
-            const progress = this._stateAdjustment.value;
-    
-            if (progress === 1)
-                box = scaledBox;
-            else if (progress !== 0)
-                box = box.interpolate(scaledBox, progress);
-    
-            this.set_allocation(box);
-    
-            const themeNode = this.get_theme_node();
-            const contentBox = themeNode.get_content_box(box);
-    
-            this._bin.allocate(contentBox);
-    
-            
-            const [contentWidth, contentHeight] = contentBox.get_size();
-            const monitor = Main.layoutManager.monitors[this._monitorIndex];
-            let xOff = (contentWidth / this._workarea.width) *
-                (this._workarea.x - monitor.x);
-            let yOff = (contentHeight / this._workarea.height) *
-                (this._workarea.y - monitor.y);
-    
-            let startX = -xOff;
-            let startY = -yOff;
-            const panel = Utils.find(global.dashToPanel.panels, p => p.monitor.index == this._monitorIndex);
-            
-            if (panel) {
-                switch (panel.getPosition()) {
-                    case St.Side.TOP:
-                        yOff += panel.panelBox.height;
-                        startY -= panel.panelBox.height;
-                        break;
-                    case St.Side.BOTTOM:
-                        yOff += panel.panelBox.height;
-                        break;
-                    case St.Side.RIGHT:
-                        xOff += panel.panelBox.width;
-                        break;
-                }
-            }
-            contentBox.set_origin(startX, startY);
-            contentBox.set_size(xOff + contentWidth, yOff + contentHeight);
-            this._backgroundGroup.allocate(contentBox);
-        });
     
     }
 }
