@@ -690,17 +690,20 @@ var Overview = class {
             let startX = -xOff;
             let startY = -yOff;
             const panel = Utils.find(global.dashToPanel.panels, p => p.monitor.index == this._monitorIndex);
-            switch (panel.getPosition()) {
-                case St.Side.TOP:
-                    yOff += panel.panelBox.height;
-                    startY -= panel.panelBox.height;
-                    break;
-                case St.Side.BOTTOM:
-                    yOff += panel.panelBox.height;
-                    break;
-                case St.Side.RIGHT:
-                    xOff += panel.panelBox.width;
-                    break;
+            
+            if (panel) {
+                switch (panel.getPosition()) {
+                    case St.Side.TOP:
+                        yOff += panel.panelBox.height;
+                        startY -= panel.panelBox.height;
+                        break;
+                    case St.Side.BOTTOM:
+                        yOff += panel.panelBox.height;
+                        break;
+                    case St.Side.RIGHT:
+                        xOff += panel.panelBox.width;
+                        break;
+                }
             }
             contentBox.set_origin(startX, startY);
             contentBox.set_size(xOff + contentWidth, yOff + contentHeight);
