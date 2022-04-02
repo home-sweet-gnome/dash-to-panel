@@ -36,10 +36,9 @@ var Mode = {
     MAXIMIZED_WINDOWS: 2
 };
 
-var ProximityWatch = Utils.defineClass({
-    Name: 'DashToPanel.ProximityWatch',
+class ProximityWatch {
 
-    _init: function(actor, mode, xThreshold, yThreshold, handler) {
+    constructor(actor, mode, xThreshold, yThreshold, handler) {
         this.actor = actor;
         this.overlap = 0;
         this.mode = mode;
@@ -49,19 +48,19 @@ var ProximityWatch = Utils.defineClass({
         this._allocationChangedId = actor.connect('notify::allocation', () => this._update());
 
         this._update();
-    },
+    }
 
-    destroy: function() {
+    destroy() {
         this.actor.disconnect(this._allocationChangedId);
-    },
-
-    _update: function() {
+    }
+    
+    _update() {
         this.monitorIndex = Main.layoutManager.findIndexForActor(this.actor);
 
         this._updateWatchRect();
-    },
+    }
 
-    _updateWatchRect: function() {
+    _updateWatchRect() {
         let [actorX, actorY] = this.actor.get_position();
 
         this.rect = new Meta.Rectangle({ 
@@ -70,13 +69,12 @@ var ProximityWatch = Utils.defineClass({
             width: this.actor.width + this.threshold[0] * 2,
             height: this.actor.height + this.threshold[1] * 2 
         });
-    },
-});
+    }
+};
 
-var ProximityManager = Utils.defineClass({
-    Name: 'DashToPanel.ProximityManager',
+var ProximityManager = class {
 
-    _init: function() {
+    constructor() {
         this._counter = 1;
         this._watches = {};
         this._focusedWindowInfo = null;
@@ -86,36 +84,36 @@ var ProximityManager = Utils.defineClass({
 
         this._bindSignals();
         this._setFocusedWindow();
-    },
+    }
 
-    createWatch: function(actor, mode, xThreshold, yThreshold, handler) {
+    createWatch(actor, mode, xThreshold, yThreshold, handler) {
         let watch = new ProximityWatch(actor, mode, xThreshold, yThreshold, handler);
 
         this._watches[this._counter] = watch;
         this.update();
         
         return this._counter++;
-    },
+    }
 
-    removeWatch: function(id) {
+    removeWatch(id) {
         if (this._watches[id]) {
             this._watches[id].destroy();
             delete this._watches[id];
         }
-    },
+    }
 
-    update: function() {
+    update() {
         this._queueUpdate(true);
-    },
+    }
 
-    destroy: function() {
+    destroy() {
         this._signalsHandler.destroy();
         this._timeoutsHandler.destroy();
         this._disconnectFocusedWindow();
         Object.keys(this._watches).forEach(id => this.removeWatch(id));
-    },
+    }
 
-    _bindSignals: function() {
+    _bindSignals() {
         this._signalsHandler.add(
             [
                 global.window_manager,
@@ -144,9 +142,9 @@ var ProximityManager = Utils.defineClass({
                 () => this._queueUpdate()
             ]
         );
-    },
+    }
 
-    _setFocusedWindow: function() {
+    _setFocusedWindow() {
         this._disconnectFocusedWindow();
 
         let focusedWindow = global.display.focus_window;
@@ -161,9 +159,9 @@ var ProximityManager = Utils.defineClass({
                 this._focusedWindowInfo = focusedWindowInfo;
             }
         }
-    },
+    }
 
-    _getFocusedWindowInfo: function(focusedWindow) {
+    _getFocusedWindowInfo(focusedWindow) {
         let window = focusedWindow.get_compositor_private();
         let focusedWindowInfo;
 
@@ -182,38 +180,38 @@ var ProximityManager = Utils.defineClass({
         }
 
         return focusedWindowInfo;
-    },
+    }
 
-    _disconnectFocusedWindow: function(destroy) {
+    _disconnectFocusedWindow(destroy) {
         if (this._focusedWindowInfo && !destroy) {
             this._focusedWindowInfo.window.disconnect(this._focusedWindowInfo.allocationId);
             this._focusedWindowInfo.window.disconnect(this._focusedWindowInfo.destroyId);
         }
 
         this._focusedWindowInfo = null;
-    },
+    }
 
-    _getHandledWindows: function() {
+    _getHandledWindows() {
         return global.get_window_actors()
                      .filter(w => w.visible)
                      .map(w => w.get_meta_window())
                      .filter(mw => this._checkIfHandledWindow(mw));
-    },
+    }
 
-    _checkIfHandledWindow: function(metaWindow) {
+    _checkIfHandledWindow(metaWindow) {
         return metaWindow && !metaWindow.minimized &&
                this._checkIfHandledWindowType(metaWindow);
-    },
+    }
 
-    _checkIfHandledWindowType: function(metaWindow) {
+    _checkIfHandledWindowType(metaWindow) {
         let metaWindowType = metaWindow.get_window_type();
 
         //https://www.roojs.org/seed/gir-1.2-gtk-3.0/seed/Meta.WindowType.html
         return metaWindowType <= Meta.WindowType.SPLASHSCREEN && 
                metaWindowType != Meta.WindowType.DESKTOP;
-    },
+    }
 
-    _queueUpdate: function(noDelay) {
+    _queueUpdate(noDelay) {
         if (!noDelay && this._timeoutsHandler.getId(T1)) {
             //limit the number of updates
             this._pendingUpdate = true;
@@ -233,16 +231,16 @@ var ProximityManager = Utils.defineClass({
                 watch.overlap = overlap;
             }
         });
-    },
+    }
 
-    _endLimitUpdate: function() {
+    _endLimitUpdate() {
         if (this._pendingUpdate) {
             this._pendingUpdate = false;
             this._queueUpdate();
         }
-    },
+    }
 
-    _update: function(watch, metaWindows) {
+    _update(watch, metaWindows) {
         if (watch.mode === Mode.FOCUSED_WINDOWS) {
             return (this._focusedWindowInfo && 
                     this._checkIfHandledWindow(this._focusedWindowInfo.metaWindow) &&
@@ -254,9 +252,9 @@ var ProximityManager = Utils.defineClass({
         
         //Mode.ALL_WINDOWS
         return metaWindows.some(mw => this._checkProximity(mw, watch));
-    },
+    }
 
-    _checkProximity: function(metaWindow, watch) {
+    _checkProximity(metaWindow, watch) {
         return metaWindow.get_frame_rect().overlap(watch.rect);
-    },
-});
+    }
+};

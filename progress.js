@@ -29,11 +29,9 @@ const Signals = imports.signals;
 const Utils = Me.imports.utils;
 
 
-var ProgressManager = Utils.defineClass({
-    Name: 'DashToPanel.ProgressManager',
+var ProgressManager = class {
 
-    _init: function() {
-
+    constructor() {
         this._entriesByDBusName = {};
 
         this._launcher_entry_dbus_signal_id =
@@ -55,9 +53,9 @@ var ProgressManager = Utils.defineClass({
                 this._onDBusNameOwnerChanged.bind(this));
 
         this._acquireUnityDBus();
-    },
+    }
 
-    destroy: function() {
+    destroy() {
         if (this._launcher_entry_dbus_signal_id) {
             Gio.DBus.session.signal_unsubscribe(this._launcher_entry_dbus_signal_id);
         }
@@ -67,17 +65,17 @@ var ProgressManager = Utils.defineClass({
         }
 
         this._releaseUnityDBus();
-    },
+    }
 
-    size: function() {
+    size() {
         return Object.keys(this._entriesByDBusName).length;
-    },
+    }
 
-    lookupByDBusName: function(dbusName) {
+    lookupByDBusName(dbusName) {
         return this._entriesByDBusName.hasOwnProperty(dbusName) ? this._entriesByDBusName[dbusName] : null;
-    },
+    }
 
-    lookupById: function(appId) {
+    lookupById(appId) {
         let ret = [];
         for (let dbusName in this._entriesByDBusName) {
             let entry = this._entriesByDBusName[dbusName];
@@ -87,9 +85,9 @@ var ProgressManager = Utils.defineClass({
         }
 
         return ret;
-    },
+    }
 
-    addEntry: function(entry) {
+    addEntry(entry) {
         let existingEntry = this.lookupByDBusName(entry.dbusName());
         if (existingEntry) {
             existingEntry.update(entry);
@@ -97,28 +95,28 @@ var ProgressManager = Utils.defineClass({
             this._entriesByDBusName[entry.dbusName()] = entry;
             this.emit('progress-entry-added', entry);
         }
-    },
+    }
 
-    removeEntry: function(entry) {
+    removeEntry(entry) {
         delete this._entriesByDBusName[entry.dbusName()]
         this.emit('progress-entry-removed', entry);
-    },
+    }
 
-    _acquireUnityDBus: function() {
+    _acquireUnityDBus() {
         if (!this._unity_bus_id) {
             Gio.DBus.session.own_name('com.canonical.Unity',
                 Gio.BusNameOwnerFlags.ALLOW_REPLACEMENT, null, null);
         }
-    },
+    }
 
-    _releaseUnityDBus: function() {
+    _releaseUnityDBus() {
         if (this._unity_bus_id) {
             Gio.DBus.session.unown_name(this._unity_bus_id);
             this._unity_bus_id = 0;
         }
-    },
+    }
 
-    _onEntrySignalReceived: function(connection, sender_name, object_path,
+    _onEntrySignalReceived(connection, sender_name, object_path,
         interface_name, signal_name, parameters, user_data) {
         if (!parameters || !signal_name)
             return;
@@ -130,9 +128,9 @@ var ProgressManager = Utils.defineClass({
 
             this._handleUpdateRequest(sender_name, parameters);
         }
-    },
+    }
 
-    _onDBusNameOwnerChanged: function(connection, sender_name, object_path,
+    _onDBusNameOwnerChanged(connection, sender_name, object_path,
         interface_name, signal_name, parameters, user_data) {
         if (!parameters || !this.size())
             return;
@@ -144,9 +142,9 @@ var ProgressManager = Utils.defineClass({
                 this.removeEntry(this._entriesByDBusName[before]);
             }
         }
-    },
+    }
 
-    _handleUpdateRequest: function(senderName, parameters) {
+    _handleUpdateRequest(senderName, parameters) {
         if (!senderName || !parameters) {
             return;
         }
@@ -163,13 +161,12 @@ var ProgressManager = Utils.defineClass({
             this.addEntry(entry);
         }
     }
-});
+};
 Signals.addSignalMethods(ProgressManager.prototype);
 
-var AppProgress = Utils.defineClass({
-    Name: 'DashToPanel.AppProgress',
+class AppProgress {
 
-    _init: function(dbusName, appId, properties) {
+    constructor(dbusName, appId, properties) {
         this._dbusName = dbusName;
         this._appId = appId;
         this._count = 0;
@@ -178,80 +175,80 @@ var AppProgress = Utils.defineClass({
         this._progressVisible = false;
         this._urgent = false;
         this.update(properties);
-    },
+    }
 
-    appId: function() {
+    appId() {
         return this._appId;
-    },
+    }
 
-    dbusName: function() {
+    dbusName() {
         return this._dbusName;
-    },
+    }
 
-    count: function() {
+    count() {
         return this._count;
-    },
+    }
 
-    setCount: function(count) {
+    setCount(count) {
         if (this._count != count) {
             this._count = count;
             this.emit('count-changed', this._count);
         }
-    },
+    }
 
-    countVisible: function() {
+    countVisible() {
         return this._countVisible;
-    },
+    }
 
-    setCountVisible: function(countVisible) {
+    setCountVisible(countVisible) {
         if (this._countVisible != countVisible) {
             this._countVisible = countVisible;
             this.emit('count-visible-changed', this._countVisible);
         }
-    },
+    }
 
-    progress: function() {
+    progress() {
         return this._progress;
-    },
+    }
 
-    setProgress: function(progress) {
+    setProgress(progress) {
         if (this._progress != progress) {
             this._progress = progress;
             this.emit('progress-changed', this._progress);
         }
-    },
+    }
 
-    progressVisible: function() {
+    progressVisible() {
         return this._progressVisible;
-    },
+    }
 
-    setProgressVisible: function(progressVisible) {
+    setProgressVisible(progressVisible) {
         if (this._progressVisible != progressVisible) {
             this._progressVisible = progressVisible;
             this.emit('progress-visible-changed', this._progressVisible);
         }
-    },
+    }
 
-    urgent: function() {
+    urgent() {
         return this._urgent;
-    },
+    }
 
-    setUrgent: function(urgent) {
+    setUrgent(urgent) {
         if (this._urgent != urgent) {
             this._urgent = urgent;
             this.emit('urgent-changed', this._urgent);
         }
-    },
+    }
 
-    setDBusName: function(dbusName) {
+    setDBusName(dbusName) {
         if (this._dbusName != dbusName) {
             let oldName = this._dbusName;
             this._dbusName = dbusName;
             this.emit('dbus-name-changed', oldName);
         }
-    },
+    }
 
-    update: function(other) {
+    update(other) {
         if (other instanceof AppProgress) {
             this.setDBusName(other.dbusName())
             this.setCount(other.count());
@@ -279,14 +276,13 @@ var AppProgress = Utils.defineClass({
             }
         }
     }
-});
+};
 Signals.addSignalMethods(AppProgress.prototype);
 
 
-var ProgressIndicator = Utils.defineClass({
-    Name: 'DashToPanel.ProgressIndicator',
+var ProgressIndicator = class {
 
-    _init: function(source, progressManager) {
+    constructor(source, progressManager) {
         this._source = source;
         this._progressManager = progressManager;
         this._signalsHandler = new Utils.GlobalSignalsHandler();
@@ -322,36 +318,36 @@ var ProgressIndicator = Utils.defineClass({
             'progress-entry-removed',
             this._onEntryRemoved.bind(this)
         ]);
-    },
+    }
 
-    destroy: function() {
+    destroy() {
         this._source.actor.disconnect(this._sourceDestroyId);
         this._signalsHandler.destroy();
-    },
+    }
 
-    _onEntryAdded: function(appProgress, entry) {
+    _onEntryAdded(appProgress, entry) {
         if (!entry || !entry.appId())
             return;
         if (this._source && this._source.app && this._source.app.id == entry.appId()) {
             this.insertEntry(entry);
         }
-    },
+    }
 
-    _onEntryRemoved: function(appProgress, entry) {
+    _onEntryRemoved(appProgress, entry) {
         if (!entry || !entry.appId())
             return;
 
         if (this._source && this._source.app && this._source.app.id == entry.appId()) {
             this.removeEntry(entry);
         }
-    },
+    }
 
-    updateNotificationBadge: function() {
+    updateNotificationBadge() {
         this._source.updateNumberOverlay(this._notificationBadgeBin);
         this._notificationBadgeLabel.clutter_text.ellipsize = Pango.EllipsizeMode.MIDDLE;
-    },
+    }
 
-    _notificationBadgeCountToText: function(count) {
+    _notificationBadgeCountToText(count) {
         if (count <= 9999) {
             return count.toString();
         } else if (count < 1e5) {
@@ -370,24 +366,24 @@ var ProgressIndicator = Utils.defineClass({
             let billions = count / 1e9;
             return billions.toFixed(1).toString() + "B";
         }
-    },
+    }
 
-    setNotificationBadge: function(count) {
+    setNotificationBadge(count) {
         this._notificationBadgeCount = count;
         let text = this._notificationBadgeCountToText(count);
         this._notificationBadgeLabel.set_text(text);
-    },
+    }
 
-    toggleNotificationBadge: function(activate) {
+    toggleNotificationBadge(activate) {
         if (activate && this._notificationBadgeCount > 0) {
             this.updateNotificationBadge();
             this._notificationBadgeBin.show();
         }
         else
             this._notificationBadgeBin.hide();
-    },
+    }
 
-    _showProgressOverlay: function() {
+    _showProgressOverlay() {
         if (this._progressOverlayArea) {
             this._updateProgressOverlay();
             return;
@@ -415,25 +411,25 @@ var ProgressIndicator = Utils.defineClass({
             this._progressbar_border = new Clutter.Color({red: 230, green: 230, blue: 230, alpha: 255});
 
         this._updateProgressOverlay();
-    },
+    }
 
-    _hideProgressOverlay: function() {
+    _hideProgressOverlay() {
         if (this._progressOverlayArea)
             this._progressOverlayArea.destroy();
 
         this._progressOverlayArea = null;
         this._progressbar_background = null;
         this._progressbar_border = null;
-    },
+    }
 
-    _updateProgressOverlay: function() {
+    _updateProgressOverlay() {
 
         if (this._progressOverlayArea) {
             this._progressOverlayArea.queue_repaint();
         }
-    },
+    }
 
-    _drawProgressOverlay: function(area) {
+    _drawProgressOverlay(area) {
         let scaleFactor = Utils.getScaleFactor();
         let [surfaceWidth, surfaceHeight] = area.get_surface_size();
         let cr = area.get_context();
@@ -491,31 +487,31 @@ var ProgressIndicator = Utils.defineClass({
             Utils.drawRoundedLine(cr, x + lineWidth/2.0, y + lineWidth/2.0, finishedWidth, height, true, true, stroke, fill);
 
         cr.$dispose();
-    },
+    }
 
-    setProgress: function(progress) {
+    setProgress(progress) {
         this._progress = Math.min(Math.max(progress, 0.0), 1.0);
         this._updateProgressOverlay();
-    },
+    }
 
-    toggleProgressOverlay: function(activate) {
+    toggleProgressOverlay(activate) {
         if (activate) {
             this._showProgressOverlay();
         }
         else {
             this._hideProgressOverlay();
         }
-    },
+    }
 
-    insertEntry: function(appProgress) {
+    insertEntry(appProgress) {
         if (!appProgress || this._progressManagerEntries.indexOf(appProgress) !== -1)
             return;
 
         this._progressManagerEntries.push(appProgress);
         this._selectEntry(appProgress);
-    },
+    }
 
-    removeEntry: function(appProgress) {
+    removeEntry(appProgress) {
         if (!appProgress || this._progressManagerEntries.indexOf(appProgress) == -1)
             return;
 
@@ -530,9 +526,9 @@ var ProgressIndicator = Utils.defineClass({
             this.toggleProgressOverlay(false);
             this.setUrgent(false);
         }
-    },
+    }
 
-    _selectEntry: function(appProgress) {
+    _selectEntry(appProgress) {
         if (!appProgress)
             return;
 
@@ -577,9 +573,9 @@ var ProgressIndicator = Utils.defineClass({
         this.toggleProgressOverlay(appProgress.progressVisible());
 
         this._isUrgent = false;
-    },
+    }
 
-    setUrgent: function(urgent) {
+    setUrgent(urgent) {
         const icon = this._source.icon._iconBin;
         if (urgent) {
             if (!this._isUrgent) {
@@ -595,4 +591,4 @@ var ProgressIndicator = Utils.defineClass({
             icon.rotation_angle_z = 0;
         }
     }
-});
+};

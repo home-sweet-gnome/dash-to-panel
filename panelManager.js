@@ -28,8 +28,8 @@
  */
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Overview = Me.imports.overview;
-const Panel = Me.imports.panel;
+const { Overview } = Me.imports.overview;
+const { Panel, panelBoxes } = Me.imports.panel;
 const PanelSettings = Me.imports.panelSettings;
 const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
@@ -55,11 +55,10 @@ const Layout = imports.ui.layout;
 const WM = imports.ui.windowManager;
 const WorkspacesView = imports.ui.workspacesView;
 
-var dtpPanelManager = Utils.defineClass({
-    Name: 'DashToPanel.PanelManager',
+var PanelManager = class {
 
-    _init: function() {
-        this.overview = new Overview.dtpOverview();
+    constructor() {
+        this.overview = new Overview();
         this.panelsElementPositions = {};
 
         this._saveMonitors();
@@ -68,9 +67,9 @@ var dtpPanelManager = Utils.defineClass({
             Utils.wrapActor(v.view);
             Utils.wrapActor(v.view._grid);
         });
-    },
+    }
 
-    enable: function(reset) {
+    enable(reset) {
         let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
 
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
@@ -254,7 +253,7 @@ var dtpPanelManager = Utils.defineClass({
             ]
         );
 
-        Panel.panelBoxes.forEach(c => this._signalsHandler.add(
+        panelBoxes.forEach(c => this._signalsHandler.add(
             [Main.panel[c], 'actor-added', (parent, child) => this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, this.primaryPanel.getPosition())]
         ));
 
@@ -262,10 +261,10 @@ var dtpPanelManager = Utils.defineClass({
 
         // keep GS overview.js from blowing away custom panel styles
         if(!Me.settings.get_boolean('stockgs-keep-top-panel'))
-            Object.defineProperty(Main.panel, "style", {configurable: true, set: function(v) {}});
-    },
+            Object.defineProperty(Main.panel, "style", {configurable: true, set(v) {}});
+    }
 
-    disable: function(reset) {
+    disable(reset) {
         this.overview.disable();
         this.proximityManager.destroy();
 
@@ -351,9 +350,9 @@ var dtpPanelManager = Utils.defineClass({
         delete LookingGlass.LookingGlass.prototype._oldOpen
 
         delete Main.panel.style;
-    },
+    }
 
-    setFocusedMonitor: function(monitor, ignoreRelayout) {
+    setFocusedMonitor(monitor, ignoreRelayout) {
         // todo show overview on non primary monitor is not working right now on gnome40
 
         // this._needsIconAllocate = 1;
@@ -364,9 +363,9 @@ var dtpPanelManager = Utils.defineClass({
         //     Main.overview._overview.clear_constraints();
         //     Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
         // }
-    },
+    }
 
-    _saveMonitors: function() {
+    _saveMonitors() {
         //Mutter meta_monitor_manager_get_primary_monitor (global.display.get_primary_monitor()) doesn't return the same
         //monitor as GDK gdk_screen_get_primary_monitor (imports.gi.Gdk.Screen.get_default().get_primary_monitor()).
         //Since the Mutter function is what's used in gnome-shell and we can't access it from the settings dialog, store 
@@ -376,13 +375,13 @@ var dtpPanelManager = Utils.defineClass({
 
         Main.layoutManager.monitors.filter(m => m.index != primaryIndex).forEach(m => monitors.push(m.index));
         Me.settings.set_value('available-monitors', new GLib.Variant('ai', monitors));
-    },
+    }
 
-    checkIfFocusedMonitor: function(monitor) {
+    checkIfFocusedMonitor(monitor) {
         return Main.overview._overview._controls._workspacesDisplay._primaryIndex == monitor.index;
-    },
+    }
 
-    _createPanel: function(monitor, isStandalone) {
+    _createPanel(monitor, isStandalone) {
         let panelBox;
         let panel;
         let clipContainer = new Clutter.Actor();
@@ -400,7 +399,7 @@ var dtpPanelManager = Utils.defineClass({
         clipContainer.add_child(panelBox);
         Main.layoutManager.trackChrome(panelBox, { trackFullscreen: true, affectsStruts: true, affectsInputRegion: true });
         
-        panel = new Panel.dtpPanel(this, monitor, panelBox, isStandalone);
+        panel = new Panel(this, monitor, panelBox, isStandalone);
         panelBox.add(panel);
         panel.enable();
 
@@ -411,20 +410,20 @@ var dtpPanelManager = Utils.defineClass({
         panelBox.set_position(0, 0);
 
         return panel;
-    },
+    }
 
-    _reset: function() {
+    _reset() {
         this.disable(true);
         this.allPanels = [];
         this.enable(true);
-    },
+    }
 
-    _updatePanelElementPositions: function() {
+    _updatePanelElementPositions() {
         this.panelsElementPositions = PanelSettings.getSettingsJson(Me.settings, 'panel-element-positions');
         this.allPanels.forEach(p => p.updateElementPositions());
-    },
+    }
 
-    _adjustPanelMenuButton: function(button, monitor, arrowSide) {
+    _adjustPanelMenuButton(button, monitor, arrowSide) {
         if (button) {
             Utils.wrapActor(button);
             button.menu._boxPointer._dtpSourceActor = button.menu._boxPointer.sourceActor;
@@ -438,9 +437,9 @@ var dtpPanelManager = Utils.defineClass({
                 });
             }
         }
-    },
+    }
 
-    _getBoxPointerPreferredHeight: function(boxPointer, alloc, monitor) {
+    _getBoxPointerPreferredHeight(boxPointer, alloc, monitor) {
         if (boxPointer._dtpInPanel && boxPointer.sourceActor && Me.settings.get_boolean('intellihide')) {
             monitor = monitor || Main.layoutManager.findMonitorForActor(boxPointer.sourceActor);
             let panel = Utils.find(global.dashToPanel.panels, p => p.monitor == monitor);
@@ -452,9 +451,9 @@ var dtpPanelManager = Utils.defineClass({
         }
 
         return [alloc.min_size, alloc.natural_size];
-    },
+    }
 
-    _findPanelMenuButtons: function(container) {
+    _findPanelMenuButtons(container) {
         let panelMenuButtons = [];
         let panelMenuButton;
 
@@ -469,9 +468,9 @@ var dtpPanelManager = Utils.defineClass({
         find(container);
 
         return panelMenuButtons;
-    },
+    }
 
-    _removePanelBarriers: function(panel) {
+    _removePanelBarriers(panel) {
         if (panel.isStandalone && panel._rightPanelBarrier) {
             panel._rightPanelBarrier.destroy();
         }
@@ -480,13 +479,13 @@ var dtpPanelManager = Utils.defineClass({
             panel._leftPanelBarrier.destroy();
             delete panel._leftPanelBarrier;
         }
-    },
+    }
 
-    _getPanelMenuButton: function(obj) {
+    _getPanelMenuButton(obj) {
         return obj._delegate && obj._delegate instanceof PanelMenu.Button ? obj._delegate : 0;
-    },
+    }
 
-    _setKeyBindings: function(enable) {
+    _setKeyBindings(enable) {
         let keys = {
             'intellihide-key-toggle': () => this.allPanels.forEach(p => p.intellihide.toggle())
         };
@@ -498,21 +497,20 @@ var dtpPanelManager = Utils.defineClass({
                 Utils.addKeybinding(k, Me.settings, keys[k], Shell.ActionMode.NORMAL);
             }
         });
-    },
+    }
 
-    _newGetShowAppsButton: function() {
+    _newGetShowAppsButton() {
         let focusedMonitorIndex = Utils.findIndex(this.allPanels, p => this.checkIfFocusedMonitor(p.monitor));
         
         return this.allPanels[focusedMonitorIndex].taskbar.showAppsButton;
     }
-});
+};
 
 // This class drives long-running icon animations, to keep them running in sync
 // with each other.
-var IconAnimator = Utils.defineClass({
-    Name: 'DashToPanel.IconAnimator',
+var IconAnimator = class {
 
-    _init: function(actor) {
+    constructor(actor) {
         this._count = 0;
         this._started = false;
         this._animations = {
@@ -535,9 +533,9 @@ var IconAnimator = Utils.defineClass({
                 dancers[i].target.rotation_angle_z = danceRotation;
             }
         });
-    },
+    }
 
-    destroy: function() {
+    destroy() {
         this._timeline.stop();
         this._timeline = null;
         for (let name in this._animations) {
@@ -548,32 +546,32 @@ var IconAnimator = Utils.defineClass({
             }
         }
         this._animations = null;
-    },
+    }
 
-    pause: function() {
+    pause() {
         if (this._started && this._count > 0) {
             this._timeline.stop();
         }
         this._started = false;
-    },
+    }
 
-    start: function() {
+    start() {
         if (!this._started && this._count > 0) {
             this._timeline.start();
         }
         this._started = true;
-    },
+    }
 
-    addAnimation: function(target, name) {
+    addAnimation(target, name) {
         const targetDestroyId = target.connect('destroy', () => this.removeAnimation(target, name));
         this._animations[name].push({ target: target, targetDestroyId: targetDestroyId });
         if (this._started && this._count === 0) {
             this._timeline.start();
         }
         this._count++;
-    },
+    }
 
-    removeAnimation: function(target, name) {
+    removeAnimation(target, name) {
         const pairs = this._animations[name];
         for (let i = 0, iMax = pairs.length; i < iMax; i++) {
             const pair = pairs[i];
@@ -588,7 +586,7 @@ var IconAnimator = Utils.defineClass({
             }
         }
     }
-});
+};
 
 function newGetPositionForDirection(direction, fromWs, toWs) {
     let [xDest, yDest] = WM.WindowManager.prototype._getPositionForDirection(direction, fromWs, toWs);

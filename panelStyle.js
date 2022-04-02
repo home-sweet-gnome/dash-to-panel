@@ -33,30 +33,25 @@ const Panel = Me.imports.panel;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
-var dtpPanelStyle = Utils.defineClass({
-    Name: 'DashToPanel.PanelStyle',
+var PanelStyle = class {
 
-    _init: function() {
-
-    },
-
-    enable : function(panel) {
+    enable(panel) {
         this.panel = panel;
 
         this._applyStyles();
 
         this._bindSettingsChanges();
-    },
+    }
 
-    disable: function () {
+    disable() {
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
             Me.settings.disconnect(this._dtpSettingsSignalIds[i]);
         }
 
         this._removeStyles();
-    },
+    }
 
-    _bindSettingsChanges: function() {
+    _bindSettingsChanges() {
         let configKeys = [
             "tray-size",
             "leftbox-size",
@@ -73,9 +68,9 @@ var dtpPanelStyle = Utils.defineClass({
                 this._applyStyles();
             })));
         }
-    },
+    }
 
-    _applyStyles: function() {
+    _applyStyles() {
         this._rightBoxOperations = [];
         
         let trayPadding = Me.settings.get_int('tray-padding');
@@ -218,9 +213,9 @@ var dtpPanelStyle = Utils.defineClass({
                     this._recursiveApply(actor, this._leftBoxOperations);
             })
         );
-    },
+    }
 
-    _removeStyles: function() {
+    _removeStyles() {
         /* disconnect signal */
         if (this._rightBoxActorAddedID) 
             this.panel._rightBox.disconnect(this._rightBoxActorAddedID);
@@ -234,9 +229,9 @@ var dtpPanelStyle = Utils.defineClass({
         this._restoreOriginalStyle(this.panel._leftBox);
 
         this._applyStylesRecursively(true);
-    },
+    }
 
-    _applyStylesRecursively: function(restore) {
+    _applyStylesRecursively(restore) {
         /*recurse actors */
         if(this._rightBoxOperations.length) {
             // add the system menu as we move it from the rightbox to the panel to position it independently
@@ -257,9 +252,9 @@ var dtpPanelStyle = Utils.defineClass({
             for(let i in children)
                 this._recursiveApply(children[i], this._leftBoxOperations, restore);
         }
-    },
+    }
 
-    _recursiveApply: function(actor, operations, restore) {
+    _recursiveApply(actor, operations, restore) {
         for(let i in operations) {
             let o = operations[i];
             if(o.compareFn(actor))
@@ -275,9 +270,9 @@ var dtpPanelStyle = Utils.defineClass({
                 this._recursiveApply(children[i], operations, restore);
             }
         }
-    },
+    }
     
-    _overrideStyle: function(actor, styleLine, operationIdx) {
+    _overrideStyle(actor, styleLine, operationIdx) {
         if (actor._dtp_original_inline_style === undefined) {
             actor._dtp_original_inline_style = actor.get_style();
         }
@@ -291,9 +286,9 @@ var dtpPanelStyle = Utils.defineClass({
         for(let i in actor._dtp_style_overrides)
             newStyleLine += actor._dtp_style_overrides[i] + '; ';
         actor.set_style(newStyleLine + (actor._dtp_original_inline_style || ''));
-     },
+     }
 
-    _restoreOriginalStyle: function(actor) {
+    _restoreOriginalStyle(actor) {
         if (actor._dtp_original_inline_style !== undefined) {
             actor.set_style(actor._dtp_original_inline_style);
             delete actor._dtp_original_inline_style;
@@ -303,9 +298,9 @@ var dtpPanelStyle = Utils.defineClass({
         if (actor.has_style_class_name('panel-button')) {
             this._refreshPanelButton(actor);
         }
-    },
+    }
 
-    _refreshPanelButton: function(actor) {
+    _refreshPanelButton(actor) {
         if (actor.visible && imports.misc.config.PACKAGE_VERSION >= '3.34.0') {
             //force gnome 3.34+ to refresh (having problem with the -natural-hpadding)
             let parent = actor.get_parent();
@@ -323,4 +318,4 @@ var dtpPanelStyle = Utils.defineClass({
         }
     }
     
-});
+}

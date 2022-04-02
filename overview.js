@@ -50,15 +50,14 @@ const DASH_MAX_HEIGHT_RATIO = 0.15;
 //timeout names
 const T1 = 'swipeEndTimeout';
 
-var dtpOverview = Utils.defineClass({
-    Name: 'DashToPanel.Overview',
+var Overview = class {
 
-    _init: function() {
+    constructor() {
         this._numHotkeys = 10;
         this._timeoutsHandler = new Utils.TimeoutsHandler();
-    },
+    }
 
-    enable : function(panel) {
+    enable (panel) {
         this._panel = panel;
         this.taskbar = panel.taskbar;
 
@@ -78,9 +77,9 @@ var dtpOverview = Utils.defineClass({
             () => this._toggleDash()
         ]);
     
-    },
+    }
 
-    disable: function () {
+    disable() {
         Utils.hookVfunc(Workspace.WorkspaceBackground.prototype, 'allocate', Workspace.WorkspaceBackground.prototype.vfunc_allocate);
         Utils.hookVfunc(OverviewControls.ControlsManagerLayout.prototype, 'allocate', OverviewControls.ControlsManagerLayout.prototype.vfunc_allocate);
         OverviewControls.ControlsManagerLayout.prototype._computeWorkspacesBoxForState = this._oldComputeWorkspacesBoxForState;
@@ -94,9 +93,9 @@ var dtpOverview = Utils.defineClass({
         this._disableHotKeys();
         this._disableExtraShortcut();
         this._disableClickToExit();
-    },
+    }
 
-    _toggleDash: function(visible) {
+    _toggleDash(visible) {
         // To hide the dash, set its width to 1, so it's almost not taken into account by code
         // calculaing the reserved space in the overview. The reason to keep it at 1 is
         // to allow its visibility change to trigger an allocaion of the appGrid which
@@ -117,12 +116,12 @@ var dtpOverview = Utils.defineClass({
 
         // This force the recalculation of the icon size
         overviewControls.dash._maxHeight = -1;
-    },
+    }
 
     /**
      * Isolate overview to open new windows for inactive apps
      */
-    _optionalWorkspaceIsolation: function() {
+    _optionalWorkspaceIsolation() {
         let label = 'optionalWorkspaceIsolation';
         
         this._signalsHandler.add([
@@ -176,10 +175,10 @@ var dtpOverview = Utils.defineClass({
             
             return this.open_new_window(-1);
         }
-    },
+    }
 
     // Hotkeys
-    _activateApp: function(appIndex) {
+    _activateApp(appIndex) {
         let seenApps = {};
         let apps = [];
         
@@ -232,9 +231,9 @@ var dtpOverview = Utils.defineClass({
                 appIcon.activate(button, true);
             }
         }
-    },
+    }
 
-    _endHotkeyPreviewCycle: function(focusWindow) {
+    _endHotkeyPreviewCycle(focusWindow) {
         if (this._hotkeyPreviewCycleInfo) {
             global.stage.disconnect(this._hotkeyPreviewCycleInfo.capturedEventId);
             this._hotkeyPreviewCycleInfo.appIcon.actor.disconnect(this._hotkeyPreviewCycleInfo.keyFocusOutId);
@@ -247,9 +246,9 @@ var dtpOverview = Utils.defineClass({
             delete this._hotkeyPreviewCycleInfo.appIcon._hotkeysCycle;
             this._hotkeyPreviewCycleInfo = 0;
         }
-    },
+    }
 
-    _optionalHotKeys: function() {
+    _optionalHotKeys() {
         this._hotKeysEnabled = false;
         if (Me.settings.get_boolean('hot-keys'))
             this._enableHotKeys();
@@ -264,14 +263,14 @@ var dtpOverview = Utils.defineClass({
                         Lang.bind(this, this._disableHotKeys)();
             })
         ]);
-    },
+    }
 
-    _resetHotkeys: function() {
+    _resetHotkeys() {
         this._disableHotKeys();
         this._enableHotKeys();
-    },
+    }
 
-    _enableHotKeys: function() {
+    _enableHotKeys() {
         if (this._hotKeysEnabled)
             return;
 
@@ -307,9 +306,9 @@ var dtpOverview = Utils.defineClass({
 
         if (Me.settings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
             this.taskbar.toggleNumberOverlay(true);
-    },
+    }
 
-    _disableHotKeys: function() {
+    _disableHotKeys() {
         if (!this._hotKeysEnabled)
             return;
 
@@ -332,9 +331,9 @@ var dtpOverview = Utils.defineClass({
         this._hotKeysEnabled = false;
 
         this.taskbar.toggleNumberOverlay(false);
-    },
+    }
 
-    _optionalNumberOverlay: function() {
+    _optionalNumberOverlay() {
         // Enable extra shortcut
         if (Me.settings.get_boolean('hot-keys'))
             this._enableExtraShortcut();
@@ -357,24 +356,24 @@ var dtpOverview = Utils.defineClass({
             'changed::shortcut-num-keys',
             () =>  this._resetHotkeys()
         ]);
-    },
+    }
 
-    _checkHotkeysOptions: function() {
+    _checkHotkeysOptions() {
         if (Me.settings.get_boolean('hot-keys'))
             this._enableExtraShortcut();
         else
             this._disableExtraShortcut();
-    },
+    }
 
-    _enableExtraShortcut: function() {
+    _enableExtraShortcut() {
         Utils.addKeybinding('shortcut', Me.settings, () => this._showOverlay(true));
-    },
+    }
 
-    _disableExtraShortcut: function() {
+    _disableExtraShortcut() {
         Utils.removeKeybinding('shortcut');
-    },
+    }
 
-    _showOverlay: function(overlayFromShortcut) {
+    _showOverlay(overlayFromShortcut) {
         //wait for intellihide timeout initialization
         if (!this._panel.intellihide) {
             return;
@@ -412,9 +411,9 @@ var dtpOverview = Utils.defineClass({
             
             this._panel.intellihide.release(Intellihide.Hold.TEMPORARY);
         }));
-    },
+    }
 
-    _optionalClickToExit: function() {
+    _optionalClickToExit() {
         this._clickToExitEnabled = false;
         if (Me.settings.get_boolean('overview-click-to-exit'))
             this._enableClickToExit();
@@ -429,9 +428,9 @@ var dtpOverview = Utils.defineClass({
                         Lang.bind(this, this._disableClickToExit)();
             })
         ]);
-    },
+    }
 
-    _enableClickToExit: function() {
+    _enableClickToExit() {
         if (this._clickToExitEnabled)
             return;
 
@@ -454,9 +453,9 @@ var dtpOverview = Utils.defineClass({
          Main.overview._overview.add_action(this._clickAction);
 
         this._clickToExitEnabled = true;
-    },
+    }
 
-    _disableClickToExit: function () {
+    _disableClickToExit() {
         if (!this._clickToExitEnabled)
             return;
         
@@ -466,23 +465,23 @@ var dtpOverview = Utils.defineClass({
         this._signalsHandler.removeWithLabel('clickToExit');
     
         this._clickToExitEnabled = false;
-    },
+    }
 
-    _onSwipeBegin: function() {
+    _onSwipeBegin() {
         this._swiping = true;
         return true;
-    },
+    }
 
-    _onSwipeEnd: function() {
+    _onSwipeEnd() {
         this._timeoutsHandler.add([
             T1,
             0, 
             () => this._swiping = false
         ]);
         return true;
-    },
+    }
 
-    _hookupAllocation: function() {
+    _hookupAllocation() {
         Utils.hookVfunc(OverviewControls.ControlsManagerLayout.prototype, 'allocate', function vfunc_allocate(container, box) {
             const childBox = new Clutter.ActorBox();
         
@@ -709,4 +708,4 @@ var dtpOverview = Utils.defineClass({
         });
     
     }
-});
+}

@@ -27,7 +27,6 @@ const GdkPixbuf = imports.gi.GdkPixbuf;
 const Gi = imports._gi;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
-const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
@@ -46,106 +45,28 @@ if (Config.PACKAGE_VERSION < '3.34') {
     var Tweener = imports.ui.tweener;
 }
 
-var defineClass = function (classDef) {
-    let parentProto = classDef.Extends ? classDef.Extends.prototype : null;
-    
-    if (Config.PACKAGE_VERSION < '3.31.9') {
-        if (parentProto && (classDef.Extends.name || classDef.Extends.toString()).indexOf('DashToPanel.') < 0) {
-            classDef.callParent = function() {
-                let args = Array.prototype.slice.call(arguments);
-                let func = args.shift();
-
-                classDef.Extends.prototype[func].apply(this, args);
-            };
-        }
-
-        return new imports.lang.Class(classDef);
-    }
-
-    let isGObject = parentProto instanceof GObject.Object;
-    let needsSuper = parentProto && !isGObject;
-    let getParentArgs = function(args) {
-        let parentArgs = [];
-
-        (classDef.ParentConstrParams || parentArgs).forEach(p => {
-            if (p.constructor === Array) {
-                let param = args[p[0]];
-                
-                parentArgs.push(p[1] ? param[p[1]] : param);
-            } else {
-                parentArgs.push(p);
-            }
-        });
-
-        return parentArgs;
-    };
-    
-    let C;
-    if (isGObject) {
-        C = eval(
-            '(class C extends GObject.Object { ' +
-            '     callParent(...args) { ' +
-            '         let func = args.shift(); ' +
-            '         super[func](...args); ' +
-            '     }' +
-            '})'
-        );
-    } else {
-        C = eval(
-            '(class C ' + (needsSuper ? 'extends Object' : '') + ' { ' +
-            '     constructor(...args) { ' +
-                    (needsSuper ? 'super(...getParentArgs(args));' : '') +
-                    (needsSuper || !parentProto ? 'this._init(...args);' : '') +
-            '     }' +
-            '     callParent(...args) { ' +
-            '         let func = args.shift(); ' +
-            '         if (!(func === \'_init\' && needsSuper))' +
-            '             super[func](...args); ' +
-            '     }' +    
-            '})'
-        );
-    }
-
-    if (parentProto) {
-        Object.setPrototypeOf(C.prototype, parentProto);
-        Object.setPrototypeOf(C, classDef.Extends);
-    } 
-    
-    Object.defineProperty(C, 'name', { value: classDef.Name });
-    Object.keys(classDef)
-          .filter(k => classDef.hasOwnProperty(k) && classDef[k] instanceof Function)
-          .forEach(k => C.prototype[k] = classDef[k]);
-
-    if (isGObject) { 
-        C = GObject.registerClass({ Signals: classDef.Signals || {} }, C);
-    }
-    
-    return C;
-};
-
 // simplify global signals and function injections handling
 // abstract class
-var BasicHandler = defineClass({
-    Name: 'DashToPanel.BasicHandler',
+var  BasicHandler = class {
 
-    _init: function(){
+    constructor() {
         this._storage = new Object();
-    },
+    }
 
-    add: function(/*unlimited 3-long array arguments*/){
+    add(/*unlimited 3-long array arguments*/){
 
         // convert arguments object to array, concatenate with generic
         let args = [].concat('generic', [].slice.call(arguments));
         // call addWithLabel with ags as if they were passed arguments
         this.addWithLabel.apply(this, args);
-    },
+    }
 
-    destroy: function() {
+    destroy() {
         for( let label in this._storage )
             this.removeWithLabel(label);
-    },
+    }
 
-    addWithLabel: function( label /* plus unlimited 3-long array arguments*/) {
+    addWithLabel( label /* plus unlimited 3-long array arguments*/) {
 
         if(this._storage[label] == undefined)
             this._storage[label] = new Array();
@@ -160,9 +81,9 @@ var BasicHandler = defineClass({
             }
         }
 
-    },
+    }
 
-    removeWithLabel: function(label){
+    removeWithLabel(label){
 
         if(this._storage[label]) {
             for( let i = 0; i < this._storage[label].length; i++ ) {
@@ -171,26 +92,24 @@ var BasicHandler = defineClass({
 
             delete this._storage[label];
         }
-    },
+    }
 
     /* Virtual methods to be implemented by subclass */
     // create single element to be stored in the storage structure
-    _create: function(item){
+    _create(item){
       throw new Error('no implementation of _create in ' + this);
-    },
+    }
 
     // correctly delete single element
-    _remove: function(item){
+    _remove(item){
       throw new Error('no implementation of _remove in ' + this);
     }
-});
+}
 
 // Manage global signals
-var GlobalSignalsHandler = defineClass({
-    Name: 'DashToPanel.GlobalSignalsHandler',
-    Extends: BasicHandler,
+var GlobalSignalsHandler = class extends BasicHandler {
 
-    _create: function(item) {
+    _create(item) {
         let handlers = [];
 
         item[1] = [].concat(item[1]);
@@ -210,22 +129,20 @@ var GlobalSignalsHandler = defineClass({
         }
 
         return handlers;
-    },
+    }
 
-    _remove: function(item){
+    _remove(item){
        item[0].disconnect(item[1]);
     }
-});
+};
 
 /**
  * Manage function injection: both instances and prototype can be overridden
  * and restored
  */
-var InjectionsHandler = defineClass({
-    Name: 'DashToPanel.InjectionsHandler',
-    Extends: BasicHandler,
+var InjectionsHandler = class extends BasicHandler {
 
-    _create: function(item) {
+    _create(item) {
         let object = item[0];
         let name = item[1];
         let injectedFunction = item[2];
@@ -233,24 +150,22 @@ var InjectionsHandler = defineClass({
 
         object[name] = injectedFunction;
         return [[object, name, injectedFunction, original]];
-    },
+    }
 
-    _remove: function(item) {
+    _remove(item) {
         let object = item[0];
         let name = item[1];
         let original = item[3];
         object[name] = original;
     }
-});
+};
 
 /**
  * Manage timeouts: the added timeouts have their id reset on completion
  */
-var TimeoutsHandler = defineClass({
-    Name: 'DashToPanel.TimeoutsHandler',
-    Extends: BasicHandler,
+var TimeoutsHandler = class extends BasicHandler {
 
-    _create: function(item) {
+    _create(item) {
         let name = item[0];
         let delay = item[1];
         let timeoutHandler = item[2];
@@ -263,38 +178,38 @@ var TimeoutsHandler = defineClass({
         });
 
         return [[name]];
-    },
+    }
 
-    remove: function(name) {
+    remove(name) {
         this._remove([name])
-    },
+    }
 
-    _remove: function(item) {
+    _remove(item) {
         let name = item[0];
 
         if (this[name]) {
             Mainloop.source_remove(this[name]);
             this[name] = 0;
         }
-    },
+    }
 
-    getId: function(name) {
+    getId(name) {
         return this[name] ? this[name] : 0;
     }
-});
+};
 
 // This is wrapper to maintain compatibility with GNOME-Shell 3.30+ as well as
 // previous versions.
 var DisplayWrapper = {
-    getScreen: function() {
+    getScreen() {
         return global.screen || global.display;
     },
 
-    getWorkspaceManager: function() {
+    getWorkspaceManager() {
         return global.screen || global.workspace_manager;
     },
 
-    getMonitorManager: function() {
+    getMonitorManager() {
         return global.screen || Meta.MonitorManager.get();
     }
 };
@@ -357,12 +272,12 @@ var mergeObjects = function(main, bck) {
 };
 
 var hookVfunc = function(proto, symbol, func) {
-    if (Gi.hook_up_vfunc_symbol && func) {
-        try {
-            proto[Gi.gobject_prototype_symbol][Gi.hook_up_vfunc_symbol] (symbol, func);
-        } catch (e) {
-            proto[Gi.hook_up_vfunc_symbol] (symbol, func);
-        }
+    if (!func) return
+
+    if (Gi.gobject_prototype_symbol) {
+        proto[Gi.gobject_prototype_symbol][Gi.hook_up_vfunc_symbol] (symbol, func);
+    } else {
+        proto[Gi.hook_up_vfunc_symbol] (symbol, func);
     }
 };
 
@@ -706,7 +621,7 @@ var ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize, onCom
  *  ColorUtils is adapted from https://github.com/micheleg/dash-to-dock
  */
 var ColorUtils = {
-    colorLuminance: function(r, g, b, dlum) {
+    colorLuminance(r, g, b, dlum) {
         // Darken or brighten color by a fraction dlum
         // Each rgb value is modified by the same fraction.
         // Return "#rrggbb" strin
@@ -720,7 +635,7 @@ var ColorUtils = {
         return rgbString;
     },
 
-    _decimalToHex: function(d, padding) {
+    _decimalToHex(d, padding) {
         // Convert decimal to an hexadecimal string adding the desired padding
 
         let hex = d.toString(16);
@@ -729,7 +644,7 @@ var ColorUtils = {
         return hex;
     },
 
-    HSVtoRGB: function(h, s, v) {
+    HSVtoRGB(h, s, v) {
         // Convert hsv ([0-1, 0-1, 0-1]) to rgb ([0-255, 0-255, 0-255]).
         // Following algorithm in https://en.wikipedia.org/wiki/HSL_and_HSV
         // here with h = [0,1] instead of [0, 360]
@@ -768,7 +683,7 @@ var ColorUtils = {
         };
     },
 
-    RGBtoHSV: function(r, g, b) {
+    RGBtoHSV(r, g, b) {
         // Convert rgb ([0-255, 0-255, 0-255]) to hsv ([0-1, 0-1, 0-1]).
         // Following algorithm in https://en.wikipedia.org/wiki/HSL_and_HSV
         // here with h = [0,1] instead of [0, 360]
@@ -816,17 +731,16 @@ const MAX_CACHED_ITEMS = 1000;
 const BATCH_SIZE_TO_DELETE = 50;
 const DOMINANT_COLOR_ICON_SIZE = 64;
 
-var DominantColorExtractor = defineClass({
-    Name: 'DashToPanel.DominantColorExtractor',
+var DominantColorExtractor = class {
 
-    _init: function(app){
+    constructor(app){
         this._app = app;
-    },
+    }
 
     /**
      * Try to get the pixel buffer for the current icon, if not fail gracefully
      */
-    _getIconPixBuf: function() {
+    _getIconPixBuf() {
         let iconTexture = this._app.create_icon_texture(16);
 
         if (themeLoader === null) {
@@ -861,7 +775,7 @@ var DominantColorExtractor = defineClass({
         }
 
         return null;
-    },
+    }
 
     /**
      * The backlight color choosing algorithm was mostly ported to javascript from the
@@ -869,7 +783,7 @@ var DominantColorExtractor = defineClass({
      * https://bazaar.launchpad.net/~unity-team/unity/trunk/view/head:/launcher/LauncherIcon.cpp
      * so it more or less works the same way.
      */
-    _getColorPalette: function() {
+    _getColorPalette() {
         if (iconCacheMap.get(this._app.get_id())) {
             // We already know the answer
             return iconCacheMap.get(this._app.get_id());
@@ -962,7 +876,7 @@ var DominantColorExtractor = defineClass({
         iconCacheMap.set(this._app.get_id(), backgroundColor);
 
         return backgroundColor;
-    },
+    }
 
     /**
      * Downsample large icons before scanning for the backlight color to
@@ -975,7 +889,7 @@ var DominantColorExtractor = defineClass({
      *
      * @return [];
      */
-    _resamplePixels: function (pixels, resampleX, resampleY) {
+    _resamplePixels(pixels, resampleX, resampleY) {
         let resampledPixels = [];
         // computing the limit outside the for (where it would be repeated at each iteration)
         // for performance reasons
@@ -992,7 +906,7 @@ var DominantColorExtractor = defineClass({
         return resampledPixels;
     }
 
-});
+};
 
 var drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, isRoundRight, stroke, fill) {
     if (height > width) {

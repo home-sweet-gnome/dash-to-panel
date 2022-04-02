@@ -26,7 +26,6 @@ const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
-const Adw = imports.gi.Adw;
 const Lang = imports.lang;
 const Mainloop = imports.mainloop;
 const Config = imports.misc.config;
@@ -2466,7 +2465,8 @@ function fillPreferencesWindow(window) {
 
     let preferences = new Preferences();
     let box = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL});
-    box.append(new Adw.HeaderBar);
+
+    imports.gi.Adw && box.append(new imports.gi.Adw.HeaderBar);
     box.append(preferences.notebook);
     window.set_content(box);
 }
