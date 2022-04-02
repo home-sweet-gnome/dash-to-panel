@@ -1797,6 +1797,7 @@
                               <item id="ALL_WINDOWS" translatable="yes">All windows</item>
                               <item id="FOCUSED_WINDOWS" translatable="yes">Focused windows</item>
                               <item id="MAXIMIZED_WINDOWS" translatable="yes">Maximized windows</item>
+                              <item id="FOCUSED_OR_MAXIMIZED_WINDOWS" translatable="yes">Focused or maximized windows</item>
                             </items>
                             <layout>
                               <property name="row">0</property>
@@ -4382,6 +4383,7 @@
                       <item id="ALL_WINDOWS" translatable="yes">All windows</item>
                       <item id="FOCUSED_WINDOWS" translatable="yes">Focused windows</item>
                       <item id="MAXIMIZED_WINDOWS" translatable="yes">Maximized windows</item>
+                      <item id="FOCUSED_OR_MAXIMIZED_WINDOWS" translatable="yes">Focused or maximized windows</item>
                     </items>
                     <layout>
                       <property name="row">0</property>
