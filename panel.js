@@ -1325,7 +1325,7 @@ var Panel = GObject.registerClass({
                     transition: 'easeOutQuad'
                 };
                 
-                Utils.animateWindowOpacity(w.get_compositor_private(), tweenOpts);
+                Utils.animateWindowOpacity(w.get_compositor_private(), tweenOpts, true);
             }
         });
     }

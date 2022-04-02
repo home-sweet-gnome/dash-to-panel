@@ -420,7 +420,7 @@ var activateSiblingWindow = function(windows, direction, startWindow) {
     }
 };
 
-var animateWindowOpacity = function(window, tweenOpts) {
+var animateWindowOpacity = function(window, tweenOpts, adjustVisibility) {
     //there currently is a mutter bug with the windowactor opacity, starting with 3.34
     //https://gitlab.gnome.org/GNOME/mutter/issues/836
 
@@ -433,7 +433,7 @@ var animateWindowOpacity = function(window, tweenOpts) {
 
         window = windowActor.get_first_child() || windowActor;
 
-        if (!windowActor.visible && visible) {
+        if (!windowActor.visible && visible && adjustVisibility) {
             window.opacity = 0;
             windowActor.visible = visible;
         }

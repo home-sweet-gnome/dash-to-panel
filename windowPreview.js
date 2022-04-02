@@ -590,6 +590,11 @@ var PreviewMenu = GObject.registerClass({
         let focusWindow = () => this._focusMetaWindow(Me.settings.get_int('peek-mode-opacity'), window);
         
         this._restorePeekedWindowStack();
+
+        if (this._peekedWindow && windowWorkspace != currentWorkspace) {
+            currentWorkspace.list_windows().forEach(mw => this.animateWindowOpacity(mw, null, 255))
+        }
+
         this._peekedWindow = window;
         
         if (currentWorkspace != windowWorkspace) {
@@ -650,18 +655,24 @@ var PreviewMenu = GObject.registerClass({
                 if (isFocused && mw.minimized) {
                     wa.show();
                 }
-                
-                if (!mw.minimized) {
-                    let tweenOpts = getTweenOpts({ opacity: isFocused ? 255 : dimOpacity });
-    
-                    if (immediate && !mw.is_on_all_workspaces()) {
-                        tweenOpts.time = 0;
-                    }
-                    
-                    Utils.animateWindowOpacity(wa, tweenOpts);
-                }
+
+                this.animateWindowOpacity(mw, wa, isFocused ? 255 : dimOpacity, immediate)
             }
         });
+    }
+
+    animateWindowOpacity(metaWindow, windowActor, opacity, immediate) {
+        windowActor = windowActor || metaWindow.get_compositor_private();
+        
+        if (windowActor && !metaWindow.minimized) {
+            let tweenOpts = getTweenOpts({ opacity });
+
+            if (immediate && !metaWindow.is_on_all_workspaces()) {
+                tweenOpts.time = 0;
+            }
+            
+            Utils.animateWindowOpacity(windowActor, tweenOpts);
+        }
     }
 
     _restorePeekedWindowStack() {
