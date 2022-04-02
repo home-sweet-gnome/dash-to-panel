@@ -39,6 +39,7 @@ const Config = imports.misc.config;
 const Lang = imports.lang;
 const Gi = imports._gi;
 const GLib = imports.gi.GLib;
+const GObject = imports.gi.GObject;
 const Clutter = imports.gi.Clutter;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
@@ -53,7 +54,7 @@ const Main = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const Layout = imports.ui.layout;
 const WM = imports.ui.windowManager;
-const WorkspacesView = imports.ui.workspacesView;
+const { SecondaryMonitorDisplay, WorkspacesView } = imports.ui.workspacesView;
 
 var PanelManager = class {
 
@@ -152,6 +153,12 @@ var PanelManager = class {
         if (Main.layoutManager._interfaceSettings) {
             this._enableHotCornersId = Main.layoutManager._interfaceSettings.connect('changed::enable-hot-corners', () => Main.layoutManager._updateHotCorners());
         }
+
+        this._oldOverviewRelayout = Main.overview._relayout;
+        Main.overview._relayout = this._newOverviewRelayout.bind(Main.overview);
+
+        this._oldUpdateWorkspacesViews = Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews;
+        Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._newUpdateWorkspacesViews.bind(Main.overview._overview._controls._workspacesDisplay);
 
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
 
@@ -333,6 +340,11 @@ var PanelManager = class {
         Main.layoutManager._updatePanelBarrier = this._oldUpdatePanelBarrier;
         Main.layoutManager._updatePanelBarrier();
 
+        Main.overview._relayout = this._oldOverviewRelayout;
+        Main.overview._relayout();
+
+        Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
+
         Utils.getPanelGhost().set_size(-1, -1);
 
         if (this._oldDoSpringAnimation) {
@@ -353,16 +365,61 @@ var PanelManager = class {
     }
 
     setFocusedMonitor(monitor, ignoreRelayout) {
-        // todo show overview on non primary monitor is not working right now on gnome40
+        this._needsIconAllocate = 1;
 
-        // this._needsIconAllocate = 1;
+        if (!this.checkIfFocusedMonitor(monitor)) {
+            Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
 
-        // if (!this.checkIfFocusedMonitor(monitor)) {
-        //     Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
+            Main.overview._overview.clear_constraints();
+            Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
 
-        //     Main.overview._overview.clear_constraints();
-        //     Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
-        // }
+            if (ignoreRelayout) return;
+
+            this._newOverviewRelayout.call(Main.overview);
+        }
+    }
+
+    _newOverviewRelayout() {
+        // To avoid updating the position and size of the workspaces
+        // we just hide the overview. The positions will be updated
+        // when it is next shown.
+        this.hide();
+
+        let workArea = Main.layoutManager.getWorkAreaForMonitor(Main.overview._overview._controls._workspacesDisplay._primaryIndex);
+
+        this._coverPane.set_position(0, workArea.y);
+        this._coverPane.set_size(workArea.width, workArea.height);
+    }
+
+    _newUpdateWorkspacesViews() {
+        for (let i = 0; i < this._workspacesViews.length; i++)
+            this._workspacesViews[i].destroy();
+
+        this._workspacesViews = [];
+        let monitors = Main.layoutManager.monitors;
+        for (let i = 0; i < monitors.length; i++) {
+            let view;
+            if (i === this._primaryIndex) {
+                view = new WorkspacesView(i,
+                    this._controls,
+                    this._scrollAdjustment,
+                    this._fitModeAdjustment,
+                    this._overviewAdjustment);
+
+                view.visible = this._primaryVisible;
+                this.bind_property('opacity', view, 'opacity', GObject.BindingFlags.SYNC_CREATE);
+                this.add_child(view);
+            } else {
+                view = new SecondaryMonitorDisplay(i,
+                    this._controls,
+                    this._scrollAdjustment,
+                    this._fitModeAdjustment,
+                    this._overviewAdjustment);
+                Main.layoutManager.overviewGroup.add_actor(view);
+            }
+
+            this._workspacesViews.push(view);
+        }
     }
 
     _saveMonitors() {

@@ -323,10 +323,9 @@ var Panel = GObject.registerClass({
                 }
             ],
             [
-                this.statusArea.activities.actor,
+                this.statusArea.activities,
                 'captured-event', 
                 (actor, e) => {
-                    // todo this is not being called right now, so the overview is not shown on the correct monitor
                     if (e.type() == Clutter.EventType.BUTTON_PRESS || e.type() == Clutter.EventType.TOUCH_BEGIN) {
                         //temporarily use as primary the monitor on which the activities btn was clicked 
                         this.panelManager.setFocusedMonitor(this.monitor, true);
