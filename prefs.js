@@ -48,7 +48,6 @@ const LENGTH_MARKS = [ 100, 90, 80, 70, 60, 50, 40, 30, 20, 10 ];
 const MAX_WINDOW_INDICATOR = 4;
 
 const SCHEMA_PATH = '/org/gnome/shell/extensions/dash-to-panel/';
-const GSET = 'gnome-shell-extension-tool';
 
 /**
  * This function was copied from the activities-config extension
@@ -2243,11 +2242,6 @@ const Preferences = new Lang.Class({
                         stdin = new Gio.UnixOutputStream({ fd: stdin, close_fd: true });
                         GLib.close(stdout);
                         GLib.close(stderr);
-
-                        let [ , , , retCode] = GLib.spawn_command_line_sync(GSET + ' -d ' + Me.uuid);
-                        if (retCode == 0) {
-                            GLib.child_watch_add(GLib.PRIORITY_DEFAULT, pid, () => GLib.spawn_command_line_sync(GSET + ' -e ' + Me.uuid));
-                        }
 
                         stdin.splice(settingsFile.read(null), Gio.OutputStreamSpliceFlags.CLOSE_SOURCE | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, null);
                     }
