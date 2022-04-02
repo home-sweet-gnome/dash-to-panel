@@ -38,8 +38,9 @@ var Mode = {
 
 class ProximityWatch {
 
-    constructor(actor, mode, xThreshold, yThreshold, handler) {
+    constructor(actor, monitorIndex, mode, xThreshold, yThreshold, handler) {
         this.actor = actor;
+        this.monitorIndex = monitorIndex
         this.overlap = 0;
         this.mode = mode;
         this.threshold = [xThreshold, yThreshold];
@@ -47,17 +48,11 @@ class ProximityWatch {
 
         this._allocationChangedId = actor.connect('notify::allocation', () => this._update());
 
-        this._update();
+        this._updateWatchRect();
     }
 
     destroy() {
         this.actor.disconnect(this._allocationChangedId);
-    }
-    
-    _update() {
-        this.monitorIndex = Main.layoutManager.findIndexForActor(this.actor);
-
-        this._updateWatchRect();
     }
 
     _updateWatchRect() {
@@ -86,8 +81,8 @@ var ProximityManager = class {
         this._setFocusedWindow();
     }
 
-    createWatch(actor, mode, xThreshold, yThreshold, handler) {
-        let watch = new ProximityWatch(actor, mode, xThreshold, yThreshold, handler);
+    createWatch(actor, monitorIndex, mode, xThreshold, yThreshold, handler) {
+        let watch = new ProximityWatch(actor, monitorIndex, mode, xThreshold, yThreshold, handler);
 
         this._watches[this._counter] = watch;
         this.update();
@@ -247,7 +242,8 @@ var ProximityManager = class {
                     this._checkProximity(this._focusedWindowInfo.metaWindow, watch));
         } else if (watch.mode === Mode.MAXIMIZED_WINDOWS) {
             return metaWindows.some(mw => mw.maximized_vertically && mw.maximized_horizontally && 
-                                          mw.get_monitor() == watch.monitorIndex);
+                                          mw.get_monitor() == watch.monitorIndex &&
+                                          mw.get_workspace() == Utils.getCurrentWorkspace());
         }
         
         //Mode.ALL_WINDOWS

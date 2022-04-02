@@ -138,7 +138,8 @@ var DynamicTransparency = class {
             let threshold = Me.settings.get_int('trans-dynamic-distance');
 
             this._proximityWatchId = this._proximityManager.createWatch(
-                this._dtpPanel.panelBox.get_parent(), 
+                this._dtpPanel.panelBox.get_parent(),
+                this._dtpPanel.monitor.index,
                 Proximity.Mode[Me.settings.get_string('trans-dynamic-behavior')], 
                 isVertical ? threshold : 0, 
                 isVertical ? 0 : threshold, 

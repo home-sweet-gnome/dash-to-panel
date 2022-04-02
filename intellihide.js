@@ -88,7 +88,8 @@ var Intellihide = class {
 
         if (Me.settings.get_boolean('intellihide-hide-from-windows')) {
             this._proximityWatchId = this._proximityManager.createWatch(
-                this._panelBox.get_parent(), 
+                this._panelBox.get_parent(),
+                this._dtpPanel.monitor.index,
                 Proximity.Mode[Me.settings.get_string('intellihide-behaviour')], 
                 0, 0,
                 overlap => { 
