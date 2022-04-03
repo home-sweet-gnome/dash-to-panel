@@ -372,7 +372,7 @@ var Panel = GObject.registerClass({
             this._setSearchEntryOffset(this.geom.w);
 
             if (this.statusArea.dateMenu) {
-                this._formatVerticalClock();
+                this._timeoutsHandler.add(['formatVerticalClock', 100, this._formatVerticalClock]);
                 
                 this._signalsHandler.add([
                     this.statusArea.dateMenu._clock,
@@ -1199,9 +1199,9 @@ var Panel = GObject.registerClass({
             let datetimeParts = datetime.split(' ');
             let time = datetimeParts[1];
             let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
-            let setClockText = text => {
+            let setClockText = (text, useTimeSeparator) => {
                 let stacks = text instanceof Array;
-                let separator = '\n<span size="xx-small"> ‧‧ </span>\n';
+                let separator = `\n<span size="8192"> ${useTimeSeparator ? '‧‧' : '—' } </span>\n`;
         
                 clockText.set_text((stacks ? text.join(separator) : text).trim());
                 clockText.set_use_markup(stacks);
@@ -1235,7 +1235,7 @@ var Panel = GObject.registerClass({
                     timeParts.push.apply(timeParts, timeParts.pop().split(' '));
                 }
 
-                setClockText(timeParts);
+                setClockText(timeParts, true);
             }
         }
     }
