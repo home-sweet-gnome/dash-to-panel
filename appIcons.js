@@ -649,6 +649,8 @@ var TaskbarAppIcon = GObject.registerClass({
             this._menu.connect('open-state-changed', (menu, isPoppedUp) => {
                 if (!isPoppedUp)
                     this._onMenuPoppedDown();
+                else
+                    this._previewMenu.close(true);
             });
             let id = Main.overview.connect('hiding', () => {
                 this._menu.close();
