@@ -987,6 +987,7 @@ var TaskbarAppIcon = GObject.registerClass({
             this._launchNewInstance();
         }
 
+        global.display.emit('grab-op-begin', null, null);
         Main.overview.hide();
     }
 
