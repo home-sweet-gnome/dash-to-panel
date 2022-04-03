@@ -330,7 +330,8 @@ var TaskbarAppIcon = GObject.registerClass({
         this._previewMenu.close(true);
 
         // Disconect global signals
-        // stateChangedId is already handled by parent)
+        if (this._stateChangedId > 0)
+            this.app.disconnect(this._stateChangedId);
         
         if(this._overviewWindowDragEndId)
             Main.overview.disconnect(this._overviewWindowDragEndId);
