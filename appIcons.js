@@ -1420,7 +1420,8 @@ function getInterestingWindows(app, monitor, isolateMonitors) {
     // that are not in the current workspace or on the same monitor as the appicon
     if (Me.settings.get_boolean('isolate-workspaces'))
         windows = windows.filter(function(w) {
-            return w.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index();
+            return w.get_workspace() && 
+                   w.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index();
         });
 
     if (monitor && Me.settings.get_boolean('multi-monitors') && (isolateMonitors || Me.settings.get_boolean('isolate-monitors'))) {
