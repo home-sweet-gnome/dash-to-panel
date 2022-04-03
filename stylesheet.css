@@ -86,8 +86,14 @@
 
 .dashtopanelMainPanel.vertical .panel-button > *,
 .dashtopanelMainPanel.vertical .panel-button.vertical > *,
-.dashtopanelMainPanel.vertical .panel-button.clock-display > * {
+.dashtopanelMainPanel.vertical .panel-button.clock-display > *,
+.dashtopanelMainPanel.vertical .panel-button.clock-display .clock {
 	padding: 8px 0; 
+}
+
+.dashtopanelMainPanel.vertical .panel-button.clock-display {
+	-natural-hpadding: 0;
+    -minimum-hpadding: 0;
 }
 
 #dashtopanelThumbnailList {

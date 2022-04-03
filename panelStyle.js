@@ -85,7 +85,8 @@ var PanelStyle = class {
                 trayPaddingStyleLine = paddingStyle.format(trayPadding);
                 operation.compareFn = function (actor) {
                     let parent = actor.get_parent();
-                    return (parent && parent.has_style_class_name && parent.has_style_class_name('panel-button'));
+                    return ((parent && parent.has_style_class_name && (parent.has_style_class_name('panel-button') && !parent.has_style_class_name('clock-display'))) || 
+                            (actor.has_style_class_name && actor.has_style_class_name('clock')));
                 };
             } else {
                 trayPaddingStyleLine = '-natural-hpadding: %dpx'.format(trayPadding);

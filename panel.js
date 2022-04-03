@@ -1201,11 +1201,12 @@ var Panel = GObject.registerClass({
             let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
             let setClockText = text => {
                 let stacks = text instanceof Array;
-                let separator = '\n<span size="xx-small">‧‧</span>\n';
+                let separator = '\n<span size="xx-small"> ‧‧ </span>\n';
         
                 clockText.set_text((stacks ? text.join(separator) : text).trim());
                 clockText.set_use_markup(stacks);
                 clockText.get_allocation_box();
+                clockText.natural_width = this.dtpSize
         
                 return !clockText.get_layout().is_ellipsized();
             };
