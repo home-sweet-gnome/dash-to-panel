@@ -36,7 +36,6 @@ const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
 const Config = imports.misc.config;
-const Lang = imports.lang;
 const Gi = imports._gi;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
@@ -145,7 +144,7 @@ var PanelManager = class {
         Main.layoutManager._updatePanelBarrier();
 
         this._oldUpdateHotCorners = Main.layoutManager._updateHotCorners;
-        Main.layoutManager._updateHotCorners = Lang.bind(Main.layoutManager, newUpdateHotCorners);
+        Main.layoutManager._updateHotCorners = newUpdateHotCorners.bind(Main.layoutManager);
         Main.layoutManager._updateHotCorners();
 
         this._forceHotCornerId = Me.settings.connect('changed::stockgs-force-hotcorner', () => Main.layoutManager._updateHotCorners());

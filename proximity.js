@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Lang = imports.lang;
 const Meta = imports.gi.Meta;
 
 const Layout = imports.ui.layout;

@@ -28,7 +28,6 @@ const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
 const GObject = imports.gi.GObject;
 const Signals = imports.signals;
-const Lang = imports.lang;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
 const St = imports.gi.St;
@@ -201,10 +200,10 @@ var TaskbarAppIcon = GObject.registerClass({
         this._showDots();
 
         this._focusWindowChangedId = global.display.connect('notify::focus-window', 
-                                                            Lang.bind(this, this._onFocusAppChanged));
+                                                            this._onFocusAppChanged.bind(this));
 
         this._windowEnteredMonitorId = this._windowLeftMonitorId = 0;
-        this._stateChangedId = this.app.connect('windows-changed', Lang.bind(this, this.onWindowsChanged));
+        this._stateChangedId = this.app.connect('windows-changed', this.onWindowsChanged.bind(this));
 
         if (!this.window) {
             if (Me.settings.get_boolean('isolate-monitors')) {
@@ -216,50 +215,50 @@ var TaskbarAppIcon = GObject.registerClass({
             this._minimizedWindowChangeId = 0;
         } else {
             this._titleWindowChangeId = this.window.connect('notify::title', 
-                                                Lang.bind(this, this._updateWindowTitle));
+                                                this._updateWindowTitle.bind(this));
 
             this._minimizedWindowChangeId = this.window.connect('notify::minimized',
-                                                Lang.bind(this, this._updateWindowTitleStyle));
+                                                this._updateWindowTitleStyle.bind(this));
         }
         
         this._scrollEventId = this.actor.connect('scroll-event', this._onMouseScroll.bind(this));
 
         this._overviewWindowDragEndId = Main.overview.connect('window-drag-end',
-                                                Lang.bind(this, this._onOverviewWindowDragEnd));
+                                                this._onOverviewWindowDragEnd.bind(this));
 
         this._switchWorkspaceId = global.window_manager.connect('switch-workspace',
-                                                Lang.bind(this, this._onSwitchWorkspace));
+                                                this._onSwitchWorkspace.bind(this));
 
         this._hoverChangeId = this.actor.connect('notify::hover', () => this._onAppIconHoverChanged());
         
         this._dtpSettingsSignalIds = [
-            Me.settings.connect('changed::animate-appicon-hover', Lang.bind(this, this._onAnimateAppiconHoverChanged)),
-            Me.settings.connect('changed::dot-position', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-size', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-style-focused', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-style-unfocused', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-dominant', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-override', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-1', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-2', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-3', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-4', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-unfocused-different', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-unfocused-1', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-unfocused-2', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-unfocused-3', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::dot-color-unfocused-4', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::focus-highlight', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::focus-highlight-dominant', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::focus-highlight-color', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::focus-highlight-opacity', Lang.bind(this, this._settingsChangeRefresh)),
-            Me.settings.connect('changed::group-apps-label-font-size', Lang.bind(this, this._updateWindowTitleStyle)),
-            Me.settings.connect('changed::group-apps-label-font-weight', Lang.bind(this, this._updateWindowTitleStyle)),
-            Me.settings.connect('changed::group-apps-label-font-color', Lang.bind(this, this._updateWindowTitleStyle)),
-            Me.settings.connect('changed::group-apps-label-font-color-minimized', Lang.bind(this, this._updateWindowTitleStyle)),
-            Me.settings.connect('changed::group-apps-label-max-width', Lang.bind(this, this._updateWindowTitleStyle)),
-            Me.settings.connect('changed::group-apps-use-fixed-width', Lang.bind(this, this._updateWindowTitleStyle)),
-            Me.settings.connect('changed::group-apps-underline-unfocused', Lang.bind(this, this._settingsChangeRefresh))
+            Me.settings.connect('changed::animate-appicon-hover', this._onAnimateAppiconHoverChanged.bind(this)),
+            Me.settings.connect('changed::dot-position', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-size', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-style-focused', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-style-unfocused', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-dominant', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-override', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-1', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-2', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-3', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-4', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-unfocused-different', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-unfocused-1', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-unfocused-2', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-unfocused-3', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::dot-color-unfocused-4', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::focus-highlight', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::focus-highlight-dominant', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::focus-highlight-color', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::focus-highlight-opacity', this._settingsChangeRefresh.bind(this)),
+            Me.settings.connect('changed::group-apps-label-font-size', this._updateWindowTitleStyle.bind(this)),
+            Me.settings.connect('changed::group-apps-label-font-weight', this._updateWindowTitleStyle.bind(this)),
+            Me.settings.connect('changed::group-apps-label-font-color', this._updateWindowTitleStyle.bind(this)),
+            Me.settings.connect('changed::group-apps-label-font-color-minimized', this._updateWindowTitleStyle.bind(this)),
+            Me.settings.connect('changed::group-apps-label-max-width', this._updateWindowTitleStyle.bind(this)),
+            Me.settings.connect('changed::group-apps-use-fixed-width', this._updateWindowTitleStyle.bind(this)),
+            Me.settings.connect('changed::group-apps-underline-unfocused', this._settingsChangeRefresh.bind(this))
         ]
 
         this.forcedOverview = false;
@@ -433,7 +432,7 @@ var TaskbarAppIcon = GObject.registerClass({
             if (this._iconIconBinActorAddedId) {
                 this.icon._iconBin.disconnect(this._iconIconBinActorAddedId);
                 this._iconIconBinActorAddedId = 0;
-                this.icon.createIcon = Lang.bind(this, this._createIcon);
+                this.icon.createIcon = this._createIcon.bind(this);
             }
         }
     }
@@ -483,7 +482,7 @@ var TaskbarAppIcon = GObject.registerClass({
             this._focusedDots._tweeningToSize = null, 
             this._unfocusedDots._tweeningToSize = null;
             
-            this._focusedDots.connect('repaint', Lang.bind(this, function() {
+            this._focusedDots.connect('repaint', () => {
                 if(this._dashItemContainer.animatingOut) {
                     // don't draw and trigger more animations if the icon is in the middle of
                     // being added to the panel
@@ -491,9 +490,9 @@ var TaskbarAppIcon = GObject.registerClass({
                 }
                 this._drawRunningIndicator(this._focusedDots, Me.settings.get_string('dot-style-focused'), true);
                 this._displayProperIndicator();
-            }));
+            });
             
-            this._unfocusedDots.connect('repaint', Lang.bind(this, function() {
+            this._unfocusedDots.connect('repaint', () => {
                 if(this._dashItemContainer.animatingOut) {
                     // don't draw and trigger more animations if the icon is in the middle of
                     // being added to the panel
@@ -501,7 +500,7 @@ var TaskbarAppIcon = GObject.registerClass({
                 }
                 this._drawRunningIndicator(this._unfocusedDots, Me.settings.get_string('dot-style-unfocused'), false);
                 this._displayProperIndicator();
-            }));
+            });
                 
             this._dotsContainer.add_child(this._unfocusedDots);
     
@@ -780,11 +779,11 @@ var TaskbarAppIcon = GObject.registerClass({
             let tweenOpts = { 
                 time: Taskbar.DASH_ANIMATION_TIME,
                 transition: 'easeInOutCubic',
-                onComplete: Lang.bind(this, function() { 
+                onComplete: () => { 
                     if(newOtherOpacity > 0)
                         otherDots.opacity = newOtherOpacity;
                     dots._tweeningToSize = null;
-                })
+                }
             };
 
             if(newOtherOpacity == 0)
@@ -1619,15 +1618,13 @@ function ItemShowLabel()  {
         this._onKeyboardPopupMenu = AppDisplay.AppIcon.prototype._onKeyboardPopupMenu;
 
         // No action on clicked (showing of the appsview is controlled elsewhere)
-        this._onClicked = Lang.bind(this, function(actor, button) {
-            this._removeMenuTimeout();
-        });
+        this._onClicked = (actor, button) => this._removeMenuTimeout();
 
-        this.actor.connect('leave-event', Lang.bind(this, this._onLeaveEvent));
-        this.actor.connect('button-press-event', Lang.bind(this, this._onButtonPress));
-        this.actor.connect('touch-event', Lang.bind(this, this._onTouchEvent));
-        this.actor.connect('clicked', Lang.bind(this, this._onClicked));
-        this.actor.connect('popup-menu', Lang.bind(this, this._onKeyboardPopupMenu));
+        this.actor.connect('leave-event', this._onLeaveEvent.bind(this));
+        this.actor.connect('button-press-event', this._onButtonPress.bind(this));
+        this.actor.connect('touch-event', this._onTouchEvent.bind(this));
+        this.actor.connect('clicked', this._onClicked.bind(this));
+        this.actor.connect('popup-menu', this._onKeyboardPopupMenu.bind(this));
 
         this._menu = null;
         this._menuManager = new PopupMenu.PopupMenuManager(this.actor);
@@ -1854,7 +1851,7 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
         if(this.sourceActor == Main.layoutManager.dummyCursor) {
             this._appendSeparator();
             let item = this._appendMenuItem(this._dtpPanel._restoreWindowList ? _('Restore Windows') : _('Show Desktop'));
-            item.connect('activate', Lang.bind(this._dtpPanel, this._dtpPanel._onShowDesktopButtonPress));
+            item.connect('activate', this._dtpPanel._onShowDesktopButtonPress.bind(this._dtpPanel));
         }
     }
 

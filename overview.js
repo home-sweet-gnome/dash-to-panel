@@ -26,7 +26,6 @@ const Utils = Me.imports.utils;
 
 const Clutter = imports.gi.Clutter;
 const Config = imports.misc.config;
-const Lang = imports.lang;
 const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
 const Gtk = imports.gi.Gtk;
@@ -119,23 +118,7 @@ var Overview = class {
     _optionalWorkspaceIsolation() {
         let label = 'optionalWorkspaceIsolation';
         
-        this._signalsHandler.add([
-            Me.settings,
-            'changed::isolate-workspaces',
-            Lang.bind(this, function() {
-                this._panel.panelManager.allPanels.forEach(p => p.taskbar.resetAppIcons());
-
-                if (Me.settings.get_boolean('isolate-workspaces'))
-                    Lang.bind(this, enable)();
-                else
-                    Lang.bind(this, disable)();
-            })
-        ]);
-
-        if (Me.settings.get_boolean('isolate-workspaces'))
-            Lang.bind(this, enable)();
-
-        function enable() {
+        let enable = () => {
             this._injectionsHandler.removeWithLabel(label);
 
             this._injectionsHandler.addWithLabel(label, [
@@ -153,7 +136,7 @@ var Overview = class {
             ]);
         }
 
-        function disable() {
+        let disable = () => {
             this._signalsHandler.removeWithLabel(label);
             this._injectionsHandler.removeWithLabel(label);
         }
@@ -170,6 +153,22 @@ var Overview = class {
             
             return this.open_new_window(-1);
         }
+
+        this._signalsHandler.add([
+            Me.settings,
+            'changed::isolate-workspaces',
+            () => {
+                this._panel.panelManager.allPanels.forEach(p => p.taskbar.resetAppIcons());
+
+                if (Me.settings.get_boolean('isolate-workspaces'))
+                    enable();
+                else
+                    disable();
+            }
+        ]);
+
+        if (Me.settings.get_boolean('isolate-workspaces'))
+            enable();
     }
 
     // Hotkeys
@@ -251,12 +250,12 @@ var Overview = class {
         this._signalsHandler.add([
             Me.settings,
             'changed::hot-keys',
-            Lang.bind(this, function() {
-                    if (Me.settings.get_boolean('hot-keys'))
-                        Lang.bind(this, this._enableHotKeys)();
-                    else
-                        Lang.bind(this, this._disableHotKeys)();
-            })
+            () => {
+                if (Me.settings.get_boolean('hot-keys'))
+                    this._enableHotKeys();
+                else
+                    this._disableHotKeys();
+            }
         ]);
     }
 
@@ -336,16 +335,16 @@ var Overview = class {
         this._signalsHandler.add([
             Me.settings,
             'changed::hot-keys',
-            Lang.bind(this, this._checkHotkeysOptions)
+            this._checkHotkeysOptions.bind(this)
         ], [
             Me.settings,
             'changed::hotkeys-overlay-combo',
-            Lang.bind(this, function() {
+            () => {
                 if (Me.settings.get_boolean('hot-keys') && Me.settings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
                     this.taskbar.toggleNumberOverlay(true);
                 else
                     this.taskbar.toggleNumberOverlay(false);
-            })
+            }
         ], [
             Me.settings,
             'changed::shortcut-num-keys',
@@ -397,7 +396,7 @@ var Overview = class {
         }
 
         // Hide the overlay/dock after the timeout
-        this._numberOverlayTimeoutId = Mainloop.timeout_add(timeout, Lang.bind(this, function() {
+        this._numberOverlayTimeoutId = Mainloop.timeout_add(timeout, () => {
             this._numberOverlayTimeoutId = 0;
             
             if (hotkey_option != 'ALWAYS') {
@@ -405,7 +404,7 @@ var Overview = class {
             }
             
             this._panel.intellihide.release(Intellihide.Hold.TEMPORARY);
-        }));
+        });
     }
 
     _optionalClickToExit() {
@@ -416,12 +415,12 @@ var Overview = class {
         this._signalsHandler.add([
             Me.settings,
             'changed::overview-click-to-exit',
-            Lang.bind(this, function() {
-                    if (Me.settings.get_boolean('overview-click-to-exit'))
-                        Lang.bind(this, this._enableClickToExit)();
-                    else
-                        Lang.bind(this, this._disableClickToExit)();
-            })
+            () => {
+                if (Me.settings.get_boolean('overview-click-to-exit'))
+                    this._enableClickToExit();
+                else
+                    this._disableClickToExit();
+            }
         ]);
     }
 
@@ -429,7 +428,6 @@ var Overview = class {
         if (this._clickToExitEnabled)
             return;
 
-        let view = imports.ui.appDisplay;
         this._oldOverviewReactive = Main.overview._overview.reactive
 
         Main.overview._overview.reactive = true;
@@ -441,7 +439,6 @@ var Overview = class {
                 return Clutter.EVENT_PROPAGATE;
   
             let [x, y] = global.get_pointer();
-            let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.ALL, x, y);
 
             Main.overview.toggle();
          });

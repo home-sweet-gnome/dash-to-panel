@@ -39,7 +39,6 @@ const { Taskbar, TaskbarItemContainer } = Me.imports.taskbar;
 const Pos = Me.imports.panelPositions;
 const PanelSettings = Me.imports.panelSettings;
 const { PanelStyle } = Me.imports.panelStyle;
-const Lang = imports.lang;
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
 const Dash = imports.ui.dash;
@@ -302,7 +301,7 @@ var Panel = GObject.registerClass({
                 // sync hover after a popupmenu is closed
                 this.taskbar,
                 'menu-closed', 
-                Lang.bind(this, function(){this.panel.actor.sync_hover();})
+                () => this.panel.actor.sync_hover()
             ],
             [
                 Main.overview,

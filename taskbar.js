@@ -29,7 +29,6 @@ const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Signals = imports.signals;
-const Lang = imports.lang;
 const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
 const St = imports.gi.St;
@@ -227,15 +226,15 @@ var Taskbar = class {
                                                vscrollbar_policy: Gtk.PolicyType.NEVER,
                                                enable_mouse_scrolling: true });
 
-        this._scrollView.connect('leave-event', Lang.bind(this, this._onLeaveEvent));
-        this._scrollView.connect('motion-event', Lang.bind(this, this._onMotionEvent));
-        this._scrollView.connect('scroll-event', Lang.bind(this, this._onScrollEvent));
+        this._scrollView.connect('leave-event', this._onLeaveEvent.bind(this));
+        this._scrollView.connect('motion-event', this._onMotionEvent.bind(this));
+        this._scrollView.connect('scroll-event', this._onScrollEvent.bind(this));
         this._scrollView.add_actor(this._box);
 
         this._showAppsIconWrapper = panel.showAppsIconWrapper;
-        this._showAppsIconWrapper.connect('menu-state-changed', Lang.bind(this, function(showAppsIconWrapper, opened) {
+        this._showAppsIconWrapper.connect('menu-state-changed', (showAppsIconWrapper, opened) => {
             this._itemMenuStateChanged(showAppsIconWrapper, opened);
-        }));
+        });
         // an instance of the showAppsIcon class is encapsulated in the wrapper
         this._showAppsIcon = this._showAppsIconWrapper.realShowAppsIcon;
         this.showAppsButton = this._showAppsIcon.toggleButton;
@@ -244,7 +243,7 @@ var Taskbar = class {
             this.showAppsButton.set_width(panel.geom.w);
         }
 
-        this.showAppsButton.connect('notify::checked', Lang.bind(this, this._onShowAppsButtonToggled));
+        this.showAppsButton.connect('notify::checked', this._onShowAppsButtonToggled.bind(this));
 
         this.showAppsButton.checked = (SearchController._showAppsButton) ? SearchController._showAppsButton.checked : false;
 
@@ -280,7 +279,7 @@ var Taskbar = class {
 
         let adjustment = this._scrollView[orientation[0] + 'scroll'].adjustment;
         
-        this._workId = Main.initializeDeferredWork(this._box, Lang.bind(this, this._redisplay));
+        this._workId = Main.initializeDeferredWork(this._box, this._redisplay.bind(this));
 
         this._settings = new Gio.Settings({ schema_id: 'org.gnome.shell' });
 
@@ -302,20 +301,20 @@ var Taskbar = class {
             [
                 this._appSystem,
                 'installed-changed',
-                Lang.bind(this, function() {
+                () => {
                     AppFavorites.getAppFavorites().reload();
                     this._queueRedisplay();
-                })
+                }
             ],
             [
            	    this._appSystem,
            	    'app-state-changed',
-          	    Lang.bind(this, this._queueRedisplay)
+          	    this._queueRedisplay.bind(this)
             ],
             [
                 AppFavorites.getAppFavorites(),
                 'changed',
-                Lang.bind(this, this._queueRedisplay)
+                this._queueRedisplay.bind(this)
             ],
             [
                 global.window_manager,
@@ -337,23 +336,23 @@ var Taskbar = class {
             [
                 Main.overview,
                 'item-drag-begin',
-                Lang.bind(this, this._onDragBegin)
+                this._onDragBegin.bind(this)
             ],
             [
                 Main.overview,
                 'item-drag-end',
-                Lang.bind(this, this._onDragEnd)
+                this._onDragEnd.bind(this)
             ],
             [
                 Main.overview,
                 'item-drag-cancelled',
-                Lang.bind(this, this._onDragCancelled)
+                this._onDragCancelled.bind(this)
             ],
             [
                 // Ensure the ShowAppsButton status is kept in sync
                 SearchController._showAppsButton,
                 'notify::checked',
-                Lang.bind(this, this._syncShowAppsButtonToggled)
+                this._syncShowAppsButtonToggled.bind(this)
             ],
             [
                 Me.settings,
@@ -363,15 +362,15 @@ var Taskbar = class {
                     'changed::show-running-apps',
                     'changed::show-favorites-all-monitors'
                 ],
-                Lang.bind(this, this._redisplay)
+                this._redisplay.bind(this)
             ],
             [
                 Me.settings,
                 'changed::group-apps',
-                Lang.bind(this, function() {
+                () => {
                     this.isGroupApps = Me.settings.get_boolean('group-apps');
                     this._connectWorkspaceSignals();
-                })
+                }
             ],
             [
                 Me.settings,
@@ -548,7 +547,7 @@ var Taskbar = class {
     _onDragBegin() {
         this._dragCancelled = false;
         this._dragMonitor = {
-            dragMotion: Lang.bind(this, this._onDragMotion)
+            dragMotion: this._onDragMotion.bind(this)
         };
         DND.addDragMonitor(this._dragMonitor);
 
@@ -647,13 +646,13 @@ var Taskbar = class {
     }
 
     _hookUpLabel(item, syncHandler) {
-        item.child.connect('notify::hover', Lang.bind(this, function() {
+        item.child.connect('notify::hover', () => {
             this._syncLabel(item, syncHandler);
-        }));
+        });
 
-        syncHandler.connect('sync-tooltip', Lang.bind(this, function() {
+        syncHandler.connect('sync-tooltip', () => {
             this._syncLabel(item, syncHandler);
-        }));
+        });
     }
 
     _createAppItem(app, window, isLauncher) {
@@ -675,23 +674,23 @@ var Taskbar = class {
 
         if (appIcon._draggable) {
             appIcon._draggable.connect('drag-begin',
-                                       Lang.bind(this, function() {
+                                       () => {
                                            appIcon.actor.opacity = 0;
                                            appIcon.isDragged = 1;
                                            this._dropIconAnimations();
-                                       }));
+                                       });
             appIcon._draggable.connect('drag-end',
-                                       Lang.bind(this, function() {
+                                       () => {
                                            appIcon.actor.opacity = 255;
                                            delete appIcon.isDragged;
                                            this._updateAppIcons();
-                                       }));
+                                       });
         }
 
         appIcon.connect('menu-state-changed',
-                        Lang.bind(this, function(appIcon, opened) {
+                        (appIcon, opened) => {
                             this._itemMenuStateChanged(item, opened);
-                        }));
+                        });
 
         let item = new TaskbarItemContainer();
 
@@ -701,13 +700,13 @@ var Taskbar = class {
         item.setChild(appIcon.actor);
         appIcon._dashItemContainer = item;
 
-        appIcon.actor.connect('notify::hover', Lang.bind(this, function() {
+        appIcon.actor.connect('notify::hover', () => {
             if (appIcon.actor.hover){
-                this._ensureAppIconVisibilityTimeoutId = Mainloop.timeout_add(100, Lang.bind(this, function(){
+                this._ensureAppIconVisibilityTimeoutId = Mainloop.timeout_add(100, () => {
                     Utils.ensureActorVisibleInScrollView(this._scrollView, appIcon.actor, this._scrollView._dtpFadeSize);
                     this._ensureAppIconVisibilityTimeoutId = 0;
                     return GLib.SOURCE_REMOVE;
-                }));
+                });
 
                 if (!appIcon.isDragged && iconAnimationSettings.type == 'SIMPLE')
                     appIcon.actor.get_parent().raise(1);
@@ -722,14 +721,14 @@ var Taskbar = class {
                 if (!appIcon.isDragged && iconAnimationSettings.type == 'SIMPLE')
                     appIcon.actor.get_parent().raise(0);
             }
-        }));
+        });
 
         appIcon.actor.connect('clicked',
-            Lang.bind(this, function(actor) {
+            (actor) => {
                 Utils.ensureActorVisibleInScrollView(this._scrollView, actor, this._scrollView._dtpFadeSize);
-        }));
+        });
 
-        appIcon.actor.connect('key-focus-in', Lang.bind(this, function(actor) {
+        appIcon.actor.connect('key-focus-in', (actor) => {
                 let [x_shift, y_shift] = Utils.ensureActorVisibleInScrollView(this._scrollView, actor, this._scrollView._dtpFadeSize);
 
                 // This signal is triggered also by mouse click. The popup menu is opened at the original
@@ -738,7 +737,7 @@ var Taskbar = class {
                     appIcon._menu._boxPointer.xOffset = -x_shift;
                     appIcon._menu._boxPointer.yOffset = -y_shift;
                 }
-        }));
+        });
         
         // Override default AppIcon label_actor, now the
         // accessible_name is set at DashItemContainer.setLabelText
@@ -811,12 +810,12 @@ var Taskbar = class {
             if (this._showLabelTimeoutId == 0) {
                 let timeout = this._labelShowing ? 0 : DASH_ITEM_HOVER_TIMEOUT;
                 this._showLabelTimeoutId = Mainloop.timeout_add(timeout,
-                    Lang.bind(this, function() {
+                    () => {
                         this._labelShowing = true;
                         item.showLabel();
                         this._showLabelTimeoutId = 0;
                         return GLib.SOURCE_REMOVE;
-                    }));
+                    });
                 GLib.Source.set_name_by_id(this._showLabelTimeoutId, '[gnome-shell] item.showLabel');
                 if (this._resetHoverTimeoutId > 0) {
                     Mainloop.source_remove(this._resetHoverTimeoutId);
@@ -830,11 +829,11 @@ var Taskbar = class {
             item.hideLabel();
             if (this._labelShowing) {
                 this._resetHoverTimeoutId = Mainloop.timeout_add(DASH_ITEM_HOVER_TIMEOUT,
-                    Lang.bind(this, function() {
+                    () => {
                         this._labelShowing = false;
                         this._resetHoverTimeoutId = 0;
                         return GLib.SOURCE_REMOVE;
-                    }));
+                    });
                 GLib.Source.set_name_by_id(this._resetHoverTimeoutId, '[gnome-shell] this._labelShowing');
             }
         }

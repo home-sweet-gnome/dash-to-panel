@@ -23,7 +23,6 @@
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const ExtensionUtils = imports.misc.extensionUtils;
-const Lang = imports.lang;
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
 const St = imports.gi.St;
@@ -63,10 +62,10 @@ var PanelStyle = class {
         this._dtpSettingsSignalIds = [];
         
         for(let i in configKeys) {
-            this._dtpSettingsSignalIds.push(Me.settings.connect('changed::' + configKeys[i], Lang.bind(this, function () {
+            this._dtpSettingsSignalIds.push(Me.settings.connect('changed::' + configKeys[i], () => {
                 this._removeStyles();
                 this._applyStyles();
-            })));
+            }));
         }
     }
 
@@ -99,10 +98,10 @@ var PanelStyle = class {
                 };
             }
             
-            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+            operation.applyFn = (actor, operationIdx) => {
                 this._overrideStyle(actor, trayPaddingStyleLine, operationIdx);
                 this._refreshPanelButton(actor);
-            });
+            };
             this._rightBoxOperations.push(operation);
         }
 
@@ -113,9 +112,9 @@ var PanelStyle = class {
             operation.compareFn = function (actor) {
                 return (actor.has_style_class_name && actor.has_style_class_name('system-status-icon'));
             };
-            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+            operation.applyFn = (actor, operationIdx) => {
                 this._overrideStyle(actor, statusIconPaddingStyleLine, operationIdx);
-            });
+            };
             this._rightBoxOperations.push(operation);
         }
 
@@ -126,9 +125,9 @@ var PanelStyle = class {
             operation.compareFn = function (actor) {
                 return (actor.constructor && actor.constructor.name == 'St_Icon');
             };
-            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+            operation.applyFn = (actor, operationIdx) => {
                 this._overrideStyle(actor, trayIconSizeStyleLine, operationIdx);
-            });
+            };
             this._rightBoxOperations.push(operation);
 
             let trayContentSizeStyleLine = 'font-size: %dpx'.format(trayContentSize)
@@ -136,9 +135,9 @@ var PanelStyle = class {
             operation.compareFn = function (actor) {
                 return (actor.constructor && actor.constructor.name == 'St_Label');
             };
-            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+            operation.applyFn = (actor, operationIdx) => {
                 this._overrideStyle(actor, trayContentSizeStyleLine, operationIdx);
-            });
+            };
             this._rightBoxOperations.push(operation);
 
             this._overrideStyle(this.panel._rightBox, trayContentSizeStyleLine, 0);
@@ -158,9 +157,9 @@ var PanelStyle = class {
                 let parent = actor.get_parent();
                 return (parent && parent.has_style_class_name && parent.has_style_class_name('panel-button'));
             };
-            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+            operation.applyFn = (actor, operationIdx) => {
                 this._overrideStyle(actor, leftboxPaddingStyleLine, operationIdx);
-            });
+            };
             this._leftBoxOperations.push(operation);
         }
 
@@ -171,9 +170,9 @@ var PanelStyle = class {
             operation.compareFn = function (actor) {
                 return (actor.constructor && actor.constructor.name == 'St_Icon');
             };
-            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+            operation.applyFn = (actor, operationIdx) => {
                 this._overrideStyle(actor, leftboxIconSizeStyleLine, operationIdx);
-            });
+            };
             this._leftBoxOperations.push(operation);
 
             let leftboxContentSizeStyleLine = 'font-size: %dpx'.format(leftboxContentSize)
@@ -181,9 +180,9 @@ var PanelStyle = class {
             operation.compareFn = function (actor) {
                 return (actor.constructor && actor.constructor.name == 'St_Label');
             };
-            operation.applyFn = Lang.bind(this, function (actor, operationIdx) {
+            operation.applyFn = (actor, operationIdx) => {
                 this._overrideStyle(actor, leftboxContentSizeStyleLine, operationIdx);
-            });
+            };
             this._leftBoxOperations.push(operation);
 
             this._overrideStyle(this.panel._leftBox, leftboxContentSizeStyleLine, 0);
@@ -193,26 +192,26 @@ var PanelStyle = class {
         
         /* connect signal */
         this._rightBoxActorAddedID = this.panel._rightBox.connect('actor-added',
-            Lang.bind(this, function (container, actor) {
+            (container, actor) => {
                 if(this._rightBoxOperations.length && !this._ignoreAddedChild)
                     this._recursiveApply(actor, this._rightBoxOperations);
 
                 this._ignoreAddedChild = 0;
-            })
+            }
         );
         this._centerBoxActorAddedID = this.panel._centerBox.connect('actor-added',
-            Lang.bind(this, function (container, actor) {
+            (container, actor) => {
                 if(this._centerBoxOperations.length && !this._ignoreAddedChild)
                     this._recursiveApply(actor, this._centerBoxOperations);
 
                 this._ignoreAddedChild = 0;
-            })
+            }
         );
         this._leftBoxActorAddedID = this.panel._leftBox.connect('actor-added',
-            Lang.bind(this, function (container, actor) {
+            (container, actor) => {
                 if(this._leftBoxOperations.length)
                     this._recursiveApply(actor, this._leftBoxOperations);
-            })
+            }
         );
     }
 

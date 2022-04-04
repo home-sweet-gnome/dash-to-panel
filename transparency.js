@@ -17,7 +17,6 @@
 
 const Clutter = imports.gi.Clutter;
 const GdkPixbuf = imports.gi.GdkPixbuf;
-const Lang = imports.lang;
 const Main = imports.ui.main;
 const Meta = imports.gi.Meta;
 const St = imports.gi.St;
