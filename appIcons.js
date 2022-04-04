@@ -1293,11 +1293,6 @@ var TaskbarAppIcon = GObject.registerClass({
         return DND.DragMotionResult.CONTINUE;
     }
 
-    // Disable all DnD methods on gnome-shell 3.34
-    _onDragBegin() {}
-    _onDragEnd() {}
-    acceptDrop() { return false; }
-
     getAppIconInterestingWindows(isolateMonitors) {
         return getInterestingWindows(this.app, this.dtpPanel.monitor, isolateMonitors);
     }
