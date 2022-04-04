@@ -1490,7 +1490,9 @@ function getIconPadding(monitorIndex) {
     }
 
     updateQuitText() {
-        let count = this.sourceActor.window ? 1 : getInterestingWindows(this.sourceActor.app).length;
+        let count = this.sourceActor.window ? 1 : 
+            getInterestingWindows(this._app, this.sourceActor.dtpPanel.monitor).length;
+
         if ( count > 0) {
             let quitFromTaskbarMenuText = "";
             if (count == 1)
@@ -1503,20 +1505,21 @@ function getIconPadding(monitorIndex) {
     }
 
     _quitFromTaskbar() {
-        let windows = this.sourceActor.window ? [this.sourceActor.window] : this._app.get_windows();
-        for (let i = 0; i < windows.length; i++) {
-            windows[i].delete(global.get_current_time());
+        if (this.sourceActor.window)
+            // ungrouped applications
+            this.sourceActor.window.delete(global.get_current_time());
+        else {
+            let scopedWindows = getInterestingWindows(this._app, this.sourceActor.dtpPanel.monitor)
+            
+            if (scopedWindows.length == this._app.get_windows().length)
+                this._app.request_quit();
+            else
+                for (let i = 0; i < scopedWindows.length; i++) {
+                    scopedWindows[i].delete(global.get_current_time());
+                }
         }
     }
 };
-TaskbarSecondaryMenu.prototype['_updateWindowsSection'] = function() {
-    if (Me.settings.get_boolean('show-window-previews')) {
-        this._windowSection.removeAll();
-        this._openWindowsHeader.hide();
-    } else {
-        this._updateWindowsSection();
-    }
-}
 
 /**
  * This function is used for extendDashItemContainer

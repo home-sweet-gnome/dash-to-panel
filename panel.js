@@ -1277,7 +1277,7 @@ var Panel = GObject.registerClass({
                     } else if (this._hiddenDesktopWorkspace) {
                         this._toggleWorkspaceWindows(false, this._hiddenDesktopWorkspace);
                     }
-                 }
+                }
             });
 
             this.panel.actor.add_child(this._showDesktopButton);
