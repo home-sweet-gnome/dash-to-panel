@@ -590,6 +590,9 @@ var Taskbar = class {
         this._showAppsIcon.setDragApp(null);
         DND.removeDragMonitor(this._dragMonitor);
         
+        this._dragMonitor = null;
+        this.emit('end-drag');
+        
         this._toggleFavortieHighlight();
     }
 

@@ -168,8 +168,11 @@ var Intellihide = class {
         this._signalsHandler.add(
             [
                 this._dtpPanel.taskbar,
-                'menu-closed',
-                () => this._panelBox.sync_hover()
+                ['menu-closed', 'end-drag'],
+                () => {
+                    this._panelBox.sync_hover();
+                    this._onHoverChanged();
+                }
             ],
             [
                 Me.settings, 
@@ -312,7 +315,7 @@ var Intellihide = class {
 
     _checkIfShouldBeVisible(fromRevealMechanism) {
         if (Main.overview.visibleTarget || this._dtpPanel.taskbar.previewMenu.opened || 
-            this._panelBox.get_hover() || this._checkIfGrab()) {
+            this._dtpPanel.taskbar._dragMonitor || this._panelBox.get_hover() || this._checkIfGrab()) {
             return true;
         }
 
@@ -335,12 +338,24 @@ var Intellihide = class {
     }
 
     _checkIfGrab() {
-        if (GrabHelper._grabHelperStack && GrabHelper._grabHelperStack.some(gh => gh._owner == this._dtpPanel.panel.actor)) {
+        let isGrab 
+        
+        if (GrabHelper._grabHelperStack)
+            // gnome-shell < 42
+            isGrab = GrabHelper._grabHelperStack.some(gh => gh._owner == this._dtpPanel.panel.actor)
+        else if (global.stage.get_grab_actor) {
+            // gnome-shell >= 42
+            let sourceActor = global.stage.get_grab_actor()?._sourceActor
+
+            isGrab = sourceActor && (sourceActor == Main.layoutManager.dummyCursor || 
+                     this._dtpPanel.panel.actor.contains(sourceActor))
+        } 
+        
+        if (isGrab)
             //there currently is a grab on a child of the panel, check again soon to catch its release
             this._timeoutsHandler.add([T1, CHECK_GRAB_MS, () => this._queueUpdatePanelPosition()]);
 
-            return true;
-        }
+        return isGrab;
     }
 
     _revealPanel(immediate) {
