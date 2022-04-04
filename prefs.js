@@ -2348,19 +2348,19 @@ const BuilderScope = GObject.registerClass({
     panel_size_scale_value_changed_cb(scale) {
         // Avoid settings the size continuously
         if (this._preferences._panel_size_timeout > 0)
-        Mainloop.source_remove(this._preferences._panel_size_timeout);
+            Mainloop.source_remove(this._preferences._panel_size_timeout);
 
         this._preferences._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, (() => {
             const value = scale.get_value();
-            const monitorSync = this._settings.get_boolean('panel-element-positions-monitors-sync');
-            const monitorsToSetFor = monitorSync ? this.monitors : [this._currentMonitorIndex];
+            const monitorSync = this._preferences._settings.get_boolean('panel-element-positions-monitors-sync');
+            const monitorsToSetFor = monitorSync ? this._preferences.monitors : [this._preferences._currentMonitorIndex];
             monitorsToSetFor.forEach(monitorIndex => {
-                PanelSettings.setPanelSize(this._settings, monitorIndex, value);
+                PanelSettings.setPanelSize(this._preferences._settings, monitorIndex, value);
             });
 
-            this._panel_size_timeout = 0;
+            this._preferences._panel_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
-        })).bind(this._preferences);
+        }));
     }
 
     tray_size_scale_value_changed_cb(scale) {
