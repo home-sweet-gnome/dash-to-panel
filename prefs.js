@@ -2461,25 +2461,22 @@ function init() {
 
 function fillPreferencesWindow(window) {
     window.set_default_size(680, 740);
-    
+
+    builder = new Gtk.Builder();
+    builder.set_scope(new BuilderScope());
+    builder.set_translation_domain(Me.metadata['gettext-domain']);
+
     let pagePosition = new Adw.PreferencesPage();
     pagePosition.set_title("Position");
     pagePosition.set_icon_name("document-properties");
     window.add(pagePosition);
 
-    let pageStyle = new Adw.PreferencesPage();
-    pageStyle.set_title("Style");
-    pageStyle.set_icon_name("document-properties");
+    builder.add_from_file(Me.path + '/SettingsStyle.ui');
+    let pageStyle = builder.get_object('style');
     window.add(pageStyle);
 
-    builder = new Gtk.Builder();
-    builder.set_scope(new BuilderScope());
-    builder.set_translation_domain(Me.metadata['gettext-domain']);
     builder.add_from_file(Me.path + '/SettingsBehavior.ui');
     let pageBehavior = builder.get_object('behavior');
-
-    pageBehavior.set_title("Behavior");
-    pageBehavior.set_icon_name("document-properties");
     window.add(pageBehavior);
 
     let pageAction = new Adw.PreferencesPage();

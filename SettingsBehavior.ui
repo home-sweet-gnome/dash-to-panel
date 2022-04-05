@@ -2,15 +2,17 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <object class="AdwPreferencesPage" id="behavior">
+    <property name="title">Behavior</property>
+    <property name="icon_name">document-properties</property>
 
     <!-- group applications -->
     <child>
       <object class="AdwPreferencesGroup" id="behavior_group_applications">
-        <property name="title">Applications</property>
+        <property name="title" translatable="yes">Applications</property>
         
         <child>
           <object class="AdwActionRow">
-            <property name="title">Show favorite applications</property>
+            <property name="title" translatable="yes">Show favorite applications</property>
             <child>
               <object class="GtkSwitch" id="show_favorite_switch">
                 <property name="valign">center</property>
@@ -21,7 +23,7 @@
 
         <child>
           <object class="AdwActionRow">
-            <property name="title">Show running applications</property>
+            <property name="title" translatable="yes">Show running applications</property>
             <child>
               <object class="GtkSwitch" id="show_runnning_apps_switch">
                 <property name="valign">center</property>
@@ -32,7 +34,7 @@
 
         <child>
           <object class="AdwActionRow">
-            <property name="title">Show favorite applications on secondary panels</property>
+            <property name="title" translatable="yes">Show favorite applications on secondary panels</property>
             <child>
               <object class="GtkSwitch" id="multimon_multi_show_favorites_switch">
                 <property name="valign">center</property>
@@ -128,7 +130,7 @@
     <!-- group isolate -->
     <child>
       <object class="AdwPreferencesGroup" id="behavior_group_isolate">
-        <property name="title">Isolate</property>
+        <property name="title" translatable="yes">Isolate</property>
 
         <child>
           <object class="AdwActionRow">
@@ -158,7 +160,7 @@
     <!-- group overview -->
     <child>
       <object class="AdwPreferencesGroup" id="behavior_group_overview">
-        <property name="title">Overview</property>
+        <property name="title" translatable="yes">Overview</property>
 
         <child>
           <object class="AdwActionRow">
