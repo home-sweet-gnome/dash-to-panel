@@ -33,7 +33,7 @@ const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
 const Mainloop = imports.mainloop;
 const IconGrid = imports.ui.iconGrid;
-const OverviewControls = imports.ui.overviewControls;
+const { OverviewActor } = imports.ui.overview;
 const Workspace = imports.ui.workspace;
 const St = imports.gi.St;
 const WorkspaceThumbnail = imports.ui.workspaceThumbnail;
@@ -429,20 +429,17 @@ var Overview = class {
             return;
 
         this._oldOverviewReactive = Main.overview._overview.reactive
-
         Main.overview._overview.reactive = true;
 
-        this._clickAction = new Clutter.ClickAction();
-        this._clickAction.connect('clicked', () => {
-            
-            if (this._swiping)
-                return Clutter.EVENT_PROPAGATE;
-  
+        Utils.hookVfunc(Object.getPrototypeOf(Main.overview._overview), 'button_release_event', () => {
             let [x, y] = global.get_pointer();
+            let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
 
-            Main.overview.toggle();
-         });
-         Main.overview._overview.add_action(this._clickAction);
+            if (pickedActor && pickedActor.has_style_class_name('apps-scroll-view'))
+                return Clutter.EVENT_PROPAGATE; 
+
+            Main.overview.toggle()
+        })
 
         this._clickToExitEnabled = true;
     }
@@ -451,11 +448,9 @@ var Overview = class {
         if (!this._clickToExitEnabled)
             return;
         
-        Main.overview._overview.remove_action(this._clickAction);
         Main.overview._overview.reactive = this._oldOverviewReactive;
+        Utils.hookVfunc(Object.getPrototypeOf(Main.overview._overview), 'button_release_event', null)
 
-        this._signalsHandler.removeWithLabel('clickToExit');
-    
         this._clickToExitEnabled = false;
     }
 
