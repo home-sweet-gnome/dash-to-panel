@@ -1371,9 +1371,12 @@ var TaskbarItemContainer = GObject.registerClass({
     _updateCloneContainerPosition(cloneContainer) {
         let [stageX, stageY] = this.get_transformed_position();
 
-        if (Config.PACKAGE_VERSION >= '3.36')
-            cloneContainer.set_position(stageX - this.translation_x, stageY - this.translation_y);
-        else
+        if (Config.PACKAGE_VERSION >= '3.36') {
+            cloneContainer.set_position(
+                stageX - this._dtpPanel.panelBox.translation_x - this.translation_x,
+                stageY - this._dtpPanel.panelBox.translation_y - this.translation_y
+            );
+        } else
             cloneContainer.set_position(stageX, stageY);
     }
 
