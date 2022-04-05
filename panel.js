@@ -100,8 +100,6 @@ var Panel = GObject.registerClass({
         this._elementGroups = [];
         this.cornerSize = 0;
 
-        let position = this.getPosition();
-
         if (isStandalone) {
             this.panel = new SecondaryPanel({ name: 'panel', reactive: true });
             this.statusArea = this.panel.statusArea = {};
@@ -182,8 +180,6 @@ var Panel = GObject.registerClass({
     }
 
     enable () {
-        let position = this.getPosition();
-
         if (this.statusArea.aggregateMenu) {
             Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll = 1;
         }
@@ -371,7 +367,7 @@ var Panel = GObject.registerClass({
             this._setSearchEntryOffset(this.geom.w);
 
             if (this.statusArea.dateMenu) {
-                this._timeoutsHandler.add(['formatVerticalClock', 100, this._formatVerticalClock]);
+                this._formatVerticalClock();
                 
                 this._signalsHandler.add([
                     this.statusArea.dateMenu._clock,
@@ -418,17 +414,22 @@ var Panel = GObject.registerClass({
         panelBoxes.forEach(b => delete this[b].allocate);
         this._unmappedButtons.forEach(a => this._disconnectVisibleId(a));
 
-        if (this._dateMenuIndicatorPadContraints && this.statusArea.dateMenu) {
-            let indicatorPad = this.statusArea.dateMenu.get_first_child().get_first_child();
+        if (this.statusArea.dateMenu) {
+            this.statusArea.dateMenu._clockDisplay.text = this.statusArea.dateMenu._clock.clock;
+            this.statusArea.dateMenu._clockDisplay.clutter_text.set_width(-1);
 
-            this._dateMenuIndicatorPadContraints.forEach(c => indicatorPad.add_constraint(c));
+            if (this._dateMenuIndicatorPadContraints) {
+                let indicatorPad = this.statusArea.dateMenu.get_first_child().get_first_child();
+
+                this._dateMenuIndicatorPadContraints.forEach(c => indicatorPad.add_constraint(c));
+            }
         }
 
         this._setVertical(this.panel.actor, false);
+        this._setVertical(this._centerBox, false);
+        this._setVertical(this._rightBox, false);
 
         if (!this.isStandalone) {
-            this.statusArea.dateMenu._clockDisplay.text = this.statusArea.dateMenu._clock.clock;
-
             ['vertical', 'horizontal', 'dashtopanelMainPanel'].forEach(c => this.panel.actor.remove_style_class_name(c));
 
             if (!Main.sessionMode.isLocked) {
@@ -1162,7 +1163,9 @@ var Panel = GObject.registerClass({
         };
 
         _set(actor, false);
-        _set(actor, isVertical);
+        
+        if (isVertical)
+            _set(actor, isVertical);
     }
 
     _disconnectVisibleId(actor) {
@@ -1205,7 +1208,6 @@ var Panel = GObject.registerClass({
                 clockText.set_text((stacks ? text.join(separator) : text).trim());
                 clockText.set_use_markup(stacks);
                 clockText.get_allocation_box();
-                clockText.natural_width = this.dtpSize
         
                 return !clockText.get_layout().is_ellipsized();
             };
@@ -1214,6 +1216,8 @@ var Panel = GObject.registerClass({
                 //on gnome-shell 3.36.4, the clockdisplay isn't ellipsize anymore, so set it back 
                 clockText.ellipsize = Pango.EllipsizeMode.END;
             }
+
+            clockText.natural_width = this.dtpSize;
 
             if (!time) {
                 datetimeParts = datetime.split(' ');
