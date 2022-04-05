@@ -431,12 +431,12 @@ var Overview = class {
         this._oldOverviewReactive = Main.overview._overview.reactive
         Main.overview._overview.reactive = true;
 
-        Utils.hookVfunc(Object.getPrototypeOf(Main.overview._overview), 'button_release_event', () => {
-            let [x, y] = global.get_pointer();
-            let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
-
-            if (pickedActor && pickedActor.has_style_class_name('apps-scroll-view'))
-                return Clutter.EVENT_PROPAGATE; 
+        Utils.hookVfunc(Object.getPrototypeOf(Main.overview._overview), 'button_release_event', (e) => {
+            if ((e?.source?.has_style_class_name && 
+                e.source.has_style_class_name('apps-scroll-view') && 
+                !e.source.has_style_pseudo_class('last-child')) ||
+                Main.overview._overview._controls._searchEntryBin.contains(e.source))
+                return Clutter.EVENT_PROPAGATE;
 
             Main.overview.toggle()
         })
