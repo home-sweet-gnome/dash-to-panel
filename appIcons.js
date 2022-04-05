@@ -1268,7 +1268,7 @@ var TaskbarAppIcon = GObject.registerClass({
             style += 'padding: 0 2px;';
         }
 
-        bin.x = fixedSize ? natWidth - size - 2 : 2;
+        bin.x = 2;
         label.set_style(style);
     }
 
