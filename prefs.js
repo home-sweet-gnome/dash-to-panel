@@ -2479,9 +2479,8 @@ function fillPreferencesWindow(window) {
     let pageBehavior = builder.get_object('behavior');
     window.add(pageBehavior);
 
-    let pageAction = new Adw.PreferencesPage();
-    pageAction.set_title("Action");
-    pageAction.set_icon_name("document-properties");
+    builder.add_from_file(Me.path + '/SettingsAction.ui');
+    let pageAction = builder.get_object('action');
     window.add(pageAction);
 
     let pageFineTune = new Adw.PreferencesPage();
