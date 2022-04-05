@@ -153,9 +153,6 @@ var PanelManager = class {
             this._enableHotCornersId = Main.layoutManager._interfaceSettings.connect('changed::enable-hot-corners', () => Main.layoutManager._updateHotCorners());
         }
 
-        this._oldOverviewRelayout = Main.overview._relayout;
-        Main.overview._relayout = this._newOverviewRelayout.bind(Main.overview);
-
         this._oldUpdateWorkspacesViews = Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews;
         Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._newUpdateWorkspacesViews.bind(Main.overview._overview._controls._workspacesDisplay);
 
@@ -339,9 +336,6 @@ var PanelManager = class {
         Main.layoutManager._updatePanelBarrier = this._oldUpdatePanelBarrier;
         Main.layoutManager._updatePanelBarrier();
 
-        Main.overview._relayout = this._oldOverviewRelayout;
-        Main.overview._relayout();
-
         Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
 
         Utils.getPanelGhost().set_size(-1, -1);
@@ -363,31 +357,15 @@ var PanelManager = class {
         delete Main.panel.style;
     }
 
-    setFocusedMonitor(monitor, ignoreRelayout) {
+    setFocusedMonitor(monitor) {
         this._needsIconAllocate = 1;
 
         if (!this.checkIfFocusedMonitor(monitor)) {
-            Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
-
             Main.overview._overview.clear_constraints();
             Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
 
-            if (ignoreRelayout) return;
-
-            this._newOverviewRelayout.call(Main.overview);
+            Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
         }
-    }
-
-    _newOverviewRelayout() {
-        // To avoid updating the position and size of the workspaces
-        // we just hide the overview. The positions will be updated
-        // when it is next shown.
-        this.hide();
-
-        let workArea = Main.layoutManager.getWorkAreaForMonitor(Main.overview._overview._controls._workspacesDisplay._primaryIndex);
-
-        this._coverPane.set_position(0, workArea.y);
-        this._coverPane.set_size(workArea.width, workArea.height);
     }
 
     _newUpdateWorkspacesViews() {

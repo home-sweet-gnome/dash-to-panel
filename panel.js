@@ -313,7 +313,7 @@ var Panel = GObject.registerClass({
                 () => {
                     if (this.isPrimary) {
                         //reset the primary monitor when exiting the overview
-                        this.panelManager.setFocusedMonitor(this.monitor, true);
+                        this.panelManager.setFocusedMonitor(this.monitor);
                     }
                 }
             ],
@@ -323,7 +323,7 @@ var Panel = GObject.registerClass({
                 (actor, e) => {
                     if (e.type() == Clutter.EventType.BUTTON_PRESS || e.type() == Clutter.EventType.TOUCH_BEGIN) {
                         //temporarily use as primary the monitor on which the activities btn was clicked 
-                        this.panelManager.setFocusedMonitor(this.monitor, true);
+                        this.panelManager.setFocusedMonitor(this.monitor);
                     }
                 }
             ],
