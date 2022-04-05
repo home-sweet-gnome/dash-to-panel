@@ -2488,9 +2488,8 @@ function fillPreferencesWindow(window) {
     pageFineTune.set_icon_name("document-properties");
     window.add(pageFineTune);
 
-    let pageAbout = new Adw.PreferencesPage();
-    pageAbout.set_title("About");
-    pageAbout.set_icon_name("document-properties");
+    builder.add_from_file(Me.path + '/SettingsAbout.ui');
+    let pageAbout = builder.get_object('about');
     window.add(pageAbout);
 }
 
