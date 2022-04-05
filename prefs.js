@@ -25,6 +25,7 @@ const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
+const Adw = imports.gi.Adw;
 const Gdk = imports.gi.Gdk;
 const Mainloop = imports.mainloop;
 
@@ -2460,20 +2461,41 @@ function init() {
 
 function fillPreferencesWindow(window) {
     window.set_default_size(680, 740);
+    
+    let pagePosition = new Adw.PreferencesPage();
+    pagePosition.set_title("Position");
+    pagePosition.set_icon_name("document-properties");
+    window.add(pagePosition);
 
-    let preferences = new Preferences();
-    let box = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL});
+    let pageStyle = new Adw.PreferencesPage();
+    pageStyle.set_title("Style");
+    pageStyle.set_icon_name("document-properties");
+    window.add(pageStyle);
 
-    // dummy page to prevent 'Extension did not provide any UI'
-    // error until we migrate to Adw
-    let dummyPage = new imports.gi.Adw.PreferencesPage()
+    builder = new Gtk.Builder();
+    builder.set_scope(new BuilderScope());
+    builder.set_translation_domain(Me.metadata['gettext-domain']);
+    builder.add_from_file(Me.path + '/SettingsBehavior.ui');
+    let pageBehavior = builder.get_object('behavior');
 
-    box.append(new imports.gi.Adw.HeaderBar);
-    window.add(dummyPage);
-    window.visible_page = dummyPage
+    pageBehavior.set_title("Behavior");
+    pageBehavior.set_icon_name("document-properties");
+    window.add(pageBehavior);
 
-    box.append(preferences.notebook);
-    window.set_content(box);
+    let pageAction = new Adw.PreferencesPage();
+    pageAction.set_title("Action");
+    pageAction.set_icon_name("document-properties");
+    window.add(pageAction);
+
+    let pageFineTune = new Adw.PreferencesPage();
+    pageFineTune.set_title("Fine-Tune");
+    pageFineTune.set_icon_name("document-properties");
+    window.add(pageFineTune);
+
+    let pageAbout = new Adw.PreferencesPage();
+    pageAbout.set_title("About");
+    pageAbout.set_icon_name("document-properties");
+    window.add(pageAbout);
 }
 
 function buildPrefsWidget() {
