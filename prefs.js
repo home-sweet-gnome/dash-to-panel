@@ -2466,9 +2466,8 @@ function fillPreferencesWindow(window) {
     builder.set_scope(new BuilderScope());
     builder.set_translation_domain(Me.metadata['gettext-domain']);
 
-    let pagePosition = new Adw.PreferencesPage();
-    pagePosition.set_title("Position");
-    pagePosition.set_icon_name("document-properties");
+    builder.add_from_file(Me.path + '/SettingsPosition.ui');
+    let pagePosition = builder.get_object('position');
     window.add(pagePosition);
 
     builder.add_from_file(Me.path + '/SettingsStyle.ui');
@@ -2483,9 +2482,8 @@ function fillPreferencesWindow(window) {
     let pageAction = builder.get_object('action');
     window.add(pageAction);
 
-    let pageFineTune = new Adw.PreferencesPage();
-    pageFineTune.set_title("Fine-Tune");
-    pageFineTune.set_icon_name("document-properties");
+    builder.add_from_file(Me.path + '/SettingsFineTune.ui');
+    let pageFineTune = builder.get_object('finetune');
     window.add(pageFineTune);
 
     builder.add_from_file(Me.path + '/SettingsAbout.ui');
