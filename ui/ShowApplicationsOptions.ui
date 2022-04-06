@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="show_applications_side_padding_adjustment">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+
+  <object class="GtkBox" id="show_applications_options">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
+    <child>
+      <object class="GtkListBoxRow" id="listbox_show_applications_icon_file">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <child>
+          <object class="GtkGrid" id="show_applications_icon_file_grid">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">12</property>
+            <property name="margin_top">12</property>
+            <property name="margin_bottom">12</property>
+            <property name="row_spacing">12</property>
+            <property name="column_spacing">32</property>
+            <child>
+              <object class="GtkLabel" id="show_applications_icon_file_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Current Show Applications icon</property>
+                <property name="use_markup">True</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="row">0</property>
+                  <property name="column">0</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkImage" id="show_applications_current_icon_image">
+                <property name="width_request">32</property>
+                <property name="height_request">32</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <property name="icon_name">gtk-missing-image</property>
+                <property name="pixel_size">32</property>
+                <layout>
+                  <property name="row">0</property>
+                  <property name="column">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="show_applications_icon_file_filebutton">
+                <property name="width_request">140</property>
+                <property name="visible">True</property>
+                <layout>
+                  <property name="row">1</property>
+                  <property name="column">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="show_applications_custom_icon_file_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Custom Show Applications image icon</property>
+                <property name="use_markup">True</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="row">1</property>
+                  <property name="column">0</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkListBoxRow" id="listboxrow_show_applications_side_padding">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <child>
+          <object class="GtkGrid" id="grid_show_applications_side_padding">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">12</property>
+            <property name="margin_top">12</property>
+            <property name="margin_bottom">12</property>
+            <property name="hexpand">True</property>
+            <property name="row_spacing">6</property>
+            <property name="column_spacing">32</property>
+            <child>
+              <object class="GtkSpinButton" id="show_applications_side_padding_spinbutton">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="halign">end</property>
+                <property name="text" translatable="yes">0</property>
+                <property name="adjustment">show_applications_side_padding_adjustment</property>
+                <layout>
+                  <property name="row">0</property>
+                  <property name="column">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="show_applications_side_padding_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Show Applications icon side padding (px)</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="row">0</property>
+                  <property name="column">0</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="GtkListBoxRow" id="listboxrow_show_applications_esc_key">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <child>
+          <object class="GtkGrid" id="grid_show_applications_esc_key">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_start">12</property>
+            <property name="margin_end">12</property>
+            <property name="margin_top">12</property>
+            <property name="margin_bottom">12</property>
+            <property name="column_spacing">32</property>
+            <child>
+              <object class="GtkSwitch" id="show_applications_esc_key_switch">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+                <layout>
+                  <property name="row">0</property>
+                  <property name="column">1</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="show_applications_esc_key_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Override escape key and return to desktop</property>
+                <property name="use_markup">True</property>
+                <property name="xalign">0</property>
+                <layout>
+                  <property name="row">0</property>
+                  <property name="column">0</property>
+                </layout>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+
+</interface>

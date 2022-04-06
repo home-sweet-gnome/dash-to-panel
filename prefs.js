@@ -172,6 +172,7 @@ const Preferences = class {
             this._builder.add_from_file(Me.path + '/ui/BoxShowDesktopOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxDynamicOpacityOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxIntellihideOptions.ui');
+            this._builder.add_from_file(Me.path + '/ui/ShowApplicationsOptions.ui');
 
             this._builder.add_from_file(Me.path + '/ui/SettingsPosition.ui');
             let pagePosition = this._builder.get_object('position');
