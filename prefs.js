@@ -174,7 +174,9 @@ const Preferences = class {
             this._builder.add_from_file(Me.path + '/ui/BoxIntellihideOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/ShowApplicationsOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxWindowPreviewOptions.ui');
+            this._builder.add_from_file(Me.path + '/ui/BoxGroupAppsOptions.ui');
 
+            // pages
             this._builder.add_from_file(Me.path + '/ui/SettingsPosition.ui');
             let pagePosition = this._builder.get_object('position');
             window.add(pagePosition);
