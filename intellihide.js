@@ -248,6 +248,8 @@ var Intellihide = class {
         if (this._pressureBarrier) {
             this._pressureBarrier.destroy();
             this._edgeBarrier.destroy();
+
+            this._pressureBarrier = 0;
         }
     }
 
