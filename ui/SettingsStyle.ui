@@ -309,7 +309,7 @@
         </child>
 
         <child>
-          <object class="AdwActionRow">
+          <object class="AdwActionRow" id="trans_gradient_box"> <!-- TODO this id should be the entire box-->
             <property name="title" translatable="yes">Gradient top color and opacity (%)</property>
             <child>
               <object class="GtkColorButton" id="trans_gradient_color1_colorbutton">
