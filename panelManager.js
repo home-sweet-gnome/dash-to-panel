@@ -286,8 +286,6 @@ var PanelManager = class {
     }
 
     setFocusedMonitor(monitor) {
-        this._needsIconAllocate = 1;
-
         if (!this.checkIfFocusedMonitor(monitor)) {
             Main.overview._overview.clear_constraints();
             Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));

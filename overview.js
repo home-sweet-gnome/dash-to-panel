@@ -90,26 +90,16 @@ var Overview = class {
     }
 
     _toggleDash(visible) {
-        // To hide the dash, set its width to 1, so it's almost not taken into account by code
-        // calculaing the reserved space in the overview. The reason to keep it at 1 is
-        // to allow its visibility change to trigger an allocaion of the appGrid which
-        // in turn is triggergin the appsIcon spring animation, required when no other
-        // actors has this effect, i.e in horizontal mode and without the workspaceThumnails
-        // 1 static workspace only)
-
         if (visible === undefined) {
             visible = Me.settings.get_boolean('stockgs-keep-dash');
         }
 
         let visibilityFunc = visible ? 'show' : 'hide';
-        let width = visible ? -1 : 1;
-        let overviewControls = Main.overview._overview._controls || Main.overview._controls;
+        let height = visible ? -1 : 50; // 50 to preserve some spacing
+        let overviewControls = Main.overview._overview._controls;
 
         overviewControls.dash.actor[visibilityFunc]();
-        overviewControls.dash.actor.set_width(width);
-
-        // This force the recalculation of the icon size
-        overviewControls.dash._maxHeight = -1;
+        overviewControls.dash.actor.set_height(height);
     }
 
     /**
