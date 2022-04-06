@@ -175,6 +175,7 @@ const Preferences = class {
             this._builder.add_from_file(Me.path + '/ui/ShowApplicationsOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxWindowPreviewOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxGroupAppsOptions.ui');
+            this._builder.add_from_file(Me.path + '/ui/BoxMiddleClickOptions.ui');
 
             // pages
             this._builder.add_from_file(Me.path + '/ui/SettingsPosition.ui');

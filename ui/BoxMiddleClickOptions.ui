@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkBox" id="box_middle_click_options">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="margin_start">12</property>
+    <property name="margin_end">12</property>
+    <property name="margin_top">12</property>
+    <property name="margin_bottom">12</property>
+    <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
+    <child>
+      <object class="GtkFrame" id="frame_middle_click_options">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label_xalign">0</property>
+        <child>
+          <object class="GtkListBox" id="listbox_middle_click_options">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="selection_mode">none</property>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow11">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="buitin_theme7">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkLabel" id="builtin_theme_description4">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">When set to minimize, double clicking minimizes all the windows of the application.</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">40</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="builtin_theme_label4">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Shift+Click action</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkComboBoxText" id="shift_click_action_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">center</property>
+                        <items>
+                          <item id="RAISE" translatable="yes">Raise windows</item>
+                          <item id="MINIMIZE" translatable="yes">Minimize window</item>
+                          <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                          <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                          <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                          <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
+                          <item id="TOGGLE-CYCLE" translatable="yes">Toggle single / Cycle multiple</item>
+                          <item id="QUIT" translatable="yes">Quit</item>
+                        </items>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="row-span">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_middle_click">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_middle_click">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkLabel" id="description_middle_click">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Behavior for Middle-Click.</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">40</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label_middle_click">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Middle-Click action</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkComboBoxText" id="middle_click_action_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">center</property>
+                        <items>
+                          <item id="RAISE" translatable="yes">Raise windows</item>
+                          <item id="MINIMIZE" translatable="yes">Minimize window</item>
+                          <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                          <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                          <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                          <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
+                          <item id="QUIT" translatable="yes">Quit</item>
+                        </items>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="row-span">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_shift_middle_click">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_shift_middle_click">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkLabel" id="description_shift_middle_click">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Behavior for Shift+Middle-Click.</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">40</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label_shift_middle_click">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Shift+Middle-Click action</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkComboBoxText" id="shift_middle_click_action_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">center</property>
+                        <items>
+                          <item id="RAISE" translatable="yes">Raise windows</item>
+                          <item id="MINIMIZE" translatable="yes">Minimize window</item>
+                          <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                          <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                          <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                          <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
+                          <item id="QUIT" translatable="yes">Quit</item>
+                        </items>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="row-span">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+
+</interface>
