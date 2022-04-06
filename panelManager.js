@@ -124,16 +124,7 @@ var PanelManager = class {
         this._updatePanelElementPositions();
         this.setFocusedMonitor(this.dtpPrimaryMonitor);
         
-        if (this.primaryPanel.checkIfVertical()) {
-            Main.wm._getPositionForDirection = newGetPositionForDirection;
-        }
-        
         if (reset) return;
-
-        if (Config.PACKAGE_VERSION > '3.35.1') {
-            this._oldDoSpringAnimation = AppDisplay.BaseAppView.prototype._doSpringAnimation;
-            AppDisplay.BaseAppView.prototype._doSpringAnimation = newDoSpringAnimation;
-        }
 
         this._oldUpdatePanelBarrier = Main.layoutManager._updatePanelBarrier;
         Main.layoutManager._updatePanelBarrier = (panel) => {
@@ -158,12 +149,6 @@ var PanelManager = class {
 
         Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
 
-        this._needsDashItemContainerAllocate = !Dash.DashItemContainer.prototype.hasOwnProperty('vfunc_allocate');
-
-        if (this._needsDashItemContainerAllocate) {
-            Utils.hookVfunc(Dash.DashItemContainer.prototype, 'allocate', this._newDashItemContainerAllocate);
-        }
-
         LookingGlass.LookingGlass.prototype._oldResize = LookingGlass.LookingGlass.prototype._resize;
         LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize;
 
@@ -171,53 +156,6 @@ var PanelManager = class {
         LookingGlass.LookingGlass.prototype.open = _newLookingGlassOpen;
 
         this._signalsHandler = new Utils.GlobalSignalsHandler();
-
-        if (Config.PACKAGE_VERSION > '3.35.9') {
-            let currentAppsView;
-
-            this._oldAnimateIconPosition = IconGrid.animateIconPosition;
-            IconGrid.animateIconPosition = newAnimateIconPosition.bind(this);
-
-            this._signalsHandler.add(
-                [
-                    Utils.DisplayWrapper.getScreen(),
-                    'window-entered-monitor',
-                    () => this._needsIconAllocate = 1
-                ]
-            );
-
-            Utils.getAppDisplayViews().forEach(v => {
-                if (!v.control || v.control.has_style_pseudo_class('checked')) {
-                    currentAppsView = v;
-                }
-
-                if (v.control) {
-                    this._signalsHandler.add(
-                        [
-                            v.control, 
-                            'clicked', 
-                            () => {
-                                this._needsIconAllocate = currentAppsView != v;
-                                currentAppsView = v;
-                            }
-                        ]
-                    );
-                }
-
-                this._signalsHandler.add(
-                    [
-                        v.view, 
-                        'notify::visible', 
-                        () => this._needsIconAllocate = !(currentAppsView != v && !v.view.visible)
-                    ],
-                    [
-                        v.view._grid, 
-                        'animation-done', 
-                        () => this._needsIconAllocate = 0
-                    ]
-                );
-            });
-        }
 
         //listen settings
         this._signalsHandler.add(
@@ -311,8 +249,6 @@ var PanelManager = class {
             Utils.hookVfunc(BoxPointer.BoxPointer.prototype, 'get_preferred_height', BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height);
         }
 
-        delete Main.wm._getPositionForDirection;
-
         if (Main.layoutManager.primaryMonitor) {
             Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
             Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
@@ -339,14 +275,6 @@ var PanelManager = class {
         Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
 
         Utils.getPanelGhost().set_size(-1, -1);
-
-        if (this._oldDoSpringAnimation) {
-            AppDisplay.BaseAppView.prototype._doSpringAnimation = this._oldDoSpringAnimation;
-        }
-
-        if (this._oldAnimateIconPosition) {
-            IconGrid.animateIconPosition = this._oldAnimateIconPosition;
-        }
 
         LookingGlass.LookingGlass.prototype._resize = LookingGlass.LookingGlass.prototype._oldResize;
         delete LookingGlass.LookingGlass.prototype._oldResize;
@@ -651,35 +579,6 @@ var IconAnimator = class {
         }
     }
 };
-
-function newGetPositionForDirection(direction, fromWs, toWs) {
-    let [xDest, yDest] = WM.WindowManager.prototype._getPositionForDirection(direction, fromWs, toWs);
-
-    if (direction == Meta.MotionDirection.UP ||
-        direction == Meta.MotionDirection.UP_LEFT ||
-        direction == Meta.MotionDirection.UP_RIGHT) {
-        yDest -= Main.panel.height;
-    } else if (direction != Meta.MotionDirection.LEFT &&
-               direction != Meta.MotionDirection.RIGHT) {
-        yDest += Main.panel.height;
-    }
-
-    return [xDest, yDest];
-}
-
-function newDoSpringAnimation(animationDirection) {
-    this._grid.opacity = 255;
-    this._grid.animateSpring(animationDirection, Main.overview.getShowAppsButton());
-}
-
-function newAnimateIconPosition(icon, box, flags, nChangedIcons) {
-    if (this._needsIconAllocate) {
-        Utils.allocate(icon, box, flags);
-        return;
-    }
-
-    return this._oldAnimateIconPosition(icon, box, flags, nChangedIcons);;
-}
 
 function newUpdateHotCorners() {
     // destroy old hot corners
