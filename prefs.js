@@ -178,6 +178,7 @@ const Preferences = class {
             this._builder.add_from_file(Me.path + '/ui/BoxMiddleClickOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxOverlayShortcut.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxSecondaryMenuOptions.ui');
+            this._builder.add_from_file(Me.path + '/ui/ScrollPanelOptionsBox.ui');
 
             // pages
             this._builder.add_from_file(Me.path + '/ui/SettingsPosition.ui');
