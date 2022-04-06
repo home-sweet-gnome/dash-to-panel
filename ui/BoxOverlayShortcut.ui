@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="shortcut_time_adjustment">
+    <property name="upper">10000</property>
+    <property name="step_increment">250</property>
+    <property name="page_increment">1000</property>
+  </object>
+
+  <object class="GtkBox" id="box_overlay_shortcut">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="margin_start">12</property>
+    <property name="margin_end">12</property>
+    <property name="margin_top">12</property>
+    <property name="margin_bottom">12</property>
+    <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
+    <child>
+      <object class="GtkFrame" id="frame_overlay_show_dock">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label_xalign">0</property>
+        <child>
+          <object class="GtkListBox" id="listbox_overlay_shortcut">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="selection_mode">none</property>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_hotkey_prefix">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_hotkey_prefix">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkComboBoxText" id="hotkey_prefix_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">center</property>
+                        <items>
+                          <item id="Super" translatable="yes">Super</item>
+                          <item id="SuperAlt" translatable="yes">Super + Alt</item>
+                        </items>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="row-span">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="hotkey_prefix_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Hotkeys prefix</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="hotkey_prefix_description">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Hotkeys will either be Super+Number or Super+Alt+Num</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">40</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_overlay_shortcut">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_overlay">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkComboBoxText" id="overlay_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="valign">center</property>
+                        <items>
+                          <item id="NEVER" translatable="yes">Never</item>
+                          <item id="TEMPORARILY" translatable="yes">Show temporarily</item>
+                          <item id="ALWAYS" translatable="yes">Always visible</item>
+                        </items>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="row-span">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="overlay_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Number overlay</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="overlay_description">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Temporarily show the application numbers over the icons when using the hotkeys.</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">40</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_timeout">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_timeout">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="hexpand">True</property>
+                    <property name="row_spacing">6</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkSpinButton" id="timeout_spinbutton">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="halign">end</property>
+                        <property name="adjustment">shortcut_time_adjustment</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="shortcut_timeout_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Hide timeout (ms)</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_extra_shortcut">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_shortcut">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkEntry" id="shortcut_entry">
+                        <property name="can_focus">True</property>
+                        <property name="valign">center</property>
+                        <property name="width_chars">12</property>
+                        <property name="placeholder_text" translatable="yes">e.g. &lt;Super&gt;q</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="row-span">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="shortcut_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Shortcut to show the overlay for 2 seconds</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="shortcut_description">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">40</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listbox_shortcut_preview">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_shortcut_preview">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkLabel" id="shortcut_preview_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Show window previews on hotkey</property>
+                        <property name="use_markup">True</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="shortcut_preview_switch">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="row-span">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="shortcut_preview_description">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Show previews when the application have multiple instances</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">40</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_shortcut_num_keys">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_shortcut_num_keys">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkComboBoxText" id="shortcut_num_keys_combo">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                        <items>
+                          <item id="NUM_ROW" translatable="yes">Number row</item>
+                          <item id="NUM_KEYPAD" translatable="yes">Numeric keypad</item>
+                          <item id="BOTH" translatable="yes">Both</item>
+                        </items>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="row-span">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="shortcut_num_keys_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Hotkeys are activated with</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="shortcut_num_keys_description">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Select which keyboard number keys are used to activate the hotkeys</property>
+                        <property name="wrap">True</property>
+                        <property name="max_width_chars">40</property>
+                        <property name="xalign">0</property>
+                        <style>
+                          <class name="dim-label"/>
+                        </style>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+
+</interface>
