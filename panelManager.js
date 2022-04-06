@@ -410,6 +410,7 @@ var PanelManager = class {
 
         Main.layoutManager.monitors.filter(m => m.index != primaryIndex).forEach(m => monitors.push(m.index));
         Me.settings.set_value('available-monitors', new GLib.Variant('ai', monitors));
+        Me.settings.set_int('primary-monitor', primaryIndex);
     }
 
     checkIfFocusedMonitor(monitor) {
