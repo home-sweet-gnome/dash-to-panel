@@ -883,7 +883,7 @@ const Preferences = class {
         this._updateVerticalRelatedOptions();
         
         for (let i = 0; i < this.monitors.length; ++i) {
-            //the primary index is the first one in the "available-monitors" setting
+            //the gnome-shell primary index is the first one in the "available-monitors" setting
             let label = !i ? _('Primary monitor') : _('Monitor ') + (i + 1);
 
             this._builder.get_object('multimon_primary_combo').append_text(label);
