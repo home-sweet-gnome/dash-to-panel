@@ -164,8 +164,42 @@ const Preferences = class {
         this._builder = new Gtk.Builder();
         this._builder.set_scope(new BuilderScope(this));
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
-        this._builder.add_from_file(Me.path + '/Settings.ui');
-        this.notebook = this._builder.get_object('settings_notebook');
+
+        if (window) {
+            this._builder.add_from_file(Me.path + '/ui/SettingsPosition.ui');
+            let pagePosition = this._builder.get_object('position');
+            window.add(pagePosition);
+
+            this._builder.add_from_file(Me.path + '/ui/SettingsStyle.ui');
+            let pageStyle = this._builder.get_object('style');
+            window.add(pageStyle);
+
+            this._builder.add_from_file(Me.path + '/ui/SettingsBehavior.ui');
+            let pageBehavior = this._builder.get_object('behavior');
+            window.add(pageBehavior);
+
+            this._builder.add_from_file(Me.path + '/ui/SettingsAction.ui');
+            let pageAction = this._builder.get_object('action');
+            window.add(pageAction);
+
+            this._builder.add_from_file(Me.path + '/ui/SettingsFineTune.ui');
+            let pageFineTune = this._builder.get_object('finetune');
+            window.add(pageFineTune);
+
+            this._builder.add_from_file(Me.path + '/ui/SettingsAbout.ui');
+            let pageAbout = this._builder.get_object('about');
+            window.add(pageAbout);
+
+            // set the window as notebook, it is being used as parent for dialogs
+            this.notebook = window;
+
+            // TODO return for now, many things are still missing
+            return;
+
+        } else {
+            this._builder.add_from_file(Me.path + '/Settings.ui');
+            this.notebook = this._builder.get_object('settings_notebook');
+        }
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
@@ -2462,33 +2496,7 @@ function init() {
 function fillPreferencesWindow(window) {
     window.set_default_size(680, 740);
 
-    builder = new Gtk.Builder();
-    builder.set_scope(new BuilderScope());
-    builder.set_translation_domain(Me.metadata['gettext-domain']);
-
-    builder.add_from_file(Me.path + '/SettingsPosition.ui');
-    let pagePosition = builder.get_object('position');
-    window.add(pagePosition);
-
-    builder.add_from_file(Me.path + '/SettingsStyle.ui');
-    let pageStyle = builder.get_object('style');
-    window.add(pageStyle);
-
-    builder.add_from_file(Me.path + '/SettingsBehavior.ui');
-    let pageBehavior = builder.get_object('behavior');
-    window.add(pageBehavior);
-
-    builder.add_from_file(Me.path + '/SettingsAction.ui');
-    let pageAction = builder.get_object('action');
-    window.add(pageAction);
-
-    builder.add_from_file(Me.path + '/SettingsFineTune.ui');
-    let pageFineTune = builder.get_object('finetune');
-    window.add(pageFineTune);
-
-    builder.add_from_file(Me.path + '/SettingsAbout.ui');
-    let pageAbout = builder.get_object('about');
-    window.add(pageAbout);
+    let preferences = new Preferences(window);
 }
 
 function buildPrefsWidget() {
