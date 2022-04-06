@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="focus_highlight_opacity_adjustment">
+    <property name="lower">5</property>
+    <property name="upper">100</property>
+    <property name="step_increment">5</property>
+    <property name="page_increment">5</property>
+  </object>
+
+  <object class="GtkAdjustment" id="dot_size_adjustment">
+    <property name="upper">5</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+
+  <object class="GtkBox" id="box_dots_options">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="margin_top">12</property>
+    <property name="margin_bottom">12</property>
+    <property name="orientation">vertical</property>
+    <property name="hexpand">1</property>
+    <property name="vexpand">1</property>
+    <child>
+      <object class="GtkFrame" id="frame_dots_options">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_start">12</property>
+        <property name="margin_end">12</property>
+        <property name="margin_top">12</property>
+        <property name="margin_bottom">12</property>
+        <property name="label_xalign">0</property>
+        <child>
+          <object class="GtkListBox" id="listbox_dots_options">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="selection_mode">none</property>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_focus_highlight">
+                <property name="width_request">100</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_focus_highlight">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="row_spacing">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkLabel" id="focus_highlight_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Highlight focused application</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="focus_highlight_switch">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="grid_focus_highlight_options">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_start">12</property>
+                        <property name="row_spacing">8</property>
+                        <child>
+                          <object class="GtkLabel" id="focus_highlight_dominant_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Icon dominant color</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="row">0</property>
+                              <property name="column">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSwitch" id="focus_highlight_dominant_switch">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="focus_highlight_color_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Custom color</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="row">1</property>
+                              <property name="column">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkColorButton" id="focus_highlight_color_colorbutton">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="halign">end</property>
+                            <layout>
+                              <property name="row">1</property>
+                              <property name="column">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="focus_highlight_opacity_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Highlight opacity</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="row">2</property>
+                              <property name="column">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="focus_highlight_opacity_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="halign">end</property>
+                            <property name="text">5</property>
+                            <property name="adjustment">focus_highlight_opacity_adjustment</property>
+                            <property name="value">5</property>
+                            <layout>
+                              <property name="row">2</property>
+                              <property name="column">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                          <property name="column-span">2</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_dot_size">
+                <property name="width_request">100</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_dot_size">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkLabel" id="dot_size_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Indicator size (px)</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="dot_size_spinbutton">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="halign">end</property>
+                        <property name="text">0</property>
+                        <property name="adjustment">dot_size_adjustment</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_dot_dominant">
+                <property name="width_request">100</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkGrid" id="grid_dot_dominant">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="margin_top">12</property>
+                    <property name="margin_bottom">12</property>
+                    <property name="column_spacing">32</property>
+                    <child>
+                      <object class="GtkLabel" id="dot_dominant_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="hexpand">True</property>
+                        <property name="label" translatable="yes">Indicator color - Icon Dominant</property>
+                        <property name="xalign">0</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkSwitch" id="dot_color_dominant_switch">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="halign">end</property>
+                        <property name="valign">center</property>
+                        <layout>
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBoxRow" id="listboxrow_dot_color">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <child>
+                  <object class="GtkBox" id="box_dot_color">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_start">12</property>
+                    <property name="margin_end">12</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkBox" id="dot_color_override_box">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkLabel" id="dot_color_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Indicator color - Override Theme</property>
+                            <property name="xalign">0</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSwitch" id="dot_color_override_switch">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="grid_dot_color">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_start">12</property>
+                        <property name="margin_top">12</property>
+                        <property name="margin_bottom">12</property>
+                        <property name="row_spacing">4</property>
+                        <property name="column_spacing">32</property>
+                        <child>
+                          <object class="GtkLabel" id="dot_color_1_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">1 window open (or ungrouped)</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="row">0</property>
+                              <property name="column">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="dot_color_1_box">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">end</property>
+                            <child>
+                              <object class="GtkButton" id="dot_color_apply_all_button">
+                                <property name="label" translatable="yes">Apply to all</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkColorButton" id="dot_color_1_colorbutton">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="halign">end</property>
+                              </object>
+                            </child>
+                            <layout>
+                              <property name="row">0</property>
+                              <property name="column">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="dot_color_2_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">2 windows open</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="row">1</property>
+                              <property name="column">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="dot_color_3_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">3 windows open</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="row">2</property>
+                              <property name="column">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="dot_color_4_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">4+ windows open</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="row">3</property>
+                              <property name="column">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkColorButton" id="dot_color_2_colorbutton">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="halign">end</property>
+                            <layout>
+                              <property name="row">1</property>
+                              <property name="column">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkColorButton" id="dot_color_3_colorbutton">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="halign">end</property>
+                            <layout>
+                              <property name="row">2</property>
+                              <property name="column">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkColorButton" id="dot_color_4_colorbutton">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <property name="halign">end</property>
+                            <layout>
+                              <property name="row">3</property>
+                              <property name="column">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="dot_color_unfocused_box">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <child>
+                          <object class="GtkBox" id="dot_color_unfocused_different_box">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_start">12</property>
+                            <child>
+                              <object class="GtkLabel" id="dot_color_unfocused_label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">Use different for unfocused</property>
+                                <property name="xalign">0</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkSwitch" id="dot_color_unfocused_different_switch">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="halign">end</property>
+                                <property name="valign">center</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkGrid" id="grid_dot_color_unfocused">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="margin_start">12</property>
+                            <property name="margin_top">12</property>
+                            <property name="margin_bottom">12</property>
+                            <property name="row_spacing">4</property>
+                            <property name="column_spacing">32</property>
+                            <child>
+                              <object class="GtkLabel" id="dot_color_unfocused_1_label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">1 window open (or ungrouped)</property>
+                                <property name="xalign">0</property>
+                                <layout>
+                                  <property name="row">0</property>
+                                  <property name="column">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkBox" id="dot_color_unfocused_1_box">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">end</property>
+                                <child>
+                                  <object class="GtkButton" id="dot_color_unfocused_apply_all_button">
+                                    <property name="label" translatable="yes">Apply to all</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkColorButton" id="dot_color_unfocused_1_colorbutton">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="halign">end</property>
+                                  </object>
+                                </child>
+                                <layout>
+                                  <property name="row">0</property>
+                                  <property name="column">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="dot_color_unfocused_2_label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">2 windows open</property>
+                                <property name="xalign">0</property>
+                                <layout>
+                                  <property name="row">1</property>
+                                  <property name="column">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkColorButton" id="dot_color_unfocused_2_colorbutton">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="halign">end</property>
+                                <layout>
+                                  <property name="row">1</property>
+                                  <property name="column">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="dot_color_unfocused_3_label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">3 windows open</property>
+                                <property name="xalign">0</property>
+                                <layout>
+                                  <property name="row">2</property>
+                                  <property name="column">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkColorButton" id="dot_color_unfocused_3_colorbutton">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="halign">end</property>
+                                <layout>
+                                  <property name="row">2</property>
+                                  <property name="column">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="dot_color_unfocused_4_label">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="hexpand">True</property>
+                                <property name="label" translatable="yes">4+ windows open</property>
+                                <property name="xalign">0</property>
+                                <layout>
+                                  <property name="row">3</property>
+                                  <property name="column">0</property>
+                                </layout>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkColorButton" id="dot_color_unfocused_4_colorbutton">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="halign">end</property>
+                                <layout>
+                                  <property name="row">3</property>
+                                  <property name="column">1</property>
+                                </layout>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+
+</interface>
