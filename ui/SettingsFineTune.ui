@@ -269,5 +269,22 @@
         </object>
       </child>
 
+      <!-- group advanced-->
+      <child>
+        <object class="AdwPreferencesGroup" id="finetune_group_advanced">
+
+          <child>
+            <object class="GtkButton" id="button_advanced_options">
+              <property name="label" translatable="yes">Advanced Options</property>
+              <property name="visible">False</property>
+              <property name="can_focus">True</property>
+              <property name="receives_default">True</property>
+              <property name="halign">end</property>
+            </object>
+          </child>
+
+        </object>
+      </child>
+
   </object>
 </interface>
