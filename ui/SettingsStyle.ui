@@ -264,7 +264,7 @@
         </child>
 
         <child>
-          <object class="AdwActionRow">
+          <object class="AdwActionRow" id="trans_opacity_box">
             <property name="title" translatable="yes">Dynamic background opacity</property>
             <property name="subtitle" translatable="yes">Change opacity when a window gets close to the panel</property>
             <child>

@@ -203,7 +203,7 @@
           </child>
 
           <child>
-            <object class="AdwActionRow">
+            <object class="AdwActionRow" id="panel_anchor_label">
               <property name="title" translatable="yes">Anchor</property>
               <child>
                 <object class="GtkComboBoxText" id="panel_anchor_combo">
