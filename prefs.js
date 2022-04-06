@@ -206,9 +206,6 @@ const Preferences = class {
             // set the window as notebook, it is being used as parent for dialogs
             this.notebook = window;
 
-            // TODO return for now, many things are still missing
-            return;
-
         } else {
             this._builder.add_from_file(Me.path + '/Settings.ui');
             this.notebook = this._builder.get_object('settings_notebook');
