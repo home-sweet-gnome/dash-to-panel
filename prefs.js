@@ -169,6 +169,7 @@ const Preferences = class {
             // dialogs
             this._builder.add_from_file(Me.path + '/ui/AnimateAppIconHoverOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxDotOptions.ui');
+            this._builder.add_from_file(Me.path + '/ui/BoxShowDesktopOptions.ui');
 
             this._builder.add_from_file(Me.path + '/ui/SettingsPosition.ui');
             let pagePosition = this._builder.get_object('position');
