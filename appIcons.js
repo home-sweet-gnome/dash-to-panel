@@ -66,6 +66,7 @@ const T6 = 'displayProperIndicatorTimeout';
 
 //right padding defined for .overview-label in stylesheet.css
 const TITLE_RIGHT_PADDING = 8;
+const DOUBLE_CLICK_DELAY_MS = 450;
 
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
@@ -119,6 +120,7 @@ var TaskbarAppIcon = GObject.registerClass({
         this.isLauncher = appInfo.isLauncher;
         this._previewMenu = previewMenu;
         this.iconAnimator = iconAnimator;
+        this.lastClick = 0;
 
         super._init(appInfo.app, iconParams);
 
@@ -851,6 +853,8 @@ var TaskbarAppIcon = GObject.registerClass({
         // being used. We then define what buttonAction should be for this
         // event.
         let buttonAction = 0;
+        let doubleClick;
+
         if (button && button == 2 ) {
             if (modifiers & Clutter.ModifierType.SHIFT_MASK)
                 buttonAction = Me.settings.get_string('shift-middle-click-action');
@@ -858,15 +862,23 @@ var TaskbarAppIcon = GObject.registerClass({
                 buttonAction = Me.settings.get_string('middle-click-action');
         }
         else if (button && button == 1) {
+            let now = global.get_current_time()
+
+            doubleClick = now - this.lastClick < DOUBLE_CLICK_DELAY_MS
+            this.lastClick = now
+
             if (modifiers & Clutter.ModifierType.SHIFT_MASK)
                 buttonAction = Me.settings.get_string('shift-click-action');
             else
                 buttonAction = Me.settings.get_string('click-action');
         }
 
+        let closePreview = () => this._previewMenu.close(Me.settings.get_boolean('window-preview-hide-immediate-click'));
         let appCount = this.getAppIconInterestingWindows().length;
         let previewedAppIcon = this._previewMenu.getCurrentAppIcon();
-        this._previewMenu.close(Me.settings.get_boolean('window-preview-hide-immediate-click'));
+
+        if (this.window || buttonAction != 'TOGGLE-SHOWPREVIEW')
+            closePreview()
 
         // We check if the app is running, and that the # of windows is > 0 in
         // case we use workspace isolation,
@@ -919,7 +931,7 @@ var TaskbarAppIcon = GObject.registerClass({
                             if (appHasFocus || button == 2 || modifiers & Clutter.ModifierType.SHIFT_MASK) {
                                 // minimize all windows on double click and always in the case of primary click without
                                 // additional modifiers
-                                let all_windows = (button == 1 && ! modifiers) || event.get_click_count() > 1;
+                                let all_windows = (button == 1 && ! modifiers) || doubleClick;
                                 minimizeWindow(this.app, all_windows, monitor);
                             }
                             else
@@ -954,17 +966,20 @@ var TaskbarAppIcon = GObject.registerClass({
                     case "TOGGLE-SHOWPREVIEW":
                         if (!Main.overview._shown) {
                             if (appCount == 1) {
+                                closePreview()
+
                                 if (appHasFocus)
                                     minimizeWindow(this.app, false, monitor);
                                 else
                                     activateFirstWindow(this.app, monitor);
                             } else {
-                                if (event.get_click_count() > 1) {
+                                if (doubleClick) {
                                     // minimize all windows if double clicked
+                                    closePreview()
                                     minimizeWindow(this.app, true, monitor);
                                 } else if (previewedAppIcon != this) {
                                     this._previewMenu.open(this);
-                                }
+                                } 
     
                                 this.emit('sync-tooltip');
                             } 
