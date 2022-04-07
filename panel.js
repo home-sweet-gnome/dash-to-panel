@@ -65,9 +65,7 @@ let tracker = Shell.WindowTracker.get_default();
 var panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
 
 //timeout names
-const T1 = 'startDynamicTransparencyTimeout';
 const T2 = 'startIntellihideTimeout';
-const T3 = 'allocationThrottleTimeout';
 const T4 = 'showDesktopTimeout';
 const T5 = 'trackerFocusAppTimeout';
 const T6 = 'scrollPanelDelayTimeout';

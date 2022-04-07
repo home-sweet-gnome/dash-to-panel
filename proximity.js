@@ -45,7 +45,7 @@ class ProximityWatch {
         this.threshold = [xThreshold, yThreshold];
         this.handler = handler;
 
-        this._allocationChangedId = actor.connect('notify::allocation', () => this._update());
+        this._allocationChangedId = actor.connect('notify::allocation', () => this._updateWatchRect());
 
         this._updateWatchRect();
     }
