@@ -166,6 +166,9 @@ const Preferences = class {
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
 
         if (window) {
+            this._window = window;
+            window.set_search_enabled(true);
+
             // dialogs
             this._builder.add_from_file(Me.path + '/ui/AnimateAppIconHoverOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxDotOptions.ui');
@@ -1026,6 +1029,13 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        if (this._window) {
+            this._settings.bind('trans-use-custom-opacity',
+                            this._builder.get_object('trans_opacity_box2'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        }
+
         this._builder.get_object('trans_opacity_override_switch').connect('notify::active', (widget) => {
             if (!widget.get_active())
                 this._builder.get_object('trans_dyn_switch').set_active(false);
@@ -1060,6 +1070,13 @@ const Preferences = class {
                             this._builder.get_object('trans_gradient_box'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+
+        if (this._window) {
+            this._settings.bind('trans-use-custom-gradient',
+                            this._builder.get_object('trans_gradient_box2'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        }
 
         rgba.parse(this._settings.get_string('trans-gradient-top-color'));
         this._builder.get_object('trans_gradient_color1_colorbutton').set_rgba(rgba);

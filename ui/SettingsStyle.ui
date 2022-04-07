@@ -251,7 +251,7 @@
         </child>
 
         <child>
-          <object class="AdwActionRow">
+          <object class="AdwActionRow" id="trans_opacity_box">
             <property name="title" translatable="yes">Panel background opacity (%)</property>
             <child>
               <object class="GtkSpinButton" id="trans_opacity_spinbutton">
@@ -264,7 +264,7 @@
         </child>
 
         <child>
-          <object class="AdwActionRow" id="trans_opacity_box">
+          <object class="AdwActionRow" id="trans_opacity_box2">
             <property name="title" translatable="yes">Dynamic background opacity</property>
             <property name="subtitle" translatable="yes">Change opacity when a window gets close to the panel</property>
             <child>
@@ -309,7 +309,7 @@
         </child>
 
         <child>
-          <object class="AdwActionRow" id="trans_gradient_box"> <!-- TODO this id should be the entire box-->
+          <object class="AdwActionRow" id="trans_gradient_box">
             <property name="title" translatable="yes">Gradient top color and opacity (%)</property>
             <child>
               <object class="GtkColorButton" id="trans_gradient_color1_colorbutton">
@@ -328,7 +328,7 @@
         </child>
 
         <child>
-          <object class="AdwActionRow">
+          <object class="AdwActionRow" id="trans_gradient_box2">
             <property name="title" translatable="yes">Gradient bottom color and opacity (%)</property>
             <child>
               <object class="GtkColorButton" id="trans_gradient_color2_colorbutton">
