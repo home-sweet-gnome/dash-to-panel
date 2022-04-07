@@ -147,8 +147,6 @@ var PanelManager = class {
         this._oldUpdateWorkspacesViews = Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews;
         Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._newUpdateWorkspacesViews.bind(Main.overview._overview._controls._workspacesDisplay);
 
-        Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
-
         LookingGlass.LookingGlass.prototype._oldResize = LookingGlass.LookingGlass.prototype._resize;
         LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize;
 
@@ -480,11 +478,6 @@ var PanelManager = class {
         });
     }
 
-    _newGetShowAppsButton() {
-        let focusedMonitorIndex = Utils.findIndex(this.allPanels, p => this.checkIfFocusedMonitor(p.monitor));
-        
-        return this.allPanels[focusedMonitorIndex].taskbar.showAppsButton;
-    }
 };
 
 // No idea why atm, but we need the import at the top of this file and this
