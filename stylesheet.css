@@ -21,7 +21,8 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-#dashtopanelTaskbar .dash-item-container > StWidget {
+#dashtopanelTaskbar .dash-item-container > StWidget,
+.dashtopanelMainPanel .show-apps {
 	margin: 0;
 	padding: 0; 
 }
