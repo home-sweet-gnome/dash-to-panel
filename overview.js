@@ -421,7 +421,7 @@ var Overview = class {
         this._oldOverviewReactive = Main.overview._overview.reactive
         Main.overview._overview.reactive = true;
 
-        Utils.hookVfunc(Object.getPrototypeOf(Main.overview._overview), 'button_release_event', () => {
+        Utils.hookVfunc(Object.getPrototypeOf(Main.layoutManager.overviewGroup), 'button_release_event', () => {
             let [x, y] = global.get_pointer();
             let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
             
@@ -448,7 +448,7 @@ var Overview = class {
             return;
         
         Main.overview._overview.reactive = this._oldOverviewReactive;
-        Utils.hookVfunc(Object.getPrototypeOf(Main.overview._overview), 'button_release_event', null)
+        Utils.hookVfunc(Object.getPrototypeOf(Main.layoutManager.overviewGroup), 'button_release_event', null)
 
         this._clickToExitEnabled = false;
     }

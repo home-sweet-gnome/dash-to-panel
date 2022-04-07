@@ -276,7 +276,7 @@ var mergeObjects = function(main, bck) {
 var hookVfunc = function(proto, symbol, func) {
     if (!func) return
 
-    if (Gi.gobject_prototype_symbol) {
+    if (Gi.gobject_prototype_symbol && proto[Gi.gobject_prototype_symbol]) {
         proto[Gi.gobject_prototype_symbol][Gi.hook_up_vfunc_symbol] (symbol, func);
     } else {
         proto[Gi.hook_up_vfunc_symbol] (symbol, func);
