@@ -684,7 +684,12 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _onOverviewWindowDragEnd(windowTracker) {
-        this._timeoutsHandler.add([T4, 0, () => this._displayProperIndicator()]);
+        this._timeoutsHandler.add([T4, 0, () => {
+            if (Me.settings.get_boolean('isolate-workspaces'))
+                this._updateWindows()
+
+            this._displayProperIndicator()
+        }]);
     }
 
     _onSwitchWorkspace(windowTracker) {
