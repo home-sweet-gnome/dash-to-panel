@@ -2042,7 +2042,6 @@ const Preferences = class {
         }
 
         this._builder.get_object('animate_appicon_hover_button').connect('clicked', () => {
-            print("BB");
             let box = this._builder.get_object('animate_appicon_hover_options');
 
             let dialog = this._createPreferencesDialog(_('App icon animation options'), box, () =>
