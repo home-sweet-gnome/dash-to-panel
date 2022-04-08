@@ -64,8 +64,6 @@ const T4 = 'overviewWindowDragEndTimeout';
 const T5 = 'switchWorkspaceTimeout';
 const T6 = 'displayProperIndicatorTimeout';
 
-//right padding defined for .overview-label in stylesheet.css
-const TITLE_RIGHT_PADDING = 8;
 const DOUBLE_CLICK_DELAY_MS = 450;
 
 let LABEL_GAP = 5;
@@ -547,7 +545,6 @@ var TaskbarAppIcon = GObject.registerClass({
     _updateWindowTitleStyle() {
         if (this._windowTitle) {
             let useFixedWidth = Me.settings.get_boolean('group-apps-use-fixed-width');
-            let variableWidth = !useFixedWidth || this.dtpPanel.checkIfVertical() || this.dtpPanel.taskbar.fullScrollView;
             let fontWeight = Me.settings.get_string('group-apps-label-font-weight');
             let fontScale = Me.desktopSettings.get_double('text-scaling-factor');
             let fontColor = this.window.minimized ?
@@ -560,7 +557,6 @@ var TaskbarAppIcon = GObject.registerClass({
 
             this._windowTitle.clutter_text.natural_width = useFixedWidth ? maxLabelWidth : 0;
             this._windowTitle.clutter_text.natural_width_set = useFixedWidth;
-            this._windowTitle.set_width(variableWidth ? -1 : maxLabelWidth + TITLE_RIGHT_PADDING * scaleFactor);
 
             this._windowTitle.set_style('font-size: ' + Me.settings.get_int('group-apps-label-font-size') * fontScale + 'px;' +
                                         'font-weight: ' + fontWeight + ';' +

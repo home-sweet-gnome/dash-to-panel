@@ -1233,6 +1233,11 @@ var Taskbar = class {
     
                         return Object.getPrototypeOf(this)._onStageKeyPress.call(this, actor, event);
                     };
+
+                    let overviewHiddenId = Main.overview.connect('hidden', () => {
+                        Main.overview.disconnect(overviewHiddenId);
+                        delete SearchController._onStageKeyPress;
+                    });
                 }
 
                 // force exiting overview if needed
@@ -1243,11 +1248,6 @@ var Taskbar = class {
                 //temporarily use as primary the monitor on which the showapps btn was clicked, this is
                 //restored by the panel when exiting the overview
                 this.dtpPanel.panelManager.setFocusedMonitor(this.dtpPanel.monitor);
-
-                let overviewHiddenId = Main.overview.connect('hidden', () => {
-                    Main.overview.disconnect(overviewHiddenId);
-                    delete SearchController._onStageKeyPress;
-                });
 
                 // Finally show the overview
                 selector._showAppsButton.checked = true;
