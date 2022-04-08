@@ -162,7 +162,7 @@ var Overview = class {
     }
 
     // Hotkeys
-    _activateApp(appIndex) {
+    _activateApp(appIndex, modifiers) {
         let seenApps = {};
         let apps = [];
         
@@ -182,7 +182,7 @@ var Overview = class {
             let windowCount = appIcon.window || appIcon._hotkeysCycle ? seenAppCount : appIcon._nWindows;
 
             if (Me.settings.get_boolean('shortcut-previews') && windowCount > 1 && 
-                !(Clutter.get_current_event().get_state() & ~(Clutter.ModifierType.MOD1_MASK | Clutter.ModifierType.MOD4_MASK))) { //ignore the alt (MOD1_MASK) and super key (MOD4_MASK)
+                !(modifiers & ~(Clutter.ModifierType.MOD1_MASK | Clutter.ModifierType.SUPER_MASK))) { //ignore the alt (MOD1_MASK) and super key (SUPER_MASK)
                 if (this._hotkeyPreviewCycleInfo && this._hotkeyPreviewCycleInfo.appIcon != appIcon) {
                     this._endHotkeyPreviewCycle();
                 }
@@ -203,7 +203,7 @@ var Overview = class {
 
                     appIcon._hotkeysCycle = appIcon.window;
                     appIcon.window = null;
-                    appIcon._previewMenu.open(appIcon);
+                    appIcon._previewMenu.open(appIcon, true);
                     appIcon.actor.grab_key_focus();
                 }
                 
@@ -212,7 +212,7 @@ var Overview = class {
                 // Activate with button = 1, i.e. same as left click
                 let button = 1;
                 this._endHotkeyPreviewCycle();
-                appIcon.activate(button, true);
+                appIcon.activate(button, modifiers, true);
             }
         }
     }
@@ -224,7 +224,8 @@ var Overview = class {
 
             if (focusWindow) {
                 this._hotkeyPreviewCycleInfo.appIcon._previewMenu.activateFocused();
-            }
+            } else
+                this._hotkeyPreviewCycleInfo.appIcon._previewMenu.close()
 
             this._hotkeyPreviewCycleInfo.appIcon.window = this._hotkeyPreviewCycleInfo.currentWindow;
             delete this._hotkeyPreviewCycleInfo.appIcon._hotkeysCycle;
@@ -269,6 +270,10 @@ var Overview = class {
         let shortcutNumKeys = Me.settings.get_string('shortcut-num-keys');
         let bothNumKeys = shortcutNumKeys == 'BOTH';
         let keys = [];
+        let prefixModifiers = Clutter.ModifierType.SUPER_MASK
+
+        if (Me.settings.get_string('hotkey-prefix-text') == 'SuperAlt')
+            prefixModifiers |= Clutter.ModifierType.MOD1_MASK
         
         if (bothNumKeys || shortcutNumKeys == 'NUM_ROW') {
             keys.push('app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-'); // Regular numbers
@@ -279,10 +284,17 @@ var Overview = class {
         }
 
         keys.forEach( function(key) {
+            let modifiers = prefixModifiers
+            
+            // for some reason, in gnome-shell >= 40 Clutter.get_current_event() is now empty
+            // for keyboard events. Create here the modifiers that are needed in appicon.activate 
+            modifiers |= (key.indexOf('-shift-') >= 0 ? Clutter.ModifierType.SHIFT_MASK : 0)
+            modifiers |= (key.indexOf('-ctrl-') >= 0 ? Clutter.ModifierType.CONTROL_MASK : 0)
+
             for (let i = 0; i < this._numHotkeys; i++) {
                 let appNum = i;
 
-                Utils.addKeybinding(key + (i + 1), Me.settings, () => this._activateApp(appNum));
+                Utils.addKeybinding(key + (i + 1), Me.settings, () => this._activateApp(appNum, modifiers));
             }
         }, this);
 

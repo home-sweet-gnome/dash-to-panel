@@ -830,21 +830,27 @@ var TaskbarAppIcon = GObject.registerClass({
                 this.icon.actor.get_theme_node().get_border_image());
     }
 
-    activate(button, handleAsGrouped) {
+    activate(button, modifiers, handleAsGrouped) {
         let event = Clutter.get_current_event();
-        let modifiers = event ? event.get_state() : 0;
+
+        modifiers = event ? event.get_state() : modifiers || 0;
 
         // Only consider SHIFT and CONTROL as modifiers (exclude SUPER, CAPS-LOCK, etc.)
         modifiers = modifiers & (Clutter.ModifierType.SHIFT_MASK | Clutter.ModifierType.CONTROL_MASK);
 
+        let ctrlPressed = modifiers & Clutter.ModifierType.CONTROL_MASK
+
         // We don't change the CTRL-click behaviour: in such case we just chain
         // up the parent method and return.
-        if (modifiers & Clutter.ModifierType.CONTROL_MASK) {
+        if (event && ctrlPressed) {
                 // Keep default behaviour: launch new window
                 // By calling the parent method I make it compatible
                 // with other extensions tweaking ctrl + click
                 super.activate(button);
                 return;
+        } else if (ctrlPressed) {
+            // hotkey with ctrl
+            return this._launchNewInstance();
         }
 
         // We check what type of click we have and if the modifier SHIFT is

@@ -73,6 +73,7 @@ var PreviewMenu = GObject.registerClass({
         this.currentAppIcon = null;
         this._focusedPreview = null;
         this._peekedWindow = null;
+        this.allowCloseWindow = true;
         this.peekInitialWorkspaceIndex = -1;
         this.opened = false;
         this.isVertical = geom.position == St.Side.LEFT || geom.position == St.Side.RIGHT;
@@ -183,9 +184,10 @@ var PreviewMenu = GObject.registerClass({
         this._addCloseTimeout();
     }
 
-    open(appIcon) {
+    open(appIcon, preventCloseWindow) {
         if (this.currentAppIcon != appIcon) {
             this.currentAppIcon = appIcon;
+            this.allowCloseWindow = !preventCloseWindow;
 
             if (!this.opened) {
                 this._refreshGlobals();
@@ -826,7 +828,7 @@ var Preview = GObject.registerClass({
         this._cancelAnimateOut();
         this._removeWindowSignals();
         this.window = window;
-        this._needsCloseButton = window.can_close() && !Utils.checkIfWindowHasTransient(window);
+        this._needsCloseButton = this._previewMenu.allowCloseWindow && window.can_close() && !Utils.checkIfWindowHasTransient(window);
         this._updateHeader();
     }
 
