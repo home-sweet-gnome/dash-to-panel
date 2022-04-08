@@ -23,17 +23,6 @@
 
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Show running applications</property>
-            <child>
-              <object class="GtkSwitch" id="show_runnning_apps_switch">
-                <property name="valign">center</property>
-              </object>
-            </child>
-          </object>
-        </child>
-
-        <child>
-          <object class="AdwActionRow">
             <property name="title" translatable="yes">Show favorite applications on secondary panels</property>
             <child>
               <object class="GtkSwitch" id="multimon_multi_show_favorites_switch">
@@ -45,7 +34,18 @@
 
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Show favorite applications</property>
+            <property name="title" translatable="yes">Show running applications</property>
+            <child>
+              <object class="GtkSwitch" id="show_runnning_apps_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show &lt;i&gt;AppMenu&lt;/i&gt; button</property>
             <property name="subtitle">Top Bar &gt; Show App Menu must be enabled in Tweak Tool</property>
             <child>
               <object class="GtkSwitch" id="show_appmenu_switch">
