@@ -77,7 +77,6 @@
         <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Reveal the desktop when hovering the Show Desktop button</property>
-            <property name="subtitle" translatable="yes"></property>
             <child>
               <object class="GtkSwitch" id="show_showdesktop_hide_switch">
                 <property name="visible">True</property>

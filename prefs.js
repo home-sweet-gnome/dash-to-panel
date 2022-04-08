@@ -170,19 +170,19 @@ const Preferences = class {
             window.set_search_enabled(true);
 
             // dialogs
-            this._builder.add_from_file(Me.path + '/ui/AnimateAppIconHoverOptions.ui');
+            this._builder.add_from_file(Me.path + '/ui/BoxAnimateAppIconHoverOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxDotOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxShowDesktopOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxDynamicOpacityOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxIntellihideOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/ShowApplicationsOptions.ui');
+            this._builder.add_from_file(Me.path + '/ui/BoxShowApplicationsOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxWindowPreviewOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxGroupAppsOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxMiddleClickOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxOverlayShortcut.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxSecondaryMenuOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/ScrollPanelOptionsBox.ui');
-            this._builder.add_from_file(Me.path + '/ui/ScrollIconOptionsBox.ui');
+            this._builder.add_from_file(Me.path + '/ui/BoxScrollPanelOptions.ui');
+            this._builder.add_from_file(Me.path + '/ui/BoxScrollIconOptions.ui');
             this._builder.add_from_file(Me.path + '/ui/BoxAdvancedOptions.ui');
 
             // pages
@@ -1926,7 +1926,6 @@ const Preferences = class {
 
         // setup dialog for advanced options
         this._builder.get_object('button_advanced_options').connect('clicked', () => {
-            print("nj");
             let box = this._builder.get_object('box_advanced_options');
 
             let dialog = this._createPreferencesDialog(_('Advanced Options'), box);
