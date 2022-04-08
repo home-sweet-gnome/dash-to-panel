@@ -82,9 +82,9 @@ function cssHexString(css) {
 
 function setShortcut(settings, shortcutName) {
     let shortcut_text = settings.get_string(shortcutName + '-text');
-    let [key, mods] = Gtk.accelerator_parse(shortcut_text);
+    let [success, key, mods] = Gtk.accelerator_parse(shortcut_text);
 
-    if (Gtk.accelerator_valid(key, mods)) {
+    if (success && Gtk.accelerator_valid(key, mods)) {
         let shortcut = Gtk.accelerator_name(key, mods);
         settings.set_strv(shortcutName, [shortcut]);
     }
