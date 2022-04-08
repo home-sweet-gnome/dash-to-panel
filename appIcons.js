@@ -417,11 +417,13 @@ var TaskbarAppIcon = GObject.registerClass({
             // It increases the "resolution" of the icon without changing the icon size.
             this.icon.createIcon = (iconSize) => this.app.create_icon_texture(2 * iconSize);
             this._iconIconBinActorAddedId = this.icon._iconBin.connect('actor-added', () => {
+                let size = this.icon.iconSize * Utils.getScaleFactor()
+                
                 if (this.icon._iconBin.child.mapped) {
-                    this.icon._iconBin.child.set_size(this.icon.iconSize, this.icon.iconSize);
+                    this.icon._iconBin.child.set_size(size, size);
                 } else {
                     let iconMappedId = this.icon._iconBin.child.connect('notify::mapped', () => {
-                        this.icon._iconBin.child.set_size(this.icon.iconSize, this.icon.iconSize);
+                        this.icon._iconBin.child.set_size(size, size);
                         this.icon._iconBin.child.disconnect(iconMappedId);
                     });
                 }
