@@ -245,7 +245,10 @@ const Preferences = class {
         let isVertical = position == Pos.LEFT || position == Pos.RIGHT;
         let showDesktopWidthLabel = this._builder.get_object('show_showdesktop_width_label');
 
-        showDesktopWidthLabel.set_text(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
+        if(this._window)
+            showDesktopWidthLabel.set_title(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
+        else
+            showDesktopWidthLabel.set_text(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
 
         this._displayPanelPositionsForMonitor(this._currentMonitorIndex);
     }
@@ -1307,6 +1310,13 @@ const Preferences = class {
                             this._builder.get_object('grid_show_showdesktop_hide_options'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+
+        if(this._window) {
+            this._settings.bind('show-showdesktop-hover',
+                            this._builder.get_object('grid_show_showdesktop_hide_options2'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        }
 
         this._settings.bind('show-appmenu',
                             this._builder.get_object('show_appmenu_switch'),

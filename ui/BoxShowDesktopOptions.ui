@@ -22,222 +22,108 @@
   </object>
 
   <object class="GtkBox" id="box_show_showdesktop_options">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
     <property name="orientation">vertical</property>
+    <property name="width-request">600</property>
+    <property name="spacing">8</property>
+
     <child>
-      <object class="GtkListBox" id="listbox_show_showdesktop_options">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="selection_mode">none</property>
-        <property name="hexpand">1</property>
-        <property name="vexpand">1</property>
+      <object class="AdwPreferencesGroup">
+        <property name="margin-top">8</property>
+        <property name="margin-start">8</property>
+        <property name="margin-end">8</property>
+
         <child>
-          <object class="GtkListBoxRow" id="listboxrow_show_showdesktop_width">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
+          <object class="AdwActionRow" id="show_showdesktop_width_label">
             <child>
-              <object class="GtkGrid" id="grid_show_showdesktop_width">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_start">12</property>
-                <property name="margin_end">12</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <property name="row_spacing">4</property>
-                <property name="column_spacing">32</property>
-                <child>
-                  <object class="GtkLabel" id="show_showdesktop_width_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="xalign">0</property>
-                    <layout>
-                      <property name="row">0</property>
-                      <property name="column">0</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="show_showdesktop_width_spinbutton">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="halign">end</property>
-                    <property name="width_chars">4</property>
-                    <property name="text">1</property>
-                    <property name="adjustment">show_showdesktop_width_adjustment</property>
-                    <property name="numeric">True</property>
-                    <property name="value">1</property>
-                    <layout>
-                      <property name="row">0</property>
-                      <property name="column">1</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="override_show_desktop_line_color_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">Override Show Desktop line color</property>
-                    <property name="xalign">0</property>
-                    <layout>
-                      <property name="row">1</property>
-                      <property name="column">0</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkBox" id="override_show_desktop_line_color_box">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="spacing">12</property>
-                    <property name="halign">end</property>
-                    <child>
-                      <object class="GtkColorButton" id="override_show_desktop_line_color_colorbutton">
-                         <property name="visible">True</property>
-                         <property name="can_focus">True</property>
-                         <property name="receives_default">True</property>
-                         <property name="halign">end</property>
-                         <property name="use_alpha">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkSwitch" id="override_show_desktop_line_color_switch">
-                         <property name="visible">True</property>
-                         <property name="can_focus">True</property>
-                         <property name="halign">end</property>
-                         <property name="valign">center</property>
-                      </object>
-                    </child>
-                    <layout>
-                      <property name="row">1</property>
-                      <property name="column">1</property>
-                    </layout>
-                  </object>
-                </child>
+              <object class="GtkSpinButton" id="show_showdesktop_width_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">1</property>
+                <property name="adjustment">show_showdesktop_width_adjustment</property>
+                <property name="numeric">True</property>
+                <property name="value">1</property>
               </object>
             </child>
           </object>
         </child>
+
         <child>
-          <object class="GtkListBoxRow" id="listboxrow_show_showdesktop_hide">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Override Show Desktop line color</property>
             <child>
-              <object class="GtkGrid" id="grid_show_showdesktop_hide">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="margin_start">12</property>
-                <property name="margin_end">12</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">12</property>
-                <property name="row_spacing">12</property>
-                <property name="column_spacing">32</property>
-                <child>
-                  <object class="GtkLabel" id="show_showdesktop_hide_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">Reveal the desktop when hovering the Show Desktop button</property>
-                    <property name="use_markup">True</property>
-                    <property name="xalign">0</property>
-                    <layout>
-                      <property name="row">0</property>
-                      <property name="column">0</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkSwitch" id="show_showdesktop_hide_switch">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="halign">end</property>
-                    <property name="valign">center</property>
-                    <layout>
-                      <property name="row">0</property>
-                      <property name="column">1</property>
-                    </layout>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkGrid" id="grid_show_showdesktop_hide_options">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="row_spacing">4</property>
-                    <child>
-                      <object class="GtkLabel" id="show_showdesktop_delay_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Delay before revealing the desktop (ms)</property>
-                        <property name="use_markup">True</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="row">0</property>
-                          <property name="column">0</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="show_showdesktop_delay_spinbutton">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="halign">end</property>
-                        <property name="width_chars">4</property>
-                        <property name="text">1</property>
-                        <property name="adjustment">show_showdesktop_delay_adjustment</property>
-                        <property name="numeric">True</property>
-                        <property name="value">1</property>
-                        <layout>
-                          <property name="row">0</property>
-                          <property name="column">1</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="show_showdesktop_time_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Fade duration (ms)</property>
-                        <property name="use_markup">True</property>
-                        <property name="xalign">0</property>
-                        <layout>
-                          <property name="row">1</property>
-                          <property name="column">0</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="show_showdesktop_time_spinbutton">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="halign">end</property>
-                        <property name="width_chars">4</property>
-                        <property name="text">1</property>
-                        <property name="adjustment">show_showdesktop_time_adjustment</property>
-                        <property name="numeric">True</property>
-                        <property name="value">1</property>
-                        <layout>
-                          <property name="row">1</property>
-                          <property name="column">1</property>
-                        </layout>
-                      </object>
-                    </child>
-                    <layout>
-                      <property name="row">1</property>
-                      <property name="column">0</property>
-                      <property name="column-span">2</property>
-                    </layout>
-                  </object>
-                </child>
+              <object class="GtkColorButton" id="override_show_desktop_line_color_colorbutton">>
+                <property name="receives_default">True</property>
+                <property name="valign">center</property>
+                <property name="use_alpha">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSwitch" id="override_show_desktop_line_color_switch">
+                <property name="valign">center</property>
               </object>
             </child>
           </object>
         </child>
+
       </object>
     </child>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+        <property name="margin-start">8</property>
+        <property name="margin-end">8</property>
+        <property name="margin-bottom">8</property>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Reveal the desktop when hovering the Show Desktop button</property>
+            <property name="subtitle" translatable="yes"></property>
+            <child>
+              <object class="GtkSwitch" id="show_showdesktop_hide_switch">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow" id="grid_show_showdesktop_hide_options">
+            <property name="title" translatable="yes">Delay before revealing the desktop (ms)</property>
+            <child>
+              <object class="GtkSpinButton" id="show_showdesktop_delay_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">1</property>
+                <property name="adjustment">show_showdesktop_delay_adjustment</property>
+                <property name="numeric">True</property>
+                <property name="value">1</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow" id="grid_show_showdesktop_hide_options2">
+            <property name="title" translatable="yes">Fade duration (ms)</property>
+            <child>
+              <object class="GtkSpinButton" id="show_showdesktop_time_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">1</property>
+                <property name="adjustment">show_showdesktop_time_adjustment</property>
+                <property name="numeric">True</property>
+                <property name="value">1</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
   </object>
 
 </interface>
