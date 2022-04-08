@@ -52,8 +52,6 @@
               <property name="subtitle" translatable="yes">(0 = theme default)</property>
               <child>
                 <object class="GtkScale" id="tray_size_scale">
-                  <property name="visible">True</property>
-                  <property name="can_focus">True</property>
                   <property name="valign">baseline</property>
                   <property name="hexpand">True</property>
                   <property name="adjustment">tray_size_adjustment</property>
@@ -73,8 +71,6 @@
               <property name="subtitle" translatable="yes">(0 = theme default)</property>
               <child>
                 <object class="GtkScale" id="leftbox_size_scale">
-                  <property name="visible">True</property>
-                  <property name="can_focus">True</property>
                   <property name="valign">baseline</property>
                   <property name="hexpand">True</property>
                   <property name="adjustment">leftbox_size_adjustment</property>
