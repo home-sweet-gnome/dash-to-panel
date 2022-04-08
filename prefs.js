@@ -101,9 +101,9 @@ function checkHotkeyPrefix(settings) {
        hotkeyPrefix = '<Super>';
     else if (hotkeyPrefix == 'SuperAlt')
        hotkeyPrefix = '<Super><Alt>';
-    let [, mods]       = Gtk.accelerator_parse(hotkeyPrefix);
-    let [, shift_mods] = Gtk.accelerator_parse('<Shift>' + hotkeyPrefix);
-    let [, ctrl_mods]  = Gtk.accelerator_parse('<Ctrl>'  + hotkeyPrefix);
+    let [ , , mods]       = Gtk.accelerator_parse(hotkeyPrefix);
+    let [ , , shift_mods] = Gtk.accelerator_parse('<Shift>' + hotkeyPrefix);
+    let [ , , ctrl_mods]  = Gtk.accelerator_parse('<Ctrl>'  + hotkeyPrefix);
 
     let numHotkeys = 10;
     for (let i = 1; i <= numHotkeys; i++) {
