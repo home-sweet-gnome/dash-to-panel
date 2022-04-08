@@ -17,7 +17,7 @@
 
   <object class="AdwPreferencesPage" id="position">
     <property name="title">Position</property>
-    <property name="icon_name">document-properties</property>
+    <property name="icon_name">find-location</property>
 
       <!-- group panel -->
       <child>

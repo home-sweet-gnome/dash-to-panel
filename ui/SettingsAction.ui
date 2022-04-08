@@ -4,7 +4,7 @@
 
   <object class="AdwPreferencesPage" id="action">
     <property name="title">Action</property>
-    <property name="icon_name">document-properties</property>
+    <property name="icon_name">view-pin</property>
 
     <!-- group click action -->
     <child>
