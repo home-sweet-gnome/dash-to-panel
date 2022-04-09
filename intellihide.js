@@ -211,9 +211,8 @@ var Intellihide = class {
     }
 
     _setTrackPanel(enable) {
-        let trackedIndex = Main.layoutManager._findActor(this._panelBox);
-        let actorData = Main.layoutManager._trackedActors[trackedIndex]
-            
+        let actorData = Utils.getTrackedActorData(this._panelBox)
+
         actorData.affectsStruts = !enable;
         actorData.trackFullscreen = !enable;
 

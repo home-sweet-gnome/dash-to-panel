@@ -684,6 +684,10 @@ var Panel = GObject.registerClass({
         let isOverview = !!Main.overview.visibleTarget;
         let isOverviewFocusedMonitor = isOverview && isFocusedMonitor;
         let isShown = !isOverview || isOverviewFocusedMonitor;
+        let actorData = Utils.getTrackedActorData(this.panelBox)
+
+        // prevent the "chrome" to update the panelbox visibility while in overview
+        actorData.trackFullscreen = !isOverview
 
         this.panelBox[isShown ? 'show' : 'hide']();
     }

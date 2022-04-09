@@ -291,6 +291,13 @@ var wrapActor = function(actor) {
     }
 };
 
+var getTrackedActorData = (actor) => {
+    let trackedIndex = Main.layoutManager._findActor(actor);
+    
+    if (trackedIndex >= 0)
+        return Main.layoutManager._trackedActors[trackedIndex]
+}
+
 var getTransformedAllocation = function(actor) {
     if (Config.PACKAGE_VERSION < '3.37') {
         return Shell.util_get_transformed_allocation(actor);
