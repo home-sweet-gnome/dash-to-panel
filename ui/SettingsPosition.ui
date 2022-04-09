@@ -173,7 +173,7 @@
               <property name="subtitle" translatable="yes">(default is 48)</property>
               <child>
                 <object class="GtkScale" id="panel_size_scale">
-                  <property name="hexpand">True</property>
+                  <property name="width-request">300</property>
                   <property name="adjustment">panel_size_adjustment</property>
                   <property name="round_digits">0</property>
                   <property name="digits">0</property>
@@ -191,7 +191,7 @@
               <property name="subtitle" translatable="yes">(default is 100)</property>
               <child>
                 <object class="GtkScale" id="panel_length_scale">
-                  <property name="hexpand">True</property>
+                  <property name="width-request">300</property>
                   <property name="adjustment">panel_length_adjustment</property>
                   <property name="round_digits">0</property>
                   <property name="digits">0</property>

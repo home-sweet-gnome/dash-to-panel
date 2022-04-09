@@ -52,8 +52,7 @@
               <property name="subtitle" translatable="yes">(0 = theme default)</property>
               <child>
                 <object class="GtkScale" id="tray_size_scale">
-                  <property name="valign">baseline</property>
-                  <property name="hexpand">True</property>
+                  <property name="width-request">300</property>
                   <property name="adjustment">tray_size_adjustment</property>
                   <property name="round_digits">0</property>
                   <property name="digits">0</property>
@@ -71,8 +70,7 @@
               <property name="subtitle" translatable="yes">(0 = theme default)</property>
               <child>
                 <object class="GtkScale" id="leftbox_size_scale">
-                  <property name="valign">baseline</property>
-                  <property name="hexpand">True</property>
+                  <property name="width-request">300</property>
                   <property name="adjustment">leftbox_size_adjustment</property>
                   <property name="round_digits">0</property>
                   <property name="digits">0</property>
@@ -98,8 +96,7 @@
               <property name="subtitle" translatable="yes">(-1 = theme default)</property>
               <child>
                 <object class="GtkScale" id="tray_padding_scale">
-                  <property name="valign">baseline</property>
-                  <property name="hexpand">True</property>
+                  <property name="width-request">300</property>
                   <property name="adjustment">tray_padding_adjustment</property>
                   <property name="round_digits">0</property>
                   <property name="digits">0</property>
@@ -117,8 +114,7 @@
               <property name="subtitle" translatable="yes">(-1 = theme default)</property>
               <child>
                 <object class="GtkScale" id="statusicon_padding_scale">
-                  <property name="valign">baseline</property>
-                  <property name="hexpand">True</property>
+                  <property name="width-request">300</property>
                   <property name="adjustment">statusicon_padding_adjustment</property>
                   <property name="round_digits">0</property>
                   <property name="digits">0</property>
@@ -136,8 +132,7 @@
               <property name="subtitle" translatable="yes">(-1 = theme default)</property>
               <child>
                 <object class="GtkScale" id="leftbox_padding_scale">
-                  <property name="valign">baseline</property>
-                  <property name="hexpand">True</property>
+                  <property name="width-request">300</property>
                   <property name="adjustment">leftbox_padding_adjustment</property>
                   <property name="round_digits">0</property>
                   <property name="digits">0</property>
