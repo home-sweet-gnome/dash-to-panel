@@ -2348,7 +2348,8 @@ function init() {
 }
 
 function fillPreferencesWindow(window) {
-    window.set_default_size(680, 740);
+    // use default width or window
+    window.set_default_size(0, 740);
 
     let preferences = new Preferences(window);
 }
