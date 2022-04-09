@@ -41,7 +41,11 @@ const WorkspaceThumbnail = imports.ui.workspaceThumbnail;
 const Meta = imports.gi.Meta;
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
-const DASH_MARGIN = 60;
+
+// When the dash is shown, workspace window preview bottom labels go over it (default
+// gnome-shell behavior), but when the extension hides the dash, leave some space
+// so those labels don't go over a bottom panel
+const LABEL_MARGIN = 60;
 
 //timeout names
 const T1 = 'swipeEndTimeout';
@@ -64,7 +68,9 @@ var Overview = class {
         this._optionalHotKeys();
         this._optionalNumberOverlay();
         this._optionalClickToExit();
+
         this._toggleDash();
+        this._adaptAlloc(true);
 
         this._signalsHandler.add([
             Me.settings,
@@ -81,6 +87,7 @@ var Overview = class {
         this._injectionsHandler.destroy();
         
         this._toggleDash(true);
+        this._adaptAlloc();
 
         // Remove key bindings
         this._disableHotKeys();
@@ -94,14 +101,32 @@ var Overview = class {
         }
 
         let visibilityFunc = visible ? 'show' : 'hide';
-        let height = -1;
+        let height = visible ? -1 : LABEL_MARGIN;
         let overviewControls = Main.overview._overview._controls;
-
-        if (!visible && this._panel.geom.position == St.Side.BOTTOM)
-            height = this._panel.geom.h + DASH_MARGIN
 
         overviewControls.dash.actor[visibilityFunc]();
         overviewControls.dash.actor.set_height(height);
+    }
+
+    _adaptAlloc(enable) {
+        let overviewControls = Main.overview._overview._controls
+        let proto = Object.getPrototypeOf(overviewControls)
+        let allocFunc = null
+
+        if (enable)
+            allocFunc = (box) => {
+                // The default overview allocation is very good and takes into account external 
+                // struts, everywhere but the bottom where the dash is usually fixed anyway.
+                // If there is a bottom panel under the dash location, give it some space here
+                let focusedPanel = this._panel.panelManager.focusedMonitorPanel
+
+                if (focusedPanel?.geom.position == St.Side.BOTTOM)
+                    box.y2 -= focusedPanel.geom.h
+                
+                proto.vfunc_allocate.call(overviewControls, box)
+            }
+
+        Utils.hookVfunc(proto, 'allocate', allocFunc)
     }
 
     /**

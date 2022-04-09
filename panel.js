@@ -184,28 +184,11 @@ var Panel = GObject.registerClass({
 
         this.geom = this.getGeometry();
         
-        // The overview uses the panel height as a margin by way of a "ghost" transparent Clone
-        // This pushes everything down, which isn't desired when the panel is moved to the bottom
-        // I'm adding a 2nd ghost panel and will resize the top or bottom ghost depending on the panel position
-        this._myPanelGhost = new Clutter.Actor({ 
-            x: this.geom.x,
-            y: this.geom.y ,
-            reactive: false, 
-            opacity: 0
-        });
-
         let isTop = this.geom.position == St.Side.TOP;
 
-        if (isTop) {
-            if (Config.PACKAGE_VERSION < '42') {
-                this.panel._leftCorner = this.panel._leftCorner || new GSPanel.PanelCorner(St.Side.LEFT);
-                this.panel._rightCorner = this.panel._rightCorner || new GSPanel.PanelCorner(St.Side.RIGHT);
-            }
-
-            Main.overview._overview.insert_child_at_index(this._myPanelGhost, 0);
-        } else {
-            let overviewControls = Main.overview._overview._controls || Main.overview._controls;
-            Main.overview._overview.add_actor(this._myPanelGhost);
+        if (isTop && Config.PACKAGE_VERSION < '42') {
+            this.panel._leftCorner = this.panel._leftCorner || new GSPanel.PanelCorner(St.Side.LEFT);
+            this.panel._rightCorner = this.panel._rightCorner || new GSPanel.PanelCorner(St.Side.RIGHT);
         }
 
         if (Config.PACKAGE_VERSION < '42' && this.panel._leftCorner) {
@@ -279,8 +262,6 @@ var Panel = GObject.registerClass({
         this._setAllocationMap();
 
         this.panel.actor.add_style_class_name('dashtopanelMainPanel ' + this.getOrientation());
-
-        this._setPanelGhostSize();
 
         this._timeoutsHandler.add([T2, Me.settings.get_int('intellihide-enable-start-delay'), () => this.intellihide = new Intellihide.Intellihide(this)]);
 
@@ -404,8 +385,6 @@ var Panel = GObject.registerClass({
 
         this.menuManager._changeMenu = this.menuManager._oldChangeMenu;
 
-        this._myPanelGhost.get_parent().remove_actor(this._myPanelGhost);
-        
         panelBoxes.forEach(b => delete this[b].allocate);
         this._unmappedButtons.forEach(a => this._disconnectVisibleId(a));
 
@@ -700,10 +679,6 @@ var Panel = GObject.registerClass({
         return Me.persistentStorage[propName].pop();
     }
 
-    _setPanelGhostSize() {
-        this._myPanelGhost.set_size(this.width, this.checkIfVertical() ? 1 : this.height); 
-    }
-
     _adjustForOverview() {
         let isFocusedMonitor = this.panelManager.checkIfFocusedMonitor(this.monitor);
         let isOverview = !!Main.overview.visibleTarget;
@@ -711,19 +686,10 @@ var Panel = GObject.registerClass({
         let isShown = !isOverview || isOverviewFocusedMonitor;
 
         this.panelBox[isShown ? 'show' : 'hide']();
-
-        if (isOverview) {
-            this._myPanelGhost[isOverviewFocusedMonitor ? 'show' : 'hide']();
-
-            if (isOverviewFocusedMonitor) {
-                Utils.getPanelGhost().set_size(1, this.geom.position == St.Side.TOP ? 0 : 32);
-            }
-        }
     }
 
     _resetGeometry() {
         this.geom = this.getGeometry();
-        this._setPanelGhostSize();
         this._setPanelPosition();
         this.taskbar.resetAppIcons(true);
         this.dynamicTransparency.updateExternalStyle();

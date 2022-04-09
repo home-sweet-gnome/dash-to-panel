@@ -526,14 +526,6 @@ var getPoint = function(coords) {
     return new Clutter.Point(coords);
 }
 
-var getPanelGhost = function() {
-    if (!Main.overview._panelGhost) {
-        return Main.overview._overview.get_first_child();
-    }
-
-    return Main.overview._panelGhost;
-}
-
 var notify = function(text, iconName, action, isTransient) {
     let source = new MessageTray.SystemNotificationSource();
     let notification = new MessageTray.Notification(source, 'Dash to Panel', text);

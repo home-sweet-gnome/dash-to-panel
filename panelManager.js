@@ -272,8 +272,6 @@ var PanelManager = class {
 
         Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
 
-        Utils.getPanelGhost().set_size(-1, -1);
-
         LookingGlass.LookingGlass.prototype._resize = LookingGlass.LookingGlass.prototype._oldResize;
         delete LookingGlass.LookingGlass.prototype._oldResize;
 
@@ -284,6 +282,8 @@ var PanelManager = class {
     }
 
     setFocusedMonitor(monitor) {
+        this.focusedMonitorPanel = this.allPanels.find(p => p.monitor == monitor)
+
         if (!this.checkIfFocusedMonitor(monitor)) {
             Main.overview._overview.clear_constraints();
             Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
