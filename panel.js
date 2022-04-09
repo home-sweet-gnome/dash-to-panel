@@ -1421,8 +1421,14 @@ var Panel = GObject.registerClass({
     }
 
     _initProgressManager() {
-        if(!this.progressManager && (Me.settings.get_boolean('progress-show-bar') || Me.settings.get_boolean('progress-show-count')))
+        const progressVisible = Me.settings.get_boolean('progress-show-bar');
+        const countVisible = Me.settings.get_boolean('progress-show-count');
+        const pm = this.progressManager;
+
+        if(!pm && (progressVisible || countVisible))
             this.progressManager = new Progress.ProgressManager();
+        else if (pm)
+            Object.keys(pm._entriesByDBusName).forEach((k) => pm._entriesByDBusName[k].setCountVisible(countVisible));
     }
 });
 

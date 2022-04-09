@@ -1592,6 +1592,11 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
+        this._settings.bind('progress-show-count',
+                            this._builder.get_object('show_notification_badge_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         this._builder.get_object('group_apps_label_font_color_colorbutton').connect('color-set',  (button) => {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
