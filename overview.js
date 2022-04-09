@@ -41,10 +41,7 @@ const WorkspaceThumbnail = imports.ui.workspaceThumbnail;
 const Meta = imports.gi.Meta;
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
-const BACKGROUND_MARGIN = 12;
-const SMALL_WORKSPACE_RATIO = 0.15;
-const DASH_MAX_HEIGHT_RATIO = 0.15;
-
+const DASH_MARGIN = 60;
 
 //timeout names
 const T1 = 'swipeEndTimeout';
@@ -56,9 +53,9 @@ var Overview = class {
         this._timeoutsHandler = new Utils.TimeoutsHandler();
     }
 
-    enable (panel) {
-        this._panel = panel;
-        this.taskbar = panel.taskbar;
+    enable (primaryPanel) {
+        this._panel = primaryPanel;
+        this.taskbar = primaryPanel.taskbar;
 
         this._injectionsHandler = new Utils.InjectionsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
@@ -71,10 +68,12 @@ var Overview = class {
 
         this._signalsHandler.add([
             Me.settings,
-            'changed::stockgs-keep-dash', 
+            [
+                'changed::stockgs-keep-dash',
+                'changed::panel-sizes'
+            ], 
             () => this._toggleDash()
         ]);
-    
     }
 
     disable() {
@@ -95,8 +94,11 @@ var Overview = class {
         }
 
         let visibilityFunc = visible ? 'show' : 'hide';
-        let height = visible ? -1 : 50; // 50 to preserve some spacing
+        let height = -1;
         let overviewControls = Main.overview._overview._controls;
+
+        if (!visible && this._panel.geom.position == St.Side.BOTTOM)
+            height = this._panel.geom.h + DASH_MARGIN
 
         overviewControls.dash.actor[visibilityFunc]();
         overviewControls.dash.actor.set_height(height);

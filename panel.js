@@ -362,8 +362,6 @@ var Panel = GObject.registerClass({
                 }
             ]);
 
-            this._setSearchEntryOffset(this.geom.w);
-
             if (this.statusArea.dateMenu) {
                 this._formatVerticalClock();
                 
@@ -407,7 +405,6 @@ var Panel = GObject.registerClass({
         this.menuManager._changeMenu = this.menuManager._oldChangeMenu;
 
         this._myPanelGhost.get_parent().remove_actor(this._myPanelGhost);
-        this._setSearchEntryOffset(0);
         
         panelBoxes.forEach(b => delete this[b].allocate);
         this._unmappedButtons.forEach(a => this._disconnectVisibleId(a));
@@ -707,20 +704,6 @@ var Panel = GObject.registerClass({
         this._myPanelGhost.set_size(this.width, this.checkIfVertical() ? 1 : this.height); 
     }
 
-    _setSearchEntryOffset(offset) {
-        if (this.isPrimary) {
-            //In the overview, when the panel is vertical the search-entry is the only element
-            //that doesn't natively take into account the size of a side dock, as it is always
-            //centered relatively to the monitor. This looks misaligned, adjust it here so it 
-            //is centered like the rest of the overview elements.
-            let paddingSide = this.getPosition() == St.Side.LEFT ? 'left' : 'right';
-            let scaleFactor = Utils.getScaleFactor();
-            let style = offset ? 'padding-' + paddingSide + ':' + (offset / scaleFactor) + 'px;' : null;
-            let searchEntry = Main.overview._overview._controls._searchEntry;
-            searchEntry.get_parent().set_style(style);
-        }
-    }
-
     _adjustForOverview() {
         let isFocusedMonitor = this.panelManager.checkIfFocusedMonitor(this.monitor);
         let isOverview = !!Main.overview.visibleTarget;
@@ -752,7 +735,6 @@ var Panel = GObject.registerClass({
         if (this.checkIfVertical()) {
             this.showAppsIconWrapper.realShowAppsIcon.toggleButton.set_width(this.geom.w);
             this._refreshVerticalAlloc();
-            this._setSearchEntryOffset(this.geom.w);
         }
     }
 
@@ -832,11 +814,11 @@ var Panel = GObject.registerClass({
         }
 
         return {
-            x: x, y: y, 
-            w: w, h: h,
-            lrPadding: lrPadding,
-            tbPadding: tbPadding,
-            position: position
+            x, y, 
+            w, h,
+            lrPadding,
+            tbPadding,
+            position
         };
     }
 
