@@ -1203,6 +1203,13 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        if (this._window) {
+            this._settings.bind('intellihide-use-pressure',
+                            this._builder.get_object('intellihide_use_pressure_options2'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+        }
+
         this._settings.bind('intellihide-show-in-fullscreen',
                             this._builder.get_object('intellihide_show_in_fullscreen_switch'),
                             'active',
