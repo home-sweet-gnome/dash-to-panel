@@ -23,13 +23,14 @@
     <child>
       <object class="GtkBox">
         <property name="orientation">vertical</property>
-        <property name="spacing">12</property>
+        <property name="spacing">24</property>
+        <property name="margin-top">32</property>
+        <property name="margin-bottom">32</property>
+        <property name="margin-start">32</property>
+        <property name="margin-end">32</property>
 
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="margin-top">12</property>
-            <property name="margin-start">12</property>
-            <property name="margin-end">12</property>
 
             <child>
               <object class="AdwActionRow">
@@ -47,9 +48,6 @@
 
         <child>
           <object class="AdwPreferencesGroup" id="grid_focus_highlight_options">
-            <property name="margin-top">12</property>
-            <property name="margin-start">12</property>
-            <property name="margin-end">12</property>
 
             <child>
               <object class="AdwActionRow">
@@ -92,9 +90,6 @@
 
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="margin-top">12</property>
-            <property name="margin-start">12</property>
-            <property name="margin-end">12</property>
 
             <child>
               <object class="AdwActionRow">
@@ -125,9 +120,6 @@
 
         <child>
           <object class="AdwPreferencesGroup">
-            <property name="margin-top">12</property>
-            <property name="margin-start">12</property>
-            <property name="margin-end">12</property>
 
             <child>
               <object class="AdwActionRow">
@@ -144,9 +136,6 @@
 
         <child>
           <object class="AdwPreferencesGroup" id="grid_dot_color">
-            <property name="margin-top">12</property>
-            <property name="margin-start">12</property>
-            <property name="margin-end">12</property>
 
             <child>
               <object class="AdwActionRow">
@@ -203,9 +192,6 @@
 
         <child>
           <object class="AdwPreferencesGroup" id="dot_color_unfocused_box">
-            <property name="margin-top">12</property>
-            <property name="margin-start">12</property>
-            <property name="margin-end">12</property>
 
             <child>
               <object class="AdwActionRow">
@@ -224,10 +210,6 @@
         <!-- TODO sensitivity of this group has to be connected to dot_color_override_switch -->
         <child>
           <object class="AdwPreferencesGroup" id="grid_dot_color_unfocused">
-            <property name="margin-top">12</property>
-            <property name="margin-bottom">12</property>
-            <property name="margin-start">12</property>
-            <property name="margin-end">12</property>
 
             <child>
               <object class="AdwActionRow">

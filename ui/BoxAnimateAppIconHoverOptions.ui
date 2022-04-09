@@ -48,13 +48,14 @@
   <object class="GtkBox" id="animate_appicon_hover_options">
     <property name="orientation">vertical</property>
     <property name="width-request">600</property>
-    <property name="spacing">12</property>
+    <property name="spacing">24</property>
+    <property name="margin-top">32</property>
+    <property name="margin-bottom">32</property>
+    <property name="margin-start">32</property>
+    <property name="margin-end">32</property>
 
     <child>
       <object class="AdwPreferencesGroup">
-        <property name="margin-top">12</property>
-        <property name="margin-start">12</property>
-        <property name="margin-end">12</property>
 
         <child>
           <object class="AdwActionRow">
@@ -78,9 +79,6 @@
 
     <child>
       <object class="AdwPreferencesGroup">
-        <property name="margin-bottom">12</property>
-        <property name="margin-start">12</property>
-        <property name="margin-end">12</property>
 
         <child>
           <object class="AdwActionRow">

@@ -24,13 +24,14 @@
   <object class="GtkBox" id="box_show_showdesktop_options">
     <property name="orientation">vertical</property>
     <property name="width-request">600</property>
-    <property name="spacing">8</property>
+    <property name="spacing">24</property>
+    <property name="margin-top">32</property>
+    <property name="margin-bottom">32</property>
+    <property name="margin-start">32</property>
+    <property name="margin-end">32</property>
 
     <child>
       <object class="AdwPreferencesGroup">
-        <property name="margin-top">8</property>
-        <property name="margin-start">8</property>
-        <property name="margin-end">8</property>
 
         <child>
           <object class="AdwActionRow" id="show_showdesktop_width_label">
@@ -70,9 +71,6 @@
 
     <child>
       <object class="AdwPreferencesGroup">
-        <property name="margin-start">8</property>
-        <property name="margin-end">8</property>
-        <property name="margin-bottom">8</property>
 
         <child>
           <object class="AdwActionRow">
