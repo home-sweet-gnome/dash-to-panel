@@ -836,6 +836,7 @@ const Preferences = class {
             });
             this._builder.get_object('dot_color_override_switch').connect('state-set', (widget) => {
                 if (widget.get_active()) this._settings.set_boolean('dot-color-dominant', false);
+                else if (this._window) this._settings.set_boolean('dot-color-unfocused-different', false);
             });
 
             this._settings.bind('dot-color-unfocused-different',

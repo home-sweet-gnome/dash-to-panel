@@ -207,7 +207,6 @@
           </object>
         </child>
 
-        <!-- TODO sensitivity of this group has to be connected to dot_color_override_switch -->
         <child>
           <object class="AdwPreferencesGroup" id="grid_dot_color_unfocused">
 
