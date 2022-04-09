@@ -416,7 +416,7 @@ var activateSiblingWindow = function(windows, direction, startWindow) {
     let windowIndex = windows.indexOf(global.display.focus_window);
     let nextWindowIndex = windowIndex < 0 ?
                           startWindow ? windows.indexOf(startWindow) : 0 : 
-                          windowIndex + (direction == 'up' ? 1 : -1);
+                          windowIndex + (direction == 'up' ? -1 : 1);
 
     if (nextWindowIndex == windows.length) {
         nextWindowIndex = 0;
