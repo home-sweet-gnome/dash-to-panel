@@ -231,9 +231,10 @@
               <property name="title" translatable="yes">Taskbar Display</property>
               <child>
                 <object class="GtkListBox" id="taskbar_display_listbox">
+                  <property name="margin-top">6</property>
+                  <property name="margin-bottom">6</property>
                   <property name="visible">True</property>
                   <property name="can_focus">False</property>
-                  <property name="margin_bottom">6</property>
                   <property name="selection_mode">none</property>
                 </object>
               </child>

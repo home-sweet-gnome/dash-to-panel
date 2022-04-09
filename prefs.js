@@ -210,6 +210,12 @@ const Preferences = class {
             let pageAbout = this._builder.get_object('about');
             window.add(pageAbout);
 
+            let listbox = this._builder.get_object('taskbar_display_listbox');
+            let provider = new Gtk.CssProvider();
+            provider.load_from_data('list { background-color: transparent; }');
+            let context = listbox.get_style_context();
+            context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
             // set the window as notebook, it is being used as parent for dialogs
             this.notebook = window;
 
