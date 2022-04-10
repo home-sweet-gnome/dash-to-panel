@@ -378,7 +378,10 @@ var Taskbar = class {
                     'changed::group-apps-use-launchers',
                     'changed::taskbar-locked'
                 ],
-                () => this.resetAppIcons()
+                () => {
+                    this.usingLaunchers = Me.settings.get_boolean('group-apps-use-launchers');
+                    this.resetAppIcons()
+                }
             ],
             [
                 adjustment,
@@ -391,6 +394,7 @@ var Taskbar = class {
         );
 
         this.isGroupApps = Me.settings.get_boolean('group-apps');
+        this.usingLaunchers = Me.settings.get_boolean('group-apps-use-launchers');
 
         this._onScrollSizeChange(adjustment);
         this._connectWorkspaceSignals();
@@ -614,7 +618,8 @@ var Taskbar = class {
         let appFavorites = AppFavorites.getAppFavorites();
         let cssFuncName = (show ? 'add' : 'remove') + '_style_class_name';
         
-        this._getAppIcons().filter(appIcon => appFavorites.isFavorite(appIcon.app.get_id()))
+        this._getAppIcons().filter(appIcon => (this.usingLaunchers && appIcon.isLauncher) || 
+                                              (!this.usingLaunchers && appFavorites.isFavorite(appIcon.app.get_id())))
                            .forEach(fav => fav._container[cssFuncName]('favorite'));
     }
 
@@ -903,7 +908,7 @@ var Taskbar = class {
         // the current workspace (this check is done in AppIcons.getInterestingWindows)
         let runningApps = this._checkIfShowingRunningApps() ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this)) : [];
 
-        if (!this.isGroupApps && Me.settings.get_boolean('group-apps-use-launchers')) {
+        if (!this.isGroupApps && this.usingLaunchers) {
             return this._createAppInfos(favoriteApps, [], true)
                        .concat(this._createAppInfos(runningApps)
                        .filter(appInfo => appInfo.windows.length));
@@ -926,6 +931,7 @@ var Taskbar = class {
         for (let i = currentAppIcons.length - 1; i > -1; --i) {
             let appIcon = currentAppIcons[i].child._delegate;
             let appIndex = Utils.findIndex(expectedAppInfos, appInfo => appInfo.app == appIcon.app &&
+                                                                        (!this.usingLaunchers || this.isGroupApps || appInfo.windows[0] == appIcon.window) &&
                                                                         appInfo.isLauncher == appIcon.isLauncher);
 
             if (appIndex < 0 || 
@@ -1012,6 +1018,21 @@ var Taskbar = class {
     }
 
     _createAppInfos(apps, defaultWindows, defaultIsLauncher) {
+        if (!this.isGroupApps && this.usingLaunchers && !defaultIsLauncher) {
+            let separateApps = []
+            let tracker = Shell.WindowTracker.get_default();
+            let windows = AppIcons.getInterestingWindows(null, this.dtpPanel.monitor)
+                                  .sort(sortWindowsCompareFunction)
+
+            windows.forEach(w => separateApps.push({
+                app: tracker.get_window_app(w), 
+                isLauncher: false, 
+                windows: [w]
+            }))
+
+            return separateApps
+        }
+
         return apps.map(app => ({ 
             app: app, 
             isLauncher: defaultIsLauncher || false,
@@ -1090,6 +1111,7 @@ var Taskbar = class {
 
         let sourceActor = source instanceof St.Widget ? source : source.actor;
         let isVertical = this.dtpPanel.checkIfVertical();
+        let usingLaunchers = !this.isGroupApps && this.usingLaunchers;
 
         if (!this._box.contains(sourceActor) && !source._dashItemContainer) {
             //not an appIcon of the taskbar, probably from the applications view
@@ -1114,13 +1136,13 @@ var Taskbar = class {
         if (hoveredIndex >= 0) {
             let isLeft = pos < currentAppIcons[hoveredIndex]._dashItemContainer[posProp] + currentAppIcons[hoveredIndex]._dashItemContainer[sizeProp] * .5;
 
-            // Don't allow positioning before or after self and between icons of same app
+            // Don't allow positioning before or after self and between icons of same app if not in launcher mode
             if (!(hoveredIndex === sourceIndex ||
                   (isLeft && hoveredIndex - 1 == sourceIndex) ||
-                  (isLeft && hoveredIndex - 1 >= 0 && source.app != currentAppIcons[hoveredIndex - 1].app && 
+                  (!usingLaunchers && isLeft && hoveredIndex - 1 >= 0 && source.app != currentAppIcons[hoveredIndex - 1].app && 
                    currentAppIcons[hoveredIndex - 1].app == currentAppIcons[hoveredIndex].app) ||
                   (!isLeft && hoveredIndex + 1 == sourceIndex) ||
-                  (!isLeft && hoveredIndex + 1 < currentAppIcons.length && source.app != currentAppIcons[hoveredIndex + 1].app && 
+                  (!usingLaunchers && !isLeft && hoveredIndex + 1 < currentAppIcons.length && source.app != currentAppIcons[hoveredIndex + 1].app && 
                    currentAppIcons[hoveredIndex + 1].app == currentAppIcons[hoveredIndex].app))) {
                     this._box.set_child_at_index(source._dashItemContainer, hoveredIndex);
     
@@ -1145,7 +1167,7 @@ var Taskbar = class {
 
         let appIcons = this._getAppIcons();
         let sourceIndex = appIcons.indexOf(source);
-        let usingLaunchers = !this.isGroupApps && Me.settings.get_boolean('group-apps-use-launchers');
+        let usingLaunchers = !this.isGroupApps && this.usingLaunchers;
 
         // dragging the icon to its original position
         if (this._dragInfo[0] === sourceIndex) {
@@ -1157,7 +1179,7 @@ var Taskbar = class {
         let appIsFavorite = appFavorites.isFavorite(sourceAppId);
         let replacingIndex = sourceIndex + (sourceIndex > this._dragInfo[0] ? -1 : 1);
         let favoriteIndex = replacingIndex >= 0 ? appFavorites.getFavorites().indexOf(appIcons[replacingIndex].app) : 0;
-        let sameApps = appIcons.filter(a => a != source && a.app == source.app);
+        let sameApps = usingLaunchers ? [] : appIcons.filter(a => a != source && a.app == source.app);
         let showingFavorites = this._checkIfShowingFavorites();
         let favoritesCount = 0;
         let position = 0;

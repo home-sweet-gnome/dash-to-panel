@@ -1430,16 +1430,18 @@ function closeAllWindows(app, monitor) {
 // Filter out unnecessary windows, for instance
 // nautilus desktop window.
 function getInterestingWindows(app, monitor, isolateMonitors) {
-    let windows = app.get_windows().filter(function(w) {
-        return !w.skip_taskbar;
-    });
+    let windows = (
+            app ? 
+            app.get_windows() : 
+            global.get_window_actors().map(wa => wa.get_meta_window())
+        ).filter(w => !w.skip_taskbar);
 
     // When using workspace or monitor isolation, we filter out windows
     // that are not in the current workspace or on the same monitor as the appicon
     if (Me.settings.get_boolean('isolate-workspaces'))
         windows = windows.filter(function(w) {
             return w.get_workspace() && 
-                   w.get_workspace().index() == Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index();
+                   w.get_workspace() == Utils.getCurrentWorkspace();
         });
 
     if (monitor && Me.settings.get_boolean('multi-monitors') && (isolateMonitors || Me.settings.get_boolean('isolate-monitors'))) {
