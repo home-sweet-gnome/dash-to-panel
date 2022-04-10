@@ -40,7 +40,7 @@ class ProximityWatch {
     constructor(actor, monitorIndex, mode, xThreshold, yThreshold, handler) {
         this.actor = actor;
         this.monitorIndex = monitorIndex
-        this.overlap = 0;
+        this.overlap = false;
         this.mode = mode;
         this.threshold = [xThreshold, yThreshold];
         this.handler = handler;
@@ -112,10 +112,7 @@ var ProximityManager = class {
             [
                 global.window_manager,
                 'switch-workspace', 
-                () => {
-                    Object.keys(this._watches).forEach(id => this._watches[id].overlap = 0)
-                    this._queueUpdate()
-                }
+                () => this._queueUpdate()
             ],
             [
                 Main.overview,
@@ -189,10 +186,9 @@ var ProximityManager = class {
     }
 
     _getHandledWindows() {
-        return global.get_window_actors()
-                     .filter(w => w.visible)
-                     .map(w => w.get_meta_window())
-                     .filter(mw => this._checkIfHandledWindow(mw));
+        return Utils.getCurrentWorkspace()
+                    .list_windows()
+                    .filter(mw => this._checkIfHandledWindow(mw));
     }
 
     _checkIfHandledWindow(metaWindow) {
@@ -218,10 +214,10 @@ var ProximityManager = class {
         this._timeoutsHandler.add([T1, MIN_UPDATE_MS, () => this._endLimitUpdate()]);
 
         let metaWindows = this._getHandledWindows();
-        
+
         Object.keys(this._watches).forEach(id => {
             let watch = this._watches[id];
-            let overlap = this._update(watch, metaWindows);
+            let overlap = !!this._update(watch, metaWindows);
 
             if (overlap !== watch.overlap) {
                 watch.handler(overlap);
@@ -238,15 +234,14 @@ var ProximityManager = class {
     }
 
     _update(watch, metaWindows) {
-        if (watch.mode === Mode.FOCUSED_WINDOWS) {
+        if (watch.mode === Mode.FOCUSED_WINDOWS)
             return (this._focusedWindowInfo && 
                     this._checkIfHandledWindow(this._focusedWindowInfo.metaWindow) &&
                     this._checkProximity(this._focusedWindowInfo.metaWindow, watch));
-        } else if (watch.mode === Mode.MAXIMIZED_WINDOWS) {
+
+        if (watch.mode === Mode.MAXIMIZED_WINDOWS)
             return metaWindows.some(mw => mw.maximized_vertically && mw.maximized_horizontally && 
-                                          mw.get_monitor() == watch.monitorIndex &&
-                                          mw.get_workspace() == Utils.getCurrentWorkspace());
-        }
+                                          mw.get_monitor() == watch.monitorIndex);
         
         //Mode.ALL_WINDOWS
         return metaWindows.some(mw => this._checkProximity(mw, watch));
