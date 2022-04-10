@@ -112,7 +112,10 @@ var ProximityManager = class {
             [
                 global.window_manager,
                 'switch-workspace', 
-                () => Object.keys(this._watches).forEach(id => this._watches[id].overlap = 0)
+                () => {
+                    Object.keys(this._watches).forEach(id => this._watches[id].overlap = 0)
+                    this._queueUpdate()
+                }
             ],
             [
                 Main.overview,
