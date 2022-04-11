@@ -956,15 +956,14 @@ var Panel = GObject.registerClass({
             }
         }
 
-        if (this.geom.position == St.Side.TOP) {
+        if (this.geom.position == St.Side.TOP && Config.PACKAGE_VERSION < '42') {
             let childBoxLeftCorner = new Clutter.ActorBox();
             let childBoxRightCorner = new Clutter.ActorBox();
             let currentCornerSize = this.cornerSize;
             let panelAllocFixedSize = box[this.fixedCoord.c2] - box[this.fixedCoord.c1];
             
-            if (Config.PACKAGE_VERSION < '42') {
-                [ , this.cornerSize] = this.panel._leftCorner.actor[this.sizeFunc](-1);
-            }
+            [ , this.cornerSize] = this.panel._leftCorner.actor[this.sizeFunc](-1);
+
             childBoxLeftCorner[this.varCoord.c1] = 0;
             childBoxLeftCorner[this.varCoord.c2] = this.cornerSize;
             childBoxLeftCorner[this.fixedCoord.c1] = panelAllocFixedSize;
@@ -975,13 +974,11 @@ var Panel = GObject.registerClass({
             childBoxRightCorner[this.fixedCoord.c1] = panelAllocFixedSize;
             childBoxRightCorner[this.fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
 
-            if (Config.PACKAGE_VERSION < '42') {
-                Utils.allocate(this.panel._leftCorner.actor, childBoxLeftCorner, flags);
-                Utils.allocate(this.panel._rightCorner.actor, childBoxRightCorner, flags);
+            Utils.allocate(this.panel._leftCorner.actor, childBoxLeftCorner, flags);
+            Utils.allocate(this.panel._rightCorner.actor, childBoxRightCorner, flags);
 
-                if (this.cornerSize != currentCornerSize) {
-                    this._setPanelClip();
-                }
+            if (this.cornerSize != currentCornerSize) {
+                this._setPanelClip();
             }
         }
     }

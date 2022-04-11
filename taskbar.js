@@ -401,6 +401,11 @@ var Taskbar = class {
     }
 
     destroy() {
+        if (this._waitIdleId) {
+            GLib.source_remove(this._waitIdleId);
+            this._waitIdleId = 0;
+        }
+
         this.iconAnimator.destroy();
 
         this._signalsHandler.destroy();
@@ -542,8 +547,11 @@ var Taskbar = class {
                 this.fullScrollView = 0;
             }
 
-            if (initial != this.fullScrollView) {
-                this._getAppIcons().forEach(a => a.updateTitleStyle());
+            if (initial != this.fullScrollView && !this._waitIdleId) {
+                this._waitIdleId = Mainloop.idle_add(() => {
+                    this._getAppIcons().forEach(a => a.updateTitleStyle())
+                    this._waitIdleId = 0
+                });
             }
         }
     }
