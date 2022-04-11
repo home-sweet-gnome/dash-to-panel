@@ -101,7 +101,7 @@ var Overview = class {
         }
 
         let visibilityFunc = visible ? 'show' : 'hide';
-        let height = visible ? -1 : LABEL_MARGIN;
+        let height = visible ? -1 : LABEL_MARGIN * Utils.getScaleFactor();
         let overviewControls = Main.overview._overview._controls;
 
         overviewControls.dash.actor[visibilityFunc]();
