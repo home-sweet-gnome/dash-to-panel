@@ -36,7 +36,7 @@
 
   <object class="AdwPreferencesPage" id="style">
     <property name="title">Style</property>
-    <property name="icon_name">image-adjust-color</property>
+    <property name="icon_name">applications-graphics-symbolic</property>
 
     <!-- group app icon style -->
     <child>
