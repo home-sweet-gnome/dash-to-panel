@@ -3,7 +3,7 @@
   <requires lib="gtk" version="4.0"/>
   <object class="AdwPreferencesPage" id="behavior">
     <property name="title">Behavior</property>
-    <property name="icon_name">visible</property>
+    <property name="icon_name">preferences-system-symbolic</property>
 
     <!-- group applications -->
     <child>
