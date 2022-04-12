@@ -40,8 +40,7 @@
             <object class="AdwActionRow">
               <property name="title" translatable="yes">Display panels on all monitors</property>
               <child>
-                <object class="GtkComboBoxText" id="multimon_primary_combo">
-                  <property name="can_focus">False</property>
+                <object class="GtkSwitch" id="multimon_multi_switch">
                   <property name="valign">center</property>
                 </object>
               </child>
