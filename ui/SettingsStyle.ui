@@ -92,7 +92,6 @@
                 <property name="valign">center</property>
                 <child>
                   <object class="GtkImage" id="animate_appicon_hover_options_image">
-                    <property name="can_focus">False</property>
                     <property name="icon_name">emblem-system-symbolic</property>
                   </object>
                 </child>
@@ -271,7 +270,6 @@
                 <property name="valign">center</property>
                 <child>
                   <object class="GtkImage" id="image_trans_dyn_options">
-                    <property name="can_focus">False</property>
                     <property name="icon_name">emblem-system-symbolic</property>
                   </object>
                 </child>

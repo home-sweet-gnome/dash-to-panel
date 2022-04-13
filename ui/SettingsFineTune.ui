@@ -245,7 +245,6 @@
                   <property name="valign">center</property>
                   <child>
                     <object class="GtkImage" id="secondarymenu_options_button_image">
-                      <property name="can_focus">False</property>
                       <property name="icon_name">emblem-system-symbolic</property>
                     </object>
                   </child>
@@ -268,7 +267,6 @@
             <object class="GtkButton" id="button_advanced_options">
               <property name="label" translatable="yes">Advanced Options</property>
               <property name="visible">False</property>
-              <property name="can_focus">True</property>
               <property name="receives_default">True</property>
               <property name="halign">end</property>
             </object>

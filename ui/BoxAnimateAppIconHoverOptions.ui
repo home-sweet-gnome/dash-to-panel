@@ -62,7 +62,6 @@
             <property name="title" translatable="yes">Animation type</property>
             <child>
               <object class="GtkComboBoxText" id="animate_appicon_hover_options_type_combo">
-                <property name="can_focus">False</property>
                 <property name="valign">center</property>
                 <items>
                   <item id="SIMPLE" translatable="yes">Simple</item>

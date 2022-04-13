@@ -29,7 +29,6 @@
               <property name="title" translatable="yes">Display the main panel on</property>
               <child>
                 <object class="GtkComboBoxText" id="multimon_primary_combo">
-                  <property name="can_focus">False</property>
                   <property name="valign">center</property>
                 </object>
               </child>
@@ -62,7 +61,6 @@
                   <property name="valign">center</property>
                   <child>
                     <object class="GtkImage" id="image_intellihide_options">
-                      <property name="can_focus">False</property>
                       <property name="icon_name">emblem-system-symbolic</property>
                     </object>
                   </child>
@@ -107,7 +105,6 @@
                   </child>
                   <child>
                     <object class="GtkComboBoxText" id="taskbar_position_monitor_combo">
-                      <property name="can_focus">False</property>
                       <property name="halign">end</property>
                       <property name="valign">center</property>
                       <property name="hexpand">True</property>
@@ -207,7 +204,6 @@
               <property name="title" translatable="yes">Anchor</property>
               <child>
                 <object class="GtkComboBoxText" id="panel_anchor_combo">
-                  <property name="can_focus">False</property>
                   <property name="valign">center</property>
                   <items>
                     <item id="START" translatable="yes">Start</item>
@@ -234,7 +230,6 @@
                   <property name="margin-top">6</property>
                   <property name="margin-bottom">6</property>
                   <property name="visible">True</property>
-                  <property name="can_focus">False</property>
                   <property name="selection_mode">none</property>
                 </object>
               </child>

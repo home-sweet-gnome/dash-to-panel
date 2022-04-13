@@ -110,7 +110,6 @@
                     <child>
                       <object class="GtkLabel" id="preview_immediate_click_label">
                         <property name="name">4</property>
-                        <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Immediate on application icon click</property>
                         <property name="use_markup">True</property>
                       </object>

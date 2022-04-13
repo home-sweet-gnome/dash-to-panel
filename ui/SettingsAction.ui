@@ -21,7 +21,6 @@
                 <property name="valign">center</property>
                 <child>
                   <object class="GtkImage" id="middle_click_image">
-                    <property name="can_focus">False</property>
                     <property name="icon_name">emblem-system-symbolic</property>
                   </object>
                 </child>
@@ -32,7 +31,6 @@
             </child>
             <child>
               <object class="GtkComboBoxText" id="click_action_combo">
-                <property name="can_focus">False</property>
                 <property name="valign">center</property>
                 <items>
                   <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
@@ -62,14 +60,12 @@
             <child>
               <object class="GtkButton" id="scroll_panel_options_button">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="halign">end</property>
                 <property name="valign">center</property>
                 <child>
                   <object class="GtkImage" id="scroll_panel_options_button_image">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
                     <property name="icon_name">emblem-system-symbolic</property>
                   </object>
                 </child>
@@ -81,7 +77,6 @@
             <child>
               <object class="GtkComboBoxText" id="scroll_panel_combo">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
                 <property name="valign">center</property>
                 <property name="hexpand">True</property>
                 <items>
@@ -106,7 +101,6 @@
                 <child>
                   <object class="GtkImage" id="scroll_icon_options_button_image">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
                     <property name="icon_name">emblem-system-symbolic</property>
                   </object>
                 </child>
@@ -117,7 +111,6 @@
             </child>
             <child>
               <object class="GtkComboBoxText" id="scroll_icon_combo">
-                <property name="can_focus">False</property>
                 <property name="valign">center</property>
                 <property name="hexpand">True</property>
                 <items>
@@ -148,7 +141,6 @@
                 <property name="valign">center</property>
                 <child>
                   <object class="GtkImage" id="image_overlay">
-                    <property name="can_focus">False</property>
                     <property name="icon_name">emblem-system-symbolic</property>
                   </object>
                 </child>
