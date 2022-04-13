@@ -362,13 +362,16 @@ var Taskbar = class {
                     'changed::show-running-apps',
                     'changed::show-favorites-all-monitors'
                 ],
-                this._redisplay.bind(this)
+                () => {
+                    setAttributes()
+                    this._redisplay()
+                }
             ],
             [
                 Me.settings,
                 'changed::group-apps',
                 () => {
-                    this.isGroupApps = Me.settings.get_boolean('group-apps');
+                    setAttributes()
                     this._connectWorkspaceSignals();
                 }
             ],
@@ -379,7 +382,7 @@ var Taskbar = class {
                     'changed::taskbar-locked'
                 ],
                 () => {
-                    this.usingLaunchers = Me.settings.get_boolean('group-apps-use-launchers');
+                    setAttributes()
                     this.resetAppIcons()
                 }
             ],
@@ -393,8 +396,15 @@ var Taskbar = class {
             ]
         );
 
-        this.isGroupApps = Me.settings.get_boolean('group-apps');
-        this.usingLaunchers = Me.settings.get_boolean('group-apps-use-launchers');
+        let setAttributes = () => {
+            this.isGroupApps = Me.settings.get_boolean('group-apps');
+            this.usingLaunchers = !this.isGroupApps && Me.settings.get_boolean('group-apps-use-launchers');
+            this.showFavorites = Me.settings.get_boolean('show-favorites') && 
+                                 (this.dtpPanel.isPrimary || Me.settings.get_boolean('show-favorites-all-monitors'))
+            this.allowSplitApps = this.usingLaunchers || !this.showFavorites
+        }
+
+        setAttributes()
 
         this._onScrollSizeChange(adjustment);
         this._connectWorkspaceSignals();
@@ -569,7 +579,7 @@ var Taskbar = class {
             this._emptyDropTarget.show(true);
         }
 
-        this._toggleFavortieHighlight(true);
+        this._toggleFavoriteHighlight(true);
     }
 
     _onDragCancelled() {
@@ -604,7 +614,7 @@ var Taskbar = class {
         this._dragMonitor = null;
         this.emit('end-drag');
         
-        this._toggleFavortieHighlight();
+        this._toggleFavoriteHighlight();
     }
 
     _onDragMotion(dragEvent) {
@@ -622,13 +632,14 @@ var Taskbar = class {
         return DND.DragMotionResult.CONTINUE;
     }
 
-    _toggleFavortieHighlight(show) {
+    _toggleFavoriteHighlight(show) {
         let appFavorites = AppFavorites.getAppFavorites();
         let cssFuncName = (show ? 'add' : 'remove') + '_style_class_name';
         
-        this._getAppIcons().filter(appIcon => (this.usingLaunchers && appIcon.isLauncher) || 
-                                              (!this.usingLaunchers && appFavorites.isFavorite(appIcon.app.get_id())))
-                           .forEach(fav => fav._container[cssFuncName]('favorite'));
+        if (this.showFavorites)
+            this._getAppIcons().filter(appIcon => (this.usingLaunchers && appIcon.isLauncher) || 
+                                                  (!this.usingLaunchers && appFavorites.isFavorite(appIcon.app.get_id())))
+                               .forEach(fav => fav._container[cssFuncName]('favorite'));
     }
 
     handleIsolatedWorkspaceSwitch() {
@@ -909,14 +920,14 @@ var Taskbar = class {
 
     getAppInfos() {
         //get the user's favorite apps
-        let favoriteApps = this._checkIfShowingFavorites() ? AppFavorites.getAppFavorites().getFavorites() : [];
+        let favoriteApps = this.showFavorites ? AppFavorites.getAppFavorites().getFavorites() : [];
 
         //find the apps that should be in the taskbar: the favorites first, then add the running apps
         // When using isolation, we filter out apps that have no windows in
         // the current workspace (this check is done in AppIcons.getInterestingWindows)
         let runningApps = this._checkIfShowingRunningApps() ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this)) : [];
 
-        if (!this.isGroupApps && this.usingLaunchers) {
+        if (this.allowSplitApps) {
             return this._createAppInfos(favoriteApps, [], true)
                        .concat(this._createAppInfos(runningApps)
                        .filter(appInfo => appInfo.windows.length));
@@ -939,7 +950,7 @@ var Taskbar = class {
         for (let i = currentAppIcons.length - 1; i > -1; --i) {
             let appIcon = currentAppIcons[i].child._delegate;
             let appIndex = Utils.findIndex(expectedAppInfos, appInfo => appInfo.app == appIcon.app &&
-                                                                        (!this.usingLaunchers || this.isGroupApps || appInfo.windows[0] == appIcon.window) &&
+                                                                        (!this.allowSplitApps || this.isGroupApps || appInfo.windows[0] == appIcon.window) &&
                                                                         appInfo.isLauncher == appIcon.isLauncher);
 
             if (appIndex < 0 || 
@@ -1004,11 +1015,6 @@ var Taskbar = class {
         return Me.settings.get_boolean('show-running-apps');
     }
     
-    _checkIfShowingFavorites() {
-        return Me.settings.get_boolean('show-favorites') && 
-               (this.dtpPanel.isPrimary || Me.settings.get_boolean('show-favorites-all-monitors'));
-    }
-
     _getRunningApps() {
         let tracker = Shell.WindowTracker.get_default();
         let windows = global.get_window_actors();
@@ -1026,7 +1032,7 @@ var Taskbar = class {
     }
 
     _createAppInfos(apps, defaultWindows, defaultIsLauncher) {
-        if (!this.isGroupApps && this.usingLaunchers && !defaultIsLauncher) {
+        if (this.allowSplitApps && !defaultIsLauncher) {
             let separateApps = []
             let tracker = Shell.WindowTracker.get_default();
             let windows = AppIcons.getInterestingWindows(null, this.dtpPanel.monitor)
@@ -1119,7 +1125,6 @@ var Taskbar = class {
 
         let sourceActor = source instanceof St.Widget ? source : source.actor;
         let isVertical = this.dtpPanel.checkIfVertical();
-        let usingLaunchers = !this.isGroupApps && this.usingLaunchers;
 
         if (!this._box.contains(sourceActor) && !source._dashItemContainer) {
             //not an appIcon of the taskbar, probably from the applications view
@@ -1144,13 +1149,13 @@ var Taskbar = class {
         if (hoveredIndex >= 0) {
             let isLeft = pos < currentAppIcons[hoveredIndex]._dashItemContainer[posProp] + currentAppIcons[hoveredIndex]._dashItemContainer[sizeProp] * .5;
 
-            // Don't allow positioning before or after self and between icons of same app if not in launcher mode
+            // Don't allow positioning before or after self and between icons of same app if ungrouped and showing favorites
             if (!(hoveredIndex === sourceIndex ||
                   (isLeft && hoveredIndex - 1 == sourceIndex) ||
-                  (!usingLaunchers && isLeft && hoveredIndex - 1 >= 0 && source.app != currentAppIcons[hoveredIndex - 1].app && 
+                  (!this.allowSplitApps && isLeft && hoveredIndex - 1 >= 0 && source.app != currentAppIcons[hoveredIndex - 1].app && 
                    currentAppIcons[hoveredIndex - 1].app == currentAppIcons[hoveredIndex].app) ||
                   (!isLeft && hoveredIndex + 1 == sourceIndex) ||
-                  (!usingLaunchers && !isLeft && hoveredIndex + 1 < currentAppIcons.length && source.app != currentAppIcons[hoveredIndex + 1].app && 
+                  (!this.allowSplitApps && !isLeft && hoveredIndex + 1 < currentAppIcons.length && source.app != currentAppIcons[hoveredIndex + 1].app && 
                    currentAppIcons[hoveredIndex + 1].app == currentAppIcons[hoveredIndex].app))) {
                     this._box.set_child_at_index(source._dashItemContainer, hoveredIndex);
     
@@ -1184,11 +1189,10 @@ var Taskbar = class {
 
         let appFavorites = AppFavorites.getAppFavorites();
         let sourceAppId = source.app.get_id();
-        let appIsFavorite = appFavorites.isFavorite(sourceAppId);
+        let appIsFavorite = this.showFavorites && appFavorites.isFavorite(sourceAppId);
         let replacingIndex = sourceIndex + (sourceIndex > this._dragInfo[0] ? -1 : 1);
         let favoriteIndex = replacingIndex >= 0 ? appFavorites.getFavorites().indexOf(appIcons[replacingIndex].app) : 0;
-        let sameApps = usingLaunchers ? [] : appIcons.filter(a => a != source && a.app == source.app);
-        let showingFavorites = this._checkIfShowingFavorites();
+        let sameApps = this.allowSplitApps ? [] : appIcons.filter(a => a != source && a.app == source.app);
         let favoritesCount = 0;
         let position = 0;
         let interestingWindows = {};
@@ -1217,7 +1221,7 @@ var Taskbar = class {
 
             windows.forEach(w => w._dtpPosition = position++);
 
-            if (showingFavorites && 
+            if (this.showFavorites && 
                 ((usingLaunchers && appIcons[i].isLauncher) || 
                  (!usingLaunchers && appFavorites.isFavorite(appIcons[i].app.get_id())))) {
                 ++favoritesCount;
@@ -1230,7 +1234,7 @@ var Taskbar = class {
             } else {
                 appFavorites.addFavoriteAtPos(sourceAppId, favoriteIndex);
             }
-        } else if (appIsFavorite && showingFavorites && (!usingLaunchers || source.isLauncher)) {
+        } else if (appIsFavorite && this.showFavorites && (!usingLaunchers || source.isLauncher)) {
             appFavorites.removeFavorite(sourceAppId);
         }
 
