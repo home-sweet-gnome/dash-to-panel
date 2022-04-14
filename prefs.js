@@ -2268,7 +2268,9 @@ const Preferences = class {
         dialog.show();
 
         dialog.connect('response', (dialog, id) => {
-            acceptHandler.call(this, dialog.get_file().get_path());
+            if (id == Gtk.ResponseType.ACCEPT)
+                acceptHandler.call(this, dialog.get_file().get_path());
+            
             dialog.destroy();
         });
     }
