@@ -301,7 +301,7 @@ var PanelStyle = class {
     }
 
     _refreshPanelButton(actor) {
-        if (actor.visible && imports.misc.config.PACKAGE_VERSION >= '3.34.0') {
+        if (actor.visible) {
             //force gnome 3.34+ to refresh (having problem with the -natural-hpadding)
             let parent = actor.get_parent();
             let children = parent.get_children();

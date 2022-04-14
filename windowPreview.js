@@ -17,8 +17,8 @@
 
 const GObject = imports.gi.GObject;
 const Clutter = imports.gi.Clutter;
-const Config = imports.misc.config;
 const GLib = imports.gi.GLib;
+const Graphene = imports.gi.Graphene;
 const Gtk = imports.gi.Gtk;
 const Main = imports.ui.main;
 const Mainloop = imports.mainloop;
@@ -463,9 +463,9 @@ var PreviewMenu = GObject.registerClass({
     }
 
     _updatePosition() {
-        let sourceNode = this.currentAppIcon.actor.get_theme_node();
-        let sourceContentBox = sourceNode.get_content_box(this.currentAppIcon.actor.get_allocation_box());
-        let sourceAllocation = Utils.getTransformedAllocation(this.currentAppIcon.actor);
+        let sourceNode = this.currentAppIcon.get_theme_node();
+        let sourceContentBox = sourceNode.get_content_box(this.currentAppIcon.get_allocation_box());
+        let sourceAllocation = Utils.getTransformedAllocation(this.currentAppIcon);
         let [previewsWidth, previewsHeight] = this._getPreviewsSize();
         let appIconMargin = Me.settings.get_int('appicon-margin') / scaleFactor;
         let x = 0, y = 0;
@@ -535,7 +535,7 @@ var PreviewMenu = GObject.registerClass({
 
         let fadeWidget = new St.Widget({ 
             reactive: false, 
-            pivot_point: Utils.getPoint({ x: .5, y: .5 }), 
+            pivot_point: new Graphene.Point({ x: .5, y: .5 }), 
             rotation_angle_z: end ? 180 : 0,
             style: fadeStyle,
             x: x, y: y,
@@ -717,9 +717,7 @@ var Preview = GObject.registerClass({
         let [previewBinWidth, previewBinHeight] = this._getBinSize();
         let closeButton = new St.Button({ style_class: 'window-close', accessible_name: 'Close window' });
 
-        if (Config.PACKAGE_VERSION >= '3.31.9') {
-            closeButton.add_actor(new St.Icon({ icon_name: 'window-close-symbolic' }));
-        }
+        closeButton.add_actor(new St.Icon({ icon_name: 'window-close-symbolic' }));
 
         this._closeButtonBin = new St.Widget({ 
             style_class: 'preview-close-btn-container',
@@ -1123,7 +1121,7 @@ var WindowCloneLayout = GObject.registerClass({
         this.bufferRect = bufferRect;
     }
 
-    vfunc_allocate(actor, box, flags) {
+    vfunc_allocate(actor, box) {
         let [width, height] = box.get_size();
 
         box.set_origin(
@@ -1136,7 +1134,7 @@ var WindowCloneLayout = GObject.registerClass({
             height + (this.bufferRect.height - this.frameRect.height) * this.ratio
         );
 
-        Utils.allocate(actor.get_first_child(), box, flags);
+        actor.get_first_child().allocate(box);
     }
 });
 

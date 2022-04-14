@@ -36,10 +36,10 @@ var DynamicTransparency = class {
         this._windowOverlap = false;
         this.currentBackgroundColor = 0;
 
-        this._initialPanelStyle = dtpPanel.panel.actor.get_style();
+        this._initialPanelStyle = dtpPanel.panel.get_style();
         
         if (Config.PACKAGE_VERSION < '42' && this._dtpPanel.geom.position == St.Side.TOP) {
-            this._initialPanelCornerStyle = dtpPanel.panel._leftCorner.actor.get_style();
+            this._initialPanelCornerStyle = dtpPanel.panel._leftCorner.get_style();
         }
 
         this._signalsHandler = new Utils.GlobalSignalsHandler();
@@ -54,11 +54,11 @@ var DynamicTransparency = class {
         this._signalsHandler.destroy();
         this._proximityManager.removeWatch(this._proximityWatchId);
 
-        this._dtpPanel.panel.actor.set_style(this._initialPanelStyle);
+        this._dtpPanel.panel.set_style(this._initialPanelStyle);
         
         if (Config.PACKAGE_VERSION < '42' && this._dtpPanel.geom.position == St.Side.TOP) {
-            this._dtpPanel.panel._leftCorner.actor.set_style(this._initialPanelCornerStyle);
-            this._dtpPanel.panel._rightCorner.actor.set_style(this._initialPanelCornerStyle);
+            this._dtpPanel.panel._leftCorner.set_style(this._initialPanelCornerStyle);
+            this._dtpPanel.panel._rightCorner.set_style(this._initialPanelCornerStyle);
         }
     }
 
@@ -181,7 +181,7 @@ var DynamicTransparency = class {
     }
 
     _updateComplementaryStyles() {
-        let panelThemeNode = this._dtpPanel.panel.actor.get_theme_node();
+        let panelThemeNode = this._dtpPanel.panel.get_theme_node();
 
         this._complementaryStyles = 'border-radius: ' + panelThemeNode.get_border_radius(0) + 'px;';
     }
@@ -223,13 +223,13 @@ var DynamicTransparency = class {
         
         if (Config.PACKAGE_VERSION < '42' && this._dtpPanel.geom.position == St.Side.TOP) {
             let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
-            this._dtpPanel.panel._leftCorner.actor.set_style(cornerStyle);
-            this._dtpPanel.panel._rightCorner.actor.set_style(cornerStyle);
+            this._dtpPanel.panel._leftCorner.set_style(cornerStyle);
+            this._dtpPanel.panel._rightCorner.set_style(cornerStyle);
         }
     }
 
     _setGradient() {
-        this._dtpPanel.panel.actor.set_style(
+        this._dtpPanel.panel.set_style(
             'background: none; ' + 
             'border-image: none; ' + 
             'background-image: none; ' +

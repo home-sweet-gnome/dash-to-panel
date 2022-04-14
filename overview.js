@@ -25,7 +25,6 @@ const Intellihide = Me.imports.intellihide;
 const Utils = Me.imports.utils;
 
 const Clutter = imports.gi.Clutter;
-const Config = imports.misc.config;
 const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
 const Gtk = imports.gi.Gtk;
@@ -104,8 +103,8 @@ var Overview = class {
         let height = visible ? -1 : LABEL_MARGIN * Utils.getScaleFactor();
         let overviewControls = Main.overview._overview._controls;
 
-        overviewControls.dash.actor[visibilityFunc]();
-        overviewControls.dash.actor.set_height(height);
+        overviewControls.dash[visibilityFunc]();
+        overviewControls.dash.set_height(height);
     }
 
     _adaptAlloc(enable) {
@@ -218,7 +217,7 @@ var Overview = class {
                     this._hotkeyPreviewCycleInfo = {
                         appIcon: appIcon,
                         currentWindow: appIcon.window,
-                        keyFocusOutId: appIcon.actor.connect('key-focus-out', () => appIcon.actor.grab_key_focus()),
+                        keyFocusOutId: appIcon.connect('key-focus-out', () => appIcon.grab_key_focus()),
                         capturedEventId: global.stage.connect('captured-event', (actor, e) => {
                             if (e.type() == Clutter.EventType.KEY_RELEASE && e.get_key_symbol() == (Clutter.KEY_Super_L || Clutter.Super_L)) {
                                 this._endHotkeyPreviewCycle(true);
@@ -231,7 +230,7 @@ var Overview = class {
                     appIcon._hotkeysCycle = appIcon.window;
                     appIcon.window = null;
                     appIcon._previewMenu.open(appIcon, true);
-                    appIcon.actor.grab_key_focus();
+                    appIcon.grab_key_focus();
                 }
                 
                 appIcon._previewMenu.focusNext();
@@ -247,7 +246,7 @@ var Overview = class {
     _endHotkeyPreviewCycle(focusWindow) {
         if (this._hotkeyPreviewCycleInfo) {
             global.stage.disconnect(this._hotkeyPreviewCycleInfo.capturedEventId);
-            this._hotkeyPreviewCycleInfo.appIcon.actor.disconnect(this._hotkeyPreviewCycleInfo.keyFocusOutId);
+            this._hotkeyPreviewCycleInfo.appIcon.disconnect(this._hotkeyPreviewCycleInfo.keyFocusOutId);
 
             if (focusWindow) {
                 this._hotkeyPreviewCycleInfo.appIcon._previewMenu.activateFocused();

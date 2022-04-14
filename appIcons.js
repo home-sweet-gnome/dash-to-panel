@@ -142,13 +142,11 @@ var TaskbarAppIcon = GObject.registerClass({
         };
         // Hack for missing TOUCH_END event.
         this._onLeaveEvent = function(actor, event) {
-            this.actor.fake_release();
+            this.fake_release();
             if (this._menuTimeoutId != 0) this.activate(1); // Activate/launch the application if TOUCH_END didn't fire.
             this._removeMenuTimeout();
         };
 
-        Utils.wrapActor(this.icon);
-        Utils.wrapActor(this);
         
         this._dot.set_width(0);
         this._isGroupApps = Me.settings.get_boolean('group-apps');
@@ -157,7 +155,7 @@ var TaskbarAppIcon = GObject.registerClass({
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
         this._dtpIconContainer = new St.Widget({ layout_manager: new Clutter.BinLayout(), style: getIconContainerStyle(panel.checkIfVertical()) });
 
-        this.actor.remove_actor(this._iconContainer);
+        this.remove_actor(this._iconContainer);
         
         this._dtpIconContainer.add_child(this._iconContainer);
 
@@ -184,10 +182,10 @@ var TaskbarAppIcon = GObject.registerClass({
         }
 
         this._container.add_child(this._dotsContainer);
-        this.actor.set_child(this._container);
+        this.set_child(this._container);
 
         if (panel.checkIfVertical()) {
-            this.actor.set_width(panel.geom.w);
+            this.set_width(panel.geom.w);
         }
 
         // Monitor windows-changes instead of app state.
@@ -223,7 +221,7 @@ var TaskbarAppIcon = GObject.registerClass({
                                                 this._updateWindowTitleStyle.bind(this));
         }
         
-        this._scrollEventId = this.actor.connect('scroll-event', this._onMouseScroll.bind(this));
+        this._scrollEventId = this.connect('scroll-event', this._onMouseScroll.bind(this));
 
         this._overviewWindowDragEndId = Main.overview.connect('window-drag-end',
                                                 this._onOverviewWindowDragEnd.bind(this));
@@ -231,7 +229,7 @@ var TaskbarAppIcon = GObject.registerClass({
         this._switchWorkspaceId = global.window_manager.connect('switch-workspace',
                                                 this._onSwitchWorkspace.bind(this));
 
-        this._hoverChangeId = this.actor.connect('notify::hover', () => this._onAppIconHoverChanged());
+        this._hoverChangeId = this.connect('notify::hover', () => this._onAppIconHoverChanged());
         
         this._dtpSettingsSignalIds = [
             Me.settings.connect('changed::animate-appicon-hover', this._onAnimateAppiconHoverChanged.bind(this)),
@@ -279,10 +277,10 @@ var TaskbarAppIcon = GObject.registerClass({
         // The source of the clone is this._container,
         // using this.actor directly would break DnD style.
         let clone = new Clutter.Clone({
-            source: this.actor.child,
-            x: this.actor.child.x, y: this.actor.child.y,
-            width: this.actor.child.width, height: this.actor.child.height,
-            pivot_point: new Utils.getPoint({ x: 0.5, y: 0.5 }),
+            source: this.child,
+            x: this.child.x, y: this.child.y,
+            width: this.child.width, height: this.child.height,
+            pivot_point: new imports.gi.Graphene.Point({ x: 0.5, y: 0.5 }),
             opacity: 255,
             reactive: false,
             x_align: Clutter.ActorAlign.CENTER, y_align: Clutter.ActorAlign.CENTER,
@@ -291,8 +289,8 @@ var TaskbarAppIcon = GObject.registerClass({
         // "clone" of this.actor
         return new St.Button({
             child: clone,
-            x: this.actor.x, y: this.actor.y,
-            width: this.actor.width, height: this.actor.height,
+            x: this.x, y: this.y,
+            width: this.width, height: this.height,
             reactive: false,
         });
     }
@@ -303,7 +301,7 @@ var TaskbarAppIcon = GObject.registerClass({
              this.getAppIconInterestingWindows().length > 0)) {
             return false;
         } else {
-            return this.actor.hover && !this.window && 
+            return this.hover && !this.window && 
                    (!this._menu || !this._menu.isOpen) && 
                    (this._previewMenu.getCurrentAppIcon() !== this);
         }
@@ -315,7 +313,7 @@ var TaskbarAppIcon = GObject.registerClass({
             return;
         }
 
-        if (this.actor.hover) {
+        if (this.hover) {
             this._previewMenu.requestOpen(this);
         } else {
             this._previewMenu.requestClose();
@@ -360,11 +358,11 @@ var TaskbarAppIcon = GObject.registerClass({
             Utils.getStageTheme().disconnect(this._scaleFactorChangedId);
 
         if (this._hoverChangeId) {
-            this.actor.disconnect(this._hoverChangeId);
+            this.disconnect(this._hoverChangeId);
         }
 
         if (this._scrollEventId) {
-            this.actor.disconnect(this._scrollEventId);
+            this.disconnect(this._scrollEventId);
         }
 
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
@@ -395,13 +393,13 @@ var TaskbarAppIcon = GObject.registerClass({
         // and position are random values, which might exceeds the integer range
         // resulting in an error when assigned to the a rect. This is a more like
         // a workaround to prevent flooding the system with errors.
-        if (this.actor.get_stage() == null)
+        if (this.get_stage() == null)
             return;
 
         let rect = new Meta.Rectangle();
 
-        [rect.x, rect.y] = this.actor.get_transformed_position();
-        [rect.width, rect.height] = this.actor.get_transformed_size();
+        [rect.x, rect.y] = this.get_transformed_position();
+        [rect.width, rect.height] = this.get_transformed_size();
 
         let windows = this.window ? [this.window] : this.getAppIconInterestingWindows(true);
         windows.forEach(function(w) {
@@ -476,9 +474,9 @@ var TaskbarAppIcon = GObject.registerClass({
                 visible: false
             });
 
-            let mappedId = this.actor.connect('notify::mapped', () => {
+            let mappedId = this.connect('notify::mapped', () => {
                 this._displayProperIndicator();
-                this.actor.disconnect(mappedId);
+                this.disconnect(mappedId);
             });
         } else {
             this._focusedDots = new St.DrawingArea(), 
@@ -641,7 +639,7 @@ var TaskbarAppIcon = GObject.registerClass({
         let padding = getIconPadding(this.dtpPanel.monitor.index);
         let margin = Me.settings.get_int('appicon-margin');
 
-        this.actor.set_style('padding:' + (this.dtpPanel.checkIfVertical() ? margin + 'px 0' : '0 ' + margin + 'px;'));
+        this.set_style('padding:' + (this.dtpPanel.checkIfVertical() ? margin + 'px 0' : '0 ' + margin + 'px;'));
         this._iconContainer.set_style('padding: ' + padding + 'px;');
     }
 
@@ -743,9 +741,9 @@ var TaskbarAppIcon = GObject.registerClass({
             this._timeoutsHandler.add([T6, 0, () => {
                 if (!this._destroyed) {
                     if(isFocused) 
-                        this.actor.add_style_class_name('focused');
+                        this.add_style_class_name('focused');
                     else
-                        this.actor.remove_style_class_name('focused');
+                        this.remove_style_class_name('focused');
                 }
             }]);
 
@@ -830,8 +828,8 @@ var TaskbarAppIcon = GObject.registerClass({
         // This is an attempt to determine if the theme is providing their own
         // running indicator by way of a border image on the icon, for example in
         // the theme Ciliora
-        return (this.icon.actor.get_stage() && 
-                this.icon.actor.get_theme_node().get_border_image());
+        return (this.icon.get_stage() && 
+                this.icon.get_theme_node().get_border_image());
     }
 
     activate(button, modifiers, handleAsGrouped) {
@@ -1059,9 +1057,9 @@ var TaskbarAppIcon = GObject.registerClass({
             for (let i = 1; i <= MAX_INDICATORS; i++){
                 let className = 'running'+i;
                 if(i != this._nWindows)
-                    this.actor.remove_style_class_name(className);
+                    this.remove_style_class_name(className);
                 else
-                    this.actor.add_style_class_name(className);
+                    this.add_style_class_name(className);
             }
         }
 
@@ -1634,9 +1632,6 @@ function ItemShowLabel()  {
     constructor(dtpPanel) {
         this.realShowAppsIcon = new Dash.ShowAppsIcon();
 
-        Utils.wrapActor(this.realShowAppsIcon);
-        Utils.wrapActor(this.realShowAppsIcon.toggleButton);
-
         /* the variable equivalent to toggleButton has a different name in the appIcon class
         (actor): duplicate reference to easily reuse appIcon methods */
         this.actor = this.realShowAppsIcon.toggleButton;
@@ -1666,7 +1661,7 @@ function ItemShowLabel()  {
         let customIconPath = Me.settings.get_string('show-apps-icon-file');
 
         this.realShowAppsIcon.icon.createIcon = function(size) {
-            this._iconActor = new St.Icon({ icon_name: 'view' + (Config.PACKAGE_VERSION < '3.20' ? '' : '-app') + '-grid-symbolic',
+            this._iconActor = new St.Icon({ icon_name: 'view-app-grid-symbolic',
                                             icon_size: size,
                                             style_class: 'show-apps-icon',
                                             track_hover: true });
@@ -1869,11 +1864,7 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
         let settingsMenuItem = this._appendMenuItem(_('Dash to Panel Settings'));
         settingsMenuItem.connect('activate', function () {
-            let command = ["gnome-shell-extension-prefs"];
-
-            if (Config.PACKAGE_VERSION > '3.36') {
-                command = ["gnome-extensions", "prefs"];
-            }
+            let command = ["gnome-extensions", "prefs"];
 
             Util.spawn(command.concat([Me.metadata.uuid]));
         });

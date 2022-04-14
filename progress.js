@@ -287,7 +287,7 @@ var ProgressIndicator = class {
         this._progressManager = progressManager;
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
-        this._sourceDestroyId = this._source.actor.connect('destroy', () => {
+        this._sourceDestroyId = this._source.connect('destroy', () => {
             this._signalsHandler.destroy();
         });          
 
@@ -321,7 +321,7 @@ var ProgressIndicator = class {
     }
 
     destroy() {
-        this._source.actor.disconnect(this._sourceDestroyId);
+        this._source.disconnect(this._sourceDestroyId);
         this._signalsHandler.destroy();
     }
 

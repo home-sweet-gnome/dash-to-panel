@@ -22,7 +22,6 @@
  */
 
 const Clutter = imports.gi.Clutter;
-const Config = imports.misc.config;
 const GdkPixbuf = imports.gi.GdkPixbuf;
 const Gi = imports._gi;
 const Gio = imports.gi.Gio;
@@ -38,12 +37,6 @@ const Util = imports.misc.util;
 
 var TRANSLATION_DOMAIN = imports.misc.extensionUtils.getCurrentExtension().metadata['gettext-domain'];
 var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
-
-//Clutter implicit animations are available since 3.34
-//prefer those over Tweener if available
-if (Config.PACKAGE_VERSION < '3.34') {
-    var Tweener = imports.ui.tweener;
-}
 
 // simplify global signals and function injections handling
 // abstract class
@@ -234,11 +227,6 @@ var getScaleFactor = function() {
     return getStageTheme().scale_factor || 1;
 };
 
-var getAppDisplayViews = function() {
-    //gnome-shell 3.38 only has one view and it is now the appDisplay
-    return imports.ui.appDisplay._views || [{ view: imports.ui.appDisplay }];
-};
-
 var findIndex = function(array, predicate) {
     if (array) {
         if (Array.prototype.findIndex) {
@@ -283,14 +271,6 @@ var hookVfunc = function(proto, symbol, func) {
     }
 };
 
-var wrapActor = function(actor) {
-    if (actor) {
-        Object.defineProperty(actor, 'actor', {
-            value: actor instanceof Clutter.Actor ? actor : actor.actor
-        });
-    }
-};
-
 var getTrackedActorData = (actor) => {
     let trackedIndex = Main.layoutManager._findActor(actor);
     
@@ -299,35 +279,11 @@ var getTrackedActorData = (actor) => {
 }
 
 var getTransformedAllocation = function(actor) {
-    if (Config.PACKAGE_VERSION < '3.37') {
-        return Shell.util_get_transformed_allocation(actor);
-    }
-
     let extents = actor.get_transformed_extents();
     let topLeft = extents.get_top_left();
     let bottomRight = extents.get_bottom_right();
 
     return { x1: topLeft.x, x2: bottomRight.x, y1: topLeft.y, y2: bottomRight.y };
-};
-
-var allocate = function(actor, box, flags, useParent) {
-    let allocateObj = useParent ? Object.getPrototypeOf(actor) : actor;
-
-    allocateObj.allocate.apply(actor, getAllocationParams(box, flags));
-};
-
-var setAllocation = function(actor, box, flags) {
-    actor.set_allocation.apply(actor, getAllocationParams(box, flags));
-};
-
-var getAllocationParams = function(box, flags) {
-    let params = [box];
-
-    if (Config.PACKAGE_VERSION < '3.37') {
-        params.push(flags);
-    }
-
-    return params;
 };
 
 var setClip = function(actor, x, y, width, height) {
@@ -433,45 +389,35 @@ var animateWindowOpacity = function(window, tweenOpts, adjustVisibility) {
     //there currently is a mutter bug with the windowactor opacity, starting with 3.34
     //https://gitlab.gnome.org/GNOME/mutter/issues/836
 
-    if (Config.PACKAGE_VERSION > '3.35') {
-        //on 3.36, a workaround is to use the windowactor's child for the fade animation
-        //this leaves a "shadow" on the desktop, so the windowactor needs to be hidden
-        //when the animation is complete
-        let visible = tweenOpts.opacity > 0;
-        let windowActor = window;
+    //since 3.36, a workaround is to use the windowactor's child for the fade animation
+    //this leaves a "shadow" on the desktop, so the windowactor needs to be hidden
+    //when the animation is complete
+    let visible = tweenOpts.opacity > 0;
+    let windowActor = window;
 
-        window = windowActor.get_first_child() || windowActor;
+    window = windowActor.get_first_child() || windowActor;
 
-        if (!windowActor.visible && visible && adjustVisibility) {
-            window.opacity = 0;
-            windowActor.visible = visible;
-        }
-        
-        if (!visible) {
-            let initialOpacity = window.opacity;
+    if (!windowActor.visible && visible && adjustVisibility) {
+        window.opacity = 0;
+        windowActor.visible = visible;
+    }
+    
+    if (!visible) {
+        let initialOpacity = window.opacity;
 
-            tweenOpts.onComplete = () => { 
-                windowActor.visible = visible; 
-                window.opacity = initialOpacity; 
-            };
-        }
-    } else if (Config.PACKAGE_VERSION > '3.33') {
-        //the workaround only works on 3.35+, so on 3.34, let's just hide the 
-        //window without animation
-        return window.visible = (tweenOpts.opacity == 255);
+        tweenOpts.onComplete = () => { 
+            windowActor.visible = visible; 
+            window.opacity = initialOpacity; 
+        };
     }
 
     animate(window, tweenOpts);
 };
 
 var animate = function(actor, options) {
-    if (Tweener) {
-        return Tweener.addTween(actor, options);
-    }
-
-    //to support both Tweener and Clutter animations, we use Tweener "time" 
-    //and "delay" properties defined in seconds, as opposed to Clutter animations 
-    //"duration" and "delay" which are defined in milliseconds
+    //the original animations used Tweener instead of Clutter animations, so we
+    //use "time" and "delay" properties defined in seconds, as opposed to Clutter 
+    //animations duration" and "delay" which are defined in milliseconds
     if (options.delay) {
         options.delay = options.delay * 1000;
     }
@@ -502,18 +448,10 @@ var animate = function(actor, options) {
 }
 
 var isAnimating = function(actor, prop) {
-    if (Tweener) {
-        return Tweener.isTweening(actor);
-    }
-
     return !!actor.get_transition(prop);
 }
 
 var stopAnimations = function(actor) {
-    if (Tweener) {
-        return Tweener.removeTweens(actor);
-    }
-    
     actor.remove_all_transitions();
 }
 
@@ -526,11 +464,7 @@ var getIndicators = function(delegate) {
 }
 
 var getPoint = function(coords) {
-    if (Config.PACKAGE_VERSION > '3.35.1') {
-        return new imports.gi.Graphene.Point(coords);
-    }
-
-    return new Clutter.Point(coords);
+    return new imports.gi.Graphene.Point(coords);
 }
 
 var notify = function(text, iconName, action, isTransient) {

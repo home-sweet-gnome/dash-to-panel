@@ -35,7 +35,6 @@ const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
 
-const Config = imports.misc.config;
 const Gi = imports._gi;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
@@ -62,11 +61,6 @@ var PanelManager = class {
         this.panelsElementPositions = {};
 
         this._saveMonitors();
-
-        Utils.getAppDisplayViews().forEach(v => {
-            Utils.wrapActor(v.view);
-            Utils.wrapActor(v.view._grid);
-        });
     }
 
     enable(reset) {
@@ -74,11 +68,6 @@ var PanelManager = class {
 
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
         this.proximityManager = new Proximity.ProximityManager();
-
-        this._oldGetShowAppsButton = imports.ui.main.overview.dash.showAppsButton;
-
-        Utils.wrapActor(Main.panel);
-        Utils.wrapActor(Main.overview.dash || 0);
 
         this.primaryPanel = this._createPanel(this.dtpPrimaryMonitor, Me.settings.get_boolean('stockgs-keep-top-panel'));
         this.allPanels = [ this.primaryPanel ];
@@ -233,8 +222,8 @@ var PanelManager = class {
                 p.panelBox.destroy();
             } else {
                 p.panelBox.remove_child(p);
-                p.remove_child(p.panel.actor);
-                p.panelBox.add(p.panel.actor);
+                p.remove_child(p.panel);
+                p.panelBox.add(p.panel);
 
                 p.panelBox.set_position(clipContainer.x, clipContainer.y);
 
@@ -370,7 +359,7 @@ var PanelManager = class {
         } else {
             panelBox = Main.layoutManager.panelBox;
             Main.layoutManager._untrackActor(panelBox);
-            panelBox.remove_child(Main.panel.actor);
+            panelBox.remove_child(Main.panel);
             Main.layoutManager.removeChrome(panelBox);
         }
 
@@ -404,9 +393,8 @@ var PanelManager = class {
 
     _adjustPanelMenuButton(button, monitor, arrowSide) {
         if (button) {
-            Utils.wrapActor(button);
             button.menu._boxPointer._dtpSourceActor = button.menu._boxPointer.sourceActor;
-            button.menu._boxPointer.sourceActor = button.actor;
+            button.menu._boxPointer.sourceActor = button;
             button.menu._boxPointer._userArrowSide = arrowSide;
             button.menu._boxPointer._dtpInPanel = 1;
 
@@ -722,14 +710,12 @@ function _newLookingGlassResize() {
     let topOffset = primaryMonitorPanel.getPosition() == St.Side.TOP ? primaryMonitorPanel.dtpSize + 8 : 32;
 
     this._oldResize();
-    Utils.wrapActor(this);
-    Utils.wrapActor(this._objInspector);
 
-    this._hiddenY = Main.layoutManager.primaryMonitor.y + topOffset - this.actor.height;
-    this._targetY = this._hiddenY + this.actor.height;
-    this.actor.y = this._hiddenY;
+    this._hiddenY = Main.layoutManager.primaryMonitor.y + topOffset - this.height;
+    this._targetY = this._hiddenY + this.height;
+    this.y = this._hiddenY;
 
-    this._objInspector.actor.set_position(this.actor.x + Math.floor(this.actor.width * 0.1), this._targetY + Math.floor(this.actor.height * 0.1));
+    this._objInspector.set_position(this.x + Math.floor(this.width * 0.1), this._targetY + Math.floor(this.height * 0.1));
 }
 
 function _newLookingGlassOpen() {

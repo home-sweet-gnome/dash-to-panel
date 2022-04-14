@@ -342,13 +342,13 @@ var Intellihide = class {
         
         if (GrabHelper._grabHelperStack)
             // gnome-shell < 42
-            isGrab = GrabHelper._grabHelperStack.some(gh => gh._owner == this._dtpPanel.panel.actor)
+            isGrab = GrabHelper._grabHelperStack.some(gh => gh._owner == this._dtpPanel.panel)
         else if (global.stage.get_grab_actor) {
             // gnome-shell >= 42
             let sourceActor = global.stage.get_grab_actor()?._sourceActor
 
             isGrab = sourceActor && (sourceActor == Main.layoutManager.dummyCursor || 
-                     this._dtpPanel.panel.actor.contains(sourceActor))
+                     this._dtpPanel.panel.contains(sourceActor))
         } 
         
         if (isGrab)

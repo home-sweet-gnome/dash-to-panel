@@ -23,7 +23,6 @@
 
 
 const Clutter = imports.gi.Clutter;
-const Config = imports.misc.config;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
@@ -124,8 +123,8 @@ var TaskbarActor = GObject.registerClass({
                       clip_to_allocation: true });
     }
 
-    vfunc_allocate(box, flags) {
-        Utils.setAllocation(this, box, flags);
+    vfunc_allocate(box) {
+        this.set_allocation(box);
 
         let panel = this._delegate.dtpPanel;
         let availFixedSize = box[panel.fixedCoord.c2] - box[panel.fixedCoord.c1];
@@ -135,14 +134,14 @@ var TaskbarActor = GObject.registerClass({
         let childBox = new Clutter.ActorBox();
         let orientation = panel.getOrientation();
 
-        Utils.allocate(dummy, childBox, flags);
+        dummy.allocate(childBox);
 
         childBox[panel.varCoord.c1] = box[panel.varCoord.c1];
         childBox[panel.varCoord.c2] = Math.min(availVarSize, natSize);
         childBox[panel.fixedCoord.c1] = box[panel.fixedCoord.c1];
         childBox[panel.fixedCoord.c2] = box[panel.fixedCoord.c2];
 
-        Utils.allocate(scrollview, childBox, flags);
+        scrollview.allocate(childBox);
 
         let [value, , upper, , , pageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
         upper = Math.floor(upper);
@@ -158,11 +157,11 @@ var TaskbarActor = GObject.registerClass({
         }
         
         childBox[panel.varCoord.c2] = childBox[panel.varCoord.c1] + (value > 0 ? scrollview._dtpFadeSize : 0);
-        Utils.allocate(leftFade, childBox, flags);
+        leftFade.allocate(childBox);
 
         childBox[panel.varCoord.c1] = box[panel.varCoord.c2] - (value + pageSize < upper ? scrollview._dtpFadeSize : 0);
         childBox[panel.varCoord.c2] = box[panel.varCoord.c2];
-        Utils.allocate(rightFade, childBox, flags);
+        rightFade.allocate(childBox);
     }
 
     // We want to request the natural size of all our children
@@ -260,7 +259,7 @@ var Taskbar = class {
         let fade1 = new St.Widget({ style_class: 'scrollview-fade', reactive: false });
         let fade2 = new St.Widget({ style_class: 'scrollview-fade', 
                                     reactive: false,  
-                                    pivot_point: Utils.getPoint({ x: .5, y: .5 }), 
+                                    pivot_point: new imports.gi.Graphene.Point({ x: .5, y: .5 }), 
                                     rotation_angle_z: 180 });
 
         fade1.set_style(fadeStyle);
@@ -285,16 +284,16 @@ var Taskbar = class {
 
         this._appSystem = Shell.AppSystem.get_default();
 
-        this.iconAnimator = new PanelManager.IconAnimator(this.dtpPanel.panel.actor);
+        this.iconAnimator = new PanelManager.IconAnimator(this.dtpPanel.panel);
 
         this._signalsHandler.add(
             [
-                this.dtpPanel.panel.actor,
+                this.dtpPanel.panel,
                 'notify::height',
                 () => this._queueRedisplay()
             ],
             [
-                this.dtpPanel.panel.actor,
+                this.dtpPanel.panel,
                 'notify::width',
                 () => this._queueRedisplay()
             ],
@@ -699,13 +698,13 @@ var Taskbar = class {
         if (appIcon._draggable) {
             appIcon._draggable.connect('drag-begin',
                                        () => {
-                                           appIcon.actor.opacity = 0;
+                                           appIcon.opacity = 0;
                                            appIcon.isDragged = 1;
                                            this._dropIconAnimations();
                                        });
             appIcon._draggable.connect('drag-end',
                                        () => {
-                                           appIcon.actor.opacity = 255;
+                                           appIcon.opacity = 255;
                                            delete appIcon.isDragged;
                                            this._updateAppIcons();
                                        });
@@ -721,19 +720,19 @@ var Taskbar = class {
         item._dtpPanel = this.dtpPanel
         extendDashItemContainer(item);
 
-        item.setChild(appIcon.actor);
+        item.setChild(appIcon);
         appIcon._dashItemContainer = item;
 
-        appIcon.actor.connect('notify::hover', () => {
-            if (appIcon.actor.hover){
+        appIcon.connect('notify::hover', () => {
+            if (appIcon.hover){
                 this._ensureAppIconVisibilityTimeoutId = Mainloop.timeout_add(100, () => {
-                    Utils.ensureActorVisibleInScrollView(this._scrollView, appIcon.actor, this._scrollView._dtpFadeSize);
+                    Utils.ensureActorVisibleInScrollView(this._scrollView, appIcon, this._scrollView._dtpFadeSize);
                     this._ensureAppIconVisibilityTimeoutId = 0;
                     return GLib.SOURCE_REMOVE;
                 });
 
                 if (!appIcon.isDragged && iconAnimationSettings.type == 'SIMPLE')
-                    appIcon.actor.get_parent().raise(1);
+                    appIcon.get_parent().raise(1);
                 else if (!appIcon.isDragged && (iconAnimationSettings.type == 'RIPPLE' || iconAnimationSettings.type == 'PLANK'))
                     this._updateIconAnimations();
             } else {
@@ -743,16 +742,16 @@ var Taskbar = class {
                 }
 
                 if (!appIcon.isDragged && iconAnimationSettings.type == 'SIMPLE')
-                    appIcon.actor.get_parent().raise(0);
+                    appIcon.get_parent().raise(0);
             }
         });
 
-        appIcon.actor.connect('clicked',
+        appIcon.connect('clicked',
             (actor) => {
                 Utils.ensureActorVisibleInScrollView(this._scrollView, actor, this._scrollView._dtpFadeSize);
         });
 
-        appIcon.actor.connect('key-focus-in', (actor) => {
+        appIcon.connect('key-focus-in', (actor) => {
                 let [x_shift, y_shift] = Utils.ensureActorVisibleInScrollView(this._scrollView, actor, this._scrollView._dtpFadeSize);
 
                 // This signal is triggered also by mouse click. The popup menu is opened at the original
@@ -765,7 +764,7 @@ var Taskbar = class {
         
         // Override default AppIcon label_actor, now the
         // accessible_name is set at DashItemContainer.setLabelText
-        appIcon.actor.label_actor = null;
+        appIcon.label_actor = null;
         item.setLabelText(app.get_name());
 
         appIcon.icon.setIconSize(this.iconSize);
@@ -1123,10 +1122,9 @@ var Taskbar = class {
         if (!this._settings.is_writable('favorite-apps'))
             return DND.DragMotionResult.NO_DROP;
 
-        let sourceActor = source instanceof St.Widget ? source : source.actor;
         let isVertical = this.dtpPanel.checkIfVertical();
 
-        if (!this._box.contains(sourceActor) && !source._dashItemContainer) {
+        if (!this._box.contains(source) && !source._dashItemContainer) {
             //not an appIcon of the taskbar, probably from the applications view
             source._dashItemContainer = new DragPlaceholderItem(source, this.iconSize, isVertical);
             this._box.insert_child_above(source._dashItemContainer, null);
@@ -1358,11 +1356,11 @@ var TaskbarItemContainer = GObject.registerClass({
         super._init()
     }
 
-    vfunc_allocate(box, flags) {
+    vfunc_allocate(box) {
         if (this.child == null)
             return;
 
-        Utils.setAllocation(this, box, flags);
+        this.set_allocation(box);
 
         let availWidth = box.x2 - box.x1;
         let availHeight = box.y2 - box.y1;
@@ -1378,7 +1376,7 @@ var TaskbarItemContainer = GObject.registerClass({
         childBox.x2 = childBox.x1 + childWidth;
         childBox.y2 = childBox.y1 + childHeight;
 
-        Utils.allocate(this.child, childBox, flags);
+        this.child.allocate(childBox);
     }
 
     // In case appIcon is removed from the taskbar while it is hovered,
@@ -1405,13 +1403,10 @@ var TaskbarItemContainer = GObject.registerClass({
     _updateCloneContainerPosition(cloneContainer) {
         let [stageX, stageY] = this.get_transformed_position();
 
-        if (Config.PACKAGE_VERSION >= '3.36') {
-            cloneContainer.set_position(
-                stageX - this._dtpPanel.panelBox.translation_x - this.translation_x,
-                stageY - this._dtpPanel.panelBox.translation_y - this.translation_y
-            );
-        } else
-            cloneContainer.set_position(stageX, stageY);
+        cloneContainer.set_position(
+            stageX - this._dtpPanel.panelBox.translation_x - this.translation_x,
+            stageY - this._dtpPanel.panelBox.translation_y - this.translation_y
+        );
     }
 
     _createRaisedClone() {
@@ -1430,13 +1425,9 @@ var TaskbarItemContainer = GObject.registerClass({
         this._updateCloneContainerPosition(cloneContainer);
 
         // For the stretch animation
-        if (Config.PACKAGE_VERSION >= '3.36') {
-            let boundProperty = this._dtpPanel.checkIfVertical() ? 'translation_y' : 'translation_x';
-            this.bind_property(boundProperty, cloneContainer, boundProperty, GObject.BindingFlags.SYNC_CREATE);
-        } else {
-            let constraint = new CloneContainerConstraint({ source: this });
-            cloneContainer.add_constraint(constraint);
-        }
+        let boundProperty = this._dtpPanel.checkIfVertical() ? 'translation_y' : 'translation_x';
+        this.bind_property(boundProperty, cloneContainer, boundProperty, GObject.BindingFlags.SYNC_CREATE);
+
 
         // The clone follows its source when the taskbar is scrolled.
         let taskbarScrollView = this.get_parent().get_parent();
