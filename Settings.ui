@@ -5841,11 +5841,9 @@
                       <object class="GtkListBoxRow" id="show_notification_badge_row">
                         <property name="width_request">100</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
                         <child>
                           <object class="GtkGrid" id="show_notification_badge_grid">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
                             <property name="margin_start">12</property>
                             <property name="margin_end">12</property>
                             <property name="margin_top">12</property>
@@ -5855,7 +5853,6 @@
                             <child>
                               <object class="GtkSwitch" id="show_notification_badge_switch">
                                 <property name="visible">True</property>
-                                <property name="can_focus">True</property>
                                 <property name="halign">end</property>
                                 <property name="valign">center</property>
                                 <layout>
@@ -5867,7 +5864,6 @@
                             <child>
                               <object class="GtkLabel" id="show_notification_badge_label">
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
                                 <property name="hexpand">True</property>
                                 <property name="label" translatable="yes">Show notification counter badge</property>
                                 <property name="use_markup">True</property>
