@@ -1793,27 +1793,27 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
         if (this.sourceActor != Main.layoutManager.dummyCursor) {
             this._appendItem({
-                title: 'Power options',
+                title: _('Power options'),
                 cmd: ['gnome-control-center', 'power']
             });
 
             this._appendItem({
-                title: 'Event logs',
+                title: _('Event logs'),
                 cmd: ['gnome-logs']
             });
 
             this._appendItem({
-                title: 'System',
+                title: _('System'),
                 cmd: ['gnome-control-center', 'info-overview']
             });
 
             this._appendItem({
-                title: 'Device Management',
+                title: _('Device Management'),
                 cmd: ['gnome-control-center', 'display']
             });
 
             this._appendItem({
-                title: 'Disk Management',
+                title: _('Disk Management'),
                 cmd: ['gnome-disks']
             });
 
@@ -1826,27 +1826,27 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
         }
 
         this._appendItem({
-            title: 'Terminal',
+            title: _('Terminal'),
             cmd: ['gnome-terminal']
         });
 
         this._appendItem({
-            title: 'System monitor',
+            title: _('System monitor'),
             cmd: ['gnome-system-monitor']
         });
 
         this._appendItem({
-            title: 'Files',
+            title: _('Files'),
             cmd: ['nautilus']
         });
 
         this._appendItem({
-            title: 'Extensions',
+            title: _('Extensions'),
             cmd: ['gnome-shell-extension-prefs']
         });
 
         this._appendItem({
-            title: 'Settings',
+            title: _('Settings'),
             cmd: ['gnome-control-center', 'wifi']
         });
 
