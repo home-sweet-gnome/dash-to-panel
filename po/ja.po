@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-03 21:05+0900\n"
-"PO-Revision-Date: 2021-08-28 12:05+0900\n"
+"PO-Revision-Date: 2021-11-07 10:37+0900\n"
 "Last-Translator: nexryai <nexryai@outlook.com>\n"
 "Language-Team: Japanese\n"
 "Language: ja\n"
@@ -1232,7 +1232,7 @@ msgstr "動的不透明度のオプション"
 
 #: prefs.js:1030
 msgid "Intellihide options"
-msgstr "Intellihide のオプション"
+msgstr "動的パネルのオプション"
 
 #: prefs.js:1157
 msgid "Window preview options"
@@ -1322,6 +1322,78 @@ msgstr "GNOME Shell を再起動しています..."
 #: windowPreview.js:934
 msgid "Move to current Workspace"
 msgstr "現在のワークスペースに移動"
+
+#: Settings.ui:5800
+msgid "Animate hovering app icons"
+msgstr "アプリのアイコンにマウスを当てた時のアニメーションを有効にする"
+
+#: Settings.ui:6288
+msgid "Disable show overview on startup"
+msgstr "起動時にオーバービュー画面を表示しない"
+
+#: Settings.ui:4868
+msgid ""
+"Panel thickness\n"
+"(default is 48)"
+msgstr ""
+"パネルの太さ\n"
+"(初期値は 48)"
+
+#: Settings.ui:4880
+msgid ""
+"Panel length (%)\n"
+"(default is 100)"
+msgstr ""
+"パネルの長さ(%)\n"
+"(初期値は 100)"
+
+#: Settings.ui:4925
+msgid "Anchor"
+msgstr "アンカー"
+
+#: prefs.js:2145
+msgid "App icon animation options"
+msgstr "アニメーションのオプション"
+
+#: Settings.ui:30
+msgid "Animation type"
+msgstr "アニメーションのタイプ"
+
+#: Settings.ui:40
+msgid "Simple"
+msgstr "シンプル"
+
+#: Settings.ui:41
+msgid "Ripple"
+msgstr "リップル"
+
+#: Settings.ui:42
+msgid "Plank"
+msgstr "プランク"
+
+#: Settings.ui:70
+msgid "Duration"
+msgstr "速度"
+
+#: Settings.ui:101
+msgid "Rotation"
+msgstr "回転"
+
+#: Settings.ui:131
+msgid "Travel"
+msgstr "動きの大きさ"
+
+#: Settings.ui:161
+msgid "Zoom"
+msgstr "ズーム"
+
+#: Settings.ui:191
+msgid "Convexity"
+msgstr "なだらかさ"
+
+#: Settings.ui:221
+msgid "Extent"
+msgstr "範囲"
 
 #~ msgid "Display favorite applications on all monitors"
 #~ msgstr "すべてのモニターにお気に入りのアプリケーションを表示"
