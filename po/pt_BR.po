@@ -3,10 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Fábio Nogueira <fnogueira@gnome.org>, 2017
 # Vagner Kaefer <vagner@kaefer.eng.br>, 2021
+# Charles Gagnon <charlesg99@outlook.com>, 2022.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: unnamed project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-16 22:54-0300\n"
 "PO-Revision-Date: 2021-11-25 11:02-0300\n"
@@ -16,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Gtranslator 40.0\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: appIcons.js:removed
@@ -27,7 +28,8 @@ msgstr "Nova janela"
 msgid "Windows"
 msgstr "Janelas"
 
-#: appIcons.js:937 appIcons.js:998 appIcons.js:1000 Settings.ui.h:422 Settings.ui.h:493 Settings.ui.h:564
+#: appIcons.js:937 appIcons.js:998 appIcons.js:1000 Settings.ui.h:422
+#: Settings.ui.h:493 Settings.ui.h:564
 msgid "Quit"
 msgstr "Sair"
 
@@ -69,7 +71,8 @@ msgstr "Comprimento de exibição do botão de Área de trabalho (px)"
 
 #: prefs.js:211
 msgid "Unavailable when gnome-shell top panel is present"
-msgstr "Não disponível quando quando o painel superior do gnome-shell está presente"
+msgstr ""
+"Não disponível quando quando o painel superior do gnome-shell está presente"
 
 #: prefs.js:269 Settings.ui:4979 Settings.ui:5244
 msgid "Left"
@@ -84,6 +87,7 @@ msgid "Right"
 msgstr "Direita"
 
 #: prefs.js:274 Settings.ui:2823 Settings.ui:4966 Settings.ui:5233
+#: Settings.ui.h:4966
 msgid "Top"
 msgstr "Acima"
 
@@ -92,6 +96,7 @@ msgid "Middle"
 msgstr "Meio"
 
 #: prefs.js:276 Settings.ui:2811 Settings.ui:4953 Settings.ui:5222
+#: Settings.ui.h:4953
 msgid "Bottom"
 msgstr "Abaixo"
 
@@ -187,9 +192,9 @@ msgstr "Mais opções"
 msgid "Show Applications options"
 msgstr "Mostrar as opções da aplicação"
 
-#: prefs.js:446 prefs.js:512 prefs.js:732 prefs.js:1078 prefs.js:
-#: prefs.js:1222 prefs.js:1345 prefs.js:1634 prefs.js:1730 prefs.js:1796 
-#: prefs.js:1840 prefs.js:1938 prefs.js:1973 prefs.js:2016 prefs.js:2152
+#: prefs.js:446 prefs.js:512 prefs.js:732 prefs.js:1078 prefs.js: prefs.js:1222
+#: prefs.js:1345 prefs.js:1634 prefs.js:1730 prefs.js:1796 prefs.js:1840
+#: prefs.js:1938 prefs.js:1973 prefs.js:2016 prefs.js:2152
 msgid "Reset to defaults"
 msgstr "Restaurar ao padrão"
 
@@ -282,7 +287,9 @@ msgstr "Opções avançadas"
 
 #: prefs.js:2145
 msgid "App icon animation options"
-msgstr "Opções de animações dos ícones das aplicações de animación de los iconos de las aplicaciones"
+msgstr ""
+"Opções de animações dos ícones das aplicações de animación de los iconos de "
+"las aplicaciones"
 
 #: prefs.js:2211
 msgid "Export settings"
@@ -458,8 +465,7 @@ msgstr "Usar diferente para desfocado"
 
 #: Settings.ui:1344
 msgid "Font size (px) of the application titles (default is 14)"
-msgstr ""
-"Tamanho da fonte (px) para os títulos da aplicação (padrão é 14)"
+msgstr "Tamanho da fonte (px) para os títulos da aplicação (padrão é 14)"
 
 #: Settings.ui:1375
 msgid "Font weight of application titles"
@@ -507,8 +513,9 @@ msgid ""
 "shorter than the maximum width. The maximum width value is used as the fixed "
 "width."
 msgstr ""
-"Todos os títulos das aplicações tem o mesmo comprimento, mesmo se os textos forem "
-"mais curtos do que o comprimento máximo. O valor máximo de comprimento é utilizado como valor fixo."
+"Todos os títulos das aplicações tem o mesmo comprimento, mesmo se os textos "
+"forem mais curtos do que o comprimento máximo. O valor máximo de comprimento "
+"é utilizado como valor fixo."
 
 #: Settings.ui:1615
 msgid "Display running indicators on unfocused applications"
@@ -556,7 +563,8 @@ msgstr "Permitir que o painel seja revelado no modo de tela inteira "
 
 #: Settings.ui:1997
 msgid "Only hide secondary panels (requires multi-monitors option)"
-msgstr "Oculte apenas os painéis secundários (requer a opção de vários monitores)"
+msgstr ""
+"Oculte apenas os painéis secundários (requer a opção de vários monitores)"
 
 #: Settings.ui:2040
 msgid "e.g. <Super>i"
@@ -632,7 +640,8 @@ msgstr "Usar opacidade customizada para o plano de fundo da pré-visualização"
 
 #: Settings.ui:2733
 msgid "If disabled, the previews background have the same opacity as the panel"
-msgstr "Se desabilitado, o fundo da pré-visualização tem a mesma opacidade do painel"
+msgstr ""
+"Se desabilitado, o fundo da pré-visualização tem a mesma opacidade do painel"
 
 #: Settings.ui:2799
 msgid "Close button and header position"
@@ -649,7 +658,8 @@ msgstr "Tamanho do ícone (px) da pré-visualização de janela"
 #: Settings.ui:2934
 msgid "If disabled, the previews icon size will be based on headerbar size"
 msgstr ""
-"Se desativado, o tamanho do ícone da pré-visualização será baseado no tamanho da barra de cabeçalhos"
+"Se desativado, o tamanho do ícone da pré-visualização será baseado no "
+"tamanho da barra de cabeçalhos"
 
 #: Settings.ui:2982
 msgid "Font size (px) of the preview titles"
@@ -672,8 +682,8 @@ msgid ""
 "When hovering over a window preview for some time, the window gets "
 "distinguished."
 msgstr ""
-"Ao passar o mouse sobre a pré-visualização de uma janela por algum tempo, a janela "
-"será destacada."
+"Ao passar o mouse sobre a pré-visualização de uma janela por algum tempo, a "
+"janela será destacada."
 
 #: Settings.ui:3156
 msgid "Enter window peeking mode timeout (ms)"
@@ -684,8 +694,8 @@ msgid ""
 "Time of inactivity while hovering over a window preview needed to enter the "
 "window peeking mode."
 msgstr ""
-"Tempo de inatividade ao segurar sobre uma pré-visualização de janela necessário"
-"para entrar no modo de exibição de janela." 
+"Tempo de inatividade ao segurar sobre uma pré-visualização de janela "
+"necessáriopara entrar no modo de exibição de janela."
 
 #: Settings.ui:3217
 msgid "Window peeking mode opacity"
@@ -803,19 +813,7 @@ msgstr "Âncora"
 msgid "Panel screen position"
 msgstr "Posição da tela do painel"
 
-#: Settings.ui.h:4953
-msgid "Bottom"
-msgstr "Embaixo"
-
-#: Settings.ui.h:4966
-msgid "Top"
-msgstr "Topo"
-
-#: Settings.ui:5053
-msgid   
-msgstr "Posição"
-
-#: Settings.ui.h:5097
+#: Settings.ui:5053 Settings.ui.h:5097
 msgid ""
 "App Icon Margin\n"
 "(default is 8)"
@@ -963,13 +961,11 @@ msgstr "Manter o painel original do gnome-shell (visão principal)"
 
 #: Settings.ui:7160
 msgid "Force Activities hot corner on primary monitor"
-msgstr ""
-"Forçar as ativiadades de canto 'quente' no monitor principal"
+msgstr "Forçar as ativiadades de canto 'quente' no monitor principal"
 
 #: Settings.ui:7185
 msgid "Activate panel menu buttons (e.g. date menu) on click only"
-msgstr ""
-"Ativar os botões do painel (p.e. menu de data) somente ao clicar"
+msgstr "Ativar os botões do painel (p.e. menu de data) somente ao clicar"
 
 #: Settings.ui:7210
 msgid "Keep original gnome-shell top panel"
@@ -1017,7 +1013,8 @@ msgid ""
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">GNU General Public License, version 2 or later</a> for details.</span>"
 msgstr ""
-"<span size=\"small\">Este programa não possui ABSOLUTAMENTE NENHUMA GARANTIA.\n"
+"<span size=\"small\">Este programa não possui ABSOLUTAMENTE NENHUMA "
+"GARANTIA.\n"
 "Veja a <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">Licença Pública Geral GNU, versão 2 ou posterior</a> para maiores "
 "detalhes.</span>"
