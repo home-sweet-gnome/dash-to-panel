@@ -1172,7 +1172,8 @@ var Taskbar = class {
     // Draggable target interface
     acceptDrop (source, actor, x, y, time) {
         // Don't allow favoriting of transient apps
-        if (!source.app || source.app.is_window_backed() || !this._settings.is_writable('favorite-apps')) {
+        if (!this._dragInfo || !source.app || source.app.is_window_backed() || 
+            !this._settings.is_writable('favorite-apps')) {
             return false;
         }
 
