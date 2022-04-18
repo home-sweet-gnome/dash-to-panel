@@ -486,34 +486,31 @@ const Preferences = class {
     _createPreferencesDialog(title, content, reset_function = null) {
         let dialog;
         
-        if (true) { // Config.PACKAGE_VERSION < '42') {
-            dialog = new Gtk.Dialog({ title: title,
-                                        transient_for: this.notebook.get_root(),
-                                        use_header_bar: true,
-                                        modal: true });
+        dialog = new Gtk.Dialog({ title: title,
+                                    transient_for: this.notebook.get_root(),
+                                    use_header_bar: true,
+                                    modal: true });
 
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            if (reset_function != null)
-                dialog.add_button(_('Reset to defaults'), 1);
+        // GTK+ leaves positive values for application-defined response ids.
+        // Use +1 for the reset action
+        if (reset_function != null)
+            dialog.add_button(_('Reset to defaults'), 1);
 
-            dialog.get_content_area().append(content);
-    
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings
-                    if (reset_function)
-                      reset_function();
-                } else {
-                    // remove the settings content so it doesn't get destroyed;
-                    dialog.get_content_area().remove(content);
-                    dialog.destroy();
-                }
-                return;
-            });
-        } else {
-            dialog = new Adw.PreferencesWindow({ title: title });
-        }
+        dialog.get_content_area().append(content);
+
+        dialog.connect('response', (dialog, id) => {
+            if (id == 1) {
+                // restore default settings
+                if (reset_function)
+                    reset_function();
+            } else {
+                // remove the settings content so it doesn't get destroyed;
+                dialog.get_content_area().remove(content);
+                dialog.destroy();
+            }
+            return;
+        });
+
         return dialog;
     }
 
