@@ -48,8 +48,9 @@ const PopupMenu = imports.ui.popupMenu;
 const Util = imports.misc.util;
 const Workspace = imports.ui.workspace;
 const BoxPointer = imports.ui.boxpointer;
+const ExtensionUtils = imports.misc.extensionUtils
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
+const Me = ExtensionUtils.getCurrentExtension();
 const Utils = Me.imports.utils;
 const PanelSettings = Me.imports.panelSettings;
 const Taskbar = Me.imports.taskbar;
@@ -1863,11 +1864,7 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
         });
 
         let settingsMenuItem = this._appendMenuItem(_('Dash to Panel Settings'));
-        settingsMenuItem.connect('activate', function () {
-            let command = ["gnome-extensions", "prefs"];
-
-            Util.spawn(command.concat([Me.metadata.uuid]));
-        });
+        settingsMenuItem.connect('activate', () => ExtensionUtils.openPrefs())
 
         if(this.sourceActor == Main.layoutManager.dummyCursor) {
             this._appendSeparator();
