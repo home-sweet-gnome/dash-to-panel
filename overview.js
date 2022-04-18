@@ -48,12 +48,12 @@ const LABEL_MARGIN = 60;
 
 //timeout names
 const T1 = 'swipeEndTimeout';
+const T2 = 'numberOverlayTimeout';
 
 var Overview = class {
 
     constructor() {
         this._numHotkeys = 10;
-        this._timeoutsHandler = new Utils.TimeoutsHandler();
     }
 
     enable (primaryPanel) {
@@ -62,6 +62,7 @@ var Overview = class {
 
         this._injectionsHandler = new Utils.InjectionsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
+        this._timeoutsHandler = new Utils.TimeoutsHandler();
 
         this._optionalWorkspaceIsolation();
         this._optionalHotKeys();
@@ -84,7 +85,8 @@ var Overview = class {
     disable() {
         this._signalsHandler.destroy();
         this._injectionsHandler.destroy();
-        
+        this._timeoutsHandler.destroy();
+
         this._toggleDash(true);
         this._adaptAlloc();
 
@@ -402,11 +404,6 @@ var Overview = class {
         }
 
         // Restart the counting if the shortcut is pressed again
-        if (this._numberOverlayTimeoutId) {
-            Mainloop.source_remove(this._numberOverlayTimeoutId);
-            this._numberOverlayTimeoutId = 0;
-        }
-
         let hotkey_option = Me.settings.get_string('hotkeys-overlay-combo');
 
         if (hotkey_option === 'NEVER')
@@ -424,15 +421,13 @@ var Overview = class {
         }
 
         // Hide the overlay/dock after the timeout
-        this._numberOverlayTimeoutId = Mainloop.timeout_add(timeout, () => {
-            this._numberOverlayTimeoutId = 0;
-            
+        this._timeoutsHandler.add([T2, timeout, () => {
             if (hotkey_option != 'ALWAYS') {
                 this.taskbar.toggleNumberOverlay(false);
             }
             
             this._panel.intellihide.release(Intellihide.Hold.TEMPORARY);
-        });
+        }]);
     }
 
     _optionalClickToExit() {

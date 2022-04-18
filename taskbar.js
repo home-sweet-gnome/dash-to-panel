@@ -56,6 +56,10 @@ var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME >
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 var MIN_ICON_SIZE = 4;
 
+const T1 = 'ensureAppIconVisibilityTimeout'
+const T2 = 'showLabelTimeout'
+const T3 = 'resetHoverTimeout'
+
 /**
  * Extend DashItemContainer
  *
@@ -205,10 +209,8 @@ var Taskbar = class {
         this._shownInitially = false;
 
         this._signalsHandler = new Utils.GlobalSignalsHandler();
+        this._timeoutsHandler = new Utils.TimeoutsHandler();
 
-        this._showLabelTimeoutId = 0;
-        this._resetHoverTimeoutId = 0;
-        this._ensureAppIconVisibilityTimeoutId = 0;
         this._labelShowing = false;
         this.fullScrollView = 0;
 
@@ -415,6 +417,7 @@ var Taskbar = class {
             this._waitIdleId = 0;
         }
 
+        this._timeoutsHandler.destroy();
         this.iconAnimator.destroy();
 
         this._signalsHandler.destroy();
@@ -501,10 +504,9 @@ var Taskbar = class {
         let orientation = this.dtpPanel.getOrientation();
 
         // reset timeout to avid conflicts with the mousehover event
-        if (this._ensureAppIconVisibilityTimeoutId>0) {
-            Mainloop.source_remove(this._ensureAppIconVisibilityTimeoutId);
-            this._ensureAppIconVisibilityTimeoutId = 0;
-        }
+        this._timeoutsHandler.add([T1, 0,
+            () => this._swiping = false
+        ]);
 
         // Skip to avoid double events mouse
         if (event.is_pointer_emulated())
@@ -725,21 +727,16 @@ var Taskbar = class {
 
         appIcon.connect('notify::hover', () => {
             if (appIcon.hover){
-                this._ensureAppIconVisibilityTimeoutId = Mainloop.timeout_add(100, () => {
-                    Utils.ensureActorVisibleInScrollView(this._scrollView, appIcon, this._scrollView._dtpFadeSize);
-                    this._ensureAppIconVisibilityTimeoutId = 0;
-                    return GLib.SOURCE_REMOVE;
-                });
+                this._timeoutsHandler.add([T1, 100, 
+                    () => Utils.ensureActorVisibleInScrollView(this._scrollView, appIcon, this._scrollView._dtpFadeSize)
+                ])
 
                 if (!appIcon.isDragged && iconAnimationSettings.type == 'SIMPLE')
                     appIcon.get_parent().raise(1);
                 else if (!appIcon.isDragged && (iconAnimationSettings.type == 'RIPPLE' || iconAnimationSettings.type == 'PLANK'))
                     this._updateIconAnimations();
             } else {
-                if (this._ensureAppIconVisibilityTimeoutId>0) {
-                    Mainloop.source_remove(this._ensureAppIconVisibilityTimeoutId);
-                    this._ensureAppIconVisibilityTimeoutId = 0;
-                }
+                this._timeoutsHandler.remove(T1)
 
                 if (!appIcon.isDragged && iconAnimationSettings.type == 'SIMPLE')
                     appIcon.get_parent().raise(0);
@@ -804,10 +801,8 @@ var Taskbar = class {
         // When the menu closes, it calls sync_hover, which means
         // that the notify::hover handler does everything we need to.
         if (opened) {
-            if (this._showLabelTimeoutId > 0) {
-                Mainloop.source_remove(this._showLabelTimeoutId);
-                this._showLabelTimeoutId = 0;
-            }
+            if (this._timeoutsHandler.getId(T2))
+                this._timeoutsHandler.remove(T2)
 
             item.hideLabel();
         } else {
@@ -830,34 +825,26 @@ var Taskbar = class {
         let shouldShow = syncHandler ? syncHandler.shouldShowTooltip() : item.child.get_hover();
 
         if (shouldShow) {
-            if (this._showLabelTimeoutId == 0) {
+            if (!this._timeoutsHandler.getId(T2)) {
                 let timeout = this._labelShowing ? 0 : DASH_ITEM_HOVER_TIMEOUT;
-                this._showLabelTimeoutId = Mainloop.timeout_add(timeout,
+
+                this._timeoutsHandler.add([T2, timeout,
                     () => {
                         this._labelShowing = true;
                         item.showLabel();
-                        this._showLabelTimeoutId = 0;
-                        return GLib.SOURCE_REMOVE;
-                    });
-                GLib.Source.set_name_by_id(this._showLabelTimeoutId, '[gnome-shell] item.showLabel');
-                if (this._resetHoverTimeoutId > 0) {
-                    Mainloop.source_remove(this._resetHoverTimeoutId);
-                    this._resetHoverTimeoutId = 0;
-                }
+                    }
+                ]);
+
+                this._timeoutsHandler.remove(T3)
             }
         } else {
-            if (this._showLabelTimeoutId > 0)
-                Mainloop.source_remove(this._showLabelTimeoutId);
-            this._showLabelTimeoutId = 0;
+            this._timeoutsHandler.remove(T2)
+
             item.hideLabel();
             if (this._labelShowing) {
-                this._resetHoverTimeoutId = Mainloop.timeout_add(DASH_ITEM_HOVER_TIMEOUT,
-                    () => {
-                        this._labelShowing = false;
-                        this._resetHoverTimeoutId = 0;
-                        return GLib.SOURCE_REMOVE;
-                    });
-                GLib.Source.set_name_by_id(this._resetHoverTimeoutId, '[gnome-shell] this._labelShowing');
+                this._timeoutsHandler.add([T3, DASH_ITEM_HOVER_TIMEOUT,
+                    () => this._labelShowing = false
+                ]);
             }
         }
     }

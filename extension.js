@@ -33,6 +33,7 @@ const Me = ExtensionUtils.getCurrentExtension();
 const Convenience = Me.imports.convenience;
 const { PanelManager } = Me.imports.panelManager;
 const Utils = Me.imports.utils;
+const AppIcons = Me.imports.appIcons;
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
@@ -142,6 +143,8 @@ function disable(reset) {
         if (disabledUbuntuDock && Main.sessionMode.allowExtensions) {
             (extensionSystem._callExtensionEnable || extensionSystem.enableExtension).call(extensionSystem, UBUNTU_DOCK_UUID);
         }
+
+        AppIcons.resetRecentlyClickedApp();
     }
 
     Main.sessionMode.hasOverview = this._realHasOverview;

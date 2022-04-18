@@ -859,7 +859,7 @@ var Panel = GObject.registerClass({
                 }
             }
             
-            if (group.isCentered) {
+            if (group.isCentered) {
                 startPosition = tlLimit + (brLimit - tlLimit - group.size) * .5;
             } else if (group.position == Pos.STACKED_BR) {
                 startPosition = brLimit - group.size;
