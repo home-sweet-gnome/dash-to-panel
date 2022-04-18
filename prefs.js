@@ -158,71 +158,64 @@ function mergeObjects(main, bck) {
 
 const Preferences = class {
 
-    constructor() {
+    constructor(window) {
         this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
         this._rtl = (Gtk.Widget.get_default_direction() == Gtk.TextDirection.RTL);
         this._builder = new Gtk.Builder();
         this._builder.set_scope(new BuilderScope(this));
         this._builder.set_translation_domain(Me.metadata['gettext-domain']);
 
-        if (window) {
-            this._window = window;
-            window.set_search_enabled(true);
+        window.set_search_enabled(true);
 
-            // dialogs
-            this._builder.add_from_file(Me.path + '/ui/BoxAnimateAppIconHoverOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxDotOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxShowDesktopOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxDynamicOpacityOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxIntellihideOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxShowApplicationsOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxWindowPreviewOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxGroupAppsOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxMiddleClickOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxOverlayShortcut.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxSecondaryMenuOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxScrollPanelOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxScrollIconOptions.ui');
-            this._builder.add_from_file(Me.path + '/ui/BoxAdvancedOptions.ui');
+        // dialogs
+        this._builder.add_from_file(Me.path + '/ui/BoxAnimateAppIconHoverOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxDotOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxShowDesktopOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxDynamicOpacityOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxIntellihideOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxShowApplicationsOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxWindowPreviewOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxGroupAppsOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxMiddleClickOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxOverlayShortcut.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxSecondaryMenuOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxScrollPanelOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxScrollIconOptions.ui');
+        this._builder.add_from_file(Me.path + '/ui/BoxAdvancedOptions.ui');
 
-            // pages
-            this._builder.add_from_file(Me.path + '/ui/SettingsPosition.ui');
-            let pagePosition = this._builder.get_object('position');
-            window.add(pagePosition);
+        // pages
+        this._builder.add_from_file(Me.path + '/ui/SettingsPosition.ui');
+        let pagePosition = this._builder.get_object('position');
+        window.add(pagePosition);
 
-            this._builder.add_from_file(Me.path + '/ui/SettingsStyle.ui');
-            let pageStyle = this._builder.get_object('style');
-            window.add(pageStyle);
+        this._builder.add_from_file(Me.path + '/ui/SettingsStyle.ui');
+        let pageStyle = this._builder.get_object('style');
+        window.add(pageStyle);
 
-            this._builder.add_from_file(Me.path + '/ui/SettingsBehavior.ui');
-            let pageBehavior = this._builder.get_object('behavior');
-            window.add(pageBehavior);
+        this._builder.add_from_file(Me.path + '/ui/SettingsBehavior.ui');
+        let pageBehavior = this._builder.get_object('behavior');
+        window.add(pageBehavior);
 
-            this._builder.add_from_file(Me.path + '/ui/SettingsAction.ui');
-            let pageAction = this._builder.get_object('action');
-            window.add(pageAction);
+        this._builder.add_from_file(Me.path + '/ui/SettingsAction.ui');
+        let pageAction = this._builder.get_object('action');
+        window.add(pageAction);
 
-            this._builder.add_from_file(Me.path + '/ui/SettingsFineTune.ui');
-            let pageFineTune = this._builder.get_object('finetune');
-            window.add(pageFineTune);
+        this._builder.add_from_file(Me.path + '/ui/SettingsFineTune.ui');
+        let pageFineTune = this._builder.get_object('finetune');
+        window.add(pageFineTune);
 
-            this._builder.add_from_file(Me.path + '/ui/SettingsAbout.ui');
-            let pageAbout = this._builder.get_object('about');
-            window.add(pageAbout);
+        this._builder.add_from_file(Me.path + '/ui/SettingsAbout.ui');
+        let pageAbout = this._builder.get_object('about');
+        window.add(pageAbout);
 
-            let listbox = this._builder.get_object('taskbar_display_listbox');
-            let provider = new Gtk.CssProvider();
-            provider.load_from_data('list { background-color: transparent; }');
-            let context = listbox.get_style_context();
-            context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+        let listbox = this._builder.get_object('taskbar_display_listbox');
+        let provider = new Gtk.CssProvider();
+        provider.load_from_data('list { background-color: transparent; }');
+        let context = listbox.get_style_context();
+        context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-            // set the window as notebook, it is being used as parent for dialogs
-            this.notebook = window;
-
-        } else {
-            this._builder.add_from_file(Me.path + '/Settings.ui');
-            this.notebook = this._builder.get_object('settings_notebook');
-        }
+        // set the window as notebook, it is being used as parent for dialogs
+        this.notebook = window;
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
@@ -251,10 +244,7 @@ const Preferences = class {
         let isVertical = position == Pos.LEFT || position == Pos.RIGHT;
         let showDesktopWidthLabel = this._builder.get_object('show_showdesktop_width_label');
 
-        if(this._window)
-            showDesktopWidthLabel.set_title(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
-        else
-            showDesktopWidthLabel.set_text(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
+        showDesktopWidthLabel.set_title(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
 
         this._displayPanelPositionsForMonitor(this._currentMonitorIndex);
     }
@@ -842,7 +832,7 @@ const Preferences = class {
             });
             this._builder.get_object('dot_color_override_switch').connect('state-set', (widget) => {
                 if (widget.get_active()) this._settings.set_boolean('dot-color-dominant', false);
-                else if (this._window) this._settings.set_boolean('dot-color-unfocused-different', false);
+                else this._settings.set_boolean('dot-color-unfocused-different', false);
             });
 
             this._settings.bind('dot-color-unfocused-different',
@@ -1039,12 +1029,10 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
-        if (this._window) {
-            this._settings.bind('trans-use-custom-opacity',
-                            this._builder.get_object('trans_opacity_box2'),
-                            'sensitive',
-                            Gio.SettingsBindFlags.DEFAULT);
-        }
+        this._settings.bind('trans-use-custom-opacity',
+                        this._builder.get_object('trans_opacity_box2'),
+                        'sensitive',
+                        Gio.SettingsBindFlags.DEFAULT);
 
         this._builder.get_object('trans_opacity_override_switch').connect('notify::active', (widget) => {
             if (!widget.get_active())
@@ -1081,12 +1069,10 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
-        if (this._window) {
-            this._settings.bind('trans-use-custom-gradient',
-                            this._builder.get_object('trans_gradient_box2'),
-                            'sensitive',
-                            Gio.SettingsBindFlags.DEFAULT);
-        }
+        this._settings.bind('trans-use-custom-gradient',
+                        this._builder.get_object('trans_gradient_box2'),
+                        'sensitive',
+                        Gio.SettingsBindFlags.DEFAULT);
 
         rgba.parse(this._settings.get_string('trans-gradient-top-color'));
         this._builder.get_object('trans_gradient_color1_colorbutton').set_rgba(rgba);
@@ -1210,12 +1196,10 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
-        if (this._window) {
-            this._settings.bind('intellihide-use-pressure',
-                            this._builder.get_object('intellihide_use_pressure_options2'),
-                            'sensitive',
-                            Gio.SettingsBindFlags.DEFAULT);
-        }
+        this._settings.bind('intellihide-use-pressure',
+                        this._builder.get_object('intellihide_use_pressure_options2'),
+                        'sensitive',
+                        Gio.SettingsBindFlags.DEFAULT);
 
         this._settings.bind('intellihide-show-in-fullscreen',
                             this._builder.get_object('intellihide_show_in_fullscreen_switch'),
@@ -1325,12 +1309,10 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
-        if(this._window) {
-            this._settings.bind('show-showdesktop-hover',
-                            this._builder.get_object('grid_show_showdesktop_hide_options2'),
-                            'sensitive',
-                            Gio.SettingsBindFlags.DEFAULT);
-        }
+        this._settings.bind('show-showdesktop-hover',
+                        this._builder.get_object('grid_show_showdesktop_hide_options2'),
+                        'sensitive',
+                        Gio.SettingsBindFlags.DEFAULT);
 
         this._settings.bind('show-appmenu',
                             this._builder.get_object('show_appmenu_switch'),
@@ -2359,12 +2341,4 @@ function fillPreferencesWindow(window) {
     window.set_default_size(0, 740);
 
     let preferences = new Preferences(window);
-}
-
-function buildPrefsWidget() {
-    Gtk.Window.list_toplevels()[0].set_default_size(680, 740);
-    
-    let preferences = new Preferences();
-    
-    return preferences.notebook;
 }
