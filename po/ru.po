@@ -2,14 +2,14 @@
 # Copyright (C) 2017
 # This file is distributed under the same license as the dash-to-panel package.
 # Alex Gluck <alexgluck@bk.ru>, 2017.
-# vantu5z <vantu5z@mail.ru>, 2021.
+# vantu5z <vantu5z@mail.ru>, 2021-2022.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dash-to-panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-31 09:29+0300\n"
-"PO-Revision-Date: 2021-08-31 09:54+0300\n"
+"POT-Creation-Date: 2022-04-18 08:32+0300\n"
+"PO-Revision-Date: 2022-04-18 08:41+0300\n"
 "Last-Translator: vantu5z <vantu5z@mail.ru>\n"
 "Language-Team: Russian <>\n"
 "Language: ru\n"
@@ -20,169 +20,169 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
-#: prefs.js:199
+#: prefs.js:196
 msgid "Show Desktop button height (px)"
 msgstr "Высота кнопки \"Рабочий стол\" (в пикселях)"
 
-#: prefs.js:199
+#: prefs.js:196
 msgid "Show Desktop button width (px)"
 msgstr "Ширина кнопки \"Рабочий стол\" (в пикселях)"
 
-#: prefs.js:211
+#: prefs.js:208
 msgid "Unavailable when gnome-shell top panel is present"
 msgstr "Недоступно, если включена верхняя панель GNOME"
 
-#: prefs.js:269 Settings.ui.h:171
+#: prefs.js:266 Settings.ui.h:171
 msgid "Left"
 msgstr "Слева"
 
-#: prefs.js:270
+#: prefs.js:267
 msgid "Center"
 msgstr "Центр"
 
-#: prefs.js:271 Settings.ui.h:172
+#: prefs.js:268 Settings.ui.h:172
 msgid "Right"
 msgstr "Справа"
 
-#: prefs.js:273 Settings.ui.h:106
+#: prefs.js:270 Settings.ui.h:106
 msgid "Top"
 msgstr "Наверху"
 
-#: prefs.js:274 prefs.js:279 Settings.ui.h:167
+#: prefs.js:271 prefs.js:276 Settings.ui.h:167
 msgid "Middle"
 msgstr "Середина"
 
-#: prefs.js:275 Settings.ui.h:105
+#: prefs.js:272 Settings.ui.h:105
 msgid "Bottom"
 msgstr "Внизу"
 
-#: prefs.js:278 Settings.ui.h:166
+#: prefs.js:275 Settings.ui.h:166
 msgid "Start"
 msgstr "Начало"
 
-#: prefs.js:280 Settings.ui.h:168
+#: prefs.js:277 Settings.ui.h:168
 msgid "End"
 msgstr "Конец"
 
-#: prefs.js:365
+#: prefs.js:362
 msgid "Show Applications button"
 msgstr "Кнопка \"Приложения\""
 
-#: prefs.js:366
+#: prefs.js:363
 msgid "Activities button"
 msgstr "Кнопка \"Обзор\""
 
-#: prefs.js:367
+#: prefs.js:364
 msgid "Taskbar"
 msgstr "Панель задач"
 
-#: prefs.js:368
+#: prefs.js:365
 msgid "Date menu"
 msgstr "Дата и время"
 
-#: prefs.js:369
+#: prefs.js:366
 msgid "System menu"
 msgstr "Системное меню"
 
-#: prefs.js:370
+#: prefs.js:367
 msgid "Left box"
 msgstr "Левый блок"
 
-#: prefs.js:371
+#: prefs.js:368
 msgid "Center box"
 msgstr "Центральный блок"
 
-#: prefs.js:372
+#: prefs.js:369
 msgid "Right box"
 msgstr "Правый блок"
 
-#: prefs.js:373
+#: prefs.js:370
 msgid "Desktop button"
 msgstr "Кнопка \"Рабочий стол\""
 
-#: prefs.js:379
+#: prefs.js:376
 msgid "Move up"
 msgstr "Переместить выше"
 
-#: prefs.js:381
+#: prefs.js:378
 msgid "Move down"
 msgstr "Переместить ниже"
 
-#: prefs.js:383
+#: prefs.js:380
 msgid "Visible"
 msgstr "Видимый"
 
-#: prefs.js:384
+#: prefs.js:381
 msgid "Select element position"
 msgstr "Выбор позиции элемента"
 
-#: prefs.js:395
+#: prefs.js:392
 msgid "Stacked to top"
 msgstr "Сверху"
 
-#: prefs.js:395
+#: prefs.js:392
 msgid "Stacked to left"
 msgstr "Слева"
 
-#: prefs.js:396
+#: prefs.js:393
 msgid "Stacked to bottom"
 msgstr "Снизу"
 
-#: prefs.js:396
+#: prefs.js:393
 msgid "Stacked to right"
 msgstr "Справа"
 
-#: prefs.js:397
+#: prefs.js:394
 msgid "Centered"
 msgstr "По центру"
 
-#: prefs.js:398
+#: prefs.js:395
 msgid "Monitor Center"
 msgstr "Центр монитора"
 
-#: prefs.js:417
+#: prefs.js:414
 msgid "More options"
 msgstr "Дополнительные параметры"
 
-#: prefs.js:439
+#: prefs.js:436
 msgid "Show Applications options"
 msgstr "Настройка меню \"Приложения\""
 
-#: prefs.js:446 prefs.js:512 prefs.js:732 prefs.js:1078 prefs.js:1222
-#: prefs.js:1345 prefs.js:1634 prefs.js:1730 prefs.js:1796 prefs.js:1840
-#: prefs.js:1938 prefs.js:1973 prefs.js:2016 prefs.js:2152
+#: prefs.js:443 prefs.js:509 prefs.js:729 prefs.js:1075 prefs.js:1219
+#: prefs.js:1342 prefs.js:1636 prefs.js:1732 prefs.js:1798 prefs.js:1842
+#: prefs.js:1940 prefs.js:1975 prefs.js:2018 prefs.js:2154
 msgid "Reset to defaults"
 msgstr "По умолчанию"
 
-#: prefs.js:452
+#: prefs.js:449
 msgid "Open icon"
 msgstr "Открыть значок"
 
-#: prefs.js:505
+#: prefs.js:502
 msgid "Show Desktop options"
 msgstr "Настройки кнопки \"Рабочий стол\""
 
-#: prefs.js:605
+#: prefs.js:602
 #, javascript-format
 msgid "%d ms"
 msgstr "%d мс"
 
-#: prefs.js:610
+#: prefs.js:607
 #, javascript-format
 msgid "%d °"
 msgstr "%d °"
 
-#: prefs.js:615 prefs.js:620
+#: prefs.js:612 prefs.js:617
 #, javascript-format
 msgid "%d %%"
 msgstr "%d %%"
 
-#: prefs.js:625
+#: prefs.js:622
 #, javascript-format
 msgid "%.1f"
 msgstr "%.1f"
 
-#: prefs.js:630
+#: prefs.js:627
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
@@ -190,143 +190,135 @@ msgstr[0] "%d значок"
 msgstr[1] "%d значка"
 msgstr[2] "%d значков"
 
-#: prefs.js:725
+#: prefs.js:722
 msgid "Running Indicator Options"
 msgstr "Параметры индикации запущенных приложений"
 
-#: prefs.js:889
+#: prefs.js:886
 msgid "Primary monitor"
 msgstr "Основной монитор"
 
-#: prefs.js:889
+#: prefs.js:886
 msgid "Monitor "
 msgstr "Монитор "
 
-#: prefs.js:1071
+#: prefs.js:1068
 msgid "Dynamic opacity options"
 msgstr "Настройки динамической прозрачности"
 
-#: prefs.js:1215
+#: prefs.js:1212
 msgid "Intellihide options"
 msgstr "Настройки автоскрытия"
 
-#: prefs.js:1338
+#: prefs.js:1335
 msgid "Window preview options"
 msgstr "Настройки предпросмотра"
 
-#: prefs.js:1627
+#: prefs.js:1629
 msgid "Ungrouped application options"
 msgstr "Отображение разгруппированных приложений"
 
-#: prefs.js:1723
+#: prefs.js:1725
 msgid "Customize middle-click behavior"
 msgstr "Средняя кнопка мышки"
 
-#: prefs.js:1789
+#: prefs.js:1791
 msgid "Customize panel scroll behavior"
 msgstr "Прокручивание панелей"
 
-#: prefs.js:1833
+#: prefs.js:1835
 msgid "Customize icon scroll behavior"
 msgstr "Прокручивание значков"
 
-#: prefs.js:1931
+#: prefs.js:1933
 msgid "Advanced hotkeys options"
 msgstr "Расширенные настройки горячих клавиш"
 
-#: prefs.js:1966
+#: prefs.js:1968
 msgid "Secondary Menu Options"
 msgstr "Дополнительные настройки меню"
 
-#: prefs.js:2009 Settings.ui.h:239
+#: prefs.js:2011 Settings.ui.h:240
 msgid "Advanced Options"
 msgstr "Расширенные настройки"
 
-#: prefs.js:2145
+#: prefs.js:2147
 msgid "App icon animation options"
 msgstr "Настройка анимации значков приложений"
 
-#: prefs.js:2211
+#: prefs.js:2213
 msgid "Export settings"
 msgstr "Сохранение"
 
-#: prefs.js:2227
+#: prefs.js:2229
 msgid "Import settings"
 msgstr "Загрузка"
 
-#: appIcons.js:1492
-msgid "Show Details"
-msgstr "Показать подробности"
-
-#: appIcons.js:1510
-msgid "New Window"
-msgstr "Новое окно"
-
-#: appIcons.js:1510 appIcons.js:1570 appIcons.js:1572 Settings.ui.h:21
+#: appIcons.js:1511 appIcons.js:1521 appIcons.js:1523 Settings.ui.h:21
 msgid "Quit"
 msgstr "Выйти"
 
-#: appIcons.js:1572
+#: appIcons.js:1523
 msgid "Windows"
 msgstr "Окна"
 
-#: appIcons.js:1859
+#: appIcons.js:1796
 msgid "Power options"
 msgstr "Параметры питания"
 
-#: appIcons.js:1864
+#: appIcons.js:1801
 msgid "Event logs"
 msgstr "Просмотр логов"
 
-#: appIcons.js:1869
+#: appIcons.js:1806
 msgid "System"
 msgstr "Система"
 
-#: appIcons.js:1874
+#: appIcons.js:1811
 msgid "Device Management"
 msgstr "Управление устройствами"
 
-#: appIcons.js:1879
+#: appIcons.js:1816
 msgid "Disk Management"
 msgstr "Управление дисками"
 
-#: appIcons.js:1893
+#: appIcons.js:1829
 msgid "Terminal"
 msgstr "Терминал"
 
-#: appIcons.js:1898
+#: appIcons.js:1834
 msgid "System monitor"
 msgstr "Системный монитор"
 
-#: appIcons.js:1903
+#: appIcons.js:1839
 msgid "Files"
 msgstr "Файлы"
 
-#: appIcons.js:1908
+#: appIcons.js:1844
 msgid "Extensions"
 msgstr "Расширения"
 
-#: appIcons.js:1913
+#: appIcons.js:1849
 msgid "Settings"
 msgstr "Настройки"
 
-#: appIcons.js:1925
+#: appIcons.js:1860
 msgid "Unlock taskbar"
 msgstr "Открепить список задач"
 
-#: appIcons.js:1925
+#: appIcons.js:1860
 msgid "Lock taskbar"
 msgstr "Закрепить список задач"
 
-#: appIcons.js:1930
+#: appIcons.js:1865
 msgid "Dash to Panel Settings"
 msgstr "Настройки Dash to Panel"
 
-#: appIcons.js:1943
+#: appIcons.js:1874
 msgid "Restore Windows"
 msgstr "Восстановить окна"
 
-#: appIcons.js:1943
+#: appIcons.js:1874
 msgid "Show Desktop"
 msgstr "Свернуть всё"
 
@@ -1169,58 +1161,62 @@ msgid "Ungroup applications"
 msgstr "Разгруппировать приложения"
 
 #: Settings.ui.h:211
+msgid "Show notification counter badge"
+msgstr "Показывать значок счётчика уведомлений"
+
+#: Settings.ui.h:212
 msgid "Behavior"
 msgstr "Поведение"
 
-#: Settings.ui.h:212
+#: Settings.ui.h:213
 msgid "Behaviour when clicking on the icon of a running application."
 msgstr "Поведение при щелчке на значке запущенного приложения."
 
-#: Settings.ui.h:213
+#: Settings.ui.h:214
 msgid "Click action"
 msgstr "Действие при щелчке"
 
-#: Settings.ui.h:214
+#: Settings.ui.h:215
 msgid "Toggle windows"
 msgstr "Показать или свернуть"
 
-#: Settings.ui.h:215
+#: Settings.ui.h:216
 msgid "Scroll panel action"
 msgstr "При прокрутке над панелью"
 
-#: Settings.ui.h:216
+#: Settings.ui.h:217
 msgid "Behavior when mouse scrolling over the panel."
 msgstr "Поведение при прокрутке колесиком мыши над панелью."
 
-#: Settings.ui.h:217
+#: Settings.ui.h:218
 msgid "Scroll icon action"
 msgstr "При прокрутке над значком приложения"
 
-#: Settings.ui.h:218
+#: Settings.ui.h:219
 msgid "Behavior when mouse scrolling over an application icon."
 msgstr "Поведение при прокрутке колесиком мыши над значком приложения."
 
-#: Settings.ui.h:219
+#: Settings.ui.h:220
 msgid "Do nothing"
 msgstr "Ничего не делать"
 
-#: Settings.ui.h:220
+#: Settings.ui.h:221
 msgid "Switch workspace"
 msgstr "Переключать рабочий стол"
 
-#: Settings.ui.h:221
+#: Settings.ui.h:222
 msgid "Cycle windows"
 msgstr "Переключать окна"
 
-#: Settings.ui.h:222
+#: Settings.ui.h:223
 msgid "Change volume"
 msgstr "Изменить громкость"
 
-#: Settings.ui.h:223
+#: Settings.ui.h:224
 msgid "Same as panel"
 msgstr "Как на панеле"
 
-#: Settings.ui.h:224
+#: Settings.ui.h:225
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
@@ -1228,15 +1224,15 @@ msgstr ""
 "Использовать Super+(0-9) как горячие клавиши запуска приложений. Доступно "
 "использование Shift и Ctrl."
 
-#: Settings.ui.h:225
+#: Settings.ui.h:226
 msgid "Use hotkeys to activate apps"
 msgstr "Использовать горячие клавиши для запуска приложений"
 
-#: Settings.ui.h:226
+#: Settings.ui.h:227
 msgid "Action"
 msgstr "Действия"
 
-#: Settings.ui.h:227
+#: Settings.ui.h:228
 msgid ""
 "Tray Font Size\n"
 "(0 = theme default)"
@@ -1244,7 +1240,7 @@ msgstr ""
 "Размер шрифта в трее\n"
 "(0 = значение из темы)"
 
-#: Settings.ui.h:228
+#: Settings.ui.h:229
 msgid ""
 "LeftBox Font Size\n"
 "(0 = theme default)"
@@ -1252,7 +1248,7 @@ msgstr ""
 "Размер шрифта левой панели\n"
 "(0 = значение из темы)"
 
-#: Settings.ui.h:229
+#: Settings.ui.h:230
 msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
@@ -1260,7 +1256,7 @@ msgstr ""
 "Отступ между значками в трее\n"
 "(-1 = значение из темы)"
 
-#: Settings.ui.h:230
+#: Settings.ui.h:231
 msgid ""
 "Status Icon Padding\n"
 "(-1 = theme default)"
@@ -1268,7 +1264,7 @@ msgstr ""
 "Отступ между значками статуса\n"
 "(-1 = значение из темы)"
 
-#: Settings.ui.h:231
+#: Settings.ui.h:232
 msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
@@ -1276,49 +1272,49 @@ msgstr ""
 "Отступ левой панели\n"
 "(-1 = значение из темы)"
 
-#: Settings.ui.h:232
+#: Settings.ui.h:233
 msgid "Animate switching applications"
 msgstr "Анимировать переключение приложений"
 
-#: Settings.ui.h:233
+#: Settings.ui.h:234
 msgid "Animate launching new windows"
 msgstr "Анимировать запуск нового окна"
 
-#: Settings.ui.h:234
+#: Settings.ui.h:235
 msgid "Keep original gnome-shell dash (overview)"
 msgstr "Сохранить панель GNOME при показе приложений"
 
-#: Settings.ui.h:235
-msgid "Force Activities hot corner on primary monitor"
-msgstr ""
-
 #: Settings.ui.h:236
+msgid "Force Activities hot corner on primary monitor"
+msgstr "«Горячий угол» принудительно на основном мониторе"
+
+#: Settings.ui.h:237
 msgid "Activate panel menu buttons (e.g. date menu) on click only"
 msgstr ""
 "Активировать кнопки на панели меню (например, меню даты) только при нажатии "
 "на кнопку"
 
-#: Settings.ui.h:237
+#: Settings.ui.h:238
 msgid "Keep original gnome-shell top panel"
 msgstr "Сохранить верхнюю панель GNOME"
 
-#: Settings.ui.h:238
+#: Settings.ui.h:239
 msgid "App icon secondary (right-click) menu"
 msgstr "Меню приложения по щелчку правой кнопкой мыши"
 
-#: Settings.ui.h:240
+#: Settings.ui.h:241
 msgid "Fine-Tune"
 msgstr "Тонкая настройка"
 
-#: Settings.ui.h:241
+#: Settings.ui.h:242
 msgid "version: "
 msgstr "версия: "
 
-#: Settings.ui.h:242
+#: Settings.ui.h:243
 msgid "GitHub"
 msgstr "GitHub"
 
-#: Settings.ui.h:243
+#: Settings.ui.h:244
 msgid ""
 "Use the buttons below to create a settings file from your current "
 "preferences that can be imported on a different machine."
@@ -1326,19 +1322,19 @@ msgstr ""
 "Кнопками ниже можно сохранить текущие настройки в файл для загрузки на "
 "другой машине."
 
-#: Settings.ui.h:244
+#: Settings.ui.h:245
 msgid "Export and import settings"
 msgstr "Сохранение и загрузка настроек"
 
-#: Settings.ui.h:245
+#: Settings.ui.h:246
 msgid "Export to file"
 msgstr "Сохранение настроек"
 
-#: Settings.ui.h:246
+#: Settings.ui.h:247
 msgid "Import from file"
 msgstr "Загрузка настроек"
 
-#: Settings.ui.h:247
+#: Settings.ui.h:248
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
@@ -1348,9 +1344,15 @@ msgstr ""
 "Подробнее на <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">GNU General Public License, версии 2 или позднее</a>.</span>"
 
-#: Settings.ui.h:248
+#: Settings.ui.h:249
 msgid "About"
 msgstr "О приложении"
+
+#~ msgid "Show Details"
+#~ msgstr "Показать подробности"
+
+#~ msgid "New Window"
+#~ msgstr "Новое окно"
 
 #~ msgid "Unavailable when installed from extensions.gnome.org"
 #~ msgstr "Недоступно, если установлено из extensions.gnome.org"
