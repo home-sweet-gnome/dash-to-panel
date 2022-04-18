@@ -29,7 +29,7 @@ const Gdk = imports.gi.Gdk;
 const Mainloop = imports.mainloop;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
+const ExtensionUtils = imports.misc.extensionUtils;
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 const N_ = function(e) { return e };
@@ -158,7 +158,7 @@ function mergeObjects(main, bck) {
 const Preferences = class {
 
     constructor() {
-        this._settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
+        this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
         this._rtl = (Gtk.Widget.get_default_direction() == Gtk.TextDirection.RTL);
         this._builder = new Gtk.Builder();
         this._builder.set_scope(new BuilderScope(this));
@@ -2455,7 +2455,7 @@ const BuilderScope = GObject.registerClass({
 });
 
 function init() {
-    Convenience.initTranslations();
+    ExtensionUtils.initTranslations();
 }
 
 function fillPreferencesWindow(window) {

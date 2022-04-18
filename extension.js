@@ -30,7 +30,6 @@ const Mainloop = imports.mainloop;
 const Signals = imports.signals;
 
 const Me = ExtensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
 const { PanelManager } = Me.imports.panelManager;
 const Utils = Me.imports.utils;
 const AppIcons = Me.imports.appIcons;
@@ -45,7 +44,7 @@ let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
 function init() {
     this._realHasOverview = Main.sessionMode.hasOverview;
 
-    Convenience.initTranslations(Utils.TRANSLATION_DOMAIN);
+    ExtensionUtils.initTranslations(Utils.TRANSLATION_DOMAIN);
     
     //create an object that persists until gnome-shell is restarted, even if the extension is disabled
     Me.persistentStorage = {};
@@ -89,8 +88,8 @@ function _enable() {
 
     if (panelManager) return; //already initialized
 
-    Me.settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
-    Me.desktopSettings = Convenience.getSettings('org.gnome.desktop.interface');
+    Me.settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
+    Me.desktopSettings = ExtensionUtils.getSettings('org.gnome.desktop.interface');
 
     Main.layoutManager.startInOverview = !Me.settings.get_boolean('hide-overview-on-startup');
 
