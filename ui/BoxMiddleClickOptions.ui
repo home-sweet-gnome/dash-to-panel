@@ -56,6 +56,7 @@
                   <item id="CYCLE" translatable="yes">Cycle through windows</item>
                   <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
                   <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
+                  <item id="TOGGLE-CYCLE" translatable="yes">Toggle single / Cycle multiple</item>
                   <item id="QUIT" translatable="yes">Quit</item>
                 </items>
               </object>
@@ -83,6 +84,7 @@
                   <item id="CYCLE" translatable="yes">Cycle through windows</item>
                   <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
                   <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
+                  <item id="TOGGLE-CYCLE" translatable="yes">Toggle single / Cycle multiple</item>
                   <item id="QUIT" translatable="yes">Quit</item>
                 </items>
               </object>
