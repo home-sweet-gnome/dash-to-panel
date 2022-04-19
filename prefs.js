@@ -2464,7 +2464,16 @@ function fillPreferencesWindow(window) {
     let preferences = new Preferences();
     let box = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL});
 
-    imports.gi.Adw && box.append(new imports.gi.Adw.HeaderBar);
+    if (imports.gi.Adw) {
+        // dummy page to prevent 'Extension did not provide any UI'
+        // error until we migrate to Adw
+        let dummyPage = new imports.gi.Adw.PreferencesPage()
+
+        box.append(new imports.gi.Adw.HeaderBar);
+        window.add(dummyPage);
+        window.visible_page = dummyPage
+    }
+
     box.append(preferences.notebook);
     window.set_content(box);
 }
