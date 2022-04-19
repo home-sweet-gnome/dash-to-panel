@@ -192,7 +192,9 @@ var ProximityManager = class {
     }
 
     _checkIfHandledWindow(metaWindow) {
-        return metaWindow && !metaWindow.minimized &&
+        return metaWindow && 
+               !metaWindow.minimized && 
+               !metaWindow.skip_taskbar &&
                this._checkIfHandledWindowType(metaWindow);
     }
 

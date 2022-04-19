@@ -801,8 +801,7 @@ var Taskbar = class {
         // When the menu closes, it calls sync_hover, which means
         // that the notify::hover handler does everything we need to.
         if (opened) {
-            if (this._timeoutsHandler.getId(T2))
-                this._timeoutsHandler.remove(T2)
+            this._timeoutsHandler.remove(T2)
 
             item.hideLabel();
         } else {

@@ -33,7 +33,6 @@ var DynamicTransparency = class {
         this._dtpPanel = dtpPanel;
         this._proximityManager = dtpPanel.panelManager.proximityManager;
         this._proximityWatchId = 0;
-        this._windowOverlap = false;
         this.currentBackgroundColor = 0;
 
         this._initialPanelStyle = dtpPanel.panel.get_style();
@@ -135,6 +134,9 @@ var DynamicTransparency = class {
         if (Me.settings.get_boolean('trans-use-dynamic-opacity')) {
             let isVertical = this._dtpPanel.checkIfVertical();
             let threshold = Me.settings.get_int('trans-dynamic-distance');
+
+            this._windowOverlap = false;
+            this._updateAlphaAndSet()
 
             this._proximityWatchId = this._proximityManager.createWatch(
                 this._dtpPanel.panelBox.get_parent(),
