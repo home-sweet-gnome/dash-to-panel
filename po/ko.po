@@ -1,2848 +1,1671 @@
+# Korean translation of dash-to-dock
+# Copyright (C) 2013 tuhaihe
+# This file is distributed under the same license as the dash-to-dock package.
+# Junghee Lee <daemul72@gmail.com>, 2022.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
-"POT-Creation-Date: 2021-12-24 14:59+0900\n"
-"PO-Revision-Date: 2021-12-24 22:40+0900\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"Project-Id-Version: Dash to Dock\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-20 22:31+0200\n"
+"PO-Revision-Date: 2022-04-23 08:23+0900\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
+"Language-Team: 이정희 <daemul72@gmail.com>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0\n"
-"X-Poedit-Basepath: dash-to-panel@jderose9.github.com\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Poedit-SearchPath-0: .\n"
+"X-Generator: Poedit 3.0.1\n"
 
-#: Settings.ui:30
+#: prefs.js:196
+msgid "Show Desktop button height (px)"
+msgstr "바탕화면 단추 높이 표시 (px)"
+
+#: prefs.js:196
+msgid "Show Desktop button width (px)"
+msgstr "바탕화면 단추 너비 표시 (px)"
+
+#: prefs.js:208
+msgid "Unavailable when gnome-shell top panel is present"
+msgstr "gnome-shell 상단 패널이 있는 경우 사용할 수 없음"
+
+#: prefs.js:266 Settings.ui.h:171
+msgid "Left"
+msgstr "왼쪽"
+
+#: prefs.js:267
+msgid "Center"
+msgstr "중앙"
+
+#: prefs.js:268 Settings.ui.h:172
+msgid "Right"
+msgstr "오른쪽"
+
+#: prefs.js:270 Settings.ui.h:106
+msgid "Top"
+msgstr "상단"
+
+#: prefs.js:271 prefs.js:276 Settings.ui.h:167
+msgid "Middle"
+msgstr "중간"
+
+#: prefs.js:272 Settings.ui.h:105
+msgid "Bottom"
+msgstr "하단"
+
+#: prefs.js:275 Settings.ui.h:166
+msgid "Start"
+msgstr "시작"
+
+#: prefs.js:277 Settings.ui.h:168
+msgid "End"
+msgstr "끝"
+
+#: prefs.js:362
+msgid "Show Applications button"
+msgstr "응용프로그램 표시 단추"
+
+#: prefs.js:363
+msgid "Activities button"
+msgstr "움직임 단추"
+
+#: prefs.js:364
+msgid "Taskbar"
+msgstr "작업 표시줄"
+
+#: prefs.js:365
+msgid "Date menu"
+msgstr "날짜 메뉴"
+
+#: prefs.js:366
+msgid "System menu"
+msgstr "시스템 메뉴"
+
+#: prefs.js:367
+msgid "Left box"
+msgstr "왼쪽 상자"
+
+#: prefs.js:368
+msgid "Center box"
+msgstr "중앙 상자"
+
+#: prefs.js:369
+msgid "Right box"
+msgstr "오른쪽 상자"
+
+#: prefs.js:370
+msgid "Desktop button"
+msgstr "바탕화면 단추"
+
+#: prefs.js:376
+msgid "Move up"
+msgstr "위로 이동"
+
+#: prefs.js:378
+msgid "Move down"
+msgstr "아래로 이동"
+
+#: prefs.js:380
+msgid "Visible"
+msgstr "보임"
+
+#: prefs.js:381
+msgid "Select element position"
+msgstr "요소 위치 선택"
+
+#: prefs.js:392
+msgid "Stacked to top"
+msgstr "상단에 쌓임"
+
+#: prefs.js:392
+msgid "Stacked to left"
+msgstr "왼쪽에 쌓임"
+
+#: prefs.js:393
+msgid "Stacked to bottom"
+msgstr "하단에 쌓임"
+
+#: prefs.js:393
+msgid "Stacked to right"
+msgstr "오른쪽에 쌓임"
+
+#: prefs.js:394
+msgid "Centered"
+msgstr "중앙"
+
+#: prefs.js:395
+msgid "Monitor Center"
+msgstr "모니터 가운데"
+
+#: prefs.js:414
+msgid "More options"
+msgstr "더 많은 옵션"
+
+#: prefs.js:436
+msgid "Show Applications options"
+msgstr "응용프로그램 표시 옵션"
+
+#: prefs.js:443 prefs.js:509 prefs.js:729 prefs.js:1075 prefs.js:1219
+#: prefs.js:1342 prefs.js:1636 prefs.js:1732 prefs.js:1798 prefs.js:1842
+#: prefs.js:1940 prefs.js:1975 prefs.js:2018 prefs.js:2154
+msgid "Reset to defaults"
+msgstr "기본값으로 재설정"
+
+#: prefs.js:449
+msgid "Open icon"
+msgstr "아이콘 열기"
+
+#: prefs.js:502
+msgid "Show Desktop options"
+msgstr "바탕화면 표시 옵션"
+
+#: prefs.js:602
+#, javascript-format
+msgid "%d ms"
+msgstr "%d ms"
+
+#: prefs.js:607
+#, javascript-format
+msgid "%d °"
+msgstr "%d °"
+
+#: prefs.js:612 prefs.js:617
+#, javascript-format
+msgid "%d %%"
+msgstr "%d %%"
+
+#: prefs.js:622
+#, javascript-format
+msgid "%.1f"
+msgstr "%.1f"
+
+#: prefs.js:627
+#, javascript-format
+msgid "%d icon"
+msgid_plural "%d icons"
+msgstr[0] "%d개 아이콘"
+
+#: prefs.js:722
+msgid "Running Indicator Options"
+msgstr "실행중인 표시기 옵션"
+
+#: prefs.js:886
+msgid "Primary monitor"
+msgstr "기본 모니터"
+
+#: prefs.js:886
+msgid "Monitor "
+msgstr "모니터 "
+
+#: prefs.js:1068
+msgid "Dynamic opacity options"
+msgstr "동적 불투명도 옵션"
+
+#: prefs.js:1212
+msgid "Intellihide options"
+msgstr "지능적 숨김 옵션"
+
+#: prefs.js:1335
+msgid "Window preview options"
+msgstr "창 미리보기 옵션"
+
+#: prefs.js:1629
+msgid "Ungrouped application options"
+msgstr "그룹화되지 않은 프로그램 옵션"
+
+#: prefs.js:1725
+msgid "Customize middle-click behavior"
+msgstr "가운데 클릭 동작 사용자 정의"
+
+#: prefs.js:1791
+msgid "Customize panel scroll behavior"
+msgstr "패널 스크롤 동작 사용자 정의"
+
+#: prefs.js:1835
+msgid "Customize icon scroll behavior"
+msgstr "아이콘 스크롤 동작 사용자 정의"
+
+#: prefs.js:1933
+msgid "Advanced hotkeys options"
+msgstr "고급 단축키 옵션"
+
+#: prefs.js:1968
+msgid "Secondary Menu Options"
+msgstr "보조 메뉴 옵션"
+
+#: prefs.js:2011 Settings.ui.h:240
+msgid "Advanced Options"
+msgstr "고급 옵션"
+
+#: prefs.js:2147
+msgid "App icon animation options"
+msgstr "앱 아이콘 애니메이션 옵션"
+
+#: prefs.js:2213
+msgid "Export settings"
+msgstr "설정 내보내기"
+
+#: prefs.js:2229
+msgid "Import settings"
+msgstr "설정 불러오기"
+
+#: appIcons.js:1512 appIcons.js:1522 appIcons.js:1524 Settings.ui.h:21
+msgid "Quit"
+msgstr "종료"
+
+#: appIcons.js:1524
+msgid "Windows"
+msgstr "창"
+
+#: appIcons.js:1797
+msgid "Power options"
+msgstr "전원 옵션"
+
+#: appIcons.js:1802
+msgid "Event logs"
+msgstr "이벤트 로그"
+
+#: appIcons.js:1807
+msgid "System"
+msgstr "시스템"
+
+#: appIcons.js:1812
+msgid "Device Management"
+msgstr "장치 관리자"
+
+#: appIcons.js:1817
+msgid "Disk Management"
+msgstr "디스크"
+
+#: appIcons.js:1830
+msgid "Terminal"
+msgstr "터미널"
+
+#: appIcons.js:1835
+msgid "System monitor"
+msgstr "시스템 정보"
+
+#: appIcons.js:1840
+msgid "Files"
+msgstr "파일"
+
+#: appIcons.js:1845
+msgid "Extensions"
+msgstr "확장자"
+
+#: appIcons.js:1850
+msgid "Settings"
+msgstr "설정"
+
+#: appIcons.js:1861
+msgid "Unlock taskbar"
+msgstr "작업표시줄 잠금 해제"
+
+#: appIcons.js:1861
+msgid "Lock taskbar"
+msgstr "작업표시줄 잠금"
+
+#: appIcons.js:1866
+msgid "Dash to Panel Settings"
+msgstr "패널 설정"
+
+#: appIcons.js:1871
+msgid "Restore Windows"
+msgstr "창 복원"
+
+#: appIcons.js:1871
+msgid "Show Desktop"
+msgstr "바탕화면 표시"
+
+#: Settings.ui.h:1
 msgid "Animation type"
 msgstr "애니메이션 종류"
 
-#: Settings.ui:40
+#: Settings.ui.h:2
 msgid "Simple"
-msgstr "간단히"
+msgstr "단순"
 
-#: Settings.ui:41
+#: Settings.ui.h:3
 msgid "Ripple"
-msgstr ""
+msgstr "잔물결"
 
-#: Settings.ui:42
+#: Settings.ui.h:4
 msgid "Plank"
-msgstr "플랭크"
+msgstr "감추기"
 
-#: Settings.ui:70
+#: Settings.ui.h:5
 msgid "Duration"
-msgstr ""
+msgstr "지속시간"
 
-#: Settings.ui:101
+#: Settings.ui.h:6
 msgid "Rotation"
-msgstr ""
+msgstr "회전"
 
-#: Settings.ui:131
+#: Settings.ui.h:7
 msgid "Travel"
-msgstr ""
+msgstr "이동하기"
 
-#: Settings.ui:161
+#: Settings.ui.h:8
 msgid "Zoom"
-msgstr "확대"
+msgstr "확대/축소"
 
-#: Settings.ui:191
+#: Settings.ui.h:9
 msgid "Convexity"
-msgstr ""
+msgstr "볼록함"
 
-#: Settings.ui:221
+#: Settings.ui.h:10
 msgid "Extent"
-msgstr ""
+msgstr "확대하기"
 
-#: Settings.ui:332
+#: Settings.ui.h:11
 msgid "Nothing yet!"
 msgstr "아직 없음!"
 
-#: Settings.ui:383
+#: Settings.ui.h:12
 msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
-msgstr ""
+msgstr "최소화로 지정할때, 두 번 클릭하면 프로그램의 모든 창이 최소화됩니다."
 
-#: Settings.ui:401
+#: Settings.ui.h:13
 msgid "Shift+Click action"
-msgstr ""
+msgstr "Shift+클릭 동작"
 
-#: Settings.ui:415 Settings.ui:487 Settings.ui:558 Settings.ui:6486
+#: Settings.ui.h:14
 msgid "Raise windows"
-msgstr ""
+msgstr "창 올리기"
 
-#: Settings.ui:416 Settings.ui:488 Settings.ui:559
+#: Settings.ui.h:15
 msgid "Minimize window"
 msgstr "창 최소화"
 
-#: Settings.ui:417 Settings.ui:489 Settings.ui:560 Settings.ui:6487
+#: Settings.ui.h:16
 msgid "Launch new instance"
 msgstr "새 인스턴스 실행"
 
-#: Settings.ui:418 Settings.ui:490 Settings.ui:561 Settings.ui:6483
+#: Settings.ui.h:17
 msgid "Cycle through windows"
-msgstr "창 간 전환"
+msgstr "창을 통해 순환"
 
-#: Settings.ui:419 Settings.ui:491 Settings.ui:562 Settings.ui:6482
+#: Settings.ui.h:18
 msgid "Cycle windows + minimize"
 msgstr "창 전환 및 최소화"
 
-#: Settings.ui:420 Settings.ui:492 Settings.ui:563 Settings.ui:6484
+#: Settings.ui.h:19
 msgid "Toggle single / Preview multiple"
-msgstr ""
+msgstr "단일 전환하기 / 다중 미리보기"
 
-#: Settings.ui:421
+#: Settings.ui.h:20
 msgid "Toggle single / Cycle multiple"
-msgstr ""
+msgstr "단일 전환하기 / 다중 순환하기"
 
-#: Settings.ui:422 Settings.ui:493 Settings.ui:564
-msgid "Quit"
-msgstr "끝내기"
-
-#: Settings.ui:455
+#: Settings.ui.h:22
 msgid "Behavior for Middle-Click."
-msgstr ""
+msgstr "가운데 클릭 동작입니다."
 
-#: Settings.ui:473
+#: Settings.ui.h:23
 msgid "Middle-Click action"
-msgstr ""
+msgstr "가운데 클릭 동작"
 
-#: Settings.ui:526
+#: Settings.ui.h:24
 msgid "Behavior for Shift+Middle-Click."
-msgstr ""
+msgstr "Shift+가운데 클릭에 대한 동작입니다."
 
-#: Settings.ui:544
+#: Settings.ui.h:25
 msgid "Shift+Middle-Click action"
-msgstr ""
+msgstr "Shift+가운데 클릭 동작"
 
-#: Settings.ui:619
+#: Settings.ui.h:26
 msgid "Integrate <i>AppMenu</i> items"
-msgstr ""
+msgstr "<i>AppMenu</i> 항목 통합"
 
-#: Settings.ui:665
+#: Settings.ui.h:27
 msgid "<i>Show Details</i> menu item"
-msgstr ""
+msgstr "<i>세부정보 표시</i> 메뉴 항목"
 
-#: Settings.ui:759
+#: Settings.ui.h:28
 msgid "Highlight focused application"
-msgstr ""
+msgstr "초점을 맞춘 프로그램 강조표시"
 
-#: Settings.ui:790
+#: Settings.ui.h:29
 msgid "Icon dominant color"
-msgstr ""
+msgstr "아이콘 지배적 인 색상"
 
-#: Settings.ui:811
+#: Settings.ui.h:30
 msgid "Custom color"
-msgstr ""
+msgstr "사용자 지정 색상"
 
-#: Settings.ui:836
+#: Settings.ui.h:31
 msgid "Highlight opacity"
-msgstr ""
+msgstr "불투명도 강조표시"
 
-#: Settings.ui:888
+#: Settings.ui.h:32
 msgid "Indicator size (px)"
-msgstr ""
+msgstr "표시기 크기 (px)"
 
-#: Settings.ui:932
+#: Settings.ui.h:33
 msgid "Indicator color - Icon Dominant"
-msgstr ""
+msgstr "표시기 색상 - 아이콘 지배적"
 
-#: Settings.ui:978
+#: Settings.ui.h:34
 msgid "Indicator color - Override Theme"
-msgstr ""
+msgstr "표시기 색상 - 테마 재정의"
 
-#: Settings.ui:1006 Settings.ui:1161
+#: Settings.ui.h:35
 msgid "1 window open (or ungrouped)"
-msgstr ""
+msgstr "창 1개 열기"
 
-#: Settings.ui:1021 Settings.ui:1176
+#: Settings.ui.h:36
 msgid "Apply to all"
 msgstr "모두 적용"
 
-#: Settings.ui:1046 Settings.ui:1201
+#: Settings.ui.h:37
 msgid "2 windows open"
-msgstr ""
+msgstr "창 2개 열기"
 
-#: Settings.ui:1059 Settings.ui:1226
+#: Settings.ui.h:38
 msgid "3 windows open"
-msgstr ""
+msgstr "창 3개 열기"
 
-#: Settings.ui:1072 Settings.ui:1251
+#: Settings.ui.h:39
 msgid "4+ windows open"
-msgstr ""
+msgstr "창 4개 이상 열기"
 
-#: Settings.ui:1133
+#: Settings.ui.h:40
 msgid "Use different for unfocused"
-msgstr ""
+msgstr "초점을 안 맞춘 경우 다르게 사용"
 
-#: Settings.ui:1344
+#: Settings.ui.h:41
 msgid "Font size (px) of the application titles (default is 14)"
-msgstr ""
+msgstr "프로그램 제목의 글꼴 크기(px)(기본값은 14)"
 
-#: Settings.ui:1375
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:574
+#: Settings.ui.h:42
 msgid "Font weight of application titles"
-msgstr ""
+msgstr "프로그램 제목의 글꼴 두께"
 
-#: Settings.ui:1389 Settings.ui:3024
+#: Settings.ui.h:43
 msgid "inherit from theme"
-msgstr ""
+msgstr "테마에서 물려받기"
 
-#: Settings.ui:1390 Settings.ui:3025
+#: Settings.ui.h:44
 msgid "normal"
 msgstr "보통"
 
-#: Settings.ui:1391 Settings.ui:3026
+#: Settings.ui.h:45
 msgid "lighter"
-msgstr "얇게"
+msgstr "더 얇게"
 
-#: Settings.ui:1392 Settings.ui:3027
+#: Settings.ui.h:46
 msgid "bold"
 msgstr "굵게"
 
-#: Settings.ui:1393 Settings.ui:3028
+#: Settings.ui.h:47
 msgid "bolder"
 msgstr "더 굵게"
 
-#: Settings.ui:1423
+#: Settings.ui.h:48
 msgid "Font color of the application titles"
-msgstr ""
+msgstr "프로그램 제목의 글꼴 색상"
 
-#: Settings.ui:1466
+#: Settings.ui.h:49
 msgid "Font color of the minimized application titles"
-msgstr ""
+msgstr "최소화된 프로그램 제목의 글꼴 색상"
 
-#: Settings.ui:1509
+#: Settings.ui.h:50
 msgid "Maximum width (px) of the application titles (default is 160)"
-msgstr ""
+msgstr "프로그램 제목의 최대 너비 (px) (기본값은 160)"
 
-#: Settings.ui:1554
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:594
+#: Settings.ui.h:51
 msgid "Use a fixed width for the application titles"
-msgstr ""
+msgstr "프로그램 제목에 고정 너비 사용"
 
-#: Settings.ui:1579
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:595
+#: Settings.ui.h:52
 msgid ""
 "The application titles all have the same width, even if their texts are "
 "shorter than the maximum width. The maximum width value is used as the fixed "
 "width."
 msgstr ""
+"프로그램 제목은 텍스트가 최대 너비보다 짧더라도, 동일한 너비를 갖습니다. 최"
+"대 너비 값이 고정 너비로 사용됩니다."
 
-#: Settings.ui:1615
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:599
+#: Settings.ui.h:53
 msgid "Display running indicators on unfocused applications"
-msgstr ""
+msgstr "초점을 안 맞춘 프로그램에서 실행중인 표시기화면표시"
 
-#: Settings.ui:1657
+#: Settings.ui.h:54
 msgid "Use the favorite icons as application launchers"
-msgstr ""
+msgstr "즐겨찾는 아이콘을 응용프로그램 실행기로 사용"
 
-#: Settings.ui:1751
+#: Settings.ui.h:55
 msgid "Only hide the panel when it is obstructed by windows "
-msgstr ""
+msgstr "창에 가려질 때만 패널 숨김 "
 
-#: Settings.ui:1783
+#: Settings.ui.h:56
 msgid "The panel hides from"
-msgstr ""
+msgstr "패널이 다음에서 숨음"
 
-#: Settings.ui:1797 Settings.ui:4382
+#: Settings.ui.h:57
 msgid "All windows"
 msgstr "모든 창"
 
-#: Settings.ui:1798 Settings.ui:4383
+#: Settings.ui.h:58
 msgid "Focused windows"
-msgstr ""
+msgstr "초점을 맞춘 창"
 
-#: Settings.ui:1799 Settings.ui:4384
+#: Settings.ui.h:59
 msgid "Maximized windows"
-msgstr ""
+msgstr "최대화된 창"
 
-#: Settings.ui:1837
+#: Settings.ui.h:60
 msgid "Require pressure at the edge of the screen to reveal the panel"
-msgstr ""
+msgstr "패널을 드러내려면화면 가장자리에 압력을 가해야 합니다"
 
-#: Settings.ui:1869
+#: Settings.ui.h:61
 msgid "Required pressure threshold (px)"
-msgstr ""
+msgstr "필요한 압력 임계값 (px)"
 
-#: Settings.ui:1898
+#: Settings.ui.h:62
 msgid "Required pressure timeout (ms)"
-msgstr ""
+msgstr "필요한 압력 제한시간 (ms)"
 
-#: Settings.ui:1953
+#: Settings.ui.h:63
 msgid "Allow the panel to be revealed while in fullscreen mode"
-msgstr ""
+msgstr "전체화면 모드에서 패널을 드러내도록 허용"
 
-#: Settings.ui:1997
+#: Settings.ui.h:64
 msgid "Only hide secondary panels (requires multi-monitors option)"
-msgstr ""
+msgstr "보조 패널만 숨김 (다중 모니터 옵션 필요)"
 
-#: Settings.ui:2040
+#: Settings.ui.h:65
 msgid "e.g. <Super>i"
-msgstr ""
+msgstr "예: <Super>i"
 
-#: Settings.ui:2053
+#: Settings.ui.h:66
 msgid "Keyboard shortcut to reveal and hold the panel"
-msgstr ""
+msgstr "패널을 드러내고 유지하는 키보드 단축키"
 
-#: Settings.ui:2065 Settings.ui:3749
+#: Settings.ui.h:67
 msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
-msgstr ""
+msgstr "문법: <Shift>, <Ctrl>, <Alt>, <Super>"
 
-#: Settings.ui:2100
+#: Settings.ui.h:68
 msgid "Hide and reveal animation duration (ms)"
-msgstr ""
+msgstr "애니메이션 지속시간 숨김 및 드러내기 (ms)"
 
-#: Settings.ui:2146
+#: Settings.ui.h:69
 msgid "Delay before hiding the panel (ms)"
-msgstr ""
+msgstr "패널 숨기기 전 지연시간 (ms)"
 
-#: Settings.ui:2193
+#: Settings.ui.h:70
 msgid "Delay before enabling intellihide on start (ms)"
-msgstr ""
+msgstr "시작 시 지능적 숨김을 활성화하기 전 지연시간 (ms)"
 
-#: Settings.ui:2351
+#: Settings.ui.h:71
 msgid "Time (ms) before showing (400 is default)"
-msgstr ""
+msgstr "표시하기 전 시간 (ms) (400이 기본값)"
 
-#: Settings.ui:2365
+#: Settings.ui.h:72
 msgid "Animation time (ms)"
-msgstr ""
+msgstr "애니메이션 시간 (ms)"
 
-#: Settings.ui:2398
+#: Settings.ui.h:73
 msgid "Time (ms) before hiding (100 is default)"
-msgstr ""
+msgstr "숨기기 전 시간 (ms) (100이 기본값)"
 
-#: Settings.ui:2416
+#: Settings.ui.h:74
 msgid "Immediate on application icon click"
-msgstr ""
+msgstr "프로그램 아이콘을 누르면 즉시 실행"
 
-#: Settings.ui:2467
+#: Settings.ui.h:75
 msgid "Middle click on the preview to close the window"
-msgstr ""
+msgstr "창을 닫으려면 미리보기에서 마우스 가운데 누르기"
 
-#: Settings.ui:2511
+#: Settings.ui.h:76
 msgid "Window previews preferred size (px)"
 msgstr "선호하는 창 미리보기 크기 (픽셀)"
 
-#: Settings.ui:2538
+#: Settings.ui.h:77
 msgid "Window previews aspect ratio Y (height)"
-msgstr ""
+msgstr "창 미리보기 가로 세로 비율 Y (높이)"
 
-#: Settings.ui:2552
+#: Settings.ui.h:78
 msgid "Window previews padding (px)"
 msgstr "창 미리보기 위치 (픽셀"
 
-#: Settings.ui:2591 Settings.ui:2658
+#: Settings.ui.h:79
 msgid "1"
 msgstr "1"
 
-#: Settings.ui:2592 Settings.ui:2659
+#: Settings.ui.h:80
 msgid "2"
 msgstr "2"
 
-#: Settings.ui:2593 Settings.ui:2660
+#: Settings.ui.h:81
 msgid "3"
 msgstr "3"
 
-#: Settings.ui:2594 Settings.ui:2661
+#: Settings.ui.h:82
 msgid "4"
 msgstr "4"
 
-#: Settings.ui:2595 Settings.ui:2662 Settings.ui:2766
+#: Settings.ui.h:83
 msgid "5"
 msgstr "5"
 
-#: Settings.ui:2596 Settings.ui:2663
+#: Settings.ui.h:84
 msgid "6"
 msgstr "6"
 
-#: Settings.ui:2597 Settings.ui:2664
+#: Settings.ui.h:85
 msgid "7"
 msgstr "7"
 
-#: Settings.ui:2598 Settings.ui:2665
+#: Settings.ui.h:86
 msgid "8"
 msgstr "8"
 
-#: Settings.ui:2599 Settings.ui:2666
+#: Settings.ui.h:87
 msgid "9"
 msgstr "9"
 
-#: Settings.ui:2600 Settings.ui:2667
+#: Settings.ui.h:88
 msgid "10"
 msgstr "10"
 
-#: Settings.ui:2601 Settings.ui:2668
+#: Settings.ui.h:89
 msgid "11"
 msgstr "11"
 
-#: Settings.ui:2602 Settings.ui:2669
+#: Settings.ui.h:90
 msgid "12"
 msgstr "12"
 
-#: Settings.ui:2603 Settings.ui:2670
+#: Settings.ui.h:91
 msgid "13"
 msgstr "13"
 
-#: Settings.ui:2604 Settings.ui:2671
+#: Settings.ui.h:92
 msgid "14"
 msgstr "14"
 
-#: Settings.ui:2605 Settings.ui:2672
+#: Settings.ui.h:93
 msgid "15"
 msgstr "15"
 
-#: Settings.ui:2606 Settings.ui:2673
+#: Settings.ui.h:94
 msgid "16"
 msgstr "16"
 
-#: Settings.ui:2607 Settings.ui:2674
+#: Settings.ui.h:95
 msgid "17"
 msgstr "17"
 
-#: Settings.ui:2608 Settings.ui:2675
+#: Settings.ui.h:96
 msgid "18"
 msgstr "18"
 
-#: Settings.ui:2609 Settings.ui:2676
+#: Settings.ui.h:97
 msgid "19"
 msgstr "19"
 
-#: Settings.ui:2610 Settings.ui:2677
+#: Settings.ui.h:98
 msgid "20"
 msgstr "20"
 
-#: Settings.ui:2611 Settings.ui:2678
+#: Settings.ui.h:99
 msgid "21"
 msgstr "21"
 
-#: Settings.ui:2617 Settings.ui:2684
+#: Settings.ui.h:100
 msgid "Fixed"
-msgstr ""
+msgstr "고정됨"
 
-#: Settings.ui:2635
+#: Settings.ui.h:101
 msgid "Window previews aspect ratio X (width)"
-msgstr ""
+msgstr "창 미리보기 가로 세로 비율 X (너비)"
 
-#: Settings.ui:2719
+#: Settings.ui.h:102
 msgid "Use custom opacity for the previews background"
-msgstr ""
+msgstr "미리보기 배경에 사용자 지정 불투명도 사용"
 
-#: Settings.ui:2733
+#: Settings.ui.h:103
 msgid "If disabled, the previews background have the same opacity as the panel"
-msgstr ""
+msgstr "비활성화된 경우, 미리보기 배경은 패널과 동일한 불투명도를 갖습니다"
 
-#: Settings.ui:2799
+#: Settings.ui.h:104
 msgid "Close button and header position"
-msgstr "제목 및 닫기 버튼 위치"
+msgstr "제목 및 닫기 단추 위치"
 
-#: Settings.ui:2811 Settings.ui:4953 Settings.ui:5222 prefs.js:275
-msgid "Bottom"
-msgstr "아래"
-
-#: Settings.ui:2823 Settings.ui:4966 Settings.ui:5233 prefs.js:273
-msgid "Top"
-msgstr "위"
-
-#: Settings.ui:2857
+#: Settings.ui.h:107
 msgid "Display window preview headers"
-msgstr ""
+msgstr "창 미리보기 헤더화면표시"
 
-#: Settings.ui:2920
+#: Settings.ui.h:108
 msgid "Icon size (px) of the window preview"
 msgstr "창 미리보기 아이콘 크기 (px)"
 
-#: Settings.ui:2934
+#: Settings.ui.h:109
 msgid "If disabled, the previews icon size will be based on headerbar size"
 msgstr ""
+"비활성화된 경우, 미리보기 아이콘 크기는 헤더 표시줄 크기를 기반으로 합니다"
 
-#: Settings.ui:2982
+#: Settings.ui.h:110
 msgid "Font size (px) of the preview titles"
 msgstr "미리보기 제목의 글꼴 크기 (px)"
 
-#: Settings.ui:3009
+#: Settings.ui.h:111
 msgid "Font weight of the preview titles"
-msgstr ""
+msgstr "미리보기 제목의 글꼴 두께"
 
-#: Settings.ui:3054
+#: Settings.ui.h:112
 msgid "Font color of the preview titles"
-msgstr ""
+msgstr "미리보기 제목의 글꼴 색상"
 
-#: Settings.ui:3105
+#: Settings.ui.h:113
 msgid "Enable window peeking"
-msgstr ""
+msgstr "창 엿보기 활성화"
 
-#: Settings.ui:3131
+#: Settings.ui.h:114
 msgid ""
 "When hovering over a window preview for some time, the window gets "
 "distinguished."
-msgstr ""
+msgstr "일정 시간 동안 창 미리보기 위로 마우스로 가리키면, 창이 구분됩니다."
 
-#: Settings.ui:3156
+#: Settings.ui.h:115
 msgid "Enter window peeking mode timeout (ms)"
-msgstr ""
+msgstr "창 엿보기 모드 시작 시간초과 (ms)"
 
-#: Settings.ui:3170
+#: Settings.ui.h:116
 msgid "50"
 msgstr "50"
 
-#: Settings.ui:3185
+#: Settings.ui.h:117
 msgid ""
 "Time of inactivity while hovering over a window preview needed to enter the "
 "window peeking mode."
 msgstr ""
+"창 엿보기 모드로 들어가는 데 필요한 창 미리보기 위로 마우스로 가르키는 동안 "
+"비활성 시간입니다."
 
-#: Settings.ui:3217
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:701
+#: Settings.ui.h:118
 msgid "Window peeking mode opacity"
-msgstr ""
+msgstr "창 엿보기 모드 불투명도"
 
-#: Settings.ui:3231 Settings.ui:4000 Settings.ui:4470 Settings.ui:5529
-#: Settings.ui:5716 Settings.ui:5744
+#: Settings.ui.h:119
 msgid "0"
 msgstr "0"
 
-#: Settings.ui:3245
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:702
+#: Settings.ui.h:120
 msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
-msgstr ""
+msgstr "엿보기 창을 제외한 모든 창의 불투명도는 동일한 값으로 설정됩니다."
 
-#: Settings.ui:3327 Settings.ui:3412
+#: Settings.ui.h:121
 msgid "Delay between mouse scroll events (ms)"
-msgstr ""
+msgstr "마우스 스크롤 이벤트 간 지연시간 (ms)"
 
-#: Settings.ui:3341 Settings.ui:3426
+#: Settings.ui.h:122
 msgid "Use this value to limit the number of captured mouse scroll events."
-msgstr ""
+msgstr "캡처된 마우스 스크롤 이벤트의 수를 제한하려면 이 값을 사용합니다."
 
-#: Settings.ui:3460
+#: Settings.ui.h:123
 msgid "Show popup when changing workspace"
-msgstr ""
+msgstr "작업공간 변경 시 팝업 표시"
 
-#: Settings.ui:3474
+#: Settings.ui.h:124
 msgid "This affects workspace popup when scrolling on the panel only."
-msgstr ""
+msgstr "이는 패널에서 스크롤할 때만 작업공간 팝업에 영향을 줍니다."
 
-#: Settings.ui:3552
+#: Settings.ui.h:125
 msgid "Super"
 msgstr "Super"
 
-#: Settings.ui:3553
+#: Settings.ui.h:126
 msgid "Super + Alt"
 msgstr "Super + Alt"
 
-#: Settings.ui:3567
+#: Settings.ui.h:127
 msgid "Hotkeys prefix"
-msgstr ""
+msgstr "단축키 접두사"
 
-#: Settings.ui:3579
+#: Settings.ui.h:128
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
-msgstr ""
+msgstr "단축키는 Super+숫자키 또는 Super+Alt+숫자키 입니다"
 
-#: Settings.ui:3617
+#: Settings.ui.h:129
 msgid "Never"
-msgstr ""
+msgstr "안함"
 
-#: Settings.ui:3618
+#: Settings.ui.h:130
 msgid "Show temporarily"
-msgstr ""
+msgstr "임시로 표시"
 
-#: Settings.ui:3619
+#: Settings.ui.h:131
 msgid "Always visible"
-msgstr ""
+msgstr "항상 보임"
 
-#: Settings.ui:3633
+#: Settings.ui.h:132
 msgid "Number overlay"
-msgstr ""
+msgstr "숫자 덮어씌우기"
 
-#: Settings.ui:3645
+#: Settings.ui.h:133
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
 msgstr ""
+"단축키를 사용할 때 아이콘 위에 응용프로그램 번호를 일시적으로 표시합니다."
 
-#: Settings.ui:3694
+#: Settings.ui.h:134
 msgid "Hide timeout (ms)"
-msgstr ""
+msgstr "시간초과 숨김 (ms)"
 
-#: Settings.ui:3724
+#: Settings.ui.h:135
 msgid "e.g. <Super>q"
-msgstr ""
+msgstr "예: <Super>q"
 
-#: Settings.ui:3737
+#: Settings.ui.h:136
 msgid "Shortcut to show the overlay for 2 seconds"
-msgstr ""
+msgstr "2초 동안 오버레이를 표시하는 바로가기"
 
-#: Settings.ui:3784
+#: Settings.ui.h:137
 msgid "Show window previews on hotkey"
-msgstr ""
+msgstr "단축키에 창 미리보기 표시"
 
-#: Settings.ui:3811
+#: Settings.ui.h:138
 msgid "Show previews when the application have multiple instances"
-msgstr ""
+msgstr "프로그램에 여러 인스턴스가 있는 경우 미리보기 표시"
 
-#: Settings.ui:3848
+#: Settings.ui.h:139
 msgid "Number row"
-msgstr ""
+msgstr "숫자 행"
 
-#: Settings.ui:3849
+#: Settings.ui.h:140
 msgid "Numeric keypad"
-msgstr ""
+msgstr "숫자 키패드"
 
-#: Settings.ui:3850
+#: Settings.ui.h:141
 msgid "Both"
-msgstr ""
+msgstr "둘 다"
 
-#: Settings.ui:3864
+#: Settings.ui.h:142
 msgid "Hotkeys are activated with"
-msgstr ""
+msgstr "단축키는 다음으로 활성화됩니다"
 
-#: Settings.ui:3876
+#: Settings.ui.h:143
 msgid "Select which keyboard number keys are used to activate the hotkeys"
-msgstr ""
+msgstr "단축키를 활성화하는 데 사용할 키보드 숫자 키 선택"
 
-#: Settings.ui:3928
+#: Settings.ui.h:144
 msgid "Current Show Applications icon"
-msgstr ""
+msgstr "현재 프로그램 표시 아이콘"
 
-#: Settings.ui:3967
+#: Settings.ui.h:145
 msgid "Custom Show Applications image icon"
-msgstr ""
+msgstr "사용자 지정 프로그램 표시 이미지 아이콘"
 
-#: Settings.ui:4013
+#: Settings.ui.h:146
 msgid "Show Applications icon side padding (px)"
-msgstr ""
+msgstr "프로그램 아이콘 측면 패딩 표시 (px)"
 
-#: Settings.ui:4055
+#: Settings.ui.h:147
 msgid "Override escape key and return to desktop"
-msgstr ""
+msgstr "Esc 키를 재정의하고 데스크톱으로 돌아가기"
 
-#: Settings.ui:4143
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:109
+#: Settings.ui.h:148
 msgid "Override Show Desktop line color"
-msgstr ""
+msgstr "바탕화면 표시 선 색상 재정의"
 
-#: Settings.ui:4203
+#: Settings.ui.h:149
 msgid "Reveal the desktop when hovering the Show Desktop button"
-msgstr ""
+msgstr "바탕화면 표시 단추를 마우스로 가르킬때 바탕화면 드러내기"
 
-#: Settings.ui:4234
+#: Settings.ui.h:150
 msgid "Delay before revealing the desktop (ms)"
-msgstr ""
+msgstr "바탕화면을 드러내기 전 지연시간 (ms)"
 
-#: Settings.ui:4264
+#: Settings.ui.h:151
 msgid "Fade duration (ms)"
-msgstr ""
+msgstr "페이드 지속시간 (ms)"
 
-#: Settings.ui:4368
+#: Settings.ui.h:152
 msgid "The panel background opacity is affected by"
-msgstr ""
+msgstr "패널 배경 불투명도는 다음의 영향을 받습니다"
 
-#: Settings.ui:4430
+#: Settings.ui.h:153
 msgid "Change opacity when a window gets closer than (px)"
-msgstr ""
+msgstr "창이 (px)보다 가까워지면 불투명도 변경"
 
-#: Settings.ui:4460
+#: Settings.ui.h:155
+#, no-c-format
 msgid "Change opacity to (%)"
-msgstr ""
+msgstr "불투명도를 (%)로 변경"
 
-#: Settings.ui:4512
+#: Settings.ui.h:156
 msgid "Opacity change animation duration (ms)"
-msgstr ""
+msgstr "불투명도 변경 애니메이션 지속시간 (ms)"
 
-#: Settings.ui:4584
+#: Settings.ui.h:157
 msgid "Display the main panel on"
-msgstr ""
+msgstr "기본 패널 위치 화면표시"
 
-#: Settings.ui:4626
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:614
+#: Settings.ui.h:158
 msgid "Display panels on all monitors"
-msgstr ""
+msgstr "모든 모니터의 패널화면표시"
 
-#: Settings.ui:4687
+#: Settings.ui.h:159
 msgid "Panel Intellihide"
-msgstr ""
+msgstr "패널 지능적 숨김"
 
-#: Settings.ui:4740
+#: Settings.ui.h:160
 msgid "Hide and reveal the panel according to preferences"
-msgstr ""
+msgstr "기본 설정에 따라 패널 숨김 및 드러내기"
 
-#: Settings.ui:4787
+#: Settings.ui.h:161
 msgid "Order and positions on monitor"
-msgstr ""
+msgstr "모니터의 순서 및 위치"
 
-#: Settings.ui:4808
+#: Settings.ui.h:162
 msgid "Apply changes to all monitors"
-msgstr ""
+msgstr "모든 모니터에 변경사항 적용"
 
-#: Settings.ui:4868
+#: Settings.ui.h:163
 msgid ""
 "Panel thickness\n"
 "(default is 48)"
 msgstr ""
+"패널 두께\n"
+"(기본값은 48)"
 
-#: Settings.ui:4880
+#: Settings.ui.h:165
+#, no-c-format
 msgid ""
 "Panel length (%)\n"
 "(default is 100)"
 msgstr ""
+"패널 길이 (%)\n"
+"(기본값은 100)"
 
-#: Settings.ui:4911 prefs.js:278
-msgid "Start"
-msgstr ""
-
-#: Settings.ui:4912 prefs.js:274 prefs.js:279
-msgid "Middle"
-msgstr ""
-
-#: Settings.ui:4913 prefs.js:280
-msgid "End"
-msgstr ""
-
-#: Settings.ui:4925
+#: Settings.ui.h:169
 msgid "Anchor"
-msgstr ""
+msgstr "앵커"
 
-#: Settings.ui:4938
+#: Settings.ui.h:170
 msgid "Panel screen position"
 msgstr "화면 내 패널 위치"
 
-#: Settings.ui:4979 Settings.ui:5244 prefs.js:269
-msgid "Left"
-msgstr "왼쪽"
-
-#: Settings.ui:4992 Settings.ui:5255 prefs.js:271
-msgid "Right"
-msgstr "오른쪽"
-
-#: Settings.ui:5053
+#: Settings.ui.h:173
 msgid "Position"
 msgstr "위치"
 
-#: Settings.ui:5097
+#: Settings.ui.h:174
 msgid ""
 "App Icon Margin\n"
 "(default is 8)"
 msgstr ""
+"앱 아이콘 여백\n"
+"(기본값은 8)"
 
-#: Settings.ui:5145
+#: Settings.ui.h:175
 msgid ""
 "App Icon Padding\n"
 "(default is 4)"
 msgstr ""
+"앱 아이콘 패딩\n"
+"(기본값은 4)"
 
-#: Settings.ui:5211
+#: Settings.ui.h:176
 msgid "Running indicator position"
-msgstr ""
+msgstr "실행중인 표시기 위치"
 
-#: Settings.ui:5289
+#: Settings.ui.h:177
 msgid "Running indicator style (Focused app)"
-msgstr ""
+msgstr "실행중인 표시기 스타일 (초점을 맞춘 앱)"
 
-#: Settings.ui:5323 Settings.ui:5369
+#: Settings.ui.h:178
 msgid "Dots"
 msgstr "점"
 
-#: Settings.ui:5324 Settings.ui:5370
+#: Settings.ui.h:179
 msgid "Squares"
 msgstr "사각형"
 
-#: Settings.ui:5325 Settings.ui:5371
+#: Settings.ui.h:180
 msgid "Dashes"
 msgstr "대시"
 
-#: Settings.ui:5326 Settings.ui:5372
+#: Settings.ui.h:181
 msgid "Segmented"
-msgstr ""
+msgstr "분할됨"
 
-#: Settings.ui:5327 Settings.ui:5373
+#: Settings.ui.h:182
 msgid "Solid"
-msgstr "단일"
+msgstr "솔리드"
 
-#: Settings.ui:5328 Settings.ui:5374
+#: Settings.ui.h:183
 msgid "Ciliora"
-msgstr ""
+msgstr "실리오라"
 
-#: Settings.ui:5329 Settings.ui:5375
+#: Settings.ui.h:184
 msgid "Metro"
-msgstr "Windows 스타일"
+msgstr "메트로"
 
-#: Settings.ui:5358
+#: Settings.ui.h:185
 msgid "Running indicator style (Unfocused apps)"
-msgstr ""
+msgstr "실행중인 표시기 스타일 (초점을 안 맞춘 앱)"
 
-#: Settings.ui:5418
+#: Settings.ui.h:186
 msgid "Override panel theme background color "
-msgstr ""
+msgstr "패널 테마 배경색 재정의 "
 
-#: Settings.ui:5481
+#: Settings.ui.h:187
 msgid "Override panel theme background opacity"
-msgstr ""
+msgstr "패널 테마 배경 불투명도 재정의"
 
-#: Settings.ui:5514
+#: Settings.ui.h:189
+#, no-c-format
 msgid "Panel background opacity (%)"
-msgstr ""
+msgstr "패널 배경 불투명도(%)"
 
-#: Settings.ui:5548
+#: Settings.ui.h:190
 msgid "Dynamic background opacity"
-msgstr ""
+msgstr "동적 배경 불투명도"
 
-#: Settings.ui:5558
+#: Settings.ui.h:191
 msgid "Change opacity when a window gets close to the panel"
-msgstr ""
+msgstr "창이 패널에 가까워지면 불투명도 변경"
 
-#: Settings.ui:5644
+#: Settings.ui.h:192
 msgid "Override panel theme gradient "
-msgstr ""
+msgstr "패널 테마 그라디언트 재정의 "
 
-#: Settings.ui:5677
+#: Settings.ui.h:194
+#, no-c-format
 msgid "Gradient top color and opacity (%)"
-msgstr ""
+msgstr "그라디언트 상단 색상 및 불투명도 (%)"
 
-#: Settings.ui:5690
+#: Settings.ui.h:196
+#, no-c-format
 msgid "Gradient bottom color and opacity (%)"
-msgstr ""
+msgstr "그라디언트 하단 색상 및 불투명도 (%)"
 
-#: Settings.ui:5800
+#: Settings.ui.h:197
 msgid "Animate hovering app icons"
-msgstr "아이콘 위에 올려놓을 시 애니메이션 효과 사용"
+msgstr "마우스로 가르키는 앱 아이콘 애니메이션 적용"
 
-#: Settings.ui:5861
+#: Settings.ui.h:198
 msgid "Style"
-msgstr "모양"
+msgstr "스타일"
 
-#: Settings.ui:5917
+#: Settings.ui.h:199
 msgid "Show favorite applications"
 msgstr "즐겨찾는 프로그램 표시"
 
-#: Settings.ui:5930
+#: Settings.ui.h:200
 msgid "Show running applications"
-msgstr "실행 중인 프로그램 표시"
+msgstr "실행중인 프로그램 표시"
 
-#: Settings.ui:5967
+#: Settings.ui.h:201
 msgid "Show favorite applications on secondary panels"
 msgstr "두 번째 패널에 즐겨찾는 프로그램 표시"
 
-#: Settings.ui:6012
+#: Settings.ui.h:202
 msgid "Show <i>AppMenu</i> button"
-msgstr ""
+msgstr "<i>AppMenu</i> 버튼 표시"
 
-#: Settings.ui:6026
+#: Settings.ui.h:203
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
-msgstr ""
+msgstr "트윅 도구에서 상단 표시줄 > 앱 메뉴 표시를 활성화해야 합니다"
 
-#: Settings.ui:6101
+#: Settings.ui.h:204
 msgid "Show window previews on hover"
-msgstr ""
+msgstr "마우스 가리킬 때 창 미리보기 표시"
 
-#: Settings.ui:6127
+#: Settings.ui.h:205
 msgid "Show tooltip on hover"
-msgstr ""
+msgstr "마우스 가리킬 때 도구 설명 표시"
 
-#: Settings.ui:6172
+#: Settings.ui.h:206
 msgid "Isolate Workspaces"
-msgstr ""
+msgstr "작업공간 분리하기"
 
-#: Settings.ui:6198
+#: Settings.ui.h:207
 msgid "Isolate monitors"
-msgstr ""
+msgstr "모니터 분리하기"
 
-#: Settings.ui:6243
+#: Settings.ui.h:208
 msgid "Click empty space to close overview"
-msgstr ""
+msgstr "개요를 닫으려면 빈 공간 누르기"
 
-#: Settings.ui:6288
+#: Settings.ui.h:209
 msgid "Disable show overview on startup"
-msgstr ""
+msgstr "시작 시 개요 표시 비활성화"
 
-#: Settings.ui:6320
+#: Settings.ui.h:210
 msgid "Ungroup applications"
 msgstr "프로그램 그룹 해제"
 
-#: Settings.ui:6386
+#: Settings.ui.h:211
+msgid "Show notification counter badge"
+msgstr "알림 카운터 배지 표시"
+
+#: Settings.ui.h:212
 msgid "Behavior"
-msgstr "행동"
+msgstr "동작"
 
-#: Settings.ui:6428
+#: Settings.ui.h:213
 msgid "Behaviour when clicking on the icon of a running application."
-msgstr ""
+msgstr "실행중인 프로그램의 아이콘을 누를 때의 동작입니다."
 
-#: Settings.ui:6445
+#: Settings.ui.h:214
 msgid "Click action"
-msgstr "클릭 시 동작"
+msgstr "누르기 동작"
 
-#: Settings.ui:6485
+#: Settings.ui.h:215
 msgid "Toggle windows"
-msgstr ""
+msgstr "창 전환하기"
 
-#: Settings.ui:6533
+#: Settings.ui.h:216
 msgid "Scroll panel action"
-msgstr ""
+msgstr "스크롤 패널 동작"
 
-#: Settings.ui:6542
+#: Settings.ui.h:217
 msgid "Behavior when mouse scrolling over the panel."
-msgstr ""
+msgstr "마우스를 패널 위로 스크롤할 때의 동작입니다."
 
-#: Settings.ui:6566
+#: Settings.ui.h:218
 msgid "Scroll icon action"
-msgstr ""
+msgstr "스크롤 아이콘 동작"
 
-#: Settings.ui:6575
+#: Settings.ui.h:219
 msgid "Behavior when mouse scrolling over an application icon."
-msgstr ""
+msgstr "프로그램 아이콘 위로 마우스를 스크롤할 때의 동작입니다."
 
-#: Settings.ui:6619 Settings.ui:6637
+#: Settings.ui.h:220
 msgid "Do nothing"
-msgstr "아무것도 안 함"
+msgstr "아무것도 안함"
 
-#: Settings.ui:6620
+#: Settings.ui.h:221
 msgid "Switch workspace"
-msgstr "작업 공간 전환"
+msgstr "작업공간 전환하기"
 
-#: Settings.ui:6621 Settings.ui:6638
+#: Settings.ui.h:222
 msgid "Cycle windows"
 msgstr "창 전환"
 
-#: Settings.ui:6622
+#: Settings.ui.h:223
 msgid "Change volume"
 msgstr "볼륨 조절"
 
-#: Settings.ui:6639
+#: Settings.ui.h:224
 msgid "Same as panel"
 msgstr "패널과 동일"
 
-#: Settings.ui:6705
+#: Settings.ui.h:225
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
 msgstr ""
+"Super+(0-9)를 앱을 활성화하는 바로가기로 활성화합니다. Shift 및 Ctrl과 함께 "
+"사용할 수도 있습니다."
 
-#: Settings.ui:6723
+#: Settings.ui.h:226
 msgid "Use hotkeys to activate apps"
-msgstr ""
+msgstr "앱을 활성화하는 단축키 사용"
 
-#: Settings.ui:6789
+#: Settings.ui.h:227
 msgid "Action"
 msgstr "동작"
 
-#: Settings.ui:6833
+#: Settings.ui.h:228
 msgid ""
 "Tray Font Size\n"
 "(0 = theme default)"
 msgstr ""
+"트레이 글꼴 크기\n"
+"(0 = 테마 기본값)"
 
-#: Settings.ui:6863
+#: Settings.ui.h:229
 msgid ""
 "LeftBox Font Size\n"
 "(0 = theme default)"
 msgstr ""
+"왼쪽상자 글꼴 크기\n"
+"(0 = 테마 기본값)"
 
-#: Settings.ui:6929
+#: Settings.ui.h:230
 msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
 msgstr ""
+"트레이 항목 패딩\n"
+"(-1 = 테마 기본값)"
 
-#: Settings.ui:6959
+#: Settings.ui.h:231
 msgid ""
 "Status Icon Padding\n"
 "(-1 = theme default)"
 msgstr ""
+"상태 아이콘 패딩\n"
+"(-1 = 테마 기본값)"
 
-#: Settings.ui:6989
+#: Settings.ui.h:232
 msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
 msgstr ""
+"왼쪽상자 패딩\n"
+"(-1 = 테마 기본값)"
 
-#: Settings.ui:7053
+#: Settings.ui.h:233
 msgid "Animate switching applications"
-msgstr ""
+msgstr "전환하는 응용프로그램 애니메이션 적용션"
 
-#: Settings.ui:7090
+#: Settings.ui.h:234
 msgid "Animate launching new windows"
-msgstr ""
+msgstr "실행하는 새 창 애니메이션 적용"
 
-#: Settings.ui:7135
+#: Settings.ui.h:235
 msgid "Keep original gnome-shell dash (overview)"
-msgstr ""
+msgstr "원래 gnome-shell 대시 유지 (개관)"
 
-#: Settings.ui:7160
+#: Settings.ui.h:236
 msgid "Force Activities hot corner on primary monitor"
-msgstr ""
+msgstr "기본 모니터의 활동 핫 코너 강제하기"
 
-#: Settings.ui:7185
+#: Settings.ui.h:237
 msgid "Activate panel menu buttons (e.g. date menu) on click only"
-msgstr ""
+msgstr "누를 때에만 패널 메뉴 단추 활성화 (예: 날짜 메뉴)"
 
-#: Settings.ui:7210
+#: Settings.ui.h:238
 msgid "Keep original gnome-shell top panel"
-msgstr ""
+msgstr "원래 gnome-shell 상단 패널 유지"
 
-#: Settings.ui:7271
+#: Settings.ui.h:239
 msgid "App icon secondary (right-click) menu"
-msgstr ""
+msgstr "앱 아이콘 보조(오른쪽 클릭) 메뉴"
 
-#: Settings.ui:7314 prefs.js:2009
-msgid "Advanced Options"
-msgstr "고급 설정"
-
-#: Settings.ui:7330
+#: Settings.ui.h:241
 msgid "Fine-Tune"
-msgstr "파인-튠"
+msgstr "미세 조정"
 
-#: Settings.ui:7369
+#: Settings.ui.h:242
 msgid "version: "
 msgstr "버전: "
 
-#: Settings.ui:7384
+#: Settings.ui.h:243
 msgid "GitHub"
 msgstr "GitHub"
 
-#: Settings.ui:7424
+#: Settings.ui.h:244
 msgid ""
 "Use the buttons below to create a settings file from your current "
 "preferences that can be imported on a different machine."
 msgstr ""
+"아래 단추을 사용하여 다른 컴퓨터에서 가져올 수 있는 현재 기본 설정에서 설정 "
+"파일을 만듭니다."
 
-#: Settings.ui:7442
+#: Settings.ui.h:245
 msgid "Export and import settings"
 msgstr "설정 백업 및 복원"
 
-#: Settings.ui:7452
+#: Settings.ui.h:246
 msgid "Export to file"
 msgstr "파일로 내보내기"
 
-#: Settings.ui:7464
+#: Settings.ui.h:247
 msgid "Import from file"
 msgstr "파일에서 불러오기"
 
-#: Settings.ui:7490
+#: Settings.ui.h:248
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
 "\">GNU General Public License, version 2 or later</a> for details.</span>"
 msgstr ""
-"<span size=\"small\">이 프로그램은 어떠한 형태의 보증도 제공하지 않습니다.\n"
-"자세한 정보는 <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0."
-"html\">GNU General Public License, 버전 2 또는 이후 버전</a> 페이지를 보십시"
-"오.</span>"
+"<span size=\"small\">이 프로그램은 절대 보증하지 않습니다.\n"
+"자세한 내용은 <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0."
+"html\">GNU 일반 공중 라이선스 버전 2 이상</a>을 참조하십시오.</span>"
 
-#: Settings.ui:7504
+#: Settings.ui.h:249
 msgid "About"
 msgstr "정보"
 
-#: appIcons.js:1751
-msgid "Power options"
-msgstr "전원"
+#, fuzzy
+#~| msgid "Show trash can"
+#~ msgid "Show Details"
+#~ msgstr "휴지통 표시"
 
-#: appIcons.js:1756
-msgid "Event logs"
-msgstr "기록"
+#, fuzzy
+#~| msgid "All Windows"
+#~ msgid "New Window"
+#~ msgstr "모든 창"
 
-#: appIcons.js:1761
-msgid "System"
-msgstr "시스템"
+#, fuzzy
+#~| msgid "Position on screen"
+#~ msgid "Positions along screen edge"
+#~ msgstr "화면상의 위치"
 
-#: appIcons.js:1766
-msgid "Device Management"
-msgstr "장치 관리자"
+#, fuzzy
+#~| msgid "Customize running indicators"
+#~ msgid "Style of the running indicator (focused)"
+#~ msgstr "실행중인 표시기 사용자 정의"
 
-#: appIcons.js:1771
-msgid "Disk Management"
-msgstr "디스크"
+#, fuzzy
+#~| msgid "Use dominant color"
+#~ msgid "Running indicator dominant color"
+#~ msgstr "지배적인 색상 사용"
 
-#: appIcons.js:1784
-msgid "Terminal"
-msgstr "터미널"
+#, fuzzy
+#~| msgid "Customize running indicators"
+#~ msgid "Color of running indicator (1 window)"
+#~ msgstr "실행중인 표시기 사용자 정의"
 
-#: appIcons.js:1789
-msgid "System monitor"
-msgstr "시스템 정보"
+#, fuzzy
+#~| msgid "Use dominant color"
+#~ msgid "Highlight icon dominant color"
+#~ msgstr "지배적인 색상 사용"
 
-#: appIcons.js:1794
-msgid "Files"
-msgstr "파일"
+#, fuzzy
+#~| msgid "Force straight corner"
+#~ msgid "Force hot corner"
+#~ msgstr "직진 모서리 강제하기"
 
-#: appIcons.js:1799
-msgid "Extensions"
-msgstr "확장"
+#, fuzzy
+#~| msgid "Set the background color for the dash."
+#~ msgid "Override theme background color"
+#~ msgstr "대시의 배경색을 지정합니다."
 
-#: appIcons.js:1804
-msgid "Settings"
-msgstr "설정"
+#, fuzzy
+#~| msgid "Set the background color for the dash."
+#~ msgid "Replace current theme background color for the panel"
+#~ msgstr "대시의 배경색을 지정합니다."
 
-#: appIcons.js:1815
-msgid "Unlock taskbar"
-msgstr "작업표시줄 잠금 해제"
+#, fuzzy
+#~| msgid "Set the background color for the dash."
+#~ msgid "Custom background color for the panel"
+#~ msgstr "대시의 배경색을 지정합니다."
 
-#: appIcons.js:1815
-msgid "Lock taskbar"
-msgstr "작업표시줄 잠금"
+#, fuzzy
+#~| msgid "Minimum opacity"
+#~ msgid "Dynamic opacity"
+#~ msgstr "최소 불투명도"
 
-#: appIcons.js:1820
-msgid "Dash to Panel Settings"
-msgstr "패널 설정"
+#, fuzzy
+#~| msgid "Customize opacity"
+#~ msgid "Custom opacity for the panel"
+#~ msgstr "불투명도 사용자 정의"
 
-#: appIcons.js:1833
-msgid "Restore Windows"
-msgstr "창 복원"
+#, fuzzy
+#~| msgid "Customize the dash color"
+#~ msgid "Custom gradient top color"
+#~ msgstr "대시 색상 사용자 정의"
 
-#: appIcons.js:1833
-msgid "Show Desktop"
-msgstr "바탕화면 보기"
+#, fuzzy
+#~| msgid "Intelligent autohide"
+#~ msgid "Intellihide"
+#~ msgstr "지능형 자동숨김"
 
-#: panel.js:181
-msgid "Top Bar"
-msgstr "상단 바"
+#, fuzzy
+#~| msgid "Only maximized windows"
+#~ msgid "Only hide from windows"
+#~ msgstr "최대화된 창만"
 
-#: prefs.js:199
-msgid "Show Desktop button height (px)"
-msgstr ""
+#, fuzzy
+#~| msgid "Pressure threshold"
+#~ msgid "Intellihide pressure threshold"
+#~ msgstr "압력 임계값"
 
-#: prefs.js:199
-msgid "Show Desktop button width (px)"
-msgstr ""
+#, fuzzy
+#~| msgid "Intelligent autohide"
+#~ msgid "Intellihide animation time"
+#~ msgstr "지능형 자동숨김"
 
-#: prefs.js:211
-msgid "Unavailable when gnome-shell top panel is present"
-msgstr ""
+#, fuzzy
+#~| msgid "Show <i>Applications</i> icon"
+#~ msgid "Custom Show Applications icon"
+#~ msgstr "<i>응용프로그램</i> 아이콘 표시"
 
-#: prefs.js:270
-msgid "Center"
-msgstr ""
+#, fuzzy
+#~| msgid "Show the dock by mouse hover on the screen edge."
+#~ msgid "Show the desktop on mouse hover"
+#~ msgstr "화면 가장자리에 마우스 가리키기로 도크를 표시합니다."
 
-#: prefs.js:365
-msgid "Show Applications button"
-msgstr "프로그램 보기 단추"
+#, fuzzy
+#~| msgid "Show dock and application numbers"
+#~ msgid "Show desktop animation time"
+#~ msgstr "도크 및 프로그램 번호 표시"
 
-#: prefs.js:366
-msgid "Activities button"
-msgstr "현재 활동 단추"
+#, fuzzy
+#~| msgid "Show window previews"
+#~ msgid "Show window preview"
+#~ msgstr "창 미리보기 표시"
 
-#: prefs.js:367
-msgid "Taskbar"
-msgstr "작업표시줄"
+#, fuzzy
+#~| msgid "Show running applications"
+#~ msgid "Show running apps"
+#~ msgstr "실행중인 프로그램 표시"
 
-#: prefs.js:368
-msgid "Date menu"
-msgstr "날짜 메뉴"
+#, fuzzy
+#~| msgid "Enable in fullscreen mode"
+#~ msgid "Enable peek mode"
+#~ msgstr "전체 화면 모드에서 활성화"
 
-#: prefs.js:369
-msgid "System menu"
-msgstr "시스템 메뉴"
+#, fuzzy
+#~| msgid "Show window previews"
+#~ msgid "The padding of the window previews"
+#~ msgstr "창 미리보기 표시"
 
-#: prefs.js:370
-msgid "Left box"
-msgstr ""
+#, fuzzy
+#~| msgid "Show running applications"
+#~ msgid "Group applications"
+#~ msgstr "실행중인 프로그램 표시"
 
-#: prefs.js:371
-msgid "Center box"
-msgstr ""
+#, fuzzy
+#~| msgid "Show favorite applications"
+#~ msgid "Use favorite icons as application launchers"
+#~ msgstr "즐겨찾는 프로그램 표시"
 
-#: prefs.js:372
-msgid "Right box"
-msgstr ""
+#, fuzzy
+#~| msgid "Primary monitor"
+#~ msgid "Primary monitor index"
+#~ msgstr "기본 모니터"
 
-#: prefs.js:373
-msgid "Desktop button"
-msgstr "바탕화면 표시 단추"
+#, fuzzy
+#~| msgid "Isolate monitors."
+#~ msgid "Available monitors"
+#~ msgstr "모니터를 분리합니다."
 
-#: prefs.js:379
-msgid "Move up"
-msgstr "위로 이동"
+#, fuzzy
+#~| msgid "Show on all monitors."
+#~ msgid "Display the favorites on all monitors"
+#~ msgstr "모든 모니터에 표시합니다."
 
-#: prefs.js:381
-msgid "Move down"
-msgstr "밑으로 이동"
+#, fuzzy
+#~| msgid "Customize middle-click behavior"
+#~ msgid "Customize click behaviour"
+#~ msgstr "가운데 클릭 동작 사용자 정의"
 
-#: prefs.js:383
-msgid "Visible"
-msgstr ""
+#, fuzzy
+#~| msgid "Behaviour when clicking on the icon of a running application."
+#~ msgid ""
+#~ "Set the action that is executed when shift+middle-clicking on the icon of "
+#~ "a running application"
+#~ msgstr "실행중인 애플리케이션의 아이콘을 누를 때의 동작입니다."
 
-#: prefs.js:384
-msgid "Select element position"
-msgstr ""
+#, fuzzy
+#~| msgid "Tune the dash background opacity."
+#~ msgid "Window previews background opacity"
+#~ msgstr "대시 배경 불투명도를 조정합니다."
 
-#: prefs.js:395
-msgid "Stacked to top"
-msgstr ""
+#, fuzzy
+#~| msgid "Tune the dash background opacity."
+#~ msgid "Window previews use this custom background opacity."
+#~ msgstr "대시 배경 불투명도를 조정합니다."
 
-#: prefs.js:395
-msgid "Stacked to left"
-msgstr ""
+#~ msgid "Show window previews"
+#~ msgstr "창 미리보기 표시"
 
-#: prefs.js:396
-msgid "Stacked to bottom"
-msgstr ""
+#, fuzzy
+#~| msgid "Show running applications"
+#~ msgid "Show badge count on app icon"
+#~ msgstr "실행중인 프로그램 표시"
 
-#: prefs.js:396
-msgid "Stacked to right"
-msgstr ""
-
-#: prefs.js:397
-msgid "Centered"
-msgstr "가운데"
-
-#: prefs.js:398
-msgid "Monitor Center"
-msgstr "모니터 가운데"
-
-#: prefs.js:417
-msgid "More options"
-msgstr "추가 설정"
-
-#: prefs.js:439
-msgid "Show Applications options"
-msgstr ""
-
-#: prefs.js:446 prefs.js:512 prefs.js:732 prefs.js:1078 prefs.js:1222
-#: prefs.js:1345 prefs.js:1634 prefs.js:1730 prefs.js:1796 prefs.js:1840
-#: prefs.js:1938 prefs.js:1973 prefs.js:2016 prefs.js:2152
-msgid "Reset to defaults"
-msgstr "기본 설정으로 되돌리기"
-
-#: prefs.js:452
-msgid "Open icon"
-msgstr ""
-
-#: prefs.js:505
-msgid "Show Desktop options"
-msgstr ""
-
-#: prefs.js:605
 #, javascript-format
-msgid "%d ms"
-msgstr ""
+#~ msgid "Quit %d Windows"
+#~ msgstr "%d개 창 종료"
 
-#: prefs.js:610
 #, javascript-format
-msgid "%d °"
-msgstr ""
-
-#: prefs.js:615 prefs.js:620
-#, javascript-format
-msgid "%d %%"
-msgstr ""
-
-#: prefs.js:625
-#, javascript-format
-msgid "%.1f"
-msgstr ""
-
-#: prefs.js:630
-#, javascript-format
-msgid "%d icon"
-msgid_plural "%d icons"
-msgstr[0] ""
-
-#: prefs.js:725
-msgid "Running Indicator Options"
-msgstr "실행 표시기 설정"
-
-#: prefs.js:889
-msgid "Primary monitor"
-msgstr "주 모니터"
-
-#: prefs.js:889
-msgid "Monitor "
-msgstr "모니터"
-
-#: prefs.js:1071
-msgid "Dynamic opacity options"
-msgstr "자동 투명도 조절 설정"
-
-#: prefs.js:1215
-msgid "Intellihide options"
-msgstr "자동 숨기기 설정"
-
-#: prefs.js:1338
-msgid "Window preview options"
-msgstr "창 미리보기 설정"
-
-#: prefs.js:1627
-msgid "Ungrouped application options"
-msgstr ""
-
-#: prefs.js:1723
-msgid "Customize middle-click behavior"
-msgstr ""
-
-#: prefs.js:1789
-msgid "Customize panel scroll behavior"
-msgstr ""
-
-#: prefs.js:1833
-msgid "Customize icon scroll behavior"
-msgstr ""
-
-#: prefs.js:1931
-msgid "Advanced hotkeys options"
-msgstr ""
-
-#: prefs.js:1966
-msgid "Secondary Menu Options"
-msgstr ""
-
-#: prefs.js:2145
-msgid "App icon animation options"
-msgstr ""
-
-#: prefs.js:2211
-msgid "Export settings"
-msgstr "설정 내보내기"
-
-#: prefs.js:2227
-msgid "Import settings"
-msgstr "설정 불러오기"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:69
-msgid "Panel position (Deprecated)"
-msgstr "패널 위치"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:70
-msgid "Panel is shown on the Bottom or Top of the screen."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:74
-msgid "Sync element positions"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:75
-msgid "Sync panel element positions on all monitors."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:79
-msgid "Panel positions"
-msgstr "패널 위치"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:80
-msgid "Panel positions (JSON)."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:84
-msgid "Panel element positions"
-msgstr "패널 요소 위치"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:85
-msgid "Panel element positions (JSON)."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:89
-msgid "Percentages of screen edge for panel to span"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:90
-msgid "Length of the panels, in percent (JSON)."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:94
-msgid "Positions along screen edge"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:95
-msgid ""
-"Where to show the panels if it is not the full length of the screen edge "
-"(JSON)."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:99
-msgid "Panel sizes"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:100
-msgid "Sizes of panels, in pixels."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:104
-msgid "Panel size (Deprecated)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:105
-msgid "Set the size of the panel."
-msgstr "패널의 크기를 설정합니다."
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:110
-msgid "Replace current Show Desktop button line color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:114
-msgid "Custom Show Desktop line color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:115
-msgid "Custom Show Desktop button line color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:119
-msgid "Dot position"
-msgstr "점 위치"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:120
-msgid "Running indicators are shown on the Bottom or Top of the screen."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:124
-msgid "Style of the running indicator (focused)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:125
-msgid ""
-"Style of the running indicator for the icon for the currently focused "
-"application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:129
-msgid "Style of the running indicator (unfocused)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:130
-msgid ""
-"Style of the running indicator for the icon for applications which are not "
-"currently focused"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:134
-msgid "Running indicator dominant color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:135
-msgid "Whether to use the app icon's dominant color for .app-well-running-dot"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:139
-msgid "Running indicator color override"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:140
-msgid ""
-"Whether to override the theme background color for .app-well-running-dot"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:144
-msgid "Color of running indicator (1 window)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:145
-msgid ""
-"Customize the color of the running indicator when one window is running for "
-"that application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:149
-msgid "Color of running indicator (2 windows)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:150
-msgid ""
-"Customize the color of the running indicator when two windows are running "
-"for that application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:154
-msgid "Color of running indicator (3 windows)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:155
-msgid ""
-"Customize the color of the running indicator when three windows are running "
-"for that application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:159
-msgid "Color of running indicator (4+ windows)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:160
-msgid ""
-"Customize the color of the running indicator when four or more windows are "
-"running for that application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:164
-msgid "Unfocused color is different than focused"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:165
-msgid ""
-"Whether to apply a 2nd color scheme to the indicator when the app is not "
-"focused"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:169
-msgid "Color of unfocused running indicator (1 window)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:170
-msgid ""
-"Customize the color of the unfocused running indicator when one window is "
-"running for that application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:174
-msgid "Color of unfocused running indicator (2 windows)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:175
-msgid ""
-"Customize the color of the unfocused running indicator when two windows are "
-"running for that application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:179
-msgid "Color of unfocused running indicator (3 windows)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:180
-msgid ""
-"Customize the color of the unfocused running indicator when three windows "
-"are running for that application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:184
-msgid "Color of unfocused running indicator (4+ windows)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:185
-msgid ""
-"Customize the color of the unfocused running indicator when four or more "
-"windows are running for that application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:189
-msgid "Running indicator height"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:190
-msgid "Height of the running indicator line/diameter of window indicator dots"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:194
-msgid "Highlight icon of focused application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:195
-msgid ""
-"Whether to highlight the background of the currently focused application's "
-"icon"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:199
-msgid "Highlight icon dominant color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:200
-msgid "Base the active window highlight color on that application's icon"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:204
-msgid "Color of highlight of focused application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:205
-msgid "Customize the color of the highlight of the focused application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:209
-msgid "Opacity of highlight of focused application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:210
-msgid "Customize the opacity of the highlight of the focused application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:214
-msgid "Keep dash"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:215
-msgid "Whether to keep the stock gnome-shell dash while in overview"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:219
-msgid "Keep top panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:220
-msgid "Whether to keep the stock gnome-shell top panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:224
-msgid "Panel menu buttons require click"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:225
-msgid "Whether to activate the panel menu buttons on hover or on click"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:229
-msgid "Force hot corner"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:230
-msgid "Wheter to force having an Activities hot corner on the primary monitor"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:234
-msgid "Lock the taskbar"
-msgstr "작업표시줄 잠금"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:235
-msgid "Specifies if the user can modify the taskbar"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:239
-msgid "Override theme background color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:240
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:250
-msgid "Replace current theme background color for the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:244
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:249
-msgid "Custom background color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:245
-msgid "Custom background color for the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:254
-msgid "Dynamic opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:255
-msgid "Enable dynamic opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:259
-msgid "Panel opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:260
-msgid "Custom opacity for the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:264
-msgid "Dynamic opacity behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:265
-msgid "Dictates which window type affects the panel opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:269
-msgid "Distance to change opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:270
-msgid "The distance a window needs to be from the panel to change opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:274
-msgid "Modified panel opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:275
-msgid "Modified opacity for the panel when a window is near"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:279
-msgid "Opacity change duration"
-msgstr "투명도 조절 간격"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:280
-msgid "The duration of the animation when the opacity changes"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:284
-msgid "Custom gradient"
-msgstr "그라데이션 설정"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:285
-msgid "Replace current theme gradient for the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:289
-msgid "Custom gradient top color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:290
-msgid "Custom gradient top color for the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:294
-msgid "Custom gradient top opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:295
-msgid "Custom gradient top opacity for the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:299
-msgid "Custom gradient bottom color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:300
-msgid "Custom gradient bottom color for the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:304
-msgid "Custom gradient bottom opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:305
-msgid "Custom gradient bottom opacity for the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:309
-msgid "Intellihide"
-msgstr "자동 숨기기"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:310
-msgid "Whether to intelligently hide the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:314
-msgid "Only hide from windows"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:315
-msgid "Dictates if the dash should only hide when in conflict with windows"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:319
-msgid "Intellihide behaviour"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:320
-msgid "Dictates how to intelligently hide the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:324
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:339
-msgid "Intellihide pressure"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:325
-msgid ""
-"To reveal the panel, pressure needs to be applied to the edege of the screen"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:329
-msgid "Intellihide pressure threshold"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:330
-msgid "The pressure needed to reveal the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:334
-msgid "Intellihide pressure time"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:335
-msgid ""
-"The numer of milliseconds that the pressure needs to be applied to reveal "
-"the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:340
-msgid ""
-"Allow the panel to be revealed while an application is in fullscreen mode"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:344
-msgid "Intellihide only secondary"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:345
-msgid "Whether to only hide secondary panels"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:349
-msgid "Intellihide animation time"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:350
-msgid "The animation time (ms) to hide and reveal the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:354
-msgid "Intellihide close delay"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:355
-msgid "The delay (ms) before hiding the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:359
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:364
-msgid "Keybinding toggle intellihide"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:360
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:365
-msgid "Keybinding to reveal the panel while in intellihide mode"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:369
-msgid "Intellihide enable start delay"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:370
-msgid "The delay before enabling intellihide on start"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:374
-msgid "Custom Show Applications icon"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:375
-msgid "Customize the Show Applications icon"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:379
-msgid "Show Applications icon side padding"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:380
-msgid "Customize the Show Applications icon side padding"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:384
-msgid "Override escape key"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:385
-msgid ""
-"Override the escape key to return to the desktop when entering the overview "
-"using the Show Applications button"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:389
-msgid "Show Apps button context menu commands"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:390
-msgid "Commands to add to the Show Apps button right click menu"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:394
-msgid "Show Apps button context menu titles"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:395
-msgid "Titles for commands added to Show Apps button right click menu"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:399
-msgid "Panel context menu commands"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:400
-msgid "Commands to add to the panel right click menu"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:404
-msgid "Panel context menu titles"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:405
-msgid "Titles for commands added to panel right click menu"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:409
-msgid "Show activities button"
-msgstr "현재 활동 단추 표시"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:410
-msgid "Show activities button on the left hand side of the taskbar"
-msgstr "작업표시줄 좌측에 현재 활동 단추를 표시합니다."
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:414
-msgid "Width of show Desktop button"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:415
-msgid "Customize the width of the show Desktop button"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:419
-msgid "Show desktop on hover"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:420
-msgid "Show the desktop on mouse hover"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:424
-msgid "Delay show desktop"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:425
-msgid "Delay before showing the desktop"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:429
-msgid "Show desktop animation time"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:430
-msgid "Window fade animation time when showing the destop"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:434
-msgid "Show appMenu button"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:435
-msgid "Show appMenu on the right hand side of the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:439
-msgid "Show window preview"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:440
-msgid "Show preview of running window on hover of app icon"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:444
-msgid "Show tooltip"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:445
-msgid "Show tooltip on hover of app icon"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:449
-msgid "Show running apps"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:450
-msgid "Show or hide running application icons in the dash"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:454
-msgid "Show favorites apps"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:455
-msgid "Show or hide favorite application icons in the dash"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:459
-msgid "Icon enter display time"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:460
-msgid ""
-"Amount of time after entering icon to wait before displaying window preview "
-"if icon is not clicked or mouse has not left."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:464
-msgid "Enable peek mode"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:465
-msgid "Peek a window upon hover for some time"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:469
-msgid "Display title in preview"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:470
-msgid "Display window title in preview"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:474
-msgid "Window previews manual styling"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:475
-msgid "This defines if the default window previews styling should be applied"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:479
-msgid "Title position"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:480
-msgid "Position of the window title, close button and icon in preview."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:484
-msgid "Window previews title font color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:485
-msgid "This defines the window preview titles font color."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:489
-msgid "Window previews title font size"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:490
-msgid "This defines the window preview titles font size."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:494
-msgid "Window previews use custom icon size"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:495
-msgid "Window previews use custom application icon size."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:499
-msgid "Window previews custom icon size"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:500
-msgid "Window previews custom application icon size."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:504
-msgid "Window previews animation time"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:505
-msgid "This defines the window previews animation time."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:509
-msgid "Font weight of window preview titles"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:510
-msgid ""
-"This defines the font weight of window preview titles. Supported values: "
-"inherit (from theme), normal, lighter, bold and bolder."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:514
-msgid "Window previews size"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:515
-msgid "Preferred window previews size"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:519
-msgid "Fixed aspect ratio X"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:520
-msgid "This defines if the window previews use a fixed aspect ratio X."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:524
-msgid "Fixed aspect ratio Y"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:525
-msgid "This defines if the window previews use a fixed aspect ratio Y."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:529
-msgid "Window previews padding"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:530
-msgid "The padding of the window previews"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:534
-msgid "Aspect ratio X"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:535
-msgid "The window previews respected aspect ratio X."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:539
-msgid "Aspect ratio Y"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:540
-msgid "The window previews respected aspect ratio Y."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:544
-msgid "Immediate hide on icon click"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:545
-msgid ""
-"The window previews immediately hide when an application icon is clicked."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:549
-msgid "Provide workspace isolation"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:550
-msgid "Dash shows only windows from the current workspace"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:554
-msgid "Close overview by clicking in empty space"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:555
-msgid "Close overview or app grid by clicking in empty space"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:559
-msgid "Hide overview on startup"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:560
-msgid ""
-"Hide overview on startup, which would be shown by default at gnome startup."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:564
-msgid "Group applications"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:565
-msgid "Dash groups the application instances under the same icon"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:569
-msgid "Application title font size"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:570
-msgid ""
-"When the applications are ungrouped, this defines the application titles "
-"font size."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:575
-msgid ""
-"When the applications are ungrouped, this defines font weight of application "
-"titles. Supported values: inherit (from theme), normal, lighter, bold and "
-"bolder."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:579
-msgid "Application title font color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:580
-msgid ""
-"When the applications are ungrouped, this defines the application titles "
-"font color."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:584
-msgid "Minimized application title font color"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:585
-msgid ""
-"When the applications are ungrouped, this defines the titles font color for "
-"minimized applications."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:589
-msgid "Application title max width"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:590
-msgid ""
-"When the applications are ungrouped, this defines the application titles "
-"maximum width."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:600
-msgid ""
-"When the applications are ungrouped, this defines if running applications "
-"should display an indicator."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:604
-msgid "Use favorite icons as application launchers"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:605
-msgid ""
-"When the applications are ungrouped, this defines if running applications "
-"stay separate from the favorite icons."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:609
-msgid "Primary monitor index"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:610
-msgid "Specifies the index of the primary monitor."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:615
-msgid "Specifies if a panel is shown on every monitors"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:619
-msgid "Available monitors"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:620
-msgid "Available gnome-shell (Mutter) monitors, internal use"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:624
-msgid "Provide monitor isolation"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:625
-msgid "Dash shows only windows from the current monitor"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:629
-msgid "Display the favorites on all monitors"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:630
-msgid ""
-"Specifies if every panel should display the favorite applications. If false, "
-"the favorite appplications are only displayed on the primary monitor."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:634
-msgid "Customize click behaviour"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:635
-msgid "Customize action on various mouse events"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:639
-msgid "Minimize on shift+click"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:643
-msgid "Activate only one window"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:647
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:657
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:662
-msgid "Action when clicking on a running app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:648
-msgid ""
-"Set the action that is executed when clicking on the icon of a running "
-"application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:652
-msgid "Action when shift+clicking on a running app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:653
-msgid ""
-"Set the action that is executed when shift+clicking on the icon of a running "
-"application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:658
-msgid ""
-"Set the action that is executed when middle-clicking on the icon of a "
-"running application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:663
-msgid ""
-"Set the action that is executed when shift+middle-clicking on the icon of a "
-"running application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:667
-msgid "Action when scrolling over the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:668
-msgid "Set the action that is executed when scrolling over the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:672
-msgid "Delay between panel mouse scroll events"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:673
-msgid "Set the minimum delay between panel mouse scroll events"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:677
-msgid ""
-"Show the workspace switch head-up when workspace is changed by scrolling on "
-"the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:681
-msgid "Action when scrolling over a running app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:682
-msgid ""
-"Set the action that is executed when scrolling over a running application"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:686
-msgid "Delay between icon mouse scroll events"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:687
-msgid "Set the minimum delay between icon mouse scroll events"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:691
-msgid "Icon leave preview timeout"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:692
-msgid ""
-"Amount of time to leave preview windows open when the mouse has left the "
-"application's icon."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:696
-msgid "Enter window peeking mode timeout"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:697
-msgid ""
-"Amount of time of inactivity to enter the window peeking mode when the mouse "
-"has entered a window preview."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:706
-msgid "Middle click preview to close window"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:707
-msgid "Middle click on the window preview to close that window"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:711
-msgid "Window previews use custom opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:712
-msgid "Window previews background use a different opacity from the panel"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:716
-msgid "Window previews background opacity"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:717
-msgid "Window previews use this custom background opacity."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:721
-msgid "Tray font size"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:722
-msgid "Set the size of the tray font. (0 for default)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:726
-msgid "Leftbox font size"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:727
-msgid "Set the size of the leftBox font. (0 for default)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:731
-msgid "App icon margin"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:732
-msgid "Set the margin for application icons in the embedded dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:736
-msgid "App icon padding"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:737
-msgid "Set the padding for application icons in the embedded dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:741
-msgid "Tray item padding"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:742
-msgid "Set the size of the tray padding. (-1 for default)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:746
-msgid "Leftbox item padding"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:747
-msgid "Set the size of the leftBox padding. (-1 for default)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:751
-msgid "Status icon padding"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:752
-msgid ""
-"Set the size of the aggregate (status) menu icon padding. (-1 for default)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:756
-msgid "Animate running indicator when open/closing/switching applications"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:760
-msgid "Animate when new window launched"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:764
-msgid "Animate app icon on hover"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:768
-msgid "App icon hover animation type"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:772
-msgid ""
-"App icon hover animation curve convexity (1 is linear, more is convex, less "
-"is concave)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:776
-msgid "App icon hover animation duration in milliseconds"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:780
-msgid "App icon hover animation extent (maximum number of animated icons)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:784
-msgid "App icon hover animation rotation in degrees"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:788
-msgid ""
-"App icon hover animation travel translation in relation to the app icon size"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:792
-msgid "App icon hover animation zoom scale in relation to the app icon size"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:796
-msgid "Integrate items from the gnome appmenu into the right click menu"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:800
-msgid "Display Show Details to open Gnome Software from right click menu"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:804
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:809
-msgid "Keybinding to show the dock and the number overlay."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:805
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:810
-msgid "Behavior depends on hotkeys-show-dock and hotkeys-overlay."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:814
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:819
-msgid "Timeout to hide the dock, in seconds"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:815
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:820
-msgid "Sets the time duration before the dock is hidden again."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:824
-msgid "Transitivity of the number overlay"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:825
-msgid "You can choose between NEVER, TEMPORARILY and ALWAYS."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:829
-msgid "Super Hot-Keys"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:830
-msgid "Launch and switch between dash items using Super+(0-9)"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:834
-msgid "Prefix to use for hotkeys"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:835
-msgid "You can choose between Super or SuperAlt as the prefix for hotkeys."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:839
-msgid "Show window previews"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:840
-msgid ""
-"When multiple instances of the application are available, show their window "
-"previews"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:844
-msgid "Hotkeys number keys"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:845
-msgid "Which number keys are used for the hotkeys"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:849
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1059
-msgid "Keybinding to launch 1st dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:850
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1060
-msgid "Keybinding to launch 1st app."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:856
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1066
-msgid "Keybinding to launch 2nd dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:857
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1067
-msgid "Keybinding to launch 2nd app."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:863
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1073
-msgid "Keybinding to launch 3rd dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:864
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1074
-msgid "Keybinding to launch 3rd app."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:870
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1080
-msgid "Keybinding to launch 4th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:871
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1081
-msgid "Keybinding to launch 4th app."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:877
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1087
-msgid "Keybinding to launch 5th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:878
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1088
-msgid "Keybinding to launch 5th app."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:884
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1094
-msgid "Keybinding to launch 6th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:885
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1095
-msgid "Keybinding to launch 6th app."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:891
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1101
-msgid "Keybinding to launch 7th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:892
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1102
-msgid "Keybinding to launch 7th app."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:898
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1108
-msgid "Keybinding to launch 8th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:899
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1109
-msgid "Keybinding to launch 8th app."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:905
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1115
-msgid "Keybinding to launch 9th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:906
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1116
-msgid "Keybinding to launch 9th app."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:912
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1122
-msgid "Keybinding to launch 10th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:913
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1123
-msgid "Keybinding to launch 10th app."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:919
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1129
-msgid "Keybinding to trigger 1st dash app with shift behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:920
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1130
-msgid "Keybinding to trigger 1st app with shift behavior."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:926
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1136
-msgid "Keybinding to trigger 2nd dash app with shift behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:927
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1137
-msgid "Keybinding to trigger 2nd app with shift behavior."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:933
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1143
-msgid "Keybinding to trigger 3rd dash app with shift behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:934
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1144
-msgid "Keybinding to trigger 3rd app with shift behavior."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:940
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1150
-msgid "Keybinding to trigger 4th dash app with shift behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:941
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1151
-msgid "Keybinding to trigger 4th app with shift behavior."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:947
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1157
-msgid "Keybinding to trigger 5th dash app with shift behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:948
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1158
-msgid "Keybinding to trigger 5th app with shift behavior."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:954
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1164
-msgid "Keybinding to trigger 6th dash app with shift behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:955
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1165
-msgid "Keybinding to trigger 6th app with shift behavior."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:961
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1171
-msgid "Keybinding to trigger 7th dash app with shift behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:962
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1172
-msgid "Keybinding to trigger 7th app with shift behavior."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:968
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1178
-msgid "Keybinding to trigger 8th dash app with shift behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:969
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1179
-msgid "Keybinding to trigger 8th app with shift behavior."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:975
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1185
-msgid "Keybinding to trigger 9th dash app with shift behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:976
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1186
-msgid "Keybinding to trigger 9th app with shift behavior."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:982
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1192
-msgid "Keybinding to trigger 10th dash app with shift behavior"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:983
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1193
-msgid "Keybinding to trigger 10th app with shift behavior."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:989
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1199
-msgid "Keybinding to trigger 1st dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:990
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1200
-msgid "Keybinding to either show or launch the 1st application in the dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:996
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1206
-msgid "Keybinding to trigger 2nd dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:997
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1207
-msgid "Keybinding to either show or launch the 2nd application in the dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1003
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1213
-msgid "Keybinding to trigger 3rd dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1004
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1214
-msgid "Keybinding to either show or launch the 3rd application in the dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1010
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1220
-msgid "Keybinding to trigger 4th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1011
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1221
-msgid "Keybinding to either show or launch the 4th application in the dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1017
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1227
-msgid "Keybinding to trigger 5th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1018
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1228
-msgid "Keybinding to either show or launch the 5th application in the dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1024
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1234
-msgid "Keybinding to trigger 6th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1025
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1235
-msgid "Keybinding to either show or launch the 6th application in the dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1031
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1241
-msgid "Keybinding to trigger 7th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1032
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1242
-msgid "Keybinding to either show or launch the 7th application in the dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1038
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1248
-msgid "Keybinding to trigger 8th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1039
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1249
-msgid "Keybinding to either show or launch the 8th application in the dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1045
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1255
-msgid "Keybinding to trigger 9th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1046
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1256
-msgid "Keybinding to either show or launch the 9th application in the dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1052
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1262
-msgid "Keybinding to trigger 10th dash app"
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1053
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1263
-msgid "Keybinding to either show or launch the 10th application in the dash."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1269
-msgid "Show progress bar on app icon"
-msgstr "프로그램 아이콘에 진행 상태 바 표시"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1270
-msgid ""
-"Whether to show progress bar overlay on app icon, for supported applications."
-msgstr ""
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1274
-msgid "Show badge count on app icon"
-msgstr "프로그램 아이콘에 배지 카운팅 표시"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1275
-msgid ""
-"Whether to show badge count overlay on app icon, for supported applications."
-msgstr ""
-
-#: windowPreview.js:930
-msgid "Move to current Workspace"
-msgstr "현재 작업 공간으로 이동"
+#~ msgid "Dash to Dock %s"
+#~ msgstr "대시에서 도크로 %s"
+
+#~ msgid "Trash"
+#~ msgstr "휴지통"
+
+#~ msgid "Empty Trash"
+#~ msgstr "휴지통 비우기"
+
+#~ msgid "Mount"
+#~ msgstr "마운트"
+
+#~ msgid "Eject"
+#~ msgstr "꺼내기"
+
+#~ msgid "Unmount"
+#~ msgstr "마운트 해제"
+
+#~ msgid "Minimize or overview"
+#~ msgstr "최소화 또는 개관"
+
+#~ msgid "Minimize or show previews"
+#~ msgstr "미리보기 최소화 또는 표시"
+
+#~ msgid "Focus or show previews"
+#~ msgstr "미리보기에 초점을 맞추거나 표시"
+
+#~ msgid "Focus, minimize or show previews"
+#~ msgstr "미리보기에 초점을 맞추고, 최소화 또는 표시"
+
+#~ msgid "Enable Unity7 like glossy backlit items"
+#~ msgstr "광택이 있는 백라이트 아이템처럼 Unity7 활성화"
+
+#~ msgid "Customize indicator style"
+#~ msgstr "표시기 스타일 사용자 정의"
+
+#~ msgid "Color"
+#~ msgstr "색상"
+
+#~ msgid "Border color"
+#~ msgstr "테두리 색상"
+
+#~ msgid "Border width"
+#~ msgstr "테두리 너비"
+
+#~ msgid "Show the dock on"
+#~ msgstr "도크에 표시"
+
+#~ msgid ""
+#~ "Hide the dock when it obstructs a window of the current application. More "
+#~ "refined settings are available."
+#~ msgstr ""
+#~ "현재 프로그램의 창을 가리는 도크를 숨깁니다. 보다 세련된 설정이 가능합니"
+#~ "다."
+
+#~ msgid "Dock size limit"
+#~ msgstr "도크 크기 제한"
+
+#~ msgid "Panel mode: extend to the screen edge"
+#~ msgstr "패널 모드: 화면 가장자리로 확장"
+
+#~ msgid "Icon size limit"
+#~ msgstr "아이콘 크기 제한"
+
+#~ msgid "Fixed icon size: scroll to reveal other icons"
+#~ msgstr "고정 아이콘 크기: 스크롤하여 다른 아이콘 표시"
+
+#~ msgid ""
+#~ "If disabled, these settings are accessible from gnome-tweak-tool or the "
+#~ "extension website."
+#~ msgstr ""
+#~ "비활성화된 경우, 이 설정은 gnome-tweak-tool 또는 확장 웹사이트에서 액세스"
+#~ "할 수 있습니다."
+
+#~ msgid "Move the applications button at the beginning of the dock."
+#~ msgstr "도크의 시작 부분에서 응용프로그램 버튼을 이동합니다."
+
+#~ msgid "Show mounted volumes and devices"
+#~ msgstr "마운트된 볼륨 및 장치 표시"
+
+#~ msgid "Launchers"
+#~ msgstr "실행프로그램"
+
+#~ msgid "Minimize"
+#~ msgstr "최소화"
+
+#~ msgid ""
+#~ "Few customizations meant to integrate the dock with the default GNOME "
+#~ "theme. Alternatively, specific options can be enabled below."
+#~ msgstr ""
+#~ "도크를 기본 그놈 테마와 통합하기 위한 몇 가지 사용자화입니다. 또는 아래에"
+#~ "서 특정 옵션을 활성화할 수 있습니다."
+
+#~ msgid "Use built-in theme"
+#~ msgstr "내장된 테마 사용"
+
+#~ msgid "Save space reducing padding and border radius."
+#~ msgstr "패딩과 테두리 반경을 줄여 공간을 절약합니다."
+
+#~ msgid "Shrink the dash"
+#~ msgstr "대시 수축하기"
+
+#~ msgid "Customize windows counter indicators"
+#~ msgstr "창 카운터 표시기 사용자 정의"
+
+#~ msgid "Default"
+#~ msgstr "기본"
+
+#~ msgid "Dynamic"
+#~ msgstr "역동적"
+
+#~ msgid "Opacity"
+#~ msgstr "불투명도"
+
+#~ msgid "Appearance"
+#~ msgstr "모양새"
+
+#~ msgid "Moves the dash out of the overview transforming it in a dock"
+#~ msgstr "도크에서 변환하는 개관 밖으로 대시 이동"
+
+#~ msgid "Created by"
+#~ msgstr "만든이: "
+
+#~ msgid "Webpage"
+#~ msgstr "웹페이지"
+
+#~ msgid "Customize minimum and maximum opacity values"
+#~ msgstr "최소 및 최대 불투명도 값 사용자 정의"
+
+#~ msgid "Maximum opacity"
+#~ msgstr "최대 불투명도"
+
+#~ msgid "Show the dock if it is hidden"
+#~ msgstr "도크가 숨겨져 있는 경우 표시"
+
+#~ msgid ""
+#~ "If using autohide, the dock will appear for a short time when triggering "
+#~ "the shortcut."
+#~ msgstr ""
+#~ "자동숨김을 사용하는 경우, 바로가기를 실행할 때 도크가 잠시 나타납니다."
+
+#~ msgid "Shortcut for the options above"
+#~ msgstr "위의 옵션에 대한 바로가기"
+
+#~ msgid "Autohide"
+#~ msgstr "자동숨김"
+
+#~ msgid "Push to show: require pressure to show the dock"
+#~ msgstr "누르면 표시됨: 도크가 표시되도록 압력을 가해야 합니다"
+
+#~ msgid "Show timeout (s)"
+#~ msgstr "시간초과 표시"
