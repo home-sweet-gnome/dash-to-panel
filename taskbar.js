@@ -402,6 +402,7 @@ var Taskbar = class {
             this.usingLaunchers = !this.isGroupApps && Me.settings.get_boolean('group-apps-use-launchers');
             this.showFavorites = Me.settings.get_boolean('show-favorites') && 
                                  (this.dtpPanel.isPrimary || Me.settings.get_boolean('show-favorites-all-monitors'))
+            this.showRunningApps = Me.settings.get_boolean('show-running-apps')
             this.allowSplitApps = this.usingLaunchers || !this.showFavorites
         }
 
@@ -910,7 +911,7 @@ var Taskbar = class {
         //find the apps that should be in the taskbar: the favorites first, then add the running apps
         // When using isolation, we filter out apps that have no windows in
         // the current workspace (this check is done in AppIcons.getInterestingWindows)
-        let runningApps = this._checkIfShowingRunningApps() ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this)) : [];
+        let runningApps = this.showRunningApps ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this)) : [];
 
         if (this.allowSplitApps) {
             return this._createAppInfos(favoriteApps, [], true)
@@ -996,10 +997,6 @@ var Taskbar = class {
         this._shownInitially = true;
     }
 
-    _checkIfShowingRunningApps() {
-        return Me.settings.get_boolean('show-running-apps');
-    }
-    
     _getRunningApps() {
         let tracker = Shell.WindowTracker.get_default();
         let windows = global.get_window_actors();
@@ -1019,15 +1016,23 @@ var Taskbar = class {
     _createAppInfos(apps, defaultWindows, defaultIsLauncher) {
         if (this.allowSplitApps && !defaultIsLauncher) {
             let separateApps = []
-            let tracker = Shell.WindowTracker.get_default();
-            let windows = AppIcons.getInterestingWindows(null, this.dtpPanel.monitor)
-                                  .sort(sortWindowsCompareFunction)
+            
+            if (apps.length) {
+                let tracker = Shell.WindowTracker.get_default();
+                let windows = AppIcons.getInterestingWindows(null, this.dtpPanel.monitor)
+                                      .sort(sortWindowsCompareFunction)
 
-            windows.forEach(w => separateApps.push({
-                app: tracker.get_window_app(w), 
-                isLauncher: false, 
-                windows: [w]
-            }))
+                windows.forEach(w => {
+                    let windowApp = tracker.get_window_app(w)
+
+                    if (apps.indexOf(windowApp) >= 0)
+                        separateApps.push({
+                            app: windowApp, 
+                            isLauncher: false, 
+                            windows: [w]
+                        })
+                })
+            }
 
             return separateApps
         }
@@ -1132,15 +1137,17 @@ var Taskbar = class {
 
         if (hoveredIndex >= 0) {
             let isLeft = pos < currentAppIcons[hoveredIndex]._dashItemContainer[posProp] + currentAppIcons[hoveredIndex]._dashItemContainer[sizeProp] * .5;
+            let prevIcon = currentAppIcons[hoveredIndex - 1]
+            let nextIcon = currentAppIcons[hoveredIndex + 1]
 
             // Don't allow positioning before or after self and between icons of same app if ungrouped and showing favorites
             if (!(hoveredIndex === sourceIndex ||
                   (isLeft && hoveredIndex - 1 == sourceIndex) ||
-                  (!this.allowSplitApps && isLeft && hoveredIndex - 1 >= 0 && source.app != currentAppIcons[hoveredIndex - 1].app && 
-                   currentAppIcons[hoveredIndex - 1].app == currentAppIcons[hoveredIndex].app) ||
+                  (!this.allowSplitApps && isLeft && hoveredIndex - 1 >= 0 && source.app != prevIcon.app && 
+                   prevIcon.app == currentAppIcons[hoveredIndex].app) ||
                   (!isLeft && hoveredIndex + 1 == sourceIndex) ||
-                  (!this.allowSplitApps && !isLeft && hoveredIndex + 1 < currentAppIcons.length && source.app != currentAppIcons[hoveredIndex + 1].app && 
-                   currentAppIcons[hoveredIndex + 1].app == currentAppIcons[hoveredIndex].app))) {
+                  (!this.allowSplitApps && !isLeft && hoveredIndex + 1 < currentAppIcons.length && source.app != nextIcon.app && 
+                   nextIcon.app == currentAppIcons[hoveredIndex].app))) {
                     this._box.set_child_at_index(source._dashItemContainer, hoveredIndex);
     
                     // Ensure the next and previous icon are visible when moving the icon
