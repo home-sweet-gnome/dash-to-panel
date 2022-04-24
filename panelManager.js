@@ -65,9 +65,6 @@ var PanelManager = class {
     }
 
     enable(reset) {
-        if (!reset)
-            this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass();
-
         let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
 
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
@@ -119,6 +116,8 @@ var PanelManager = class {
         this.setFocusedMonitor(this.dtpPrimaryMonitor);
         
         if (reset) return;
+
+        this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass();
 
         this._oldUpdatePanelBarrier = Main.layoutManager._updatePanelBarrier;
         Main.layoutManager._updatePanelBarrier = (panel) => {

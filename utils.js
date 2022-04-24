@@ -394,17 +394,17 @@ var animateWindowOpacity = function(window, tweenOpts) {
     //when the animation is complete
     let visible = tweenOpts.opacity > 0;
     let windowActor = window;
+    let initialOpacity = window.opacity;
 
     window = windowActor.get_first_child() || windowActor;
 
     if (!windowActor.visible && visible) {
         window.opacity = 0;
         windowActor.visible = visible;
+        tweenOpts.opacity = Math.min(initialOpacity, tweenOpts.opacity);
     }
     
     if (!visible) {
-        let initialOpacity = window.opacity;
-
         tweenOpts.onComplete = () => { 
             windowActor.visible = visible; 
             window.opacity = initialOpacity; 
