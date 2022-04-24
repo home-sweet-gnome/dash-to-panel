@@ -376,8 +376,8 @@ var TaskbarAppIcon = GObject.registerClass({
         this.updateIcon();
     }
 
-    onWindowEnteredOrLeft() {
-        if (this._checkIfFocusedApp()) {
+    onWindowEnteredOrLeft(display, number, metaWindow) {
+        if (number > 0 && tracker.get_window_app(metaWindow) == this.app) {
             this._updateWindows();
             this._displayProperIndicator();
         }
