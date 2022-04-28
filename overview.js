@@ -451,27 +451,28 @@ var Overview = class {
         if (this._clickToExitEnabled)
             return;
 
-        Utils.hookVfunc(Object.getPrototypeOf(Main.layoutManager.overviewGroup), 'button_release_event', () => {
-            if (!Main.overview._shown)
-            	return
+        this._signalsHandler.addWithLabel('click-to-exit', [
+            Main.layoutManager.overviewGroup,
+            'button-release-event',
+            () => {
+                let [x, y] = global.get_pointer();
+                let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
                 
-            let [x, y] = global.get_pointer();
-            let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
-            
-            if (pickedActor) {
-                let parent = pickedActor.get_parent();
+                if (pickedActor) {
+                    let parent = pickedActor.get_parent();
 
-                if ((pickedActor.has_style_class_name && 
-                     pickedActor.has_style_class_name('apps-scroll-view') && 
-                     !pickedActor.has_style_pseudo_class('last-child')) ||
-                    (parent?.has_style_class_name && 
-                     parent.has_style_class_name('window-picker')) ||
-                    Main.overview._overview._controls._searchEntryBin.contains(pickedActor))
-                    return Clutter.EVENT_PROPAGATE;
-            } 
+                    if ((pickedActor.has_style_class_name && 
+                        pickedActor.has_style_class_name('apps-scroll-view') && 
+                        !pickedActor.has_style_pseudo_class('last-child')) ||
+                        (parent?.has_style_class_name && 
+                        parent.has_style_class_name('window-picker')) ||
+                        Main.overview._overview._controls._searchEntryBin.contains(pickedActor))
+                        return Clutter.EVENT_PROPAGATE;
+                } 
 
-            Main.overview.toggle()
-        })
+                Main.overview.toggle()
+            }
+        ]);
 
         this._clickToExitEnabled = true;
     }
@@ -480,7 +481,7 @@ var Overview = class {
         if (!this._clickToExitEnabled)
             return;
         
-        Utils.hookVfunc(Object.getPrototypeOf(Main.layoutManager.overviewGroup), 'button_release_event', null)
+        this._signalsHandler.removeWithLabel('click-to-exit')
 
         this._clickToExitEnabled = false;
     }
