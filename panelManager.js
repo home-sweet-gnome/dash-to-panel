@@ -336,8 +336,9 @@ var PanelManager = class {
                 this.bind_property('opacity', view, 'opacity', GObject.BindingFlags.SYNC_CREATE);
                 this.add_child(view);
             } else {
-                // todo exorcise this after the GS 42 release
-                view = new ProxySecondaryMonitorDisplay(i,
+                // No idea why atm, but we need the import at the top of this file and to use the
+                // full imports ns here, otherwise SecondaryMonitorDisplay can't be used ¯\_(ツ)_/¯
+                view = new imports.ui.workspacesView.SecondaryMonitorDisplay(i,
                     this._controls,
                     this._scrollAdjustment,
                     this._fitModeAdjustment,
@@ -503,15 +504,6 @@ var PanelManager = class {
     }
 
 };
-
-// No idea why atm, but we need the import at the top of this file and this
-// "proxy" class, otherwise SecondaryMonitorDisplay can't be used ¯\_(ツ)_/¯
-var ProxySecondaryMonitorDisplay = GObject.registerClass({
-}, class ProxySecondaryMonitorDisplay extends imports.ui.workspacesView.SecondaryMonitorDisplay {
-    _init(...params) {
-        super._init(...params)
-    }
-});
 
 // This class drives long-running icon animations, to keep them running in sync
 // with each other.
