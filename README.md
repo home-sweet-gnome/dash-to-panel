@@ -174,6 +174,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @marksvc for assigning percent of display for panel length
 - @philippun1 for GNOME 40 support :rocket:
 - @HaselLoyance for toggle for notification counter badge
+- @rastersoft for Desktop Icons NG integration
 
 #### Bug Fixes: 
 @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan, @Zkdc, @leebickmtu, @l3nn4rt, @Melix19, @Aikatsui, @melix99, @kyrillzorin, @oneshadab, @CorvetteCole, @vantu5z, @spectreseven1138
@@ -182,7 +183,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 @BoQsc, @zakkak, @dandv
 
 #### Translations: 
-@frnogueira / @victorwpbastos / @vagkaefer (pt_BR), @zeten30 (cs), @franglais125 / @calotam / @oeramirez (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius / @linuxr01 / @daPhipz (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / @MartinPL / @alex4401 (pl), @AlexGluck / @GoodNike / @rjapolov / @vantu5z (ru), @sicklylife-jp / @ryonakano / @nexryai (ja), @oltulu / @TeknoMobil / @daenney (tr), @sbadux / @kowalski7cc / @l3nn4rt (it), @OriginCode / @pan93412 (zh\_TW), @ojn (sv), @frandieguez (gl), @kuroehanako (ko)
+@frnogueira / @victorwpbastos / @vagkaefer (pt_BR), @zeten30 (cs), @franglais125 / @calotam / @oeramirez (es), @LaurentTreguier / @SolarLiner (fr), @elsieholmes (uk), @hosiet (zh\_CN), @jonnius / @linuxr01 / @daPhipz (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / @MartinPL / @alex4401 (pl), @AlexGluck / @GoodNike / @rjapolov / @vantu5z (ru), @sicklylife-jp / @ryonakano / @nexryai (ja), @oltulu / @TeknoMobil / @daenney (tr), @sbadux / @kowalski7cc / @l3nn4rt (it), @OriginCode / @pan93412 (zh\_TW), @ojn (sv), @frandieguez (gl), @kuroehanako / @MarongHappy (ko)
 
 
 ## 
