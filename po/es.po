@@ -1,345 +1,378 @@
 # Dash to Panel Spanish translation.
 # This file is distributed under the same license as the Dash to Panel package.
+# Pablo Navarro (@panreyes), 2022.
 # Fran Glais <franglais125@gmail.com>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-29 13:21+0200\n"
-"PO-Revision-Date: 2021-06-29 13:56+0200\n"
-"Last-Translator: Fran Glais <franglais125@gmail.com>\n"
+"POT-Creation-Date: 2022-05-12 15:06+0200\n"
+"PO-Revision-Date: 2022-05-12 15:10+0200\n"
+"Last-Translator: Pablo Navarro (@panreyes)\n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
 
-#: appIcons.js:1492
-msgid "Show Details"
-msgstr "Mostrar detalles"
-
-#: appIcons.js:1510
-msgid "New Window"
-msgstr "Ventana nueva"
-
-#: appIcons.js:1510 appIcons.js:1570 appIcons.js:1572 Settings.ui:422
-#: Settings.ui:493 Settings.ui:564
+#: appIcons.js:1512 appIcons.js:1522 appIcons.js:1524 Settings.ui:390
+#: Settings.ui:457 Settings.ui:524
 msgid "Quit"
 msgstr "Salir"
 
-#: appIcons.js:1572
+#: appIcons.js:1524
 msgid "Windows"
 msgstr "Ventanas"
 
-#: appIcons.js:1925
+#: appIcons.js:1797
+msgid "Power options"
+msgstr "Opciones de energía"
+
+#: appIcons.js:1802
+msgid "Event logs"
+msgstr "Registros de eventos"
+
+#: appIcons.js:1807
+msgid "System"
+msgstr "Sistema"
+
+#: appIcons.js:1812
+msgid "Device Management"
+msgstr "Administrador de dispositivos"
+
+#: appIcons.js:1817
+msgid "Disk Management"
+msgstr "Administrador de discos"
+
+#: appIcons.js:1830
+msgid "Terminal"
+msgstr "Terminal"
+
+#: appIcons.js:1835
+msgid "System monitor"
+msgstr "Monitor de sistema"
+
+#: appIcons.js:1840
+msgid "Files"
+msgstr "Archivos"
+
+#: appIcons.js:1845
+msgid "Extensions"
+msgstr "Extensiones"
+
+#: appIcons.js:1850
+msgid "Settings"
+msgstr "Ajustes"
+
+#: appIcons.js:1861
 msgid "Unlock taskbar"
 msgstr "Desbloquear barra de tareas"
 
-#: appIcons.js:1925
+#: appIcons.js:1861
 msgid "Lock taskbar"
 msgstr "Bloquear barra de tareas"
 
-#: appIcons.js:1930
+#: appIcons.js:1866
 msgid "Dash to Panel Settings"
 msgstr "Opciones de Dash to Panel"
 
-#: appIcons.js:1943
+#: appIcons.js:1871
 msgid "Restore Windows"
 msgstr "Restaurar ventanas"
 
-#: appIcons.js:1943
+#: appIcons.js:1871
 msgid "Show Desktop"
 msgstr "Mostrar escritorio"
 
-#: panel.js:181
+#: panel.js:172
 msgid "Top Bar"
 msgstr "Barra superior"
 
-#: prefs.js:200
+#: prefs.js:196
 msgid "Show Desktop button height (px)"
 msgstr "Alto del botón Mostrar escritorio (px)"
 
-#: prefs.js:200
+#: prefs.js:196
 msgid "Show Desktop button width (px)"
 msgstr "Ancho del botón Mostrar escritorio (px)"
 
-#: prefs.js:212
+#: prefs.js:208
 msgid "Unavailable when gnome-shell top panel is present"
 msgstr "No disponible cuando el panel superior de gnome-shell está presente"
 
-#: prefs.js:270 Settings.ui:4979 Settings.ui:5244
+#: prefs.js:266 Settings.ui:4576 Settings.ui:4818
 msgid "Left"
 msgstr "A la izquierda"
 
-#: prefs.js:271
+#: prefs.js:267
 msgid "Center"
 msgstr "Centro"
 
-#: prefs.js:272 Settings.ui:4992 Settings.ui:5255
+#: prefs.js:268 Settings.ui:4588 Settings.ui:4828
 msgid "Right"
 msgstr "A la derecha"
 
-#: prefs.js:274 Settings.ui:2823 Settings.ui:4966 Settings.ui:5233
+#: prefs.js:270 Settings.ui:2595 Settings.ui:4564 Settings.ui:4808
 msgid "Top"
 msgstr "Arriba"
 
-#: prefs.js:275 prefs.js:280 Settings.ui:4912
+#: prefs.js:271 prefs.js:276 Settings.ui:4514
 msgid "Middle"
 msgstr "En medio"
 
-#: prefs.js:276 Settings.ui:2811 Settings.ui:4953 Settings.ui:5222
+#: prefs.js:272 Settings.ui:2584 Settings.ui:4552 Settings.ui:4798
 msgid "Bottom"
 msgstr "Abajo"
 
-#: prefs.js:279 Settings.ui:4911
+#: prefs.js:275 Settings.ui:4513
 msgid "Start"
 msgstr "Inicio"
 
-#: prefs.js:281 Settings.ui:4913
+#: prefs.js:277 Settings.ui:4515
 msgid "End"
 msgstr "Final"
 
-#: prefs.js:366
+#: prefs.js:362
 msgid "Show Applications button"
 msgstr "Botón de Mostrar aplicaciones"
 
-#: prefs.js:367
+#: prefs.js:363
 msgid "Activities button"
 msgstr "Botón de Actividades"
 
-#: prefs.js:368
+#: prefs.js:364
 msgid "Taskbar"
 msgstr "Barra de tareas"
 
-#: prefs.js:369
+#: prefs.js:365
 msgid "Date menu"
 msgstr "Menú de la fecha"
 
-#: prefs.js:370
+#: prefs.js:366
 msgid "System menu"
 msgstr "Menú del sistema"
 
-#: prefs.js:371
+#: prefs.js:367
 msgid "Left box"
 msgstr "Caja izquierda"
 
-#: prefs.js:372
+#: prefs.js:368
 msgid "Center box"
 msgstr "Caja central"
 
-#: prefs.js:373
+#: prefs.js:369
 msgid "Right box"
 msgstr "Caja derecha"
 
-#: prefs.js:374
+#: prefs.js:370
 msgid "Desktop button"
 msgstr "Botón del escritorio"
 
-#: prefs.js:380
+#: prefs.js:376
 msgid "Move up"
 msgstr "Subir"
 
-#: prefs.js:382
+#: prefs.js:378
 msgid "Move down"
 msgstr "Bajar"
 
-#: prefs.js:384
+#: prefs.js:380
 msgid "Visible"
 msgstr "Visible"
 
-#: prefs.js:385
+#: prefs.js:381
 msgid "Select element position"
 msgstr "Seleccione la posición del elemento"
 
-#: prefs.js:396
+#: prefs.js:392
 msgid "Stacked to top"
 msgstr "Arriba"
 
-#: prefs.js:396
+#: prefs.js:392
 msgid "Stacked to left"
 msgstr "Izquierda"
 
-#: prefs.js:397
+#: prefs.js:393
 msgid "Stacked to bottom"
 msgstr "Abajo"
 
-#: prefs.js:397
+#: prefs.js:393
 msgid "Stacked to right"
 msgstr "Derecha"
 
-#: prefs.js:398
+#: prefs.js:394
 msgid "Centered"
 msgstr "Centrado"
 
-#: prefs.js:399
+#: prefs.js:395
 msgid "Monitor Center"
 msgstr "Centro del monitor"
 
-#: prefs.js:418
+#: prefs.js:414
 msgid "More options"
 msgstr "Más opciones"
 
-#: prefs.js:440
+#: prefs.js:436
 msgid "Show Applications options"
 msgstr "Mostrar las opciones de aplicación"
 
-#: prefs.js:447 prefs.js:512 prefs.js:732 prefs.js:1078 prefs.js:1222
-#: prefs.js:1345 prefs.js:1634 prefs.js:1730 prefs.js:1796 prefs.js:1840
-#: prefs.js:1938 prefs.js:1973 prefs.js:2016 prefs.js:2152
+#: prefs.js:443 prefs.js:509 prefs.js:729 prefs.js:1075 prefs.js:1219
+#: prefs.js:1342 prefs.js:1636 prefs.js:1732 prefs.js:1798 prefs.js:1842
+#: prefs.js:1940 prefs.js:1975 prefs.js:2018 prefs.js:2154
 msgid "Reset to defaults"
 msgstr "Restablecer los valores predeterminados"
 
-#: prefs.js:453
+#: prefs.js:449
 msgid "Open icon"
 msgstr "Abrir icono"
 
-#: prefs.js:505
+#: prefs.js:502
 msgid "Show Desktop options"
 msgstr "Opciones de Mostrar escritorio"
 
-#: prefs.js:605
+#: prefs.js:602
 #, javascript-format
 msgid "%d ms"
 msgstr "%d ms"
 
-#: prefs.js:610
+#: prefs.js:607
 #, javascript-format
 msgid "%d °"
 msgstr "%d °"
 
-#: prefs.js:615 prefs.js:620
+#: prefs.js:612 prefs.js:617
 #, javascript-format
 msgid "%d %%"
 msgstr "%d %%"
 
-#: prefs.js:625
+#: prefs.js:622
 #, javascript-format
 msgid "%.1f"
 msgstr "%.1f"
 
-#: prefs.js:630
+#: prefs.js:627
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
 msgstr[0] "%d icono"
 msgstr[1] "%d iconos"
 
-#: prefs.js:725
+#: prefs.js:722
 msgid "Running Indicator Options"
 msgstr "Opciones del indicador de ejecución"
 
-#: prefs.js:889
+#: prefs.js:886
 msgid "Primary monitor"
 msgstr "Monitor principal"
 
-#: prefs.js:889
+#: prefs.js:886
 msgid "Monitor "
 msgstr "Monitor "
 
-#: prefs.js:1071
+#: prefs.js:1068
 msgid "Dynamic opacity options"
 msgstr "Opciones de opacidad dinámica"
 
-#: prefs.js:1215
+#: prefs.js:1212
 msgid "Intellihide options"
 msgstr "Opciones de ocultación inteligente"
 
-#: prefs.js:1338
+#: prefs.js:1335
 msgid "Window preview options"
 msgstr "Opciones de vista rápida de ventanas"
 
-#: prefs.js:1627
+#: prefs.js:1629
 msgid "Ungrouped application options"
 msgstr "Opciones de ventanas no combinadas"
 
-#: prefs.js:1723
+#: prefs.js:1725
 msgid "Customize middle-click behavior"
 msgstr "Personalizar comportamiento del botón central"
 
-#: prefs.js:1789
+#: prefs.js:1791
 msgid "Customize panel scroll behavior"
 msgstr "Personalizar comportamiento del desplazamiento del panel"
 
-#: prefs.js:1833
+#: prefs.js:1835
 msgid "Customize icon scroll behavior"
 msgstr "Personalizar comportamiento del desplazamiento de los iconos"
 
-#: prefs.js:1931
+#: prefs.js:1933
 msgid "Advanced hotkeys options"
 msgstr "Opciones avanzadas de atajos de teclado"
 
-#: prefs.js:1966
+#: prefs.js:1968
 msgid "Secondary Menu Options"
 msgstr "Opciones del menú secundario"
 
-#: prefs.js:2009 Settings.ui:7314
+#: prefs.js:2011 Settings.ui:6742
 msgid "Advanced Options"
 msgstr "Opciones avanzadas"
 
-#: prefs.js:2145
+#: prefs.js:2147
 msgid "App icon animation options"
 msgstr "Opciones de animación de los iconos de las aplicaciones"
 
-#: prefs.js:2211
+#: prefs.js:2213
 msgid "Export settings"
 msgstr "Exportar configuraciones"
 
-#: prefs.js:2227
+#: prefs.js:2229
 msgid "Import settings"
 msgstr "Importar configuraciones"
 
-#: windowPreview.js:930
+#: windowPreview.js:940
 msgid "Move to current Workspace"
 msgstr "Mover al espacio de trabajo actual"
 
-#: Settings.ui:30
+#: Settings.ui:26
 msgid "Animation type"
 msgstr "Tipo de animación"
 
-#: Settings.ui:40
+#: Settings.ui:35
 msgid "Simple"
 msgstr "Simple"
 
-#: Settings.ui:41
+#: Settings.ui:36
 msgid "Ripple"
 msgstr "Onda"
 
-#: Settings.ui:42
+#: Settings.ui:37
 msgid "Plank"
 msgstr "Tabla"
 
-#: Settings.ui:70
+#: Settings.ui:62
 msgid "Duration"
 msgstr "Duración"
 
-#: Settings.ui:101
+#: Settings.ui:91
 msgid "Rotation"
 msgstr "Rotación"
 
-#: Settings.ui:131
+#: Settings.ui:119
 msgid "Travel"
 msgstr "Recorrido"
 
-#: Settings.ui:161
+#: Settings.ui:147
 msgid "Zoom"
 msgstr "Zoom"
 
-#: Settings.ui:191
+#: Settings.ui:175
 msgid "Convexity"
 msgstr "Convexidad"
 
-#: Settings.ui:221
+#: Settings.ui:203
 msgid "Extent"
 msgstr "Extensión"
 
-#: Settings.ui:332
+#: Settings.ui:308
 msgid "Nothing yet!"
 msgstr "¡Nada aún!"
 
-#: Settings.ui:383
+#: Settings.ui:353
 msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
@@ -347,160 +380,160 @@ msgstr ""
 "Cuando está seleccionado minimizar, doble pulsación minimiza todas las "
 "ventanas de la aplicación."
 
-#: Settings.ui:401
+#: Settings.ui:370
 msgid "Shift+Click action"
 msgstr "Acción de Mayúsculas+Click"
 
-#: Settings.ui:415 Settings.ui:487 Settings.ui:558 Settings.ui:6486
+#: Settings.ui:383 Settings.ui:450 Settings.ui:517 Settings.ui:5985
 msgid "Raise windows"
 msgstr "Elevar ventanas"
 
-#: Settings.ui:416 Settings.ui:488 Settings.ui:559
+#: Settings.ui:384 Settings.ui:451 Settings.ui:518
 msgid "Minimize window"
 msgstr "Minimizar ventana"
 
-#: Settings.ui:417 Settings.ui:489 Settings.ui:560 Settings.ui:6487
+#: Settings.ui:385 Settings.ui:452 Settings.ui:519 Settings.ui:5986
 msgid "Launch new instance"
 msgstr "Lanzar una nueva instancia"
 
-#: Settings.ui:418 Settings.ui:490 Settings.ui:561 Settings.ui:6483
+#: Settings.ui:386 Settings.ui:453 Settings.ui:520 Settings.ui:5981
 msgid "Cycle through windows"
 msgstr "Alternar entre ventanas"
 
-#: Settings.ui:419 Settings.ui:491 Settings.ui:562 Settings.ui:6482
+#: Settings.ui:387 Settings.ui:454 Settings.ui:521 Settings.ui:5980
 msgid "Cycle windows + minimize"
 msgstr "Alternar ventanas y minimizar"
 
-#: Settings.ui:420 Settings.ui:492 Settings.ui:563 Settings.ui:6484
+#: Settings.ui:388 Settings.ui:455 Settings.ui:522 Settings.ui:5982
 msgid "Toggle single / Preview multiple"
 msgstr "Alternar simple / Vista previa múltiple"
 
-#: Settings.ui:421
+#: Settings.ui:389 Settings.ui:456 Settings.ui:523 Settings.ui:5983
 msgid "Toggle single / Cycle multiple"
 msgstr "Alternar simple / Cambiar múltiple"
 
-#: Settings.ui:455
+#: Settings.ui:420
 msgid "Behavior for Middle-Click."
 msgstr "Comportamiento del botón central."
 
-#: Settings.ui:473
+#: Settings.ui:437
 msgid "Middle-Click action"
 msgstr "Acción del botón central"
 
-#: Settings.ui:526
+#: Settings.ui:487
 msgid "Behavior for Shift+Middle-Click."
 msgstr "Comportamiento para mayúsculas+botón central."
 
-#: Settings.ui:544
+#: Settings.ui:504
 msgid "Shift+Middle-Click action"
 msgstr "Acción de mayúsculas+botón central"
 
-#: Settings.ui:619
+#: Settings.ui:573
 msgid "Integrate <i>AppMenu</i> items"
 msgstr "Integrar los elementos del <i>Menú de aplicación</i>"
 
-#: Settings.ui:665
+#: Settings.ui:615
 msgid "<i>Show Details</i> menu item"
 msgstr "<i>Mostrar detalles</i> del menú de elementos"
 
-#: Settings.ui:759
+#: Settings.ui:702
 msgid "Highlight focused application"
 msgstr "Resaltar la aplicación activa"
 
-#: Settings.ui:790
+#: Settings.ui:730
 msgid "Icon dominant color"
 msgstr "Color del icono predominante"
 
-#: Settings.ui:811
+#: Settings.ui:749
 msgid "Custom color"
 msgstr "Color personalizado"
 
-#: Settings.ui:836
+#: Settings.ui:772
 msgid "Highlight opacity"
 msgstr "Opacidad de resaltado"
 
-#: Settings.ui:888
+#: Settings.ui:820
 msgid "Indicator size (px)"
 msgstr "Tamaño del indicador (px)"
 
-#: Settings.ui:932
+#: Settings.ui:860
 msgid "Indicator color - Icon Dominant"
 msgstr "Color del indicador - Predominar el icono"
 
-#: Settings.ui:978
+#: Settings.ui:901
 msgid "Indicator color - Override Theme"
 msgstr "Color del indicador - Predominar sobre el tema"
 
-#: Settings.ui:1006 Settings.ui:1161
+#: Settings.ui:926 Settings.ui:1066
 msgid "1 window open (or ungrouped)"
 msgstr "1 ventana abierta (o no combinada)"
 
-#: Settings.ui:1021 Settings.ui:1176
+#: Settings.ui:940 Settings.ui:1080
 msgid "Apply to all"
 msgstr "Aplicar a todo"
 
-#: Settings.ui:1046 Settings.ui:1201
+#: Settings.ui:962 Settings.ui:1102
 msgid "2 windows open"
 msgstr "2 ventanas abiertas"
 
-#: Settings.ui:1059 Settings.ui:1226
+#: Settings.ui:974 Settings.ui:1125
 msgid "3 windows open"
 msgstr "3 ventanas abiertas"
 
-#: Settings.ui:1072 Settings.ui:1251
+#: Settings.ui:986 Settings.ui:1148
 msgid "4+ windows open"
 msgstr "4 o más ventanas abiertas"
 
-#: Settings.ui:1133
+#: Settings.ui:1041
 msgid "Use different for unfocused"
 msgstr "Usar diferente para desenfoque"
 
-#: Settings.ui:1344
+#: Settings.ui:1233
 msgid "Font size (px) of the application titles (default is 14)"
 msgstr ""
 "Tamaño de la fuente (px) para los títulos de aplicación (14 por defecto)"
 
-#: Settings.ui:1375
+#: Settings.ui:1261
 msgid "Font weight of application titles"
 msgstr "Tamaño de la fuente para los títulos de aplicación"
 
-#: Settings.ui:1389 Settings.ui:3024
+#: Settings.ui:1274 Settings.ui:2779
 msgid "inherit from theme"
 msgstr "heredado del tema"
 
-#: Settings.ui:1390 Settings.ui:3025
+#: Settings.ui:1275 Settings.ui:2780
 msgid "normal"
 msgstr "normal"
 
-#: Settings.ui:1391 Settings.ui:3026
+#: Settings.ui:1276 Settings.ui:2781
 msgid "lighter"
 msgstr "más fino"
 
-#: Settings.ui:1392 Settings.ui:3027
+#: Settings.ui:1277 Settings.ui:2782
 msgid "bold"
 msgstr "en negrita"
 
-#: Settings.ui:1393 Settings.ui:3028
+#: Settings.ui:1278 Settings.ui:2783
 msgid "bolder"
 msgstr "más en negrita"
 
-#: Settings.ui:1423
+#: Settings.ui:1305
 msgid "Font color of the application titles"
 msgstr "Color de letra de los títulos de aplicación"
 
-#: Settings.ui:1466
+#: Settings.ui:1344
 msgid "Font color of the minimized application titles"
 msgstr "Color de la fuente de los títulos de la aplicación minimizada"
 
-#: Settings.ui:1509
+#: Settings.ui:1383
 msgid "Maximum width (px) of the application titles (default is 160)"
 msgstr "Ancho máximo (px) de los títulos de aplicación (160 por defecto)"
 
-#: Settings.ui:1554
+#: Settings.ui:1424
 msgid "Use a fixed width for the application titles"
 msgstr "Usar ancho fijo para los títulos de aplicación"
 
-#: Settings.ui:1579
+#: Settings.ui:1447
 msgid ""
 "The application titles all have the same width, even if their texts are "
 "shorter than the maximum width. The maximum width value is used as the fixed "
@@ -509,247 +542,247 @@ msgstr ""
 "Todos los títulos de aplicación tienen el mismo ancho, aun si el texto es "
 "más corto que el ancho máximo. El ancho máximo es usado como valor fijo."
 
-#: Settings.ui:1615
+#: Settings.ui:1480
 msgid "Display running indicators on unfocused applications"
 msgstr "Estilo de los indicadores de ejecución (aplicación no enfocada)"
 
-#: Settings.ui:1657
+#: Settings.ui:1518
 msgid "Use the favorite icons as application launchers"
 msgstr "Usar los iconos favoritos como lanzadores de aplicación"
 
-#: Settings.ui:1751
+#: Settings.ui:1605
 msgid "Only hide the panel when it is obstructed by windows "
 msgstr "Esconder el panel sólo cuando es obstruido por ventanas "
 
-#: Settings.ui:1783
+#: Settings.ui:1634
 msgid "The panel hides from"
 msgstr "El panel se esconde de"
 
-#: Settings.ui:1797 Settings.ui:4382
+#: Settings.ui:1647 Settings.ui:4031
 msgid "All windows"
 msgstr "Todas las ventanas"
 
-#: Settings.ui:1798 Settings.ui:4383
+#: Settings.ui:1648 Settings.ui:4032
 msgid "Focused windows"
 msgstr "Ventanas activas"
 
-#: Settings.ui:1799 Settings.ui:4384
+#: Settings.ui:1649 Settings.ui:4033
 msgid "Maximized windows"
 msgstr "Ventanas maximizadas"
 
-#: Settings.ui:1837
+#: Settings.ui:1684
 msgid "Require pressure at the edge of the screen to reveal the panel"
 msgstr "Requerir presión en el borde de la pantalla para mostrar el panel"
 
-#: Settings.ui:1869
+#: Settings.ui:1713
 msgid "Required pressure threshold (px)"
 msgstr "Presión mínima requerida (px)"
 
-#: Settings.ui:1898
+#: Settings.ui:1740
 msgid "Required pressure timeout (ms)"
 msgstr "Tiempo de activación (ms)"
 
-#: Settings.ui:1953
+#: Settings.ui:1791
 msgid "Allow the panel to be revealed while in fullscreen mode"
 msgstr "En modo pantalla completa, permitir que el panel sea mostrado"
 
-#: Settings.ui:1997
+#: Settings.ui:1831
 msgid "Only hide secondary panels (requires multi-monitors option)"
 msgstr "Ocultar sólo los paneles secundarios (requiere opción multi-monitor)"
 
-#: Settings.ui:2040
+#: Settings.ui:1870
 msgid "e.g. <Super>i"
 msgstr "p.e. <Super>i"
 
-#: Settings.ui:2053
+#: Settings.ui:1882
 msgid "Keyboard shortcut to reveal and hold the panel"
 msgstr "Atajos del teclado para mostrar y mantener el panel"
 
-#: Settings.ui:2065 Settings.ui:3749
+#: Settings.ui:1893 Settings.ui:3447
 msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
 msgstr "Sintáxis: <Mayúsculas>, <Ctrl>, <Alt>, <Super>"
 
-#: Settings.ui:2100
+#: Settings.ui:1925
 msgid "Hide and reveal animation duration (ms)"
 msgstr "Duración de ocultar y mostrar animaciones (ms)"
 
-#: Settings.ui:2146
+#: Settings.ui:1967
 msgid "Delay before hiding the panel (ms)"
 msgstr "Tiempo antes de ocultar el panel (ms)"
 
-#: Settings.ui:2193
+#: Settings.ui:2010
 msgid "Delay before enabling intellihide on start (ms)"
 msgstr "Tiempo antes de habilitar el panel inteligente (ms)"
 
-#: Settings.ui:2351
+#: Settings.ui:2160
 msgid "Time (ms) before showing (400 is default)"
 msgstr "Tiempo (ms) antes de mostrar (400 por defecto)"
 
-#: Settings.ui:2365
+#: Settings.ui:2173
 msgid "Animation time (ms)"
 msgstr "Tiempo de la animación (ms)"
 
-#: Settings.ui:2398
+#: Settings.ui:2203
 msgid "Time (ms) before hiding (100 is default)"
 msgstr "Tiempo (ms) antes de ocultar (100 por defecto)"
 
-#: Settings.ui:2416
+#: Settings.ui:2219
 msgid "Immediate on application icon click"
 msgstr "Pulsación inmediata en icono de aplicación"
 
-#: Settings.ui:2467
+#: Settings.ui:2266
 msgid "Middle click on the preview to close the window"
 msgstr "Usar el botón central en la vista rápida para cerrar la ventana"
 
-#: Settings.ui:2511
+#: Settings.ui:2306
 msgid "Window previews preferred size (px)"
 msgstr "Tamaño por defecto de las vistas rápidas (px)"
 
-#: Settings.ui:2538
+#: Settings.ui:2331
 msgid "Window previews aspect ratio Y (height)"
 msgstr "Altura de la vista rápida de ventanas"
 
-#: Settings.ui:2552
+#: Settings.ui:2344
 msgid "Window previews padding (px)"
 msgstr "Relleno (px) de la vista rápida de ventanas"
 
-#: Settings.ui:2591 Settings.ui:2658
+#: Settings.ui:2380 Settings.ui:2443
 msgid "1"
 msgstr "1"
 
-#: Settings.ui:2592 Settings.ui:2659
+#: Settings.ui:2381 Settings.ui:2444
 msgid "2"
 msgstr "2"
 
-#: Settings.ui:2593 Settings.ui:2660
+#: Settings.ui:2382 Settings.ui:2445
 msgid "3"
 msgstr "3"
 
-#: Settings.ui:2594 Settings.ui:2661
+#: Settings.ui:2383 Settings.ui:2446
 msgid "4"
 msgstr "4"
 
-#: Settings.ui:2595 Settings.ui:2662 Settings.ui:2766
+#: Settings.ui:2384 Settings.ui:2447 Settings.ui:2543
 msgid "5"
 msgstr "5"
 
-#: Settings.ui:2596 Settings.ui:2663
+#: Settings.ui:2385 Settings.ui:2448
 msgid "6"
 msgstr "6"
 
-#: Settings.ui:2597 Settings.ui:2664
+#: Settings.ui:2386 Settings.ui:2449
 msgid "7"
 msgstr "7"
 
-#: Settings.ui:2598 Settings.ui:2665
+#: Settings.ui:2387 Settings.ui:2450
 msgid "8"
 msgstr "8"
 
-#: Settings.ui:2599 Settings.ui:2666
+#: Settings.ui:2388 Settings.ui:2451
 msgid "9"
 msgstr "9"
 
-#: Settings.ui:2600 Settings.ui:2667
+#: Settings.ui:2389 Settings.ui:2452
 msgid "10"
 msgstr "10"
 
-#: Settings.ui:2601 Settings.ui:2668
+#: Settings.ui:2390 Settings.ui:2453
 msgid "11"
 msgstr "11"
 
-#: Settings.ui:2602 Settings.ui:2669
+#: Settings.ui:2391 Settings.ui:2454
 msgid "12"
 msgstr "12"
 
-#: Settings.ui:2603 Settings.ui:2670
+#: Settings.ui:2392 Settings.ui:2455
 msgid "13"
 msgstr "13"
 
-#: Settings.ui:2604 Settings.ui:2671
+#: Settings.ui:2393 Settings.ui:2456
 msgid "14"
 msgstr "14"
 
-#: Settings.ui:2605 Settings.ui:2672
+#: Settings.ui:2394 Settings.ui:2457
 msgid "15"
 msgstr "15"
 
-#: Settings.ui:2606 Settings.ui:2673
+#: Settings.ui:2395 Settings.ui:2458
 msgid "16"
 msgstr "16"
 
-#: Settings.ui:2607 Settings.ui:2674
+#: Settings.ui:2396 Settings.ui:2459
 msgid "17"
 msgstr "17"
 
-#: Settings.ui:2608 Settings.ui:2675
+#: Settings.ui:2397 Settings.ui:2460
 msgid "18"
 msgstr "18"
 
-#: Settings.ui:2609 Settings.ui:2676
+#: Settings.ui:2398 Settings.ui:2461
 msgid "19"
 msgstr "19"
 
-#: Settings.ui:2610 Settings.ui:2677
+#: Settings.ui:2399 Settings.ui:2462
 msgid "20"
 msgstr "20"
 
-#: Settings.ui:2611 Settings.ui:2678
+#: Settings.ui:2400 Settings.ui:2463
 msgid "21"
 msgstr "21"
 
-#: Settings.ui:2617 Settings.ui:2684
+#: Settings.ui:2406 Settings.ui:2469
 msgid "Fixed"
 msgstr "Fijo"
 
-#: Settings.ui:2635
+#: Settings.ui:2422
 msgid "Window previews aspect ratio X (width)"
 msgstr "Anchura de la vista rápida de ventanas"
 
-#: Settings.ui:2719
+#: Settings.ui:2500
 msgid "Use custom opacity for the previews background"
 msgstr "Usar opacidad personalizada para el fondo de las vistas rápidas"
 
-#: Settings.ui:2733
+#: Settings.ui:2513
 msgid "If disabled, the previews background have the same opacity as the panel"
 msgstr ""
 "Si está deshabilitado, el fondo de las vistas rápidas tienen la misma "
 "opacidad que la del panel"
 
-#: Settings.ui:2799
+#: Settings.ui:2573
 msgid "Close button and header position"
 msgstr "Botón de apagado y posición de los títulos"
 
-#: Settings.ui:2857
+#: Settings.ui:2625
 msgid "Display window preview headers"
 msgstr "Mostrar los títulos de las ventanas en las vistas rápidas"
 
-#: Settings.ui:2920
+#: Settings.ui:2682
 msgid "Icon size (px) of the window preview"
 msgstr "Tamaño del icono (px) de la vista previa de la ventana"
 
-#: Settings.ui:2934
+#: Settings.ui:2695
 msgid "If disabled, the previews icon size will be based on headerbar size"
 msgstr ""
 "Si está deshabilitado, el tamaño de los iconos de las vistas previas se "
 "basará en el tamaño de la barra de cabecera"
 
-#: Settings.ui:2982
+#: Settings.ui:2740
 msgid "Font size (px) of the preview titles"
 msgstr "Tamaño de letra (px) de los títulos de aplicación (14 por defecto)"
 
-#: Settings.ui:3009
+#: Settings.ui:2765
 msgid "Font weight of the preview titles"
 msgstr "Color de letra de los títulos de aplicación"
 
-#: Settings.ui:3054
+#: Settings.ui:2807
 msgid "Font color of the preview titles"
 msgstr "Color de letra de los títulos de aplicación"
 
-#: Settings.ui:3105
+#: Settings.ui:2854
 msgid "Enable window peeking"
 msgstr "Habilitar ojeada rápida de ventana"
 
-#: Settings.ui:3131
+#: Settings.ui:2878
 msgid ""
 "When hovering over a window preview for some time, the window gets "
 "distinguished."
@@ -757,15 +790,15 @@ msgstr ""
 "Al desplazar el ratón sobre una vista rápida de ventana, la ventana es "
 "resaltada."
 
-#: Settings.ui:3156
+#: Settings.ui:2901
 msgid "Enter window peeking mode timeout (ms)"
 msgstr "Tiempo para activar el modo de ojeada rápida (ms)"
 
-#: Settings.ui:3170
+#: Settings.ui:2914
 msgid "50"
 msgstr "50"
 
-#: Settings.ui:3185
+#: Settings.ui:2928
 msgid ""
 "Time of inactivity while hovering over a window preview needed to enter the "
 "window peeking mode."
@@ -773,74 +806,74 @@ msgstr ""
 "Tiempo de inactividad al desplazar el ratón sobre una vista rápida de "
 "ventana para activar el modo de ojeada rápida."
 
-#: Settings.ui:3217
+#: Settings.ui:2958
 msgid "Window peeking mode opacity"
 msgstr "Opacidad del modo de ojeada rápida"
 
-#: Settings.ui:3231 Settings.ui:4000 Settings.ui:4470 Settings.ui:5529
-#: Settings.ui:5716 Settings.ui:5744
+#: Settings.ui:2971 Settings.ui:3679 Settings.ui:4111 Settings.ui:5074
+#: Settings.ui:5244 Settings.ui:5269
 msgid "0"
 msgstr "0"
 
-#: Settings.ui:3245
+#: Settings.ui:2984
 msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
 msgstr "Todas las ventanas excepto la resaltada tienen la misma opacidad fija."
 
-#: Settings.ui:3327 Settings.ui:3412
+#: Settings.ui:3060 Settings.ui:3138
 msgid "Delay between mouse scroll events (ms)"
 msgstr "Retraso entre eventos de desplazamiento del ratón (ms)"
 
-#: Settings.ui:3341 Settings.ui:3426
+#: Settings.ui:3073 Settings.ui:3151
 msgid "Use this value to limit the number of captured mouse scroll events."
 msgstr ""
 "Usar este valor para limitar el número de eventos de desplazamiento "
 "capturados del ratón."
 
-#: Settings.ui:3460
+#: Settings.ui:3182
 msgid "Show popup when changing workspace"
 msgstr "Mostrar ventana emergente al cambiar de espacio de trabajo"
 
-#: Settings.ui:3474
+#: Settings.ui:3195
 msgid "This affects workspace popup when scrolling on the panel only."
 msgstr ""
 "Esto afecta a la ventana emergente del espacio de trabajo cuando se desplaza "
 "en el panel solamente."
 
-#: Settings.ui:3552
+#: Settings.ui:3266
 msgid "Super"
 msgstr "Súper"
 
-#: Settings.ui:3553
+#: Settings.ui:3267
 msgid "Super + Alt"
 msgstr "Súper + Alt"
 
-#: Settings.ui:3567
+#: Settings.ui:3280
 msgid "Hotkeys prefix"
 msgstr "Prefijo de atajo de teclado"
 
-#: Settings.ui:3579
+#: Settings.ui:3291
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
 msgstr "Los atajos serán Súper+Núm. o Súper+Alt+Núm"
 
-#: Settings.ui:3617
+#: Settings.ui:3326
 msgid "Never"
 msgstr "Nunca"
 
-#: Settings.ui:3618
+#: Settings.ui:3327
 msgid "Show temporarily"
 msgstr "Mostrar temporalmente"
 
-#: Settings.ui:3619
+#: Settings.ui:3328
 msgid "Always visible"
 msgstr "Siempre visible"
 
-#: Settings.ui:3633
+#: Settings.ui:3341
 msgid "Number overlay"
 msgstr "Número de aplicación"
 
-#: Settings.ui:3645
+#: Settings.ui:3352
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
@@ -848,120 +881,120 @@ msgstr ""
 "Al usar atajos, mostrar momentáneamente el número de aplicación sobre los "
 "íconos."
 
-#: Settings.ui:3694
+#: Settings.ui:3397
 msgid "Hide timeout (ms)"
 msgstr "Tiempo de ocultación (ms)"
 
-#: Settings.ui:3724
+#: Settings.ui:3424
 msgid "e.g. <Super>q"
 msgstr "p.e. <Súper>q"
 
-#: Settings.ui:3737
+#: Settings.ui:3436
 msgid "Shortcut to show the overlay for 2 seconds"
 msgstr "Atajo para mostrar el número de aplicación por 2 segundos"
 
-#: Settings.ui:3784
+#: Settings.ui:3479
 msgid "Show window previews on hotkey"
 msgstr "Mostrar vista rápida de ventanas al pasar con el ratón"
 
-#: Settings.ui:3811
+#: Settings.ui:3504
 msgid "Show previews when the application have multiple instances"
 msgstr "Mostrar vistas previas cuando la aplicación tiene múltiples instancias"
 
-#: Settings.ui:3848
+#: Settings.ui:3538
 msgid "Number row"
 msgstr "Fila numérica"
 
-#: Settings.ui:3849
+#: Settings.ui:3539
 msgid "Numeric keypad"
 msgstr "Teclado numérico"
 
-#: Settings.ui:3850
+#: Settings.ui:3540
 msgid "Both"
 msgstr "Ambos"
 
-#: Settings.ui:3864
+#: Settings.ui:3553
 msgid "Hotkeys are activated with"
 msgstr "Usar atajos de teclado para activar aplicaciones"
 
-#: Settings.ui:3876
+#: Settings.ui:3564
 msgid "Select which keyboard number keys are used to activate the hotkeys"
 msgstr ""
 "Selecciona qué teclas numéricas se usan para activar los atajos de teclado"
 
-#: Settings.ui:3928
+#: Settings.ui:3612
 msgid "Current Show Applications icon"
 msgstr "Icono actual de <i>Mostrar aplicaciones</i>"
 
-#: Settings.ui:3967
+#: Settings.ui:3649
 msgid "Custom Show Applications image icon"
 msgstr "Icono <i>Mostrar aplicaciones</i> personalizado"
 
-#: Settings.ui:4013
+#: Settings.ui:3691
 msgid "Show Applications icon side padding (px)"
 msgstr "Tamaño de relleno (px) de <i>Mostrar aplicaciones<i>"
 
-#: Settings.ui:4055
+#: Settings.ui:3729
 msgid "Override escape key and return to desktop"
 msgstr "Anular la tecla de escape y volver al escritorio"
 
-#: Settings.ui:4143
+#: Settings.ui:3810
 msgid "Override Show Desktop line color"
 msgstr "Anular el color de la línea \"Mostrar escritorio\""
 
-#: Settings.ui:4203
+#: Settings.ui:3864
 msgid "Reveal the desktop when hovering the Show Desktop button"
 msgstr "Mostrar escritorio al colocar el botón <i>Mostrar Escritorio<i>"
 
-#: Settings.ui:4234
+#: Settings.ui:3892
 msgid "Delay before revealing the desktop (ms)"
 msgstr "Tiempo antes de ocultar el panel (ms)"
 
-#: Settings.ui:4264
+#: Settings.ui:3920
 msgid "Fade duration (ms)"
 msgstr "Tiempo de ocultación (ms)"
 
-#: Settings.ui:4368
+#: Settings.ui:4018
 msgid "The panel background opacity is affected by"
 msgstr "La opacidad del fondo del panel está afectada por"
 
-#: Settings.ui:4430
+#: Settings.ui:4075
 msgid "Change opacity when a window gets closer than (px)"
 msgstr "Cambiar la opacidad cuando una ventana se aproxima (px)"
 
-#: Settings.ui:4460
+#: Settings.ui:4102
 msgid "Change opacity to (%)"
 msgstr "Cambiar la opacidad a (%)"
 
-#: Settings.ui:4512
+#: Settings.ui:4149
 msgid "Opacity change animation duration (ms)"
 msgstr "Duración de las animaciones (ms)"
 
-#: Settings.ui:4584
+#: Settings.ui:4214
 msgid "Display the main panel on"
 msgstr "Mostrar el panel principal en"
 
-#: Settings.ui:4626
+#: Settings.ui:4252
 msgid "Display panels on all monitors"
 msgstr "Mostrar los paneles en todos los espacios de trabajo"
 
-#: Settings.ui:4687
+#: Settings.ui:4307
 msgid "Panel Intellihide"
 msgstr "Ocultación inteligente del panel"
 
-#: Settings.ui:4740
+#: Settings.ui:4355
 msgid "Hide and reveal the panel according to preferences"
 msgstr "Ocultar y mostrar el panel de acuerdo con las preferencias"
 
-#: Settings.ui:4787
+#: Settings.ui:4398
 msgid "Order and positions on monitor"
 msgstr "Orden y posiciones en el monitor"
 
-#: Settings.ui:4808
+#: Settings.ui:4418
 msgid "Apply changes to all monitors"
 msgstr "Aplicar los cambios a todos los monitores"
 
-#: Settings.ui:4868
+#: Settings.ui:4473
 msgid ""
 "Panel thickness\n"
 "(default is 48)"
@@ -969,7 +1002,7 @@ msgstr ""
 "Grosor del panel\n"
 "(48 por defecto)"
 
-#: Settings.ui:4880
+#: Settings.ui:4484
 msgid ""
 "Panel length (%)\n"
 "(default is 100)"
@@ -977,19 +1010,19 @@ msgstr ""
 "Longitud del panel\n"
 "(100 por defecto)"
 
-#: Settings.ui:4925
+#: Settings.ui:4526
 msgid "Anchor"
 msgstr "Anclaje"
 
-#: Settings.ui:4938
+#: Settings.ui:4538
 msgid "Panel screen position"
 msgstr "Posición del panel en la pantalla"
 
-#: Settings.ui:5053
+#: Settings.ui:4646
 msgid "Position"
 msgstr "Posición"
 
-#: Settings.ui:5097
+#: Settings.ui:4684
 msgid ""
 "App Icon Margin\n"
 "(default is 8)"
@@ -997,7 +1030,7 @@ msgstr ""
 "Margen de los íconos\n"
 "(8 por defecto)"
 
-#: Settings.ui:5145
+#: Settings.ui:4728
 msgid ""
 "App Icon Padding\n"
 "(default is 4)"
@@ -1005,190 +1038,194 @@ msgstr ""
 "Relleno de los íconos\n"
 "(4 por defecto)"
 
-#: Settings.ui:5211
+#: Settings.ui:4788
 msgid "Running indicator position"
 msgstr "Posición de los indicadores de ejecución"
 
-#: Settings.ui:5289
+#: Settings.ui:4858
 msgid "Running indicator style (Focused app)"
 msgstr "Estilo de los indicadores de ejecución (aplicación enfocada)"
 
-#: Settings.ui:5323 Settings.ui:5369
+#: Settings.ui:4888 Settings.ui:4930
 msgid "Dots"
 msgstr "Puntos"
 
-#: Settings.ui:5324 Settings.ui:5370
+#: Settings.ui:4889 Settings.ui:4931
 msgid "Squares"
 msgstr "Cuadrados"
 
-#: Settings.ui:5325 Settings.ui:5371
+#: Settings.ui:4890 Settings.ui:4932
 msgid "Dashes"
 msgstr "Guiones"
 
-#: Settings.ui:5326 Settings.ui:5372
+#: Settings.ui:4891 Settings.ui:4933
 msgid "Segmented"
 msgstr "Segmentado"
 
-#: Settings.ui:5327 Settings.ui:5373
+#: Settings.ui:4892 Settings.ui:4934
 msgid "Solid"
 msgstr "Sólido"
 
-#: Settings.ui:5328 Settings.ui:5374
+#: Settings.ui:4893 Settings.ui:4935
 msgid "Ciliora"
 msgstr "Ciliora"
 
-#: Settings.ui:5329 Settings.ui:5375
+#: Settings.ui:4894 Settings.ui:4936
 msgid "Metro"
 msgstr "Metro"
 
-#: Settings.ui:5358
+#: Settings.ui:4920
 msgid "Running indicator style (Unfocused apps)"
 msgstr "Estilo de los indicadores de ejecución (aplicación no enfocada)"
 
-#: Settings.ui:5418
+#: Settings.ui:4974
 msgid "Override panel theme background color "
 msgstr "Cambiar el color de fondo del tema del panel "
 
-#: Settings.ui:5481
+#: Settings.ui:5030
 msgid "Override panel theme background opacity"
 msgstr "Cambiar la opacidad de fondo del tema del panel"
 
-#: Settings.ui:5514
+#: Settings.ui:5060
 msgid "Panel background opacity (%)"
 msgstr "Opacidad del fondo del panel (%)"
 
-#: Settings.ui:5548
+#: Settings.ui:5091
 msgid "Dynamic background opacity"
 msgstr "Opacidad dinámica del fondo"
 
-#: Settings.ui:5558
+#: Settings.ui:5100
 msgid "Change opacity when a window gets close to the panel"
 msgstr "Cambiar la opacidad cuando una ventana se aproxima al panel"
 
-#: Settings.ui:5644
+#: Settings.ui:5179
 msgid "Override panel theme gradient "
 msgstr "Cambiar el gradiente del tema del panel "
 
-#: Settings.ui:5677
+#: Settings.ui:5209
 msgid "Gradient top color and opacity (%)"
 msgstr "Color y opacidad del gradiente superior (%)"
 
-#: Settings.ui:5690
+#: Settings.ui:5221
 msgid "Gradient bottom color and opacity (%)"
 msgstr "Color y opacidad del gradiente inferior (%)"
 
-#: Settings.ui:5800
+#: Settings.ui:5320
 msgid "Animate hovering app icons"
 msgstr "Animar los iconos al cambiar de aplicación"
 
-#: Settings.ui:5861
+#: Settings.ui:5376
 msgid "Style"
 msgstr "Estilo"
 
-#: Settings.ui:5917
+#: Settings.ui:5425
 msgid "Show favorite applications"
 msgstr "Mostrar aplicaciones favoritas"
 
-#: Settings.ui:5930
+#: Settings.ui:5437
 msgid "Show running applications"
 msgstr "Mostrar aplicaciones en ejecución"
 
-#: Settings.ui:5967
+#: Settings.ui:5471
 msgid "Show favorite applications on secondary panels"
 msgstr "Mostrar las aplicaciones favoritas en los paneles secundarios"
 
-#: Settings.ui:6012
+#: Settings.ui:5512
 msgid "Show <i>AppMenu</i> button"
 msgstr "Mostrar el botón <i>Menú de Aplicación</i>"
 
-#: Settings.ui:6026
+#: Settings.ui:5525
 msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
 msgstr ""
 "Barra superior > Mostrar menú de aplicación habilitado en Herramienta de "
 "retoques"
 
-#: Settings.ui:6101
+#: Settings.ui:5593
 msgid "Show window previews on hover"
 msgstr "Mostrar vista rápida de ventanas al pasar con el ratón"
 
-#: Settings.ui:6127
+#: Settings.ui:5617
 msgid "Show tooltip on hover"
 msgstr "Mostrar barra de herramientas al pasar con el ratón"
 
-#: Settings.ui:6172
+#: Settings.ui:5658
 msgid "Isolate Workspaces"
 msgstr "Aislar los espacios de trabajo"
 
-#: Settings.ui:6198
+#: Settings.ui:5682
 msgid "Isolate monitors"
 msgstr "Aislar los monitores"
 
-#: Settings.ui:6243
+#: Settings.ui:5723
 msgid "Click empty space to close overview"
 msgstr "Haga clic en el espacio vacío para cerrar la vista general"
 
-#: Settings.ui:6288
+#: Settings.ui:5764
 msgid "Disable show overview on startup"
 msgstr "Desactivar el overview al inicio"
 
-#: Settings.ui:6320
+#: Settings.ui:5793
 msgid "Ungroup applications"
 msgstr "Desagrupar aplicaciones"
 
-#: Settings.ui:6386
+#: Settings.ui:5868
+msgid "Show notification counter badge"
+msgstr ""
+
+#: Settings.ui:5895
 msgid "Behavior"
 msgstr "Comportamiento"
 
-#: Settings.ui:6428
+#: Settings.ui:5931
 msgid "Behaviour when clicking on the icon of a running application."
 msgstr "Comportamiento al pulsar el ícono de una aplicación en ejecución."
 
-#: Settings.ui:6445
+#: Settings.ui:5947
 msgid "Click action"
 msgstr "Acción de pulsación"
 
-#: Settings.ui:6485
+#: Settings.ui:5984
 msgid "Toggle windows"
 msgstr "Alternar ventanas"
 
-#: Settings.ui:6533
+#: Settings.ui:6028
 msgid "Scroll panel action"
 msgstr "Acción del panel de desplazamiento"
 
-#: Settings.ui:6542
+#: Settings.ui:6036
 msgid "Behavior when mouse scrolling over the panel."
 msgstr "Comportamiento cuando el ratón de desplaza en el panel."
 
-#: Settings.ui:6566
+#: Settings.ui:6058
 msgid "Scroll icon action"
 msgstr "Acción al desplazar iconos"
 
-#: Settings.ui:6575
+#: Settings.ui:6066
 msgid "Behavior when mouse scrolling over an application icon."
 msgstr ""
 "Comportamiento cuando el ratón se desplaza sobre el icono de una aplicación."
 
-#: Settings.ui:6619 Settings.ui:6637
+#: Settings.ui:6107 Settings.ui:6124
 msgid "Do nothing"
 msgstr "No hacer nada"
 
-#: Settings.ui:6620
+#: Settings.ui:6108
 msgid "Switch workspace"
 msgstr "Cambiar espacio de trabajo"
 
-#: Settings.ui:6621 Settings.ui:6638
+#: Settings.ui:6109 Settings.ui:6125
 msgid "Cycle windows"
 msgstr "Alternar entre ventanas"
 
-#: Settings.ui:6622
+#: Settings.ui:6110
 msgid "Change volume"
 msgstr "Cambiar el volumen"
 
-#: Settings.ui:6639
+#: Settings.ui:6126
 msgid "Same as panel"
 msgstr "La misma que el panel"
 
-#: Settings.ui:6705
+#: Settings.ui:6185
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
@@ -1196,15 +1233,15 @@ msgstr ""
 "Habilitar Súper+(0-9) como atajos para activar aplicaciones. También puede "
 "ser usado junto con Mayús. y Ctrl."
 
-#: Settings.ui:6723
+#: Settings.ui:6202
 msgid "Use hotkeys to activate apps"
 msgstr "Usar atajos de teclado para activar aplicaciones"
 
-#: Settings.ui:6789
+#: Settings.ui:6263
 msgid "Action"
 msgstr "Acción"
 
-#: Settings.ui:6833
+#: Settings.ui:6301
 msgid ""
 "Tray Font Size\n"
 "(0 = theme default)"
@@ -1212,7 +1249,7 @@ msgstr ""
 "Tamaño de fuente en la bandeja del sistema\n"
 "(0 = predeterminado)"
 
-#: Settings.ui:6863
+#: Settings.ui:6329
 msgid ""
 "LeftBox Font Size\n"
 "(0 = theme default)"
@@ -1220,7 +1257,7 @@ msgstr ""
 "Tamaño de fuente en la zona izquierda\n"
 "(0 = predeterminado)"
 
-#: Settings.ui:6929
+#: Settings.ui:6389
 msgid ""
 "Tray Item Padding\n"
 "(-1 = theme default)"
@@ -1228,7 +1265,7 @@ msgstr ""
 "Separación en la bandeja del sistema\n"
 "(-1 = predeterminado)"
 
-#: Settings.ui:6959
+#: Settings.ui:6417
 msgid ""
 "Status Icon Padding\n"
 "(-1 = theme default)"
@@ -1236,7 +1273,7 @@ msgstr ""
 "Separación de los íconos de estado\n"
 "(-1 = predeterminado)"
 
-#: Settings.ui:6989
+#: Settings.ui:6445
 msgid ""
 "LeftBox Padding\n"
 "(-1 = theme default)"
@@ -1244,49 +1281,49 @@ msgstr ""
 "Separación en la zona izquierda\n"
 "(-1 = predeterminado)"
 
-#: Settings.ui:7053
+#: Settings.ui:6503
 msgid "Animate switching applications"
 msgstr "Animar al cambiar de aplicación"
 
-#: Settings.ui:7090
+#: Settings.ui:6537
 msgid "Animate launching new windows"
 msgstr "Animar al abrir nuevas ventanas"
 
-#: Settings.ui:7135
+#: Settings.ui:6577
 msgid "Keep original gnome-shell dash (overview)"
 msgstr "Conservar el dash original de gnome-shell (vista principal)"
 
-#: Settings.ui:7160
+#: Settings.ui:6600
 msgid "Force Activities hot corner on primary monitor"
 msgstr ""
 "Forzar las actividades de la esquina 'caliente' en el monitor principal"
 
-#: Settings.ui:7185
+#: Settings.ui:6623
 msgid "Activate panel menu buttons (e.g. date menu) on click only"
 msgstr ""
 "Activar los botones del menú del panel (p.e. menú de fecha) sólo al pulsar"
 
-#: Settings.ui:7210
+#: Settings.ui:6646
 msgid "Keep original gnome-shell top panel"
 msgstr "Conservar el panel superior original de gnome-shell"
 
-#: Settings.ui:7271
+#: Settings.ui:6701
 msgid "App icon secondary (right-click) menu"
 msgstr "Menú secundario (click derecho) de aplicación"
 
-#: Settings.ui:7330
+#: Settings.ui:6756
 msgid "Fine-Tune"
 msgstr "Retoques"
 
-#: Settings.ui:7369
+#: Settings.ui:6790
 msgid "version: "
 msgstr "versión: "
 
-#: Settings.ui:7384
+#: Settings.ui:6804
 msgid "GitHub"
 msgstr "GitHub"
 
-#: Settings.ui:7424
+#: Settings.ui:6838
 msgid ""
 "Use the buttons below to create a settings file from your current "
 "preferences that can be imported on a different machine."
@@ -1294,19 +1331,19 @@ msgstr ""
 "Usar los botones de abajo para crear el fichero de configuración con tus "
 "preferenciasactuales para poder ser importadas de otra máquina."
 
-#: Settings.ui:7442
+#: Settings.ui:6855
 msgid "Export and import settings"
 msgstr "Exportar e importar configuración"
 
-#: Settings.ui:7452
+#: Settings.ui:6865
 msgid "Export to file"
 msgstr "Exportar a un fichero"
 
-#: Settings.ui:7464
+#: Settings.ui:6876
 msgid "Import from file"
 msgstr "Importar de un fichero"
 
-#: Settings.ui:7490
+#: Settings.ui:6900
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
@@ -1317,6 +1354,12 @@ msgstr ""
 "\">Licencia Pública General de GNU, versión 2 o posterior</a> para obtener "
 "más detalles.</span>"
 
-#: Settings.ui:7504
+#: Settings.ui:6913
 msgid "About"
 msgstr "Acerca de"
+
+#~ msgid "Show Details"
+#~ msgstr "Mostrar detalles"
+
+#~ msgid "New Window"
+#~ msgstr "Ventana nueva"
