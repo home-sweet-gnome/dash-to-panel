@@ -198,7 +198,7 @@ msgstr "Nowe okno"
 
 #: appIcons.js:1398 appIcons.js:1458 appIcons.js:1460 Settings.ui.h:10
 msgid "Quit"
-msgstr "Zamknięcie okna"
+msgstr "Zakończ"
 
 #: appIcons.js:1460
 msgid "Windows"
