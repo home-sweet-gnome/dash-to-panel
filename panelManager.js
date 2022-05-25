@@ -188,7 +188,7 @@ var PanelManager = class {
                 'monitors-changed', 
                 () => {
                     if (Main.layoutManager.primaryMonitor) {
-                        this._saveMonitors(true);
+                        this._saveMonitors();
                         this._reset();
                     }
                 }
@@ -350,35 +350,31 @@ var PanelManager = class {
         }
     }
 
-    _saveMonitors(savePrimaryChange) {
+    _saveMonitors() {
         //Mutter meta_monitor_manager_get_primary_monitor (global.display.get_primary_monitor()) doesn't return the same
         //monitor as GDK gdk_screen_get_primary_monitor (imports.gi.Gdk.Screen.get_default().get_primary_monitor()).
         //Since the Mutter function is what's used in gnome-shell and we can't access it from the settings dialog, store 
         //the monitors information in a setting so we can use the same monitor indexes as the ones in gnome-shell
         let keyMonitors = 'available-monitors';
+        let keyPrimary = 'primary-monitor';
         let primaryIndex = Main.layoutManager.primaryIndex;
         let newMonitors = [primaryIndex];
+        let savedMonitors = Me.settings.get_value(keyMonitors).deep_unpack();
+        let dtpPrimaryIndex = Me.settings.get_int(keyPrimary);
+        let newDtpPrimaryIndex = primaryIndex;
 
         Main.layoutManager.monitors.filter(m => m.index != primaryIndex).forEach(m => newMonitors.push(m.index));
-        
-        if (savePrimaryChange) {
-            let keyPrimary = 'primary-monitor';
-            let savedMonitors = Me.settings.get_value(keyMonitors).deep_unpack();
-            let dtpPrimaryIndex = Me.settings.get_int(keyPrimary);
-            let newDtpPrimaryIndex = primaryIndex;
 
-            if (savedMonitors[0] != dtpPrimaryIndex) {
-                // dash to panel primary wasn't the gnome-shell primary (first index of available-monitors)
-                let savedIndex = savedMonitors.indexOf(dtpPrimaryIndex)
+        if (savedMonitors[0] != dtpPrimaryIndex) {
+            // dash to panel primary wasn't the gnome-shell primary (first index of available-monitors)
+            let savedIndex = savedMonitors.indexOf(dtpPrimaryIndex)
 
-                // default to primary if it was set to a monitor that is no longer available
-                newDtpPrimaryIndex = newMonitors[savedIndex];
-                newDtpPrimaryIndex = newDtpPrimaryIndex == null ? primaryIndex : newDtpPrimaryIndex;
-            }
-            
-            Me.settings.set_int(keyPrimary, newDtpPrimaryIndex);
+            // default to primary if it was set to a monitor that is no longer available
+            newDtpPrimaryIndex = newMonitors[savedIndex];
+            newDtpPrimaryIndex = newDtpPrimaryIndex == null ? primaryIndex : newDtpPrimaryIndex;
         }
-
+        
+        Me.settings.set_int(keyPrimary, newDtpPrimaryIndex);
         Me.settings.set_value(keyMonitors, new GLib.Variant('ai', newMonitors));
     }
 
