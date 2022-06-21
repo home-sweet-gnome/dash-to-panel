@@ -140,6 +140,9 @@ var PanelManager = class {
         this._oldUpdateWorkspacesViews = Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews;
         Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._newUpdateWorkspacesViews.bind(Main.overview._overview._controls._workspacesDisplay);
 
+        this._oldSetPrimaryWorkspaceVisible = Main.overview._overview._controls._workspacesDisplay.setPrimaryWorkspaceVisible
+        Main.overview._overview._controls._workspacesDisplay.setPrimaryWorkspaceVisible = this._newSetPrimaryWorkspaceVisible.bind(Main.overview._overview._controls._workspacesDisplay);
+
         LookingGlass.LookingGlass.prototype._oldResize = LookingGlass.LookingGlass.prototype._resize;
         LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize;
 
@@ -274,6 +277,7 @@ var PanelManager = class {
         Main.layoutManager._updatePanelBarrier();
 
         Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
+        Main.overview._overview._controls._workspacesDisplay.setPrimaryWorkspaceVisible = this._oldSetPrimaryWorkspaceVisible;
 
         LookingGlass.LookingGlass.prototype._resize = LookingGlass.LookingGlass.prototype._oldResize;
         delete LookingGlass.LookingGlass.prototype._oldResize;
@@ -315,6 +319,18 @@ var PanelManager = class {
 
             Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
         }
+    }
+
+    _newSetPrimaryWorkspaceVisible(visible) {
+        if (this._primaryVisible === visible)
+            return;
+
+        this._primaryVisible = visible;
+
+        const primaryIndex = Main.overview._overview._controls._workspacesDisplay._primaryIndex;
+        const primaryWorkspace = this._workspacesViews[primaryIndex];
+        if (primaryWorkspace)
+            primaryWorkspace.visible = visible;
     }
 
     _newUpdateWorkspacesViews() {
