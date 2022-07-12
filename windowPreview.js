@@ -932,17 +932,18 @@ var Preview = GObject.registerClass({
             height: 0
         });
 
-        let ctxMenuData = Main.wm._windowMenuManager._manager._menus[0];
+        let menu = Main.wm._windowMenuManager._manager._menus[0];
 
-        ctxMenuData.menu.connect('open-state-changed', () => this._previewMenu.menu.sync_hover());
+        menu.connect('open-state-changed', () => this._previewMenu.menu.sync_hover());
+        this._previewMenu.menu.sync_hover();
 
         if (this.window.get_workspace() != currentWorkspace) {
             let menuItem = new PopupMenu.PopupMenuItem(_('Move to current Workspace') + ' [' + (currentWorkspace.index() + 1) + ']');
-            let menuItems = ctxMenuData.menu.box.get_children();
+            let menuItems = menu.box.get_children();
             let insertIndex = Utils.findIndex(menuItems, c => c._delegate instanceof PopupMenu.PopupSeparatorMenuItem);
 
             insertIndex = insertIndex >= 0 ? insertIndex : menuItems.length - 1;
-            ctxMenuData.menu.addMenuItem(menuItem, insertIndex);
+            menu.addMenuItem(menuItem, insertIndex);
             menuItem.connect('activate', () => this.window.change_workspace(currentWorkspace));
         }
     }
