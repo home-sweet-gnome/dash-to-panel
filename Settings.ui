@@ -4888,9 +4888,11 @@
                                       <item id="DOTS" translatable="yes">Dots</item>
                                       <item id="SQUARES" translatable="yes">Squares</item>
                                       <item id="DASHES" translatable="yes">Dashes</item>
+                                      <item id="CAPSULES" translatable="yes">Capsules</item>
                                       <item id="SEGMENTED" translatable="yes">Segmented</item>
                                       <item id="SOLID" translatable="yes">Solid</item>
                                       <item id="CILIORA" translatable="yes">Ciliora</item>
+                                      <item id="CILIORAROUND" translatable="yes">Ciliora Round</item>
                                       <item id="METRO" translatable="yes">Metro</item>
                                     </items>
                                   </object>

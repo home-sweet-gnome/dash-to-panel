@@ -77,8 +77,10 @@ let DOT_STYLE = {
     DOTS: "DOTS",
     SQUARES: "SQUARES",
     DASHES: "DASHES",
+    CAPSULES: "CAPSULES",
     SEGMENTED: "SEGMENTED",
     CILIORA: "CILIORA",
+    CILIORAROUND: "CILIORAROUND",
     METRO: "METRO",
     SOLID: "SOLID"
 }
@@ -594,7 +596,7 @@ var TaskbarAppIcon = GObject.registerClass({
                 let backgroundSize = containerWidth + "px " + 
                                      (containerWidth - (pos == DOT_POSITION.BOTTOM ? highlightMargin : 0)) + "px;";
 
-                if (focusedDotStyle == DOT_STYLE.CILIORA || focusedDotStyle == DOT_STYLE.SEGMENTED)
+                if (focusedDotStyle == DOT_STYLE.CILIORA || focusedDotStyle == DOT_STYLE.SEGMENTED || focusedDotStyle == DOT_STYLE.CILIORAROUND)
                     highlightMargin += 1;
 
                 if (this._nWindows > 1 && focusedDotStyle == DOT_STYLE.METRO) {
@@ -821,6 +823,7 @@ var TaskbarAppIcon = GObject.registerClass({
     _isWideDotStyle(dotStyle) {
         return dotStyle == DOT_STYLE.SEGMENTED || 
             dotStyle == DOT_STYLE.CILIORA || 
+            dotStyle == DOT_STYLE.CILIORAROUND ||
             dotStyle == DOT_STYLE.METRO || 
             dotStyle == DOT_STYLE.SOLID;
     }
@@ -1183,6 +1186,7 @@ var TaskbarAppIcon = GObject.registerClass({
         } else {
             let spacing = Math.ceil(areaSize / 18); // separation between the indicators
             let length;
+            let radius;
             let dist;
             let indicatorSize;
             let translate;
@@ -1207,8 +1211,24 @@ var TaskbarAppIcon = GObject.registerClass({
                         cr.rectangle.apply(cr, (isHorizontalDots ? [dist, 0] : [0, dist]).concat([size, size]));
                     };
                     break;
+                case DOT_STYLE.CILIORAROUND:
+                    spacing = size;
+                    radius = size / 2;
+                    length = areaSize - (size * (n - 1)) - (spacing * (n - 1));
+                    translate = () => cr.translate(startX, startY);
+                    preDraw = () => {
+                        cr.newSubPath();
+                        cr.arc.apply(cr, (isHorizontalDots ? [radius, radius] : [radius, radius]).concat([radius, 0, 2 * Math.PI]));
+                        cr.arc.apply(cr, (isHorizontalDots ? [length - radius, radius] : [radius, length - radius]).concat([radius, 0, 2 * Math.PI]));
+                        cr.rectangle.apply(cr, (isHorizontalDots ? [radius, 0, length - size, size] : [0, radius, size, length - size]));
+                    };
+                    draw = i => {
+                        dist = length + (i * spacing) + ((i - 1) * size) + radius;
+                        cr.arc.apply(cr, (isHorizontalDots ? [dist, radius] : [radius, dist]).concat([radius, 0, 2 * Math.PI]));
+                    };
+                    break;
                 case DOT_STYLE.DOTS:
-                    let radius = size / 2;
+                    radius = size / 2;
 
                     translate = () => {
                         indicatorSize = Math.floor((areaSize - n * size - (n - 1) * spacing) / 2);
@@ -1236,6 +1256,20 @@ var TaskbarAppIcon = GObject.registerClass({
                         cr.translate.apply(cr, isHorizontalDots ? [indicatorSize, startY] : [startX, indicatorSize]);
                     }
                     draw = i => drawDash(i, length);
+                    break;
+                case DOT_STYLE.CAPSULES:
+                    radius = size / 2;
+                    length = Math.floor(areaSize / MAX_INDICATORS) - spacing;
+                    translate = () => {
+                        indicatorSize = Math.floor((areaSize - n * length - (n - 1) * spacing) / 2);
+                        cr.translate.apply(cr, isHorizontalDots ? [indicatorSize, startY] : [startX, indicatorSize]);
+                    }
+                    draw = i => {
+                        dist = i * length + i * spacing;
+                        cr.arc.apply(cr, (isHorizontalDots ? [dist + radius, radius] : [radius, dist + radius]).concat([radius, 0, 2 * Math.PI]));
+                        cr.arc.apply(cr, (isHorizontalDots ? [dist + length - radius, radius] : [radius, dist + length - radius]).concat([radius, 0, 2 * Math.PI]));
+                        cr.rectangle.apply(cr, (isHorizontalDots ? [dist + radius, 0, length - size, size] : [0, dist + radius, size, length - size]));
+                    };
                     break;
                 case DOT_STYLE.SEGMENTED:
                     length = Math.ceil((areaSize - ((n - 1) * spacing)) / n);
@@ -1927,3 +1961,4 @@ var getIconContainerStyle = function(isVertical) {
 
     return style;
 }
+
