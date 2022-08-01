@@ -1170,6 +1170,11 @@ var Panel = GObject.registerClass({
 
             this._setShowDesktopButtonStyle();
 
+            this._showDesktopButton.connect('touch-event', (actor, event) => {
+              if (event.type() == Clutter.EventType.TOUCH_BEGIN) {
+                this._onShowDesktopButtonPress();
+              }
+            });
             this._showDesktopButton.connect('button-press-event', () => this._onShowDesktopButtonPress());
             this._showDesktopButton.connect('enter-event', () => {
                 this._showDesktopButton.add_style_class_name(this._getBackgroundBrightness() ?
