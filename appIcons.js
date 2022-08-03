@@ -1023,7 +1023,7 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _launchNewInstance() {
-        if (this.app.can_open_new_window()) {
+        if (this.app.can_open_new_window() && this.app.state == Shell.AppState.RUNNING) {
             let appActions = this.app.get_app_info().list_actions();
             let newWindowIndex = appActions.indexOf('new-window');
 
