@@ -295,7 +295,8 @@ var PanelStyle = class {
             delete actor._dtp_style_overrides;
         }
 
-        if (actor.has_style_class_name('panel-button')) {
+        if (actor.has_style_class_name !== undefined
+                && actor.has_style_class_name('panel-button')) {
             this._refreshPanelButton(actor);
         }
     }
