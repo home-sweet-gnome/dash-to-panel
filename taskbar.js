@@ -928,6 +928,8 @@ var Taskbar = class {
             return;
         }
 
+        this.dtpPanel._initProgressManager();
+
         //get the currently displayed appIcons
         let currentAppIcons = this._getTaskbarIcons();
         let expectedAppInfos = this.getAppInfos();

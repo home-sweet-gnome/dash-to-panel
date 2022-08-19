@@ -273,7 +273,7 @@ var PanelStyle = class {
     }
     
     _overrideStyle(actor, styleLine, operationIdx) {
-        if (actor._dtp_original_inline_style === undefined) {
+        if (actor._dtp_original_inline_style === undefined && actor.get_style !== undefined) {
             actor._dtp_original_inline_style = actor.get_style();
         }
 
@@ -285,7 +285,9 @@ var PanelStyle = class {
         let newStyleLine = '';
         for(let i in actor._dtp_style_overrides)
             newStyleLine += actor._dtp_style_overrides[i] + '; ';
-        actor.set_style(newStyleLine + (actor._dtp_original_inline_style || ''));
+        if (actor.set_style !== undefined) {
+            actor.set_style(newStyleLine + (actor._dtp_original_inline_style || ''));
+        }
      }
 
     _restoreOriginalStyle(actor) {
