@@ -98,6 +98,8 @@ var Panel = GObject.registerClass({
         this._elementGroups = [];
         this.cornerSize = 0;
 
+        let systemMenuInfo = Utils.getSystemMenuInfo();
+
         if (isStandalone) {
             this.panel = new SecondaryPanel({ name: 'panel', reactive: true });
             this.statusArea = this.panel.statusArea = {};
@@ -121,7 +123,7 @@ var Panel = GObject.registerClass({
 
             this.menuManager = this.panel.menuManager = new PopupMenu.PopupMenuManager(this.panel);
 
-            this._setPanelMenu('aggregateMenu', GSPanel.AggregateMenu, this.panel);
+            this._setPanelMenu(systemMenuInfo.name, systemMenuInfo.constructor, this.panel);
             this._setPanelMenu('dateMenu', DateMenu.DateMenuButton, this.panel);
             this._setPanelMenu('activities', GSPanel.ActivitiesButton, this.panel);
 
@@ -135,7 +137,7 @@ var Panel = GObject.registerClass({
 
             panelBoxes.forEach(p => this[p] = Main.panel[p]);
 
-            ['activities', 'aggregateMenu', 'dateMenu'].forEach(b => {
+            ['activities', systemMenuInfo.name, 'dateMenu'].forEach(b => {
                 let container = this.statusArea[b].container;
                 let parent = container.get_parent();
 
@@ -174,8 +176,10 @@ var Panel = GObject.registerClass({
     }
 
     enable () {
-        if (this.statusArea.aggregateMenu) {
-            Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll = 1;
+        let { name: systemMenuName } = Utils.getSystemMenuInfo();
+
+        if (this.statusArea[systemMenuName]) {
+            Utils.getIndicators(this.statusArea[systemMenuName]._volume)._dtpIgnoreScroll = 1;
         }
 
         this.geom = this.getGeometry();
@@ -378,11 +382,13 @@ var Panel = GObject.registerClass({
         this._setVertical(this._centerBox, false);
         this._setVertical(this._rightBox, false);
 
+        let { name: systemMenuName } = Utils.getSystemMenuInfo();
+
         if (!this.isStandalone) {
             ['vertical', 'horizontal', 'dashtopanelMainPanel'].forEach(c => this.panel.remove_style_class_name(c));
 
             if (!Main.sessionMode.isLocked) {
-                [['activities', 0], ['aggregateMenu', -1], ['dateMenu', 0]].forEach(b => {
+                [['activities', 0], [systemMenuName, -1], ['dateMenu', 0]].forEach(b => {
                     let container = this.statusArea[b[0]].container;
                     let originalParent = container._dtpOriginalParent;
     
@@ -399,7 +405,7 @@ var Panel = GObject.registerClass({
 
             this._setShowDesktopButton(false);
 
-            delete Utils.getIndicators(this.statusArea.aggregateMenu._volume)._dtpIgnoreScroll;
+            delete Utils.getIndicators(this.statusArea[systemMenuName]._volume)._dtpIgnoreScroll;
 
             if (DateMenu.IndicatorPad) {
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
@@ -411,7 +417,7 @@ var Panel = GObject.registerClass({
             this.panel._delegate = this.panel;
         } else {
             this._removePanelMenu('dateMenu');
-            this._removePanelMenu('aggregateMenu');
+            this._removePanelMenu(systemMenuName);
             this._removePanelMenu('activities');
         }
 
@@ -776,7 +782,7 @@ var Panel = GObject.registerClass({
         setMap(Pos.TASKBAR, this.taskbar.actor);
         setMap(Pos.CENTER_BOX, this._centerBox);
         setMap(Pos.DATE_MENU, this.statusArea.dateMenu.container);
-        setMap(Pos.SYSTEM_MENU, this.statusArea.aggregateMenu.container);
+        setMap(Pos.SYSTEM_MENU, this.statusArea[Utils.getSystemMenuInfo().name].container);
         setMap(Pos.RIGHT_BOX, this._rightBox);
         setMap(Pos.DESKTOP_BTN, this._showDesktopButton);
     }
@@ -1316,7 +1322,7 @@ var Panel = GObject.registerClass({
                 var proto = Volume.Indicator.prototype;
                 var func = proto._handleScrollEvent || proto.vfunc_scroll_event || proto._onScrollEvent;
     
-                func.call(Main.panel.statusArea.aggregateMenu._volume, 0, event);
+                func.call(Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volume, 0, event);
             } else {
                 return;
             }

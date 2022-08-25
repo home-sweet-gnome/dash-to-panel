@@ -235,7 +235,7 @@ var PanelStyle = class {
         /*recurse actors */
         if(this._rightBoxOperations.length) {
             // add the system menu as we move it from the rightbox to the panel to position it independently
-            let children = this.panel._rightBox.get_children().concat([this.panel.statusArea.aggregateMenu.container]);
+            let children = this.panel._rightBox.get_children().concat([this.panel.statusArea[Utils.getSystemMenuInfo().name].container]);
             for(let i in children)
                 this._recursiveApply(children[i], this._rightBoxOperations, restore);
         }

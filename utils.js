@@ -31,9 +31,10 @@ const Meta = imports.gi.Meta;
 const Shell = imports.gi.Shell;
 const St = imports.gi.St;
 const Mainloop = imports.mainloop;
+const Config = imports.misc.config;
+const Util = imports.misc.util;
 const Main = imports.ui.main;
 const MessageTray = imports.ui.messageTray;
-const Util = imports.misc.util;
 
 var TRANSLATION_DOMAIN = imports.misc.extensionUtils.getCurrentExtension().metadata['gettext-domain'];
 var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
@@ -206,6 +207,19 @@ var DisplayWrapper = {
         return global.screen || Meta.MonitorManager.get();
     }
 };
+
+var getSystemMenuInfo = function() {
+    if (Config.PACKAGE_VERSION < '43')
+        return {
+            name: 'aggregateMenu',
+            constructor: imports.ui.panel.AggregateMenu
+        };
+
+    return {
+        name: 'quickSettings',
+        constructor: imports.ui.panel.QuickSettings
+    };
+}
 
 var getCurrentWorkspace = function() {
     return DisplayWrapper.getWorkspaceManager().get_active_workspace();
