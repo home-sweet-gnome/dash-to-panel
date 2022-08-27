@@ -403,7 +403,7 @@ var Taskbar = class {
             this.showFavorites = Me.settings.get_boolean('show-favorites') && 
                                  (this.dtpPanel.isPrimary || Me.settings.get_boolean('show-favorites-all-monitors'))
             this.showRunningApps = Me.settings.get_boolean('show-running-apps')
-            this.allowSplitApps = this.usingLaunchers || !this.showFavorites
+            this.allowSplitApps = this.usingLaunchers || (!this.isGroupApps && !this.showFavorites)
         }
 
         setAttributes()
