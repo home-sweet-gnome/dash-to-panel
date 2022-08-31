@@ -1319,10 +1319,14 @@ var Panel = GObject.registerClass({
                 
                 Utils.activateSiblingWindow(windows, direction);
             } else if (scrollAction === 'CHANGE_VOLUME' && !event.is_pointer_emulated()) {
-                var proto = Volume.Indicator.prototype;
-                var func = proto._handleScrollEvent || proto.vfunc_scroll_event || proto._onScrollEvent;
-    
-                func.call(Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volume, 0, event);
+                let proto = Volume.Indicator.prototype;
+                let func = proto._handleScrollEvent || proto.vfunc_scroll_event || proto._onScrollEvent;
+                let indicator = Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volume;
+
+                if (indicator.quickSettingsItems)
+                    func.call(null, indicator.quickSettingsItems[0], event);
+                else
+                    func.call(indicator, 0, event);
             } else {
                 return;
             }
