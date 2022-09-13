@@ -1324,7 +1324,8 @@ var Panel = GObject.registerClass({
                 let indicator = Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volume;
 
                 if (indicator.quickSettingsItems)
-                    func.call(null, indicator.quickSettingsItems[0], event);
+                    // new quick settings menu in gnome-shell > 42
+                    func(indicator.quickSettingsItems[0], event);
                 else
                     func.call(indicator, 0, event);
             } else {
