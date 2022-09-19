@@ -67,13 +67,15 @@ var PanelManager = class {
     enable(reset) {
         let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
 
+        this.allPanels = [];
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
         this.proximityManager = new Proximity.ProximityManager();
 
-        this.primaryPanel = this._createPanel(this.dtpPrimaryMonitor, Me.settings.get_boolean('stockgs-keep-top-panel'));
-        this.allPanels = [ this.primaryPanel ];
-        
-        this.overview.enable(this.primaryPanel);
+        if (this.dtpPrimaryMonitor) {
+            this.primaryPanel = this._createPanel(this.dtpPrimaryMonitor, Me.settings.get_boolean('stockgs-keep-top-panel'));
+            this.allPanels.push(this.primaryPanel);
+            this.overview.enable(this.primaryPanel);
+        }
 
         if (Me.settings.get_boolean('multi-monitors')) {
             Main.layoutManager.monitors.filter(m => m != this.dtpPrimaryMonitor).forEach(m => {
