@@ -321,6 +321,10 @@ var Intellihide = class {
 
         if (fromRevealMechanism) {
             let mouseBtnIsPressed = global.get_pointer()[2] & Clutter.ModifierType.BUTTON1_MASK;
+
+            if (!Me.settings.get_boolean('intellihide-show-in-windows')) {
+                return false;
+            }
             
             //the user is trying to reveal the panel
             if (this._monitor.inFullscreen && !mouseBtnIsPressed) {

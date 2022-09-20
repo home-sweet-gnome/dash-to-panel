@@ -1772,11 +1772,10 @@
               </object>
             </child>
             <child>
-              <object class="GtkListBoxRow" id="listboxrow_intellihide_show_in_fullscreen">
-                <property name="width_request">100</property>
+              <object class="GtkListBoxRow" id="listboxrow_intellihide_show_in_windows">
                 <property name="visible">True</property>
                 <child>
-                  <object class="GtkGrid" id="grid_intellihide_show_in_fullscreen">
+                  <object class="GtkGrid" id="grid_intellihide_show_in_windows">
                     <property name="visible">True</property>
                     <property name="margin_start">12</property>
                     <property name="margin_end">12</property>
@@ -1785,10 +1784,10 @@
                     <property name="row_spacing">12</property>
                     <property name="column_spacing">32</property>
                     <child>
-                      <object class="GtkLabel" id="intellihide_show_in_fullscreen_label">
+                      <object class="GtkLabel" id="intellihide_show_in_windows_label">
                         <property name="visible">True</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">Allow the panel to be revealed while in fullscreen mode</property>
+                        <property name="label" translatable="yes">Allow the panel to be revealed when it is obstructed by windows</property>
                         <property name="use_markup">True</property>
                         <property name="xalign">0</property>
                         <layout>
@@ -1798,13 +1797,49 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkSwitch" id="intellihide_show_in_fullscreen_switch">
+                      <object class="GtkSwitch" id="intellihide_show_in_windows_switch">
                         <property name="visible">True</property>
                         <property name="halign">end</property>
                         <property name="valign">center</property>
                         <layout>
                           <property name="row">0</property>
                           <property name="column">1</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkGrid" id="intellihide_show_in_windows_options">
+                        <property name="visible">True</property>
+                        <property name="margin_start">12</property>
+                        <property name="row_spacing">4</property>
+                        <child>
+                          <object class="GtkLabel" id="intellihide_show_in_fullscreen_label">
+                            <property name="visible">True</property>
+                            <property name="hexpand">True</property>
+                            <property name="label" translatable="yes">Allow the panel to be revealed while in fullscreen mode</property>
+                            <property name="use_markup">True</property>
+                            <property name="xalign">0</property>
+                            <layout>
+                              <property name="row">0</property>
+                              <property name="column">0</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSwitch" id="intellihide_show_in_fullscreen_switch">
+                            <property name="visible">True</property>
+                            <property name="halign">end</property>
+                            <property name="valign">center</property>
+                            <layout>
+                              <property name="row">0</property>
+                              <property name="column">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <layout>
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                          <property name="column-span">2</property>
                         </layout>
                       </object>
                     </child>
