@@ -345,12 +345,15 @@ var Intellihide = class {
             isGrab = GrabHelper._grabHelperStack.some(gh => gh._owner == this._dtpPanel.panel)
         else if (global.stage.get_grab_actor) {
             // gnome-shell >= 42
-            let sourceActor = global.stage.get_grab_actor()?._sourceActor
+            let grabActor = global.stage.get_grab_actor()
+            let sourceActor = grabActor?._sourceActor || grabActor
 
-            isGrab = sourceActor && (sourceActor == Main.layoutManager.dummyCursor || 
-                     this._dtpPanel.panel.contains(sourceActor))
-        } 
-        
+            isGrab = sourceActor && 
+                     (sourceActor == Main.layoutManager.dummyCursor || 
+                      sourceActor.has_style_class_name('panel-menu') || 
+                      this._dtpPanel.panel.contains(sourceActor))
+        }
+
         if (isGrab)
             //there currently is a grab on a child of the panel, check again soon to catch its release
             this._timeoutsHandler.add([T1, CHECK_GRAB_MS, () => this._queueUpdatePanelPosition()]);
