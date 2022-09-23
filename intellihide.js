@@ -350,7 +350,7 @@ var Intellihide = class {
 
             isGrab = sourceActor && 
                      (sourceActor == Main.layoutManager.dummyCursor || 
-                      sourceActor.has_style_class_name('panel-menu') || 
+                      this._dtpPanel.statusArea.quickSettings?.menu.actor.contains(sourceActor) || 
                       this._dtpPanel.panel.contains(sourceActor))
         }
 
