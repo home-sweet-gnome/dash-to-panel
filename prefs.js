@@ -468,7 +468,7 @@ const Preferences = new Lang.Class({
                 fileImage.set_from_icon_name('view-app-grid-symbolic');
                 let picturesFolder = Gio.File.new_for_path(GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES));
                 fileChooser.set_file(picturesFolder);
-                fileChooserButton.set_label("(None)");
+                fileChooserButton.set_label(_("(None)"));
             }
 
             this._settings.set_string('show-apps-icon-file', newIconPath || '');
