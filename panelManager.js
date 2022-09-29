@@ -202,7 +202,13 @@ var PanelManager = class {
         );
 
         panelBoxes.forEach(c => this._signalsHandler.add(
-            [Main.panel[c], 'actor-added', (parent, child) => this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, this.primaryPanel.getPosition())]
+            [
+                Main.panel[c], 
+                'actor-added', 
+                (parent, child) => 
+                    this.primaryPanel && 
+                    this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, this.primaryPanel.getPosition())
+            ]
         ));
 
         this._setKeyBindings(true);
@@ -213,7 +219,7 @@ var PanelManager = class {
     }
 
     disable(reset) {
-        this.overview.disable();
+        this.primaryPanel && this.overview.disable();
         this.proximityManager.destroy();
 
         this.allPanels.forEach(p => {
