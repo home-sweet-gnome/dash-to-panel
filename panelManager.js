@@ -75,6 +75,8 @@ var PanelManager = class {
             this.primaryPanel = this._createPanel(this.dtpPrimaryMonitor, Me.settings.get_boolean('stockgs-keep-top-panel'));
             this.allPanels.push(this.primaryPanel);
             this.overview.enable(this.primaryPanel);
+
+            this.setFocusedMonitor(this.dtpPrimaryMonitor);
         }
 
         if (Me.settings.get_boolean('multi-monitors')) {
@@ -115,7 +117,6 @@ var PanelManager = class {
         }
 
         this._updatePanelElementPositions();
-        this.setFocusedMonitor(this.dtpPrimaryMonitor);
         
         if (reset) return;
 
