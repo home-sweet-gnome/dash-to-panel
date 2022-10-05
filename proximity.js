@@ -250,6 +250,11 @@ var ProximityManager = class {
     }
 
     _checkProximity(metaWindow, watch) {
-        return metaWindow.get_frame_rect().overlap(watch.rect);
+        let windowRect = metaWindow.get_frame_rect();
+
+        return windowRect.overlap(watch.rect) && 
+               ((!watch.threshold[0] && !watch.threshold[1]) || 
+                metaWindow.get_monitor() == watch.monitorIndex || 
+                windowRect.overlap(global.display.get_monitor_geometry(watch.monitorIndex)));
     }
 };
