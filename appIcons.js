@@ -1528,19 +1528,13 @@ function getIconPadding(monitorIndex) {
     }
 
     _quitFromTaskbar() {
-        if (this.sourceActor.window)
-            // ungrouped applications
-            this.sourceActor.window.delete(global.get_current_time());
-        else {
-            let scopedWindows = getInterestingWindows(this._app, this.sourceActor.dtpPanel.monitor)
-            
-            if (scopedWindows.length == this._app.get_windows().length)
-                this._app.request_quit();
-            else
-                for (let i = 0; i < scopedWindows.length; i++) {
-                    scopedWindows[i].delete(global.get_current_time());
-                }
-        }
+        let time = global.get_current_time()
+        let windows = 
+            this.sourceActor.window ? // ungrouped applications
+            [this.sourceActor.window] : 
+            getInterestingWindows(this._app, this.sourceActor.dtpPanel.monitor)
+
+        windows.forEach(w => w.delete(time))
     }
 };
 
