@@ -1533,8 +1533,12 @@ function getIconPadding(monitorIndex) {
             this.sourceActor.window ? // ungrouped applications
             [this.sourceActor.window] : 
             getInterestingWindows(this._app, this.sourceActor.dtpPanel.monitor)
-
-        windows.forEach(w => w.delete(time))
+        
+        if (windows.length == this._app.get_windows().length)
+            this._app.request_quit()
+            
+        Mainloop.idle_add(() => 
+            windows.forEach((w) => !!w.get_compositor_private() && w.delete(time++)))
     }
 };
 
