@@ -128,11 +128,8 @@ var ProximityManager = class {
                 }
             ],
             [
-                global.window_group,
-                [
-                    'actor-added',
-                    'actor-removed'
-                ],
+                global.display, 
+                'restacked', 
                 () => this._queueUpdate()
             ]
         );
