@@ -40,6 +40,7 @@ let panelManager;
 let extensionChangedHandler;
 let disabledUbuntuDock;
 let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
+let delayedExtensionHandler;
 
 function init() {
     this._realHasOverview = Main.sessionMode.hasOverview;
@@ -51,6 +52,11 @@ function init() {
 }
 
 function enable() {
+    // Enable the extension when there is at least one monitor available,
+    // otherwise the extension crashes while accessing monitor objects.
+    let monitorManager = Meta.MonitorManager.get();
+    delayedExtensionHandler = monitorManager.connect('monitors-changed', _enable);
+
     // The Ubuntu Dock extension might get enabled after this extension
     extensionChangedHandler = extensionSystem.connect('extension-state-changed', (data, extension) => {
         if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
@@ -61,7 +67,7 @@ function enable() {
     //create a global object that can emit signals and conveniently expose functionalities to other extensions 
     global.dashToPanel = {};
     Signals.addSignalMethods(global.dashToPanel);
-    
+
     _enable();
 }
 
@@ -87,6 +93,9 @@ function _enable() {
     }
 
     if (panelManager) return; //already initialized
+
+    // Wait to enable the extension, till there is a primary monitor available.
+    if (global.display.get_primary_monitor() < 0) return;
 
     Me.settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
     Me.desktopSettings = ExtensionUtils.getSettings('org.gnome.desktop.interface');
@@ -135,6 +144,9 @@ function disable(reset) {
     );
 
     if (!reset) {
+        let monitorManager = Meta.MonitorManager.get();
+        monitorManager.disconnect(delayedExtensionHandler);
+
         extensionSystem.disconnect(extensionChangedHandler);
         delete global.dashToPanel;
 
