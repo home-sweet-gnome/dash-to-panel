@@ -98,6 +98,7 @@ var Intellihide = class {
             );
         }
 
+        this._panelManager._setDesktopIconsMargins();
         this._setRevealMechanism();
         this._queueUpdatePanelPosition();
     }

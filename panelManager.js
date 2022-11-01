@@ -120,8 +120,6 @@ var PanelManager = class {
         
         if (reset) return;
 
-        this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass();
-
         this._oldUpdatePanelBarrier = Main.layoutManager._updatePanelBarrier;
         Main.layoutManager._updatePanelBarrier = (panel) => {
             let panelUpdates = panel ? [panel] : this.allPanels;
@@ -300,7 +298,8 @@ var PanelManager = class {
     }
 
     _setDesktopIconsMargins() {
-        this._desktopIconsUsableArea?.resetMargins();
+        if (!this._desktopIconsUsableArea)
+            this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass();
         this.allPanels.forEach(p => {
             switch(p.geom.position) {
                 case St.Side.TOP:
