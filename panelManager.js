@@ -293,7 +293,7 @@ var PanelManager = class {
         delete LookingGlass.LookingGlass.prototype._oldOpen
 
         delete Main.panel.style;
-        this._desktopIconsUsableArea.destroy();
+        this._desktopIconsUsableArea?.destroy();
         this._desktopIconsUsableArea = null;
     }
 
@@ -303,16 +303,16 @@ var PanelManager = class {
         this.allPanels.forEach(p => {
             switch(p.geom.position) {
                 case St.Side.TOP:
-                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, p.geom.h, 0, 0, 0);
+                    this._desktopIconsUsableArea.setMargins(p.monitor.index, p.geom.h, 0, 0, 0);
                     break;
                 case St.Side.BOTTOM:
-                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, p.geom.h, 0, 0);
+                    this._desktopIconsUsableArea.setMargins(p.monitor.index, 0, p.geom.h, 0, 0);
                     break;
                 case St.Side.LEFT:
-                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, 0, p.geom.w, 0);
+                    this._desktopIconsUsableArea.setMargins(p.monitor.index, 0, 0, p.geom.w, 0);
                     break;
                 case St.Side.RIGHT:
-                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, 0, 0, p.geom.w);
+                    this._desktopIconsUsableArea.setMargins(p.monitor.index, 0, 0, 0, p.geom.w);
                     break;
             }
         });
