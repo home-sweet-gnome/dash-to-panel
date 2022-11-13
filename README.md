@@ -116,7 +116,7 @@ How do I add a traditional start menu? [Arc Menu](https://extensions.gnome.org/e
 
 How do I disable the hot corner? [No Topleft Hot Corner](https://extensions.gnome.org/extension/118/no-topleft-hot-corner)
 
-How do I move the notifications to somewhere other than the top center? [Panel OSD](https://extensions.gnome.org/extension/708/panel-osd)
+How do I move the notifications to somewhere other than the top center? [Notification Banner Reloaded](https://extensions.gnome.org/extension/4651/notification-banner-reloaded/)
 
 How do I display Minimize & Maximize buttons? In the Tweak Tool application, turn on `Windows > Titlebar Buttons > Minimize & Maximize`.
 
