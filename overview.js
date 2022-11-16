@@ -194,8 +194,8 @@ var Overview = class {
         let seenApps = {};
         let apps = [];
         
-        this.taskbar._getAppIcons().forEach(function(appIcon) {
-            if (!seenApps[appIcon.app]) {
+        this.taskbar._getAppIcons().forEach(appIcon => {
+            if (!seenApps[appIcon.app] || this.taskbar.allowSplitApps) {
                 apps.push(appIcon);
             }
 
@@ -240,7 +240,7 @@ var Overview = class {
                 // Activate with button = 1, i.e. same as left click
                 let button = 1;
                 this._endHotkeyPreviewCycle();
-                appIcon.activate(button, modifiers, true);
+                appIcon.activate(button, modifiers, !this.taskbar.allowSplitApps);
             }
         }
     }

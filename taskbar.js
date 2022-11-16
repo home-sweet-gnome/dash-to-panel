@@ -1067,8 +1067,8 @@ var Taskbar = class {
         let seenApps = {};
         let counter = 0;
 
-        this._getAppIcons().forEach(function(icon) {
-            if (!seenApps[icon.app]) {
+        this._getAppIcons().forEach(icon => {
+            if (!seenApps[icon.app] || this.allowSplitApps) {
                 seenApps[icon.app] = 1;
                 counter++;
             }
