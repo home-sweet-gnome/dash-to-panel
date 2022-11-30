@@ -507,7 +507,7 @@ var PanelManager = class {
     }
 
     _getPanelMenuButton(obj) {
-        return obj._delegate && obj._delegate instanceof PanelMenu.Button ? obj._delegate : 0;
+        return obj instanceof PanelMenu.Button && obj.menu?._boxPointer ? obj : 0;
     }
 
     _setKeyBindings(enable) {
