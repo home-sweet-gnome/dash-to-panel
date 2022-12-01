@@ -409,6 +409,11 @@ var TaskbarAppIcon = GObject.registerClass({
         });
     }
 
+    updateBadge(count, enable) {
+        this._progressIndicator.setNotificationBadge(count);
+        this._progressIndicator.toggleNotificationBadge(enable);
+    }
+
     _onAnimateAppiconHoverChanged() {
         if (Me.settings.get_boolean('animate-appicon-hover')) {
             this._container.add_style_class_name('animate-appicon-hover');
