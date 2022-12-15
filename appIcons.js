@@ -127,7 +127,7 @@ var TaskbarAppIcon = GObject.registerClass({
 
         this._timeoutsHandler = new Utils.TimeoutsHandler();
 
-		// Fix touchscreen issues before the listener is added by the parent constructor.
+        // Fix touchscreen issues before the listener is added by the parent constructor.
         this._onTouchEvent = function(actor, event) {
             if (event.type() == Clutter.EventType.TOUCH_BEGIN) {
                 // Open the popup menu on long press.
@@ -286,6 +286,8 @@ var TaskbarAppIcon = GObject.registerClass({
             reactive: false,
             x_align: Clutter.ActorAlign.CENTER, y_align: Clutter.ActorAlign.CENTER,
         });
+
+        clone._delegate = this._delegate;
 
         // "clone" of this.actor
         return new St.Button({
