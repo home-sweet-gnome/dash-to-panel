@@ -6805,7 +6805,7 @@
                     <property name="visible">True</property>
                     <property name="receives_default">True</property>
                     <property name="halign">center</property>
-                    <property name="uri">https://github.com/jderose9/dash-to-panel</property>
+                    <property name="uri">https://github.com/home-sweet-gnome/dash-to-panel</property>
                   </object>
                 </child>
               </object>
