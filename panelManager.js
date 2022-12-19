@@ -706,8 +706,8 @@ function newUpdatePanelBarrier(panel) {
     let fixed2 = panel.monitor.y + barrierSize;
     
     if (panel.checkIfVertical()) {
-        barriers._rightPanelBarrier.push(panel.monitor.y + panel.monitor.height, Meta.BarrierDirection.POSITIVE_Y);
-        barriers._leftPanelBarrier.push(panel.monitor.y, Meta.BarrierDirection.NEGATIVE_Y);
+        barriers._rightPanelBarrier.push(panel.monitor.y + panel.monitor.height, Meta.BarrierDirection.NEGATIVE_Y);
+        barriers._leftPanelBarrier.push(panel.monitor.y, Meta.BarrierDirection.POSITIVE_Y);
     } else {
         barriers._rightPanelBarrier.push(panel.monitor.x + panel.monitor.width, Meta.BarrierDirection.NEGATIVE_X);
         barriers._leftPanelBarrier.push(panel.monitor.x, Meta.BarrierDirection.POSITIVE_X);
