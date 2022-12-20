@@ -720,12 +720,12 @@ function newUpdatePanelBarrier(panel) {
             fixed2 = panel.monitor.y + panel.monitor.height;
             break;
         case St.Side.LEFT:
-            fixed1 = panel.monitor.x;
-            fixed2 = panel.monitor.x + barrierSize;
+            fixed1 = panel.monitor.x + barrierSize;
+            fixed2 = panel.monitor.x;
             break;
         case St.Side.RIGHT:
-            fixed1 = panel.monitor.x + panel.monitor.width;
-            fixed2 = panel.monitor.x + panel.monitor.width - barrierSize;
+            fixed1 = panel.monitor.x + panel.monitor.width - barrierSize;
+            fixed2 = panel.monitor.x + panel.monitor.width;
             break;
     }
 
