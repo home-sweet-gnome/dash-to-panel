@@ -80,7 +80,8 @@ let DOT_STYLE = {
     SEGMENTED: "SEGMENTED",
     CILIORA: "CILIORA",
     METRO: "METRO",
-    SOLID: "SOLID"
+    SOLID: "SOLID",
+    NONE: "NONE"
 }
 
 let DOT_POSITION = {
@@ -1185,6 +1186,8 @@ var TaskbarAppIcon = GObject.registerClass({
             };
         
             switch (type) {
+                case DOT_STYLE.NONE:
+                    break;
                 case DOT_STYLE.CILIORA:
                     spacing = size;
                     length = areaSize - (size * (n - 1)) - (spacing * (n - 1));

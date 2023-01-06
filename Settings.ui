@@ -4892,6 +4892,7 @@
                                       <item id="SOLID" translatable="yes">Solid</item>
                                       <item id="CILIORA" translatable="yes">Ciliora</item>
                                       <item id="METRO" translatable="yes">Metro</item>
+                                      <item id="NONE" translatable="no">None</item>
                                     </items>
                                   </object>
                                 </child>
@@ -4934,6 +4935,7 @@
                                   <item id="SOLID" translatable="yes">Solid</item>
                                   <item id="CILIORA" translatable="yes">Ciliora</item>
                                   <item id="METRO" translatable="yes">Metro</item>
+                                  <item id="NONE" translatable="no">None</item>
                                 </items>
                               </object>
                             </child>
