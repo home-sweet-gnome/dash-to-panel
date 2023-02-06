@@ -116,13 +116,29 @@ var Overview = class {
 
         if (enable)
             allocFunc = (box) => {
-                // The default overview allocation is very good and takes into account external 
-                // struts, everywhere but the bottom where the dash is usually fixed anyway.
-                // If there is a bottom panel under the dash location, give it some space here
                 let focusedPanel = this._panel.panelManager.focusedMonitorPanel
+                
+                if (focusedPanel) {
+                    let position = focusedPanel.geom.position
+                    let isBottom = position == St.Side.BOTTOM
 
-                if (focusedPanel?.geom.position == St.Side.BOTTOM)
-                    box.y2 -= focusedPanel.geom.h
+                    if (focusedPanel.intellihide?.enabled) {
+                        // Panel intellihide is enabled (struts aren't taken into account on overview allocation),
+                        // dynamically modify the overview box to follow the reveal/hide animation
+                        let { transitioning, finalState, progress } = overviewControls._stateAdjustment.getStateTransitionParams()
+                        let size = focusedPanel.geom[focusedPanel.checkIfVertical() ? 'w' : 'h'] * 
+                                   (transitioning ? Math.abs((finalState != 0 ? 0 : 1) - progress) : 1)
+
+                        if (isBottom || position == St.Side.RIGHT)
+                            box[focusedPanel.fixedCoord.c2] -= size
+                        else
+                            box[focusedPanel.fixedCoord.c1] += size
+                    } else if (isBottom)
+                        // The default overview allocation is very good and takes into account external 
+                        // struts, everywhere but the bottom where the dash is usually fixed anyway.
+                        // If there is a bottom panel under the dash location, give it some space here
+                        box.y2 -= focusedPanel.geom.h
+                }
                 
                 proto.vfunc_allocate.call(overviewControls, box)
             }
