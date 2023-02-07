@@ -1157,6 +1157,14 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('intellihide-show-in-windows',
+                            this._builder.get_object('intellihide_show_in_windows_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('intellihide-show-in-windows',
+                            this._builder.get_object('intellihide_show_in_windows_options'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
         this._settings.bind('intellihide-show-in-fullscreen',
                             this._builder.get_object('intellihide_show_in_fullscreen_switch'),
                             'active',
@@ -1228,6 +1236,7 @@ const Preferences = class {
                     this._settings.set_value('intellihide-behaviour', this._settings.get_default_value('intellihide-behaviour'));
                     this._settings.set_value('intellihide-use-pressure', this._settings.get_default_value('intellihide-use-pressure'));
                     this._settings.set_value('intellihide-show-in-fullscreen', this._settings.get_default_value('intellihide-show-in-fullscreen'));
+                    this._settings.set_value('intellihide-show-in-windows', this._settings.get_default_value('intellihide-show-in-windows'));
                     this._settings.set_value('intellihide-only-secondary', this._settings.get_default_value('intellihide-only-secondary'));
 
                     this._settings.set_value('intellihide-pressure-threshold', this._settings.get_default_value('intellihide-pressure-threshold'));

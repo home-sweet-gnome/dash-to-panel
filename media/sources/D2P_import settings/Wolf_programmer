@@ -51,6 +51,7 @@ intellihide-pressure-time=1000
 app-ctrl-hotkey-10=['<Primary><Super>0']
 status-icon-padding=-1
 intellihide-show-in-fullscreen=false
+intellihide-show-in-windows=true
 app-hotkey-kp-1=['<Super>KP_1']
 app-hotkey-2=['<Super>2']
 app-hotkey-kp-2=['<Super>KP_2']
