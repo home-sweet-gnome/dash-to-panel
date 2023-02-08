@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="shortcut_time_adjustment">
+    <property name="upper">10000</property>
+    <property name="step_increment">250</property>
+    <property name="page_increment">1000</property>
+  </object>
+
+  <object class="GtkBox" id="box_overlay_shortcut">
+    <property name="orientation">vertical</property>
+    <property name="width-request">600</property>
+    <property name="spacing">24</property>
+    <property name="margin-top">32</property>
+    <property name="margin-bottom">32</property>
+    <property name="margin-start">32</property>
+    <property name="margin-end">32</property>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Hotkeys prefix</property>
+            <property name="subtitle" translatable="yes">Hotkeys will either be Super+Number or Super+Alt+Num</property>
+            <child>
+              <object class="GtkComboBoxText" id="hotkey_prefix_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="Super" translatable="yes">Super</item>
+                  <item id="SuperAlt" translatable="yes">Super + Alt</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Number overlay</property>
+            <property name="subtitle" translatable="yes">Temporarily show the application numbers over the icons when using the hotkeys.</property>
+            <child>
+              <object class="GtkComboBoxText" id="overlay_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="NEVER" translatable="yes">Never</item>
+                  <item id="TEMPORARILY" translatable="yes">Show temporarily</item>
+                  <item id="ALWAYS" translatable="yes">Always visible</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Hide timeout (ms)</property>
+            <child>
+              <object class="GtkSpinButton" id="timeout_spinbutton">
+                <property name="valign">center</property>
+                <property name="adjustment">shortcut_time_adjustment</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Shortcut to show the overlay for 2 seconds</property>
+            <property name="subtitle" translatable="yes">Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;</property>
+            <child>
+              <object class="GtkEntry" id="shortcut_entry">
+                <property name="valign">center</property>
+                <property name="width_chars">12</property>
+                <property name="placeholder_text" translatable="yes">e.g. &lt;Super&gt;q</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show window previews on hotkey</property>
+            <property name="subtitle" translatable="yes">Show previews when the application have multiple instances</property>
+            <child>
+                <object class="GtkSwitch" id="shortcut_preview_switch">
+                  <property name="valign">center</property>
+                </object>
+              </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Hotkeys are activated with</property>
+            <property name="subtitle" translatable="yes">Select which keyboard number keys are used to activate the hotkeys</property>
+            <child>
+              <object class="GtkComboBoxText" id="shortcut_num_keys_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="NUM_ROW" translatable="yes">Number row</item>
+                  <item id="NUM_KEYPAD" translatable="yes">Numeric keypad</item>
+                  <item id="BOTH" translatable="yes">Both</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </object>
+
+</interface>

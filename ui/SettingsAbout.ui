@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="AdwPreferencesPage" id="about">
+    <property name="title">About</property>
+    <property name="icon_name">help-about-symbolic</property>
+
+      <!-- group info -->
+      <child>
+        <object class="AdwPreferencesGroup" id="about_group_info">
+          <property name="title" translatable="yes">Info</property>
+
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Version</property>
+              <child>
+                <object class="GtkLabel" id="extension_version">
+                  <property name="label">...</property>
+                </object>
+              </child>
+            </object>
+          </child>
+
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Source</property>
+              <child>
+                <object class="GtkLinkButton" id="homepage_link">
+                  <property name="label" translatable="yes">GitHub</property>
+                  <property name="receives_default">True</property>
+                  <property name="halign">center</property>
+                  <property name="uri">https://github.com/home-sweet-gnome/dash-to-panel</property>
+                </object>
+              </child>
+            </object>
+          </child>
+
+        </object>
+      </child>
+
+      <!-- group export import -->
+      <child>
+        <object class="AdwPreferencesGroup" id="about_group_export_and_import">
+          <property name="title" translatable="yes">Export and Import</property>
+
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Export and import settings</property>
+              <property name="subtitle" translatable="yes">Use the buttons below to create a settings file from your current preferences that can be imported on a different machine.</property>
+            </object>
+          </child>
+
+          <child>
+            <object class="AdwPreferencesRow">
+              <child>
+                <object class="GtkBox">
+                  <property name="margin_start">8</property>
+                  <property name="margin_end">8</property>
+                  <property name="margin_top">4</property>
+                  <property name="margin_bottom">4</property>
+                  <property name="spacing">8</property>
+                  <property name="halign">end</property>
+                  <child>
+                    <object class="GtkButton" id="importexport_export_button">
+                      <property name="label" translatable="yes">Export to file</property>
+                      <property name="receives_default">True</property>
+                    </object>
+                  </child>
+                  <child>
+                    <object class="GtkButton" id="importexport_import_button">
+                      <property name="label" translatable="yes">Import from file</property>
+                      <property name="receives_default">True</property>
+                    </object>
+                  </child>
+                </object>
+              </child>
+            </object>
+          </child>
+
+        </object>
+      </child>
+
+      <!-- group disclaimer -->
+      <child>
+        <object class="AdwPreferencesGroup" id="about_group_disclaimer">
+          <child>
+            <object class="GtkLabel" id="label1">
+              <property name="label" translatable="yes">&lt;span size="small"&gt;This program comes with ABSOLUTELY NO WARRANTY.&#10;See the &lt;a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"&gt;GNU General Public License, version 2 or later&lt;/a&gt; for details.&lt;/span&gt;</property>
+              <property name="use_markup">True</property>
+              <property name="justify">center</property>
+              <property name="wrap">True</property>
+            </object>
+          </child>
+        </object>
+      </child>
+
+  </object>
+</interface>

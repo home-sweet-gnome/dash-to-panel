@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="scroll_icon_options_delay_adjustment">
+    <property name="upper">2000</property>
+    <property name="step_increment">10</property>
+    <property name="page_increment">50</property>
+  </object>
+
+  <object class="GtkBox" id="scroll_icon_options_box">
+    <property name="orientation">vertical</property>
+    <property name="width-request">600</property>
+    <property name="spacing">24</property>
+    <property name="margin-top">32</property>
+    <property name="margin-bottom">32</property>
+    <property name="margin-start">32</property>
+    <property name="margin-end">32</property>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Delay between mouse scroll events (ms)</property>
+            <property name="subtitle" translatable="yes">Use this value to limit the number of captured mouse scroll events.</property>
+            <child>
+              <object class="GtkSpinButton" id="scroll_icon_options_delay_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">50</property>
+                <property name="adjustment">scroll_icon_options_delay_adjustment</property>
+                <property name="numeric">True</property>
+                <property name="value">50</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </object>
+
+</interface>

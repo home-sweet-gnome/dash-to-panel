@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkBox" id="box_middle_click_options">
+    <property name="orientation">vertical</property>
+    <property name="width-request">600</property>
+    <property name="spacing">24</property>
+    <property name="margin-top">32</property>
+    <property name="margin-bottom">32</property>
+    <property name="margin-start">32</property>
+    <property name="margin-end">32</property>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Shift+Click action</property>
+            <property name="subtitle" translatable="yes">When set to minimize, double clicking minimizes all the windows of the application.</property>
+            <child>
+              <object class="GtkComboBoxText" id="shift_click_action_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="RAISE" translatable="yes">Raise windows</item>
+                  <item id="MINIMIZE" translatable="yes">Minimize window</item>
+                  <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                  <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                  <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                  <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
+                  <item id="TOGGLE-CYCLE" translatable="yes">Toggle single / Cycle multiple</item>
+                  <item id="QUIT" translatable="yes">Quit</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Middle-Click action</property>
+            <property name="subtitle" translatable="yes">Behavior for Middle-Click.</property>
+            <child>
+              <object class="GtkComboBoxText" id="middle_click_action_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="RAISE" translatable="yes">Raise windows</item>
+                  <item id="MINIMIZE" translatable="yes">Minimize window</item>
+                  <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                  <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                  <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                  <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
+                  <item id="TOGGLE-CYCLE" translatable="yes">Toggle single / Cycle multiple</item>
+                  <item id="QUIT" translatable="yes">Quit</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Shift+Middle-Click action</property>
+            <property name="subtitle" translatable="yes">Behavior for Shift+Middle-Click.</property>
+            <child>
+              <object class="GtkComboBoxText" id="shift_middle_click_action_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="RAISE" translatable="yes">Raise windows</item>
+                  <item id="MINIMIZE" translatable="yes">Minimize window</item>
+                  <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                  <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                  <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                  <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
+                  <item id="TOGGLE-CYCLE" translatable="yes">Toggle single / Cycle multiple</item>
+                  <item id="QUIT" translatable="yes">Quit</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </object>
+
+</interface>

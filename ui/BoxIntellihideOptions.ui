@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="intellihide_pressure_threshold_adjustment">
+    <property name="lower">1</property>
+    <property name="upper">9990</property>
+    <property name="step_increment">10</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkAdjustment" id="intellihide_pressure_time_adjustment">
+    <property name="lower">1</property>
+    <property name="upper">5000</property>
+    <property name="step_increment">10</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkAdjustment" id="intellihide_animation_time_adjustment">
+    <property name="lower">10</property>
+    <property name="upper">2000</property>
+    <property name="step_increment">10</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkAdjustment" id="intellihide_close_delay_adjustment">
+    <property name="lower">10</property>
+    <property name="upper">4000</property>
+    <property name="step_increment">10</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkAdjustment" id="intellihide_enable_hide_delay_adjustment">
+    <property name="upper">10000</property>
+    <property name="step_increment">10</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkBox" id="box_intellihide_options">
+    <property name="orientation">vertical</property>
+    <property name="width-request">600</property>
+    <property name="spacing">24</property>
+    <property name="margin-top">32</property>
+    <property name="margin-bottom">32</property>
+    <property name="margin-start">32</property>
+    <property name="margin-end">32</property>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Only hide the panel when it is obstructed by windows</property>
+            <child>
+              <object class="GtkSwitch" id="intellihide_window_hide_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow" id="intellihide_behaviour_options">
+            <property name="title" translatable="yes">The panel hides from</property>
+            <child>
+              <object class="GtkComboBoxText" id="intellihide_behaviour_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="ALL_WINDOWS" translatable="yes">All windows</item>
+                  <item id="FOCUSED_WINDOWS" translatable="yes">Focused windows</item>
+                  <item id="MAXIMIZED_WINDOWS" translatable="yes">Maximized windows</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Require pressure at the edge of the screen to reveal the panel</property>
+            <child>
+              <object class="GtkSwitch" id="intellihide_use_pressure_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow" id="intellihide_use_pressure_options">
+            <property name="title" translatable="yes">Required pressure threshold (px)</property>
+            <child>
+              <object class="GtkSpinButton" id="intellihide_pressure_threshold_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">0</property>
+                <property name="adjustment">intellihide_pressure_threshold_adjustment</property>
+                <property name="numeric">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow" id="intellihide_use_pressure_options2">
+            <property name="title" translatable="yes">Required pressure timeout (ms)</property>
+            <child>
+              <object class="GtkSpinButton" id="intellihide_pressure_time_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">0</property>
+                <property name="adjustment">intellihide_pressure_time_adjustment</property>
+                <property name="numeric">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Allow the panel to be revealed while in fullscreen mode</property>
+            <child>
+              <object class="GtkSwitch" id="intellihide_show_in_fullscreen_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow" id="grid_intellihide_only_secondary">
+            <property name="title" translatable="yes">Only hide secondary panels</property>
+            <property name="subtitle" translatable="yes">(requires multi-monitors option)</property>
+            <child>
+              <object class="GtkSwitch" id="intellihide_only_secondary_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Keyboard shortcut to reveal and hold the panel</property>
+            <property name="subtitle" translatable="yes">Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;</property>
+            <child>
+              <object class="GtkEntry" id="intellihide_toggle_entry">
+                <property name="valign">center</property>
+                <property name="width_chars">12</property>
+                <property name="placeholder_text" translatable="yes">e.g. &lt;Super&gt;i</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Hide and reveal animation duration (ms)</property>
+            <child>
+              <object class="GtkSpinButton" id="intellihide_animation_time_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">0</property>
+                <property name="adjustment">intellihide_animation_time_adjustment</property>
+                <property name="numeric">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Delay before hiding the panel (ms)</property>
+            <child>
+              <object class="GtkSpinButton" id="intellihide_close_delay_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">10</property>
+                <property name="adjustment">intellihide_close_delay_adjustment</property>
+                <property name="numeric">True</property>
+                <property name="value">10</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Delay before enabling intellihide on start (ms)</property>
+            <child>
+              <object class="GtkSpinButton" id="intellihide_enable_start_delay_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">10</property>
+                <property name="adjustment">intellihide_enable_hide_delay_adjustment</property>
+                <property name="numeric">True</property>
+                <property name="value">10</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </object>
+
+</interface>

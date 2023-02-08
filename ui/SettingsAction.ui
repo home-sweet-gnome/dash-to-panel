@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="AdwPreferencesPage" id="action">
+    <property name="title">Action</property>
+    <property name="icon_name">view-pin-symbolic</property>
+
+    <!-- group click action -->
+    <child>
+      <object class="AdwPreferencesGroup" id="action_group_click_action">
+        <property name="title" translatable="yes">Click action</property>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Click action</property>
+            <property name="subtitle" translatable="yes">Behaviour when clicking on the icon of a running application.</property>
+            <child>
+              <object class="GtkButton" id="middle_click_options_button">
+                <property name="receives_default">True</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkImage" id="middle_click_image">
+                    <property name="icon_name">emblem-system-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="click_action_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="CYCLE-MIN" translatable="yes">Cycle windows + minimize</item>
+                  <item id="CYCLE" translatable="yes">Cycle through windows</item>
+                  <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
+                  <item id="TOGGLE-CYCLE" translatable="yes">Toggle single / Cycle multiple</item>
+                  <item id="MINIMIZE" translatable="yes">Toggle windows</item>
+                  <item id="RAISE" translatable="yes">Raise windows</item>
+                  <item id="LAUNCH" translatable="yes">Launch new instance</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <!-- group scroll action -->
+    <child>
+      <object class="AdwPreferencesGroup" id="action_group_scroll_action">
+        <property name="title" translatable="yes">Scroll action</property>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Scroll panel action</property>
+            <property name="subtitle" translatable="yes">Behavior when mouse scrolling over the panel.</property>
+            <child>
+              <object class="GtkButton" id="scroll_panel_options_button">
+                <property name="visible">True</property>
+                <property name="receives_default">True</property>
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkImage" id="scroll_panel_options_button_image">
+                    <property name="visible">True</property>
+                    <property name="icon_name">emblem-system-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="scroll_panel_combo">
+                <property name="visible">True</property>
+                <property name="valign">center</property>
+                <property name="hexpand">True</property>
+                <items>
+                  <item id="NOTHING" translatable="yes">Do nothing</item>
+                  <item id="SWITCH_WORKSPACE" translatable="yes">Switch workspace</item>
+                  <item id="CYCLE_WINDOWS" translatable="yes">Cycle windows</item>
+                  <item id="CHANGE_VOLUME" translatable="yes">Change volume</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Scroll icon action</property>
+            <property name="subtitle" translatable="yes">Behavior when mouse scrolling over an application icon.</property>
+            <child>
+              <object class="GtkButton" id="scroll_icon_options_button">
+                <property name="receives_default">True</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkImage" id="scroll_icon_options_button_image">
+                    <property name="visible">True</property>
+                    <property name="icon_name">emblem-system-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkComboBoxText" id="scroll_icon_combo">
+                <property name="valign">center</property>
+                <property name="hexpand">True</property>
+                <items>
+                  <item id="NOTHING" translatable="yes">Do nothing</item>
+                  <item id="CYCLE_WINDOWS" translatable="yes">Cycle windows</item>
+                  <item id="PASS_THROUGH" translatable="yes">Same as panel</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <!-- group hotkey -->
+    <child>
+      <object class="AdwPreferencesGroup" id="action_group_hotkry">
+        <property name="title" translatable="yes">Hotkey overlay</property>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Use hotkeys to activate apps</property>
+            <property name="subtitle" translatable="yes">Enable Super+(0-9) as shortcuts to activate apps. It can also be used together with Shift and Ctrl.</property>
+            <child>
+              <object class="GtkButton" id="overlay_button">
+                <property name="receives_default">True</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkImage" id="image_overlay">
+                    <property name="icon_name">emblem-system-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSwitch" id="hot_keys_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </object>
+</interface>

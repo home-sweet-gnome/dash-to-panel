@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="preview_timeout_adjustment">
+    <property name="upper">9999</property>
+    <property name="step_increment">25</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkAdjustment" id="preview_animation_time_adjustment">
+    <property name="upper">1000</property>
+    <property name="step_increment">10</property>
+    <property name="page_increment">50</property>
+  </object>
+
+  <object class="GtkAdjustment" id="leave_timeout_adjustment">
+    <property name="upper">9999</property>
+    <property name="step_increment">25</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkAdjustment" id="preview_size_adjustment">
+    <property name="lower">100</property>
+    <property name="upper">800</property>
+    <property name="step_increment">10</property>
+    <property name="page_increment">50</property>
+  </object>
+
+  <object class="GtkAdjustment" id="preview_padding_adjustment">
+    <property name="upper">50</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+
+  <object class="GtkAdjustment" id="preview_opacity_adjustment">
+    <property name="upper">100</property>
+    <property name="step_increment">5</property>
+    <property name="page_increment">10</property>
+  </object>
+
+  <object class="GtkAdjustment" id="preview_custom_icon_size_adjustment">
+    <property name="lower">8</property>
+    <property name="upper">48</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkAdjustment" id="preview_title_font_size_adjustment">
+    <property name="lower">6</property>
+    <property name="upper">24</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkAdjustment" id="enter_peek_mode_timeout_adjustment">
+    <property name="lower">50</property>
+    <property name="upper">9999</property>
+    <property name="step_increment">25</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkAdjustment" id="peek_mode_opacity_adjustment">
+    <property name="upper">255</property>
+    <property name="step_increment">10</property>
+    <property name="page_increment">25</property>
+  </object>
+
+  <object class="GtkScrolledWindow" id="box_window_preview_options">
+    <property name="width-request">800</property>
+    <property name="height-request">600</property>
+    <property name="vexpand">True</property>
+    <child>
+
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="width-request">600</property>
+        <property name="spacing">24</property>
+        <property name="margin-top">32</property>
+        <property name="margin-bottom">32</property>
+        <property name="margin-start">32</property>
+        <property name="margin-end">32</property>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Time (ms) before showing</property>
+                <property name="subtitle" translatable="yes">(400 is default)</property>
+                <child>
+                  <object class="GtkSpinButton" id="preview_timeout_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="width_chars">4</property>
+                    <property name="text">0</property>
+                    <property name="adjustment">preview_timeout_adjustment</property>
+                    <property name="numeric">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Time (ms) before hiding</property>
+                <property name="subtitle" translatable="yes">(100 is default)</property>
+                <child>
+                  <object class="GtkCheckButton" id="preview_immediate_click_button">
+                    <property name="receives_default">False</property>
+                    <child>
+                      <object class="GtkLabel" id="preview_immediate_click_label">
+                        <property name="name">4</property>
+                        <property name="label" translatable="yes">Immediate on application icon click</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSpinButton" id="leave_timeout_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="width_chars">4</property>
+                    <property name="text">25</property>
+                    <property name="adjustment">leave_timeout_adjustment</property>
+                    <property name="numeric">True</property>
+                    <property name="value">25</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Animation time (ms)</property>
+                <child>
+                  <object class="GtkSpinButton" id="animation_time_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="width_chars">4</property>
+                    <property name="text">0</property>
+                    <property name="adjustment">preview_animation_time_adjustment</property>
+                    <property name="numeric">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Middle click on the preview to close the window</property>
+                <child>
+                  <object class="GtkSwitch" id="preview_middle_click_close_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Window previews preferred size (px)</property>
+                <child>
+                  <object class="GtkSpinButton" id="preview_size_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="width_chars">4</property>
+                    <property name="text">100</property>
+                    <property name="adjustment">preview_size_adjustment</property>
+                    <property name="numeric">True</property>
+                    <property name="value">100</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Window previews aspect ratio X (width)</property>
+                <child>
+                  <object class="GtkComboBoxText" id="preview_aspect_ratio_x_combo">
+                    <property name="valign">center</property>
+                    <items>
+                      <item id="1" translatable="yes">1</item>
+                      <item id="2" translatable="yes">2</item>
+                      <item id="3" translatable="yes">3</item>
+                      <item id="4" translatable="yes">4</item>
+                      <item id="5" translatable="yes">5</item>
+                      <item id="6" translatable="yes">6</item>
+                      <item id="7" translatable="yes">7</item>
+                      <item id="8" translatable="yes">8</item>
+                      <item id="9" translatable="yes">9</item>
+                      <item id="10" translatable="yes">10</item>
+                      <item id="11" translatable="yes">11</item>
+                      <item id="12" translatable="yes">12</item>
+                      <item id="13" translatable="yes">13</item>
+                      <item id="14" translatable="yes">14</item>
+                      <item id="15" translatable="yes">15</item>
+                      <item id="16" translatable="yes">16</item>
+                      <item id="17" translatable="yes">17</item>
+                      <item id="18" translatable="yes">18</item>
+                      <item id="19" translatable="yes">19</item>
+                      <item id="20" translatable="yes">20</item>
+                      <item id="21" translatable="yes">21</item>
+                    </items>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkToggleButton" id="preview_aspect_ratio_x_fixed_togglebutton">
+                    <property name="label" translatable="yes">Fixed</property>
+                    <property name="receives_default">True</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Window previews aspect ratio Y (height)</property>
+                <child>
+                  <object class="GtkComboBoxText" id="preview_aspect_ratio_y_combo">
+                    <property name="valign">center</property>
+                    <items>
+                      <item id="1" translatable="yes">1</item>
+                      <item id="2" translatable="yes">2</item>
+                      <item id="3" translatable="yes">3</item>
+                      <item id="4" translatable="yes">4</item>
+                      <item id="5" translatable="yes">5</item>
+                      <item id="6" translatable="yes">6</item>
+                      <item id="7" translatable="yes">7</item>
+                      <item id="8" translatable="yes">8</item>
+                      <item id="9" translatable="yes">9</item>
+                      <item id="10" translatable="yes">10</item>
+                      <item id="11" translatable="yes">11</item>
+                      <item id="12" translatable="yes">12</item>
+                      <item id="13" translatable="yes">13</item>
+                      <item id="14" translatable="yes">14</item>
+                      <item id="15" translatable="yes">15</item>
+                      <item id="16" translatable="yes">16</item>
+                      <item id="17" translatable="yes">17</item>
+                      <item id="18" translatable="yes">18</item>
+                      <item id="19" translatable="yes">19</item>
+                      <item id="20" translatable="yes">20</item>
+                      <item id="21" translatable="yes">21</item>
+                    </items>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkToggleButton" id="preview_aspect_ratio_y_fixed_togglebutton">
+                    <property name="label" translatable="yes">Fixed</property>
+                    <property name="receives_default">True</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Window previews padding (px)</property>
+                <child>
+                  <object class="GtkSpinButton" id="preview_padding_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="width_chars">4</property>
+                    <property name="text">50</property>
+                    <property name="adjustment">preview_padding_adjustment</property>
+                    <property name="numeric">True</property>
+                    <property name="value">50</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Use custom opacity for the previews background</property>
+                <property name="subtitle" translatable="yes">If disabled, the previews background have the same opacity as the panel.</property>
+                <child>
+                  <object class="GtkSwitch" id="preview_custom_opacity_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSpinButton" id="preview_custom_opacity_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="text" translatable="yes">5</property>
+                    <property name="adjustment">preview_opacity_adjustment</property>
+                    <property name="value">5</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Close button and header position</property>
+                <child>
+                  <object class="GtkToggleButton" id="preview_title_position_bottom_button">
+                    <property name="label" translatable="yes">Bottom</property>
+                    <property name="receives_default">False</property>
+                    <property name="valign">center</property>
+                    <property name="active">True</property>
+                    <signal name="toggled" handler="preview_title_position_bottom_button_toggled_cb" swapped="no"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkToggleButton" id="preview_title_position_top_button">
+                    <property name="label" translatable="yes">Top</property>
+                    <property name="receives_default">False</property>
+                    <property name="valign">center</property>
+                    <property name="group">preview_title_position_bottom_button</property>
+                    <signal name="toggled" handler="preview_title_position_top_button_toggled_cb" swapped="no"/>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Display window preview headers</property>
+                <child>
+                  <object class="GtkSwitch" id="preview_show_title_switch">>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow" id="grid_preview_custom_icon_size">
+                <property name="title" translatable="yes">Icon size (px) of the window preview</property>
+                <property name="subtitle" translatable="yes">If disabled, the previews icon size will be based on headerbar size</property>
+                <child>
+                  <object class="GtkSwitch" id="preview_custom_icon_size_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSpinButton" id="preview_custom_icon_size_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="width_chars">4</property>
+                    <property name="text">6</property>
+                    <property name="adjustment">preview_custom_icon_size_adjustment</property>
+                    <property name="numeric">True</property>
+                    <property name="value">6</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow" id="grid_preview_title_size">
+                <property name="title" translatable="yes">Font size (px) of the preview titles</property>
+                <child>
+                  <object class="GtkSpinButton" id="preview_title_size_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="width_chars">4</property>
+                    <property name="text">6</property>
+                    <property name="adjustment">preview_title_font_size_adjustment</property>
+                    <property name="numeric">True</property>
+                    <property name="value">6</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow" id="grid_preview_title_weight">
+                <property name="title" translatable="yes">Font weight of the preview titles</property>
+                <child>
+                  <object class="GtkComboBoxText" id="grid_preview_title_weight_combo">
+                    <property name="valign">center</property>
+                    <items>
+                      <item id="inherit" translatable="yes">inherit from theme</item>
+                      <item id="normal" translatable="yes">normal</item>
+                      <item id="lighter" translatable="yes">lighter</item>
+                      <item id="bold" translatable="yes">bold</item>
+                      <item id="bolder" translatable="yes">bolder</item>
+                    </items>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow" id="grid_preview_title_font_color">
+                <property name="title" translatable="yes">Font color of the preview titles</property>
+                <child>
+                  <object class="GtkColorButton" id="grid_preview_title_font_color_colorbutton">
+                    <property name="receives_default">True</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Enable window peeking</property>
+                <property name="subtitle" translatable="yes">When hovering over a window preview for some time, the window gets distinguished.</property>
+                <child>
+                  <object class="GtkSwitch" id="peek_mode_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow" id="grid_enter_peek_mode_timeout">
+                <property name="title" translatable="yes">Enter window peeking mode timeout (ms)</property>
+                <property name="subtitle" translatable="yes">Time of inactivity while hovering over a window preview needed to enter the window peeking mode.</property>
+                <child>
+                  <object class="GtkSpinButton" id="enter_peek_mode_timeout_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="width_chars">4</property>
+                    <property name="text" translatable="yes">50</property>
+                    <property name="adjustment">enter_peek_mode_timeout_adjustment</property>
+                    <property name="numeric">True</property>
+                    <property name="value">50</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow" id="grid_peek_mode_opacity">
+                <property name="title" translatable="yes">Window peeking mode opacity</property>
+                <property name="subtitle" translatable="yes">All windows except for the peeked one have their opacity set to the same value.</property>
+                <child>
+                  <object class="GtkSpinButton" id="peek_mode_opacity_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="width_chars">4</property>
+                    <property name="text" translatable="yes">0</property>
+                    <property name="adjustment">peek_mode_opacity_adjustment</property>
+                    <property name="numeric">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+
+    </child>
+  </object>
+
+</interface>

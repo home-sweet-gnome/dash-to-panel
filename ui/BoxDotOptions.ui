@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="focus_highlight_opacity_adjustment">
+    <property name="lower">5</property>
+    <property name="upper">100</property>
+    <property name="step_increment">5</property>
+    <property name="page_increment">5</property>
+  </object>
+
+  <object class="GtkAdjustment" id="dot_size_adjustment">
+    <property name="upper">5</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+
+  <object class="GtkScrolledWindow" id="box_dots_options">
+    <property name="width-request">600</property>
+    <property name="height-request">600</property>
+    <property name="vexpand">True</property>
+
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+        <property name="spacing">24</property>
+        <property name="margin-top">32</property>
+        <property name="margin-bottom">32</property>
+        <property name="margin-start">32</property>
+        <property name="margin-end">32</property>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Highlight focused application</property>
+                <child>
+                  <object class="GtkSwitch" id="focus_highlight_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup" id="grid_focus_highlight_options">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Icon dominant color</property>
+                <child>
+                  <object class="GtkSwitch" id="focus_highlight_dominant_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow" id="focus_highlight_color_label">
+                <property name="title" translatable="yes">Custom color</property>
+                <child>
+                  <object class="GtkColorButton" id="focus_highlight_color_colorbutton">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Highlight opacity</property>
+                <child>
+                  <object class="GtkSpinButton" id="focus_highlight_opacity_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="text">5</property>
+                    <property name="adjustment">focus_highlight_opacity_adjustment</property>
+                    <property name="value">5</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Indicator size (px)</property>
+                <child>
+                  <object class="GtkSpinButton" id="dot_size_spinbutton">
+                    <property name="valign">center</property>
+                    <property name="text">0</property>
+                    <property name="adjustment">dot_size_adjustment</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Indicator color - Icon Dominant</property>
+                <child>
+                  <object class="GtkSwitch" id="dot_color_dominant_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Indicator color - Override Theme</property>
+                <child>
+                  <object class="GtkSwitch" id="dot_color_override_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup" id="grid_dot_color">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">1 window open (or ungrouped)</property>
+                <child>
+                  <object class="GtkButton" id="dot_color_apply_all_button">
+                    <property name="valign">center</property>
+                    <property name="label" translatable="yes">Apply to all</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkColorButton" id="dot_color_1_colorbutton">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">2 windows open</property>
+                <child>
+                  <object class="GtkColorButton" id="dot_color_2_colorbutton">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">3 windows open</property>
+                <child>
+                  <object class="GtkColorButton" id="dot_color_3_colorbutton">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">4+ windows open</property>
+                <child>
+                  <object class="GtkColorButton" id="dot_color_4_colorbutton">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup" id="dot_color_unfocused_box">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Use different for unfocused</property>
+                <child>
+                  <object class="GtkSwitch" id="dot_color_unfocused_different_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup" id="grid_dot_color_unfocused">
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">1 window open (or ungrouped)</property>
+                <child>
+                  <object class="GtkButton" id="dot_color_unfocused_apply_all_button">
+                    <property name="valign">center</property>
+                    <property name="label" translatable="yes">Apply to all</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkColorButton" id="dot_color_unfocused_1_colorbutton">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">2 windows open</property>
+                <child>
+                  <object class="GtkColorButton" id="dot_color_unfocused_2_colorbutton">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">3 windows open</property>
+                <child>
+                  <object class="GtkColorButton" id="dot_color_unfocused_3_colorbutton">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">4+ windows open</property>
+                <child>
+                  <object class="GtkColorButton" id="dot_color_unfocused_4_colorbutton">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+    
+  </object>
+
+</interface>

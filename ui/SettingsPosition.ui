@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="panel_size_adjustment">
+    <property name="lower">0.33</property>
+    <property name="upper">1</property>
+    <property name="step_increment">0.01</property>
+    <property name="page_increment">0.1</property>
+  </object>
+
+  <object class="GtkAdjustment" id="panel_length_adjustment">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+
+  <object class="AdwPreferencesPage" id="position">
+    <property name="title">Position</property>
+    <property name="icon_name">find-location-symbolic</property>
+
+      <!-- group panel -->
+      <child>
+        <object class="AdwPreferencesGroup" id="position_group_panel">
+          <property name="title" translatable="yes">Panel</property>
+
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Display the main panel on</property>
+              <child>
+                <object class="GtkComboBoxText" id="multimon_primary_combo">
+                  <property name="valign">center</property>
+                </object>
+              </child>
+            </object>
+          </child>
+
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Display panels on all monitors</property>
+              <child>
+                <object class="GtkSwitch" id="multimon_multi_switch">
+                  <property name="valign">center</property>
+                </object>
+              </child>
+            </object>
+          </child>
+
+        </object>
+      </child>
+      <child>
+        <object class="AdwPreferencesGroup" id="position_group_panel2">
+
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Panel Intellihide</property>
+              <property name="subtitle" translatable="yes">Hide and reveal the panel according to preferences</property>
+              <child>
+                <object class="GtkButton" id="intellihide_options_button">
+                  <property name="receives_default">True</property>
+                  <property name="valign">center</property>
+                  <child>
+                    <object class="GtkImage" id="image_intellihide_options">
+                      <property name="icon_name">emblem-system-symbolic</property>
+                    </object>
+                  </child>
+                  <style>
+                    <class name="circular"/>
+                  </style>
+                </object>
+              </child>
+              <child>
+                <object class="GtkSwitch" id="intellihide_switch">
+                  <property name="valign">center</property>
+                </object>
+              </child>
+            </object>
+          </child>
+
+        </object>
+      </child>
+
+      <!-- group order and positions -->
+      <child>
+        <object class="AdwPreferencesGroup" id="position_group_on_monitor">
+          <property name="title" translatable="yes">Order and Position on monitors</property>
+          
+
+          <child>
+            <object class="AdwPreferencesRow">
+              <property name="title" translatable="yes">Monitor</property>
+              <child>
+                <object class="GtkBox">
+                  <property name="margin-start">6</property>
+                  <property name="margin-end">6</property>
+                  <property name="margin-top">6</property>
+                  <property name="margin-bottom">6</property>
+                  <child>
+                    <object class="GtkCheckButton" id="taskbar_position_sync_button">
+                      <property name="label" translatable="yes">Apply changes to all monitors</property>
+                      <property name="receives_default">False</property>
+                      <property name="halign">start</property>
+                      <property name="hexpand">True</property>
+                    </object>
+                  </child>
+                  <child>
+                    <object class="GtkComboBoxText" id="taskbar_position_monitor_combo">
+                      <property name="halign">end</property>
+                      <property name="valign">center</property>
+                      <property name="hexpand">True</property>
+                    </object>
+                  </child>
+                </object>
+              </child>
+            </object>
+          </child>
+
+        </object>
+      </child>
+
+      <!-- group order and positions 2 -->
+      <child>
+        <object class="AdwPreferencesGroup" id="position_group_on_monitor2">
+
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Panel screen position</property>
+              <child>
+                <object class="GtkToggleButton" id="position_bottom_button">
+                  <property name="label" translatable="yes">Bottom</property>
+                  <property name="receives_default">False</property>
+                  <property name="valign">center</property>
+                  <property name="active">True</property>
+                  <signal name="clicked" handler="position_bottom_button_clicked_cb" swapped="no"/>
+                </object>
+              </child>
+              <child>
+                <object class="GtkToggleButton" id="position_top_button">
+                  <property name="label" translatable="yes">Top</property>
+                  <property name="receives_default">False</property>
+                  <property name="valign">center</property>
+                  <property name="group">position_bottom_button</property>
+                  <signal name="clicked" handler="position_top_button_clicked_cb" swapped="no"/>
+                </object>
+              </child>
+              <child>
+                <object class="GtkToggleButton" id="position_left_button">
+                  <property name="label" translatable="yes">Left</property>
+                  <property name="receives_default">False</property>
+                  <property name="valign">center</property>
+                  <property name="group">position_bottom_button</property>
+                  <signal name="clicked" handler="position_left_button_clicked_cb" swapped="no"/>
+                </object>
+              </child>
+              <child>
+                <object class="GtkToggleButton" id="position_right_button">
+                  <property name="label" translatable="yes">Right</property>
+                  <property name="receives_default">False</property>
+                  <property name="valign">center</property>
+                  <property name="group">position_bottom_button</property>
+                  <signal name="clicked" handler="position_right_button_clicked_cb" swapped="no"/>
+                </object>
+              </child>
+            </object>
+          </child>
+
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Panel thickness</property>
+              <property name="subtitle" translatable="yes">(default is 48)</property>
+              <child>
+                <object class="GtkScale" id="panel_size_scale">
+                  <property name="width-request">300</property>
+                  <property name="adjustment">panel_size_adjustment</property>
+                  <property name="round_digits">0</property>
+                  <property name="digits">0</property>
+                  <property name="value_pos">right</property>
+                  <property name="draw_value">True</property>
+                  <signal name="value-changed" handler="panel_size_scale_value_changed_cb" swapped="no"/>
+                </object>
+              </child>
+            </object>
+          </child>
+
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Panel length (%)</property>
+              <property name="subtitle" translatable="yes">(default is 100)</property>
+              <child>
+                <object class="GtkScale" id="panel_length_scale">
+                  <property name="width-request">300</property>
+                  <property name="adjustment">panel_length_adjustment</property>
+                  <property name="round_digits">0</property>
+                  <property name="digits">0</property>
+                  <property name="value_pos">right</property>
+                  <property name="draw_value">True</property>
+                </object>
+              </child>
+            </object>
+          </child>
+
+          <child>
+            <object class="AdwActionRow" id="panel_anchor_label">
+              <property name="title" translatable="yes">Anchor</property>
+              <child>
+                <object class="GtkComboBoxText" id="panel_anchor_combo">
+                  <property name="valign">center</property>
+                  <items>
+                    <item id="START" translatable="yes">Start</item>
+                    <item id="MIDDLE" translatable="yes">Middle</item>
+                    <item id="END" translatable="yes">End</item>
+                  </items>
+                </object>
+              </child>
+            </object>
+          </child>
+
+        </object>
+      </child>
+
+      <!-- group order and positions 3 -->
+      <child>
+        <object class="AdwPreferencesGroup" id="position_group_on_monitor3">
+
+          <child>
+            <object class="AdwPreferencesRow">
+              <property name="title" translatable="yes">Taskbar Display</property>
+              <child>
+                <object class="GtkListBox" id="taskbar_display_listbox">
+                  <property name="margin-top">6</property>
+                  <property name="margin-bottom">6</property>
+                  <property name="visible">True</property>
+                  <property name="selection_mode">none</property>
+                </object>
+              </child>
+            </object>
+          </child>
+
+        </object>
+      </child>
+
+  </object>
+</interface>
