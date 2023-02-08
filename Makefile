@@ -50,11 +50,15 @@ mergepo: potfile
 		msgmerge -U $$l ./po/dash-to-panel.pot; \
 	done;
 
-./po/dash-to-panel.pot: $(TOLOCALIZE) Settings.ui
+./po/dash-to-panel.pot: $(TOLOCALIZE)
 	mkdir -p po
 	xgettext -k_ -kN_ -o po/dash-to-panel.pot --package-name "Dash To Panel" $(TOLOCALIZE) --from-code=UTF-8
-	intltool-extract --type=gettext/glade Settings.ui
-	xgettext -k_ -kN_ --join-existing -o po/dash-to-panel.pot Settings.ui.h
+	
+	for l in $(UI_MODULES) ; do \
+		intltool-extract --type=gettext/glade $$l; \
+		xgettext -k_ -kN_ -o po/dash-to-panel.pot $$l.h --join-existing --from-code=UTF-8; \
+	done;
+
 	sed -i -e 's/&\#10;/\\n/g' po/dash-to-panel.pot
 
 ./po/%.mo: ./po/%.po
