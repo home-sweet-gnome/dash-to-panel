@@ -7,71 +7,603 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-25 11:55+0100\n"
+"POT-Creation-Date: 2023-02-08 08:31-0500\n"
 "PO-Revision-Date: 2017-12-04 18:43+0200\n"
+"Last-Translator: Alice Charlotte Liddell <e-liss@tuta.io>\n"
 "Language-Team: \n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.4\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Last-Translator: Alice Charlotte Liddell <e-liss@tuta.io>\n"
-"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: prefs.js:213
-msgid "Running Indicator Options"
-msgstr "Налаштування індикатора роботи"
+#: prefs.js:247
+#, fuzzy
+msgid "Show Desktop button height (px)"
+msgstr "Показувати кнопку <i>Стільниця</i>"
 
-#: prefs.js:220 prefs.js:380 prefs.js:445 prefs.js:511 prefs.js:553
+#: prefs.js:247
+#, fuzzy
+msgid "Show Desktop button width (px)"
+msgstr "Показувати кнопку <i>Стільниця</i>"
+
+#: prefs.js:259
+msgid "Unavailable when gnome-shell top panel is present"
+msgstr ""
+
+#: prefs.js:317 ui/SettingsPosition.ui.h:12 ui/SettingsStyle.ui.h:11
+msgid "Left"
+msgstr ""
+
+#: prefs.js:318
+msgid "Center"
+msgstr ""
+
+#: prefs.js:319 ui/SettingsPosition.ui.h:13 ui/SettingsStyle.ui.h:12
+msgid "Right"
+msgstr ""
+
+#: prefs.js:321 ui/BoxWindowPreviewOptions.ui.h:38 ui/SettingsPosition.ui.h:11
+#: ui/SettingsStyle.ui.h:10
+msgid "Top"
+msgstr "Вгорі"
+
+#: prefs.js:322 prefs.js:327 ui/SettingsPosition.ui.h:21
+msgid "Middle"
+msgstr ""
+
+#: prefs.js:323 ui/BoxWindowPreviewOptions.ui.h:37 ui/SettingsPosition.ui.h:10
+#: ui/SettingsStyle.ui.h:9
+msgid "Bottom"
+msgstr "Знизу"
+
+#: prefs.js:326 ui/SettingsPosition.ui.h:20
+msgid "Start"
+msgstr ""
+
+#: prefs.js:328 ui/SettingsPosition.ui.h:22
+msgid "End"
+msgstr ""
+
+#: prefs.js:413
+#, fuzzy
+msgid "Show Applications button"
+msgstr "Піктограма <i>Всі Застосунки</i>"
+
+#: prefs.js:414
+#, fuzzy
+msgid "Activities button"
+msgstr "Показувати кнопку <i>Діяльність</i>"
+
+#: prefs.js:415
+msgid "Taskbar"
+msgstr ""
+
+#: prefs.js:416
+msgid "Date menu"
+msgstr ""
+
+#: prefs.js:417
+msgid "System menu"
+msgstr ""
+
+#: prefs.js:418
+msgid "Left box"
+msgstr ""
+
+#: prefs.js:419
+msgid "Center box"
+msgstr ""
+
+#: prefs.js:420
+#, fuzzy
+msgid "Right box"
+msgstr "Висота (пікселів)"
+
+#: prefs.js:421
+#, fuzzy
+msgid "Desktop button"
+msgstr "Показувати кнопку <i>Стільниця</i>"
+
+#: prefs.js:427
+msgid "Move up"
+msgstr ""
+
+#: prefs.js:429
+msgid "Move down"
+msgstr ""
+
+#: prefs.js:431
+msgid "Visible"
+msgstr ""
+
+#: prefs.js:432
+#, fuzzy
+msgid "Select element position"
+msgstr "Розташування панелі на екрані"
+
+#: prefs.js:443
+msgid "Stacked to top"
+msgstr ""
+
+#: prefs.js:443
+msgid "Stacked to left"
+msgstr ""
+
+#: prefs.js:444
+msgid "Stacked to bottom"
+msgstr ""
+
+#: prefs.js:444
+msgid "Stacked to right"
+msgstr ""
+
+#: prefs.js:445
+msgid "Centered"
+msgstr ""
+
+#: prefs.js:446
+msgid "Monitor Center"
+msgstr ""
+
+#: prefs.js:465
+msgid "More options"
+msgstr ""
+
+#: prefs.js:497
 msgid "Reset to defaults"
 msgstr "Скинути налаштвання"
 
-#: prefs.js:373
+#: prefs.js:520
+#, fuzzy
+msgid "Show Applications options"
+msgstr "Піктограма <i>Всі Застосунки</i>"
+
+#: prefs.js:530
+msgid "Open icon"
+msgstr ""
+
+#: prefs.js:577
+#, fuzzy
+msgid "Show Desktop options"
+msgstr "Показати стільницю"
+
+#: prefs.js:661
+#, javascript-format
+msgid "%d ms"
+msgstr ""
+
+#: prefs.js:666
+#, javascript-format
+msgid "%d °"
+msgstr ""
+
+#: prefs.js:671 prefs.js:676
+#, javascript-format
+msgid "%d %%"
+msgstr ""
+
+#: prefs.js:681
+#, javascript-format
+msgid "%.1f"
+msgstr ""
+
+#: prefs.js:686
+#, javascript-format
+msgid "%d icon"
+msgid_plural "%d icons"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: prefs.js:782
+msgid "Running Indicator Options"
+msgstr "Налаштування індикатора роботи"
+
+#: prefs.js:928
+msgid "Primary monitor"
+msgstr ""
+
+#: prefs.js:928
+msgid "Monitor "
+msgstr ""
+
+#: prefs.js:1122
+msgid "Dynamic opacity options"
+msgstr ""
+
+#: prefs.js:1255
+msgid "Intellihide options"
+msgstr ""
+
+#: prefs.js:1366
+#, fuzzy
+msgid "Window preview options"
+msgstr "Показувати виринаючі ескізи вікон при наведенні миші"
+
+#: prefs.js:1642
+msgid "Ungrouped application options"
+msgstr ""
+
+#: prefs.js:1721
 msgid "Customize middle-click behavior"
 msgstr "Налаштувати поведінку при середньому кліку"
 
-#: prefs.js:438
+#: prefs.js:1771
+#, fuzzy
+msgid "Customize panel scroll behavior"
+msgstr "Налаштувати поведінку при середньому кліку"
+
+#: prefs.js:1799
+#, fuzzy
+msgid "Customize icon scroll behavior"
+msgstr "Налаштувати поведінку при середньому кліку"
+
+#: prefs.js:1880
 msgid "Advanced hotkeys options"
 msgstr "Розширені налаштування гарячих клавіш"
 
-#: prefs.js:504
+#: prefs.js:1898
 msgid "Secondary Menu Options"
 msgstr "Налаштування другорядних меню"
 
-#: prefs.js:546 Settings.ui.h:85
+#: prefs.js:1924 ui/SettingsFineTune.ui.h:22
 msgid "Advanced Options"
 msgstr "Розширені налаштування"
 
-#: appIcons.js:918
-msgid "Show Details"
-msgstr "Детальніше"
+#: prefs.js:2040
+msgid "App icon animation options"
+msgstr ""
 
-#: appIcons.js:937
-msgid "New Window"
-msgstr "Нове вікно"
+#: prefs.js:2088
+msgid "Export settings"
+msgstr ""
 
-#: appIcons.js:937 appIcons.js:998 appIcons.js:1000 Settings.ui.h:8
+#: prefs.js:2104
+msgid "Import settings"
+msgstr ""
+
+#: appIcons.js:1503 appIcons.js:1513 appIcons.js:1515
+#: ui/BoxMiddleClickOptions.ui.h:10
 msgid "Quit"
 msgstr "Вийти"
 
-#: appIcons.js:1000
+#: appIcons.js:1515
 msgid "Windows"
 msgstr "Вікна"
 
-#: appIcons.js:1159
+#: appIcons.js:1786
+msgid "Power options"
+msgstr ""
+
+#: appIcons.js:1791
+msgid "Event logs"
+msgstr ""
+
+#: appIcons.js:1796
+msgid "System"
+msgstr ""
+
+#: appIcons.js:1801
+msgid "Device Management"
+msgstr ""
+
+#: appIcons.js:1806
+msgid "Disk Management"
+msgstr ""
+
+#: appIcons.js:1819
+msgid "Terminal"
+msgstr ""
+
+#: appIcons.js:1824
+msgid "System monitor"
+msgstr ""
+
+#: appIcons.js:1829
+msgid "Files"
+msgstr ""
+
+#: appIcons.js:1834
+msgid "Extensions"
+msgstr ""
+
+#: appIcons.js:1839
+msgid "Settings"
+msgstr ""
+
+#: appIcons.js:1850
+msgid "Unlock taskbar"
+msgstr ""
+
+#: appIcons.js:1850
+msgid "Lock taskbar"
+msgstr ""
+
+#: appIcons.js:1855
 msgid "Dash to Panel Settings"
 msgstr "Налаштування Dash to Panel"
 
-#: appIcons.js:1166
+#: appIcons.js:1860
 msgid "Restore Windows"
 msgstr "Відновити вікна"
 
-#: appIcons.js:1166
+#: appIcons.js:1860
 msgid "Show Desktop"
 msgstr "Показати стільницю"
 
-#: Settings.ui.h:1
+#: ui/BoxAdvancedOptions.ui.h:1
+msgid "Nothing yet!"
+msgstr ""
+
+#: ui/BoxAdvancedOptions.ui.h:2
+msgid "For real..."
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:1
+msgid "Animation type"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:2
+msgid "Simple"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:3
+msgid "Ripple"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:4
+msgid "Plank"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:5
+msgid "Duration"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:6
+msgid "Rotation"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:7
+msgid "Travel"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:8
+msgid "Zoom"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:9
+msgid "Convexity"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:10
+msgid "Extent"
+msgstr ""
+
+#: ui/BoxDotOptions.ui.h:1
+msgid "Highlight focused application"
+msgstr "Підсвічувати застосунок у фокусі"
+
+#: ui/BoxDotOptions.ui.h:2
+msgid "Icon dominant color"
+msgstr ""
+
+#: ui/BoxDotOptions.ui.h:3
+msgid "Custom color"
+msgstr ""
+
+#: ui/BoxDotOptions.ui.h:4
+#, fuzzy
+msgid "Highlight opacity"
+msgstr "Підсвічувати застосунок у фокусі"
+
+#: ui/BoxDotOptions.ui.h:5
+msgid "Indicator size (px)"
+msgstr ""
+
+#: ui/BoxDotOptions.ui.h:6
+msgid "Indicator color - Icon Dominant"
+msgstr ""
+
+#: ui/BoxDotOptions.ui.h:7
+#, fuzzy
+msgid "Indicator color - Override Theme"
+msgstr "Колір - Використовувати власну палітру"
+
+#: ui/BoxDotOptions.ui.h:8
+#, fuzzy
+msgid "1 window open (or ungrouped)"
+msgstr "1 відкрите вікно"
+
+#: ui/BoxDotOptions.ui.h:9
+msgid "Apply to all"
+msgstr "Застосувати для всіх"
+
+#: ui/BoxDotOptions.ui.h:10
+msgid "2 windows open"
+msgstr "2 відкритих вікна"
+
+#: ui/BoxDotOptions.ui.h:11
+msgid "3 windows open"
+msgstr "3 відкритих вікна"
+
+#: ui/BoxDotOptions.ui.h:12
+msgid "4+ windows open"
+msgstr "4 та більше відкритих вікон"
+
+#: ui/BoxDotOptions.ui.h:13
+msgid "Use different for unfocused"
+msgstr "Використовувати інший набір для вікон не у фокусі"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:1
+msgid "The panel background opacity is affected by"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui.h:2 ui/BoxIntellihideOptions.ui.h:3
+#, fuzzy
+msgid "All windows"
+msgstr "Вікна"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:3 ui/BoxIntellihideOptions.ui.h:4
+#, fuzzy
+msgid "Focused windows"
+msgstr "Розгорнути вікно"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:4 ui/BoxIntellihideOptions.ui.h:5
+#, fuzzy
+msgid "Maximized windows"
+msgstr "Згорнути вікно"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:5
+msgid "Change opacity when a window gets closer than (px)"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui.h:7
+#, no-c-format
+msgid "Change opacity to (%)"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui.h:8 ui/BoxShowApplicationsOptions.ui.h:3
+#: ui/BoxWindowPreviewOptions.ui.h:57 ui/SettingsStyle.ui.h:27
+msgid "0"
+msgstr "0"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:9
+msgid "Opacity change animation duration (ms)"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:1
+msgid "Font size (px) of the application titles (default is 14)"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:2
+#, fuzzy
+msgid "Font weight of application titles"
+msgstr "Анімувати перемикання між застосунками"
+
+#: ui/BoxGroupAppsOptions.ui.h:3 ui/BoxWindowPreviewOptions.ui.h:44
+msgid "inherit from theme"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:4 ui/BoxWindowPreviewOptions.ui.h:45
+msgid "normal"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:5 ui/BoxWindowPreviewOptions.ui.h:46
+msgid "lighter"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:6 ui/BoxWindowPreviewOptions.ui.h:47
+msgid "bold"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:7 ui/BoxWindowPreviewOptions.ui.h:48
+msgid "bolder"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:8
+msgid "Font color of the application titles"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:9
+msgid "Font color of the minimized application titles"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:10
+msgid "Maximum width (px) of the application titles"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:11
+#, fuzzy
+msgid "(default is 160)"
+msgstr ""
+"Розмір панелі\n"
+"(48 за замовчуванням)"
+
+#: ui/BoxGroupAppsOptions.ui.h:12
+msgid "Use a fixed width for the application titles"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:13
+msgid ""
+"The application titles all have the same width, even if their texts are "
+"shorter than the maximum width. The maximum width value is used as the fixed "
+"width."
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui.h:14
+#, fuzzy
+msgid "Display running indicators on unfocused applications"
+msgstr "Вигляд індикатора роботи (Не в фокусі)"
+
+#: ui/BoxGroupAppsOptions.ui.h:15
+msgid "Use the favorite icons as application launchers"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:1
+msgid "Only hide the panel when it is obstructed by windows"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:2
+msgid "The panel hides from"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:6
+msgid "Require pressure at the edge of the screen to reveal the panel"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:7
+msgid "Required pressure threshold (px)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:8
+#, fuzzy
+msgid "Required pressure timeout (ms)"
+msgstr "Час зникнення (мс)"
+
+#: ui/BoxIntellihideOptions.ui.h:9
+msgid "Allow the panel to be revealed while in fullscreen mode"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:10
+msgid "Only hide secondary panels"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:11
+msgid "(requires multi-monitors option)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:12
+msgid "Keyboard shortcut to reveal and hold the panel"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:13 ui/BoxOverlayShortcut.ui.h:12
+msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
+msgstr "Синтаксис: <Shift>, <Ctrl>, <Alt>, <Super>"
+
+#: ui/BoxIntellihideOptions.ui.h:14
+msgid "e.g. <Super>i"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:15
+msgid "Hide and reveal animation duration (ms)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:16
+msgid "Delay before hiding the panel (ms)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui.h:17
+msgid "Delay before enabling intellihide on start (ms)"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui.h:1
+msgid "Shift+Click action"
+msgstr "Дія при натисканні Shift+Клік"
+
+#: ui/BoxMiddleClickOptions.ui.h:2
 msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
@@ -79,130 +611,72 @@ msgstr ""
 "За активної опції згортання вікон, подвійне клацання згорне всі вікна "
 "застосунку."
 
-#: Settings.ui.h:2
-msgid "Shift+Click action"
-msgstr "Дія при натисканні Shift+Клік"
-
-#: Settings.ui.h:3
-msgid "Raise window"
+#: ui/BoxMiddleClickOptions.ui.h:3 ui/SettingsAction.ui.h:8
+#, fuzzy
+msgid "Raise windows"
 msgstr "Розгорнути вікно"
 
-#: Settings.ui.h:4
+#: ui/BoxMiddleClickOptions.ui.h:4
 msgid "Minimize window"
 msgstr "Згорнути вікно"
 
-#: Settings.ui.h:5
+#: ui/BoxMiddleClickOptions.ui.h:5 ui/SettingsAction.ui.h:9
 msgid "Launch new instance"
 msgstr "Запустити нову копію програми"
 
-#: Settings.ui.h:6
+#: ui/BoxMiddleClickOptions.ui.h:6 ui/SettingsAction.ui.h:4
 msgid "Cycle through windows"
 msgstr "Прокрутка вікон"
 
-#: Settings.ui.h:7
+#: ui/BoxMiddleClickOptions.ui.h:7 ui/SettingsAction.ui.h:3
 msgid "Cycle windows + minimize"
 msgstr "Прокрутка та згортання вікон"
 
-#: Settings.ui.h:9
-msgid "Behavior for Middle-Click."
-msgstr "Поведінка при середньому кліку"
+#: ui/BoxMiddleClickOptions.ui.h:8 ui/SettingsAction.ui.h:5
+msgid "Toggle single / Preview multiple"
+msgstr ""
 
-#: Settings.ui.h:10
+#: ui/BoxMiddleClickOptions.ui.h:9 ui/SettingsAction.ui.h:6
+msgid "Toggle single / Cycle multiple"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui.h:11
 msgid "Middle-Click action"
 msgstr "Дія при середньому кліку"
 
-#: Settings.ui.h:11
-msgid "Behavior for Shift+Middle-Click."
-msgstr "Поведінка при Shift+Середній клік"
+#: ui/BoxMiddleClickOptions.ui.h:12
+msgid "Behavior for Middle-Click."
+msgstr "Поведінка при середньому кліку"
 
-#: Settings.ui.h:12
+#: ui/BoxMiddleClickOptions.ui.h:13
 msgid "Shift+Middle-Click action"
 msgstr "Дія при Shift+Середній клік"
 
-#: Settings.ui.h:13
-msgid "Integrate <i>AppMenu</i> items"
-msgstr "Вбудувати пункти <i>Меню</i>"
+#: ui/BoxMiddleClickOptions.ui.h:14
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Поведінка при Shift+Середній клік"
 
-#: Settings.ui.h:14
-msgid "<i>Show Details</i> menu item"
-msgstr "Пункт меню <i>Детальніше</i>"
-
-#: Settings.ui.h:15
-msgid "Highlight focused application"
-msgstr "Підсвічувати застосунок у фокусі"
-
-#: Settings.ui.h:16
-msgid "Height (px)"
-msgstr "Висота (пікселів)"
-
-#: Settings.ui.h:17
-msgid "0"
-msgstr "0"
-
-#: Settings.ui.h:18
-msgid "Color - Override Theme"
-msgstr "Колір - Використовувати власну палітру"
-
-#: Settings.ui.h:19
-msgid "1 window open"
-msgstr "1 відкрите вікно"
-
-#: Settings.ui.h:20
-msgid "Apply to all"
-msgstr "Застосувати для всіх"
-
-#: Settings.ui.h:21
-msgid "2 windows open"
-msgstr "2 відкритих вікна"
-
-#: Settings.ui.h:22
-msgid "3 windows open"
-msgstr "3 відкритих вікна"
-
-#: Settings.ui.h:23
-msgid "4+ windows open"
-msgstr "4 та більше відкритих вікон"
-
-#: Settings.ui.h:24
-msgid "Use different for unfocused"
-msgstr "Використовувати інший набір для вікон не у фокусі"
-
-#: Settings.ui.h:25
-msgid "Preview timeout on icon leave (ms)"
-msgstr "Показувати ескіз ще (мс) після прибирання курсору миші"
-
-#: Settings.ui.h:26
-msgid ""
-"If set too low, the window preview of running applications may seem to close "
-"too quickly when trying to enter the popup. If set too high, the preview may "
-"linger too long when moving to an adjacent icon."
-msgstr ""
-"За надто малих значень  ескізи вікон застосунків можуть зникати надто швидко "
-"навіть для спроби переведення курсору з панелі на виринаючий контейнер з "
-"ескізами, але якщо значення зависоке, ескіз може ще довго висіти при "
-"переході на суміжну піктограму."
-
-#: Settings.ui.h:27
-msgid "Super"
-msgstr "Super"
-
-#: Settings.ui.h:28
-msgid "Super + Alt"
-msgstr "Super + Alt"
-
-#: Settings.ui.h:29
+#: ui/BoxOverlayShortcut.ui.h:1
 msgid "Hotkeys prefix"
 msgstr "Префікс гарячих клавіш"
 
-#: Settings.ui.h:30
+#: ui/BoxOverlayShortcut.ui.h:2
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
 msgstr "Гарячі клавіші будуть Super+Число, або Super+Alt+Num"
 
-#: Settings.ui.h:31
+#: ui/BoxOverlayShortcut.ui.h:3
+msgid "Super"
+msgstr "Super"
+
+#: ui/BoxOverlayShortcut.ui.h:4
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+#: ui/BoxOverlayShortcut.ui.h:5
 msgid "Number overlay"
 msgstr "Комірки з номерами"
 
-#: Settings.ui.h:32
+#: ui/BoxOverlayShortcut.ui.h:6
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
@@ -210,153 +684,445 @@ msgstr ""
 "Тимчасово показувати порядкові номери застосунків над їх піктограмами за "
 "використання гарячих клавіш."
 
-#: Settings.ui.h:33
+#: ui/BoxOverlayShortcut.ui.h:7
+msgid "Never"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui.h:8
+#, fuzzy
+msgid "Show temporarily"
+msgstr "Детальніше"
+
+#: ui/BoxOverlayShortcut.ui.h:9
+msgid "Always visible"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui.h:10
 msgid "Hide timeout (ms)"
 msgstr "Час зникнення (мс)"
 
-#: Settings.ui.h:34
+#: ui/BoxOverlayShortcut.ui.h:11
 msgid "Shortcut to show the overlay for 2 seconds"
 msgstr "Комбінація для двосекундного показу комірок"
 
-#: Settings.ui.h:35
-msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
-msgstr "Синтаксис: <Shift>, <Ctrl>, <Alt>, <Super>"
-
-#: Settings.ui.h:36
-msgid "Panel screen position"
-msgstr "Розташування панелі на екрані"
-
-#: Settings.ui.h:37
-msgid "Bottom"
-msgstr "Знизу"
-
-#: Settings.ui.h:38
-msgid "Top"
-msgstr "Вгорі"
-
-#: Settings.ui.h:39
-msgid ""
-"Panel Size\n"
-"(default is 48)"
+#: ui/BoxOverlayShortcut.ui.h:13
+msgid "e.g. <Super>q"
 msgstr ""
-"Розмір панелі\n"
-"(48 за замовчуванням)"
 
-#: Settings.ui.h:41
-msgid ""
-"App Icon Margin\n"
-"(default is 8)"
-msgstr ""
-"Проміжок між піктограмами\n"
-"(8 за замовчуванням)"
-
-#: Settings.ui.h:43
-msgid "Running indicator position"
-msgstr "Розташування індикатора роботи"
-
-#: Settings.ui.h:44
-msgid "Running indicator style (Focused app)"
-msgstr "Вигляд індикатора роботи"
-
-#: Settings.ui.h:45
-msgid "Dots"
-msgstr "Крапки"
-
-#: Settings.ui.h:46
-msgid "Squares"
-msgstr "Квадрати"
-
-#: Settings.ui.h:47
-msgid "Dashes"
-msgstr "Рисочки"
-
-#: Settings.ui.h:48
-msgid "Segmented"
-msgstr "Сегментований"
-
-#: Settings.ui.h:49
-msgid "Solid"
-msgstr "Цільний"
-
-#: Settings.ui.h:50
-msgid "Ciliora"
-msgstr "Ciliora"
-
-#: Settings.ui.h:51
-msgid "Metro"
-msgstr "Metro"
-
-#: Settings.ui.h:52
-msgid "Running indicator style (Unfocused apps)"
-msgstr "Вигляд індикатора роботи (Не в фокусі)"
-
-#: Settings.ui.h:53
-msgid "Clock location"
-msgstr "Розташування годинника"
-
-#: Settings.ui.h:54
-msgid "Natural"
-msgstr "За замовчуванням"
-
-#: Settings.ui.h:55
-msgid "Left of status menu"
-msgstr "Ліворуч від рядку стану"
-
-#: Settings.ui.h:56
-msgid "Right of status menu"
-msgstr "Праворуч від рядку стану"
-
-#: Settings.ui.h:57
-msgid "Position and Style"
-msgstr "Стиль і розташування"
-
-#: Settings.ui.h:58
-msgid "Show <i>Applications</i> icon"
-msgstr "Піктограма <i>Всі Застосунки</i>"
-
-#: Settings.ui.h:59
-msgid "Animate <i>Show Applications</i>."
-msgstr "Анімувати  <i>Всі Застосунки</i>."
-
-#: Settings.ui.h:60
-msgid "Show <i>Activities</i> button"
-msgstr "Показувати кнопку <i>Діяльність</i>"
-
-#: Settings.ui.h:61
-msgid "Show <i>Desktop</i> button"
-msgstr "Показувати кнопку <i>Стільниця</i>"
-
-#: Settings.ui.h:62
-msgid "Show <i>AppMenu</i> button"
-msgstr "Показувати кнопку <i>Застосунки</i>"
-
-#: Settings.ui.h:63
-msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
-msgstr ""
-"Панель Завдань > Опція \"Показувати Меню Застосунків\" має бути увімкнена у "
-"Tweak Tool"
-
-#: Settings.ui.h:64
-msgid "Show window previews on hover"
+#: ui/BoxOverlayShortcut.ui.h:14
+#, fuzzy
+msgid "Show window previews on hotkey"
 msgstr "Показувати виринаючі ескізи вікон при наведенні миші"
 
-#: Settings.ui.h:65
-msgid "Time (ms) before showing (100 is default)"
+#: ui/BoxOverlayShortcut.ui.h:15
+msgid "Show previews when the application have multiple instances"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui.h:16
+#, fuzzy
+msgid "Hotkeys are activated with"
+msgstr "Використовувати гарячі клавіші для запуску улюблених застосунків"
+
+#: ui/BoxOverlayShortcut.ui.h:17
+msgid "Select which keyboard number keys are used to activate the hotkeys"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui.h:18
+#, fuzzy
+msgid "Number row"
+msgstr "Комірки з номерами"
+
+#: ui/BoxOverlayShortcut.ui.h:19
+msgid "Numeric keypad"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui.h:20
+msgid "Both"
+msgstr ""
+
+#: ui/BoxScrollIconOptions.ui.h:1 ui/BoxScrollPanelOptions.ui.h:1
+msgid "Delay between mouse scroll events (ms)"
+msgstr ""
+
+#: ui/BoxScrollIconOptions.ui.h:2 ui/BoxScrollPanelOptions.ui.h:2
+msgid "Use this value to limit the number of captured mouse scroll events."
+msgstr ""
+
+#: ui/BoxScrollPanelOptions.ui.h:3
+msgid "Show popup when changing workspace"
+msgstr ""
+
+#: ui/BoxScrollPanelOptions.ui.h:4
+msgid "This affects workspace popup when scrolling on the panel only."
+msgstr ""
+
+#: ui/BoxSecondaryMenuOptions.ui.h:1
+msgid "Integrate <i>AppMenu</i> items"
+msgstr "Вбудувати пункти <i>Меню</i>"
+
+#: ui/BoxSecondaryMenuOptions.ui.h:2
+msgid "<i>Show Details</i> menu item"
+msgstr "Пункт меню <i>Детальніше</i>"
+
+#: ui/BoxShowApplicationsOptions.ui.h:1
+#, fuzzy
+msgid "Show Applications icon"
+msgstr "Піктограма <i>Всі Застосунки</i>"
+
+#: ui/BoxShowApplicationsOptions.ui.h:2
+#, fuzzy
+msgid "Show Applications icon side padding (px)"
+msgstr "Піктограма <i>Всі Застосунки</i>"
+
+#: ui/BoxShowApplicationsOptions.ui.h:4
+msgid "Override escape key and return to desktop"
+msgstr ""
+
+#: ui/BoxShowDesktopOptions.ui.h:1
+msgid "Override Show Desktop line color"
+msgstr ""
+
+#: ui/BoxShowDesktopOptions.ui.h:2
+msgid "Reveal the desktop when hovering the Show Desktop button"
+msgstr ""
+
+#: ui/BoxShowDesktopOptions.ui.h:3
+msgid "Delay before revealing the desktop (ms)"
+msgstr ""
+
+#: ui/BoxShowDesktopOptions.ui.h:4
+#, fuzzy
+msgid "Fade duration (ms)"
+msgstr "Час зникнення (мс)"
+
+#: ui/BoxWindowPreviewOptions.ui.h:1
+#, fuzzy
+msgid "Time (ms) before showing"
 msgstr "Затримка (мс) перед показом (100 за замовчуванням)"
 
-#: Settings.ui.h:66
-msgid "Isolate Workspaces"
-msgstr "Ізолювати стільниці"
+#: ui/BoxWindowPreviewOptions.ui.h:2
+msgid "(400 is default)"
+msgstr ""
 
-#: Settings.ui.h:67
-msgid "Behaviour when clicking on the icon of a running application."
-msgstr "Дія при кліку по піктограмі запущеного застосунку"
+#: ui/BoxWindowPreviewOptions.ui.h:3
+#, fuzzy
+msgid "Time (ms) before hiding"
+msgstr "Затримка (мс) перед показом (100 за замовчуванням)"
 
-#: Settings.ui.h:68
+#: ui/BoxWindowPreviewOptions.ui.h:4
+msgid "(100 is default)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:5
+msgid "Immediate on application icon click"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:6
+#, fuzzy
+msgid "Animation time (ms)"
+msgstr "Час зникнення (мс)"
+
+#: ui/BoxWindowPreviewOptions.ui.h:7
+msgid "Middle click on the preview to close the window"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:8
+msgid "Window previews preferred size (px)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:9
+msgid "Window previews aspect ratio X (width)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:10
+msgid "1"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:11
+msgid "2"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:12
+msgid "3"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:13
+msgid "4"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:14
+msgid "5"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:15
+msgid "6"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:16
+msgid "7"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:17
+msgid "8"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:18
+msgid "9"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:19
+#, fuzzy
+msgid "10"
+msgstr "0"
+
+#: ui/BoxWindowPreviewOptions.ui.h:20
+msgid "11"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:21
+msgid "12"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:22
+msgid "13"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:23
+msgid "14"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:24
+msgid "15"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:25
+msgid "16"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:26
+msgid "17"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:27
+msgid "18"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:28
+msgid "19"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:29
+#, fuzzy
+msgid "20"
+msgstr "0"
+
+#: ui/BoxWindowPreviewOptions.ui.h:30
+msgid "21"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:31
+msgid "Fixed"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:32
+msgid "Window previews aspect ratio Y (height)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:33
+msgid "Window previews padding (px)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:34
+msgid "Use custom opacity for the previews background"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:35
+msgid ""
+"If disabled, the previews background have the same opacity as the panel."
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:36
+msgid "Close button and header position"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:39
+#, fuzzy
+msgid "Display window preview headers"
+msgstr "Показувати виринаючі ескізи вікон при наведенні миші"
+
+#: ui/BoxWindowPreviewOptions.ui.h:40
+msgid "Icon size (px) of the window preview"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:41
+msgid "If disabled, the previews icon size will be based on headerbar size"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:42
+msgid "Font size (px) of the preview titles"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:43
+msgid "Font weight of the preview titles"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:49
+msgid "Font color of the preview titles"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:50
+#, fuzzy
+msgid "Enable window peeking"
+msgstr "1 відкрите вікно"
+
+#: ui/BoxWindowPreviewOptions.ui.h:51
+msgid ""
+"When hovering over a window preview for some time, the window gets "
+"distinguished."
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:52
+msgid "Enter window peeking mode timeout (ms)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:53
+msgid ""
+"Time of inactivity while hovering over a window preview needed to enter the "
+"window peeking mode."
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:54
+#, fuzzy
+msgid "50"
+msgstr "0"
+
+#: ui/BoxWindowPreviewOptions.ui.h:55
+msgid "Window peeking mode opacity"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui.h:56
+msgid ""
+"All windows except for the peeked one have their opacity set to the same "
+"value."
+msgstr ""
+
+#: ui/SettingsAbout.ui.h:1
+msgid "Info"
+msgstr ""
+
+#: ui/SettingsAbout.ui.h:2
+#, fuzzy
+msgid "Version"
+msgstr "версія:"
+
+#: ui/SettingsAbout.ui.h:3
+msgid "Source"
+msgstr ""
+
+#: ui/SettingsAbout.ui.h:4
+msgid "GitHub"
+msgstr ""
+
+#: ui/SettingsAbout.ui.h:5
+msgid "Export and Import"
+msgstr ""
+
+#: ui/SettingsAbout.ui.h:6
+msgid "Export and import settings"
+msgstr ""
+
+#: ui/SettingsAbout.ui.h:7
+msgid ""
+"Use the buttons below to create a settings file from your current "
+"preferences that can be imported on a different machine."
+msgstr ""
+
+#: ui/SettingsAbout.ui.h:8
+msgid "Export to file"
+msgstr ""
+
+#: ui/SettingsAbout.ui.h:9
+msgid "Import from file"
+msgstr ""
+
+#: ui/SettingsAbout.ui.h:10
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0."
+"html\">GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">Автор програми не надає ЖОДНИХ ГАРАНТІЙ.\n"
+"Перегляньте <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0."
+"html\">GNU General Public License, version 2 or later</a>, щоб дізнатися "
+"більше.</span>"
+
+#: ui/SettingsAction.ui.h:1
 msgid "Click action"
 msgstr "Дія при кліку"
 
-#: Settings.ui.h:69
+#: ui/SettingsAction.ui.h:2
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr "Дія при кліку по піктограмі запущеного застосунку"
+
+#: ui/SettingsAction.ui.h:7
+#, fuzzy
+msgid "Toggle windows"
+msgstr "Відновити вікна"
+
+#: ui/SettingsAction.ui.h:10
+#, fuzzy
+msgid "Scroll action"
+msgstr "Дія при кліку"
+
+#: ui/SettingsAction.ui.h:11
+msgid "Scroll panel action"
+msgstr ""
+
+#: ui/SettingsAction.ui.h:12
+msgid "Behavior when mouse scrolling over the panel."
+msgstr ""
+
+#: ui/SettingsAction.ui.h:13
+msgid "Do nothing"
+msgstr ""
+
+#: ui/SettingsAction.ui.h:14
+msgid "Switch workspace"
+msgstr ""
+
+#: ui/SettingsAction.ui.h:15
+#, fuzzy
+msgid "Cycle windows"
+msgstr "Прокрутка вікон"
+
+#: ui/SettingsAction.ui.h:16
+msgid "Change volume"
+msgstr ""
+
+#: ui/SettingsAction.ui.h:17
+#, fuzzy
+msgid "Scroll icon action"
+msgstr "Дія при кліку"
+
+#: ui/SettingsAction.ui.h:18
+#, fuzzy
+msgid "Behavior when mouse scrolling over an application icon."
+msgstr "Дія при кліку по піктограмі запущеного застосунку"
+
+#: ui/SettingsAction.ui.h:19
+msgid "Same as panel"
+msgstr ""
+
+#: ui/SettingsAction.ui.h:20
+#, fuzzy
+msgid "Hotkey overlay"
+msgstr "Комірки з номерами"
+
+#: ui/SettingsAction.ui.h:21
+msgid "Use hotkeys to activate apps"
+msgstr "Використовувати гарячі клавіші для запуску улюблених застосунків"
+
+#: ui/SettingsAction.ui.h:22
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
@@ -364,89 +1130,405 @@ msgstr ""
 "Зробити Super+(0-9) клавішами швидкого запуску застосунків. Також може "
 "використовуватись з Shift та Ctrl."
 
-#: Settings.ui.h:70
-msgid "Use hotkeys to activate apps"
-msgstr "Використовувати гарячі клавіші для запуску улюблених застосунків"
+#: ui/SettingsBehavior.ui.h:1
+#, fuzzy
+msgid "Applications"
+msgstr "Дія при кліку"
 
-#: Settings.ui.h:71
-msgid "Behavior"
-msgstr "Поведінка"
+#: ui/SettingsBehavior.ui.h:2
+#, fuzzy
+msgid "Show favorite applications"
+msgstr "Піктограма <i>Всі Застосунки</i>"
 
-#: Settings.ui.h:72
-msgid ""
-"Tray Font Size\n"
-"(0 = theme default)"
+#: ui/SettingsBehavior.ui.h:3
+msgid "Show favorite applications on secondary panels"
+msgstr ""
+
+#: ui/SettingsBehavior.ui.h:4
+#, fuzzy
+msgid "Show running applications"
+msgstr "Піктограма <i>Всі Застосунки</i>"
+
+#: ui/SettingsBehavior.ui.h:5
+msgid "Show <i>AppMenu</i> button"
+msgstr "Показувати кнопку <i>Застосунки</i>"
+
+#: ui/SettingsBehavior.ui.h:6
+#, fuzzy
+msgid "Ungroup applications"
+msgstr "Підсвічувати застосунок у фокусі"
+
+#: ui/SettingsBehavior.ui.h:7
+msgid "Show notification counter badge"
+msgstr ""
+
+#: ui/SettingsBehavior.ui.h:8
+msgid "Show window previews on hover"
+msgstr "Показувати виринаючі ескізи вікон при наведенні миші"
+
+#: ui/SettingsBehavior.ui.h:9
+#, fuzzy
+msgid "Show tooltip on hover"
+msgstr "Показувати виринаючі ескізи вікон при наведенні миші"
+
+#: ui/SettingsBehavior.ui.h:10
+msgid "Isolate"
+msgstr ""
+
+#: ui/SettingsBehavior.ui.h:11
+msgid "Isolate Workspaces"
+msgstr "Ізолювати стільниці"
+
+#: ui/SettingsBehavior.ui.h:12
+#, fuzzy
+msgid "Isolate monitors"
+msgstr "Ізолювати стільниці"
+
+#: ui/SettingsBehavior.ui.h:13
+msgid "Overview"
+msgstr ""
+
+#: ui/SettingsBehavior.ui.h:14
+msgid "Click empty space to close overview"
+msgstr ""
+
+#: ui/SettingsBehavior.ui.h:15
+msgid "Disable show overview on startup"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:1
+msgid "Font size"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:2
+msgid "Tray Font Size"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:3
+#, fuzzy
+msgid "(0 = theme default)"
 msgstr ""
 "Розмір шрифту у панелі\n"
 "(0 = визначено темою)"
 
-#: Settings.ui.h:74
-msgid ""
-"LeftBox Font Size\n"
-"(0 = theme default)"
+#: ui/SettingsFineTune.ui.h:4
+#, fuzzy
+msgid "LeftBox Font Size"
 msgstr ""
 "Розмір шрифту LeftBox\n"
 "(0 = визначено темою)"
 
-#: Settings.ui.h:76
-msgid ""
-"Tray Item Padding\n"
-"(-1 = theme default)"
+#: ui/SettingsFineTune.ui.h:5
+msgid "Padding"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:6
+#, fuzzy
+msgid "Tray Item Padding"
 msgstr ""
 "Проміжки між об’єктами лотка\n"
 "(-1 = визначено темою)"
 
-#: Settings.ui.h:78
-msgid ""
-"Status Icon Padding\n"
-"(-1 = theme default)"
-msgstr ""
-"Проміжки в рядку стану\n"
-"(-1 = визначено тамою)"
-
-#: Settings.ui.h:80
-msgid ""
-"LeftBox Padding\n"
-"(-1 = theme default)"
+#: ui/SettingsFineTune.ui.h:7
+#, fuzzy
+msgid "(-1 = theme default)"
 msgstr ""
 "Проміжок зліва\n"
 "(-1 = визначено темою)"
 
-#: Settings.ui.h:82
+#: ui/SettingsFineTune.ui.h:8
+#, fuzzy
+msgid "Status Icon Padding"
+msgstr ""
+"Проміжки в рядку стану\n"
+"(-1 = визначено тамою)"
+
+#: ui/SettingsFineTune.ui.h:9
+msgid "LeftBox Padding"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:10
+msgid "Animate"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:11
 msgid "Animate switching applications"
 msgstr "Анімувати перемикання між застосунками"
 
-#: Settings.ui.h:83
+#: ui/SettingsFineTune.ui.h:12
 msgid "Animate launching new windows"
 msgstr "Анімувати запуск нових вікон"
 
-#: Settings.ui.h:84
-msgid "App icon secondary (right-click) menu"
+#: ui/SettingsFineTune.ui.h:13
+msgid "Gnome functionality"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:14
+msgid "Keep original gnome-shell dash"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:15
+msgid "(overview)"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:16
+msgid "Keep original gnome-shell top panel"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:17
+msgid "Activate panel menu buttons on click only"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:18
+msgid "(e.g. date menu)"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:19
+msgid "Force Activities hot corner on primary monitor"
+msgstr ""
+
+#: ui/SettingsFineTune.ui.h:20
+#, fuzzy
+msgid "App icon secondary menu"
 msgstr "Контекстне меню піктограм застосунків"
 
-#: Settings.ui.h:86
-msgid "Fine-Tune"
-msgstr "Тонке налаштування"
+#: ui/SettingsFineTune.ui.h:21
+#, fuzzy
+msgid "(right-click menu)"
+msgstr "Контекстне меню піктограм застосунків"
 
-#: Settings.ui.h:87
-msgid "version: "
-msgstr "версія:"
-
-#: Settings.ui.h:88
-msgid "Github"
-msgstr "GitHub"
-
-#: Settings.ui.h:89
-msgid ""
-"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
-"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
-"\">GNU General Public License, version 2 or later</a> for details.</span>"
+#: ui/SettingsPosition.ui.h:1
+msgid "Panel"
 msgstr ""
-"<span size=\"small\">Автор програми не надає ЖОДНИХ ГАРАНТІЙ.\n"
-"Перегляньте <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
-"\">GNU General Public License, version 2 or later</a>, щоб дізнатися більше."
-"</span>"
 
-#: Settings.ui.h:91
-msgid "About"
-msgstr "Про програму"
+#: ui/SettingsPosition.ui.h:2
+msgid "Display the main panel on"
+msgstr ""
+
+#: ui/SettingsPosition.ui.h:3
+msgid "Display panels on all monitors"
+msgstr ""
+
+#: ui/SettingsPosition.ui.h:4
+msgid "Panel Intellihide"
+msgstr ""
+
+#: ui/SettingsPosition.ui.h:5
+msgid "Hide and reveal the panel according to preferences"
+msgstr ""
+
+#: ui/SettingsPosition.ui.h:6
+msgid "Order and Position on monitors"
+msgstr ""
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Monitor"
+msgstr ""
+
+#: ui/SettingsPosition.ui.h:8
+msgid "Apply changes to all monitors"
+msgstr ""
+
+#: ui/SettingsPosition.ui.h:9
+msgid "Panel screen position"
+msgstr "Розташування панелі на екрані"
+
+#: ui/SettingsPosition.ui.h:14
+msgid "Panel thickness"
+msgstr ""
+
+#: ui/SettingsPosition.ui.h:15
+#, fuzzy
+msgid "(default is 48)"
+msgstr ""
+"Розмір панелі\n"
+"(48 за замовчуванням)"
+
+#: ui/SettingsPosition.ui.h:17
+#, no-c-format
+msgid "Panel length (%)"
+msgstr ""
+
+#: ui/SettingsPosition.ui.h:18
+#, fuzzy
+msgid "(default is 100)"
+msgstr ""
+"Розмір панелі\n"
+"(48 за замовчуванням)"
+
+#: ui/SettingsPosition.ui.h:19
+msgid "Anchor"
+msgstr ""
+
+#: ui/SettingsPosition.ui.h:23
+msgid "Taskbar Display"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:1
+msgid "AppIcon style"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:2
+#, fuzzy
+msgid "App Icon Margin"
+msgstr ""
+"Проміжок між піктограмами\n"
+"(8 за замовчуванням)"
+
+#: ui/SettingsStyle.ui.h:3
+#, fuzzy
+msgid "(default is 8)"
+msgstr ""
+"Розмір панелі\n"
+"(48 за замовчуванням)"
+
+#: ui/SettingsStyle.ui.h:4
+msgid "App Icon Padding"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:5
+#, fuzzy
+msgid "(default is 4)"
+msgstr ""
+"Розмір панелі\n"
+"(48 за замовчуванням)"
+
+#: ui/SettingsStyle.ui.h:6
+#, fuzzy
+msgid "Animate hovering app icons"
+msgstr "Анімувати перемикання між застосунками"
+
+#: ui/SettingsStyle.ui.h:7
+#, fuzzy
+msgid "Running indicator"
+msgstr "Розташування індикатора роботи"
+
+#: ui/SettingsStyle.ui.h:8
+msgid "Running indicator position"
+msgstr "Розташування індикатора роботи"
+
+#: ui/SettingsStyle.ui.h:13
+msgid "Running indicator style (Focused app)"
+msgstr "Вигляд індикатора роботи"
+
+#: ui/SettingsStyle.ui.h:14
+msgid "Dots"
+msgstr "Крапки"
+
+#: ui/SettingsStyle.ui.h:15
+msgid "Squares"
+msgstr "Квадрати"
+
+#: ui/SettingsStyle.ui.h:16
+msgid "Dashes"
+msgstr "Рисочки"
+
+#: ui/SettingsStyle.ui.h:17
+msgid "Segmented"
+msgstr "Сегментований"
+
+#: ui/SettingsStyle.ui.h:18
+msgid "Solid"
+msgstr "Цільний"
+
+#: ui/SettingsStyle.ui.h:19
+msgid "Ciliora"
+msgstr "Ciliora"
+
+#: ui/SettingsStyle.ui.h:20
+msgid "Metro"
+msgstr "Metro"
+
+#: ui/SettingsStyle.ui.h:21
+msgid "Running indicator style (Unfocused apps)"
+msgstr "Вигляд індикатора роботи (Не в фокусі)"
+
+#: ui/SettingsStyle.ui.h:22
+msgid "Panel style"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:23
+msgid "Override panel theme background color"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:24
+msgid "Override panel theme background opacity"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:26
+#, no-c-format
+msgid "Panel background opacity (%)"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:28
+msgid "Dynamic background opacity"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:29
+msgid "Change opacity when a window gets close to the panel"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:30
+msgid "Override panel theme gradient"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:32
+#, no-c-format
+msgid "Gradient top color and opacity (%)"
+msgstr ""
+
+#: ui/SettingsStyle.ui.h:34
+#, no-c-format
+msgid "Gradient bottom color and opacity (%)"
+msgstr ""
+
+#~ msgid "New Window"
+#~ msgstr "Нове вікно"
+
+#~ msgid "Preview timeout on icon leave (ms)"
+#~ msgstr "Показувати ескіз ще (мс) після прибирання курсору миші"
+
+#~ msgid ""
+#~ "If set too low, the window preview of running applications may seem to "
+#~ "close too quickly when trying to enter the popup. If set too high, the "
+#~ "preview may linger too long when moving to an adjacent icon."
+#~ msgstr ""
+#~ "За надто малих значень  ескізи вікон застосунків можуть зникати надто "
+#~ "швидко навіть для спроби переведення курсору з панелі на виринаючий "
+#~ "контейнер з ескізами, але якщо значення зависоке, ескіз може ще довго "
+#~ "висіти при переході на суміжну піктограму."
+
+#~ msgid "Clock location"
+#~ msgstr "Розташування годинника"
+
+#~ msgid "Natural"
+#~ msgstr "За замовчуванням"
+
+#~ msgid "Left of status menu"
+#~ msgstr "Ліворуч від рядку стану"
+
+#~ msgid "Right of status menu"
+#~ msgstr "Праворуч від рядку стану"
+
+#~ msgid "Position and Style"
+#~ msgstr "Стиль і розташування"
+
+#~ msgid "Animate <i>Show Applications</i>."
+#~ msgstr "Анімувати  <i>Всі Застосунки</i>."
+
+#~ msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
+#~ msgstr ""
+#~ "Панель Завдань > Опція \"Показувати Меню Застосунків\" має бути увімкнена "
+#~ "у Tweak Tool"
+
+#~ msgid "Behavior"
+#~ msgstr "Поведінка"
+
+#~ msgid "Fine-Tune"
+#~ msgstr "Тонке налаштування"
+
+#~ msgid "Github"
+#~ msgstr "GitHub"
+
+#~ msgid "About"
+#~ msgstr "Про програму"
