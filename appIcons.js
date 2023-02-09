@@ -58,7 +58,6 @@ const Progress = Me.imports.progress;
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
 //timeout names
-const T1 = 'setStyleTimeout';
 const T2 = 'mouseScrollTimeout';
 const T3 = 'showDotsTimeout';
 const T4 = 'overviewWindowDragEndTimeout';
@@ -261,8 +260,6 @@ var TaskbarAppIcon = GObject.registerClass({
             Me.settings.connect('changed::group-apps-use-fixed-width', this._updateWindowTitleStyle.bind(this)),
             Me.settings.connect('changed::group-apps-underline-unfocused', this._settingsChangeRefresh.bind(this))
         ]
-
-        this.forcedOverview = false;
 
         this._progressIndicator = new Progress.ProgressIndicator(this, panel.progressManager);
 
@@ -607,14 +604,8 @@ var TaskbarAppIcon = GObject.registerClass({
             inlineStyle += "background-color: " + cssHexTocssRgba(highlightColor, Me.settings.get_int('focus-highlight-opacity') * 0.01);
         }
         
-        if(this._dotsContainer.get_style() != inlineStyle && this._dotsContainer.mapped) {
-            if (!this._isGroupApps) {
-                //when the apps are ungrouped, set the style synchronously so the icons don't jump around on taskbar redraw
-                this._dotsContainer.set_style(inlineStyle);
-            } else if (!this._timeoutsHandler.getId(T1)) {
-                //graphical glitches if i dont set this on a timeout
-                this._timeoutsHandler.add([T1, 0, () => this._dotsContainer.set_style(inlineStyle)]);
-            }
+        if(this._dotsContainer.get_style() != inlineStyle) {
+            this._dotsContainer.set_style(inlineStyle);
         }
     }
 
