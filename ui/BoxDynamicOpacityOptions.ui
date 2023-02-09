@@ -59,10 +59,6 @@
                 <property name="adjustment">trans_distance_adjustment</property>
                 <property name="numeric">True</property>
                 <property name="value">50</property>
-                <layout>
-                  <property name="row">0</property>
-                  <property name="column">1</property>
-                </layout>
               </object>
             </child>
           </object>
