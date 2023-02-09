@@ -57,6 +57,7 @@ mergepo: potfile
 	for l in $(UI_MODULES) ; do \
 		intltool-extract --type=gettext/glade $$l; \
 		xgettext -k_ -kN_ -o po/dash-to-panel.pot $$l.h --join-existing --from-code=UTF-8; \
+		rm -rf $$l.h; \
 	done;
 
 	sed -i -e 's/&\#10;/\\n/g' po/dash-to-panel.pot
