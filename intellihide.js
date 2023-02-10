@@ -203,6 +203,14 @@ var Intellihide = class {
                 () => this._queueUpdatePanelPosition()
             ]
         );
+
+        if (Meta.is_wayland_compositor()) {
+            this._signalsHandler.add([
+                this._panelBox,
+                'notify::visible', 
+                () => Utils.setDisplayUnredirect(!this._panelBox.visible)
+            ]);
+        }
     }
 
     _onHoverChanged() {

@@ -1282,14 +1282,12 @@ var Taskbar = class {
             else {
                 if (this.forcedOverview) {
                     // force exiting overview if needed
-
                     Main.overview.hide();
-                    this.forcedOverview = false;
-                }
-                else {
+                } else {
                     selector._showAppsButton.checked = false;
-                    this.forcedOverview = false;
                 }
+
+                this.forcedOverview = false;
             }
         }
     }

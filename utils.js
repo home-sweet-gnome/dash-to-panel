@@ -208,6 +208,16 @@ var DisplayWrapper = {
     }
 };
 
+let unredirectEnabled = true
+var setDisplayUnredirect = (enable) => {
+    if (enable && !unredirectEnabled)
+        Meta.enable_unredirect_for_display(global.display);
+    else if (!enable && unredirectEnabled)
+        Meta.disable_unredirect_for_display(global.display);
+
+    unredirectEnabled = enable;
+};
+
 var getSystemMenuInfo = function() {
     if (Config.PACKAGE_VERSION < '43')
         return {
