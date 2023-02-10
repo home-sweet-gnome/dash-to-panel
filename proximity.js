@@ -158,7 +158,7 @@ var ProximityManager = class {
 
         if (window) {
             focusedWindowInfo = { window: window };
-            focusedWindowInfo.metaWindow = focusedWindowInfo.window.get_meta_window();
+            focusedWindowInfo.metaWindow = focusedWindow;
 
             if (focusedWindow.is_attached_dialog()) {
                 let mainMetaWindow = focusedWindow.get_transient_for();
@@ -190,8 +190,7 @@ var ProximityManager = class {
 
     _checkIfHandledWindow(metaWindow) {
         return metaWindow && 
-               !metaWindow.minimized && 
-               !metaWindow.skip_taskbar &&
+               !metaWindow.minimized &&
                this._checkIfHandledWindowType(metaWindow);
     }
 
