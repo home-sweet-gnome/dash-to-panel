@@ -511,13 +511,22 @@ var TaskbarAppIcon = GObject.registerClass({
     _resetDots() {
         let position = Me.settings.get_string('dot-position');
         let isHorizontalDots = position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM;
+        let sizeProp = isHorizontalDots ? 'width' : 'height';
+        let focusedDotStyle = Me.settings.get_string('dot-style-focused');
+        let unfocusedDotStyle = Me.settings.get_string('dot-style-unfocused');
+        
+        this._focusedIsWide = this._isWideDotStyle(focusedDotStyle);
+        this._unfocusedIsWide = this._isWideDotStyle(unfocusedDotStyle);
+
+        [, this._containerSize] = this._container[`get_preferred_${sizeProp}`](-1);
+        this._containerSize /= Utils.getScaleFactor();
 
         [this._focusedDots, this._unfocusedDots].forEach(d => {
             d._tweeningToSize = null;
             d.set_size(-1, -1);
             d.x_expand = d.y_expand = false;
 
-            d[isHorizontalDots ? 'width' : 'height'] = 1;
+            d[sizeProp] = 1;
             d[(isHorizontalDots ? 'y' : 'x') + '_expand'] = true;
         });
     }
@@ -575,9 +584,8 @@ var TaskbarAppIcon = GObject.registerClass({
            this._checkIfFocusedApp() && !this.isLauncher &&  
            (!this.window || isFocused) && !this._isThemeProvidingIndicator() && this._checkIfMonitorHasFocus()) {
             let focusedDotStyle = Me.settings.get_string('dot-style-focused');
-            let isWide = this._isWideDotStyle(focusedDotStyle);
             let pos = Me.settings.get_string('dot-position');
-            let highlightMargin = isWide ? Me.settings.get_int('dot-size') : 0;
+            let highlightMargin = this._focusedIsWide ? Me.settings.get_int('dot-size') : 0;
 
             if(!this.window) {
                 let containerWidth = this._dtpIconContainer.get_width() / Utils.getScaleFactor();;
@@ -688,13 +696,15 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _displayProperIndicator() {
-        let isFocused = this._isFocusedWindow();
+        let isFocused;
         let position = Me.settings.get_string('dot-position');
         let isHorizontalDots = position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM;
 
         this._setIconStyle(isFocused);
 
         if(!this._isGroupApps) {
+            isFocused = this._isFocusedWindow();
+
             if (this.window && (Me.settings.get_boolean('group-apps-underline-unfocused') || isFocused)) {
                 let align = Clutter.ActorAlign[position == DOT_POSITION.TOP || position == DOT_POSITION.LEFT ? 'START' : 'END'];
                 
@@ -710,12 +720,6 @@ var TaskbarAppIcon = GObject.registerClass({
             }
         } else {
             let sizeProp = isHorizontalDots ? 'width' : 'height';
-            let containerSize = this._container[sizeProp];
-            let focusedDotStyle = Me.settings.get_string('dot-style-focused');
-            let unfocusedDotStyle = Me.settings.get_string('dot-style-unfocused');
-            let focusedIsWide = this._isWideDotStyle(focusedDotStyle);
-            let unfocusedIsWide = this._isWideDotStyle(unfocusedDotStyle);
-    
             let newFocusedDotsSize = 0;
             let newFocusedDotsOpacity = 0;
             let newUnfocusedDotsSize = 0;
@@ -730,19 +734,19 @@ var TaskbarAppIcon = GObject.registerClass({
                     this.remove_style_class_name('focused');
             }]);
 
-            if(focusedIsWide) {
-                newFocusedDotsSize = (isFocused && this._nWindows > 0) ? containerSize : 0;
+            if(this._focusedIsWide) {
+                newFocusedDotsSize = (isFocused && this._nWindows > 0) ? this._containerSize : 0;
                 newFocusedDotsOpacity = 255;
             } else {
-                newFocusedDotsSize = containerSize;
+                newFocusedDotsSize = this._containerSize;
                 newFocusedDotsOpacity = (isFocused && this._nWindows > 0) ? 255 : 0;
             }
     
-            if(unfocusedIsWide) {
-                newUnfocusedDotsSize = (!isFocused && this._nWindows > 0) ? containerSize : 0;
+            if(this._unfocusedIsWide) {
+                newUnfocusedDotsSize = (!isFocused && this._nWindows > 0) ? this._containerSize : 0;
                 newUnfocusedDotsOpacity = 255;
             } else {
-                newUnfocusedDotsSize = containerSize;
+                newUnfocusedDotsSize = this._containerSize;
                 newUnfocusedDotsOpacity = (!isFocused && this._nWindows > 0) ? 255 : 0;
             }
     
@@ -751,7 +755,7 @@ var TaskbarAppIcon = GObject.registerClass({
             // AND (going from a wide style to a narrow style indicator or vice-versa
             // OR going from an open app to a closed app or vice versa)
             let animate = Me.settings.get_boolean('animate-app-switch') &&
-                         ((focusedIsWide != unfocusedIsWide) ||
+                         ((this._focusedIsWide != this._unfocusedIsWide) ||
                           (this._focusedDots[sizeProp] != newUnfocusedDotsSize || this._unfocusedDots[sizeProp] != newFocusedDotsSize))
             let duration = animate ? Taskbar.DASH_ANIMATION_TIME : 0.001;
 
