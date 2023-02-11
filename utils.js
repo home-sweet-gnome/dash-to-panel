@@ -441,7 +441,7 @@ var animateWindowOpacity = function(window, tweenOpts) {
 var animate = function(actor, options) {
     //the original animations used Tweener instead of Clutter animations, so we
     //use "time" and "delay" properties defined in seconds, as opposed to Clutter 
-    //animations duration" and "delay" which are defined in milliseconds
+    //animations "duration" and "delay" which are defined in milliseconds
     if (options.delay) {
         options.delay = options.delay * 1000;
     }

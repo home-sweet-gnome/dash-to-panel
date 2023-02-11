@@ -750,24 +750,20 @@ var TaskbarAppIcon = GObject.registerClass({
             // animation is enabled in settings
             // AND (going from a wide style to a narrow style indicator or vice-versa
             // OR going from an open app to a closed app or vice versa)
-            if(Me.settings.get_boolean('animate-app-switch') &&
-               ((focusedIsWide != unfocusedIsWide) ||
-                (this._focusedDots[sizeProp] != newUnfocusedDotsSize || this._unfocusedDots[sizeProp] != newFocusedDotsSize))) {
-                this._animateDotDisplay(this._focusedDots, newFocusedDotsSize, this._unfocusedDots, newUnfocusedDotsOpacity, sizeProp);
-                this._animateDotDisplay(this._unfocusedDots, newUnfocusedDotsSize, this._focusedDots, newFocusedDotsOpacity, sizeProp);
-            } else {
-                this._focusedDots.opacity = newFocusedDotsOpacity;
-                this._unfocusedDots.opacity = newUnfocusedDotsOpacity;
-                this._focusedDots[sizeProp] = newFocusedDotsSize;
-                this._unfocusedDots[sizeProp] = newUnfocusedDotsSize;
-            }
+            let animate = Me.settings.get_boolean('animate-app-switch') &&
+                         ((focusedIsWide != unfocusedIsWide) ||
+                          (this._focusedDots[sizeProp] != newUnfocusedDotsSize || this._unfocusedDots[sizeProp] != newFocusedDotsSize))
+            let duration = animate ? Taskbar.DASH_ANIMATION_TIME : 0.001;
+
+            this._animateDotDisplay(this._focusedDots, newFocusedDotsSize, this._unfocusedDots, newUnfocusedDotsOpacity, sizeProp, duration);
+            this._animateDotDisplay(this._unfocusedDots, newUnfocusedDotsSize, this._focusedDots, newFocusedDotsOpacity, sizeProp, duration);
         }
     }
 
-    _animateDotDisplay(dots, newSize, otherDots, newOtherOpacity, sizeProp) {
+    _animateDotDisplay(dots, newSize, otherDots, newOtherOpacity, sizeProp, duration) {
         if(dots[sizeProp] != newSize && dots._tweeningToSize !== newSize) {
             let tweenOpts = { 
-                time: Taskbar.DASH_ANIMATION_TIME,
+                time: duration,
                 transition: 'easeInOutCubic',
                 onComplete: () => { 
                     if(newOtherOpacity > 0)
