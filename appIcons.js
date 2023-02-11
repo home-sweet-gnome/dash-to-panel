@@ -696,15 +696,13 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _displayProperIndicator() {
-        let isFocused;
+        let isFocused = this._isFocusedWindow();
         let position = Me.settings.get_string('dot-position');
         let isHorizontalDots = position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM;
 
         this._setIconStyle(isFocused);
 
         if(!this._isGroupApps) {
-            isFocused = this._isFocusedWindow();
-
             if (this.window && (Me.settings.get_boolean('group-apps-underline-unfocused') || isFocused)) {
                 let align = Clutter.ActorAlign[position == DOT_POSITION.TOP || position == DOT_POSITION.LEFT ? 'START' : 'END'];
                 
