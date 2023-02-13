@@ -134,9 +134,6 @@
 	background-color: rgba(55, 55, 55, .4);
 }
 
-.panel-corner.hidden:active, .panel-corner.hidden:overview, .panel-corner.hidden:focus {
-    -panel-corner-border-color: rgba(0, 0, 0, .001);
-}
 #dashtopanelScrollview .badge {
 	color: rgba(255, 255, 255, 1);
 	font-weight: bold;

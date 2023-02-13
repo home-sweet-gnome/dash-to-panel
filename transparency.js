@@ -36,10 +36,6 @@ var DynamicTransparency = class {
         this.currentBackgroundColor = 0;
 
         this._initialPanelStyle = dtpPanel.panel.get_style();
-        
-        if (Config.PACKAGE_VERSION < '42' && this._dtpPanel.geom.position == St.Side.TOP) {
-            this._initialPanelCornerStyle = dtpPanel.panel._leftCorner.get_style();
-        }
 
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._bindSignals();
@@ -54,11 +50,6 @@ var DynamicTransparency = class {
         this._proximityManager.removeWatch(this._proximityWatchId);
 
         this._dtpPanel.panel.set_style(this._initialPanelStyle);
-        
-        if (Config.PACKAGE_VERSION < '42' && this._dtpPanel.geom.position == St.Side.TOP) {
-            this._dtpPanel.panel._leftCorner.set_style(this._initialPanelCornerStyle);
-            this._dtpPanel.panel._rightCorner.set_style(this._initialPanelCornerStyle);
-        }
     }
 
     updateExternalStyle() {
@@ -222,12 +213,6 @@ var DynamicTransparency = class {
         let transition = 'transition-duration:' + this.animationDuration;
 
         this._dtpPanel.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles);
-        
-        if (Config.PACKAGE_VERSION < '42' && this._dtpPanel.geom.position == St.Side.TOP) {
-            let cornerStyle = '-panel-corner-background-color: ' + this.currentBackgroundColor + transition;
-            this._dtpPanel.panel._leftCorner.set_style(cornerStyle);
-            this._dtpPanel.panel._rightCorner.set_style(cornerStyle);
-        }
     }
 
     _setGradient() {

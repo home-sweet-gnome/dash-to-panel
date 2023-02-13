@@ -96,7 +96,6 @@ var Panel = GObject.registerClass({
         this._sessionStyle = null;
         this._unmappedButtons = [];
         this._elementGroups = [];
-        this.cornerSize = 0;
 
         let systemMenuInfo = Utils.getSystemMenuInfo();
 
@@ -184,25 +183,6 @@ var Panel = GObject.registerClass({
 
         this.geom = this.getGeometry();
         
-        let isTop = this.geom.position == St.Side.TOP;
-
-        if (isTop && Config.PACKAGE_VERSION < '42') {
-            this.panel._leftCorner = this.panel._leftCorner || new GSPanel.PanelCorner(St.Side.LEFT);
-            this.panel._rightCorner = this.panel._rightCorner || new GSPanel.PanelCorner(St.Side.RIGHT);
-        }
-
-        if (Config.PACKAGE_VERSION < '42' && this.panel._leftCorner) {
-            if (isTop) {
-                if (this.isStandalone) {
-                    this.panel.add_child(this.panel._leftCorner);
-                    this.panel.add_child(this.panel._rightCorner);
-                }
-            } else {
-                this.panel.remove_child(this.panel._leftCorner);
-                this.panel.remove_child(this.panel._rightCorner);
-            }
-        }
-
         this._setPanelPosition();
 
         if (!this.isStandalone) {
@@ -347,7 +327,6 @@ var Panel = GObject.registerClass({
 
         this._timeoutsHandler.destroy();
         this._signalsHandler.destroy();
-        this._disablePanelCornerSignals();
         
         this.panel.remove_child(this.taskbar.actor);
         this._setAppmenuVisible(false);
@@ -396,11 +375,6 @@ var Panel = GObject.registerClass({
                     originalParent ? originalParent.insert_child_at_index(container, b[1]) : null;
                     delete container._dtpOriginalParent;
                 });
-            }
-
-            if (Config.PACKAGE_VERSION < '42' && !this.panel._leftCorner.mapped) {
-                this.panel.add_child(this.panel._leftCorner);
-                this.panel.add_child(this.panel._rightCorner);
             }
 
             this._setShowDesktopButton(false);
@@ -464,26 +438,6 @@ var Panel = GObject.registerClass({
         let panelPositions = this.panelManager.panelsElementPositions[this.monitor.index] || Pos.defaults;
 
         this._updateGroupedElements(panelPositions);
-        
-        this._disablePanelCornerSignals();
-
-        if (Config.PACKAGE_VERSION < '42' && this.getPosition() == St.Side.TOP) {
-            let visibleElements = panelPositions.filter(pp => pp.visible);
-            let connectCorner = (corner, button) => {
-                corner._button = button;
-                corner._buttonStyleChangedSignalId = button.connect('style-changed', () => {
-                    corner.set_style_pseudo_class(button.get_style_pseudo_class());
-                });
-            }
-
-            if (visibleElements[0].element == Pos.ACTIVITIES_BTN) {
-                connectCorner(this.panel._leftCorner, this.statusArea.activities);
-            }
-
-            if (visibleElements[visibleElements.length - 1].element == Pos.SYSTEM_MENU) {
-                connectCorner(this.panel._rightCorner, this.statusArea.aggregateMenu);
-            }
-        }
 
         this.panel.hide();
         this.panel.show();
@@ -537,20 +491,6 @@ var Panel = GObject.registerClass({
                 previousPosition = currentPosition;
             }
         });
-    }
-
-    _disablePanelCornerSignals() {
-        if (Config.PACKAGE_VERSION < '42') {
-            if (this.panel._rightCorner && this.panel._rightCorner._buttonStyleChangedSignalId) {
-                this.panel._rightCorner._button.disconnect(this.panel._rightCorner._buttonStyleChangedSignalId);
-                delete this.panel._rightCorner._buttonStyleChangedSignalId;
-            }
-
-            if (this.panel._leftCorner && this.panel._leftCorner._buttonStyleChangedSignalId) {
-                this.panel._leftCorner._button.disconnect(this.panel._leftCorner._buttonStyleChangedSignalId);
-                delete this.panel._leftCorner._buttonStyleChangedSignalId;
-            }
-        }
     }
 
     _bindSettingsChanges() {
@@ -927,32 +867,6 @@ var Panel = GObject.registerClass({
                 }
             }
         }
-
-        if (this.geom.position == St.Side.TOP && Config.PACKAGE_VERSION < '42') {
-            let childBoxLeftCorner = new Clutter.ActorBox();
-            let childBoxRightCorner = new Clutter.ActorBox();
-            let currentCornerSize = this.cornerSize;
-            let panelAllocFixedSize = box[this.fixedCoord.c2] - box[this.fixedCoord.c1];
-            
-            [ , this.cornerSize] = this.panel._leftCorner[this.sizeFunc](-1);
-
-            childBoxLeftCorner[this.varCoord.c1] = 0;
-            childBoxLeftCorner[this.varCoord.c2] = this.cornerSize;
-            childBoxLeftCorner[this.fixedCoord.c1] = panelAllocFixedSize;
-            childBoxLeftCorner[this.fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
-
-            childBoxRightCorner[this.varCoord.c1] = box[this.varCoord.c2] - this.cornerSize;
-            childBoxRightCorner[this.varCoord.c2] = box[this.varCoord.c2];
-            childBoxRightCorner[this.fixedCoord.c1] = panelAllocFixedSize;
-            childBoxRightCorner[this.fixedCoord.c2] = panelAllocFixedSize + this.cornerSize;
-
-            this.panel._leftCorner.allocate(childBoxLeftCorner);
-            this.panel._rightCorner.allocate(childBoxRightCorner);
-
-            if (this.cornerSize != currentCornerSize) {
-                this._setPanelClip();
-            }
-        }
     }
 
     _setPanelPosition() {
@@ -978,7 +892,7 @@ var Panel = GObject.registerClass({
 
     _setPanelClip(clipContainer) {
         clipContainer = clipContainer || this.panelBox.get_parent();
-        this._timeoutsHandler.add([T7, 0, () => Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height + this.cornerSize)]);
+        this._timeoutsHandler.add([T7, 0, () => Utils.setClip(clipContainer, clipContainer.x, clipContainer.y, this.panelBox.width, this.panelBox.height)]);
     }
 
     _onButtonPress(actor, event) {
