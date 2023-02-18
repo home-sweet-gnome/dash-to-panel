@@ -210,7 +210,7 @@ const Preferences = class {
 
         let listbox = this._builder.get_object('taskbar_display_listbox');
         let provider = new Gtk.CssProvider();
-        provider.load_from_data('list { background-color: transparent; }');
+        provider.load_from_data('list { background-color: transparent; }', -1);
         let context = listbox.get_style_context();
         context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 

@@ -204,7 +204,7 @@ var DisplayWrapper = {
     },
 
     getMonitorManager() {
-        return global.screen || Meta.MonitorManager.get();
+        return global.screen || global.backend.get_monitor_manager();
     }
 };
 
