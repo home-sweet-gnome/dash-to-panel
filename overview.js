@@ -479,7 +479,7 @@ var Overview = class {
 
                     if ((pickedActor.has_style_class_name && 
                         pickedActor.has_style_class_name('apps-scroll-view') && 
-                        !pickedActor.has_style_pseudo_class('last-child')) ||
+                        !pickedActor.has_style_pseudo_class('first-child')) ||
                         (parent?.has_style_class_name && 
                         parent.has_style_class_name('window-picker')) ||
                         Main.overview._overview._controls._searchEntryBin.contains(pickedActor))
