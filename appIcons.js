@@ -763,7 +763,7 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _animateDotDisplay(dots, newSize, otherDots, newOtherOpacity, sizeProp, duration) {
-        if(dots[sizeProp] != newSize && dots._tweeningToSize !== newSize) {
+        if(dots._tweeningToSize !== newSize) {
             let tweenOpts = { 
                 time: duration,
                 transition: 'easeInOutCubic',
