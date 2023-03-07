@@ -519,7 +519,6 @@ var TaskbarAppIcon = GObject.registerClass({
         this._unfocusedIsWide = this._isWideDotStyle(unfocusedDotStyle);
 
         [, this._containerSize] = this._container[`get_preferred_${sizeProp}`](-1);
-        this._containerSize /= Utils.getScaleFactor();
 
         [this._focusedDots, this._unfocusedDots].forEach(d => {
             d._tweeningToSize = null;
