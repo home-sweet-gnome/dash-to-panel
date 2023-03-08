@@ -191,6 +191,7 @@ var ProximityManager = class {
     _checkIfHandledWindow(metaWindow) {
         return metaWindow && 
                !metaWindow.minimized &&
+               !metaWindow.customJS_ding &&
                this._checkIfHandledWindowType(metaWindow);
     }
 
