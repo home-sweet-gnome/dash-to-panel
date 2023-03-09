@@ -480,8 +480,6 @@ var TaskbarAppIcon = GObject.registerClass({
         } else {
             this._focusedDots = new St.DrawingArea(), 
             this._unfocusedDots = new St.DrawingArea();
-            this._focusedDots._tweeningToSize = null, 
-            this._unfocusedDots._tweeningToSize = null;
             
             this._focusedDots.connect('repaint', () => {
                 if (!this._dashItemContainer.animatingOut)
@@ -521,7 +519,6 @@ var TaskbarAppIcon = GObject.registerClass({
         [, this._containerSize] = this._container[`get_preferred_${sizeProp}`](-1);
 
         [this._focusedDots, this._unfocusedDots].forEach(d => {
-            d._tweeningToSize = null;
             d.set_size(-1, -1);
             d.x_expand = d.y_expand = false;
 
@@ -762,25 +759,23 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _animateDotDisplay(dots, newSize, otherDots, newOtherOpacity, sizeProp, duration) {
-        if(dots._tweeningToSize !== newSize) {
-            let tweenOpts = { 
-                time: duration,
-                transition: 'easeInOutCubic',
-                onComplete: () => { 
-                    if(newOtherOpacity > 0)
-                        otherDots.opacity = newOtherOpacity;
-                    dots._tweeningToSize = null;
-                }
-            };
+        Utils.stopAnimations(dots)
 
-            if(newOtherOpacity == 0)
-                otherDots.opacity = newOtherOpacity;
+        let tweenOpts = { 
+            time: duration,
+            transition: 'easeInOutCubic',
+            onComplete: () => { 
+                if(newOtherOpacity > 0)
+                    otherDots.opacity = newOtherOpacity;
+            }
+        };
 
-            tweenOpts[sizeProp] = newSize;
-            dots._tweeningToSize = newSize;
+        if(newOtherOpacity == 0)
+            otherDots.opacity = newOtherOpacity;
 
-            Utils.animate(dots, tweenOpts);
-        }
+        tweenOpts[sizeProp] = newSize;
+
+        Utils.animate(dots, tweenOpts);
     }
 
     _isFocusedWindow() {
