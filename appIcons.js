@@ -372,6 +372,9 @@ var TaskbarAppIcon = GObject.registerClass({
     onWindowsChanged() {
         this._updateWindows();
         this.updateIcon();
+
+        if (this._isGroupApps)
+            this._setIconStyle();
     }
 
     onWindowEnteredOrLeft(display, number, metaWindow) {
