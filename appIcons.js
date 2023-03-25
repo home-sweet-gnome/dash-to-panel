@@ -1809,7 +1809,7 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
         this._appendItem({
             title: _('Settings'),
-            cmd: ['gnome-control-center', 'wifi']
+            cmd: ['gnome-control-center']
         });
 
         this._appendList(
