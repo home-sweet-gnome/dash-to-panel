@@ -45,7 +45,7 @@ let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
 
 function init() {
     Convenience.initTranslations(Utils.TRANSLATION_DOMAIN);
-    
+
     //create an object that persists until gnome-shell is restarted, even if the extension is disabled
     Me.persistentStorage = {};
 }
@@ -58,10 +58,10 @@ function enable() {
         }
     });
 
-    //create a global object that can emit signals and conveniently expose functionalities to other extensions 
+    //create a global object that can emit signals and conveniently expose functionalities to other extensions
     global.dashToPanel = {};
     Signals.addSignalMethods(global.dashToPanel);
-    
+
     _enable();
 }
 
@@ -94,13 +94,13 @@ function _enable() {
     panelManager = new PanelManager.dtpPanelManager();
 
     panelManager.enable();
-    
+
     Utils.removeKeybinding('open-application-menu');
     Utils.addKeybinding(
         'open-application-menu',
         new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
         Lang.bind(this, function() {
-            if(Me.settings.get_boolean('show-appmenu'))
+            if(Me.settings.get_boolean('show-appmenu') || !panelManager.primaryPanel)
                 Main.wm._toggleAppMenu();
             else
                 panelManager.primaryPanel.taskbar.popupFocusedAppSecondaryMenu();
@@ -111,7 +111,8 @@ function _enable() {
     // Pretend I'm the dash: meant to make appgrd swarm animation come from the
     // right position of the appShowButton.
     oldDash = Main.overview._dash;
-    Main.overview._dash = panelManager.primaryPanel.taskbar;
+    if(panelManager.primaryPanel)
+        Main.overview._dash = panelManager.primaryPanel.taskbar;
 }
 
 function disable(reset) {
@@ -123,7 +124,7 @@ function disable(reset) {
     delete Me.settings;
     oldDash = null;
     panelManager = null;
-    
+
     Utils.removeKeybinding('open-application-menu');
     Utils.addKeybinding(
         'open-application-menu',
