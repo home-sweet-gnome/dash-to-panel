@@ -379,6 +379,7 @@ var Taskbar = class {
             [
                 Me.settings,
                 [
+                    'changed::appicon-style',
                     'changed::group-apps-use-launchers',
                     'changed::taskbar-locked'
                 ],

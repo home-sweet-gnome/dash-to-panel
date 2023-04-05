@@ -104,6 +104,20 @@
           </object>
         </child>
 
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Icon style</property>
+            <child>
+              <object class="GtkComboBoxText" id="appicon_style_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="NORMAL" translatable="yes">Normal</item>
+                  <item id="SYMBOLIC" translatable="yes">Symbolic</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
 

@@ -72,6 +72,11 @@ let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
 var DEFAULT_PADDING_SIZE = 4;
 
+let APPICON_STYLE = {
+    NORMAL: "NORMAL",
+    SYMBOLIC: "SYMBOLIC"
+}
+
 let DOT_STYLE = {
     DOTS: "DOTS",
     SQUARES: "SQUARES",
@@ -197,6 +202,7 @@ var TaskbarAppIcon = GObject.registerClass({
 
         this._onAnimateAppiconHoverChanged();
         this._setAppIconPadding();
+        this._setAppIconStyle();
         this._showDots();
 
         this._focusWindowChangedId = global.display.connect('notify::focus-window', 
@@ -633,6 +639,15 @@ var TaskbarAppIcon = GObject.registerClass({
 
         this.set_style('padding:' + (this.dtpPanel.checkIfVertical() ? margin + 'px 0' : '0 ' + margin + 'px;'));
         this._iconContainer.set_style('padding: ' + padding + 'px;');
+    }
+
+    _setAppIconStyle() {
+        let symbolic_icon_style_name = 'symbolic-icon-style';
+        if (Me.settings.get_string('appicon-style') === APPICON_STYLE.SYMBOLIC) {
+            this.add_style_class_name(symbolic_icon_style_name);
+        } else {
+            this.remove_style_class_name(symbolic_icon_style_name);
+        }
     }
 
     popupMenu() {
