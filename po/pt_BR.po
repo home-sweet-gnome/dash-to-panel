@@ -69,7 +69,7 @@ msgstr "Final"
 
 #: prefs.js:413
 msgid "Show Applications button"
-msgstr "Mostrar botão de plicações"
+msgstr "Mostrar botão de aplicações"
 
 #: prefs.js:414
 msgid "Activities button"
@@ -1136,12 +1136,12 @@ msgstr ""
 #: ui/SettingsBehavior.ui.h:1
 #, fuzzy
 msgid "Applications"
-msgstr "Mostrar botão de plicações"
+msgstr "Mostrar botão de aplicações"
 
 #: ui/SettingsBehavior.ui.h:2
 #, fuzzy
 msgid "Show favorite applications"
-msgstr "Mostrar botão de plicações"
+msgstr "Mostrar botão de aplicações"
 
 #: ui/SettingsBehavior.ui.h:3
 msgid "Show favorite applications on secondary panels"
@@ -1150,7 +1150,7 @@ msgstr ""
 #: ui/SettingsBehavior.ui.h:4
 #, fuzzy
 msgid "Show running applications"
-msgstr "Mostrar botão de plicações"
+msgstr "Mostrar botão de aplicações"
 
 #: ui/SettingsBehavior.ui.h:5
 msgid "Show <i>AppMenu</i> button"
