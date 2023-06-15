@@ -25,17 +25,12 @@ const Intellihide = Me.imports.intellihide;
 const Utils = Me.imports.utils;
 
 const Clutter = imports.gi.Clutter;
-const Main = imports.ui.main;
-const Shell = imports.gi.Shell;
-const Gtk = imports.gi.Gtk;
-const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
-const Mainloop = imports.mainloop;
-const IconGrid = imports.ui.iconGrid;
-const { OverviewActor } = imports.ui.overview;
-const Workspace = imports.ui.workspace;
+const Shell = imports.gi.Shell;
 const St = imports.gi.St;
-const WorkspaceThumbnail = imports.ui.workspaceThumbnail;
+const Main = imports.ui.main;
+const Workspace = imports.ui.workspace;
+const { WindowPreview } = imports.ui.windowPreview;
 
 const Meta = imports.gi.Meta;
 
@@ -477,13 +472,19 @@ var Overview = class {
                 if (pickedActor) {
                     let parent = pickedActor.get_parent();
 
-                    if ((pickedActor.has_style_class_name && 
-                        pickedActor.has_style_class_name('apps-scroll-view') && 
-                        !pickedActor.has_style_pseudo_class('first-child')) ||
-                        (parent?.has_style_class_name && 
-                        parent.has_style_class_name('window-picker')) ||
-                        Main.overview._overview._controls._searchEntryBin.contains(pickedActor))
-                        return Clutter.EVENT_PROPAGATE;
+                    if (
+                        (
+                         pickedActor.has_style_class_name &&
+                         pickedActor.has_style_class_name('apps-scroll-view') &&
+                         !pickedActor.has_style_pseudo_class('first-child')
+                        ) || (
+                         parent?.has_style_class_name &&
+                         parent.has_style_class_name('window-picker')
+                        ) ||
+                        Main.overview._overview._controls._searchEntryBin.contains(pickedActor) ||
+                        pickedActor instanceof WindowPreview
+                    )
+                        return Clutter.EVENT_PROPAGATE
                 } 
 
                 Main.overview.toggle()

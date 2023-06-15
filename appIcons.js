@@ -372,6 +372,9 @@ var TaskbarAppIcon = GObject.registerClass({
     onWindowsChanged() {
         this._updateWindows();
         this.updateIcon();
+
+        if (this._isGroupApps)
+            this._setIconStyle();
     }
 
     onWindowEnteredOrLeft(display, number, metaWindow) {
@@ -480,8 +483,6 @@ var TaskbarAppIcon = GObject.registerClass({
         } else {
             this._focusedDots = new St.DrawingArea(), 
             this._unfocusedDots = new St.DrawingArea();
-            this._focusedDots._tweeningToSize = null, 
-            this._unfocusedDots._tweeningToSize = null;
             
             this._focusedDots.connect('repaint', () => {
                 if (!this._dashItemContainer.animatingOut)
@@ -521,7 +522,6 @@ var TaskbarAppIcon = GObject.registerClass({
         [, this._containerSize] = this._container[`get_preferred_${sizeProp}`](-1);
 
         [this._focusedDots, this._unfocusedDots].forEach(d => {
-            d._tweeningToSize = null;
             d.set_size(-1, -1);
             d.x_expand = d.y_expand = false;
 
@@ -762,25 +762,23 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _animateDotDisplay(dots, newSize, otherDots, newOtherOpacity, sizeProp, duration) {
-        if(dots._tweeningToSize !== newSize) {
-            let tweenOpts = { 
-                time: duration,
-                transition: 'easeInOutCubic',
-                onComplete: () => { 
-                    if(newOtherOpacity > 0)
-                        otherDots.opacity = newOtherOpacity;
-                    dots._tweeningToSize = null;
-                }
-            };
+        Utils.stopAnimations(dots)
 
-            if(newOtherOpacity == 0)
-                otherDots.opacity = newOtherOpacity;
+        let tweenOpts = { 
+            time: duration,
+            transition: 'easeInOutCubic',
+            onComplete: () => { 
+                if(newOtherOpacity > 0)
+                    otherDots.opacity = newOtherOpacity;
+            }
+        };
 
-            tweenOpts[sizeProp] = newSize;
-            dots._tweeningToSize = newSize;
+        if(newOtherOpacity == 0)
+            otherDots.opacity = newOtherOpacity;
 
-            Utils.animate(dots, tweenOpts);
-        }
+        tweenOpts[sizeProp] = newSize;
+
+        Utils.animate(dots, tweenOpts);
     }
 
     _isFocusedWindow() {
@@ -822,17 +820,9 @@ var TaskbarAppIcon = GObject.registerClass({
 
         let ctrlPressed = modifiers & Clutter.ModifierType.CONTROL_MASK
 
-        // We don't change the CTRL-click behaviour: in such case we just chain
-        // up the parent method and return.
-        if (event && ctrlPressed) {
-                // Keep default behaviour: launch new window
-                // By calling the parent method I make it compatible
-                // with other extensions tweaking ctrl + click
-                super.activate(button);
-                return;
-        } else if (ctrlPressed) {
-            // hotkey with ctrl
-            return this._launchNewInstance();
+        if (ctrlPressed) {
+            // CTRL-click or hotkey with ctrl
+            return this._launchNewInstance(true);
         }
 
         // We check what type of click we have and if the modifier SHIFT is
@@ -1001,12 +991,12 @@ var TaskbarAppIcon = GObject.registerClass({
         Main.overview.hide();
     }
 
-    _launchNewInstance() {
-        if (this.app.can_open_new_window() && this.app.state == Shell.AppState.RUNNING) {
-            if(Me.settings.get_boolean('animate-window-launch')) {
-                this.animateLaunch();
-            }
+    _launchNewInstance(ctrlPressed) {
+        let maybeAnimate = () => Me.settings.get_boolean('animate-window-launch') && this.animateLaunch()
 
+        if ((ctrlPressed || this.app.state == Shell.AppState.RUNNING) && 
+            this.app.can_open_new_window()) {
+            maybeAnimate();
             this.app.open_new_window(-1);
         } else {
             let windows = this.window ? [this.window] : this.app.get_windows();
@@ -1014,6 +1004,7 @@ var TaskbarAppIcon = GObject.registerClass({
             if (windows.length) {
                 Main.activateWindow(windows[0]);
             } else {
+                maybeAnimate();
                 this.app.activate();
             }
         }
@@ -1818,7 +1809,7 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
         this._appendItem({
             title: _('Settings'),
-            cmd: ['gnome-control-center', 'wifi']
+            cmd: ['gnome-control-center']
         });
 
         this._appendList(
