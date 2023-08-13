@@ -36,7 +36,6 @@ import * as Taskbar from './taskbar.js';
 import * as Utils from './utils.js';
 import * as DesktopIconsIntegration from './desktopIconsIntegration.js';
 
-const Gi = imports._gi;
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Clutter from 'gi://Clutter';
@@ -54,6 +53,8 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
 import * as WM from 'resource:///org/gnome/shell/ui/windowManager.js';
 import { SecondaryMonitorDisplay, WorkspacesView } from 'resource:///org/gnome/shell/ui/workspacesView.js';
+
+const Gi = imports._gi;
 
 var PanelManager = class {
 

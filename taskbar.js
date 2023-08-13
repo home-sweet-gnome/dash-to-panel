@@ -31,10 +31,7 @@ import * as Signals from 'resource:///org/gnome/shell/misc/signals.js';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
-const Mainloop = imports.mainloop;
 
-const SearchController = imports.ui.main.overview._overview._controls._searchController;
-const AppDisplay = imports.ui.main.overview._overview._controls.appDisplay;
 import * as AppFavorites from 'resource:///org/gnome/shell/ui/appFavorites.js';
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
@@ -50,6 +47,11 @@ import * as PanelSettings from './panelSettings.js';
 import * as Pos from './panelPositions.js';
 import * as Utils from './utils.js';
 import * as WindowPreview from './windowPreview.js';
+
+const Mainloop = imports.mainloop;
+
+const SearchController = imports.ui.main.overview._overview._controls._searchController;
+const AppDisplay = imports.ui.main.overview._overview._controls.appDisplay;
 
 var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;

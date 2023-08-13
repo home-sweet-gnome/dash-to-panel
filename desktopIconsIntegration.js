@@ -58,7 +58,7 @@
 import GLib from 'gi://GLib';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';;
+import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';
 
 const IDENTIFIER_UUID = "130cbc66-235c-4bd6-8571-98d2d8bba5e2";
 

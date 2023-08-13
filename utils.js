@@ -23,18 +23,19 @@
 
 import Clutter from 'gi://Clutter';
 import GdkPixbuf from 'gi://GdkPixbuf';
-const Gi = imports._gi;
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import Gtk from 'gi://Gtk';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
-const Mainloop = imports.mainloop;
 import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import * as Util from 'resource:///org/gnome/shell/misc/util.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+
+const Gi = imports._gi;
+const Mainloop = imports.mainloop;
 
 var TRANSLATION_DOMAIN = imports.misc.extensionUtils.getCurrentExtension().metadata['gettext-domain'];
 var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);

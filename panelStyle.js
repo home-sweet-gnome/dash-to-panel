@@ -23,13 +23,14 @@
 
 import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';;
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-const Mainloop = imports.mainloop;
 import St from 'gi://St';
 import Shell from 'gi://Shell';
 
 import * as Panel from './panel.js';
 import * as Taskbar from './taskbar.js';
 import * as Utils from './utils.js';
+
+const Mainloop = imports.mainloop;
 
 var PanelStyle = class {
 

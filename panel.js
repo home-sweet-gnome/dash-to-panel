@@ -31,7 +31,6 @@ import Clutter from 'gi://Clutter';
 import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import Gtk from 'gi://Gtk';
 import GObject from 'gi://GObject';
-const Gi = imports._gi;
 import * as AppIcons from './appIcons.js';
 import * as Utils from './utils.js';
 import * as Taskbar from './taskbar.js';
@@ -40,7 +39,6 @@ import * as Pos from './panelPositions.js';
 import * as PanelSettings from './panelSettings.js';
 import * as PanelStyle from './panelStyle.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-const Mainloop = imports.mainloop;
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as CtrlAltTab from 'resource:///org/gnome/shell/ui/ctrlAltTab.js';
 import * as GSPanel from 'resource:///org/gnome/shell/ui/panel.js';
@@ -54,12 +52,15 @@ import Shell from 'gi://Shell';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
 import * as DateMenu from 'resource:///org/gnome/shell/ui/dateMenu.js';
-import * as Volume from 'resource:///org/gnome/shell/ui/volume.js';
+import * as Volume from 'resource:///org/gnome/shell/ui/status/volume.js';
 import * as Progress from './progress.js';
 
 import * as Intellihide from './intellihide.js';
 import * as Transparency from './transparency.js';
 const _ = imports.gettext.domain(Me.imports.utils.TRANSLATION_DOMAIN).gettext;
+
+const Mainloop = imports.mainloop;
+const Gi = imports._gi;
 
 let tracker = Shell.WindowTracker.get_default();
 var panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];

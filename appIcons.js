@@ -31,14 +31,10 @@ import * as Signals from 'resource:///org/gnome/shell/misc/signals.js';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
-const Mainloop = imports.mainloop;
 
 import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
 import * as AppMenu from 'resource:///org/gnome/shell/ui/appMenu.js';
-if (Config.PACKAGE_VERSION < '42') {
-const AppMenu = imports.ui.appDisplay;
-}
 import * as AppFavorites from 'resource:///org/gnome/shell/ui/appFavorites.js';
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
@@ -55,6 +51,8 @@ import * as PanelSettings from './panelSettings.js';
 import * as Taskbar from './taskbar.js';
 import * as Progress from './progress.js';
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
+
+const Mainloop = imports.mainloop;
 
 //timeout names
 const T2 = 'mouseScrollTimeout';

@@ -21,7 +21,6 @@ import GLib from 'gi://GLib';
 import Graphene from 'gi://Graphene';
 import Gtk from 'gi://Gtk';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-const Mainloop = imports.mainloop;
 import Meta from 'gi://Meta';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Signals from 'resource:///org/gnome/shell/misc/signals.js';
@@ -32,6 +31,8 @@ import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 import * as Panel from './panel.js';
 import * as Taskbar from './taskbar.js';
 import * as Utils from './utils.js';
+
+const Mainloop = imports.mainloop;
 
 //timeout intervals
 const ENSURE_VISIBLE_MS = 200;
