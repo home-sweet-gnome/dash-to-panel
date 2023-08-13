@@ -34,7 +34,7 @@ var Mode = {
     MAXIMIZED_WINDOWS: 2
 };
 
-class ProximityWatch {
+export class ProximityWatch {
 
     constructor(actor, monitorIndex, mode, xThreshold, yThreshold, handler) {
         this.actor = actor;
@@ -65,7 +65,7 @@ class ProximityWatch {
     }
 };
 
-var ProximityManager = class {
+export var ProximityManager = class {
 
     constructor() {
         this._counter = 1;
