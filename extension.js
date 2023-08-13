@@ -33,14 +33,14 @@ import * as  PanelManager from './panelManager.js';
 import * as Utils from './utils.js';
 import * as AppIcons from './appIcons.js';
 
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
+
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
 let panelManager;
 let extensionChangedHandler;
 let disabledUbuntuDock;
 let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
-
-import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 export default class DashToPanelExtension extends Extension {
     constructor(metadata) {
