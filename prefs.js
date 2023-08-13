@@ -36,6 +36,8 @@ const N_ = function(e) { return e };
 import * as PanelSettings from './panelSettings.js';
 import * as Pos from './panelPositions.js';
 
+import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
 const DEFAULT_FONT_SIZES = [ 96, 64, 48, 32, 24, 16, 0 ];
@@ -2328,13 +2330,15 @@ const BuilderScope = GObject.registerClass({
     }
 });
 
-function init() {
-    ExtensionUtils.initTranslations();
-}
 
-function fillPreferencesWindow(window) {
-    // use default width or window
-    window.set_default_size(0, 740);
+export default class DashToPanelPreferences extends ExtensionPreferences {
+    fillPreferencesWindow(window) {
+        window._settings = this.getSettings();
+        this.initTranslations();
 
-    let preferences = new Preferences(window);
+        // use default width or window
+        window.set_default_size(0, 740);
+
+        let preferences = new Preferences(window);
+    }
 }
