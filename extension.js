@@ -29,7 +29,7 @@ import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils
 const Mainloop = imports.mainloop;
 const Signals = imports.signals;
 
-import { PanelManager } from './panelManager.js';
+import * as  PanelManager from './panelManager.js';
 import * as Utils from './utils.js';
 import * as AppIcons from './appIcons.js';
 

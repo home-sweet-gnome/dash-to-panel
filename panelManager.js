@@ -27,8 +27,9 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-import { Overview } from './overview.js';
-import { Panel, panelBoxes } from './panel.js';
+import * as Overview from './overview.js';
+import * as Panel from './panel.js';
+import * as panelBoxes from './panel.js';
 import * as PanelSettings from './panelSettings.js';
 import * as Proximity from './proximity.js';
 import * as Taskbar from './taskbar.js';
