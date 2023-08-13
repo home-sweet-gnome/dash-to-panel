@@ -158,53 +158,54 @@ function mergeObjects(main, bck) {
 
 const Preferences = class {
 
-    constructor(window) {
-        this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
+    constructor(window, settings, path) {
+        // this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
         this._rtl = (Gtk.Widget.get_default_direction() == Gtk.TextDirection.RTL);
         this._builder = new Gtk.Builder();
         this._builder.set_scope(new BuilderScope(this));
-        this._builder.set_translation_domain(Me.metadata['gettext-domain']);
+        this._settings = settings
+        this._path = path
 
         window.set_search_enabled(true);
 
         // dialogs
-        this._builder.add_from_file(Me.path + '/ui/BoxAnimateAppIconHoverOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxDotOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxShowDesktopOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxDynamicOpacityOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxIntellihideOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxShowApplicationsOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxWindowPreviewOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxGroupAppsOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxMiddleClickOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxOverlayShortcut.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxSecondaryMenuOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxScrollPanelOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxScrollIconOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxAdvancedOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxAnimateAppIconHoverOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxDotOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxShowDesktopOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxDynamicOpacityOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxIntellihideOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxShowApplicationsOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxWindowPreviewOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxGroupAppsOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxMiddleClickOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxOverlayShortcut.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxSecondaryMenuOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxScrollPanelOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxScrollIconOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxAdvancedOptions.ui');
 
         // pages
-        this._builder.add_from_file(Me.path + '/ui/SettingsPosition.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsPosition.ui');
         let pagePosition = this._builder.get_object('position');
         window.add(pagePosition);
 
-        this._builder.add_from_file(Me.path + '/ui/SettingsStyle.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsStyle.ui');
         let pageStyle = this._builder.get_object('style');
         window.add(pageStyle);
 
-        this._builder.add_from_file(Me.path + '/ui/SettingsBehavior.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsBehavior.ui');
         let pageBehavior = this._builder.get_object('behavior');
         window.add(pageBehavior);
 
-        this._builder.add_from_file(Me.path + '/ui/SettingsAction.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsAction.ui');
         let pageAction = this._builder.get_object('action');
         window.add(pageAction);
 
-        this._builder.add_from_file(Me.path + '/ui/SettingsFineTune.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsFineTune.ui');
         let pageFineTune = this._builder.get_object('finetune');
         window.add(pageFineTune);
 
-        this._builder.add_from_file(Me.path + '/ui/SettingsAbout.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsAbout.ui');
         let pageAbout = this._builder.get_object('about');
         window.add(pageAbout);
 
@@ -2332,12 +2333,12 @@ const BuilderScope = GObject.registerClass({
 
 export default class DashToPanelPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
-        window._settings = this.getSettings();
+        window._settings = this.getSettings('org.gnome.shell.extensions.dash-to-panel');
         this.initTranslations();
 
         // use default width or window
         window.set_default_size(0, 740);
 
-        let preferences = new Preferences(window);
+        let preferences = new Preferences(window, window._settings, this.path);
     }
 }
