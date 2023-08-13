@@ -427,7 +427,7 @@ export var PanelManager = class {
         clipContainer.add_child(panelBox);
         Main.layoutManager.trackChrome(panelBox, { trackFullscreen: true, affectsStruts: true, affectsInputRegion: true });
         
-        panel = new Panel(this, monitor, panelBox, isStandalone);
+        panel = new Panel.Panel(this, monitor, panelBox, isStandalone);
         panelBox.add(panel);
         panel.enable();
 

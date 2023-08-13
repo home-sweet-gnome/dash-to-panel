@@ -73,7 +73,7 @@ const T5 = 'trackerFocusAppTimeout';
 const T6 = 'scrollPanelDelayTimeout';
 const T7 = 'waitPanelBoxAllocation';
 
-var Panel = GObject.registerClass({
+export var Panel = GObject.registerClass({
 }, class Panel extends St.Widget {
 
     _init(panelManager, monitor, panelBox, isStandalone) {
@@ -1274,7 +1274,7 @@ var Panel = GObject.registerClass({
     }
 });
 
-var SecondaryPanel = GObject.registerClass({
+export var SecondaryPanel = GObject.registerClass({
 }, class SecondaryPanel extends St.Widget {
 
     _init(params) {
