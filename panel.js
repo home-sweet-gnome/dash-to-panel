@@ -57,7 +57,7 @@ import * as Progress from './progress.js';
 
 import * as Intellihide from './intellihide.js';
 import * as Transparency from './transparency.js';
-import {SETTINGS, DESKTOPSETTINGS} from './extension.js';
+import {SETTINGS, DESKTOPSETTINGS, PERSISTENTSTORAGE} from './extension.js';
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const Mainloop = imports.mainloop;
@@ -583,19 +583,19 @@ var Panel = GObject.registerClass({
             let panelMenu = this.statusArea[propName];
 
             this.menuManager.removeMenu(panelMenu.menu);
-            Me.persistentStorage[propName].push(panelMenu);
+            PERSISTENTSTORAGE[propName].push(panelMenu);
             this.statusArea[propName] = null;
         }
     }
 
     _getPanelMenu(propName, constr) {
-        Me.persistentStorage[propName] = Me.persistentStorage[propName] || [];
+        PERSISTENTSTORAGE[propName] = PERSISTENTSTORAGE[propName] || [];
 
-        if (!Me.persistentStorage[propName].length) {
-            Me.persistentStorage[propName].push(new constr());
+        if (!PERSISTENTSTORAGE[propName].length) {
+            PERSISTENTSTORAGE[propName].push(new constr());
         }
 
-        return Me.persistentStorage[propName].pop();
+        return PERSISTENTSTORAGE[propName].pop();
     }
 
     _adjustForOverview() {
