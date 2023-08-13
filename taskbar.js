@@ -38,6 +38,7 @@ import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
+import * as SearchController from 'resource:///org/gnome/shell/ui/searchController.js';
 
 import * as AppIcons from './appIcons.js';
 import * as Panel from './panel.js';
@@ -50,9 +51,6 @@ import {SETTINGS} from './extension.js';
 
 const Mainloop = imports.mainloop;
 const Signals = imports.signals;
-
-const SearchController = imports.ui.main.overview._overview._controls._searchController;
-const AppDisplay = imports.ui.main.overview._overview._controls.appDisplay;
 
 var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
