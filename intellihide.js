@@ -51,7 +51,7 @@ var Hold = {
     PERMANENT: 2
 };
 
-var Intellihide = class {
+export var Intellihide = class {
 
     constructor(dtpPanel) {
         this._dtpPanel = dtpPanel;
