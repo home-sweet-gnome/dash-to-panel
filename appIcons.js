@@ -1730,7 +1730,7 @@ function ItemShowLabel()  {
         this.realShowAppsIcon.destroy();
     }
 };
-Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
+// Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
 
 /**
  * A menu for the showAppsIcon

@@ -1324,7 +1324,7 @@ var Taskbar = class {
     }
 };
 
-Signals.addSignalMethods(Taskbar.prototype);
+// Signals.addSignalMethods(Taskbar.prototype);
 
 const CloneContainerConstraint = GObject.registerClass({
 }, class CloneContainerConstraint extends Clutter.BindConstraint {

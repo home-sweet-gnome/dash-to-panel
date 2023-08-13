@@ -162,7 +162,7 @@ var ProgressManager = class {
         }
     }
 };
-Signals.addSignalMethods(ProgressManager.prototype);
+// Signals.addSignalMethods(ProgressManager.prototype);
 
 class AppProgress {
 
@@ -277,7 +277,7 @@ class AppProgress {
         }
     }
 };
-Signals.addSignalMethods(AppProgress.prototype);
+// Signals.addSignalMethods(AppProgress.prototype);
 
 
 var ProgressIndicator = class {

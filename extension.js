@@ -69,7 +69,7 @@ export default class DashToPanelExtension extends Extension {
 
         //create a global object that can emit signals and conveniently expose functionalities to other extensions 
         global.dashToPanel = {};
-        Signals.addSignalMethods(global.dashToPanel);
+        // Signals.addSignalMethods(global.dashToPanel);
         
         _enable();
     }
