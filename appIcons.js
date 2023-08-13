@@ -27,7 +27,6 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import Gtk from 'gi://Gtk';
 import GObject from 'gi://GObject';
-import * as Signals from 'resource:///org/gnome/shell/misc/signals.js';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
@@ -53,6 +52,7 @@ import * as Progress from './progress.js';
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const Mainloop = imports.mainloop;
+const Signals = imports.signals;
 
 //timeout names
 const T2 = 'mouseScrollTimeout';

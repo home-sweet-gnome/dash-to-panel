@@ -23,10 +23,10 @@ import Gio from 'gi://Gio';
 import Clutter from 'gi://Clutter';
 import Pango from 'gi://Pango';
 import St from 'gi://St';
-import * as Signals from 'resource:///org/gnome/shell/misc/signals.js';
 import * as Utils from './utils.js';
 
 const Cairo = imports.cairo;
+const Signals = imports.signals;
 
 
 var ProgressManager = class {

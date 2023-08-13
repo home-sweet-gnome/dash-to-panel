@@ -26,7 +26,6 @@ import Shell from 'gi://Shell';
 import St from 'gi://St';
 import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
 import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';;
-import * as Signals from 'resource:///org/gnome/shell/misc/signals.js';
 
 import * as  PanelManager from './panelManager.js';
 import * as Utils from './utils.js';
@@ -35,6 +34,7 @@ import * as AppIcons from './appIcons.js';
 import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const Mainloop = imports.mainloop;
+const Signals = imports.signals;
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 

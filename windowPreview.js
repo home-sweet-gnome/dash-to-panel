@@ -23,7 +23,6 @@ import Gtk from 'gi://Gtk';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import Meta from 'gi://Meta';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
-import * as Signals from 'resource:///org/gnome/shell/misc/signals.js';
 import St from 'gi://St';
 import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
 import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
@@ -33,6 +32,7 @@ import * as Taskbar from './taskbar.js';
 import * as Utils from './utils.js';
 
 const Mainloop = imports.mainloop;
+const Signals = imports.signals;
 
 //timeout intervals
 const ENSURE_VISIBLE_MS = 200;

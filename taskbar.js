@@ -27,7 +27,6 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
-import * as Signals from 'resource:///org/gnome/shell/misc/signals.js';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
@@ -49,6 +48,7 @@ import * as Utils from './utils.js';
 import * as WindowPreview from './windowPreview.js';
 
 const Mainloop = imports.mainloop;
+const Signals = imports.signals;
 
 const SearchController = imports.ui.main.overview._overview._controls._searchController;
 const AppDisplay = imports.ui.main.overview._overview._controls.appDisplay;
