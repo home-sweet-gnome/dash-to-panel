@@ -2082,7 +2082,7 @@ const Preferences = class {
 
         // About Panel
 
-        this._builder.get_object('extension_version').set_label(Me.metadata.version.toString() + (Me.metadata.commit ? ' (' + Me.metadata.commit + ')' : ''));
+        // TODO this._builder.get_object('extension_version').set_label(this._settings.version.toString() + (this._settings.commit ? ' (' + this._settings.commit + ')' : ''));
 
         this._builder.get_object('importexport_export_button').connect('clicked', widget => {
             this._showFileChooser(
