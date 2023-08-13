@@ -24,6 +24,7 @@ import Clutter from 'gi://Clutter';
 import Pango from 'gi://Pango';
 import St from 'gi://St';
 import * as Utils from './utils.js';
+import {SETTINGS} from './extension.js';
 
 const Cairo = imports.cairo;
 const Signals = imports.signals;
@@ -262,11 +263,11 @@ class AppProgress {
                     if (property == 'count') {
                         this.setCount(other[property].get_int64());
                     } else if (property == 'count-visible') {
-                        this.setCountVisible(Me.settings.get_boolean('progress-show-count') && other[property].get_boolean());
+                        this.setCountVisible(SETTINGS.get_boolean('progress-show-count') && other[property].get_boolean());
                     } else if (property == 'progress') {
                         this.setProgress(other[property].get_double());
                     } else if (property == 'progress-visible') {
-                        this.setProgressVisible(Me.settings.get_boolean('progress-show-bar') && other[property].get_boolean());
+                        this.setProgressVisible(SETTINGS.get_boolean('progress-show-bar') && other[property].get_boolean());
                     } else if (property == 'urgent') {
                         this.setUrgent(other[property].get_boolean());
                     } else {

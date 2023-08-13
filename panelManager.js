@@ -52,6 +52,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
 import * as WM from 'resource:///org/gnome/shell/ui/windowManager.js';
+import {SETTINGS} from './extension.js';
 import { SecondaryMonitorDisplay, WorkspacesView } from 'resource:///org/gnome/shell/ui/workspacesView.js';
 
 const Gi = imports._gi;
@@ -66,21 +67,21 @@ var PanelManager = class {
     }
 
     enable(reset) {
-        let dtpPrimaryIndex = Me.settings.get_int('primary-monitor');
+        let dtpPrimaryIndex = SETTINGS.get_int('primary-monitor');
 
         this.allPanels = [];
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
         this.proximityManager = new Proximity.ProximityManager();
 
         if (this.dtpPrimaryMonitor) {
-            this.primaryPanel = this._createPanel(this.dtpPrimaryMonitor, Me.settings.get_boolean('stockgs-keep-top-panel'));
+            this.primaryPanel = this._createPanel(this.dtpPrimaryMonitor, SETTINGS.get_boolean('stockgs-keep-top-panel'));
             this.allPanels.push(this.primaryPanel);
             this.overview.enable(this.primaryPanel);
 
             this.setFocusedMonitor(this.dtpPrimaryMonitor);
         }
 
-        if (Me.settings.get_boolean('multi-monitors')) {
+        if (SETTINGS.get_boolean('multi-monitors')) {
             Main.layoutManager.monitors.filter(m => m != this.dtpPrimaryMonitor).forEach(m => {
                 this.allPanels.push(this._createPanel(m, true));
             });
@@ -135,7 +136,7 @@ var PanelManager = class {
         Main.layoutManager._updateHotCorners = newUpdateHotCorners.bind(Main.layoutManager);
         Main.layoutManager._updateHotCorners();
 
-        this._forceHotCornerId = Me.settings.connect('changed::stockgs-force-hotcorner', () => Main.layoutManager._updateHotCorners());
+        this._forceHotCornerId = SETTINGS.connect('changed::stockgs-force-hotcorner', () => Main.layoutManager._updateHotCorners());
 
         if (Main.layoutManager._interfaceSettings) {
             this._enableHotCornersId = Main.layoutManager._interfaceSettings.connect('changed::enable-hot-corners', () => Main.layoutManager._updateHotCorners());
@@ -158,7 +159,7 @@ var PanelManager = class {
         //listen settings
         this._signalsHandler.add(
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::primary-monitor',
                     'changed::multi-monitors',
@@ -171,17 +172,17 @@ var PanelManager = class {
                 () => this._reset()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 'changed::panel-element-positions',
                 () => this._updatePanelElementPositions()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 'changed::intellihide-key-toggle-text',
                 () => this._setKeyBindings(true)
             ],
             [
-                Me.settings,
+                SETTINGS,
                 'changed::panel-sizes',
                 () => {
                     GLib.idle_add(GLib.PRIORITY_LOW, () => {
@@ -215,7 +216,7 @@ var PanelManager = class {
         this._setKeyBindings(true);
 
         // keep GS overview.js from blowing away custom panel styles
-        if(!Me.settings.get_boolean('stockgs-keep-top-panel'))
+        if(!SETTINGS.get_boolean('stockgs-keep-top-panel'))
             Object.defineProperty(Main.panel, "style", {configurable: true, set(v) {}});
     }
 
@@ -277,7 +278,7 @@ var PanelManager = class {
         Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners;
         Main.layoutManager._updateHotCorners();
 
-        Me.settings.disconnect(this._forceHotCornerId);
+        SETTINGS.disconnect(this._forceHotCornerId);
 
         if (this._enableHotCornersId) {
             Main.layoutManager._interfaceSettings.disconnect(this._enableHotCornersId);
@@ -385,8 +386,8 @@ var PanelManager = class {
         let keyPrimary = 'primary-monitor';
         let primaryIndex = Main.layoutManager.primaryIndex;
         let newMonitors = [primaryIndex];
-        let savedMonitors = Me.settings.get_value(keyMonitors).deep_unpack();
-        let dtpPrimaryIndex = Me.settings.get_int(keyPrimary);
+        let savedMonitors = SETTINGS.get_value(keyMonitors).deep_unpack();
+        let dtpPrimaryIndex = SETTINGS.get_int(keyPrimary);
         let newDtpPrimaryIndex = primaryIndex;
 
         Main.layoutManager.monitors.filter(m => m.index != primaryIndex).forEach(m => newMonitors.push(m.index));
@@ -400,8 +401,8 @@ var PanelManager = class {
             newDtpPrimaryIndex = newDtpPrimaryIndex == null ? primaryIndex : newDtpPrimaryIndex;
         }
         
-        Me.settings.set_int(keyPrimary, newDtpPrimaryIndex);
-        Me.settings.set_value(keyMonitors, new GLib.Variant('ai', newMonitors));
+        SETTINGS.set_int(keyPrimary, newDtpPrimaryIndex);
+        SETTINGS.set_value(keyMonitors, new GLib.Variant('ai', newMonitors));
     }
 
     checkIfFocusedMonitor(monitor) {
@@ -446,7 +447,7 @@ var PanelManager = class {
     }
 
     _updatePanelElementPositions() {
-        this.panelsElementPositions = PanelSettings.getSettingsJson(Me.settings, 'panel-element-positions');
+        this.panelsElementPositions = PanelSettings.getSettingsJson(SETTINGS, 'panel-element-positions');
         this.allPanels.forEach(p => p.updateElementPositions());
     }
 
@@ -466,7 +467,7 @@ var PanelManager = class {
     }
 
     _getBoxPointerPreferredHeight(boxPointer, alloc, monitor) {
-        if (boxPointer._dtpInPanel && boxPointer.sourceActor && Me.settings.get_boolean('intellihide')) {
+        if (boxPointer._dtpInPanel && boxPointer.sourceActor && SETTINGS.get_boolean('intellihide')) {
             monitor = monitor || Main.layoutManager.findMonitorForActor(boxPointer.sourceActor);
             let panel = Utils.find(global.dashToPanel.panels, p => p.monitor == monitor);
             let excess = alloc.natural_size + panel.dtpSize + 10 - monitor.height; // 10 is arbitrary
@@ -520,7 +521,7 @@ var PanelManager = class {
             Utils.removeKeybinding(k);
 
             if (enable) {
-                Utils.addKeybinding(k, Me.settings, keys[k], Shell.ActionMode.NORMAL);
+                Utils.addKeybinding(k, SETTINGS, keys[k], Shell.ActionMode.NORMAL);
             }
         });
     }
@@ -640,7 +641,7 @@ function newUpdateHotCorners() {
         // hot corner unless it is actually a top left panel. Otherwise, it stops the mouse 
         // as you are dragging across. In the future, maybe we will automatically move the 
         // hotcorner to the bottom when the panel is positioned at the bottom
-        if (i != this.primaryIndex || (!panelTopLeft && !Me.settings.get_boolean('stockgs-force-hotcorner'))) {
+        if (i != this.primaryIndex || (!panelTopLeft && !SETTINGS.get_boolean('stockgs-force-hotcorner'))) {
             // Check if we have a top left (right for RTL) corner.
             // I.e. if there is no monitor directly above or to the left(right)
             let besideX = this._rtl ? monitor.x + 1 : cornerX - 1;

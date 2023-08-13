@@ -46,6 +46,7 @@ import * as PanelSettings from './panelSettings.js';
 import * as Pos from './panelPositions.js';
 import * as Utils from './utils.js';
 import * as WindowPreview from './windowPreview.js';
+import {SETTINGS} from './extension.js';
 
 const Mainloop = imports.mainloop;
 const Signals = imports.signals;
@@ -76,15 +77,15 @@ function extendDashItemContainer(dashItemContainer) {
 
 const iconAnimationSettings = {
     _getDictValue(key) {
-        let type = Me.settings.get_string('animate-appicon-hover-animation-type');
-        return Me.settings.get_value(key).deep_unpack()[type] || 0;
+        let type = SETTINGS.get_string('animate-appicon-hover-animation-type');
+        return SETTINGS.get_value(key).deep_unpack()[type] || 0;
     },
 
     get type() {
-        if (!Me.settings.get_boolean('animate-appicon-hover'))
+        if (!SETTINGS.get_boolean('animate-appicon-hover'))
             return "";
 
-        return Me.settings.get_string('animate-appicon-hover-animation-type');
+        return SETTINGS.get_string('animate-appicon-hover-animation-type');
     },
 
     get convexity() {
@@ -330,7 +331,7 @@ var Taskbar = class {
                     'window-left-monitor'
                 ],
                 () => {
-                    if (Me.settings.get_boolean('isolate-monitors')) {
+                    if (SETTINGS.get_boolean('isolate-monitors')) {
                         this._queueRedisplay();
                     }
                 }
@@ -357,7 +358,7 @@ var Taskbar = class {
                 this._syncShowAppsButtonToggled.bind(this)
             ],
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::dot-size',
                     'changed::show-favorites',
@@ -370,7 +371,7 @@ var Taskbar = class {
                 }
             ],
             [
-                Me.settings,
+                SETTINGS,
                 'changed::group-apps',
                 () => {
                     setAttributes()
@@ -378,7 +379,7 @@ var Taskbar = class {
                 }
             ],
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::group-apps-use-launchers',
                     'changed::taskbar-locked'
@@ -399,11 +400,11 @@ var Taskbar = class {
         );
 
         let setAttributes = () => {
-            this.isGroupApps = Me.settings.get_boolean('group-apps');
-            this.usingLaunchers = !this.isGroupApps && Me.settings.get_boolean('group-apps-use-launchers');
-            this.showFavorites = Me.settings.get_boolean('show-favorites') && 
-                                 (this.dtpPanel.isPrimary || Me.settings.get_boolean('show-favorites-all-monitors'))
-            this.showRunningApps = Me.settings.get_boolean('show-running-apps')
+            this.isGroupApps = SETTINGS.get_boolean('group-apps');
+            this.usingLaunchers = !this.isGroupApps && SETTINGS.get_boolean('group-apps-use-launchers');
+            this.showFavorites = SETTINGS.get_boolean('show-favorites') && 
+                                 (this.dtpPanel.isPrimary || SETTINGS.get_boolean('show-favorites-all-monitors'))
+            this.showRunningApps = SETTINGS.get_boolean('show-running-apps')
             this.allowSplitApps = this.usingLaunchers || (!this.isGroupApps && !this.showFavorites)
         }
 
@@ -693,7 +694,7 @@ var Taskbar = class {
             { 
                 setSizeManually: true,
                 showLabel: false,
-                isDraggable: !Me.settings.get_boolean('taskbar-locked'),
+                isDraggable: !SETTINGS.get_boolean('taskbar-locked'),
             },
             this.previewMenu,
             this.iconAnimator
@@ -852,8 +853,8 @@ var Taskbar = class {
 
     _adjustIconSize() {
         const thisMonitorIndex = this.dtpPanel.monitor.index;
-        let panelSize = PanelSettings.getPanelSize(Me.settings, thisMonitorIndex);
-        let availSize = panelSize - Me.settings.get_int('appicon-padding') * 2;
+        let panelSize = PanelSettings.getPanelSize(SETTINGS, thisMonitorIndex);
+        let availSize = panelSize - SETTINGS.get_int('appicon-padding') * 2;
         let minIconSize = MIN_ICON_SIZE + panelSize % 2;
 
         if (availSize == this.iconSize)
@@ -1084,8 +1085,8 @@ var Taskbar = class {
             icon.updateHotkeyNumberOverlay();
         });
 
-        if (Me.settings.get_boolean('hot-keys') &&
-            Me.settings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+        if (SETTINGS.get_boolean('hot-keys') &&
+            SETTINGS.get_string('hotkeys-overlay-combo') === 'ALWAYS')
             this.toggleNumberOverlay(true);
     }
 
@@ -1249,7 +1250,7 @@ var Taskbar = class {
             // find visible view
 
             if (this.showAppsButton.checked) {
-                if (Me.settings.get_boolean('show-apps-override-escape')) {
+                if (SETTINGS.get_boolean('show-apps-override-escape')) {
                     //override escape key to return to the desktop when entering the overview using the showapps button
                     SearchController._onStageKeyPress = function(actor, event) {
                         if (Main.modalCount == 1 && event.get_key_symbol() === Clutter.KEY_Escape) {
@@ -1385,7 +1386,7 @@ var TaskbarItemContainer = GObject.registerClass({
 
     // For ItemShowLabel
     _getIconAnimationOffset() {
-        if (!Me.settings.get_boolean('animate-appicon-hover'))
+        if (!SETTINGS.get_boolean('animate-appicon-hover'))
             return 0;
 
         let travel = iconAnimationSettings.travel;

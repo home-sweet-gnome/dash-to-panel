@@ -57,6 +57,7 @@ import * as Progress from './progress.js';
 
 import * as Intellihide from './intellihide.js';
 import * as Transparency from './transparency.js';
+import {SETTINGS, DESKTOPSETTINGS} from './extension.js';
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const Mainloop = imports.mainloop;
@@ -91,7 +92,7 @@ var Panel = GObject.registerClass({
         // so in this case use isPrimary to get the panel on the primary dtp monitor, which
         // might be different from the system's primary monitor.
         this.isStandalone = isStandalone;
-        this.isPrimary = !isStandalone || (Me.settings.get_boolean('stockgs-keep-top-panel') && 
+        this.isPrimary = !isStandalone || (SETTINGS.get_boolean('stockgs-keep-top-panel') && 
                                            monitor == panelManager.dtpPrimaryMonitor);
 
         this._sessionStyle = null;
@@ -206,7 +207,7 @@ var Panel = GObject.registerClass({
 
         this.menuManager._oldChangeMenu = this.menuManager._changeMenu;
         this.menuManager._changeMenu = (menu) => {
-            if (!Me.settings.get_boolean('stockgs-panelbtn-click-only')) {
+            if (!SETTINGS.get_boolean('stockgs-panelbtn-click-only')) {
                 this.menuManager._oldChangeMenu(menu);
             }
         };
@@ -217,14 +218,14 @@ var Panel = GObject.registerClass({
 
         this.panel.add_child(this.taskbar.actor);
 
-        this._setAppmenuVisible(Me.settings.get_boolean('show-appmenu'));
+        this._setAppmenuVisible(SETTINGS.get_boolean('show-appmenu'));
         this._setShowDesktopButton(true);
         
         this._setAllocationMap();
 
         this.panel.add_style_class_name('dashtopanelMainPanel ' + this.getOrientation());
 
-        this._timeoutsHandler.add([T2, Me.settings.get_int('intellihide-enable-start-delay'), () => this.intellihide = new Intellihide.Intellihide(this)]);
+        this._timeoutsHandler.add([T2, SETTINGS.get_int('intellihide-enable-start-delay'), () => this.intellihide = new Intellihide.Intellihide(this)]);
 
         this._signalsHandler.add(
             // this is to catch changes to the theme or window scale factor
@@ -412,7 +413,7 @@ var Panel = GObject.registerClass({
     }
 
     getPosition() {
-        let position = PanelSettings.getPanelPosition(Me.settings, this.monitor.index);
+        let position = PanelSettings.getPanelPosition(SETTINGS, this.monitor.index);
 
         if (position == Pos.TOP) {
             return St.Side.TOP;
@@ -499,7 +500,7 @@ var Panel = GObject.registerClass({
 
         this._signalsHandler.add(
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::panel-sizes',
                     'changed::group-apps'
@@ -507,7 +508,7 @@ var Panel = GObject.registerClass({
                 () => this._resetGeometry()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::appicon-margin',
                     'changed::appicon-padding'
@@ -515,12 +516,12 @@ var Panel = GObject.registerClass({
                 () => this.taskbar.resetAppIcons()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 'changed::show-appmenu',
-                () => this._setAppmenuVisible(Me.settings.get_boolean('show-appmenu'))
+                () => this._setAppmenuVisible(SETTINGS.get_boolean('show-appmenu'))
             ],
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::showdesktop-button-width',
                     'changed::trans-use-custom-bg',
@@ -531,7 +532,7 @@ var Panel = GObject.registerClass({
                 () => this._setShowDesktopButtonStyle()
             ],
             [
-                Me.desktopSettings,
+                DESKTOPSETTINGS,
                 'changed::clock-format',
                 () => {
                     this._clockFormat = null;
@@ -542,19 +543,19 @@ var Panel = GObject.registerClass({
                 }
             ],
             [
-                Me.settings,
+                SETTINGS,
                 'changed::progress-show-bar',
                 () => this._initProgressManager()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 'changed::progress-show-count',
                 () => this._initProgressManager()
             ]
         );
 
         if (isVertical) {
-            this._signalsHandler.add([Me.settings, 'changed::group-apps-label-max-width', () => this._resetGeometry()]);
+            this._signalsHandler.add([SETTINGS, 'changed::group-apps-label-max-width', () => this._resetGeometry()]);
         }
     }
 
@@ -633,24 +634,24 @@ var Panel = GObject.registerClass({
         let topPadding = panelBoxTheme.get_padding(St.Side.TOP);
         let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM);
         let position = this.getPosition();
-        let length = PanelSettings.getPanelLength(Me.settings, this.monitor.index) / 100;
-        let anchor = PanelSettings.getPanelAnchor(Me.settings, this.monitor.index);
+        let length = PanelSettings.getPanelLength(SETTINGS, this.monitor.index) / 100;
+        let anchor = PanelSettings.getPanelAnchor(SETTINGS, this.monitor.index);
         let anchorPlaceOnMonitor = 0;
         let gsTopPanelOffset = 0;
         let x = 0, y = 0;
         let w = 0, h = 0;
 
-        const panelSize = PanelSettings.getPanelSize(Me.settings, this.monitor.index);
+        const panelSize = PanelSettings.getPanelSize(SETTINGS, this.monitor.index);
         this.dtpSize = panelSize * scaleFactor;
 
-        if (Me.settings.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
+        if (SETTINGS.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
             gsTopPanelOffset = Main.layoutManager.panelBox.height - topPadding;
         }
 
         if (this.checkIfVertical()) {
-            if (!Me.settings.get_boolean('group-apps')) {
+            if (!SETTINGS.get_boolean('group-apps')) {
                 // add window title width and side padding of _dtpIconContainer when vertical
-                this.dtpSize += Me.settings.get_int('group-apps-label-max-width') + AppIcons.DEFAULT_PADDING_SIZE * 2 / scaleFactor;
+                this.dtpSize += SETTINGS.get_int('group-apps-label-max-width') + AppIcons.DEFAULT_PADDING_SIZE * 2 / scaleFactor;
             }
 
             this.sizeFunc = 'get_preferred_height',
@@ -1065,7 +1066,7 @@ var Panel = GObject.registerClass({
                 let timeParts = time.split('∶');
 
                 if (!this._clockFormat) {
-                    this._clockFormat = Me.desktopSettings.get_string('clock-format');
+                    this._clockFormat = DESKTOPSETTINGS.get_string('clock-format');
                 }
 
                 if (this._clockFormat == '12h') {
@@ -1096,8 +1097,8 @@ var Panel = GObject.registerClass({
                 this._showDesktopButton.add_style_class_name(this._getBackgroundBrightness() ?
                             'showdesktop-button-light-hovered' : 'showdesktop-button-dark-hovered');
 
-                if (Me.settings.get_boolean('show-showdesktop-hover')) {
-                    this._timeoutsHandler.add([T4, Me.settings.get_int('show-showdesktop-delay'), () => {
+                if (SETTINGS.get_boolean('show-showdesktop-hover')) {
+                    this._timeoutsHandler.add([T4, SETTINGS.get_int('show-showdesktop-delay'), () => {
                         this._hiddenDesktopWorkspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
                         this._toggleWorkspaceWindows(true, this._hiddenDesktopWorkspace);
                     }]);
@@ -1108,7 +1109,7 @@ var Panel = GObject.registerClass({
                 this._showDesktopButton.remove_style_class_name(this._getBackgroundBrightness() ?
                             'showdesktop-button-light-hovered' : 'showdesktop-button-dark-hovered');
 
-                if (Me.settings.get_boolean('show-showdesktop-hover')) {
+                if (SETTINGS.get_boolean('show-showdesktop-hover')) {
                     if (this._timeoutsHandler.getId(T4)) {
                         this._timeoutsHandler.remove(T4);
                     } else if (this._hiddenDesktopWorkspace) {
@@ -1131,11 +1132,11 @@ var Panel = GObject.registerClass({
     _setShowDesktopButtonStyle() {
         let rgb = this._getBackgroundBrightness() ? "rgba(55, 55, 55, .2)" : "rgba(200, 200, 200, .2)";
 
-        let isLineCustom = Me.settings.get_boolean('desktop-line-use-custom-color');
-        rgb = isLineCustom ? Me.settings.get_string('desktop-line-custom-color') : rgb;
+        let isLineCustom = SETTINGS.get_boolean('desktop-line-use-custom-color');
+        rgb = isLineCustom ? SETTINGS.get_string('desktop-line-custom-color') : rgb;
 
         if (this._showDesktopButton) {
-            let buttonSize = Me.settings.get_int('showdesktop-button-width') + 'px;';
+            let buttonSize = SETTINGS.get_int('showdesktop-button-width') + 'px;';
             let isVertical = this.checkIfVertical();
 
             let sytle = "border: 0 solid " + rgb + ";";
@@ -1152,7 +1153,7 @@ var Panel = GObject.registerClass({
     }
 
     _toggleWorkspaceWindows(hide, workspace) {
-        let time = Me.settings.get_int('show-showdesktop-time') * .001;
+        let time = SETTINGS.get_int('show-showdesktop-time') * .001;
 
         workspace.list_windows().forEach(w => {
             if (!w.minimized && !w.customJS_ding) {
@@ -1210,7 +1211,7 @@ var Panel = GObject.registerClass({
     }
 
     _onPanelMouseScroll(actor, event) {
-        let scrollAction = Me.settings.get_string('scroll-panel-action');
+        let scrollAction = SETTINGS.get_string('scroll-panel-action');
         let direction = Utils.getMouseScrollDirection(event);
 
         if (!this._checkIfIgnoredScrollSource(event.get_source()) && !this._timeoutsHandler.getId(T6)) {
@@ -1225,7 +1226,7 @@ var Panel = GObject.registerClass({
                 //gnome-shell < 3.30 needs an additional "screen" param
                 global.screen ? args.push(global.screen) : 0;
 
-                let showWsPopup = Me.settings.get_boolean('scroll-panel-show-ws-popup');
+                let showWsPopup = SETTINGS.get_boolean('scroll-panel-show-ws-popup');
                 showWsPopup ? 0 : Main.wm._workspaceSwitcherPopup = { display: () => {} };
                 Main.wm._showWorkspaceSwitcher.apply(Main.wm, args.concat([0, { get_name: () => 'switch---' + direction }]));
                 showWsPopup ? 0 : Main.wm._workspaceSwitcherPopup = null;
@@ -1247,7 +1248,7 @@ var Panel = GObject.registerClass({
                 return;
             }
 
-            var scrollDelay = Me.settings.get_int('scroll-panel-delay');
+            var scrollDelay = SETTINGS.get_int('scroll-panel-delay');
 
             if (scrollDelay) {
                 this._timeoutsHandler.add([T6, scrollDelay, () => {}]);
@@ -1262,8 +1263,8 @@ var Panel = GObject.registerClass({
     }
 
     _initProgressManager() {
-        const progressVisible = Me.settings.get_boolean('progress-show-bar');
-        const countVisible = Me.settings.get_boolean('progress-show-count');
+        const progressVisible = SETTINGS.get_boolean('progress-show-bar');
+        const countVisible = SETTINGS.get_boolean('progress-show-count');
         const pm = this.progressManager;
 
         if(!pm && (progressVisible || countVisible))
