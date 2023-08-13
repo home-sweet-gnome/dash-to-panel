@@ -148,7 +148,7 @@ function _enable(extension) {
         });
     }
 
-    panelManager = new PanelManager();
+    panelManager = new PanelManager.PanelManager();
 
     panelManager.enable();
     

@@ -57,7 +57,7 @@ import { SecondaryMonitorDisplay, WorkspacesView } from 'resource:///org/gnome/s
 
 const Gi = imports._gi;
 
-var PanelManager = class {
+export var PanelManager = class {
 
     constructor() {
         this.overview = new Overview();
@@ -530,7 +530,7 @@ var PanelManager = class {
 
 // This class drives long-running icon animations, to keep them running in sync
 // with each other.
-var IconAnimator = class {
+export var IconAnimator = class {
 
     constructor(actor) {
         this._count = 0;
