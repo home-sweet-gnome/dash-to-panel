@@ -24,7 +24,7 @@ const Cairo = imports.cairo;
 import Clutter from 'gi://Clutter';
 import Pango from 'gi://Pango';
 import St from 'gi://St';
-const Signals = imports.signals;
+import * as Signals from 'resource:///org/gnome/shell/misc/signals.js';
 import * as Utils from './utils.js';
 
 

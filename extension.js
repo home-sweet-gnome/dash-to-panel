@@ -27,7 +27,7 @@ import St from 'gi://St';
 import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
 import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';;
 const Mainloop = imports.mainloop;
-const Signals = imports.signals;
+import * as Signals from 'resource:///org/gnome/shell/misc/signals.js';
 
 import * as  PanelManager from './panelManager.js';
 import * as Utils from './utils.js';
