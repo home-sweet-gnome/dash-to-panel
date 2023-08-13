@@ -69,7 +69,7 @@ const T3 = 'resetHoverTimeout'
  *  thus use this ugly pattern.
  */
 
-function extendDashItemContainer(dashItemContainer) {
+export function extendDashItemContainer(dashItemContainer) {
     dashItemContainer.showLabel = AppIcons.ItemShowLabel;
 };
 
@@ -117,7 +117,7 @@ const iconAnimationSettings = {
  * - modified chldBox calculations for when 'show-apps-at-top' option is checked
  * - handle horizontal dash
  */
-var TaskbarActor = GObject.registerClass({
+export var TaskbarActor = GObject.registerClass({
 }, class TaskbarActor extends St.Widget {
     _init(delegate) {
         this._delegate = delegate;
@@ -198,7 +198,7 @@ var TaskbarActor = GObject.registerClass({
  * - Sync minimization application target position.
  */
 
-var Taskbar = class {
+export var Taskbar = class {
 
     constructor(panel) {
         this.dtpPanel = panel;
@@ -1340,7 +1340,7 @@ const CloneContainerConstraint = GObject.registerClass({
     }
 });
 
-var TaskbarItemContainer = GObject.registerClass({
+export var TaskbarItemContainer = GObject.registerClass({
 
 }, class TaskbarItemContainer extends Dash.DashItemContainer {
 
@@ -1551,7 +1551,7 @@ var DragPlaceholderItem = GObject.registerClass({
     }
 });
 
-function getAppStableSequence(app, monitor) {
+export function getAppStableSequence(app, monitor) {
     let windows = AppIcons.getInterestingWindows(app, monitor);
     
     return windows.reduce((prevWindow, window) => {
@@ -1559,10 +1559,10 @@ function getAppStableSequence(app, monitor) {
     }, Infinity);
 }
 
-function sortWindowsCompareFunction(windowA, windowB) {
+export function sortWindowsCompareFunction(windowA, windowB) {
     return getWindowStableSequence(windowA) - getWindowStableSequence(windowB);
 }
 
-function getWindowStableSequence(window) {
+export function getWindowStableSequence(window) {
     return ('_dtpPosition' in window ? window._dtpPosition : window.get_stable_sequence()); 
 }

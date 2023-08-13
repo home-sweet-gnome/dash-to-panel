@@ -214,7 +214,7 @@ export var Panel = GObject.registerClass({
 
         this.dynamicTransparency = new Transparency.DynamicTransparency(this);
         
-        this.taskbar = new Taskbar(this);
+        this.taskbar = new Taskbar.Taskbar(this);
 
         this.panel.add_child(this.taskbar.actor);
 
