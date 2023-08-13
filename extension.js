@@ -43,6 +43,10 @@ let extensionChangedHandler;
 let disabledUbuntuDock;
 let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
 
+export var SETTINGS = null;
+export var DESKTOPSETTINGS = null;
+export var PERSISTENTSTORAGE = null;
+
 export default class DashToPanelExtension extends Extension {
     constructor(metadata) {
         super(metadata);
@@ -50,20 +54,19 @@ export default class DashToPanelExtension extends Extension {
 
         this._realHasOverview = Main.sessionMode.hasOverview;
 
-        ExtensionUtils.initTranslations(Utils.TRANSLATION_DOMAIN);
+        this.initTranslations();
         
         //create an object that persists until gnome-shell is restarted, even if the extension is disabled
-        Me.persistentStorage = {};
+        PERSISTENTSTORAGE = {};
     }
 
     enable() {
-        this._settings = this.getSettings();
         console.log(_('This is a translatable text'));
 
         // The Ubuntu Dock extension might get enabled after this extension
         extensionChangedHandler = extensionSystem.connect('extension-state-changed', (data, extension) => {
             if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
-                _enable();
+                _enable(this);
             }
         });
 
@@ -71,7 +74,7 @@ export default class DashToPanelExtension extends Extension {
         global.dashToPanel = {};
         // Signals.addSignalMethods(global.dashToPanel);
         
-        _enable();
+        _enable(this);
     }
 
     disable() {
@@ -79,7 +82,7 @@ export default class DashToPanelExtension extends Extension {
 
         panelManager.disable();
 
-        this._settings = null;
+        SETTINGS = null;
         panelManager = null;
 
         Utils.removeKeybinding('open-application-menu');
@@ -106,7 +109,7 @@ export default class DashToPanelExtension extends Extension {
     }
 }
 
-function _enable() {
+function _enable(extension) {
     let ubuntuDock = Main.extensionManager ?
                      Main.extensionManager.lookup(UBUNTU_DOCK_UUID) : //gnome-shell >= 3.33.4
                      ExtensionUtils.extensions[UBUNTU_DOCK_UUID];
@@ -129,12 +132,12 @@ function _enable() {
 
     if (panelManager) return; //already initialized
 
-    Me.settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
-    Me.desktopSettings = ExtensionUtils.getSettings('org.gnome.desktop.interface');
+    SETTINGS = extension.getSettings('org.gnome.shell.extensions.dash-to-panel');
+    DESKTOPSETTINGS = extension.getSettings('org.gnome.desktop.interface');
 
-    Main.layoutManager.startInOverview = !Me.settings.get_boolean('hide-overview-on-startup');
+    Main.layoutManager.startInOverview = !SETTINGS.get_boolean('hide-overview-on-startup');
 
-    if (Me.settings.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
+    if (SETTINGS.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
         Main.sessionMode.hasOverview = false;
         Main.layoutManager.connect('startup-complete', () => {
             Main.sessionMode.hasOverview = this._realHasOverview
@@ -150,7 +153,7 @@ function _enable() {
         'open-application-menu',
         new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
         () => {
-            if(Me.settings.get_boolean('show-appmenu'))
+            if(SETTINGS.get_boolean('show-appmenu'))
                 Main.wm._toggleAppMenu();
             else
                 panelManager.primaryPanel.taskbar.popupFocusedAppSecondaryMenu();
