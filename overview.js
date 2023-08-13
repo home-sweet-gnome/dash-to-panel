@@ -45,7 +45,7 @@ const LABEL_MARGIN = 60;
 const T1 = 'swipeEndTimeout';
 const T2 = 'numberOverlayTimeout';
 
-var Overview = class {
+export var Overview = class {
 
     constructor() {
         this._numHotkeys = 10;

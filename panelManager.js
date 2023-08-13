@@ -60,7 +60,7 @@ const Gi = imports._gi;
 export var PanelManager = class {
 
     constructor() {
-        this.overview = new Overview();
+        this.overview = new Overview.Overview();
         this.panelsElementPositions = {};
 
         this._saveMonitors();
