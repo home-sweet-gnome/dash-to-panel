@@ -58,7 +58,7 @@ import * as Progress from './progress.js';
 import * as Intellihide from './intellihide.js';
 import * as Transparency from './transparency.js';
 import {SETTINGS, DESKTOPSETTINGS, PERSISTENTSTORAGE} from './extension.js';
-import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const Mainloop = imports.mainloop;
 const Gi = imports._gi;

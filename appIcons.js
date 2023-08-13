@@ -50,7 +50,7 @@ import * as PanelSettings from './panelSettings.js';
 import * as Taskbar from './taskbar.js';
 import * as Progress from './progress.js';
 import {SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extension.js';
-import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const Mainloop = imports.mainloop;
 const Signals = imports.signals;

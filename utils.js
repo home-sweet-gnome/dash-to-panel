@@ -37,7 +37,6 @@ import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 const Gi = imports._gi;
 const Mainloop = imports.mainloop;
 
-var TRANSLATION_DOMAIN = imports.misc.extensionUtils.getCurrentExtension().metadata['gettext-domain'];
 var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
 
 // simplify global signals and function injections handling
