@@ -108,7 +108,7 @@ let tracker = Shell.WindowTracker.get_default();
  *
  */
 
-var TaskbarAppIcon = GObject.registerClass({
+export var TaskbarAppIcon = GObject.registerClass({
 }, class TaskbarAppIcon extends AppDisplay.AppIcon {
 
     _init(appInfo, panel, iconParams, previewMenu, iconAnimator) {
@@ -1286,7 +1286,7 @@ var TaskbarAppIcon = GObject.registerClass({
 });
 TaskbarAppIcon.prototype.scaleAndFade = TaskbarAppIcon.prototype.undoScaleAndFade = () => {};
 
-function minimizeWindow(app, param, monitor){
+export function minimizeWindow(app, param, monitor){
     // Param true make all app windows minimize
     let windows = getInterestingWindows(app, monitor);
     let current_workspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
@@ -1306,7 +1306,7 @@ function minimizeWindow(app, param, monitor){
  * By default only non minimized windows are activated.
  * This activates all windows in the current workspace.
  */
-function activateAllWindows(app, monitor){
+export function activateAllWindows(app, monitor){
 
     // First activate first window so workspace is switched if needed,
     // then activate all other app windows in the current workspace.
@@ -1325,13 +1325,13 @@ function activateAllWindows(app, monitor){
     }
 }
 
-function activateFirstWindow(app, monitor){
+export function activateFirstWindow(app, monitor){
 
     let windows = getInterestingWindows(app, monitor);
     Main.activateWindow(windows[0]);
 }
 
-function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
+export function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
     // Store for a little amount of time last clicked app and its windows
     // since the order changes upon window interaction
     let MEMORY_TIME=3000;
@@ -1372,7 +1372,7 @@ function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
         Main.activateWindow(recentlyClickedAppWindows[index]);
 }
 
-function resetRecentlyClickedApp() {
+export function resetRecentlyClickedApp() {
     if (recentlyClickedAppLoopId > 0)
         Mainloop.source_remove(recentlyClickedAppLoopId);
 
@@ -1385,7 +1385,7 @@ function resetRecentlyClickedApp() {
     return false;
 }
 
-function closeAllWindows(app, monitor) {
+export function closeAllWindows(app, monitor) {
     let windows = getInterestingWindows(app, monitor);
     for (let i = 0; i < windows.length; i++)
         windows[i].delete(global.get_current_time());
@@ -1393,7 +1393,7 @@ function closeAllWindows(app, monitor) {
 
 // Filter out unnecessary windows, for instance
 // nautilus desktop window.
-function getInterestingWindows(app, monitor, isolateMonitors) {
+export function getInterestingWindows(app, monitor, isolateMonitors) {
     let windows = (
             app ? 
             app.get_windows() : 
@@ -1417,7 +1417,7 @@ function getInterestingWindows(app, monitor, isolateMonitors) {
     return windows;
 }
 
-function cssHexTocssRgba(cssHex, opacity) {
+export function cssHexTocssRgba(cssHex, opacity) {
     var bigint = parseInt(cssHex.slice(1), 16);
     var r = (bigint >> 16) & 255;
     var g = (bigint >> 8) & 255;
@@ -1426,7 +1426,7 @@ function cssHexTocssRgba(cssHex, opacity) {
     return 'rgba(' + [r, g, b].join(',') + ',' + opacity + ')';
 }
 
-function getIconPadding(monitorIndex) {
+export function getIconPadding(monitorIndex) {
     let panelSize = PanelSettings.getPanelSize(SETTINGS, monitorIndex);
     let padding = SETTINGS.get_int('appicon-padding');
     let availSize = panelSize - Taskbar.MIN_ICON_SIZE - panelSize % 2;
@@ -1447,7 +1447,7 @@ function getIconPadding(monitorIndex) {
  *   (https://github.com/deuill/shell-extension-quitfromdash)
  */
 
- class TaskbarSecondaryMenu extends AppMenu.AppMenu {
+export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
 
     constructor(source, side) {
         super(source, side);
@@ -1506,7 +1506,7 @@ function getIconPadding(monitorIndex) {
 /**
  * This function is used for extendDashItemContainer
  */
-function ItemShowLabel()  {
+export function ItemShowLabel() {
     if (!this._labelText)
         return;
 
@@ -1587,7 +1587,7 @@ function ItemShowLabel()  {
  * use of this class in place of the original showAppsButton.
  *
  */
- var ShowAppsIconWrapper = class {
+export var ShowAppsIconWrapper = class {
 
     constructor(dtpPanel) {
         this.realShowAppsIcon = new Dash.ShowAppsIcon();
@@ -1736,7 +1736,7 @@ function ItemShowLabel()  {
 /**
  * A menu for the showAppsIcon
  */
-var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
+export var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
     constructor(actor, dtpPanel) {
         super(actor, 0, dtpPanel.getPosition());
@@ -1875,7 +1875,7 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 };
 
 
-var getIconContainerStyle = function(isVertical) {
+export var getIconContainerStyle = function(isVertical) {
     let style = 'padding: ';
 
     if (SETTINGS.get_boolean('group-apps')) {
