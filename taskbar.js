@@ -26,6 +26,7 @@ import Clutter from 'gi://Clutter';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
+import Graphene from 'gi://Graphene';
 import Gtk from 'gi://Gtk';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
@@ -261,7 +262,7 @@ export var Taskbar = class {
         let fade1 = new St.Widget({ style_class: 'scrollview-fade', reactive: false });
         let fade2 = new St.Widget({ style_class: 'scrollview-fade', 
                                     reactive: false,  
-                                    pivot_point: new imports.gi.Graphene.Point({ x: .5, y: .5 }), 
+                                    pivot_point: new Graphene.Point({ x: .5, y: .5 }), 
                                     rotation_angle_z: 180 });
 
         fade1.set_style(fadeStyle);

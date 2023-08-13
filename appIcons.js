@@ -25,6 +25,7 @@
 import Clutter from 'gi://Clutter';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
+import Graphene from 'gi://Graphene';
 import Gtk from 'gi://Gtk';
 import GObject from 'gi://GObject';
 import Meta from 'gi://Meta';
@@ -276,7 +277,7 @@ export var TaskbarAppIcon = GObject.registerClass({
             source: this.child,
             x: this.child.x, y: this.child.y,
             width: this.child.width, height: this.child.height,
-            pivot_point: new imports.gi.Graphene.Point({ x: 0.5, y: 0.5 }),
+            pivot_point: new Graphene.Point({ x: 0.5, y: 0.5 }),
             opacity: 255,
             reactive: false,
             x_align: Clutter.ActorAlign.CENTER, y_align: Clutter.ActorAlign.CENTER,

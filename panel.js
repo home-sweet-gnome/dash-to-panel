@@ -966,7 +966,7 @@ export var Panel = GObject.registerClass({
 
     _setVertical(actor, isVertical) {
         let _set = (actor, isVertical) => {
-            if (!actor || actor instanceof Dash.DashItemContainer || actor instanceof TaskbarItemContainer) {
+            if (!actor || actor instanceof Dash.DashItemContainer || actor instanceof TaskbarItemContainer.TaskbarItemContainer) {
                 return;
             }
 

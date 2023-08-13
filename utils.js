@@ -25,6 +25,7 @@ import Clutter from 'gi://Clutter';
 import GdkPixbuf from 'gi://GdkPixbuf';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
+import Graphene from 'gi://Graphene';
 import Gtk from 'gi://Gtk';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
@@ -33,6 +34,7 @@ import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import * as Util from 'resource:///org/gnome/shell/misc/util.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+import * as UiPanel from 'resource:///org/gnome/shell/ui/panel.js';
 
 const Gi = imports._gi;
 const Mainloop = imports.mainloop;
@@ -219,15 +221,9 @@ export var setDisplayUnredirect = (enable) => {
 };
 
 export var getSystemMenuInfo = function() {
-    if (Config.PACKAGE_VERSION < '43')
-        return {
-            name: 'aggregateMenu',
-            constructor: imports.ui.panel.AggregateMenu
-        };
-
     return {
         name: 'quickSettings',
-        constructor: imports.ui.panel.QuickSettings
+        constructor: UiPanel.QuickSettings
     };
 }
 
@@ -488,7 +484,7 @@ export var getIndicators = function(delegate) {
 }
 
 export var getPoint = function(coords) {
-    return new imports.gi.Graphene.Point(coords);
+    return new Graphene.Point(coords);
 }
 
 export var notify = function(text, iconName, action, isTransient) {

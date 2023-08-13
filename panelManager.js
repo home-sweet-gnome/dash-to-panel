@@ -365,7 +365,7 @@ export var PanelManager = class {
             } else {
                 // No idea why atm, but we need the import at the top of this file and to use the
                 // full imports ns here, otherwise SecondaryMonitorDisplay can't be used ¯\_(ツ)_/¯
-                view = new imports.ui.workspacesView.SecondaryMonitorDisplay(i,
+                view = new SecondaryMonitorDisplay(i,
                     this._controls,
                     this._scrollAdjustment,
                     this._fitModeAdjustment,

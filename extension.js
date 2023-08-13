@@ -41,7 +41,7 @@ const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 let panelManager;
 let extensionChangedHandler;
 let disabledUbuntuDock;
-let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
+let extensionSystem = Main.extensionManager;
 
 export var SETTINGS = null;
 export var DESKTOPSETTINGS = null;
