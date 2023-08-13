@@ -27,7 +27,7 @@ import * as Proximity from './proximity.js';
 import * as Utils from './utils.js';
 import {SETTINGS} from './extension.js';
 
-var DynamicTransparency = class {
+export var DynamicTransparency = class {
 
     constructor(dtpPanel) {
         this._dtpPanel = dtpPanel;
