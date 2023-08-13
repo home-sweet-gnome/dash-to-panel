@@ -83,7 +83,7 @@ export var Panel = GObject.registerClass({
         this._signalsHandler = new Utils.GlobalSignalsHandler();
 
         this.panelManager = panelManager;
-        this.panelStyle = new PanelStyle();
+        this.panelStyle = new PanelStyle.PanelStyle();
 
         this.monitor = monitor;
         this.panelBox = panelBox;
