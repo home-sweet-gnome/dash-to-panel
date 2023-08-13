@@ -49,7 +49,7 @@ import * as Utils from './utils.js';
 import * as PanelSettings from './panelSettings.js';
 import * as Taskbar from './taskbar.js';
 import * as Progress from './progress.js';
-import {SETTINGS, DESKTOPSETTINGS} from './extension.js';
+import {SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extension.js';
 import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const Mainloop = imports.mainloop;
@@ -599,7 +599,7 @@ var TaskbarAppIcon = GObject.registerClass({
                         bgSvg += (this.dtpPanel.checkIfVertical() ? '_2' : '_3');
                     }
 
-                    inlineStyle += "background-image: url('" + Me.path + bgSvg + ".svg');" + 
+                    inlineStyle += "background-image: url('" + EXTENSION_PATH + bgSvg + ".svg');" + 
                                    "background-position: 0 " + (pos == DOT_POSITION.TOP ? highlightMargin : 0) + "px;" +
                                    "background-size: " + backgroundSize;
                 }

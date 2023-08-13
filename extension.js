@@ -46,6 +46,8 @@ let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
 export var SETTINGS = null;
 export var DESKTOPSETTINGS = null;
 export var PERSISTENTSTORAGE = null;
+export var EXTENSION_UUID = null;
+export var EXTENSION_PATH = null;
 
 export default class DashToPanelExtension extends Extension {
     constructor(metadata) {
@@ -134,6 +136,8 @@ function _enable(extension) {
 
     SETTINGS = extension.getSettings('org.gnome.shell.extensions.dash-to-panel');
     DESKTOPSETTINGS = extension.getSettings('org.gnome.desktop.interface');
+    EXTENSION_UUID = extension.uuid
+    EXTENSION_PATH = extension.path
 
     Main.layoutManager.startInOverview = !SETTINGS.get_boolean('hide-overview-on-startup');
 
