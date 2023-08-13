@@ -62,7 +62,7 @@ let scaleFactor = 1;
 let animationTime = 0;
 let aspectRatio = {};
 
-var PreviewMenu = GObject.registerClass({
+export var PreviewMenu = GObject.registerClass({
     Signals: { 'open-state-changed': {} }
 }, class PreviewMenu extends St.Widget {
 
@@ -694,7 +694,7 @@ var PreviewMenu = GObject.registerClass({
     }
 });
 
-var Preview = GObject.registerClass({
+export var Preview = GObject.registerClass({
 }, class Preview extends St.Widget {
 
     _init(previewMenu) {
@@ -1112,7 +1112,7 @@ var Preview = GObject.registerClass({
     }
 });
 
-var WindowCloneLayout = GObject.registerClass({
+export var WindowCloneLayout = GObject.registerClass({
 }, class WindowCloneLayout extends Clutter.BinLayout {
 
     _init(frameRect, bufferRect) {
@@ -1140,13 +1140,13 @@ var WindowCloneLayout = GObject.registerClass({
     }
 });
 
-function setStyle(actor, style) {
+export function setStyle(actor, style) {
     if (!isManualStyling) {
         actor.set_style(style);
     }
 }
 
-function getTweenOpts(opts) {
+export function getTweenOpts(opts) {
     let defaults = {
         time: animationTime,
         transition: 'easeInOutQuad'
