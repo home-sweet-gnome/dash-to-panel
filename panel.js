@@ -57,7 +57,7 @@ import * as Progress from './progress.js';
 
 import * as Intellihide from './intellihide.js';
 import * as Transparency from './transparency.js';
-const _ = imports.gettext.domain(Me.imports.utils.TRANSLATION_DOMAIN).gettext;
+import {gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const Mainloop = imports.mainloop;
 const Gi = imports._gi;
