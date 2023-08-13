@@ -15,13 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Meta = imports.gi.Meta;
+import Meta from 'gi://Meta';
 
-const Layout = imports.ui.layout;
-const Main = imports.ui.main;
+import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Utils = Me.imports.utils;
+import * as Utils from './utils.js';
 
 //timeout intervals
 const MIN_UPDATE_MS = 200;

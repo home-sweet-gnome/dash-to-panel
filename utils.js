@@ -21,20 +21,20 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-const Clutter = imports.gi.Clutter;
-const GdkPixbuf = imports.gi.GdkPixbuf;
+import Clutter from 'gi://Clutter';
+import GdkPixbuf from 'gi://GdkPixbuf';
 const Gi = imports._gi;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const Gtk = imports.gi.Gtk;
-const Meta = imports.gi.Meta;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
+import Gtk from 'gi://Gtk';
+import Meta from 'gi://Meta';
+import Shell from 'gi://Shell';
+import St from 'gi://St';
 const Mainloop = imports.mainloop;
-const Config = imports.misc.config;
-const Util = imports.misc.util;
-const Main = imports.ui.main;
-const MessageTray = imports.ui.messageTray;
+import * as Config from 'resource:///org/gnome/shell/misc/config.js';
+import * as Util from 'resource:///org/gnome/shell/misc/util.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 var TRANSLATION_DOMAIN = imports.misc.extensionUtils.getCurrentExtension().metadata['gettext-domain'];
 var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);

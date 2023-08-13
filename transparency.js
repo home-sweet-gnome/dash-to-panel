@@ -15,17 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Clutter = imports.gi.Clutter;
-const GdkPixbuf = imports.gi.GdkPixbuf;
-const Main = imports.ui.main;
-const Meta = imports.gi.Meta;
-const St = imports.gi.St;
-const Config = imports.misc.config;
+import Clutter from 'gi://Clutter';
+import GdkPixbuf from 'gi://GdkPixbuf';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import Meta from 'gi://Meta';
+import St from 'gi://St';
+import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Panel = Me.imports.panel;
-const Proximity = Me.imports.proximity;
-const Utils = Me.imports.utils;
+import * as Panel from './panel.js';
+import * as Proximity from './proximity.js';
+import * as Utils from './utils.js';
 
 var DynamicTransparency = class {
 

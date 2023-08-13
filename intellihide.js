@@ -15,21 +15,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Clutter = imports.gi.Clutter;
-const Meta = imports.gi.Meta;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
+import Clutter from 'gi://Clutter';
+import Meta from 'gi://Meta';
+import Shell from 'gi://Shell';
+import St from 'gi://St';
 
-var GrabHelper = imports.ui.grabHelper;
-const Layout = imports.ui.layout;
-const Main = imports.ui.main;
-const OverviewControls = imports.ui.overviewControls;
-const PointerWatcher = imports.ui.pointerWatcher;
+import * as GrabHelper from 'resource:///org/gnome/shell/ui/grabHelper.js';
+import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as OverviewControls from 'resource:///org/gnome/shell/ui/overviewControls.js';
+import * as PointerWatcher from 'resource:///org/gnome/shell/ui/pointerWatcher.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Panel = Me.imports.panel;
-const Proximity = Me.imports.proximity;
-const Utils = Me.imports.utils;
+import * as Panel from './panel.js';
+import * as Proximity from './proximity.js';
+import * as Utils from './utils.js';
 
 //timeout intervals
 const CHECK_POINTER_MS = 200;

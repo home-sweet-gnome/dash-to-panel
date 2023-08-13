@@ -18,21 +18,20 @@
  */
 
 
-const Main = imports.ui.main;
-const Meta = imports.gi.Meta;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
-const WindowManager = imports.ui.windowManager;
-const ExtensionUtils = imports.misc.extensionUtils;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import Meta from 'gi://Meta';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
+import Shell from 'gi://Shell';
+import St from 'gi://St';
+import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
+import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';;
 const Mainloop = imports.mainloop;
 const Signals = imports.signals;
 
-const Me = ExtensionUtils.getCurrentExtension();
-const { PanelManager } = Me.imports.panelManager;
-const Utils = Me.imports.utils;
-const AppIcons = Me.imports.appIcons;
+import { PanelManager } from './panelManager.js';
+import * as Utils from './utils.js';
+import * as AppIcons from './appIcons.js';
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 

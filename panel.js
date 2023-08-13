@@ -27,38 +27,37 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Clutter = imports.gi.Clutter;
-const Config = imports.misc.config;
-const Gtk = imports.gi.Gtk;
-const GObject = imports.gi.GObject;
+import Clutter from 'gi://Clutter';
+import * as Config from 'resource:///org/gnome/shell/misc/config.js';
+import Gtk from 'gi://Gtk';
+import GObject from 'gi://GObject';
 const Gi = imports._gi;
-const AppIcons = Me.imports.appIcons;
-const Utils = Me.imports.utils;
-const { Taskbar, TaskbarItemContainer } = Me.imports.taskbar;
-const Pos = Me.imports.panelPositions;
-const PanelSettings = Me.imports.panelSettings;
-const { PanelStyle } = Me.imports.panelStyle;
-const Main = imports.ui.main;
+import * as AppIcons from './appIcons.js';
+import * as Utils from './utils.js';
+import { Taskbar, TaskbarItemContainer } from './taskbar.js';
+import * as Pos from './panelPositions.js';
+import * as PanelSettings from './panelSettings.js';
+import { PanelStyle } from './panelStyle.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 const Mainloop = imports.mainloop;
-const Dash = imports.ui.dash;
-const CtrlAltTab = imports.ui.ctrlAltTab;
-const GSPanel = imports.ui.panel;
-const PanelMenu = imports.ui.panelMenu;
-const St = imports.gi.St;
-const GLib = imports.gi.GLib;
-const Meta = imports.gi.Meta;
-const Pango = imports.gi.Pango;
-const DND = imports.ui.dnd;
-const Shell = imports.gi.Shell;
-const PopupMenu = imports.ui.popupMenu;
-const IconGrid = imports.ui.iconGrid;
-const DateMenu = imports.ui.dateMenu;
-const Volume = imports.ui.status.volume;
-const Progress = Me.imports.progress;
+import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
+import * as CtrlAltTab from 'resource:///org/gnome/shell/ui/ctrlAltTab.js';
+import * as GSPanel from 'resource:///org/gnome/shell/ui/panel.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import St from 'gi://St';
+import GLib from 'gi://GLib';
+import Meta from 'gi://Meta';
+import Pango from 'gi://Pango';
+import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
+import Shell from 'gi://Shell';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
+import * as DateMenu from 'resource:///org/gnome/shell/ui/dateMenu.js';
+import * as Volume from 'resource:///org/gnome/shell/ui/volume.js';
+import * as Progress from './progress.js';
 
-const Intellihide = Me.imports.intellihide;
-const Transparency = Me.imports.transparency;
+import * as Intellihide from './intellihide.js';
+import * as Transparency from './transparency.js';
 const _ = imports.gettext.domain(Me.imports.utils.TRANSLATION_DOMAIN).gettext;
 
 let tracker = Shell.WindowTracker.get_default();

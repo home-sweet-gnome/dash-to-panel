@@ -15,8 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Pos = Me.imports.panelPositions;
+import * as Pos from './panelPositions.js';
 
 /** Return object representing a settings value that is stored as JSON. */
 function getSettingsJson(settings, setting) {

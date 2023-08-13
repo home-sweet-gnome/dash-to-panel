@@ -15,24 +15,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const GObject = imports.gi.GObject;
-const Clutter = imports.gi.Clutter;
-const GLib = imports.gi.GLib;
-const Graphene = imports.gi.Graphene;
-const Gtk = imports.gi.Gtk;
-const Main = imports.ui.main;
+import GObject from 'gi://GObject';
+import Clutter from 'gi://Clutter';
+import GLib from 'gi://GLib';
+import Graphene from 'gi://Graphene';
+import Gtk from 'gi://Gtk';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 const Mainloop = imports.mainloop;
-const Meta = imports.gi.Meta;
-const PopupMenu = imports.ui.popupMenu;
+import Meta from 'gi://Meta';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 const Signals = imports.signals;
-const St = imports.gi.St;
-const WindowManager = imports.ui.windowManager;
-const Workspace = imports.ui.workspace;
+import St from 'gi://St';
+import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
+import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Panel = Me.imports.panel;
-const Taskbar = Me.imports.taskbar;
-const Utils = Me.imports.utils;
+import * as Panel from './panel.js';
+import * as Taskbar from './taskbar.js';
+import * as Utils from './utils.js';
 
 //timeout intervals
 const ENSURE_VISIBLE_MS = 200;

@@ -22,39 +22,38 @@
  */
 
 
-const Clutter = imports.gi.Clutter;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const Gtk = imports.gi.Gtk;
-const GObject = imports.gi.GObject;
+import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
+import Gtk from 'gi://Gtk';
+import GObject from 'gi://GObject';
 const Signals = imports.signals;
-const Meta = imports.gi.Meta;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
+import Meta from 'gi://Meta';
+import Shell from 'gi://Shell';
+import St from 'gi://St';
 const Mainloop = imports.mainloop;
 
-const Config = imports.misc.config;
-const AppDisplay = imports.ui.appDisplay;
-const AppMenu = imports.ui.appMenu;
+import * as Config from 'resource:///org/gnome/shell/misc/config.js';
+import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
+import * as AppMenu from 'resource:///org/gnome/shell/ui/appMenu.js';
 if (Config.PACKAGE_VERSION < '42') {
 const AppMenu = imports.ui.appDisplay;
 }
-const AppFavorites = imports.ui.appFavorites;
-const Dash = imports.ui.dash;
-const DND = imports.ui.dnd;
-const IconGrid = imports.ui.iconGrid;
-const Main = imports.ui.main;
-const PopupMenu = imports.ui.popupMenu;
-const Util = imports.misc.util;
-const Workspace = imports.ui.workspace;
-const BoxPointer = imports.ui.boxpointer;
-const ExtensionUtils = imports.misc.extensionUtils
+import * as AppFavorites from 'resource:///org/gnome/shell/ui/appFavorites.js';
+import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
+import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
+import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as Util from 'resource:///org/gnome/shell/misc/util.js';
+import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
+import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js';
+import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';
 
-const Me = ExtensionUtils.getCurrentExtension();
-const Utils = Me.imports.utils;
-const PanelSettings = Me.imports.panelSettings;
-const Taskbar = Me.imports.taskbar;
-const Progress = Me.imports.progress;
+import * as Utils from './utils.js';
+import * as PanelSettings from './panelSettings.js';
+import * as Taskbar from './taskbar.js';
+import * as Progress from './progress.js';
 const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
 
 //timeout names

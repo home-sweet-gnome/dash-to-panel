@@ -22,35 +22,34 @@
  */
 
 
-const Clutter = imports.gi.Clutter;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const GObject = imports.gi.GObject;
-const Gtk = imports.gi.Gtk;
+import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gtk from 'gi://Gtk';
 const Signals = imports.signals;
-const Meta = imports.gi.Meta;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
+import Meta from 'gi://Meta';
+import Shell from 'gi://Shell';
+import St from 'gi://St';
 const Mainloop = imports.mainloop;
 
 const SearchController = imports.ui.main.overview._overview._controls._searchController;
 const AppDisplay = imports.ui.main.overview._overview._controls.appDisplay;
-const AppFavorites = imports.ui.appFavorites;
-const Dash = imports.ui.dash;
-const DND = imports.ui.dnd;
-const IconGrid = imports.ui.iconGrid;
-const Main = imports.ui.main;
-const PopupMenu = imports.ui.popupMenu;
-const Workspace = imports.ui.workspace;
+import * as AppFavorites from 'resource:///org/gnome/shell/ui/appFavorites.js';
+import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
+import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
+import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const AppIcons = Me.imports.appIcons;
-const Panel = Me.imports.panel;
-const PanelManager = Me.imports.panelManager;
-const PanelSettings = Me.imports.panelSettings;
-const Pos = Me.imports.panelPositions;
-const Utils = Me.imports.utils;
-const WindowPreview = Me.imports.windowPreview;
+import * as AppIcons from './appIcons.js';
+import * as Panel from './panel.js';
+import * as PanelManager from './panelManager.js';
+import * as PanelSettings from './panelSettings.js';
+import * as Pos from './panelPositions.js';
+import * as Utils from './utils.js';
+import * as WindowPreview from './windowPreview.js';
 
 var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;

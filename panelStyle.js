@@ -21,16 +21,15 @@
  * mathematical.coffee@gmail.com
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const ExtensionUtils = imports.misc.extensionUtils;
-const Main = imports.ui.main;
+import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 const Mainloop = imports.mainloop;
-const St = imports.gi.St;
-const Shell = imports.gi.Shell;
+import St from 'gi://St';
+import Shell from 'gi://Shell';
 
-const Panel = Me.imports.panel;
-const Taskbar = Me.imports.taskbar;
-const Utils = Me.imports.utils;
+import * as Panel from './panel.js';
+import * as Taskbar from './taskbar.js';
+import * as Utils from './utils.js';
 
 var PanelStyle = class {
 

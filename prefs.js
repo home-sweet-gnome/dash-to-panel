@@ -20,22 +20,21 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-const GdkPixbuf = imports.gi.GdkPixbuf;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const GObject = imports.gi.GObject;
-const Gtk = imports.gi.Gtk;
-const Adw = imports.gi.Adw;
-const Gdk = imports.gi.Gdk;
+import GdkPixbuf from 'gi://GdkPixbuf';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gtk from 'gi://Gtk';
+import Adw from 'gi://Adw';
+import Gdk from 'gi://Gdk';
 const Mainloop = imports.mainloop;
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const ExtensionUtils = imports.misc.extensionUtils;
+import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';;
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 const N_ = function(e) { return e };
-const PanelSettings = Me.imports.panelSettings;
-const Pos = Me.imports.panelPositions;
+import * as PanelSettings from './panelSettings.js';
+import * as Pos from './panelPositions.js';
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];

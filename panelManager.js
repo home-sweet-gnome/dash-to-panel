@@ -27,33 +27,32 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { Overview } = Me.imports.overview;
-const { Panel, panelBoxes } = Me.imports.panel;
-const PanelSettings = Me.imports.panelSettings;
-const Proximity = Me.imports.proximity;
-const Taskbar = Me.imports.taskbar;
-const Utils = Me.imports.utils;
-const DesktopIconsIntegration = Me.imports.desktopIconsIntegration;
+import { Overview } from './overview.js';
+import { Panel, panelBoxes } from './panel.js';
+import * as PanelSettings from './panelSettings.js';
+import * as Proximity from './proximity.js';
+import * as Taskbar from './taskbar.js';
+import * as Utils from './utils.js';
+import * as DesktopIconsIntegration from './desktopIconsIntegration.js';
 
 const Gi = imports._gi;
-const GLib = imports.gi.GLib;
-const GObject = imports.gi.GObject;
-const Clutter = imports.gi.Clutter;
-const Meta = imports.gi.Meta;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Clutter from 'gi://Clutter';
+import Meta from 'gi://Meta';
+import Shell from 'gi://Shell';
+import St from 'gi://St';
 
-const AppDisplay = imports.ui.appDisplay;
-const BoxPointer = imports.ui.boxpointer;
-const Dash = imports.ui.dash;
-const IconGrid = imports.ui.iconGrid;
-const LookingGlass = imports.ui.lookingGlass;
-const Main = imports.ui.main;
-const PanelMenu = imports.ui.panelMenu;
-const Layout = imports.ui.layout;
-const WM = imports.ui.windowManager;
-const { SecondaryMonitorDisplay, WorkspacesView } = imports.ui.workspacesView;
+import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
+import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js';
+import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
+import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
+import * as LookingGlass from 'resource:///org/gnome/shell/ui/lookingGlass.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
+import * as WM from 'resource:///org/gnome/shell/ui/windowManager.js';
+import { SecondaryMonitorDisplay, WorkspacesView } from 'resource:///org/gnome/shell/ui/workspacesView.js';
 
 var PanelManager = class {
 

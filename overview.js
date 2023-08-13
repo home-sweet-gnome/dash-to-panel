@@ -20,19 +20,18 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Intellihide = Me.imports.intellihide;
-const Utils = Me.imports.utils;
+import * as Intellihide from './intellihide.js';
+import * as Utils from './utils.js';
 
-const Clutter = imports.gi.Clutter;
-const Gio = imports.gi.Gio;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
-const Main = imports.ui.main;
-const Workspace = imports.ui.workspace;
-const { WindowPreview } = imports.ui.windowPreview;
+import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
+import Shell from 'gi://Shell';
+import St from 'gi://St';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
+import { WindowPreview } from 'resource:///org/gnome/shell/ui/windowPreview.js';
 
-const Meta = imports.gi.Meta;
+import Meta from 'gi://Meta';
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
 

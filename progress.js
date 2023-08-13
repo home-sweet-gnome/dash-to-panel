@@ -19,14 +19,13 @@
  * This file is based on code from the Dash to Dock extension by micheleg
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Gio = imports.gi.Gio;
+import Gio from 'gi://Gio';
 const Cairo = imports.cairo;
-const Clutter = imports.gi.Clutter;
-const Pango = imports.gi.Pango;
-const St = imports.gi.St;
+import Clutter from 'gi://Clutter';
+import Pango from 'gi://Pango';
+import St from 'gi://St';
 const Signals = imports.signals;
-const Utils = Me.imports.utils;
+import * as Utils from './utils.js';
 
 
 var ProgressManager = class {
