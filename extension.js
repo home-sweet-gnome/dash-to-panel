@@ -40,28 +40,69 @@ let extensionChangedHandler;
 let disabledUbuntuDock;
 let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
 
-function init() {
-    this._realHasOverview = Main.sessionMode.hasOverview;
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-    ExtensionUtils.initTranslations(Utils.TRANSLATION_DOMAIN);
-    
-    //create an object that persists until gnome-shell is restarted, even if the extension is disabled
-    Me.persistentStorage = {};
-}
+export default class DashToPanelExtension extends Extension {
+    constructor(metadata) {
+        super(metadata);
+        console.log(`Initiating ${this.uuid}`);
 
-function enable() {
-    // The Ubuntu Dock extension might get enabled after this extension
-    extensionChangedHandler = extensionSystem.connect('extension-state-changed', (data, extension) => {
-        if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
-            _enable();
+        this._realHasOverview = Main.sessionMode.hasOverview;
+
+        ExtensionUtils.initTranslations(Utils.TRANSLATION_DOMAIN);
+        
+        //create an object that persists until gnome-shell is restarted, even if the extension is disabled
+        Me.persistentStorage = {};
+    }
+
+    enable() {
+        this._settings = this.getSettings();
+        console.log(_('This is a translatable text'));
+
+        // The Ubuntu Dock extension might get enabled after this extension
+        extensionChangedHandler = extensionSystem.connect('extension-state-changed', (data, extension) => {
+            if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
+                _enable();
+            }
+        });
+
+        //create a global object that can emit signals and conveniently expose functionalities to other extensions 
+        global.dashToPanel = {};
+        Signals.addSignalMethods(global.dashToPanel);
+        
+        _enable();
+    }
+
+    disable() {
+        reset = false
+
+        panelManager.disable();
+
+        this._settings = null;
+        panelManager = null;
+
+        Utils.removeKeybinding('open-application-menu');
+        Utils.addKeybinding(
+            'open-application-menu',
+            new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
+            Main.wm._toggleAppMenu.bind(Main.wm),
+            Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
+        );
+
+        if (!reset) {
+            extensionSystem.disconnect(extensionChangedHandler);
+            delete global.dashToPanel;
+
+            // Re-enable Ubuntu Dock if it was disabled by dash to panel
+            if (disabledUbuntuDock && Main.sessionMode.allowExtensions) {
+                (extensionSystem._callExtensionEnable || extensionSystem.enableExtension).call(extensionSystem, UBUNTU_DOCK_UUID);
+            }
+
+            AppIcons.resetRecentlyClickedApp();
         }
-    });
 
-    //create a global object that can emit signals and conveniently expose functionalities to other extensions 
-    global.dashToPanel = {};
-    Signals.addSignalMethods(global.dashToPanel);
-    
-    _enable();
+        Main.sessionMode.hasOverview = this._realHasOverview;
+    }
 }
 
 function _enable() {
@@ -115,35 +156,4 @@ function _enable() {
         },
         Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
     );
-}
-
-function disable(reset) {
-    panelManager.disable();
-    Me.settings.run_dispose();
-    Me.desktopSettings.run_dispose();
-
-    delete Me.settings;
-    panelManager = null;
-    
-    Utils.removeKeybinding('open-application-menu');
-    Utils.addKeybinding(
-        'open-application-menu',
-        new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
-        Main.wm._toggleAppMenu.bind(Main.wm),
-        Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
-    );
-
-    if (!reset) {
-        extensionSystem.disconnect(extensionChangedHandler);
-        delete global.dashToPanel;
-
-        // Re-enable Ubuntu Dock if it was disabled by dash to panel
-        if (disabledUbuntuDock && Main.sessionMode.allowExtensions) {
-            (extensionSystem._callExtensionEnable || extensionSystem.enableExtension).call(extensionSystem, UBUNTU_DOCK_UUID);
-        }
-
-        AppIcons.resetRecentlyClickedApp();
-    }
-
-    Main.sessionMode.hasOverview = this._realHasOverview;
 }
