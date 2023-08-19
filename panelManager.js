@@ -29,7 +29,6 @@
 
 import * as Overview from './overview.js';
 import * as Panel from './panel.js';
-import * as panelBoxes from './panel.js';
 import * as PanelSettings from './panelSettings.js';
 import * as Proximity from './proximity.js';
 import * as Taskbar from './taskbar.js';
@@ -203,7 +202,7 @@ export var PanelManager = class {
             ]
         );
 
-        panelBoxes.forEach(c => this._signalsHandler.add(
+        Panel.panelBoxes.forEach(c => this._signalsHandler.add(
             [
                 Main.panel[c], 
                 'actor-added', 

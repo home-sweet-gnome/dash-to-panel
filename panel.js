@@ -64,7 +64,7 @@ const Mainloop = imports.mainloop;
 const Gi = imports._gi;
 
 let tracker = Shell.WindowTracker.get_default();
-var panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
+export var panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
 
 //timeout names
 const T2 = 'startIntellihideTimeout';
