@@ -28,7 +28,7 @@ const MIN_UPDATE_MS = 200;
 //timeout names
 const T1 = 'limitUpdateTimeout';
 
-var Mode = {
+export var Mode = {
     ALL_WINDOWS: 0,
     FOCUSED_WINDOWS: 1,
     MAXIMIZED_WINDOWS: 2
