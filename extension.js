@@ -91,13 +91,13 @@ export default class DashToPanelExtension extends Extension {
         SETTINGS = null;
         panelManager = null;
 
-        Utils.removeKeybinding('open-application-menu');
-        Utils.addKeybinding(
-            'open-application-menu',
-            new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
-            Main.wm._toggleAppMenu.bind(Main.wm),
-            Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
-        );
+        // Utils.removeKeybinding('open-application-menu');
+        // Utils.addKeybinding(
+        //     'open-application-menu',
+        //     new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
+        //     Main.wm._toggleAppMenu.bind(Main.wm),
+        //     Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
+        // );
 
         if (!reset) {
             extensionSystem.disconnect(extensionChangedHandler);
@@ -156,16 +156,16 @@ function _enable(extension) {
 
     panelManager.enable();
     
-    Utils.removeKeybinding('open-application-menu');
-    Utils.addKeybinding(
-        'open-application-menu',
-        new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
-        () => {
-            if(SETTINGS.get_boolean('show-appmenu'))
-                Main.wm._toggleAppMenu();
-            else
-                panelManager.primaryPanel.taskbar.popupFocusedAppSecondaryMenu();
-        },
-        Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
-    );
+    // Utils.removeKeybinding('open-application-menu');
+    // Utils.addKeybinding(
+    //     'open-application-menu',
+    //     new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
+    //     () => {
+    //         if(SETTINGS.get_boolean('show-appmenu'))
+    //             Main.wm._toggleAppMenu();
+    //         else
+    //             panelManager.primaryPanel.taskbar.popupFocusedAppSecondaryMenu();
+    //     },
+    //     Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
+    // );
 }
