@@ -44,13 +44,12 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Util from 'resource:///org/gnome/shell/misc/util.js';
 import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js';
-import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';
 
 import * as Utils from './utils.js';
 import * as PanelSettings from './panelSettings.js';
 import * as Taskbar from './taskbar.js';
 import * as Progress from './progress.js';
-import {SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extension.js';
+import {DTP_EXTENSION, SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extension.js';
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const Mainloop = imports.mainloop;
@@ -1824,7 +1823,7 @@ export var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
         });
 
         let settingsMenuItem = this._appendMenuItem(_('Dash to Panel Settings'));
-        settingsMenuItem.connect('activate', () => ExtensionUtils.openPrefs())
+        settingsMenuItem.connect('activate', () => DTP_EXTENSION.openPreferences())
 
         if(this.sourceActor == Main.layoutManager.dummyCursor) {
             this._appendSeparator();

@@ -43,6 +43,7 @@ let extensionChangedHandler;
 let disabledUbuntuDock;
 let extensionSystem = Main.extensionManager;
 
+export var DTP_EXTENSION = null;
 export var SETTINGS = null;
 export var DESKTOPSETTINGS = null;
 export var PERSISTENTSTORAGE = null;
@@ -65,6 +66,8 @@ export default class DashToPanelExtension extends Extension {
     enable() {
         console.log(_('This is a translatable text'));
 
+        DTP_EXTENSION = this;
+
         // The Ubuntu Dock extension might get enabled after this extension
         extensionChangedHandler = extensionSystem.connect('extension-state-changed', (data, extension) => {
             if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
@@ -84,6 +87,7 @@ export default class DashToPanelExtension extends Extension {
 
         panelManager.disable();
 
+        DTP_EXTENSION = null;
         SETTINGS = null;
         panelManager = null;
 
