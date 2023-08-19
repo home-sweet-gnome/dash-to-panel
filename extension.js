@@ -82,9 +82,7 @@ export default class DashToPanelExtension extends Extension {
         _enable(this);
     }
 
-    disable() {
-        reset = false
-
+    disable(reset = false) {
         panelManager.disable();
 
         DTP_EXTENSION = null;
