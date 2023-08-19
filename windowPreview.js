@@ -33,7 +33,7 @@ import * as Utils from './utils.js';
 import {SETTINGS, DESKTOPSETTINGS} from './extension.js';
 
 const Mainloop = imports.mainloop;
-const Signals = imports.signals;
+const {signals: Signals} = imports;
 
 //timeout intervals
 const ENSURE_VISIBLE_MS = 200;

@@ -27,7 +27,7 @@ import * as Utils from './utils.js';
 import {SETTINGS} from './extension.js';
 
 const Cairo = imports.cairo;
-const Signals = imports.signals;
+const {signals: Signals} = imports;
 
 
 export var ProgressManager = class {
@@ -163,7 +163,7 @@ export var ProgressManager = class {
         }
     }
 };
-// Signals.addSignalMethods(ProgressManager.prototype);
+Signals.addSignalMethods(ProgressManager.prototype);
 
 export class AppProgress {
 
@@ -278,7 +278,7 @@ export class AppProgress {
         }
     }
 };
-// Signals.addSignalMethods(AppProgress.prototype);
+Signals.addSignalMethods(AppProgress.prototype);
 
 
 export var ProgressIndicator = class {

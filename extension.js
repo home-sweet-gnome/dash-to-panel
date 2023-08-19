@@ -34,7 +34,7 @@ import * as AppIcons from './appIcons.js';
 import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const Mainloop = imports.mainloop;
-const Signals = imports.signals;
+const {signals: Signals} = imports;
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
@@ -74,7 +74,7 @@ export default class DashToPanelExtension extends Extension {
 
         //create a global object that can emit signals and conveniently expose functionalities to other extensions 
         global.dashToPanel = {};
-        // Signals.addSignalMethods(global.dashToPanel);
+        Signals.addSignalMethods(global.dashToPanel);
         
         _enable(this);
     }

@@ -51,7 +51,7 @@ import * as WindowPreview from './windowPreview.js';
 import {SETTINGS} from './extension.js';
 
 const Mainloop = imports.mainloop;
-const Signals = imports.signals;
+const {signals: Signals} = imports;
 
 var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
@@ -1324,7 +1324,7 @@ export var Taskbar = class {
     }
 };
 
-// Signals.addSignalMethods(Taskbar.prototype);
+Signals.addSignalMethods(Taskbar.prototype);
 
 const CloneContainerConstraint = GObject.registerClass({
 }, class CloneContainerConstraint extends Clutter.BindConstraint {

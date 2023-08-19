@@ -54,7 +54,7 @@ import {SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extension.js';
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const Mainloop = imports.mainloop;
-const Signals = imports.signals;
+const {signals: Signals} = imports;
 
 //timeout names
 const T2 = 'mouseScrollTimeout';
@@ -1732,7 +1732,7 @@ export var ShowAppsIconWrapper = class {
         this.realShowAppsIcon.destroy();
     }
 };
-// Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
+Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
 
 /**
  * A menu for the showAppsIcon
