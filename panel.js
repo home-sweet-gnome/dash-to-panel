@@ -179,8 +179,8 @@ export var Panel = GObject.registerClass({
     enable () {
         let { name: systemMenuName } = Utils.getSystemMenuInfo();
 
-        if (this.statusArea[systemMenuName]) {
-            Utils.getIndicators(this.statusArea[systemMenuName]._volume)._dtpIgnoreScroll = 1;
+        if (this.statusArea[systemMenuName] && this.statusArea[systemMenuName]._volumeOutput) {
+            Utils.getIndicators(this.statusArea[systemMenuName]._volumeOutput)._dtpIgnoreScroll = 1;
         }
 
         this.geom = this.getGeometry();
@@ -381,7 +381,7 @@ export var Panel = GObject.registerClass({
 
             this._setShowDesktopButton(false);
 
-            delete Utils.getIndicators(this.statusArea[systemMenuName]._volume)._dtpIgnoreScroll;
+            delete Utils.getIndicators(this.statusArea[systemMenuName]._volumeOutput)._dtpIgnoreScroll;
 
             if (DateMenu.IndicatorPad) {
                 Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
@@ -1237,7 +1237,7 @@ export var Panel = GObject.registerClass({
             } else if (scrollAction === 'CHANGE_VOLUME' && !event.is_pointer_emulated()) {
                 let proto = Volume.Indicator.prototype;
                 let func = proto._handleScrollEvent || proto.vfunc_scroll_event || proto._onScrollEvent;
-                let indicator = Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volume;
+                let indicator = Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volumeOutput;
 
                 if (indicator.quickSettingsItems)
                     // new quick settings menu in gnome-shell > 42
