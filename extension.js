@@ -146,7 +146,7 @@ function _enable(extension) {
     if (SETTINGS.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
         Main.sessionMode.hasOverview = false;
         Main.layoutManager.connect('startup-complete', () => {
-            Main.sessionMode.hasOverview = this._realHasOverview
+            Main.sessionMode.hasOverview = extension._realHasOverview
         });
     }
 
