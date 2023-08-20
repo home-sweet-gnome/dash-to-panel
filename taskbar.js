@@ -53,9 +53,9 @@ import {SETTINGS} from './extension.js';
 const Mainloop = imports.mainloop;
 const {signals: Signals} = imports;
 
-var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
+export var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
-var MIN_ICON_SIZE = 4;
+export var MIN_ICON_SIZE = 4;
 
 const T1 = 'ensureAppIconVisibilityTimeout'
 const T2 = 'showLabelTimeout'

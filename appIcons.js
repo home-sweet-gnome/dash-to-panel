@@ -68,7 +68,7 @@ const DOUBLE_CLICK_DELAY_MS = 450;
 
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
-var DEFAULT_PADDING_SIZE = 4;
+export var DEFAULT_PADDING_SIZE = 4;
 
 let DOT_STYLE = {
     DOTS: "DOTS",

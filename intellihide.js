@@ -45,7 +45,7 @@ const T4 = 'panelBoxClipTimeout';
 
 var SIDE_CONTROLS_ANIMATION_TIME = OverviewControls.SIDE_CONTROLS_ANIMATION_TIME / (OverviewControls.SIDE_CONTROLS_ANIMATION_TIME > 1 ? 1000 : 1);
 
-var Hold = {
+export var Hold = {
     NONE: 0,
     TEMPORARY: 1,
     PERMANENT: 2
