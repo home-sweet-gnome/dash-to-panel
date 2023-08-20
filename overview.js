@@ -29,8 +29,8 @@ import Shell from 'gi://Shell';
 import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
-import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
-import { WindowPreview } from 'resource:///org/gnome/shell/ui/windowPreview.js';
+import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
+import {WindowPreview} from 'resource:///org/gnome/shell/ui/windowPreview.js';
 import {SETTINGS} from './extension.js';
 
 import Meta from 'gi://Meta';
@@ -357,7 +357,7 @@ export var Overview = class {
         }, this);
         
         if (Main.wm._switchToApplication) {
-            let gsSettings = new Gio.Settings({ schema_id: MessageTray.SHELL_KEYBINDINGS_SCHEMA });
+            let gsSettings = new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA });
 
             for (let i = 1; i < 10; ++i) {
                 Utils.addKeybinding(GS_HOTKEYS_KEY + i, gsSettings, Main.wm._switchToApplication.bind(Main.wm));
