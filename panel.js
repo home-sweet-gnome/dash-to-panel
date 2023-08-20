@@ -41,7 +41,6 @@ import * as PanelStyle from './panelStyle.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as CtrlAltTab from 'resource:///org/gnome/shell/ui/ctrlAltTab.js';
-import * as GSPanel from 'resource:///org/gnome/shell/ui/panel.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import St from 'gi://St';
 import GLib from 'gi://GLib';
@@ -126,7 +125,7 @@ export var Panel = GObject.registerClass({
 
             this._setPanelMenu(systemMenuInfo.name, systemMenuInfo.constructor, this.panel);
             this._setPanelMenu('dateMenu', DateMenu.DateMenuButton, this.panel);
-            this._setPanelMenu('activities', GSPanel.ActivitiesButton, this.panel);
+            this._setPanelMenu('activities', Main.panel.statusArea.activities.constructor, this.panel);
 
             this.panel.add_child(this._leftBox);
             this.panel.add_child(this._centerBox);
