@@ -34,7 +34,6 @@ import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import * as Util from 'resource:///org/gnome/shell/misc/util.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
-import * as UiPanel from 'resource:///org/gnome/shell/ui/panel.js';
 
 const Gi = imports._gi;
 const Mainloop = imports.mainloop;
@@ -223,7 +222,7 @@ export var setDisplayUnredirect = (enable) => {
 export var getSystemMenuInfo = function() {
     return {
         name: 'quickSettings',
-        constructor: UiPanel.QuickSettings
+        constructor: Main.panel.statusArea.quickSettings.constructor
     };
 }
 
