@@ -217,7 +217,6 @@ export var Panel = GObject.registerClass({
 
         this.panel.add_child(this.taskbar.actor);
 
-        this._setAppmenuVisible(SETTINGS.get_boolean('show-appmenu'));
         this._setShowDesktopButton(true);
         
         this._setAllocationMap();
@@ -330,7 +329,6 @@ export var Panel = GObject.registerClass({
         this._signalsHandler.destroy();
         
         this.panel.remove_child(this.taskbar.actor);
-        this._setAppmenuVisible(false);
 
         if (this.intellihide) {
             this.intellihide.destroy();
@@ -513,11 +511,6 @@ export var Panel = GObject.registerClass({
                     'changed::appicon-padding'
                 ],
                 () => this.taskbar.resetAppIcons()
-            ],
-            [
-                SETTINGS,
-                'changed::show-appmenu',
-                () => this._setAppmenuVisible(SETTINGS.get_boolean('show-appmenu'))
             ],
             [
                 SETTINGS,
@@ -1010,22 +1003,6 @@ export var Panel = GObject.registerClass({
         delete actor._dtpDestroyId;
         
         this._unmappedButtons.splice(this._unmappedButtons.indexOf(actor), 1);
-    }
-
-    _setAppmenuVisible(isVisible) {
-        let parent;
-        let appMenu = this.statusArea.appMenu;
-
-        if(appMenu)
-            parent = appMenu.container.get_parent();
-
-        if (parent) {
-            parent.remove_child(appMenu.container);
-        }
-
-        if (isVisible && appMenu) {
-            this._leftBox.insert_child_above(appMenu.container, null);
-        }
     }
 
     _formatVerticalClock() {

@@ -1312,11 +1312,6 @@ const Preferences = class {
                         'sensitive',
                         Gio.SettingsBindFlags.DEFAULT);
 
-        this._settings.bind('show-appmenu',
-                            this._builder.get_object('show_appmenu_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-
         this._settings.bind('show-window-previews',
                             this._builder.get_object('show_window_previews_switch'),
                             'active',
@@ -1903,6 +1898,7 @@ const Preferences = class {
                 this._settings.set_value('secondarymenu-contains-showdetails', this._settings.get_default_value('secondarymenu-contains-showdetails'));
             });
 
+            // TODO setting secondarymenu-contains-appmenu is not being used anywhere
             this._settings.bind('secondarymenu-contains-appmenu',
                     this._builder.get_object('secondarymenu_appmenu_switch'),
                     'active',

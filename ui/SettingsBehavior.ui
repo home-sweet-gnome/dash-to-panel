@@ -45,18 +45,6 @@
 
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Show &lt;i&gt;AppMenu&lt;/i&gt; button</property>
-            <property name="subtitle">Top Bar &gt; Show App Menu must be enabled in Tweak Tool</property>
-            <child>
-              <object class="GtkSwitch" id="show_appmenu_switch">
-                <property name="valign">center</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        
-        <child>
-          <object class="AdwActionRow">
             <property name="title" translatable="yes">Ungroup applications</property>
             <child>
               <object class="GtkButton" id="show_group_apps_options_button">
