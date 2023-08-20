@@ -2082,7 +2082,9 @@ const Preferences = class {
 
         // About Panel
 
-        // TODO this._builder.get_object('extension_version').set_label(this._settings.version.toString() + (this._settings.commit ? ' (' + this._settings.commit + ')' : ''));
+        const extension = ExtensionPreferences.lookupByURL(import.meta.url);
+        const {metadata} = extension;
+        this._builder.get_object('extension_version').set_label(metadata.version.toString() + (metadata.commit ? ' (' + metadata.commit + ')' : ''));
 
         this._builder.get_object('importexport_export_button').connect('clicked', widget => {
             this._showFileChooser(
