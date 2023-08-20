@@ -31,7 +31,7 @@ import Gdk from 'gi://Gdk';
 import * as PanelSettings from './panelSettings.js';
 import * as Pos from './panelPositions.js';
 
-import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {ExtensionPreferences, gettext as _, ngettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const Mainloop = imports.mainloop;
 
@@ -684,7 +684,7 @@ const Preferences = class {
 
         this._builder.get_object('animate_appicon_hover_options_extent_scale')
         .set_format_value_func((scale, value) => {
-            return Gettext.ngettext("%d icon", "%d icons", value).format(value);
+            return ngettext("%d icon", "%d icons", value).format(value);
         });
     }
 
