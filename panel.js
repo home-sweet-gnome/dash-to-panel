@@ -903,10 +903,14 @@ export var Panel = GObject.registerClass({
             this.showAppsIconWrapper.popupMenu(Main.layoutManager.dummyCursor);
 
             return Clutter.EVENT_STOP;
-        } else if (Main.modalCount > 0 || event.get_source() != actor || 
-            (!isPress && type != Clutter.EventType.TOUCH_BEGIN) ||
-            (isPress && button != 1)) {
-            return Clutter.EVENT_PROPAGATE;
+        } else {
+            const targetActor = global.stage.get_event_actor(event);
+
+            if (Main.modalCount > 0 || targetActor != actor || 
+                (!isPress && type != Clutter.EventType.TOUCH_BEGIN) ||
+                (isPress && button != 1)) {
+                return Clutter.EVENT_PROPAGATE;
+            }
         }
 
         let params = this.checkIfVertical() ? [stageY, 'y', 'height'] : [stageX, 'x', 'width'];
@@ -1190,7 +1194,9 @@ export var Panel = GObject.registerClass({
         let scrollAction = SETTINGS.get_string('scroll-panel-action');
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (!this._checkIfIgnoredScrollSource(event.get_source()) && !this._timeoutsHandler.getId(T6)) {
+        const targetActor = global.stage.get_event_actor(event);
+
+        if (!this._checkIfIgnoredScrollSource(targetActor) && !this._timeoutsHandler.getId(T6)) {
             if (direction && scrollAction === 'SWITCH_WORKSPACE') {
                 let args = [global.display];
 
