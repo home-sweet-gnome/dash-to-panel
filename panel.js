@@ -1217,7 +1217,7 @@ export var Panel = GObject.registerClass({
                 
                 Utils.activateSiblingWindow(windows, direction);
             } else if (scrollAction === 'CHANGE_VOLUME' && !event.is_pointer_emulated()) {
-                let proto = Volume.Indicator.prototype;
+                let proto = Volume.OutputIndicator.prototype;
                 let func = proto._handleScrollEvent || proto.vfunc_scroll_event || proto._onScrollEvent;
                 let indicator = Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volumeOutput;
 
