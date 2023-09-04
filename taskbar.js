@@ -284,8 +284,10 @@ export var Taskbar = class {
         this.previewMenu.enable();
 
         let rtl = Clutter.get_default_text_direction() == Clutter.TextDirection.RTL;
-        this.actor = new St.Bin({ child: this._container,
-            y_align: St.Align.START, x_align:rtl?St.Align.END:St.Align.START
+        this.actor = new St.Bin({
+            child: this._container,
+            y_align: Clutter.ActorAlign.START,
+            x_align: rtl ? Clutter.ActorAlign.END : Clutter.ActorAlign.START
         });
 
         let adjustment = this._scrollView[orientation[0] + 'scroll'].adjustment;
