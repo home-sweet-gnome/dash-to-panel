@@ -16,6 +16,7 @@
  */
 
 import Meta from 'gi://Meta';
+import Mtk from 'gi://Mtk';
 
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
@@ -56,7 +57,7 @@ export class ProximityWatch {
     _updateWatchRect() {
         let [actorX, actorY] = this.actor.get_position();
 
-        this.rect = new Meta.Rectangle({ 
+        this.rect = new Mtk.Rectangle({ 
             x: actorX - this.threshold[0],
             y: actorY - this.threshold[1],
             width: this.actor.width + this.threshold[0] * 2,

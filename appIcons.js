@@ -28,7 +28,7 @@ import GLib from 'gi://GLib';
 import Graphene from 'gi://Graphene';
 import Gtk from 'gi://Gtk';
 import GObject from 'gi://GObject';
-import Meta from 'gi://Meta';
+import Mtk from 'gi://Mtk';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
@@ -396,7 +396,7 @@ export var TaskbarAppIcon = GObject.registerClass({
         if (this.get_stage() == null)
             return;
 
-        let rect = new Meta.Rectangle();
+        let rect = new Mtk.Rectangle();
 
         [rect.x, rect.y] = this.get_transformed_position();
         [rect.width, rect.height] = this.get_transformed_size();
