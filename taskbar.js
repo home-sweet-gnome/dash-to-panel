@@ -41,7 +41,6 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 
 import * as AppIcons from './appIcons.js';
-import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
 import * as Panel from './panel.js';
 import * as PanelManager from './panelManager.js';
 import * as PanelSettings from './panelSettings.js';
@@ -62,13 +61,6 @@ const T1 = 'ensureAppIconVisibilityTimeout'
 const T2 = 'showLabelTimeout'
 const T3 = 'resetHoverTimeout'
 
-// TODO will be exported in the next gnome 45 release again
-function getAppFromSource(source) {
-    if (source instanceof AppDisplay.AppIcon)
-        return source.app;
-    else
-        return null;
-}
 
 /**
  * Extend DashItemContainer
@@ -632,7 +624,7 @@ export var Taskbar = class {
     }
 
     _onDragMotion(dragEvent) {
-        let app = getAppFromSource(dragEvent.source);
+        let app = Dash.getAppFromSource(dragEvent.source);
         if (app == null)
             return DND.DragMotionResult.CONTINUE;
 
