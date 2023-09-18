@@ -15,31 +15,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var SHOW_APPS_BTN = 'showAppsButton';
-var ACTIVITIES_BTN = 'activitiesButton';
-var TASKBAR = 'taskbar';
-var DATE_MENU = 'dateMenu';
-var SYSTEM_MENU = 'systemMenu';
-var LEFT_BOX = 'leftBox';
-var CENTER_BOX = 'centerBox';
-var RIGHT_BOX = 'rightBox';
-var DESKTOP_BTN = 'desktopButton';
+export var SHOW_APPS_BTN = 'showAppsButton';
+export var ACTIVITIES_BTN = 'activitiesButton';
+export var TASKBAR = 'taskbar';
+export var DATE_MENU = 'dateMenu';
+export var SYSTEM_MENU = 'systemMenu';
+export var LEFT_BOX = 'leftBox';
+export var CENTER_BOX = 'centerBox';
+export var RIGHT_BOX = 'rightBox';
+export var DESKTOP_BTN = 'desktopButton';
 
-var STACKED_TL = 'stackedTL';
-var STACKED_BR = 'stackedBR';
-var CENTERED = 'centered';
-var CENTERED_MONITOR = 'centerMonitor';
+export var STACKED_TL = 'stackedTL';
+export var STACKED_BR = 'stackedBR';
+export var CENTERED = 'centered';
+export var CENTERED_MONITOR = 'centerMonitor';
 
-var TOP = 'TOP';
-var BOTTOM = 'BOTTOM';
-var LEFT = 'LEFT';
-var RIGHT = 'RIGHT';
+export var TOP = 'TOP';
+export var BOTTOM = 'BOTTOM';
+export var LEFT = 'LEFT';
+export var RIGHT = 'RIGHT';
 
-var START = 'START';
-var MIDDLE = 'MIDDLE';
-var END = 'END';
+export var START = 'START';
+export var MIDDLE = 'MIDDLE';
+export var END = 'END';
 
-var defaults = [
+export var defaults = [
     { element: SHOW_APPS_BTN,   visible: true,     position: STACKED_TL },
     { element: ACTIVITIES_BTN,  visible: false,    position: STACKED_TL },
     { element: LEFT_BOX,        visible: true,     position: STACKED_TL },
@@ -51,11 +51,11 @@ var defaults = [
     { element: DESKTOP_BTN,     visible: true,     position: STACKED_BR },
 ];
 
-var optionDialogFunctions = {};
+export var optionDialogFunctions = {};
 
 optionDialogFunctions[SHOW_APPS_BTN] = '_showShowAppsButtonOptions';
 optionDialogFunctions[DESKTOP_BTN] = '_showDesktopButtonOptions';
 
-function checkIfCentered(position) {
+export function checkIfCentered(position) {
     return position == CENTERED || position == CENTERED_MONITOR;
 }

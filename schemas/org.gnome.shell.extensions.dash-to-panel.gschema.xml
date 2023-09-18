@@ -429,11 +429,6 @@
       <summary>Show desktop animation time</summary>
       <description>Window fade animation time when showing the destop</description>
     </key>
-    <key type="b" name="show-appmenu">
-      <default>false</default>
-      <summary>Show appMenu button</summary>
-      <description>Show appMenu on the right hand side of the panel</description>
-    </key>
     <key type="b" name="show-window-previews">
       <default>true</default>
       <summary>Show window preview</summary>
