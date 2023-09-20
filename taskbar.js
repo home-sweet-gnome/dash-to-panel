@@ -624,7 +624,7 @@ export var Taskbar = class {
     }
 
     _onDragMotion(dragEvent) {
-        let app = Dash.getAppFromSource(dragEvent.source);
+        let app = Dash.Dash.getAppFromSource(dragEvent.source);
         if (app == null)
             return DND.DragMotionResult.CONTINUE;
 
