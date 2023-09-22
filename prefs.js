@@ -2243,7 +2243,7 @@ const BuilderScope = GObject.registerClass({
         if (this._preferences._tray_size_timeout > 0)
             GLib.Source.remove(this._preferences._tray_size_timeout);
 
-        this._preferences._tray_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {)
+        this._preferences._tray_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('tray-size', scale.get_value());
             this._preferences._tray_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
