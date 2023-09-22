@@ -38,6 +38,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Util from 'resource:///org/gnome/shell/misc/util.js';
 import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js';
+import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
 
 import * as Utils from './utils.js';
 import * as PanelSettings from './panelSettings.js';
@@ -47,7 +48,6 @@ import {DTP_EXTENSION, SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extens
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const Mainloop = imports.mainloop;
-const {signals: Signals} = imports;
 
 //timeout names
 const T2 = 'mouseScrollTimeout';
@@ -1581,9 +1581,11 @@ export function ItemShowLabel() {
  * use of this class in place of the original showAppsButton.
  *
  */
-export const ShowAppsIconWrapper = class {
+export const ShowAppsIconWrapper = class extends EventEmitter {
 
     constructor(dtpPanel) {
+        super();
+
         this.realShowAppsIcon = new Dash.ShowAppsIcon();
 
         /* the variable equivalent to toggleButton has a different name in the appIcon class
@@ -1725,7 +1727,6 @@ export const ShowAppsIconWrapper = class {
         this.realShowAppsIcon.destroy();
     }
 };
-Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
 
 /**
  * A menu for the showAppsIcon

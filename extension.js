@@ -18,16 +18,16 @@
  */
 
 
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import Gio from 'gi://Gio';
+
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 import * as  PanelManager from './panelManager.js';
 import * as Utils from './utils.js';
 import * as AppIcons from './appIcons.js';
 
-import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
-
-const {signals: Signals} = imports;
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
@@ -67,8 +67,7 @@ export default class DashToPanelExtension extends Extension {
         });
 
         //create a global object that can emit signals and conveniently expose functionalities to other extensions 
-        global.dashToPanel = {};
-        Signals.addSignalMethods(global.dashToPanel);
+        global.dashToPanel = new EventEmitter();
         
         _enable(this);
     }

@@ -34,6 +34,7 @@ import * as AppFavorites from 'resource:///org/gnome/shell/ui/appFavorites.js';
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
 
 import * as AppIcons from './appIcons.js';
 import * as PanelManager from './panelManager.js';
@@ -44,7 +45,6 @@ import * as WindowPreview from './windowPreview.js';
 import {SETTINGS} from './extension.js';
 
 const Mainloop = imports.mainloop;
-const {signals: Signals} = imports;
 const SearchController = Main.overview.searchController;
 
 export const DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
@@ -194,9 +194,11 @@ export const TaskbarActor = GObject.registerClass({
  * - Sync minimization application target position.
  */
 
-export const Taskbar = class {
+export const Taskbar = class extends EventEmitter {
 
     constructor(panel) {
+        super();
+
         this.dtpPanel = panel;
         
         // start at smallest size due to running indicator drawing area expanding but not shrinking
@@ -1320,8 +1322,6 @@ export const Taskbar = class {
         }
     }
 };
-
-Signals.addSignalMethods(Taskbar.prototype);
 
 const CloneContainerConstraint = GObject.registerClass({
 }, class CloneContainerConstraint extends Clutter.BindConstraint {

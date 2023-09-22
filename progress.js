@@ -27,12 +27,14 @@ import St from 'gi://St';
 import * as Utils from './utils.js';
 import {SETTINGS} from './extension.js';
 
-const {signals: Signals} = imports;
+import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
 
 
-export const ProgressManager = class {
+export const ProgressManager = class extends EventEmitter {
 
     constructor() {
+        super();
+
         this._entriesByDBusName = {};
 
         this._launcher_entry_dbus_signal_id =
@@ -163,11 +165,12 @@ export const ProgressManager = class {
         }
     }
 };
-Signals.addSignalMethods(ProgressManager.prototype);
 
-export class AppProgress {
+export class AppProgress extends EventEmitter {
 
     constructor(dbusName, appId, properties) {
+        super();
+
         this._dbusName = dbusName;
         this._appId = appId;
         this._count = 0;
@@ -278,7 +281,6 @@ export class AppProgress {
         }
     }
 };
-Signals.addSignalMethods(AppProgress.prototype);
 
 
 export const ProgressIndicator = class {
