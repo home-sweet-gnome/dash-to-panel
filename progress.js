@@ -19,6 +19,7 @@
  * This file is based on code from the Dash to Dock extension by micheleg
  */
 
+import Cairo from 'cairo';
 import Gio from 'gi://Gio';
 import Clutter from 'gi://Clutter';
 import Pango from 'gi://Pango';
@@ -26,7 +27,6 @@ import St from 'gi://St';
 import * as Utils from './utils.js';
 import {SETTINGS} from './extension.js';
 
-const Cairo = imports.cairo;
 const {signals: Signals} = imports;
 
 
