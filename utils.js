@@ -893,28 +893,3 @@ export const drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, is
         cr.setSource(stroke);
     cr.stroke();
 }
-
-/**
- * Check if an app exists in the system.
- */
-var checkedCommandsMap = new Map();
-
-export function checkIfCommandExists(app) {
-    let answer = checkedCommandsMap.get(app);
-    if (answer === undefined) {
-        // Command is a shell built in, use shell to call it.
-        // Quotes around app value are important. They let command operate
-        // on the whole value, instead of having shell interpret it.
-        let cmd = "sh -c 'command -v \"" + app + "\"'";
-        try {
-            let out = GLib.spawn_command_line_sync(cmd);
-            // out contains 1: stdout, 2: stderr, 3: exit code
-            answer = out[3] == 0;
-        } catch (ex) {
-            answer = false;
-        }
-
-        checkedCommandsMap.set(app, answer);
-    }
-    return answer;
-}

@@ -1833,7 +1833,7 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
     // Only add menu entries for commands that exist in path
     _appendItem(info) {
-        if (Utils.checkIfCommandExists(info.cmd[0])) {
+        if (GLib.find_program_in_path(info.cmd[0])) {
             let item = this._appendMenuItem(_(info.title));
 
             item.connect('activate', function() {
