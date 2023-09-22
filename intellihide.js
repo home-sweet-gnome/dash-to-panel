@@ -42,7 +42,7 @@ const T2 = 'limitUpdateTimeout';
 const T3 = 'postAnimateTimeout';
 const T4 = 'panelBoxClipTimeout';
 
-var SIDE_CONTROLS_ANIMATION_TIME = OverviewControls.SIDE_CONTROLS_ANIMATION_TIME / (OverviewControls.SIDE_CONTROLS_ANIMATION_TIME > 1 ? 1000 : 1);
+const SIDE_CONTROLS_ANIMATION_TIME = OverviewControls.SIDE_CONTROLS_ANIMATION_TIME / (OverviewControls.SIDE_CONTROLS_ANIMATION_TIME > 1 ? 1000 : 1);
 
 export const Hold = {
     NONE: 0,

@@ -35,7 +35,7 @@ import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 const Gi = imports._gi;
 
-var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
+const SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
 
 // simplify global signals and function injections handling
 // abstract class
@@ -270,7 +270,7 @@ export const find = function(array, predicate) {
 };
 
 export const mergeObjects = function(main, bck) {
-    for (var prop in bck) {
+    for (const prop in bck) {
         if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
             main[prop] = bck[prop];
         }
@@ -869,8 +869,8 @@ export const drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, is
     
     height = 2.0 * Math.floor(height / 2.0);
     
-    var leftRadius = isRoundLeft ? height / 2.0 : 0.0;
-    var rightRadius = isRoundRight ? height / 2.0 : 0.0;
+    const leftRadius = isRoundLeft ? height / 2.0 : 0.0;
+    const rightRadius = isRoundRight ? height / 2.0 : 0.0;
     
     cr.moveTo(x + width - rightRadius, y);
     cr.lineTo(x + leftRadius, y);

@@ -1412,10 +1412,10 @@ export function getInterestingWindows(app, monitor, isolateMonitors) {
 }
 
 export function cssHexTocssRgba(cssHex, opacity) {
-    var bigint = parseInt(cssHex.slice(1), 16);
-    var r = (bigint >> 16) & 255;
-    var g = (bigint >> 8) & 255;
-    var b = bigint & 255;
+    let bigint = parseInt(cssHex.slice(1), 16);
+    let r = (bigint >> 16) & 255;
+    let g = (bigint >> 8) & 255;
+    let b = bigint & 255;
 
     return 'rgba(' + [r, g, b].join(',') + ',' + opacity + ')';
 }
@@ -1851,7 +1851,7 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
             return;
         }
         
-        for (var entry = 0; entry < commandList.length; entry++) {
+        for (let entry = 0; entry < commandList.length; entry++) {
             _appendItem({
                 title: titleList[entry],
                 cmd: commandList[entry].split(' ')

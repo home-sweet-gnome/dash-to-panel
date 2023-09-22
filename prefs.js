@@ -142,7 +142,7 @@ function checkHotkeyPrefix(settings) {
 }
 
 function mergeObjects(main, bck) {
-    for (var prop in bck) {
+    for (const prop in bck) {
         if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
             main[prop] = bck[prop];
         }
@@ -1933,7 +1933,7 @@ const Preferences = class {
             {objectName: 'panel_length_scale', valueName: '', range: LENGTH_MARKS }
         ];
 
-        for(var idx in sizeScales) {
+        for(const idx in sizeScales) {
             let size_scale = this._builder.get_object(sizeScales[idx].objectName);
             let range = sizeScales[idx].range;
             size_scale.set_range(range[range.length - 1], range[0]);

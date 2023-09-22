@@ -1223,7 +1223,7 @@ export const Panel = GObject.registerClass({
                 return;
             }
 
-            var scrollDelay = SETTINGS.get_int('scroll-panel-delay');
+            const scrollDelay = SETTINGS.get_int('scroll-panel-delay');
 
             if (scrollDelay) {
                 this._timeoutsHandler.add([T6, scrollDelay, () => {}]);

@@ -47,7 +47,7 @@ import {SETTINGS} from './extension.js';
 const SearchController = Main.overview.searchController;
 
 export const DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
-var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
+const DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
 export const MIN_ICON_SIZE = 4;
 
 const T1 = 'ensureAppIconVisibilityTimeout'
@@ -1530,7 +1530,7 @@ export const TaskbarItemContainer = GObject.registerClass({
     }
 });
 
-var DragPlaceholderItem = GObject.registerClass({
+const DragPlaceholderItem = GObject.registerClass({
 }, class DragPlaceholderItem extends St.Widget {
 
     _init(appIcon, iconSize, isVertical) {
