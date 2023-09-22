@@ -44,7 +44,6 @@ import * as Utils from './utils.js';
 import * as WindowPreview from './windowPreview.js';
 import {SETTINGS} from './extension.js';
 
-const Mainloop = imports.mainloop;
 const SearchController = Main.overview.searchController;
 
 export const DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
@@ -560,9 +559,11 @@ export const Taskbar = class extends EventEmitter {
             }
 
             if (initial != this.fullScrollView && !this._waitIdleId) {
-                this._waitIdleId = Mainloop.idle_add(() => {
+                this._waitIdleId = GLib.idle_add(() => {
                     this._getAppIcons().forEach(a => a.updateTitleStyle())
-                    this._waitIdleId = 0
+                    this._waitIdleId = 0;
+
+                    return GLib.SOURCE_REMOVE;
                 });
             }
         }
@@ -1433,7 +1434,10 @@ export const TaskbarItemContainer = GObject.registerClass({
         this._raisedClone.connect('destroy', () => {
             adjustment.disconnect(adjustmentChangedId);
             taskbarBox.disconnect(taskbarBoxAllocationChangedId);
-            Mainloop.idle_add(() => cloneContainer.destroy());
+            GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                cloneContainer.destroy();
+                return GLib.SOURCE_REMOVE;
+            });
             delete this._raisedClone;
         });
 

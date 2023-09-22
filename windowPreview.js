@@ -29,8 +29,6 @@ import * as Utils from './utils.js';
 import {SETTINGS, DESKTOPSETTINGS} from './extension.js';
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-const Mainloop = imports.mainloop;
-
 //timeout intervals
 const ENSURE_VISIBLE_MS = 200;
 
@@ -807,12 +805,14 @@ export const Preview = GObject.registerClass({
                     this._addClone(cloneBin, animateSize);
                     this._previewMenu.updatePosition();
                 } else if (!this._waitWindowId) {
-                    this._waitWindowId = Mainloop.idle_add(() => {
+                    this._waitWindowId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
                         this._waitWindowId = 0;
 
                         if (this._previewMenu.opened) {
                             _assignWindowClone();
                         }
+
+                        return GLib.SOURCE_REMOVE;
                     });
                 }
             };

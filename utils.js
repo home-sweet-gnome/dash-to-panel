@@ -34,7 +34,6 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 const Gi = imports._gi;
-const Mainloop = imports.mainloop;
 
 var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
 
@@ -165,9 +164,11 @@ export const TimeoutsHandler = class extends BasicHandler {
 
         this._remove(item);
 
-        this[name] = Mainloop.timeout_add(delay, () => {
+        this[name] = GLib.timeout_add(GLib.PRIORITY_DEFAULT, delay, () => {
             this[name] = 0;
             timeoutHandler();
+
+            return GLib.SOURCE_REMOVE;
         });
 
         return [[name]];
@@ -181,7 +182,7 @@ export const TimeoutsHandler = class extends BasicHandler {
         let name = item[0];
 
         if (this[name]) {
-            Mainloop.source_remove(this[name]);
+            GLib.Source.remove(this[name]);
             this[name] = 0;
         }
     }

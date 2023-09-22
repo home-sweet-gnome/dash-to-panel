@@ -23,6 +23,7 @@
 
 
 import Clutter from 'gi://Clutter';
+import Gio from 'gi://GLib';
 import Gio from 'gi://Gio';
 import Graphene from 'gi://Graphene';
 import GObject from 'gi://GObject';
@@ -46,8 +47,6 @@ import * as Taskbar from './taskbar.js';
 import * as Progress from './progress.js';
 import {DTP_EXTENSION, SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extension.js';
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
-
-const Mainloop = imports.mainloop;
 
 //timeout names
 const T2 = 'mouseScrollTimeout';
@@ -1336,9 +1335,10 @@ export function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
         app_windows.push("MINIMIZE");
 
     if (recentlyClickedAppLoopId > 0)
-        Mainloop.source_remove(recentlyClickedAppLoopId);
+        GLib.Source.remove(recentlyClickedAppLoopId);
         
-    recentlyClickedAppLoopId = Mainloop.timeout_add(MEMORY_TIME, resetRecentlyClickedApp);
+    recentlyClickedAppLoopId = GLib.timeout_add(GLib.PRIORITY_DEFAULT,
+        MEMORY_TIME, resetRecentlyClickedApp);
 
     // If there isn't already a list of windows for the current app,
     // or the stored list is outdated, use the current windows list.
@@ -1368,7 +1368,7 @@ export function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
 
 export function resetRecentlyClickedApp() {
     if (recentlyClickedAppLoopId > 0)
-        Mainloop.source_remove(recentlyClickedAppLoopId);
+        GLib.Source.remove(recentlyClickedAppLoopId);
 
     recentlyClickedAppLoopId=0;
     recentlyClickedApp =null;
@@ -1491,9 +1491,12 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
         
         if (windows.length == this._app.get_windows().length)
             this._app.request_quit()
+
+        GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+            windows.forEach((w) => !!w.get_compositor_private() && w.delete(time++));
             
-        Mainloop.idle_add(() => 
-            windows.forEach((w) => !!w.get_compositor_private() && w.delete(time++)))
+            return GLib.SOURCE_REMOVE;
+        });
     }
 }
 
