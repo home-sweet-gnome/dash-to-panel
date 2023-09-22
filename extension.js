@@ -125,7 +125,7 @@ function _enable(extension) {
     if (panelManager) return; //already initialized
 
     SETTINGS = extension.getSettings('org.gnome.shell.extensions.dash-to-panel');
-    DESKTOPSETTINGS = extension.getSettings('org.gnome.desktop.interface');
+    DESKTOPSETTINGS = new Gio.Settings({schema_id: 'org.gnome.desktop.interface'});
     EXTENSION_UUID = extension.uuid
     EXTENSION_PATH = extension.path
 
