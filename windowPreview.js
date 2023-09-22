@@ -27,6 +27,7 @@ import St from 'gi://St';
 import * as Taskbar from './taskbar.js';
 import * as Utils from './utils.js';
 import {SETTINGS, DESKTOPSETTINGS} from './extension.js';
+import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const Mainloop = imports.mainloop;
 
