@@ -64,7 +64,7 @@ import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils
 
 const IDENTIFIER_UUID = "130cbc66-235c-4bd6-8571-98d2d8bba5e2";
 
-export var DesktopIconsUsableAreaClass = class {
+export const DesktopIconsUsableAreaClass = class {
     constructor() {
         this._extensionManager = Main.extensionManager;
         this._timedMarginsID = 0;

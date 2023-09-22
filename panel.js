@@ -28,8 +28,6 @@
  */
 
 import Clutter from 'gi://Clutter';
-import * as Config from 'resource:///org/gnome/shell/misc/config.js';
-import Gtk from 'gi://Gtk';
 import GObject from 'gi://GObject';
 import * as AppIcons from './appIcons.js';
 import * as Utils from './utils.js';
@@ -43,13 +41,11 @@ import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as CtrlAltTab from 'resource:///org/gnome/shell/ui/ctrlAltTab.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import St from 'gi://St';
-import GLib from 'gi://GLib';
 import Meta from 'gi://Meta';
 import Pango from 'gi://Pango';
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
 import Shell from 'gi://Shell';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
-import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
 import * as DateMenu from 'resource:///org/gnome/shell/ui/dateMenu.js';
 import * as Volume from 'resource:///org/gnome/shell/ui/status/volume.js';
 import * as Progress from './progress.js';
@@ -59,11 +55,8 @@ import * as Transparency from './transparency.js';
 import {SETTINGS, DESKTOPSETTINGS, PERSISTENTSTORAGE} from './extension.js';
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-const Mainloop = imports.mainloop;
-const Gi = imports._gi;
-
 let tracker = Shell.WindowTracker.get_default();
-export var panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
+export const panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
 
 //timeout names
 const T2 = 'startIntellihideTimeout';
@@ -72,7 +65,7 @@ const T5 = 'trackerFocusAppTimeout';
 const T6 = 'scrollPanelDelayTimeout';
 const T7 = 'waitPanelBoxAllocation';
 
-export var Panel = GObject.registerClass({
+export const Panel = GObject.registerClass({
 }, class Panel extends St.Widget {
 
     _init(panelManager, monitor, panelBox, isStandalone) {
@@ -1230,7 +1223,7 @@ export var Panel = GObject.registerClass({
                 return;
             }
 
-            var scrollDelay = SETTINGS.get_int('scroll-panel-delay');
+            const scrollDelay = SETTINGS.get_int('scroll-panel-delay');
 
             if (scrollDelay) {
                 this._timeoutsHandler.add([T6, scrollDelay, () => {}]);
@@ -1256,7 +1249,7 @@ export var Panel = GObject.registerClass({
     }
 });
 
-export var SecondaryPanel = GObject.registerClass({
+export const SecondaryPanel = GObject.registerClass({
 }, class SecondaryPanel extends St.Widget {
 
     _init(params) {

@@ -19,21 +19,15 @@ import GObject from 'gi://GObject';
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import Graphene from 'gi://Graphene';
-import Gtk from 'gi://Gtk';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import Meta from 'gi://Meta';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import St from 'gi://St';
-import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
-import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 
-import * as Panel from './panel.js';
 import * as Taskbar from './taskbar.js';
 import * as Utils from './utils.js';
 import {SETTINGS, DESKTOPSETTINGS} from './extension.js';
-
-const Mainloop = imports.mainloop;
-const {signals: Signals} = imports;
+import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 //timeout intervals
 const ENSURE_VISIBLE_MS = 200;
@@ -62,7 +56,7 @@ let scaleFactor = 1;
 let animationTime = 0;
 let aspectRatio = {};
 
-export var PreviewMenu = GObject.registerClass({
+export const PreviewMenu = GObject.registerClass({
     Signals: { 'open-state-changed': {} }
 }, class PreviewMenu extends St.Widget {
 
@@ -95,8 +89,8 @@ export var PreviewMenu = GObject.registerClass({
         this._box = new St.BoxLayout({ vertical: this.isVertical });
         this._scrollView = new St.ScrollView({
             name: 'dashtopanelPreviewScrollview',
-            hscrollbar_policy: Gtk.PolicyType.NEVER,
-            vscrollbar_policy: Gtk.PolicyType.NEVER,
+            hscrollbar_policy: St.PolicyType.NEVER,
+            vscrollbar_policy: St.PolicyType.NEVER,
             enable_mouse_scrolling: true,
             y_expand: !this.isVertical
         });
@@ -694,7 +688,7 @@ export var PreviewMenu = GObject.registerClass({
     }
 });
 
-export var Preview = GObject.registerClass({
+export const Preview = GObject.registerClass({
 }, class Preview extends St.Widget {
 
     _init(previewMenu) {
@@ -811,12 +805,14 @@ export var Preview = GObject.registerClass({
                     this._addClone(cloneBin, animateSize);
                     this._previewMenu.updatePosition();
                 } else if (!this._waitWindowId) {
-                    this._waitWindowId = Mainloop.idle_add(() => {
+                    this._waitWindowId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
                         this._waitWindowId = 0;
 
                         if (this._previewMenu.opened) {
                             _assignWindowClone();
                         }
+
+                        return GLib.SOURCE_REMOVE;
                     });
                 }
             };
@@ -1112,7 +1108,7 @@ export var Preview = GObject.registerClass({
     }
 });
 
-export var WindowCloneLayout = GObject.registerClass({
+export const WindowCloneLayout = GObject.registerClass({
 }, class WindowCloneLayout extends Clutter.BinLayout {
 
     _init(frameRect, bufferRect) {

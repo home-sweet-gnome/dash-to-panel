@@ -25,17 +25,12 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
-import Adw from 'gi://Adw';
 import Gdk from 'gi://Gdk';
 
 import * as PanelSettings from './panelSettings.js';
 import * as Pos from './panelPositions.js';
 
 import {ExtensionPreferences, gettext as _, ngettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-
-const Mainloop = imports.mainloop;
-
-const N_ = function(e) { return e };
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
@@ -147,14 +142,14 @@ function checkHotkeyPrefix(settings) {
 }
 
 function mergeObjects(main, bck) {
-    for (var prop in bck) {
+    for (const prop in bck) {
         if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
             main[prop] = bck[prop];
         }
     }
 
     return main;
-};
+}
 
 const Preferences = class {
 
@@ -1938,7 +1933,7 @@ const Preferences = class {
             {objectName: 'panel_length_scale', valueName: '', range: LENGTH_MARKS }
         ];
 
-        for(var idx in sizeScales) {
+        for(const idx in sizeScales) {
             let size_scale = this._builder.get_object(sizeScales[idx].objectName);
             let range = sizeScales[idx].range;
             size_scale.set_range(range[range.length - 1], range[0]);
@@ -2228,9 +2223,9 @@ const BuilderScope = GObject.registerClass({
     panel_size_scale_value_changed_cb(scale) {
         // Avoid settings the size continuously
         if (this._preferences._panel_size_timeout > 0)
-            Mainloop.source_remove(this._preferences._panel_size_timeout);
+            GLib.Source.remove(this._preferences._panel_size_timeout);
 
-        this._preferences._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, (() => {
+        this._preferences._panel_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             const value = scale.get_value();
             const monitorSync = this._preferences._settings.get_boolean('panel-element-positions-monitors-sync');
             const monitorsToSetFor = monitorSync ? this._preferences.monitors : [this._preferences._currentMonitorIndex];
@@ -2240,15 +2235,15 @@ const BuilderScope = GObject.registerClass({
 
             this._preferences._panel_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
-        }));
+        });
     }
 
     tray_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._tray_size_timeout > 0)
-            Mainloop.source_remove(this._preferences._tray_size_timeout);
+            GLib.Source.remove(this._preferences._tray_size_timeout);
 
-        this._preferences._tray_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._tray_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {)
             this._preferences._settings.set_int('tray-size', scale.get_value());
             this._preferences._tray_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2258,9 +2253,9 @@ const BuilderScope = GObject.registerClass({
     leftbox_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._leftbox_size_timeout > 0)
-            Mainloop.source_remove(this._preferences._leftbox_size_timeout);
+            GLib.Source.remove(this._preferences._leftbox_size_timeout);
 
-        this._preferences._leftbox_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._leftbox_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('leftbox-size', scale.get_value());
             this._preferences._leftbox_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2270,9 +2265,9 @@ const BuilderScope = GObject.registerClass({
     appicon_margin_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._appicon_margin_timeout > 0)
-            Mainloop.source_remove(this._preferences._appicon_margin_timeout);
+            GLib.Source.remove(this._preferences._appicon_margin_timeout);
 
-        this._preferences._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._appicon_margin_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('appicon-margin', scale.get_value());
             this._preferences._appicon_margin_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2282,9 +2277,9 @@ const BuilderScope = GObject.registerClass({
     appicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._appicon_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._appicon_padding_timeout);
+            GLib.Source.remove(this._preferences._appicon_padding_timeout);
 
-        this._preferences._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._appicon_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('appicon-padding', scale.get_value());
             this._preferences._appicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2294,9 +2289,9 @@ const BuilderScope = GObject.registerClass({
     tray_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._tray_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._tray_padding_timeout);
+            GLib.Source.remove(this._preferences._tray_padding_timeout);
 
-        this._preferences._tray_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._tray_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('tray-padding', scale.get_value());
             this._preferences._tray_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2306,9 +2301,9 @@ const BuilderScope = GObject.registerClass({
     statusicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._statusicon_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._statusicon_padding_timeout);
+            GLib.Source.remove(this._preferences._statusicon_padding_timeout);
 
-        this._preferences._statusicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._statusicon_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('status-icon-padding', scale.get_value());
             this._preferences._statusicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2318,9 +2313,9 @@ const BuilderScope = GObject.registerClass({
     leftbox_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._leftbox_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._leftbox_padding_timeout);
+            GLib.Source.remove(this._preferences._leftbox_padding_timeout);
 
-        this._preferences._leftbox_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._leftbox_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('leftbox-padding', scale.get_value());
             this._preferences._leftbox_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2332,7 +2327,6 @@ const BuilderScope = GObject.registerClass({
 export default class DashToPanelPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         window._settings = this.getSettings('org.gnome.shell.extensions.dash-to-panel');
-        this.initTranslations();
 
         // use default width or window
         window.set_default_size(0, 740);

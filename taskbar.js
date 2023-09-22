@@ -27,21 +27,16 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Graphene from 'gi://Graphene';
-import Gtk from 'gi://Gtk';
-import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
 import * as AppFavorites from 'resource:///org/gnome/shell/ui/appFavorites.js';
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
-import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
-import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
+import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
 
 import * as AppIcons from './appIcons.js';
-import * as Panel from './panel.js';
 import * as PanelManager from './panelManager.js';
 import * as PanelSettings from './panelSettings.js';
 import * as Pos from './panelPositions.js';
@@ -49,13 +44,11 @@ import * as Utils from './utils.js';
 import * as WindowPreview from './windowPreview.js';
 import {SETTINGS} from './extension.js';
 
-const Mainloop = imports.mainloop;
-const {signals: Signals} = imports;
 const SearchController = Main.overview.searchController;
 
-export var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
-var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
-export var MIN_ICON_SIZE = 4;
+export const DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
+const DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
+export const MIN_ICON_SIZE = 4;
 
 const T1 = 'ensureAppIconVisibilityTimeout'
 const T2 = 'showLabelTimeout'
@@ -73,7 +66,7 @@ const T3 = 'resetHoverTimeout'
 
 export function extendDashItemContainer(dashItemContainer) {
     dashItemContainer.showLabel = AppIcons.ItemShowLabel;
-};
+}
 
 const iconAnimationSettings = {
     _getDictValue(key) {
@@ -119,7 +112,7 @@ const iconAnimationSettings = {
  * - modified chldBox calculations for when 'show-apps-at-top' option is checked
  * - handle horizontal dash
  */
-export var TaskbarActor = GObject.registerClass({
+export const TaskbarActor = GObject.registerClass({
 }, class TaskbarActor extends St.Widget {
     _init(delegate) {
         this._delegate = delegate;
@@ -200,9 +193,11 @@ export var TaskbarActor = GObject.registerClass({
  * - Sync minimization application target position.
  */
 
-export var Taskbar = class {
+export const Taskbar = class extends EventEmitter {
 
     constructor(panel) {
+        super();
+
         this.dtpPanel = panel;
         
         // start at smallest size due to running indicator drawing area expanding but not shrinking
@@ -225,8 +220,8 @@ export var Taskbar = class {
 
         this._container = new TaskbarActor(this);
         this._scrollView = new St.ScrollView({ name: 'dashtopanelScrollview',
-                                               hscrollbar_policy: Gtk.PolicyType.NEVER,
-                                               vscrollbar_policy: Gtk.PolicyType.NEVER,
+                                               hscrollbar_policy: St.PolicyType.NEVER,
+                                               vscrollbar_policy: St.PolicyType.NEVER,
                                                enable_mouse_scrolling: true });
 
         this._scrollView.connect('leave-event', this._onLeaveEvent.bind(this));
@@ -312,9 +307,9 @@ export var Taskbar = class {
                 }
             ],
             [
-           	    this._appSystem,
-           	    'app-state-changed',
-          	    this._queueRedisplay.bind(this)
+                this._appSystem,
+                'app-state-changed',
+                this._queueRedisplay.bind(this)
             ],
             [
                 AppFavorites.getAppFavorites(),
@@ -564,9 +559,11 @@ export var Taskbar = class {
             }
 
             if (initial != this.fullScrollView && !this._waitIdleId) {
-                this._waitIdleId = Mainloop.idle_add(() => {
+                this._waitIdleId = GLib.idle_add(() => {
                     this._getAppIcons().forEach(a => a.updateTitleStyle())
-                    this._waitIdleId = 0
+                    this._waitIdleId = 0;
+
+                    return GLib.SOURCE_REMOVE;
                 });
             }
         }
@@ -1327,8 +1324,6 @@ export var Taskbar = class {
     }
 };
 
-Signals.addSignalMethods(Taskbar.prototype);
-
 const CloneContainerConstraint = GObject.registerClass({
 }, class CloneContainerConstraint extends Clutter.BindConstraint {
 
@@ -1344,7 +1339,7 @@ const CloneContainerConstraint = GObject.registerClass({
     }
 });
 
-export var TaskbarItemContainer = GObject.registerClass({
+export const TaskbarItemContainer = GObject.registerClass({
 
 }, class TaskbarItemContainer extends Dash.DashItemContainer {
 
@@ -1439,7 +1434,10 @@ export var TaskbarItemContainer = GObject.registerClass({
         this._raisedClone.connect('destroy', () => {
             adjustment.disconnect(adjustmentChangedId);
             taskbarBox.disconnect(taskbarBoxAllocationChangedId);
-            Mainloop.idle_add(() => cloneContainer.destroy());
+            GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                cloneContainer.destroy();
+                return GLib.SOURCE_REMOVE;
+            });
             delete this._raisedClone;
         });
 
@@ -1532,7 +1530,7 @@ export var TaskbarItemContainer = GObject.registerClass({
     }
 });
 
-var DragPlaceholderItem = GObject.registerClass({
+const DragPlaceholderItem = GObject.registerClass({
 }, class DragPlaceholderItem extends St.Widget {
 
     _init(appIcon, iconSize, isVertical) {

@@ -26,7 +26,6 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as OverviewControls from 'resource:///org/gnome/shell/ui/overviewControls.js';
 import * as PointerWatcher from 'resource:///org/gnome/shell/ui/pointerWatcher.js';
 
-import * as Panel from './panel.js';
 import * as Proximity from './proximity.js';
 import * as Utils from './utils.js';
 import {SETTINGS} from './extension.js';
@@ -43,15 +42,15 @@ const T2 = 'limitUpdateTimeout';
 const T3 = 'postAnimateTimeout';
 const T4 = 'panelBoxClipTimeout';
 
-var SIDE_CONTROLS_ANIMATION_TIME = OverviewControls.SIDE_CONTROLS_ANIMATION_TIME / (OverviewControls.SIDE_CONTROLS_ANIMATION_TIME > 1 ? 1000 : 1);
+const SIDE_CONTROLS_ANIMATION_TIME = OverviewControls.SIDE_CONTROLS_ANIMATION_TIME / (OverviewControls.SIDE_CONTROLS_ANIMATION_TIME > 1 ? 1000 : 1);
 
-export var Hold = {
+export const Hold = {
     NONE: 0,
     TEMPORARY: 1,
     PERMANENT: 2
 };
 
-export var Intellihide = class {
+export const Intellihide = class {
 
     constructor(dtpPanel) {
         this._dtpPanel = dtpPanel;

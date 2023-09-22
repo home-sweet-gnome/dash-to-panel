@@ -21,19 +21,11 @@
  * mathematical.coffee@gmail.com
  */
 
-import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';;
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import St from 'gi://St';
-import Shell from 'gi://Shell';
-
-import * as Panel from './panel.js';
-import * as Taskbar from './taskbar.js';
 import * as Utils from './utils.js';
 import {SETTINGS} from './extension.js';
 
-const Mainloop = imports.mainloop;
 
-export var PanelStyle = class {
+export const PanelStyle = class {
 
     enable(panel) {
         this.panel = panel;

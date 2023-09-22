@@ -23,27 +23,23 @@
 
 
 import Clutter from 'gi://Clutter';
+import Gio from 'gi://GLib';
 import Gio from 'gi://Gio';
-import GLib from 'gi://GLib';
 import Graphene from 'gi://Graphene';
-import Gtk from 'gi://Gtk';
 import GObject from 'gi://GObject';
 import Mtk from 'gi://Mtk';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
-import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
 import * as AppMenu from 'resource:///org/gnome/shell/ui/appMenu.js';
-import * as AppFavorites from 'resource:///org/gnome/shell/ui/appFavorites.js';
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
-import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Util from 'resource:///org/gnome/shell/misc/util.js';
-import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js';
+import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
 
 import * as Utils from './utils.js';
 import * as PanelSettings from './panelSettings.js';
@@ -51,9 +47,6 @@ import * as Taskbar from './taskbar.js';
 import * as Progress from './progress.js';
 import {DTP_EXTENSION, SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extension.js';
 import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
-
-const Mainloop = imports.mainloop;
-const {signals: Signals} = imports;
 
 //timeout names
 const T2 = 'mouseScrollTimeout';
@@ -68,7 +61,7 @@ const DOUBLE_CLICK_DELAY_MS = 450;
 
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
-export var DEFAULT_PADDING_SIZE = 4;
+export const DEFAULT_PADDING_SIZE = 4;
 
 let DOT_STYLE = {
     DOTS: "DOTS",
@@ -108,7 +101,7 @@ let tracker = Shell.WindowTracker.get_default();
  *
  */
 
-export var TaskbarAppIcon = GObject.registerClass({
+export const TaskbarAppIcon = GObject.registerClass({
 }, class TaskbarAppIcon extends AppDisplay.AppIcon {
 
     _init(appInfo, panel, iconParams, previewMenu, iconAnimator) {
@@ -585,7 +578,7 @@ export var TaskbarAppIcon = GObject.registerClass({
             let highlightMargin = this._focusedIsWide ? SETTINGS.get_int('dot-size') : 0;
 
             if(!this.window) {
-                let containerWidth = this._dtpIconContainer.get_width() / Utils.getScaleFactor();;
+                let containerWidth = this._dtpIconContainer.get_width() / Utils.getScaleFactor();
                 let backgroundSize = containerWidth + "px " + 
                                      (containerWidth - (pos == DOT_POSITION.BOTTOM ? highlightMargin : 0)) + "px;";
 
@@ -1342,9 +1335,10 @@ export function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
         app_windows.push("MINIMIZE");
 
     if (recentlyClickedAppLoopId > 0)
-        Mainloop.source_remove(recentlyClickedAppLoopId);
+        GLib.Source.remove(recentlyClickedAppLoopId);
         
-    recentlyClickedAppLoopId = Mainloop.timeout_add(MEMORY_TIME, resetRecentlyClickedApp);
+    recentlyClickedAppLoopId = GLib.timeout_add(GLib.PRIORITY_DEFAULT,
+        MEMORY_TIME, resetRecentlyClickedApp);
 
     // If there isn't already a list of windows for the current app,
     // or the stored list is outdated, use the current windows list.
@@ -1374,7 +1368,7 @@ export function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
 
 export function resetRecentlyClickedApp() {
     if (recentlyClickedAppLoopId > 0)
-        Mainloop.source_remove(recentlyClickedAppLoopId);
+        GLib.Source.remove(recentlyClickedAppLoopId);
 
     recentlyClickedAppLoopId=0;
     recentlyClickedApp =null;
@@ -1418,10 +1412,10 @@ export function getInterestingWindows(app, monitor, isolateMonitors) {
 }
 
 export function cssHexTocssRgba(cssHex, opacity) {
-    var bigint = parseInt(cssHex.slice(1), 16);
-    var r = (bigint >> 16) & 255;
-    var g = (bigint >> 8) & 255;
-    var b = bigint & 255;
+    let bigint = parseInt(cssHex.slice(1), 16);
+    let r = (bigint >> 16) & 255;
+    let g = (bigint >> 8) & 255;
+    let b = bigint & 255;
 
     return 'rgba(' + [r, g, b].join(',') + ',' + opacity + ')';
 }
@@ -1497,11 +1491,14 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
         
         if (windows.length == this._app.get_windows().length)
             this._app.request_quit()
+
+        GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+            windows.forEach((w) => !!w.get_compositor_private() && w.delete(time++));
             
-        Mainloop.idle_add(() => 
-            windows.forEach((w) => !!w.get_compositor_private() && w.delete(time++)))
+            return GLib.SOURCE_REMOVE;
+        });
     }
-};
+}
 
 /**
  * This function is used for extendDashItemContainer
@@ -1573,7 +1570,7 @@ export function ItemShowLabel() {
         time: duration,
         transition: 'easeOutQuad',
     });
-};
+}
 
 /**
  * A wrapper class around the ShowAppsIcon class.
@@ -1587,9 +1584,11 @@ export function ItemShowLabel() {
  * use of this class in place of the original showAppsButton.
  *
  */
-export var ShowAppsIconWrapper = class {
+export const ShowAppsIconWrapper = class extends EventEmitter {
 
     constructor(dtpPanel) {
+        super();
+
         this.realShowAppsIcon = new Dash.ShowAppsIcon();
 
         /* the variable equivalent to toggleButton has a different name in the appIcon class
@@ -1731,12 +1730,11 @@ export var ShowAppsIconWrapper = class {
         this.realShowAppsIcon.destroy();
     }
 };
-Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
 
 /**
  * A menu for the showAppsIcon
  */
-export var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
+export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
     constructor(actor, dtpPanel) {
         super(actor, 0, dtpPanel.getPosition());
@@ -1835,7 +1833,7 @@ export var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
     // Only add menu entries for commands that exist in path
     _appendItem(info) {
-        if (Utils.checkIfCommandExists(info.cmd[0])) {
+        if (GLib.find_program_in_path(info.cmd[0])) {
             let item = this._appendMenuItem(_(info.title));
 
             item.connect('activate', function() {
@@ -1853,7 +1851,7 @@ export var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
             return;
         }
         
-        for (var entry = 0; entry < commandList.length; entry++) {
+        for (let entry = 0; entry < commandList.length; entry++) {
             _appendItem({
                 title: titleList[entry],
                 cmd: commandList[entry].split(' ')
@@ -1875,7 +1873,7 @@ export var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 };
 
 
-export var getIconContainerStyle = function(isVertical) {
+export const getIconContainerStyle = function(isVertical) {
     let style = 'padding: ';
 
     if (SETTINGS.get_boolean('group-apps')) {

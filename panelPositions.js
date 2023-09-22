@@ -15,31 +15,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export var SHOW_APPS_BTN = 'showAppsButton';
-export var ACTIVITIES_BTN = 'activitiesButton';
-export var TASKBAR = 'taskbar';
-export var DATE_MENU = 'dateMenu';
-export var SYSTEM_MENU = 'systemMenu';
-export var LEFT_BOX = 'leftBox';
-export var CENTER_BOX = 'centerBox';
-export var RIGHT_BOX = 'rightBox';
-export var DESKTOP_BTN = 'desktopButton';
+export const SHOW_APPS_BTN = 'showAppsButton';
+export const ACTIVITIES_BTN = 'activitiesButton';
+export const TASKBAR = 'taskbar';
+export const DATE_MENU = 'dateMenu';
+export const SYSTEM_MENU = 'systemMenu';
+export const LEFT_BOX = 'leftBox';
+export const CENTER_BOX = 'centerBox';
+export const RIGHT_BOX = 'rightBox';
+export const DESKTOP_BTN = 'desktopButton';
 
-export var STACKED_TL = 'stackedTL';
-export var STACKED_BR = 'stackedBR';
-export var CENTERED = 'centered';
-export var CENTERED_MONITOR = 'centerMonitor';
+export const STACKED_TL = 'stackedTL';
+export const STACKED_BR = 'stackedBR';
+export const CENTERED = 'centered';
+export const CENTERED_MONITOR = 'centerMonitor';
 
-export var TOP = 'TOP';
-export var BOTTOM = 'BOTTOM';
-export var LEFT = 'LEFT';
-export var RIGHT = 'RIGHT';
+export const TOP = 'TOP';
+export const BOTTOM = 'BOTTOM';
+export const LEFT = 'LEFT';
+export const RIGHT = 'RIGHT';
 
-export var START = 'START';
-export var MIDDLE = 'MIDDLE';
-export var END = 'END';
+export const START = 'START';
+export const MIDDLE = 'MIDDLE';
+export const END = 'END';
 
-export var defaults = [
+export const defaults = [
     { element: SHOW_APPS_BTN,   visible: true,     position: STACKED_TL },
     { element: ACTIVITIES_BTN,  visible: false,    position: STACKED_TL },
     { element: LEFT_BOX,        visible: true,     position: STACKED_TL },
@@ -51,7 +51,7 @@ export var defaults = [
     { element: DESKTOP_BTN,     visible: true,     position: STACKED_BR },
 ];
 
-export var optionDialogFunctions = {};
+export const optionDialogFunctions = {};
 
 optionDialogFunctions[SHOW_APPS_BTN] = '_showShowAppsButtonOptions';
 optionDialogFunctions[DESKTOP_BTN] = '_showDesktopButtonOptions';

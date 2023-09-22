@@ -18,37 +18,31 @@
  */
 
 
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import Meta from 'gi://Meta';
 import Gio from 'gi://Gio';
-import GLib from 'gi://GLib';
-import Shell from 'gi://Shell';
-import St from 'gi://St';
-import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
-import * as ExtensionUtils from 'resource:///org/gnome/shell/misc/extensionUtils.js';;
+
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 import * as  PanelManager from './panelManager.js';
 import * as Utils from './utils.js';
 import * as AppIcons from './appIcons.js';
 
-import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
-
-const Mainloop = imports.mainloop;
-const {signals: Signals} = imports;
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
 let panelManager;
 let extensionChangedHandler;
+let startupCompleteHandler;
 let disabledUbuntuDock;
 let extensionSystem = Main.extensionManager;
 
-export var DTP_EXTENSION = null;
-export var SETTINGS = null;
-export var DESKTOPSETTINGS = null;
-export var PERSISTENTSTORAGE = null;
-export var EXTENSION_UUID = null;
-export var EXTENSION_PATH = null;
+export let DTP_EXTENSION = null;
+export let SETTINGS = null;
+export let DESKTOPSETTINGS = null;
+export let PERSISTENTSTORAGE = null;
+export let EXTENSION_UUID = null;
+export let EXTENSION_PATH = null;
 
 export default class DashToPanelExtension extends Extension {
     constructor(metadata) {
@@ -56,8 +50,6 @@ export default class DashToPanelExtension extends Extension {
         console.log(`Initiating ${this.uuid}`);
 
         this._realHasOverview = Main.sessionMode.hasOverview;
-
-        this.initTranslations();
         
         //create an object that persists until gnome-shell is restarted, even if the extension is disabled
         PERSISTENTSTORAGE = {};
@@ -76,8 +68,7 @@ export default class DashToPanelExtension extends Extension {
         });
 
         //create a global object that can emit signals and conveniently expose functionalities to other extensions 
-        global.dashToPanel = {};
-        Signals.addSignalMethods(global.dashToPanel);
+        global.dashToPanel = new EventEmitter();
         
         _enable(this);
     }
@@ -87,6 +78,7 @@ export default class DashToPanelExtension extends Extension {
 
         DTP_EXTENSION = null;
         SETTINGS = null;
+        DESKTOPSETTINGS = null;
         panelManager = null;
 
         if (!reset) {
@@ -101,14 +93,17 @@ export default class DashToPanelExtension extends Extension {
             AppIcons.resetRecentlyClickedApp();
         }
 
+        if (startupCompleteHandler) {
+            Main.layoutManager.disconnect(startupCompleteHandler);
+            startupCompleteHandler = null;
+        }
+
         Main.sessionMode.hasOverview = this._realHasOverview;
     }
 }
 
 function _enable(extension) {
-    let ubuntuDock = Main.extensionManager ?
-                     Main.extensionManager.lookup(UBUNTU_DOCK_UUID) : //gnome-shell >= 3.33.4
-                     ExtensionUtils.extensions[UBUNTU_DOCK_UUID];
+    let ubuntuDock = Main.extensionManager.lookup(UBUNTU_DOCK_UUID);
 
     if (ubuntuDock && ubuntuDock.stateObj && ubuntuDock.stateObj.dockManager) {
         // Disable Ubuntu Dock
@@ -122,14 +117,14 @@ function _enable(extension) {
 
         //reset to prevent conflicts with the ubuntu-dock
         if (panelManager) {
-            disable(true);
+            extension.disable(true);
         }
     }
 
     if (panelManager) return; //already initialized
 
     SETTINGS = extension.getSettings('org.gnome.shell.extensions.dash-to-panel');
-    DESKTOPSETTINGS = extension.getSettings('org.gnome.desktop.interface');
+    DESKTOPSETTINGS = new Gio.Settings({schema_id: 'org.gnome.desktop.interface'});
     EXTENSION_UUID = extension.uuid
     EXTENSION_PATH = extension.path
 
@@ -137,7 +132,7 @@ function _enable(extension) {
 
     if (SETTINGS.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
         Main.sessionMode.hasOverview = false;
-        Main.layoutManager.connect('startup-complete', () => {
+        startupCompleteHandler = Main.layoutManager.connect('startup-complete', () => {
             Main.sessionMode.hasOverview = extension._realHasOverview
         });
     }

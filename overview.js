@@ -28,12 +28,9 @@ import Gio from 'gi://Gio';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
 import {WindowPreview} from 'resource:///org/gnome/shell/ui/windowPreview.js';
 import {SETTINGS} from './extension.js';
-
-import Meta from 'gi://Meta';
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
 
@@ -46,7 +43,7 @@ const LABEL_MARGIN = 60;
 const T1 = 'swipeEndTimeout';
 const T2 = 'numberOverlayTimeout';
 
-export var Overview = class {
+export const Overview = class {
 
     constructor() {
         this._numHotkeys = 10;

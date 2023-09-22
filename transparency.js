@@ -15,19 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Clutter from 'gi://Clutter';
 import GdkPixbuf from 'gi://GdkPixbuf';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import Meta from 'gi://Meta';
 import St from 'gi://St';
-import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 
-import * as Panel from './panel.js';
 import * as Proximity from './proximity.js';
 import * as Utils from './utils.js';
 import {SETTINGS} from './extension.js';
 
-export var DynamicTransparency = class {
+export const DynamicTransparency = class {
 
     constructor(dtpPanel) {
         this._dtpPanel = dtpPanel;

@@ -26,23 +26,20 @@ import GdkPixbuf from 'gi://GdkPixbuf';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import Graphene from 'gi://Graphene';
-import Gtk from 'gi://Gtk';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
-import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import * as Util from 'resource:///org/gnome/shell/misc/util.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
 const Gi = imports._gi;
-const Mainloop = imports.mainloop;
 
-var SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
+const SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
 
 // simplify global signals and function injections handling
 // abstract class
-export var  BasicHandler = class {
+export const  BasicHandler = class {
 
     constructor() {
         this._storage = new Object();
@@ -102,7 +99,7 @@ export var  BasicHandler = class {
 }
 
 // Manage global signals
-export var GlobalSignalsHandler = class extends BasicHandler {
+export const GlobalSignalsHandler = class extends BasicHandler {
 
     _create(item) {
         let handlers = [];
@@ -135,7 +132,7 @@ export var GlobalSignalsHandler = class extends BasicHandler {
  * Manage function injection: both instances and prototype can be overridden
  * and restored
  */
-export var InjectionsHandler = class extends BasicHandler {
+export const InjectionsHandler = class extends BasicHandler {
 
     _create(item) {
         let object = item[0];
@@ -158,7 +155,7 @@ export var InjectionsHandler = class extends BasicHandler {
 /**
  * Manage timeouts: the added timeouts have their id reset on completion
  */
-export var TimeoutsHandler = class extends BasicHandler {
+export const TimeoutsHandler = class extends BasicHandler {
 
     _create(item) {
         let name = item[0];
@@ -167,9 +164,11 @@ export var TimeoutsHandler = class extends BasicHandler {
 
         this._remove(item);
 
-        this[name] = Mainloop.timeout_add(delay, () => {
+        this[name] = GLib.timeout_add(GLib.PRIORITY_DEFAULT, delay, () => {
             this[name] = 0;
             timeoutHandler();
+
+            return GLib.SOURCE_REMOVE;
         });
 
         return [[name]];
@@ -183,7 +182,7 @@ export var TimeoutsHandler = class extends BasicHandler {
         let name = item[0];
 
         if (this[name]) {
-            Mainloop.source_remove(this[name]);
+            GLib.Source.remove(this[name]);
             this[name] = 0;
         }
     }
@@ -195,7 +194,7 @@ export var TimeoutsHandler = class extends BasicHandler {
 
 // This is wrapper to maintain compatibility with GNOME-Shell 3.30+ as well as
 // previous versions.
-export var DisplayWrapper = {
+export const DisplayWrapper = {
     getScreen() {
         return global.screen || global.display;
     },
@@ -210,7 +209,7 @@ export var DisplayWrapper = {
 };
 
 let unredirectEnabled = true
-export var setDisplayUnredirect = (enable) => {
+export const setDisplayUnredirect = (enable) => {
     if (enable && !unredirectEnabled)
         Meta.enable_unredirect_for_display(global.display);
     else if (!enable && unredirectEnabled)
@@ -219,34 +218,34 @@ export var setDisplayUnredirect = (enable) => {
     unredirectEnabled = enable;
 };
 
-export var getSystemMenuInfo = function() {
+export const getSystemMenuInfo = function() {
     return {
         name: 'quickSettings',
         constructor: Main.panel.statusArea.quickSettings.constructor
     };
 }
 
-export var getCurrentWorkspace = function() {
+export const getCurrentWorkspace = function() {
     return DisplayWrapper.getWorkspaceManager().get_active_workspace();
 };
 
-export var getWorkspaceByIndex = function(index) {
+export const getWorkspaceByIndex = function(index) {
     return DisplayWrapper.getWorkspaceManager().get_workspace_by_index(index);
 };
 
-export var getWorkspaceCount = function() {
+export const getWorkspaceCount = function() {
     return DisplayWrapper.getWorkspaceManager().n_workspaces;
 };
 
-export var getStageTheme = function() {
+export const getStageTheme = function() {
     return St.ThemeContext.get_for_stage(global.stage);
 };
 
-export var getScaleFactor = function() {
+export const getScaleFactor = function() {
     return getStageTheme().scale_factor || 1;
 };
 
-export var findIndex = function(array, predicate) {
+export const findIndex = function(array, predicate) {
     if (array) {
         if (Array.prototype.findIndex) {
             return array.findIndex(predicate);
@@ -262,7 +261,7 @@ export var findIndex = function(array, predicate) {
     return -1;
 };
 
-export var find = function(array, predicate) {
+export const find = function(array, predicate) {
     let index = findIndex(array, predicate);
 
     if (index > -1) {
@@ -270,8 +269,8 @@ export var find = function(array, predicate) {
     }
 };
 
-export var mergeObjects = function(main, bck) {
-    for (var prop in bck) {
+export const mergeObjects = function(main, bck) {
+    for (const prop in bck) {
         if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
             main[prop] = bck[prop];
         }
@@ -280,7 +279,7 @@ export var mergeObjects = function(main, bck) {
     return main;
 };
 
-export var hookVfunc = function(proto, symbol, func) {
+export const hookVfunc = function(proto, symbol, func) {
     if (!func) return
 
     if (Gi.gobject_prototype_symbol && proto[Gi.gobject_prototype_symbol]) {
@@ -290,14 +289,14 @@ export var hookVfunc = function(proto, symbol, func) {
     }
 };
 
-export var getTrackedActorData = (actor) => {
+export const getTrackedActorData = (actor) => {
     let trackedIndex = Main.layoutManager._findActor(actor);
     
     if (trackedIndex >= 0)
         return Main.layoutManager._trackedActors[trackedIndex]
 }
 
-export var getTransformedAllocation = function(actor) {
+export const getTransformedAllocation = function(actor) {
     let extents = actor.get_transformed_extents();
     let topLeft = extents.get_top_left();
     let bottomRight = extents.get_bottom_right();
@@ -305,13 +304,13 @@ export var getTransformedAllocation = function(actor) {
     return { x1: topLeft.x, x2: bottomRight.x, y1: topLeft.y, y2: bottomRight.y };
 };
 
-export var setClip = function(actor, x, y, width, height) {
+export const setClip = function(actor, x, y, width, height) {
     actor.set_clip(0, 0, width, height);
     actor.set_position(x, y);
     actor.set_size(width, height);
 };
 
-export var addKeybinding = function(key, settings, handler, modes) {
+export const addKeybinding = function(key, settings, handler, modes) {
     if (!Main.wm._allowedKeybindings[key]) {
         Main.wm.addKeybinding(
             key, 
@@ -323,19 +322,19 @@ export var addKeybinding = function(key, settings, handler, modes) {
     }
 };
 
-export var removeKeybinding = function(key) {
+export const removeKeybinding = function(key) {
     if (Main.wm._allowedKeybindings[key]) {
         Main.wm.removeKeybinding(key);
     }
 };
 
-export var getrgbColor = function(color) {
+export const getrgbColor = function(color) {
     color = typeof color === 'string' ? Clutter.color_from_string(color)[1] : color;
 
     return { red: color.red, green: color.green, blue: color.blue };
 };
 
-export var getrgbaColor = function(color, alpha, offset) {
+export const getrgbaColor = function(color, alpha, offset) {
     if (alpha <= 0) {
         return 'transparent; ';
     }
@@ -355,14 +354,14 @@ export var getrgbaColor = function(color, alpha, offset) {
     return 'rgba(' + rgb.red + ',' + rgb.green + ',' + rgb.blue + ',' + (Math.floor(alpha * 100) * 0.01) + '); ' ;
 };
 
-export var checkIfColorIsBright = function(color) {
+export const checkIfColorIsBright = function(color) {
     let rgb = getrgbColor(color);
     let brightness = 0.2126 * rgb.red + 0.7152 * rgb.green + 0.0722 * rgb.blue;
 
     return brightness > 128;
 };
 
-export var getMouseScrollDirection = function(event) {
+export const getMouseScrollDirection = function(event) {
     let direction;
 
     switch (event.get_scroll_direction()) {
@@ -379,7 +378,7 @@ export var getMouseScrollDirection = function(event) {
     return direction;
 };
 
-export var checkIfWindowHasTransient = function(window) {
+export const checkIfWindowHasTransient = function(window) {
     let hasTransient;
 
     window.foreach_transient(t => !(hasTransient = true));
@@ -387,7 +386,7 @@ export var checkIfWindowHasTransient = function(window) {
     return hasTransient;
 };
 
-export var activateSiblingWindow = function(windows, direction, startWindow) {
+export const activateSiblingWindow = function(windows, direction, startWindow) {
     let windowIndex = windows.indexOf(global.display.focus_window);
     let nextWindowIndex = windowIndex < 0 ?
                           startWindow ? windows.indexOf(startWindow) : 0 : 
@@ -404,7 +403,7 @@ export var activateSiblingWindow = function(windows, direction, startWindow) {
     }
 };
 
-export var animateWindowOpacity = function(window, tweenOpts) {
+export const animateWindowOpacity = function(window, tweenOpts) {
     //there currently is a mutter bug with the windowactor opacity, starting with 3.34
     //https://gitlab.gnome.org/GNOME/mutter/issues/836
 
@@ -433,7 +432,7 @@ export var animateWindowOpacity = function(window, tweenOpts) {
     animate(window, tweenOpts);
 };
 
-export var animate = function(actor, options) {
+export const animate = function(actor, options) {
     //the original animations used Tweener instead of Clutter animations, so we
     //use "time" and "delay" properties defined in seconds, as opposed to Clutter 
     //animations "duration" and "delay" which are defined in milliseconds
@@ -466,15 +465,15 @@ export var animate = function(actor, options) {
     actor.ease.apply(actor, params);
 }
 
-export var isAnimating = function(actor, prop) {
+export const isAnimating = function(actor, prop) {
     return !!actor.get_transition(prop);
 }
 
-export var stopAnimations = function(actor) {
+export const stopAnimations = function(actor) {
     actor.remove_all_transitions();
 }
 
-export var getIndicators = function(delegate) {
+export const getIndicators = function(delegate) {
     if (delegate instanceof St.BoxLayout) {
         return delegate;
     }
@@ -482,11 +481,11 @@ export var getIndicators = function(delegate) {
     return delegate.indicators;
 }
 
-export var getPoint = function(coords) {
+export const getPoint = function(coords) {
     return new Graphene.Point(coords);
 }
 
-export var notify = function(text, iconName, action, isTransient) {
+export const notify = function(text, iconName, action, isTransient) {
     let source = new MessageTray.SystemNotificationSource();
     let notification = new MessageTray.Notification(source, 'Dash to Panel', text);
     let notifyFunc = source.showNotification || source.notify;
@@ -517,7 +516,7 @@ export var notify = function(text, iconName, action, isTransient) {
  * it would be clamp to the current one in any case.
  * Return the amount of shift applied
 */
-export var ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize, onComplete) {
+export const ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize, onComplete) {
     let vadjustment = scrollView.vscroll.adjustment;
     let hadjustment = scrollView.hscroll.adjustment;
     let [vvalue, vlower, vupper, vstepIncrement, vpageIncrement, vpageSize] = vadjustment.get_values();
@@ -574,7 +573,7 @@ export var ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize
 /**
  *  ColorUtils is adapted from https://github.com/micheleg/dash-to-dock
  */
-export var ColorUtils = {
+export const ColorUtils = {
     colorLuminance(r, g, b, dlum) {
         // Darken or brighten color by a fraction dlum
         // Each rgb value is modified by the same fraction.
@@ -685,7 +684,7 @@ const MAX_CACHED_ITEMS = 1000;
 const BATCH_SIZE_TO_DELETE = 50;
 const DOMINANT_COLOR_ICON_SIZE = 64;
 
-export var DominantColorExtractor = class {
+export const DominantColorExtractor = class {
 
     constructor(app){
         this._app = app;
@@ -696,14 +695,9 @@ export var DominantColorExtractor = class {
      */
     _getIconPixBuf() {
         let iconTexture = this._app.create_icon_texture(16);
-        let isGtk3 = !!Gtk.IconTheme.prototype.set_custom_theme;
 
         if (themeLoader === null) {
-            let ifaceSettings = new Gio.Settings({ schema: "org.gnome.desktop.interface" });
-            let themeFunc = isGtk3 ? 'set_custom_theme' : 'set_theme_name';
-
-            themeLoader = new Gtk.IconTheme(),
-            themeLoader[themeFunc](ifaceSettings.get_string('icon-theme')); // Make sure the correct theme is loaded
+            themeLoader = new St.IconTheme();
         }
 
         // Unable to load the icon texture, use fallback
@@ -725,19 +719,11 @@ export var DominantColorExtractor = class {
 
         // Get the pixel buffer from the icon theme
         if (iconTexture instanceof Gio.ThemedIcon) {
-            let params = [iconTexture.get_names()[0], DOMINANT_COLOR_ICON_SIZE, 0];
-            
-            if (!isGtk3) {
-                params.splice(1, 0, null);
-                params.splice(3, 1, 1, 1, 1);
-            }
-            
-            let icon_info = themeLoader.lookup_icon.apply(themeLoader, params);
+            let icon_info = themeLoader.lookup_icon(iconTexture.get_names()[0],
+                DOMINANT_COLOR_ICON_SIZE, 0);
             
             if (icon_info !== null) {
-                if (isGtk3) return icon_info.load_icon();
-
-                return GdkPixbuf.Pixbuf.new_from_file(icon_info.get_file().get_path());
+                return icon_info.load_icon();
             }
         }
 
@@ -875,7 +861,7 @@ export var DominantColorExtractor = class {
 
 };
 
-export var drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, isRoundRight, stroke, fill) {
+export const drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, isRoundRight, stroke, fill) {
     if (height > width) {
         y += Math.floor((height - width) / 2.0);
         height = width;
@@ -883,8 +869,8 @@ export var drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, isRo
     
     height = 2.0 * Math.floor(height / 2.0);
     
-    var leftRadius = isRoundLeft ? height / 2.0 : 0.0;
-    var rightRadius = isRoundRight ? height / 2.0 : 0.0;
+    const leftRadius = isRoundLeft ? height / 2.0 : 0.0;
+    const rightRadius = isRoundRight ? height / 2.0 : 0.0;
     
     cr.moveTo(x + width - rightRadius, y);
     cr.lineTo(x + leftRadius, y);
@@ -906,29 +892,4 @@ export var drawRoundedLine = function(cr, x, y, width, height, isRoundLeft, isRo
     if (stroke != null)
         cr.setSource(stroke);
     cr.stroke();
-}
-
-/**
- * Check if an app exists in the system.
- */
-var checkedCommandsMap = new Map();
-
-export function checkIfCommandExists(app) {
-    let answer = checkedCommandsMap.get(app);
-    if (answer === undefined) {
-        // Command is a shell built in, use shell to call it.
-        // Quotes around app value are important. They let command operate
-        // on the whole value, instead of having shell interpret it.
-        let cmd = "sh -c 'command -v \"" + app + "\"'";
-        try {
-            let out = GLib.spawn_command_line_sync(cmd);
-            // out contains 1: stdout, 2: stderr, 3: exit code
-            answer = out[3] == 0;
-        } catch (ex) {
-            answer = false;
-        }
-
-        checkedCommandsMap.set(app, answer);
-    }
-    return answer;
 }
