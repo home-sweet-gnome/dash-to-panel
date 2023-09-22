@@ -2332,7 +2332,6 @@ const BuilderScope = GObject.registerClass({
 export default class DashToPanelPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         window._settings = this.getSettings('org.gnome.shell.extensions.dash-to-panel');
-        this.initTranslations();
 
         // use default width or window
         window.set_default_size(0, 740);

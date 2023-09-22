@@ -56,8 +56,6 @@ export default class DashToPanelExtension extends Extension {
         console.log(`Initiating ${this.uuid}`);
 
         this._realHasOverview = Main.sessionMode.hasOverview;
-
-        this.initTranslations();
         
         //create an object that persists until gnome-shell is restarted, even if the extension is disabled
         PERSISTENTSTORAGE = {};
