@@ -106,9 +106,7 @@ export default class DashToPanelExtension extends Extension {
 }
 
 function _enable(extension) {
-    let ubuntuDock = Main.extensionManager ?
-                     Main.extensionManager.lookup(UBUNTU_DOCK_UUID) : //gnome-shell >= 3.33.4
-                     ExtensionUtils.extensions[UBUNTU_DOCK_UUID];
+    let ubuntuDock = Main.extensionManager.lookup(UBUNTU_DOCK_UUID);
 
     if (ubuntuDock && ubuntuDock.stateObj && ubuntuDock.stateObj.dockManager) {
         // Disable Ubuntu Dock
