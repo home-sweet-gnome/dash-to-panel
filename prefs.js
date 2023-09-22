@@ -151,7 +151,7 @@ function mergeObjects(main, bck) {
     }
 
     return main;
-};
+}
 
 const Preferences = class {
 

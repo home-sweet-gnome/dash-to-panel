@@ -579,7 +579,7 @@ export const TaskbarAppIcon = GObject.registerClass({
             let highlightMargin = this._focusedIsWide ? SETTINGS.get_int('dot-size') : 0;
 
             if(!this.window) {
-                let containerWidth = this._dtpIconContainer.get_width() / Utils.getScaleFactor();;
+                let containerWidth = this._dtpIconContainer.get_width() / Utils.getScaleFactor();
                 let backgroundSize = containerWidth + "px " + 
                                      (containerWidth - (pos == DOT_POSITION.BOTTOM ? highlightMargin : 0)) + "px;";
 
@@ -1495,7 +1495,7 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
         Mainloop.idle_add(() => 
             windows.forEach((w) => !!w.get_compositor_private() && w.delete(time++)))
     }
-};
+}
 
 /**
  * This function is used for extendDashItemContainer
@@ -1567,7 +1567,7 @@ export function ItemShowLabel() {
         time: duration,
         transition: 'easeOutQuad',
     });
-};
+}
 
 /**
  * A wrapper class around the ShowAppsIcon class.

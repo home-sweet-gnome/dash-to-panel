@@ -67,7 +67,7 @@ const T3 = 'resetHoverTimeout'
 
 export function extendDashItemContainer(dashItemContainer) {
     dashItemContainer.showLabel = AppIcons.ItemShowLabel;
-};
+}
 
 const iconAnimationSettings = {
     _getDictValue(key) {
@@ -308,9 +308,9 @@ export const Taskbar = class extends EventEmitter {
                 }
             ],
             [
-           	    this._appSystem,
-           	    'app-state-changed',
-          	    this._queueRedisplay.bind(this)
+                this._appSystem,
+                'app-state-changed',
+                this._queueRedisplay.bind(this)
             ],
             [
                 AppFavorites.getAppFavorites(),

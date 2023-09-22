@@ -280,7 +280,7 @@ export class AppProgress extends EventEmitter {
             }
         }
     }
-};
+}
 
 
 export const ProgressIndicator = class {
