@@ -26,7 +26,6 @@ import Clutter from 'gi://Clutter';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import Graphene from 'gi://Graphene';
-import Gtk from 'gi://Gtk';
 import GObject from 'gi://GObject';
 import Mtk from 'gi://Mtk';
 import Shell from 'gi://Shell';
