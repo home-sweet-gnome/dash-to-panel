@@ -111,7 +111,7 @@ function _enable(extension) {
 
         //reset to prevent conflicts with the ubuntu-dock
         if (panelManager) {
-            disable(true);
+            extension.disable(true);
         }
     }
 
