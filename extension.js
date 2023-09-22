@@ -33,6 +33,7 @@ const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
 let panelManager;
 let extensionChangedHandler;
+let startupCompleteHandler;
 let disabledUbuntuDock;
 let extensionSystem = Main.extensionManager;
 
@@ -92,6 +93,11 @@ export default class DashToPanelExtension extends Extension {
             AppIcons.resetRecentlyClickedApp();
         }
 
+        if (startupCompleteHandler) {
+            Main.layoutManager.disconnect(startupCompleteHandler);
+            startupCompleteHandler = null;
+        }
+
         Main.sessionMode.hasOverview = this._realHasOverview;
     }
 }
@@ -126,7 +132,7 @@ function _enable(extension) {
 
     if (SETTINGS.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
         Main.sessionMode.hasOverview = false;
-        Main.layoutManager.connect('startup-complete', () => {
+        startupCompleteHandler = Main.layoutManager.connect('startup-complete', () => {
             Main.sessionMode.hasOverview = extension._realHasOverview
         });
     }
