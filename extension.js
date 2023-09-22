@@ -85,6 +85,7 @@ export default class DashToPanelExtension extends Extension {
 
         DTP_EXTENSION = null;
         SETTINGS = null;
+        DESKTOPSETTINGS = null;
         panelManager = null;
 
         if (!reset) {
