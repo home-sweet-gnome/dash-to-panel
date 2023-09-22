@@ -29,7 +29,6 @@ import Graphene from 'gi://Graphene';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
-import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import * as Util from 'resource:///org/gnome/shell/misc/util.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';

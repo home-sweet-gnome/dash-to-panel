@@ -31,7 +31,6 @@ import * as Overview from './overview.js';
 import * as Panel from './panel.js';
 import * as PanelSettings from './panelSettings.js';
 import * as Proximity from './proximity.js';
-import * as Taskbar from './taskbar.js';
 import * as Utils from './utils.js';
 import * as DesktopIconsIntegration from './desktopIconsIntegration.js';
 
@@ -42,19 +41,14 @@ import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
-import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
 import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js';
-import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
-import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
 import * as LookingGlass from 'resource:///org/gnome/shell/ui/lookingGlass.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
-import * as WM from 'resource:///org/gnome/shell/ui/windowManager.js';
 import {SETTINGS} from './extension.js';
 import {SecondaryMonitorDisplay, WorkspacesView} from 'resource:///org/gnome/shell/ui/workspacesView.js';
 
-const Gi = imports._gi;
 
 export const PanelManager = class {
 

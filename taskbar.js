@@ -27,20 +27,15 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Graphene from 'gi://Graphene';
-import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
 import * as AppFavorites from 'resource:///org/gnome/shell/ui/appFavorites.js';
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
-import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
-import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 
 import * as AppIcons from './appIcons.js';
-import * as Panel from './panel.js';
 import * as PanelManager from './panelManager.js';
 import * as PanelSettings from './panelSettings.js';
 import * as Pos from './panelPositions.js';

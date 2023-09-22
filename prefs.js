@@ -25,7 +25,6 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Gtk from 'gi://Gtk';
-import Adw from 'gi://Adw';
 import Gdk from 'gi://Gdk';
 
 import * as PanelSettings from './panelSettings.js';
@@ -34,8 +33,6 @@ import * as Pos from './panelPositions.js';
 import {ExtensionPreferences, gettext as _, ngettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const Mainloop = imports.mainloop;
-
-const N_ = function(e) { return e };
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];

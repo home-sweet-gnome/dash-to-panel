@@ -23,16 +23,12 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import Meta from 'gi://Meta';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import St from 'gi://St';
-import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
-import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 
-import * as Panel from './panel.js';
 import * as Taskbar from './taskbar.js';
 import * as Utils from './utils.js';
 import {SETTINGS, DESKTOPSETTINGS} from './extension.js';
 
 const Mainloop = imports.mainloop;
-const {signals: Signals} = imports;
 
 //timeout intervals
 const ENSURE_VISIBLE_MS = 200;

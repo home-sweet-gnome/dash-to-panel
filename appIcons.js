@@ -24,24 +24,19 @@
 
 import Clutter from 'gi://Clutter';
 import Gio from 'gi://Gio';
-import GLib from 'gi://GLib';
 import Graphene from 'gi://Graphene';
 import GObject from 'gi://GObject';
 import Mtk from 'gi://Mtk';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
 
-import * as Config from 'resource:///org/gnome/shell/misc/config.js';
 import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
 import * as AppMenu from 'resource:///org/gnome/shell/ui/appMenu.js';
-import * as AppFavorites from 'resource:///org/gnome/shell/ui/appFavorites.js';
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
-import * as IconGrid from 'resource:///org/gnome/shell/ui/iconGrid.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Util from 'resource:///org/gnome/shell/misc/util.js';
-import * as Workspace from 'resource:///org/gnome/shell/ui/workspace.js';
 import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js';
 
 import * as Utils from './utils.js';
