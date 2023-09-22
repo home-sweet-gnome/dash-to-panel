@@ -23,7 +23,7 @@
 
 
 import Clutter from 'gi://Clutter';
-import Gio from 'gi://GLib';
+import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import Graphene from 'gi://Graphene';
 import GObject from 'gi://GObject';
