@@ -62,7 +62,7 @@ let scaleFactor = 1;
 let animationTime = 0;
 let aspectRatio = {};
 
-export var PreviewMenu = GObject.registerClass({
+export const PreviewMenu = GObject.registerClass({
     Signals: { 'open-state-changed': {} }
 }, class PreviewMenu extends St.Widget {
 
@@ -694,7 +694,7 @@ export var PreviewMenu = GObject.registerClass({
     }
 });
 
-export var Preview = GObject.registerClass({
+export const Preview = GObject.registerClass({
 }, class Preview extends St.Widget {
 
     _init(previewMenu) {
@@ -1112,7 +1112,7 @@ export var Preview = GObject.registerClass({
     }
 });
 
-export var WindowCloneLayout = GObject.registerClass({
+export const WindowCloneLayout = GObject.registerClass({
 }, class WindowCloneLayout extends Clutter.BinLayout {
 
     _init(frameRect, bufferRect) {

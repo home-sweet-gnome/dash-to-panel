@@ -43,12 +43,12 @@ let extensionChangedHandler;
 let disabledUbuntuDock;
 let extensionSystem = Main.extensionManager;
 
-export var DTP_EXTENSION = null;
-export var SETTINGS = null;
-export var DESKTOPSETTINGS = null;
-export var PERSISTENTSTORAGE = null;
-export var EXTENSION_UUID = null;
-export var EXTENSION_PATH = null;
+export let DTP_EXTENSION = null;
+export let SETTINGS = null;
+export let DESKTOPSETTINGS = null;
+export let PERSISTENTSTORAGE = null;
+export let EXTENSION_UUID = null;
+export let EXTENSION_PATH = null;
 
 export default class DashToPanelExtension extends Extension {
     constructor(metadata) {

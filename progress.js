@@ -30,7 +30,7 @@ const Cairo = imports.cairo;
 const {signals: Signals} = imports;
 
 
-export var ProgressManager = class {
+export const ProgressManager = class {
 
     constructor() {
         this._entriesByDBusName = {};
@@ -281,7 +281,7 @@ export class AppProgress {
 Signals.addSignalMethods(AppProgress.prototype);
 
 
-export var ProgressIndicator = class {
+export const ProgressIndicator = class {
 
     constructor(source, progressManager) {
         this._source = source;

@@ -53,9 +53,9 @@ const Mainloop = imports.mainloop;
 const {signals: Signals} = imports;
 const SearchController = Main.overview.searchController;
 
-export var DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
+export const DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
 var DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
-export var MIN_ICON_SIZE = 4;
+export const MIN_ICON_SIZE = 4;
 
 const T1 = 'ensureAppIconVisibilityTimeout'
 const T2 = 'showLabelTimeout'
@@ -119,7 +119,7 @@ const iconAnimationSettings = {
  * - modified chldBox calculations for when 'show-apps-at-top' option is checked
  * - handle horizontal dash
  */
-export var TaskbarActor = GObject.registerClass({
+export const TaskbarActor = GObject.registerClass({
 }, class TaskbarActor extends St.Widget {
     _init(delegate) {
         this._delegate = delegate;
@@ -200,7 +200,7 @@ export var TaskbarActor = GObject.registerClass({
  * - Sync minimization application target position.
  */
 
-export var Taskbar = class {
+export const Taskbar = class {
 
     constructor(panel) {
         this.dtpPanel = panel;
@@ -1344,7 +1344,7 @@ const CloneContainerConstraint = GObject.registerClass({
     }
 });
 
-export var TaskbarItemContainer = GObject.registerClass({
+export const TaskbarItemContainer = GObject.registerClass({
 
 }, class TaskbarItemContainer extends Dash.DashItemContainer {
 

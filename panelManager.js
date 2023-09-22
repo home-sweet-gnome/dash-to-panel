@@ -56,7 +56,7 @@ import {SecondaryMonitorDisplay, WorkspacesView} from 'resource:///org/gnome/she
 
 const Gi = imports._gi;
 
-export var PanelManager = class {
+export const PanelManager = class {
 
     constructor() {
         this.overview = new Overview.Overview();
@@ -529,7 +529,7 @@ export var PanelManager = class {
 
 // This class drives long-running icon animations, to keep them running in sync
 // with each other.
-export var IconAnimator = class {
+export const IconAnimator = class {
 
     constructor(actor) {
         this._count = 0;

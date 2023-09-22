@@ -45,13 +45,13 @@ const T4 = 'panelBoxClipTimeout';
 
 var SIDE_CONTROLS_ANIMATION_TIME = OverviewControls.SIDE_CONTROLS_ANIMATION_TIME / (OverviewControls.SIDE_CONTROLS_ANIMATION_TIME > 1 ? 1000 : 1);
 
-export var Hold = {
+export const Hold = {
     NONE: 0,
     TEMPORARY: 1,
     PERMANENT: 2
 };
 
-export var Intellihide = class {
+export const Intellihide = class {
 
     constructor(dtpPanel) {
         this._dtpPanel = dtpPanel;

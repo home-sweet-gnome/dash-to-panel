@@ -33,7 +33,7 @@ import {SETTINGS} from './extension.js';
 
 const Mainloop = imports.mainloop;
 
-export var PanelStyle = class {
+export const PanelStyle = class {
 
     enable(panel) {
         this.panel = panel;

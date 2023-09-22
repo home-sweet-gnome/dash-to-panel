@@ -63,7 +63,7 @@ const Mainloop = imports.mainloop;
 const Gi = imports._gi;
 
 let tracker = Shell.WindowTracker.get_default();
-export var panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
+export const panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
 
 //timeout names
 const T2 = 'startIntellihideTimeout';
@@ -72,7 +72,7 @@ const T5 = 'trackerFocusAppTimeout';
 const T6 = 'scrollPanelDelayTimeout';
 const T7 = 'waitPanelBoxAllocation';
 
-export var Panel = GObject.registerClass({
+export const Panel = GObject.registerClass({
 }, class Panel extends St.Widget {
 
     _init(panelManager, monitor, panelBox, isStandalone) {
@@ -1256,7 +1256,7 @@ export var Panel = GObject.registerClass({
     }
 });
 
-export var SecondaryPanel = GObject.registerClass({
+export const SecondaryPanel = GObject.registerClass({
 }, class SecondaryPanel extends St.Widget {
 
     _init(params) {

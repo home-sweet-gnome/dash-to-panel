@@ -68,7 +68,7 @@ const DOUBLE_CLICK_DELAY_MS = 450;
 
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
-export var DEFAULT_PADDING_SIZE = 4;
+export const DEFAULT_PADDING_SIZE = 4;
 
 let DOT_STYLE = {
     DOTS: "DOTS",
@@ -108,7 +108,7 @@ let tracker = Shell.WindowTracker.get_default();
  *
  */
 
-export var TaskbarAppIcon = GObject.registerClass({
+export const TaskbarAppIcon = GObject.registerClass({
 }, class TaskbarAppIcon extends AppDisplay.AppIcon {
 
     _init(appInfo, panel, iconParams, previewMenu, iconAnimator) {
@@ -1587,7 +1587,7 @@ export function ItemShowLabel() {
  * use of this class in place of the original showAppsButton.
  *
  */
-export var ShowAppsIconWrapper = class {
+export const ShowAppsIconWrapper = class {
 
     constructor(dtpPanel) {
         this.realShowAppsIcon = new Dash.ShowAppsIcon();
@@ -1736,7 +1736,7 @@ Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
 /**
  * A menu for the showAppsIcon
  */
-export var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
+export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
     constructor(actor, dtpPanel) {
         super(actor, 0, dtpPanel.getPosition());
@@ -1875,7 +1875,7 @@ export var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 };
 
 
-export var getIconContainerStyle = function(isVertical) {
+export const getIconContainerStyle = function(isVertical) {
     let style = 'padding: ';
 
     if (SETTINGS.get_boolean('group-apps')) {

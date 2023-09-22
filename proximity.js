@@ -29,7 +29,7 @@ const MIN_UPDATE_MS = 200;
 //timeout names
 const T1 = 'limitUpdateTimeout';
 
-export var Mode = {
+export const Mode = {
     ALL_WINDOWS: 0,
     FOCUSED_WINDOWS: 1,
     MAXIMIZED_WINDOWS: 2
@@ -66,7 +66,7 @@ export class ProximityWatch {
     }
 };
 
-export var ProximityManager = class {
+export const ProximityManager = class {
 
     constructor() {
         this._counter = 1;
