@@ -27,7 +27,6 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import Graphene from 'gi://Graphene';
-import Gtk from 'gi://Gtk';
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
@@ -225,8 +224,8 @@ export const Taskbar = class {
 
         this._container = new TaskbarActor(this);
         this._scrollView = new St.ScrollView({ name: 'dashtopanelScrollview',
-                                               hscrollbar_policy: Gtk.PolicyType.NEVER,
-                                               vscrollbar_policy: Gtk.PolicyType.NEVER,
+                                               hscrollbar_policy: St.PolicyType.NEVER,
+                                               vscrollbar_policy: St.PolicyType.NEVER,
                                                enable_mouse_scrolling: true });
 
         this._scrollView.connect('leave-event', this._onLeaveEvent.bind(this));

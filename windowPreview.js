@@ -19,7 +19,6 @@ import GObject from 'gi://GObject';
 import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import Graphene from 'gi://Graphene';
-import Gtk from 'gi://Gtk';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import Meta from 'gi://Meta';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
@@ -95,8 +94,8 @@ export const PreviewMenu = GObject.registerClass({
         this._box = new St.BoxLayout({ vertical: this.isVertical });
         this._scrollView = new St.ScrollView({
             name: 'dashtopanelPreviewScrollview',
-            hscrollbar_policy: Gtk.PolicyType.NEVER,
-            vscrollbar_policy: Gtk.PolicyType.NEVER,
+            hscrollbar_policy: St.PolicyType.NEVER,
+            vscrollbar_policy: St.PolicyType.NEVER,
             enable_mouse_scrolling: true,
             y_expand: !this.isVertical
         });
