@@ -56,8 +56,6 @@ export default class DashToPanelExtension extends Extension {
     }
 
     enable() {
-        console.log(_('This is a translatable text'));
-
         DTP_EXTENSION = this;
 
         // The Ubuntu Dock extension might get enabled after this extension
