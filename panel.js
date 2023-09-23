@@ -53,7 +53,7 @@ import * as Progress from './progress.js';
 import * as Intellihide from './intellihide.js';
 import * as Transparency from './transparency.js';
 import {SETTINGS, DESKTOPSETTINGS, PERSISTENTSTORAGE} from './extension.js';
-import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {gettext as _, InjectionManager} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 let tracker = Shell.WindowTracker.get_default();
 export const panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
@@ -73,6 +73,7 @@ export const Panel = GObject.registerClass({
 
         this._timeoutsHandler = new Utils.TimeoutsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
+        this._injectionManager = new InjectionManager();
 
         this.panelManager = panelManager;
         this.panelStyle = new PanelStyle.PanelStyle();
@@ -180,12 +181,12 @@ export const Panel = GObject.registerClass({
         this._setPanelPosition();
 
         if (!this.isStandalone) {
-            Utils.hookVfunc(Object.getPrototypeOf(this.panel), 'allocate', (box) => this._mainPanelAllocate(box));
+            this._injectionManager.overrideMethod(Object.getPrototypeOf(this.panel), 'vfunc_allocate', () => (box) => this._mainPanelAllocate(box));
 
             // remove the extra space before the clock when the message-indicator is displayed
             if (DateMenu.IndicatorPad) {
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', () => [0,0]);
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', () => [0,0]);
+                this._injectionManager.overrideMethod(DateMenu.IndicatorPad.prototype, 'vfunc_get_preferred_width', () => () => [0,0]);
+                this._injectionManager.overrideMethod(DateMenu.IndicatorPad.prototype, 'vfunc_get_preferred_height', () => () => [0,0]);
             }
         }
 
@@ -373,12 +374,7 @@ export const Panel = GObject.registerClass({
 
             delete Utils.getIndicators(this.statusArea[systemMenuName]._volumeOutput)._dtpIgnoreScroll;
 
-            if (DateMenu.IndicatorPad) {
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_height);
-            }
-
-            Utils.hookVfunc(Object.getPrototypeOf(this.panel), 'allocate', Object.getPrototypeOf(this.panel).vfunc_allocate);
+            this._injectionManager.clear();
             
             this.panel._delegate = this.panel;
         } else {

@@ -30,6 +30,7 @@ import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
 import {WindowPreview} from 'resource:///org/gnome/shell/ui/windowPreview.js';
+import {InjectionManager} from 'resource:///org/gnome/shell/extensions/extension.js';
 import {SETTINGS} from './extension.js';
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
@@ -46,6 +47,7 @@ const T2 = 'numberOverlayTimeout';
 export const Overview = class {
 
     constructor() {
+        this._injectionManager = new InjectionManager();
         this._numHotkeys = 10;
     }
 
@@ -63,7 +65,7 @@ export const Overview = class {
         this._optionalClickToExit();
 
         this._toggleDash();
-        this._adaptAlloc(true);
+        this._adaptAlloc();
 
         this._signalsHandler.add([
             SETTINGS,
@@ -79,9 +81,9 @@ export const Overview = class {
         this._signalsHandler.destroy();
         this._injectionsHandler.destroy();
         this._timeoutsHandler.destroy();
+        this._injectionManager.clear();
 
         this._toggleDash(true);
-        this._adaptAlloc();
 
         // Remove key bindings
         this._disableHotKeys();
@@ -102,41 +104,39 @@ export const Overview = class {
         overviewControls.dash.set_height(height);
     }
 
-    _adaptAlloc(enable) {
+    _adaptAlloc() {
         let overviewControls = Main.overview._overview._controls
-        let proto = Object.getPrototypeOf(overviewControls)
-        let allocFunc = null
 
-        if (enable)
-            allocFunc = (box) => {
-                let focusedPanel = this._panel.panelManager.focusedMonitorPanel
-                
-                if (focusedPanel) {
-                    let position = focusedPanel.geom.position
-                    let isBottom = position == St.Side.BOTTOM
+        this._injectionManager.overrideMethod(Object.getPrototypeOf(overviewControls), 'vfunc_allocate', 
+            (originalAllocate) => 
+                (box) => {
+                    let focusedPanel = this._panel.panelManager.focusedMonitorPanel
+                    
+                    if (focusedPanel) {
+                        let position = focusedPanel.geom.position
+                        let isBottom = position == St.Side.BOTTOM
 
-                    if (focusedPanel.intellihide?.enabled) {
-                        // Panel intellihide is enabled (struts aren't taken into account on overview allocation),
-                        // dynamically modify the overview box to follow the reveal/hide animation
-                        let { transitioning, finalState, progress } = overviewControls._stateAdjustment.getStateTransitionParams()
-                        let size = focusedPanel.geom[focusedPanel.checkIfVertical() ? 'w' : 'h'] * 
-                                   (transitioning ? Math.abs((finalState != 0 ? 0 : 1) - progress) : 1)
+                        if (focusedPanel.intellihide?.enabled) {
+                            // Panel intellihide is enabled (struts aren't taken into account on overview allocation),
+                            // dynamically modify the overview box to follow the reveal/hide animation
+                            let { transitioning, finalState, progress } = overviewControls._stateAdjustment.getStateTransitionParams()
+                            let size = focusedPanel.geom[focusedPanel.checkIfVertical() ? 'w' : 'h'] * 
+                                    (transitioning ? Math.abs((finalState != 0 ? 0 : 1) - progress) : 1)
 
-                        if (isBottom || position == St.Side.RIGHT)
-                            box[focusedPanel.fixedCoord.c2] -= size
-                        else
-                            box[focusedPanel.fixedCoord.c1] += size
-                    } else if (isBottom)
-                        // The default overview allocation is very good and takes into account external 
-                        // struts, everywhere but the bottom where the dash is usually fixed anyway.
-                        // If there is a bottom panel under the dash location, give it some space here
-                        box.y2 -= focusedPanel.geom.h
+                            if (isBottom || position == St.Side.RIGHT)
+                                box[focusedPanel.fixedCoord.c2] -= size
+                            else
+                                box[focusedPanel.fixedCoord.c1] += size
+                        } else if (isBottom)
+                            // The default overview allocation is very good and takes into account external 
+                            // struts, everywhere but the bottom where the dash is usually fixed anyway.
+                            // If there is a bottom panel under the dash location, give it some space here
+                            box.y2 -= focusedPanel.geom.h
+                    }
+                    
+                    originalAllocate.call(overviewControls, box)
                 }
-                
-                proto.vfunc_allocate.call(overviewControls, box)
-            }
-
-        Utils.hookVfunc(proto, 'allocate', allocFunc)
+        );
     }
 
     /**

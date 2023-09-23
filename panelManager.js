@@ -46,6 +46,7 @@ import * as LookingGlass from 'resource:///org/gnome/shell/ui/lookingGlass.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
+import {InjectionManager} from 'resource:///org/gnome/shell/extensions/extension.js';
 import {SETTINGS} from './extension.js';
 import {SecondaryMonitorDisplay, WorkspacesView} from 'resource:///org/gnome/shell/ui/workspacesView.js';
 
@@ -55,6 +56,7 @@ export const PanelManager = class {
     constructor() {
         this.overview = new Overview.Overview();
         this.panelsElementPositions = {};
+        this._injectionManager = new InjectionManager();
 
         this._saveMonitors();
     }
@@ -102,7 +104,7 @@ export const PanelManager = class {
         if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
             let panelManager = this;
 
-            Utils.hookVfunc(BoxPointer.BoxPointer.prototype, 'get_preferred_height', function(forWidth) {
+            this._injectionManager.overrideMethod(BoxPointer.BoxPointer.prototype, 'vfunc_get_preferred_height', () => function(forWidth) {
                 let alloc = { min_size: 0, natural_size: 0 };
                 
                 [alloc.min_size, alloc.natural_size] = this.vfunc_get_preferred_height(forWidth);
@@ -253,9 +255,7 @@ export const PanelManager = class {
             }
         });
 
-        if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
-            Utils.hookVfunc(BoxPointer.BoxPointer.prototype, 'get_preferred_height', BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height);
-        }
+        this._injectionManager.clear();
 
         if (Main.layoutManager.primaryMonitor) {
             Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);

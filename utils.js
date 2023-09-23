@@ -33,8 +33,6 @@ import * as Util from 'resource:///org/gnome/shell/misc/util.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 
-const Gi = imports._gi;
-
 const SCROLL_TIME = Util.SCROLL_TIME / (Util.SCROLL_TIME > 1 ? 1000 : 1);
 
 // simplify global signals and function injections handling
@@ -277,16 +275,6 @@ export const mergeObjects = function(main, bck) {
     }
 
     return main;
-};
-
-export const hookVfunc = function(proto, symbol, func) {
-    if (!func) return
-
-    if (Gi.gobject_prototype_symbol && proto[Gi.gobject_prototype_symbol]) {
-        proto[Gi.gobject_prototype_symbol][Gi.hook_up_vfunc_symbol] (symbol, func);
-    } else {
-        proto[Gi.hook_up_vfunc_symbol] (symbol, func);
-    }
 };
 
 export const getTrackedActorData = (actor) => {
