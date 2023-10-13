@@ -46,7 +46,7 @@ import * as PanelSettings from './panelSettings.js';
 import * as Taskbar from './taskbar.js';
 import * as Progress from './progress.js';
 import {DTP_EXTENSION, SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extension.js';
-import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {gettext as _, ngettext} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 //timeout names
 const T2 = 'mouseScrollTimeout';
@@ -1476,7 +1476,7 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
             if (count == 1)
                 quitFromTaskbarMenuText = _("Quit");
             else
-                quitFromTaskbarMenuText = _("Quit") + ' ' + count + ' ' + _("Windows");
+                quitFromTaskbarMenuText = ngettext('Quit %d Window', 'Quit %d Windows', count).format(count);
 
             this._quitItem.label.set_text(quitFromTaskbarMenuText);
         }
