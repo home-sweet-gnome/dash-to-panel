@@ -559,7 +559,7 @@ export const Taskbar = class extends EventEmitter {
             }
 
             if (initial != this.fullScrollView && !this._waitIdleId) {
-                this._waitIdleId = GLib.idle_add(() => {
+                this._waitIdleId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
                     this._getAppIcons().forEach(a => a.updateTitleStyle())
                     this._waitIdleId = 0;
 
