@@ -38,7 +38,7 @@
   </object>
 
   <object class="AdwPreferencesPage" id="finetune">
-    <property name="title">Fine-Tune</property>
+    <property name="title" translatable="yes">Fine-Tune</property>
     <property name="icon_name">preferences-other-symbolic</property>
 
       <!-- group font -->
