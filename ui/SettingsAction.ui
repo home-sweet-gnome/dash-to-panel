@@ -3,7 +3,7 @@
   <requires lib="gtk" version="4.0"/>
 
   <object class="AdwPreferencesPage" id="action">
-    <property name="title">Action</property>
+    <property name="title" translatable="yes">Action</property>
     <property name="icon_name">view-pin-symbolic</property>
 
     <!-- group click action -->

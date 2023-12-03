@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <object class="AdwPreferencesPage" id="behavior">
-    <property name="title">Behavior</property>
+    <property name="title" translatable="yes">Behavior</property>
     <property name="icon_name">preferences-system-symbolic</property>
 
     <!-- group applications -->
@@ -87,7 +87,7 @@
     <!-- group hover -->
     <child>
       <object class="AdwPreferencesGroup" id="behavior_group_hover">
-        <property name="title">Hover</property>
+        <property name="title" translatable="yes">Hover</property>
 
         <child>
           <object class="AdwActionRow">

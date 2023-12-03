@@ -35,7 +35,7 @@
   </object>
 
   <object class="AdwPreferencesPage" id="style">
-    <property name="title">Style</property>
+    <property name="title" translatable="yes">Style</property>
     <property name="icon_name">applications-graphics-symbolic</property>
 
     <!-- group app icon style -->

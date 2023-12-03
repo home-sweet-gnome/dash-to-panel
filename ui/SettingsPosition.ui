@@ -16,7 +16,7 @@
   </object>
 
   <object class="AdwPreferencesPage" id="position">
-    <property name="title">Position</property>
+    <property name="title" translatable="yes">Position</property>
     <property name="icon_name">find-location-symbolic</property>
 
       <!-- group panel -->
