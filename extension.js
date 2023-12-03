@@ -47,7 +47,6 @@ export let EXTENSION_PATH = null;
 export default class DashToPanelExtension extends Extension {
     constructor(metadata) {
         super(metadata);
-        console.log(`Initiating ${this.uuid}`);
 
         this._realHasOverview = Main.sessionMode.hasOverview;
         
@@ -101,9 +100,9 @@ export default class DashToPanelExtension extends Extension {
 }
 
 function _enable(extension) {
-    let ubuntuDock = Main.extensionManager.lookup(UBUNTU_DOCK_UUID);
+    let ubuntuDock = extensionSystem.lookup(UBUNTU_DOCK_UUID);
 
-    if (ubuntuDock && ubuntuDock.stateObj && ubuntuDock.stateObj.dockManager) {
+    if (ubuntuDock && ubuntuDock.stateObj) {
         // Disable Ubuntu Dock
         let extensionOrder = (extensionSystem.extensionOrder || extensionSystem._extensionOrder);
 
