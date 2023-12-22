@@ -2,15 +2,16 @@
 # This file is distributed under the same license as the Dash to Panel package.
 # Enrico Bella <enricobe@hotmail.com>, 2018.
 # Kowalski7cc <kowalski.7cc@gmail.com>, 2020.
+# Albano Battistella <albanobattistella@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-02-08 08:31-0500\n"
-"PO-Revision-Date: 2020-05-15 23:12+0200\n"
-"Last-Translator: l3nn4rt <l3nn4rt@protonmail.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2023-12-22 20:38+0200\n"
+"Last-Translator: Albano Battistella <albanoattistella@gmail.com>\n"
+"Language-Team: Italian\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,9 +36,8 @@ msgid "Left"
 msgstr "Sinistra"
 
 #: prefs.js:318
-#, fuzzy
 msgid "Center"
-msgstr "Allinea al centro dello spazio disponibile"
+msgstr "Centro"
 
 #: prefs.js:319 ui/SettingsPosition.ui.h:13 ui/SettingsStyle.ui.h:12
 msgid "Right"
@@ -50,7 +50,7 @@ msgstr "Alto"
 
 #: prefs.js:322 prefs.js:327 ui/SettingsPosition.ui.h:21
 msgid "Middle"
-msgstr ""
+msgstr "A metà"
 
 #: prefs.js:323 ui/BoxWindowPreviewOptions.ui.h:37 ui/SettingsPosition.ui.h:10
 #: ui/SettingsStyle.ui.h:9
@@ -59,11 +59,11 @@ msgstr "Basso"
 
 #: prefs.js:326 ui/SettingsPosition.ui.h:20
 msgid "Start"
-msgstr ""
+msgstr "Inizio"
 
 #: prefs.js:328 ui/SettingsPosition.ui.h:22
 msgid "End"
-msgstr ""
+msgstr "Fine"
 
 #: prefs.js:413
 msgid "Show Applications button"
@@ -155,7 +155,7 @@ msgstr "Opzioni Mostra Applicazioni"
 
 #: prefs.js:530
 msgid "Open icon"
-msgstr ""
+msgstr "Apri icona"
 
 #: prefs.js:577
 msgid "Show Desktop options"
@@ -164,7 +164,7 @@ msgstr "Opzioni Mostra Desktop"
 #: prefs.js:661
 #, javascript-format
 msgid "%d ms"
-msgstr ""
+msgstr "%d ms"
 
 #: prefs.js:666
 #, javascript-format
@@ -185,8 +185,8 @@ msgstr ""
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d icona"
+msgstr[1] "%d icone"
 
 #: prefs.js:782
 msgid "Running Indicator Options"
@@ -241,9 +241,8 @@ msgid "Advanced Options"
 msgstr "Impostazioni avanzate"
 
 #: prefs.js:2040
-#, fuzzy
 msgid "App icon animation options"
-msgstr "Opzioni Mostra Applicazioni"
+msgstr "Opzioni di animazione dell'icona dell'app"
 
 #: prefs.js:2088
 msgid "Export settings"
@@ -288,9 +287,8 @@ msgid "Terminal"
 msgstr "Terminale"
 
 #: appIcons.js:1824
-#, fuzzy
 msgid "System monitor"
-msgstr "Isola monitor"
+msgstr "Monitor di sistema"
 
 #: appIcons.js:1829
 msgid "Files"
@@ -330,50 +328,47 @@ msgstr "Ancora niente!"
 
 #: ui/BoxAdvancedOptions.ui.h:2
 msgid "For real..."
-msgstr ""
+msgstr "Per davvero..."
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:1
-#, fuzzy
 msgid "Animation type"
-msgstr "Durata animazione (ms)"
+msgstr "Tipo di animazione"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:2
 msgid "Simple"
-msgstr ""
+msgstr "Semplice"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:3
 msgid "Ripple"
-msgstr ""
+msgstr "Ondulata"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:4
 msgid "Plank"
-msgstr ""
+msgstr "Plank"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:5
 msgid "Duration"
-msgstr ""
+msgstr "Durata"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:6
-#, fuzzy
 msgid "Rotation"
-msgstr "Posizione"
+msgstr "Rotazione"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:7
 msgid "Travel"
-msgstr ""
+msgstr "Gamma di movimento"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:8
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:9
 msgid "Convexity"
-msgstr ""
+msgstr "Convessità"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:10
-#, fuzzy
 msgid "Extent"
-msgstr "Estensioni"
+msgstr "Estensione"
 
 #: ui/BoxDotOptions.ui.h:1
 msgid "Highlight focused application"
@@ -498,16 +493,12 @@ msgid "Font color of the minimized application titles"
 msgstr "Colore font titoli delle applicazioni minimizzate"
 
 #: ui/BoxGroupAppsOptions.ui.h:10
-#, fuzzy
 msgid "Maximum width (px) of the application titles"
-msgstr "Larghezza massima (px) dei titoli delle app (predef. 160)"
+msgstr "Larghezza massima (px) dei titoli delle applicazioni"
 
 #: ui/BoxGroupAppsOptions.ui.h:11
-#, fuzzy
 msgid "(default is 160)"
-msgstr ""
-"Dimensione pannello\n"
-"(predefinito 48)"
+msgstr "(predefinito è 160)"
 
 #: ui/BoxGroupAppsOptions.ui.h:12
 msgid "Use a fixed width for the application titles"
@@ -532,9 +523,8 @@ msgid "Use the favorite icons as application launchers"
 msgstr "Usa le icone dei Preferiti come lanciatori delle app"
 
 #: ui/BoxIntellihideOptions.ui.h:1
-#, fuzzy
 msgid "Only hide the panel when it is obstructed by windows"
-msgstr "Nascondi pannello solo quando è ostruito dalle finestre "
+msgstr "Nascondi il pannello solo quando è ostruito da finestre"
 
 #: ui/BoxIntellihideOptions.ui.h:2
 msgid "The panel hides from"
@@ -557,14 +547,12 @@ msgid "Allow the panel to be revealed while in fullscreen mode"
 msgstr "Permetti al pannello di apparire quando in modalità fullscreen"
 
 #: ui/BoxIntellihideOptions.ui.h:10
-#, fuzzy
 msgid "Only hide secondary panels"
-msgstr "Visualizza l'orologio su pannelli secondari"
+msgstr "Nascondi solo i pannelli secondari"
 
 #: ui/BoxIntellihideOptions.ui.h:11
-#, fuzzy
 msgid "(requires multi-monitors option)"
-msgstr "Opzioni multi-monitor"
+msgstr "(richiede l'opzione multi-monitor)"
 
 #: ui/BoxIntellihideOptions.ui.h:12
 msgid "Keyboard shortcut to reveal and hold the panel"
@@ -627,9 +615,8 @@ msgid "Toggle single / Preview multiple"
 msgstr "Commuta finestra singola e mostra anteprime"
 
 #: ui/BoxMiddleClickOptions.ui.h:9 ui/SettingsAction.ui.h:6
-#, fuzzy
 msgid "Toggle single / Cycle multiple"
-msgstr "Commuta finestra singola e mostra anteprime"
+msgstr "Attiva singolo / Ciclo multiplo"
 
 #: ui/BoxMiddleClickOptions.ui.h:11
 msgid "Middle-Click action"
@@ -757,9 +744,8 @@ msgid "<i>Show Details</i> menu item"
 msgstr "Visualizza <i>Mostra Dettagli</i>"
 
 #: ui/BoxShowApplicationsOptions.ui.h:1
-#, fuzzy
 msgid "Show Applications icon"
-msgstr "Opzioni Mostra Applicazioni"
+msgstr "Mostra l'icona Applicazioni"
 
 #: ui/BoxShowApplicationsOptions.ui.h:2
 msgid "Show Applications icon side padding (px)"
@@ -772,7 +758,7 @@ msgstr ""
 
 #: ui/BoxShowDesktopOptions.ui.h:1
 msgid "Override Show Desktop line color"
-msgstr ""
+msgstr "Sostituisci Mostra colore linea desktop"
 
 #: ui/BoxShowDesktopOptions.ui.h:2
 msgid "Reveal the desktop when hovering the Show Desktop button"
@@ -788,23 +774,21 @@ msgid "Fade duration (ms)"
 msgstr "Durata dissolvenza (ms)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:1
-#, fuzzy
 msgid "Time (ms) before showing"
 msgstr ""
-"Tempo (ms) prima della visualizzazione (400 è l'impostazione predefinita)"
+"Tempo (ms) prima della visualizzazione"
 
 #: ui/BoxWindowPreviewOptions.ui.h:2
 msgid "(400 is default)"
-msgstr ""
+msgstr "(400 è predefinita)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:3
-#, fuzzy
 msgid "Time (ms) before hiding"
-msgstr "Tempo (ms) prima di nascondersi (100 è l'impostazione predefinita)"
+msgstr "Tempo (ms) prima di nascondersi"
 
 #: ui/BoxWindowPreviewOptions.ui.h:4
 msgid "(100 is default)"
-msgstr ""
+msgstr "(100 è predefinito)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:5
 msgid "Immediate on application icon click"
@@ -927,11 +911,10 @@ msgid "Use custom opacity for the previews background"
 msgstr "Usa l'opacità personalizzata per lo sfondo delle anteprime"
 
 #: ui/BoxWindowPreviewOptions.ui.h:35
-#, fuzzy
 msgid ""
 "If disabled, the previews background have the same opacity as the panel."
 msgstr ""
-"Se disabilitato, lo sfondo delle anteprime ha la stessa opacità del pannello"
+"Se disabilitato, lo sfondo delle anteprime avrà la stessa opacità del pannello."
 
 #: ui/BoxWindowPreviewOptions.ui.h:36
 msgid "Close button and header position"
@@ -942,15 +925,12 @@ msgid "Display window preview headers"
 msgstr "Visualizza le intestazioni di anteprima della finestra"
 
 #: ui/BoxWindowPreviewOptions.ui.h:40
-#, fuzzy
 msgid "Icon size (px) of the window preview"
-msgstr "Dimensione carattere (px) dei titoli di anteprima"
+msgstr "Dimensioni dell'icona (px) dell'anteprima della finestra"
 
 #: ui/BoxWindowPreviewOptions.ui.h:41
-#, fuzzy
 msgid "If disabled, the previews icon size will be based on headerbar size"
-msgstr ""
-"Se disabilitato, lo sfondo delle anteprime ha la stessa opacità del pannello"
+msgstr "Se disabilitato, la dimensione dell'icona delle anteprime sarà basata sulla dimensione della barra di intestazione"
 
 #: ui/BoxWindowPreviewOptions.ui.h:42
 msgid "Font size (px) of the preview titles"
@@ -1003,25 +983,23 @@ msgstr ""
 
 #: ui/SettingsAbout.ui.h:1
 msgid "Info"
-msgstr ""
+msgstr "Informazioni"
 
 #: ui/SettingsAbout.ui.h:2
-#, fuzzy
 msgid "Version"
-msgstr "versione: "
+msgstr "versione"
 
 #: ui/SettingsAbout.ui.h:3
 msgid "Source"
-msgstr ""
+msgstr "Sorgente"
 
 #: ui/SettingsAbout.ui.h:4
 msgid "GitHub"
 msgstr "GitHub"
 
 #: ui/SettingsAbout.ui.h:5
-#, fuzzy
 msgid "Export and Import"
-msgstr "Esporta e importa impostazioni"
+msgstr "Esporta e importa"
 
 #: ui/SettingsAbout.ui.h:6
 msgid "Export and import settings"
@@ -1067,9 +1045,8 @@ msgid "Toggle windows"
 msgstr "Commuta le finestre"
 
 #: ui/SettingsAction.ui.h:10
-#, fuzzy
 msgid "Scroll action"
-msgstr "Azione scorrimento icona"
+msgstr "Azione di scorrimento"
 
 #: ui/SettingsAction.ui.h:11
 msgid "Scroll panel action"
@@ -1109,9 +1086,8 @@ msgid "Same as panel"
 msgstr "Stesso del pannello"
 
 #: ui/SettingsAction.ui.h:20
-#, fuzzy
 msgid "Hotkey overlay"
-msgstr "Sovrimpressione numero"
+msgstr "Sovrapposizione tasti di scelta rapida"
 
 #: ui/SettingsAction.ui.h:21
 msgid "Use hotkeys to activate apps"
@@ -1126,9 +1102,8 @@ msgstr ""
 "assieme a Shift e Ctrl."
 
 #: ui/SettingsBehavior.ui.h:1
-#, fuzzy
 msgid "Applications"
-msgstr "Non raggruppare applicazioni"
+msgstr "Applicazioni"
 
 #: ui/SettingsBehavior.ui.h:2
 msgid "Show favorite applications"
@@ -1152,7 +1127,7 @@ msgstr "Non raggruppare applicazioni"
 
 #: ui/SettingsBehavior.ui.h:7
 msgid "Show notification counter badge"
-msgstr ""
+msgstr "Mostra il badge del contatore delle notifiche"
 
 #: ui/SettingsBehavior.ui.h:8
 msgid "Show window previews on hover"
@@ -1163,9 +1138,8 @@ msgid "Show tooltip on hover"
 msgstr "Mostra suggerimento al passaggio"
 
 #: ui/SettingsBehavior.ui.h:10
-#, fuzzy
 msgid "Isolate"
-msgstr "Isola monitor"
+msgstr "Isola"
 
 #: ui/SettingsBehavior.ui.h:11
 msgid "Isolate Workspaces"
@@ -1177,70 +1151,55 @@ msgstr "Isola monitor"
 
 #: ui/SettingsBehavior.ui.h:13
 msgid "Overview"
-msgstr ""
+msgstr "Panoramica"
 
 #: ui/SettingsBehavior.ui.h:14
 msgid "Click empty space to close overview"
-msgstr ""
+msgstr "Fare clic su uno spazio vuoto per chiudere la panoramica"
 
 #: ui/SettingsBehavior.ui.h:15
 msgid "Disable show overview on startup"
-msgstr ""
+msgstr "Disabilita mostra panoramica all'avvio"
 
 #: ui/SettingsFineTune.ui.h:1
 msgid "Font size"
-msgstr ""
+msgstr "Dimensione del font"
 
 #: ui/SettingsFineTune.ui.h:2
 msgid "Tray Font Size"
-msgstr ""
+msgstr "Dimensione font Tray"
 
 #: ui/SettingsFineTune.ui.h:3
-#, fuzzy
 msgid "(0 = theme default)"
-msgstr ""
-"Dimens. Font Tray\n"
-"(0 = predefinito)"
+msgstr "(0 = tema predefinito)"
 
 #: ui/SettingsFineTune.ui.h:4
-#, fuzzy
 msgid "LeftBox Font Size"
-msgstr ""
-"Dimens. Font LeftBox\n"
-"(0 = predefinito)"
+msgstr "Dimensione font casella sinistra"
 
 #: ui/SettingsFineTune.ui.h:5
 msgid "Padding"
-msgstr ""
+msgstr "Imbottitura"
 
 #: ui/SettingsFineTune.ui.h:6
-#, fuzzy
 msgid "Tray Item Padding"
-msgstr ""
-"Spaziatura Icone Tray\n"
-"(-1 = predefinito)"
+msgstr "Imbottitura degli elementi della tray"
 
 #: ui/SettingsFineTune.ui.h:7
-#, fuzzy
 msgid "(-1 = theme default)"
-msgstr ""
-"Spaziatura LeftBox\n"
-"(-1 = predefinito)"
+msgstr "(-1 = tema predefinito)"
 
 #: ui/SettingsFineTune.ui.h:8
-#, fuzzy
 msgid "Status Icon Padding"
-msgstr ""
-"Spaziatura icone stato\n"
-"(-1 = predefinito)"
+msgstr "Imbottitura icona di stato"
 
 #: ui/SettingsFineTune.ui.h:9
 msgid "LeftBox Padding"
-msgstr ""
+msgstr "Imbottitura della casella sinistra"
 
 #: ui/SettingsFineTune.ui.h:10
 msgid "Animate"
-msgstr ""
+msgstr "Animato"
 
 #: ui/SettingsFineTune.ui.h:11
 msgid "Animate switching applications"
@@ -1252,49 +1211,43 @@ msgstr "Animazione apertura nuove finestre"
 
 #: ui/SettingsFineTune.ui.h:13
 msgid "Gnome functionality"
-msgstr ""
+msgstr "Funzionalità Gnome"
 
 #: ui/SettingsFineTune.ui.h:14
-#, fuzzy
 msgid "Keep original gnome-shell dash"
-msgstr "Mantieni dash originale di gnome-shell (schermata panoramica)"
+msgstr "Mantieni dash originale di gnome-shell"
 
 #: ui/SettingsFineTune.ui.h:15
 msgid "(overview)"
-msgstr ""
+msgstr "(panoramica)"
 
 #: ui/SettingsFineTune.ui.h:16
 msgid "Keep original gnome-shell top panel"
 msgstr "Mantieni il pannello superiore della gnome-shell originale"
 
 #: ui/SettingsFineTune.ui.h:17
-#, fuzzy
 msgid "Activate panel menu buttons on click only"
-msgstr ""
-"Attiva i pulsanti del menu del pannello (ad es. Menu della data) solo al clic"
+msgstr "Attiva i pulsanti del menu del pannello solo con un clic"
 
 #: ui/SettingsFineTune.ui.h:18
-#, fuzzy
 msgid "(e.g. date menu)"
-msgstr "Data e ora"
+msgstr (es. menu data)"
 
 #: ui/SettingsFineTune.ui.h:19
 msgid "Force Activities hot corner on primary monitor"
 msgstr "Forza angolo attivo delle attività sul monitor principale"
 
 #: ui/SettingsFineTune.ui.h:20
-#, fuzzy
 msgid "App icon secondary menu"
-msgstr "Menu secondario (clic destro) delle icone"
+msgstr "Menu secondario dell'icona dell'app"
 
 #: ui/SettingsFineTune.ui.h:21
-#, fuzzy
 msgid "(right-click menu)"
-msgstr "Menu secondario (clic destro) delle icone"
+msgstr "(menù cliccabile con il tasto destro)"
 
 #: ui/SettingsPosition.ui.h:1
 msgid "Panel"
-msgstr ""
+msgstr "Pannello"
 
 #: ui/SettingsPosition.ui.h:2
 msgid "Display the main panel on"
@@ -1313,14 +1266,12 @@ msgid "Hide and reveal the panel according to preferences"
 msgstr "Mostra e nascondi il pannello secondo le preferenze"
 
 #: ui/SettingsPosition.ui.h:6
-#, fuzzy
 msgid "Order and Position on monitors"
-msgstr "Ordinamento e posizione sullo schermo"
+msgstr "Ordinamento e posizione sui monitor"
 
 #: ui/SettingsPosition.ui.h:7
-#, fuzzy
 msgid "Monitor"
-msgstr "Monitor "
+msgstr "Monitor"
 
 #: ui/SettingsPosition.ui.h:8
 msgid "Apply changes to all monitors"
@@ -1331,79 +1282,57 @@ msgid "Panel screen position"
 msgstr "Posizione pannello sullo schermo"
 
 #: ui/SettingsPosition.ui.h:14
-#, fuzzy
 msgid "Panel thickness"
-msgstr "Pannello Intellihide"
+msgstr "Spessore del pannello"
 
 #: ui/SettingsPosition.ui.h:15
-#, fuzzy
 msgid "(default is 48)"
-msgstr ""
-"Dimensione pannello\n"
-"(predefinito 48)"
+msgstr "(predefinito è 48)"
 
 #: ui/SettingsPosition.ui.h:17
 #, no-c-format
 msgid "Panel length (%)"
-msgstr ""
+msgstr "Lunghezza del pannello (%)"
 
 #: ui/SettingsPosition.ui.h:18
-#, fuzzy
 msgid "(default is 100)"
-msgstr ""
-"Dimensione pannello\n"
-"(predefinito 48)"
+msgstr "(predefinito è 100)"
 
 #: ui/SettingsPosition.ui.h:19
 msgid "Anchor"
-msgstr ""
+msgstr "Ancora"
 
 #: ui/SettingsPosition.ui.h:23
-#, fuzzy
 msgid "Taskbar Display"
-msgstr "Taskbar"
+msgstr "Visualizzazione Taskbar"
 
 #: ui/SettingsStyle.ui.h:1
 msgid "AppIcon style"
-msgstr ""
+msgstr "Stile icona dell'app"
 
 #: ui/SettingsStyle.ui.h:2
-#, fuzzy
 msgid "App Icon Margin"
-msgstr ""
-"Margine icone app\n"
-"(predefinito 8)"
+msgstr "Margine icona app"
 
 #: ui/SettingsStyle.ui.h:3
-#, fuzzy
 msgid "(default is 8)"
-msgstr ""
-"Dimensione pannello\n"
-"(predefinito 48)"
+msgstr "(predefinito è 8)"
 
 #: ui/SettingsStyle.ui.h:4
-#, fuzzy
 msgid "App Icon Padding"
-msgstr ""
-"Spaziatura icone app\n"
-"(predefinito 4)"
+msgstr "Imbottitura delle icone dell'app"
 
 #: ui/SettingsStyle.ui.h:5
-#, fuzzy
 msgid "(default is 4)"
-msgstr ""
-"Dimensione pannello\n"
-"(predefinito 48)"
+msgstr "(predefinito è 4)"
 
 #: ui/SettingsStyle.ui.h:6
-#, fuzzy
 msgid "Animate hovering app icons"
-msgstr "Animazione passaggio tra applicazioni"
+msgstr "Animazione passaggio tra le icone delle app"
 
 #: ui/SettingsStyle.ui.h:7
-#, fuzzy
 msgid "Running indicator"
-msgstr "Posizione indicatore di esecuzione"
+msgstr "Indicatore di esecuzione"
 
 #: ui/SettingsStyle.ui.h:8
 msgid "Running indicator position"
@@ -1446,14 +1375,12 @@ msgid "Running indicator style (Unfocused apps)"
 msgstr "Stile indicatore di esecuzione (app senza focus)"
 
 #: ui/SettingsStyle.ui.h:22
-#, fuzzy
 msgid "Panel style"
-msgstr "Pannello Intellihide"
+msgstr "Stile del pannello"
 
 #: ui/SettingsStyle.ui.h:23
-#, fuzzy
 msgid "Override panel theme background color"
-msgstr "Ignora il colore di sfondo del pannello "
+msgstr "Sostituisci il colore di sfondo del tema del pannello"
 
 #: ui/SettingsStyle.ui.h:24
 msgid "Override panel theme background opacity"
@@ -1473,9 +1400,8 @@ msgid "Change opacity when a window gets close to the panel"
 msgstr "Cambia l'opacità quando una finestra è vicina al pannello"
 
 #: ui/SettingsStyle.ui.h:30
-#, fuzzy
 msgid "Override panel theme gradient"
-msgstr "Ignora gradiente del pannello "
+msgstr "Sostituisci il gradiente del tema del pannello"
 
 #: ui/SettingsStyle.ui.h:32
 #, no-c-format
@@ -1586,7 +1512,7 @@ msgstr "Colore inferiore del gradiente e opacità (%)"
 #~ "about/\">Leggi di più</a>"
 
 #~ msgid "About"
-#~ msgstr "Informazioni su"
+#~ msgstr "Informazioni"
 
 #~ msgid "Top, with plugin icons collapsed to bottom"
 #~ msgstr "In alto, con le icone dei plugin raggruppate in bassoa"
