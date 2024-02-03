@@ -1324,21 +1324,6 @@ export const Taskbar = class extends EventEmitter {
     }
 };
 
-const CloneContainerConstraint = GObject.registerClass({
-}, class CloneContainerConstraint extends Clutter.BindConstraint {
-
-    vfunc_update_allocation(actor, actorBox) {
-        if (!this.source)
-            return;
-
-        let [stageX, stageY] = this.source.get_transformed_position();
-        let [width, height] = this.source.get_transformed_size();
-
-        actorBox.set_origin(stageX, stageY);
-        actorBox.set_size(width, height);
-    }
-});
-
 export const TaskbarItemContainer = GObject.registerClass({
 
 }, class TaskbarItemContainer extends Dash.DashItemContainer {
