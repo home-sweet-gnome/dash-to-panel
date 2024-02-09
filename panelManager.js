@@ -117,8 +117,6 @@ export const PanelManager = class {
         
         if (reset) return;
 
-        this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass();
-
         this._oldUpdatePanelBarrier = Main.layoutManager._updatePanelBarrier;
         Main.layoutManager._updatePanelBarrier = (panel) => {
             let panelUpdates = panel ? [panel] : this.allPanels;
@@ -290,25 +288,26 @@ export const PanelManager = class {
         delete LookingGlass.LookingGlass.prototype._oldOpen
 
         delete Main.panel.style;
-        this._desktopIconsUsableArea.destroy();
+        this._desktopIconsUsableArea?.destroy();
         this._desktopIconsUsableArea = null;
     }
 
     _setDesktopIconsMargins() {
-        this._desktopIconsUsableArea?.resetMargins();
+        if (!this._desktopIconsUsableArea)
+            this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass();
         this.allPanels.forEach(p => {
             switch(p.geom.position) {
                 case St.Side.TOP:
-                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, p.geom.h, 0, 0, 0);
+                    this._desktopIconsUsableArea.setMargins(p.monitor.index, p.geom.h, 0, 0, 0);
                     break;
                 case St.Side.BOTTOM:
-                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, p.geom.h, 0, 0);
+                    this._desktopIconsUsableArea.setMargins(p.monitor.index, 0, p.geom.h, 0, 0);
                     break;
                 case St.Side.LEFT:
-                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, 0, p.geom.w, 0);
+                    this._desktopIconsUsableArea.setMargins(p.monitor.index, 0, 0, p.geom.w, 0);
                     break;
                 case St.Side.RIGHT:
-                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, 0, 0, p.geom.w);
+                    this._desktopIconsUsableArea.setMargins(p.monitor.index, 0, 0, 0, p.geom.w);
                     break;
             }
         });
