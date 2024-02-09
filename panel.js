@@ -1003,13 +1003,13 @@ export const Panel = GObject.registerClass({
         if (this.statusArea.dateMenu) {
             let datetime = this.statusArea.dateMenu._clock.clock;
             let datetimeParts = datetime.split(' ');
+            let date = datetimeParts[0];
             let time = datetimeParts[1];
             let clockText = this.statusArea.dateMenu._clockDisplay.clutter_text;
-            let setClockText = (text, useTimeSeparator) => {
+            let setClockText = text => {
                 let stacks = text instanceof Array;
-                let separator = `\n<span size="8192"> ${useTimeSeparator ? '‧‧' : '—' } </span>\n`;
         
-                clockText.set_text((stacks ? text.join(separator) : text).trim());
+                clockText.set_text((stacks ? text.join('\n') : text).trim());
                 clockText.set_use_markup(stacks);
                 clockText.get_allocation_box();
         
@@ -1026,23 +1026,50 @@ export const Panel = GObject.registerClass({
             if (!time) {
                 datetimeParts = datetime.split(' ');
                 time = datetimeParts.pop();
-                datetimeParts = [datetimeParts.join(' '), time];
+                date = datetimeParts.join(' ');
             }
 
-            if (!setClockText(datetime) && 
-                !setClockText(datetimeParts) && 
-                !setClockText(time)) {
-                let timeParts = time.split('∶');
+            if (!setClockText(datetime)) {
+                let dtSep = '<span size="8192"> — </span>';
+
+                // Try a two-line date/time clock first
+                if (setClockText([date, dtSep, time])) {
+                    return;
+                }
+
+                // Try a three-line clock: month/day/time
+                let dateParts = date.split(' ');
+                if (setClockText(dateParts.concat([dtSep, time]))) {
+                    return;
+                }
+
+                // Set a multi-line clock with each piece on its own line
 
                 if (!this._clockFormat) {
                     this._clockFormat = DESKTOPSETTINGS.get_string('clock-format');
                 }
 
+                let timeParts = time.split('∶');
+                let timeAMPM = '';
                 if (this._clockFormat == '12h') {
-                    timeParts.push.apply(timeParts, timeParts.pop().split(' '));
+                    timeParts = time.split(' ');
+                    timeAMPM = timeParts[1];
+                    timeParts = timeParts[0].split('∶');
                 }
 
-                setClockText(timeParts, true);
+                let timeSep = '<span size="8192"> ‧‧ </span>';
+                let dtStack = dateParts.concat([dtSep]);
+                for (let timePart of timeParts) {
+                    dtStack.push(timePart);
+                    dtStack.push(timeSep);
+                }
+                if (this._clockFormat == '12h') {
+                    dtStack.push(timeAMPM);
+                } else {
+                    dtStack.pop();
+                }
+
+                setClockText(dtStack);
             }
         }
     }
