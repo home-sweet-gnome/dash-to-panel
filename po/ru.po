@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the dash-to-panel package.
 # Alex Gluck <alexgluck@bk.ru>, 2017.
 # vantu5z <vantu5z@mail.ru>, 2021-2022.
+# Danila Shkerin <dscelt@gmail.com>, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dash-to-panel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-02-08 08:31-0500\n"
-"PO-Revision-Date: 2022-04-18 08:41+0300\n"
-"Last-Translator: vantu5z <vantu5z@mail.ru>\n"
-"Language-Team: Russian <>\n"
+"PO-Revision-Date: 2024-02-03 07:15+0500\n"
+"Last-Translator: Danila Shkerin <dscelt@gmail.com>\n"
+"Language-Team: Russian < >\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 40.0\n"
+"X-Generator: Gtranslator 42.0\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
@@ -495,17 +496,12 @@ msgid "Font color of the minimized application titles"
 msgstr "Цвет шрифта заголовка свернутых приложений"
 
 #: ui/BoxGroupAppsOptions.ui.h:10
-#, fuzzy
 msgid "Maximum width (px) of the application titles"
-msgstr ""
-"Максимальная ширина (в пикселях) заголовка приложений (по умолчанию 160)"
+msgstr "Максимальная ширина (в пикселях) заголовка приложений"
 
 #: ui/BoxGroupAppsOptions.ui.h:11
-#, fuzzy
 msgid "(default is 160)"
-msgstr ""
-"Длина панели (%)\n"
-"(По умолчанию 100)"
+msgstr "(по умолчанию 160)"
 
 #: ui/BoxGroupAppsOptions.ui.h:12
 msgid "Use a fixed width for the application titles"
@@ -530,9 +526,8 @@ msgid "Use the favorite icons as application launchers"
 msgstr "Показывать избранные приложения"
 
 #: ui/BoxIntellihideOptions.ui.h:1
-#, fuzzy
 msgid "Only hide the panel when it is obstructed by windows"
-msgstr "Скрывать только при наложении окон "
+msgstr "Скрывать панель при наложении окон "
 
 #: ui/BoxIntellihideOptions.ui.h:2
 msgid "The panel hides from"
@@ -555,15 +550,12 @@ msgid "Allow the panel to be revealed while in fullscreen mode"
 msgstr "Разрешить отображение панели в полноэкранном режиме"
 
 #: ui/BoxIntellihideOptions.ui.h:10
-#, fuzzy
 msgid "Only hide secondary panels"
-msgstr ""
-"Скрывать дополнительные панели (требуется показ на нескольких мониторах)"
+msgstr "Скрывать дополнительные панели"
 
 #: ui/BoxIntellihideOptions.ui.h:11
-#, fuzzy
 msgid "(requires multi-monitors option)"
-msgstr "Настройки для нескольких мониторов"
+msgstr "(используется при нескольких мониторах)"
 
 #: ui/BoxIntellihideOptions.ui.h:12
 msgid "Keyboard shortcut to reveal and hold the panel"
@@ -753,9 +745,8 @@ msgid "<i>Show Details</i> menu item"
 msgstr "Меню <i>Показать детали</i>"
 
 #: ui/BoxShowApplicationsOptions.ui.h:1
-#, fuzzy
 msgid "Show Applications icon"
-msgstr "Настройка меню \"Приложения\""
+msgstr "Отображать меню \"Приложения\""
 
 #: ui/BoxShowApplicationsOptions.ui.h:2
 msgid "Show Applications icon side padding (px)"
@@ -782,22 +773,20 @@ msgid "Fade duration (ms)"
 msgstr "Задержка скрытия (в мс)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:1
-#, fuzzy
 msgid "Time (ms) before showing"
-msgstr "Задержка (в мс) перед показом (400 по умолчанию)"
+msgstr "Задержка (в мс) перед отображением"
 
 #: ui/BoxWindowPreviewOptions.ui.h:2
 msgid "(400 is default)"
-msgstr ""
+msgstr "(400 по умолчанию)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:3
-#, fuzzy
 msgid "Time (ms) before hiding"
-msgstr "Задержка (в мс) перед скрытием (100 по умолчанию)"
+msgstr "Задержка (в мс) перед скрытием"
 
 #: ui/BoxWindowPreviewOptions.ui.h:4
 msgid "(100 is default)"
-msgstr ""
+msgstr "(100 по умолчанию)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:5
 msgid "Immediate on application icon click"
@@ -991,25 +980,23 @@ msgstr "Все окна, кроме выделенного, имеют проз�
 
 #: ui/SettingsAbout.ui.h:1
 msgid "Info"
-msgstr ""
+msgstr "Информация"
 
 #: ui/SettingsAbout.ui.h:2
-#, fuzzy
 msgid "Version"
-msgstr "версия: "
+msgstr "Версия: "
 
 #: ui/SettingsAbout.ui.h:3
 msgid "Source"
-msgstr ""
+msgstr "Исходный код"
 
 #: ui/SettingsAbout.ui.h:4
 msgid "GitHub"
 msgstr "GitHub"
 
 #: ui/SettingsAbout.ui.h:5
-#, fuzzy
 msgid "Export and Import"
-msgstr "Сохранение и загрузка настроек"
+msgstr "Сохранение и загрузка"
 
 #: ui/SettingsAbout.ui.h:6
 msgid "Export and import settings"
@@ -1163,7 +1150,7 @@ msgstr "Изолировать мониторы"
 
 #: ui/SettingsBehavior.ui.h:13
 msgid "Overview"
-msgstr ""
+msgstr "Обзор"
 
 #: ui/SettingsBehavior.ui.h:14
 msgid "Click empty space to close overview"
@@ -1175,54 +1162,39 @@ msgstr "Отключить переход в \"Обзор\" после загр�
 
 #: ui/SettingsFineTune.ui.h:1
 msgid "Font size"
-msgstr ""
+msgstr "Размер шрифта"
 
 #: ui/SettingsFineTune.ui.h:2
 msgid "Tray Font Size"
-msgstr ""
+msgstr "Размер шрифта в трее"
 
 #: ui/SettingsFineTune.ui.h:3
-#, fuzzy
 msgid "(0 = theme default)"
-msgstr ""
-"Размер шрифта в трее\n"
-"(0 = значение из темы)"
+msgstr "(0 = значение из темы)"
 
 #: ui/SettingsFineTune.ui.h:4
-#, fuzzy
 msgid "LeftBox Font Size"
-msgstr ""
-"Размер шрифта левой панели\n"
-"(0 = значение из темы)"
+msgstr "Размер шрифта левой панели"
 
 #: ui/SettingsFineTune.ui.h:5
 msgid "Padding"
-msgstr ""
+msgstr "Отступ"
 
 #: ui/SettingsFineTune.ui.h:6
-#, fuzzy
 msgid "Tray Item Padding"
-msgstr ""
-"Отступ между значками в трее\n"
-"(-1 = значение из темы)"
+msgstr "Отступ между значками в трее"
 
 #: ui/SettingsFineTune.ui.h:7
-#, fuzzy
 msgid "(-1 = theme default)"
-msgstr ""
-"Отступ левой панели\n"
-"(-1 = значение из темы)"
+msgstr "(-1 = значение из темы)"
 
 #: ui/SettingsFineTune.ui.h:8
-#, fuzzy
 msgid "Status Icon Padding"
-msgstr ""
-"Отступ между значками статуса\n"
-"(-1 = значение из темы)"
+msgstr "Отступ между значками статуса"
 
 #: ui/SettingsFineTune.ui.h:9
 msgid "LeftBox Padding"
-msgstr ""
+msgstr "Отступ в LeftBox"
 
 #: ui/SettingsFineTune.ui.h:10
 #, fuzzy
@@ -1239,7 +1211,7 @@ msgstr "Анимировать запуск нового окна"
 
 #: ui/SettingsFineTune.ui.h:13
 msgid "Gnome functionality"
-msgstr ""
+msgstr "Функциональность Gnome"
 
 #: ui/SettingsFineTune.ui.h:14
 #, fuzzy
@@ -1247,8 +1219,9 @@ msgid "Keep original gnome-shell dash"
 msgstr "Сохранить панель GNOME при показе приложений"
 
 #: ui/SettingsFineTune.ui.h:15
+#, fuzzy
 msgid "(overview)"
-msgstr ""
+msgstr "(обзор)"
 
 #: ui/SettingsFineTune.ui.h:16
 msgid "Keep original gnome-shell top panel"
@@ -1262,27 +1235,24 @@ msgstr ""
 "на кнопку"
 
 #: ui/SettingsFineTune.ui.h:18
-#, fuzzy
 msgid "(e.g. date menu)"
-msgstr "Дата и время"
+msgstr "(например, меню дата и время)"
 
 #: ui/SettingsFineTune.ui.h:19
 msgid "Force Activities hot corner on primary monitor"
 msgstr "«Горячий угол» принудительно на основном мониторе"
 
 #: ui/SettingsFineTune.ui.h:20
-#, fuzzy
 msgid "App icon secondary menu"
-msgstr "Меню приложения по щелчку правой кнопкой мыши"
+msgstr "Вспомогательное меню приложения"
 
 #: ui/SettingsFineTune.ui.h:21
-#, fuzzy
 msgid "(right-click menu)"
-msgstr "Меню приложения по щелчку правой кнопкой мыши"
+msgstr "(по щелчку правой кнопкой мыши)"
 
 #: ui/SettingsPosition.ui.h:1
 msgid "Panel"
-msgstr ""
+msgstr "Панель"
 
 #: ui/SettingsPosition.ui.h:2
 msgid "Display the main panel on"
@@ -1303,10 +1273,9 @@ msgstr "Скрывать и показывать панель в зависим�
 #: ui/SettingsPosition.ui.h:6
 #, fuzzy
 msgid "Order and Position on monitors"
-msgstr "Порядок и расположение на мониторе"
+msgstr "Порядок и расположение на мониторах"
 
 #: ui/SettingsPosition.ui.h:7
-#, fuzzy
 msgid "Monitor"
 msgstr "Монитор "
 
@@ -1319,32 +1288,21 @@ msgid "Panel screen position"
 msgstr "Расположение панели на экране"
 
 #: ui/SettingsPosition.ui.h:14
-#, fuzzy
 msgid "Panel thickness"
-msgstr ""
-"Ширина панели\n"
-"(По умолчанию 48)"
+msgstr "Ширина панели"
 
 #: ui/SettingsPosition.ui.h:15
-#, fuzzy
 msgid "(default is 48)"
-msgstr ""
-"Ширина панели\n"
-"(По умолчанию 48)"
+msgstr "(по умолчанию 48)"
 
 #: ui/SettingsPosition.ui.h:17
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Panel length (%)"
-msgstr ""
-"Длина панели (%)\n"
-"(По умолчанию 100)"
+msgstr "Длина панели (%)"
 
 #: ui/SettingsPosition.ui.h:18
-#, fuzzy
 msgid "(default is 100)"
-msgstr ""
-"Длина панели (%)\n"
-"(По умолчанию 100)"
+msgstr "(По умолчанию 100)"
 
 #: ui/SettingsPosition.ui.h:19
 msgid "Anchor"
@@ -1357,35 +1315,23 @@ msgstr "Панель задач"
 
 #: ui/SettingsStyle.ui.h:1
 msgid "AppIcon style"
-msgstr ""
+msgstr "Стиль меню приложений"
 
 #: ui/SettingsStyle.ui.h:2
-#, fuzzy
 msgid "App Icon Margin"
-msgstr ""
-"Отступ между значками приложений\n"
-"(по умолчанию 8)"
+msgstr "Отступ между значками приложений"
 
 #: ui/SettingsStyle.ui.h:3
-#, fuzzy
 msgid "(default is 8)"
-msgstr ""
-"Отступ между значками приложений\n"
-"(по умолчанию 8)"
+msgstr "(по умолчанию 8)"
 
 #: ui/SettingsStyle.ui.h:4
-#, fuzzy
 msgid "App Icon Padding"
-msgstr ""
-"Отступ вокруг значков приложений\n"
-"(по умолчанию 4)"
+msgstr "Отступ вокруг значков приложений"
 
 #: ui/SettingsStyle.ui.h:5
-#, fuzzy
 msgid "(default is 4)"
-msgstr ""
-"Отступ вокруг значков приложений\n"
-"(по умолчанию 4)"
+msgstr "(по умолчанию 4)"
 
 #: ui/SettingsStyle.ui.h:6
 msgid "Animate hovering app icons"
@@ -1437,14 +1383,12 @@ msgid "Running indicator style (Unfocused apps)"
 msgstr "Индикатор запущенного приложения (когда в не фокусе)"
 
 #: ui/SettingsStyle.ui.h:22
-#, fuzzy
 msgid "Panel style"
-msgstr "Автоскрытие панели"
+msgstr "Стиль панели"
 
 #: ui/SettingsStyle.ui.h:23
-#, fuzzy
 msgid "Override panel theme background color"
-msgstr "Цвет панели "
+msgstr "Изменить цвет фона панели "
 
 #: ui/SettingsStyle.ui.h:24
 msgid "Override panel theme background opacity"
@@ -1464,9 +1408,8 @@ msgid "Change opacity when a window gets close to the panel"
 msgstr "Изменять прозрачность при приближении окно к панели"
 
 #: ui/SettingsStyle.ui.h:30
-#, fuzzy
 msgid "Override panel theme gradient"
-msgstr "Градиент панели "
+msgstr "Изменить градиент панели "
 
 #: ui/SettingsStyle.ui.h:32
 #, no-c-format
