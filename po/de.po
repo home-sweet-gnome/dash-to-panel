@@ -278,7 +278,7 @@ msgstr "System"
 
 #: appIcons.js:1801
 msgid "Device Management"
-msgstr "Laufwerksverwaltung"
+msgstr "Geräteverwaltung"
 
 #: appIcons.js:1806
 msgid "Disk Management"

@@ -3,7 +3,7 @@
   <requires lib="gtk" version="4.0"/>
 
   <object class="AdwPreferencesPage" id="about">
-    <property name="title">About</property>
+    <property name="title" translatable="yes">About</property>
     <property name="icon_name">help-about-symbolic</property>
 
       <!-- group info -->

@@ -22,40 +22,31 @@
  */
 
 
-const Clutter = imports.gi.Clutter;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const Gtk = imports.gi.Gtk;
-const GObject = imports.gi.GObject;
-const Signals = imports.signals;
-const Meta = imports.gi.Meta;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
-const Mainloop = imports.mainloop;
+import Clutter from 'gi://Clutter';
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
+import Graphene from 'gi://Graphene';
+import GObject from 'gi://GObject';
+import Mtk from 'gi://Mtk';
+import Shell from 'gi://Shell';
+import St from 'gi://St';
 
-const Config = imports.misc.config;
-const AppDisplay = imports.ui.appDisplay;
-const AppMenu = imports.ui.appMenu;
-if (Config.PACKAGE_VERSION < '42') {
-const AppMenu = imports.ui.appDisplay;
-}
-const AppFavorites = imports.ui.appFavorites;
-const Dash = imports.ui.dash;
-const DND = imports.ui.dnd;
-const IconGrid = imports.ui.iconGrid;
-const Main = imports.ui.main;
-const PopupMenu = imports.ui.popupMenu;
-const Util = imports.misc.util;
-const Workspace = imports.ui.workspace;
-const BoxPointer = imports.ui.boxpointer;
-const ExtensionUtils = imports.misc.extensionUtils
+import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
+import * as AppMenu from 'resource:///org/gnome/shell/ui/appMenu.js';
+import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
+import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as Util from 'resource:///org/gnome/shell/misc/util.js';
+import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js';
+import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
 
-const Me = ExtensionUtils.getCurrentExtension();
-const Utils = Me.imports.utils;
-const PanelSettings = Me.imports.panelSettings;
-const Taskbar = Me.imports.taskbar;
-const Progress = Me.imports.progress;
-const _ = imports.gettext.domain(Utils.TRANSLATION_DOMAIN).gettext;
+import * as Utils from './utils.js';
+import * as PanelSettings from './panelSettings.js';
+import * as Taskbar from './taskbar.js';
+import * as Progress from './progress.js';
+import {DTP_EXTENSION, SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extension.js';
+import {gettext as _, ngettext} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 //timeout names
 const T2 = 'mouseScrollTimeout';
@@ -70,7 +61,7 @@ const DOUBLE_CLICK_DELAY_MS = 450;
 
 let LABEL_GAP = 5;
 let MAX_INDICATORS = 4;
-var DEFAULT_PADDING_SIZE = 4;
+export const DEFAULT_PADDING_SIZE = 4;
 
 let APPICON_STYLE = {
     NORMAL: "NORMAL",
@@ -115,7 +106,7 @@ let tracker = Shell.WindowTracker.get_default();
  *
  */
 
-var TaskbarAppIcon = GObject.registerClass({
+export const TaskbarAppIcon = GObject.registerClass({
 }, class TaskbarAppIcon extends AppDisplay.AppIcon {
 
     _init(appInfo, panel, iconParams, previewMenu, iconAnimator) {
@@ -154,7 +145,7 @@ var TaskbarAppIcon = GObject.registerClass({
 
         
         this._dot.set_width(0);
-        this._isGroupApps = Me.settings.get_boolean('group-apps');
+        this._isGroupApps = SETTINGS.get_boolean('group-apps');
         
         this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
@@ -212,7 +203,7 @@ var TaskbarAppIcon = GObject.registerClass({
         this._stateChangedId = this.app.connect('windows-changed', this.onWindowsChanged.bind(this));
 
         if (!this.window) {
-            if (Me.settings.get_boolean('isolate-monitors')) {
+            if (SETTINGS.get_boolean('isolate-monitors')) {
                 this._windowEnteredMonitorId = Utils.DisplayWrapper.getScreen().connect('window-entered-monitor', this.onWindowEnteredOrLeft.bind(this));
                 this._windowLeftMonitorId = Utils.DisplayWrapper.getScreen().connect('window-left-monitor', this.onWindowEnteredOrLeft.bind(this));
             }
@@ -238,33 +229,33 @@ var TaskbarAppIcon = GObject.registerClass({
         this._hoverChangeId = this.connect('notify::hover', () => this._onAppIconHoverChanged());
         
         this._dtpSettingsSignalIds = [
-            Me.settings.connect('changed::animate-appicon-hover', this._onAnimateAppiconHoverChanged.bind(this)),
-            Me.settings.connect('changed::dot-position', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-size', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-style-focused', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-style-unfocused', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-dominant', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-override', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-1', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-2', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-3', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-4', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-unfocused-different', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-unfocused-1', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-unfocused-2', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-unfocused-3', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::dot-color-unfocused-4', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::focus-highlight', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::focus-highlight-dominant', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::focus-highlight-color', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::focus-highlight-opacity', this._settingsChangeRefresh.bind(this)),
-            Me.settings.connect('changed::group-apps-label-font-size', this._updateWindowTitleStyle.bind(this)),
-            Me.settings.connect('changed::group-apps-label-font-weight', this._updateWindowTitleStyle.bind(this)),
-            Me.settings.connect('changed::group-apps-label-font-color', this._updateWindowTitleStyle.bind(this)),
-            Me.settings.connect('changed::group-apps-label-font-color-minimized', this._updateWindowTitleStyle.bind(this)),
-            Me.settings.connect('changed::group-apps-label-max-width', this._updateWindowTitleStyle.bind(this)),
-            Me.settings.connect('changed::group-apps-use-fixed-width', this._updateWindowTitleStyle.bind(this)),
-            Me.settings.connect('changed::group-apps-underline-unfocused', this._settingsChangeRefresh.bind(this))
+            SETTINGS.connect('changed::animate-appicon-hover', this._onAnimateAppiconHoverChanged.bind(this)),
+            SETTINGS.connect('changed::dot-position', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-size', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-style-focused', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-style-unfocused', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-dominant', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-override', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-1', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-2', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-3', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-4', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-unfocused-different', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-unfocused-1', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-unfocused-2', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-unfocused-3', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::dot-color-unfocused-4', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::focus-highlight', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::focus-highlight-dominant', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::focus-highlight-color', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::focus-highlight-opacity', this._settingsChangeRefresh.bind(this)),
+            SETTINGS.connect('changed::group-apps-label-font-size', this._updateWindowTitleStyle.bind(this)),
+            SETTINGS.connect('changed::group-apps-label-font-weight', this._updateWindowTitleStyle.bind(this)),
+            SETTINGS.connect('changed::group-apps-label-font-color', this._updateWindowTitleStyle.bind(this)),
+            SETTINGS.connect('changed::group-apps-label-font-color-minimized', this._updateWindowTitleStyle.bind(this)),
+            SETTINGS.connect('changed::group-apps-label-max-width', this._updateWindowTitleStyle.bind(this)),
+            SETTINGS.connect('changed::group-apps-use-fixed-width', this._updateWindowTitleStyle.bind(this)),
+            SETTINGS.connect('changed::group-apps-underline-unfocused', this._settingsChangeRefresh.bind(this))
         ]
 
         this._progressIndicator = new Progress.ProgressIndicator(this, panel.progressManager);
@@ -284,7 +275,7 @@ var TaskbarAppIcon = GObject.registerClass({
             source: this.child,
             x: this.child.x, y: this.child.y,
             width: this.child.width, height: this.child.height,
-            pivot_point: new imports.gi.Graphene.Point({ x: 0.5, y: 0.5 }),
+            pivot_point: new Graphene.Point({ x: 0.5, y: 0.5 }),
             opacity: 255,
             reactive: false,
             x_align: Clutter.ActorAlign.CENTER, y_align: Clutter.ActorAlign.CENTER,
@@ -302,8 +293,8 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     shouldShowTooltip() {
-        if (!Me.settings.get_boolean('show-tooltip') || 
-            (!this.isLauncher && Me.settings.get_boolean("show-window-previews") &&
+        if (!SETTINGS.get_boolean('show-tooltip') || 
+            (!this.isLauncher && SETTINGS.get_boolean("show-window-previews") &&
              this.getAppIconInterestingWindows().length > 0)) {
             return false;
         } else {
@@ -314,7 +305,7 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _onAppIconHoverChanged() {
-        if (!Me.settings.get_boolean('show-window-previews') || 
+        if (!SETTINGS.get_boolean('show-window-previews') || 
             (!this.window && !this._nWindows)) {
             return;
         }
@@ -371,7 +362,7 @@ var TaskbarAppIcon = GObject.registerClass({
         }
 
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
-            Me.settings.disconnect(this._dtpSettingsSignalIds[i]);
+            SETTINGS.disconnect(this._dtpSettingsSignalIds[i]);
         }
     }
 
@@ -404,7 +395,7 @@ var TaskbarAppIcon = GObject.registerClass({
         if (this.get_stage() == null)
             return;
 
-        let rect = new Meta.Rectangle();
+        let rect = new Mtk.Rectangle();
 
         [rect.x, rect.y] = this.get_transformed_position();
         [rect.width, rect.height] = this.get_transformed_size();
@@ -416,7 +407,7 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _onAnimateAppiconHoverChanged() {
-        if (Me.settings.get_boolean('animate-appicon-hover')) {
+        if (SETTINGS.get_boolean('animate-appicon-hover')) {
             this._container.add_style_class_name('animate-appicon-hover');
 
             // Workaround to prevent scaled icon from being ugly when it is animated on hover.
@@ -448,7 +439,7 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _onMouseScroll(actor, event) {
-        let scrollAction = Me.settings.get_string('scroll-icon-action');
+        let scrollAction = SETTINGS.get_string('scroll-icon-action');
         
         if (scrollAction === 'PASS_THROUGH') {
             return this.dtpPanel._onPanelMouseScroll(actor, event);
@@ -459,7 +450,7 @@ var TaskbarAppIcon = GObject.registerClass({
         let direction = Utils.getMouseScrollDirection(event);
 
         if (direction && !this._timeoutsHandler.getId(T2)) {
-            this._timeoutsHandler.add([T2, Me.settings.get_int('scroll-icon-delay'), () => {}]);
+            this._timeoutsHandler.add([T2, SETTINGS.get_int('scroll-icon-delay'), () => {}]);
 
             let windows = this.getAppIconInterestingWindows();
 
@@ -494,12 +485,12 @@ var TaskbarAppIcon = GObject.registerClass({
                 if (!this._dashItemContainer.animatingOut)
                     // don't draw and trigger more animations if the icon is in the middle of
                     // being removed from the panel
-                    this._drawRunningIndicator(this._focusedDots, Me.settings.get_string('dot-style-focused'), true);
+                    this._drawRunningIndicator(this._focusedDots, SETTINGS.get_string('dot-style-focused'), true);
             });
             
             this._unfocusedDots.connect('repaint', () => {
                 if (!this._dashItemContainer.animatingOut)
-                    this._drawRunningIndicator(this._unfocusedDots, Me.settings.get_string('dot-style-unfocused'), false);
+                    this._drawRunningIndicator(this._unfocusedDots, SETTINGS.get_string('dot-style-unfocused'), false);
             });
                 
             this._dotsContainer.add_child(this._unfocusedDots);
@@ -516,11 +507,11 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _resetDots() {
-        let position = Me.settings.get_string('dot-position');
+        let position = SETTINGS.get_string('dot-position');
         let isHorizontalDots = position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM;
         let sizeProp = isHorizontalDots ? 'width' : 'height';
-        let focusedDotStyle = Me.settings.get_string('dot-style-focused');
-        let unfocusedDotStyle = Me.settings.get_string('dot-style-unfocused');
+        let focusedDotStyle = SETTINGS.get_string('dot-style-focused');
+        let unfocusedDotStyle = SETTINGS.get_string('dot-style-unfocused');
         
         this._focusedIsWide = this._isWideDotStyle(focusedDotStyle);
         this._unfocusedIsWide = this._isWideDotStyle(unfocusedDotStyle);
@@ -549,14 +540,14 @@ var TaskbarAppIcon = GObject.registerClass({
 
     _updateWindowTitleStyle() {
         if (this._windowTitle) {
-            let useFixedWidth = Me.settings.get_boolean('group-apps-use-fixed-width');
-            let fontWeight = Me.settings.get_string('group-apps-label-font-weight');
-            let fontScale = Me.desktopSettings.get_double('text-scaling-factor');
+            let useFixedWidth = SETTINGS.get_boolean('group-apps-use-fixed-width');
+            let fontWeight = SETTINGS.get_string('group-apps-label-font-weight');
+            let fontScale = DESKTOPSETTINGS.get_double('text-scaling-factor');
             let fontColor = this.window.minimized ?
-                            Me.settings.get_string('group-apps-label-font-color-minimized') :
-                            Me.settings.get_string('group-apps-label-font-color');
+                            SETTINGS.get_string('group-apps-label-font-color-minimized') :
+                            SETTINGS.get_string('group-apps-label-font-color');
             let scaleFactor = Utils.getScaleFactor();
-            let maxLabelWidth = Me.settings.get_int('group-apps-label-max-width') * scaleFactor;
+            let maxLabelWidth = SETTINGS.get_int('group-apps-label-max-width') * scaleFactor;
             let variableWidth = !useFixedWidth || this.dtpPanel.checkIfVertical() || this.dtpPanel.taskbar.fullScrollView;
 
             this._windowTitle[(maxLabelWidth > 0 ? 'show' : 'hide')]();
@@ -565,7 +556,7 @@ var TaskbarAppIcon = GObject.registerClass({
             this._windowTitle.clutter_text.natural_width = useFixedWidth ? maxLabelWidth : 0;
             this._windowTitle.clutter_text.natural_width_set = useFixedWidth;
 
-            this._windowTitle.set_style('font-size: ' + Me.settings.get_int('group-apps-label-font-size') * fontScale + 'px;' +
+            this._windowTitle.set_style('font-size: ' + SETTINGS.get_int('group-apps-label-font-size') * fontScale + 'px;' +
                                         'font-weight: ' + fontWeight + ';' +
                                         (useFixedWidth ? '' : 'max-width: ' + maxLabelWidth + 'px;') + 
                                         'color: ' + fontColor);
@@ -585,15 +576,15 @@ var TaskbarAppIcon = GObject.registerClass({
     _setIconStyle(isFocused) {
         let inlineStyle = 'margin: 0;';
 
-        if(Me.settings.get_boolean('focus-highlight') && 
+        if(SETTINGS.get_boolean('focus-highlight') && 
            this._checkIfFocusedApp() && !this.isLauncher &&  
            (!this.window || isFocused) && !this._isThemeProvidingIndicator() && this._checkIfMonitorHasFocus()) {
-            let focusedDotStyle = Me.settings.get_string('dot-style-focused');
-            let pos = Me.settings.get_string('dot-position');
-            let highlightMargin = this._focusedIsWide ? Me.settings.get_int('dot-size') : 0;
+            let focusedDotStyle = SETTINGS.get_string('dot-style-focused');
+            let pos = SETTINGS.get_string('dot-position');
+            let highlightMargin = this._focusedIsWide ? SETTINGS.get_int('dot-size') : 0;
 
             if(!this.window) {
-                let containerWidth = this._dtpIconContainer.get_width() / Utils.getScaleFactor();;
+                let containerWidth = this._dtpIconContainer.get_width() / Utils.getScaleFactor();
                 let backgroundSize = containerWidth + "px " + 
                                      (containerWidth - (pos == DOT_POSITION.BOTTOM ? highlightMargin : 0)) + "px;";
 
@@ -607,14 +598,14 @@ var TaskbarAppIcon = GObject.registerClass({
                         bgSvg += (this.dtpPanel.checkIfVertical() ? '_2' : '_3');
                     }
 
-                    inlineStyle += "background-image: url('" + Me.path + bgSvg + ".svg');" + 
+                    inlineStyle += "background-image: url('" + EXTENSION_PATH + bgSvg + ".svg');" + 
                                    "background-position: 0 " + (pos == DOT_POSITION.TOP ? highlightMargin : 0) + "px;" +
                                    "background-size: " + backgroundSize;
                 }
             }
 
             let highlightColor = this._getFocusHighlightColor();
-            inlineStyle += "background-color: " + cssHexTocssRgba(highlightColor, Me.settings.get_int('focus-highlight-opacity') * 0.01);
+            inlineStyle += "background-color: " + cssHexTocssRgba(highlightColor, SETTINGS.get_int('focus-highlight-opacity') * 0.01);
         }
         
         if(this._dotsContainer.get_style() != inlineStyle) {
@@ -628,14 +619,14 @@ var TaskbarAppIcon = GObject.registerClass({
 
     _checkIfMonitorHasFocus() {
         return global.display.focus_window && 
-               (!Me.settings.get_boolean('multi-monitors') || // only check same monitor index if multi window is enabled.
-                !Me.settings.get_boolean('isolate-monitors') || 
+               (!SETTINGS.get_boolean('multi-monitors') || // only check same monitor index if multi window is enabled.
+                !SETTINGS.get_boolean('isolate-monitors') || 
                 global.display.focus_window.get_monitor() === this.dtpPanel.monitor.index);
     }
 
     _setAppIconPadding() {
         let padding = getIconPadding(this.dtpPanel.monitor.index);
-        let margin = Me.settings.get_int('appicon-margin');
+        let margin = SETTINGS.get_int('appicon-margin');
 
         this.set_style('padding:' + (this.dtpPanel.checkIfVertical() ? margin + 'px 0' : '0 ' + margin + 'px;'));
         this._iconContainer.set_style('padding: ' + padding + 'px;');
@@ -694,7 +685,7 @@ var TaskbarAppIcon = GObject.registerClass({
 
     _onOverviewWindowDragEnd(windowTracker) {
         this._timeoutsHandler.add([T4, 0, () => {
-            if (Me.settings.get_boolean('isolate-workspaces'))
+            if (SETTINGS.get_boolean('isolate-workspaces'))
                 this._updateWindows()
 
             this._displayProperIndicator()
@@ -711,13 +702,13 @@ var TaskbarAppIcon = GObject.registerClass({
 
     _displayProperIndicator() {
         let isFocused = this._isFocusedWindow();
-        let position = Me.settings.get_string('dot-position');
+        let position = SETTINGS.get_string('dot-position');
         let isHorizontalDots = position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM;
 
         this._setIconStyle(isFocused);
 
         if(!this._isGroupApps) {
-            if (this.window && (Me.settings.get_boolean('group-apps-underline-unfocused') || isFocused)) {
+            if (this.window && (SETTINGS.get_boolean('group-apps-underline-unfocused') || isFocused)) {
                 let align = Clutter.ActorAlign[position == DOT_POSITION.TOP || position == DOT_POSITION.LEFT ? 'START' : 'END'];
                 
                 this._focusedDots.set_size(0, 0);
@@ -766,7 +757,7 @@ var TaskbarAppIcon = GObject.registerClass({
             // animation is enabled in settings
             // AND (going from a wide style to a narrow style indicator or vice-versa
             // OR going from an open app to a closed app or vice versa)
-            let animate = Me.settings.get_boolean('animate-app-switch') &&
+            let animate = SETTINGS.get_boolean('animate-app-switch') &&
                          ((this._focusedIsWide != this._unfocusedIsWide) ||
                           (this._focusedDots[sizeProp] != newUnfocusedDotsSize || this._unfocusedDots[sizeProp] != newFocusedDotsSize))
             let duration = animate ? Taskbar.DASH_ANIMATION_TIME : 0.001;
@@ -848,9 +839,9 @@ var TaskbarAppIcon = GObject.registerClass({
 
         if (button && button == 2 ) {
             if (modifiers & Clutter.ModifierType.SHIFT_MASK)
-                buttonAction = Me.settings.get_string('shift-middle-click-action');
+                buttonAction = SETTINGS.get_string('shift-middle-click-action');
             else
-                buttonAction = Me.settings.get_string('middle-click-action');
+                buttonAction = SETTINGS.get_string('middle-click-action');
         }
         else if (button && button == 1) {
             let now = global.get_current_time()
@@ -859,12 +850,12 @@ var TaskbarAppIcon = GObject.registerClass({
             this.lastClick = now
 
             if (modifiers & Clutter.ModifierType.SHIFT_MASK)
-                buttonAction = Me.settings.get_string('shift-click-action');
+                buttonAction = SETTINGS.get_string('shift-click-action');
             else
-                buttonAction = Me.settings.get_string('click-action');
+                buttonAction = SETTINGS.get_string('click-action');
         }
 
-        let closePreview = () => this._previewMenu.close(Me.settings.get_boolean('window-preview-hide-immediate-click'));
+        let closePreview = () => this._previewMenu.close(SETTINGS.get_boolean('window-preview-hide-immediate-click'));
         let appCount = this.getAppIconInterestingWindows().length;
         let previewedAppIcon = this._previewMenu.getCurrentAppIcon();
 
@@ -1007,7 +998,7 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _launchNewInstance(ctrlPressed) {
-        let maybeAnimate = () => Me.settings.get_boolean('animate-window-launch') && this.animateLaunch()
+        let maybeAnimate = () => SETTINGS.get_boolean('animate-window-launch') && this.animateLaunch()
 
         if ((ctrlPressed || this.app.state == Shell.AppState.RUNNING) && 
             this.app.can_open_new_window()) {
@@ -1050,14 +1041,14 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _getRunningIndicatorSize() {
-        return Me.settings.get_int('dot-size') * Utils.getScaleFactor();
+        return SETTINGS.get_int('dot-size') * Utils.getScaleFactor();
     }
 
     _getRunningIndicatorColor(isFocused) {
         let color;
         const fallbackColor = new Clutter.Color({ red: 82, green: 148, blue: 226, alpha: 255 });
 
-        if (Me.settings.get_boolean('dot-color-dominant')) {
+        if (SETTINGS.get_boolean('dot-color-dominant')) {
             let dce = new Utils.DominantColorExtractor(this.app);
             let palette = dce._getColorPalette();
             if (palette) {
@@ -1069,13 +1060,13 @@ var TaskbarAppIcon = GObject.registerClass({
                 // theme didn't provide one, use a default
                 if(color.alpha == 0) color = fallbackColor;
             }
-        } else if(Me.settings.get_boolean('dot-color-override')) {
+        } else if(SETTINGS.get_boolean('dot-color-override')) {
             let dotColorSettingPrefix = 'dot-color-';
             
-            if(!isFocused && Me.settings.get_boolean('dot-color-unfocused-different'))
+            if(!isFocused && SETTINGS.get_boolean('dot-color-unfocused-different'))
                 dotColorSettingPrefix = 'dot-color-unfocused-';
 
-            color = Clutter.color_from_string(Me.settings.get_string(dotColorSettingPrefix + (this._getRunningIndicatorCount() || 1) ))[1];
+            color = Clutter.color_from_string(SETTINGS.get_string(dotColorSettingPrefix + (this._getRunningIndicatorCount() || 1) ))[1];
         } else {
             // Re-use the style - background color, and border width and color -
             // of the default dot
@@ -1090,12 +1081,12 @@ var TaskbarAppIcon = GObject.registerClass({
     }
 
     _getFocusHighlightColor() {
-        if (Me.settings.get_boolean('focus-highlight-dominant')) {
+        if (SETTINGS.get_boolean('focus-highlight-dominant')) {
             let dce = new Utils.DominantColorExtractor(this.app);
             let palette = dce._getColorPalette();
             if (palette) return palette.original;
         }
-        return Me.settings.get_string('focus-highlight-color');
+        return SETTINGS.get_string('focus-highlight-color');
     }
 
     _drawRunningIndicator(area, type, isFocused) {
@@ -1105,7 +1096,7 @@ var TaskbarAppIcon = GObject.registerClass({
             return;
         }
 
-        let position = Me.settings.get_string('dot-position');
+        let position = SETTINGS.get_string('dot-position');
         let isHorizontalDots = position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM;
         let bodyColor = this._getRunningIndicatorColor(isFocused);
         let [areaWidth, areaHeight] = area.get_surface_size();
@@ -1303,7 +1294,7 @@ var TaskbarAppIcon = GObject.registerClass({
 });
 TaskbarAppIcon.prototype.scaleAndFade = TaskbarAppIcon.prototype.undoScaleAndFade = () => {};
 
-function minimizeWindow(app, param, monitor){
+export function minimizeWindow(app, param, monitor){
     // Param true make all app windows minimize
     let windows = getInterestingWindows(app, monitor);
     let current_workspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
@@ -1323,7 +1314,7 @@ function minimizeWindow(app, param, monitor){
  * By default only non minimized windows are activated.
  * This activates all windows in the current workspace.
  */
-function activateAllWindows(app, monitor){
+export function activateAllWindows(app, monitor){
 
     // First activate first window so workspace is switched if needed,
     // then activate all other app windows in the current workspace.
@@ -1342,13 +1333,13 @@ function activateAllWindows(app, monitor){
     }
 }
 
-function activateFirstWindow(app, monitor){
+export function activateFirstWindow(app, monitor){
 
     let windows = getInterestingWindows(app, monitor);
     Main.activateWindow(windows[0]);
 }
 
-function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
+export function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
     // Store for a little amount of time last clicked app and its windows
     // since the order changes upon window interaction
     let MEMORY_TIME=3000;
@@ -1359,9 +1350,10 @@ function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
         app_windows.push("MINIMIZE");
 
     if (recentlyClickedAppLoopId > 0)
-        Mainloop.source_remove(recentlyClickedAppLoopId);
+        GLib.Source.remove(recentlyClickedAppLoopId);
         
-    recentlyClickedAppLoopId = Mainloop.timeout_add(MEMORY_TIME, resetRecentlyClickedApp);
+    recentlyClickedAppLoopId = GLib.timeout_add(GLib.PRIORITY_DEFAULT,
+        MEMORY_TIME, resetRecentlyClickedApp);
 
     // If there isn't already a list of windows for the current app,
     // or the stored list is outdated, use the current windows list.
@@ -1389,9 +1381,9 @@ function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
         Main.activateWindow(recentlyClickedAppWindows[index]);
 }
 
-function resetRecentlyClickedApp() {
+export function resetRecentlyClickedApp() {
     if (recentlyClickedAppLoopId > 0)
-        Mainloop.source_remove(recentlyClickedAppLoopId);
+        GLib.Source.remove(recentlyClickedAppLoopId);
 
     recentlyClickedAppLoopId=0;
     recentlyClickedApp =null;
@@ -1402,7 +1394,7 @@ function resetRecentlyClickedApp() {
     return false;
 }
 
-function closeAllWindows(app, monitor) {
+export function closeAllWindows(app, monitor) {
     let windows = getInterestingWindows(app, monitor);
     for (let i = 0; i < windows.length; i++)
         windows[i].delete(global.get_current_time());
@@ -1410,7 +1402,7 @@ function closeAllWindows(app, monitor) {
 
 // Filter out unnecessary windows, for instance
 // nautilus desktop window.
-function getInterestingWindows(app, monitor, isolateMonitors) {
+export function getInterestingWindows(app, monitor, isolateMonitors) {
     let windows = (
             app ? 
             app.get_windows() : 
@@ -1419,13 +1411,13 @@ function getInterestingWindows(app, monitor, isolateMonitors) {
 
     // When using workspace or monitor isolation, we filter out windows
     // that are not in the current workspace or on the same monitor as the appicon
-    if (Me.settings.get_boolean('isolate-workspaces'))
+    if (SETTINGS.get_boolean('isolate-workspaces'))
         windows = windows.filter(function(w) {
             return w.get_workspace() && 
                    w.get_workspace() == Utils.getCurrentWorkspace();
         });
 
-    if (monitor && Me.settings.get_boolean('multi-monitors') && (isolateMonitors || Me.settings.get_boolean('isolate-monitors'))) {
+    if (monitor && SETTINGS.get_boolean('multi-monitors') && (isolateMonitors || SETTINGS.get_boolean('isolate-monitors'))) {
         windows = windows.filter(function(w) {
             return w.get_monitor() == monitor.index;
         });
@@ -1434,18 +1426,18 @@ function getInterestingWindows(app, monitor, isolateMonitors) {
     return windows;
 }
 
-function cssHexTocssRgba(cssHex, opacity) {
-    var bigint = parseInt(cssHex.slice(1), 16);
-    var r = (bigint >> 16) & 255;
-    var g = (bigint >> 8) & 255;
-    var b = bigint & 255;
+export function cssHexTocssRgba(cssHex, opacity) {
+    let bigint = parseInt(cssHex.slice(1), 16);
+    let r = (bigint >> 16) & 255;
+    let g = (bigint >> 8) & 255;
+    let b = bigint & 255;
 
     return 'rgba(' + [r, g, b].join(',') + ',' + opacity + ')';
 }
 
-function getIconPadding(monitorIndex) {
-    let panelSize = PanelSettings.getPanelSize(Me.settings, monitorIndex);
-    let padding = Me.settings.get_int('appicon-padding');
+export function getIconPadding(monitorIndex) {
+    let panelSize = PanelSettings.getPanelSize(SETTINGS, monitorIndex);
+    let padding = SETTINGS.get_int('appicon-padding');
     let availSize = panelSize - Taskbar.MIN_ICON_SIZE - panelSize % 2;
 
     if (padding * 2 > availSize) {
@@ -1464,7 +1456,7 @@ function getIconPadding(monitorIndex) {
  *   (https://github.com/deuill/shell-extension-quitfromdash)
  */
 
- class TaskbarSecondaryMenu extends AppMenu.AppMenu {
+export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
 
     constructor(source, side) {
         super(source, side);
@@ -1473,7 +1465,7 @@ function getIconPadding(monitorIndex) {
         this._showSingleWindows = true;
 
         // Remove "Show Details" menu item
-        if(!Me.settings.get_boolean('secondarymenu-contains-showdetails')) {
+        if(!SETTINGS.get_boolean('secondarymenu-contains-showdetails')) {
             let existingMenuItems = this._getMenuItems();
             for (let i = 0; i < existingMenuItems.length; i++) {
                 let item = existingMenuItems[i];
@@ -1499,7 +1491,7 @@ function getIconPadding(monitorIndex) {
             if (count == 1)
                 quitFromTaskbarMenuText = _("Quit");
             else
-                quitFromTaskbarMenuText = _("Quit") + ' ' + count + ' ' + _("Windows");
+                quitFromTaskbarMenuText = ngettext('Quit %d Window', 'Quit %d Windows', count).format(count);
 
             this._quitItem.label.set_text(quitFromTaskbarMenuText);
         }
@@ -1514,16 +1506,19 @@ function getIconPadding(monitorIndex) {
         
         if (windows.length == this._app.get_windows().length)
             this._app.request_quit()
+
+        GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+            windows.forEach((w) => !!w.get_compositor_private() && w.delete(time++));
             
-        Mainloop.idle_add(() => 
-            windows.forEach((w) => !!w.get_compositor_private() && w.delete(time++)))
+            return GLib.SOURCE_REMOVE;
+        });
     }
-};
+}
 
 /**
  * This function is used for extendDashItemContainer
  */
-function ItemShowLabel()  {
+export function ItemShowLabel() {
     if (!this._labelText)
         return;
 
@@ -1590,7 +1585,7 @@ function ItemShowLabel()  {
         time: duration,
         transition: 'easeOutQuad',
     });
-};
+}
 
 /**
  * A wrapper class around the ShowAppsIcon class.
@@ -1604,9 +1599,11 @@ function ItemShowLabel()  {
  * use of this class in place of the original showAppsButton.
  *
  */
- var ShowAppsIconWrapper = class {
+export const ShowAppsIconWrapper = class extends EventEmitter {
 
     constructor(dtpPanel) {
+        super();
+
         this.realShowAppsIcon = new Dash.ShowAppsIcon();
 
         /* the variable equivalent to toggleButton has a different name in the appIcon class
@@ -1635,7 +1632,7 @@ function ItemShowLabel()  {
         this.realShowAppsIcon._dtpPanel = dtpPanel;
         Taskbar.extendDashItemContainer(this.realShowAppsIcon);
 
-        let customIconPath = Me.settings.get_string('show-apps-icon-file');
+        let customIconPath = SETTINGS.get_string('show-apps-icon-file');
 
         this.realShowAppsIcon.icon.createIcon = function(size) {
             this._iconActor = new St.Icon({ icon_name: 'view-app-grid-symbolic',
@@ -1650,13 +1647,13 @@ function ItemShowLabel()  {
             return this._iconActor;
         };
 
-        this._changedShowAppsIconId = Me.settings.connect('changed::show-apps-icon-file', () => {
-            customIconPath = Me.settings.get_string('show-apps-icon-file');
+        this._changedShowAppsIconId = SETTINGS.connect('changed::show-apps-icon-file', () => {
+            customIconPath = SETTINGS.get_string('show-apps-icon-file');
             this.realShowAppsIcon.icon._createIconTexture(this.realShowAppsIcon.icon.iconSize);
         });
 
-        this._changedAppIconPaddingId = Me.settings.connect('changed::appicon-padding', () => this.setShowAppsPadding());
-        this._changedAppIconSidePaddingId = Me.settings.connect('changed::show-apps-icon-side-padding', () => this.setShowAppsPadding());
+        this._changedAppIconPaddingId = SETTINGS.connect('changed::appicon-padding', () => this.setShowAppsPadding());
+        this._changedAppIconSidePaddingId = SETTINGS.connect('changed::show-apps-icon-side-padding', () => this.setShowAppsPadding());
         
         this.setShowAppsPadding();
     }
@@ -1692,7 +1689,7 @@ function ItemShowLabel()  {
 
     setShowAppsPadding() {
         let padding = getIconPadding(this.realShowAppsIcon._dtpPanel.monitor.index);
-        let sidePadding = Me.settings.get_int('show-apps-icon-side-padding');
+        let sidePadding = SETTINGS.get_int('show-apps-icon-side-padding');
         let isVertical = this.realShowAppsIcon._dtpPanel.checkIfVertical();
 
         this.actor.set_style('padding:' + (padding + (isVertical ? sidePadding : 0)) + 'px ' + (padding + (isVertical ? 0 : sidePadding)) + 'px;');
@@ -1736,24 +1733,23 @@ function ItemShowLabel()  {
     }
 
     shouldShowTooltip() {
-        return Me.settings.get_boolean('show-tooltip') && 
+        return SETTINGS.get_boolean('show-tooltip') && 
                (this.actor.hover && (!this._menu || !this._menu.isOpen));
     }
 
     destroy() {
-        Me.settings.disconnect(this._changedShowAppsIconId);
-        Me.settings.disconnect(this._changedAppIconSidePaddingId);
-        Me.settings.disconnect(this._changedAppIconPaddingId);
+        SETTINGS.disconnect(this._changedShowAppsIconId);
+        SETTINGS.disconnect(this._changedAppIconSidePaddingId);
+        SETTINGS.disconnect(this._changedAppIconPaddingId);
 
         this.realShowAppsIcon.destroy();
     }
 };
-Signals.addSignalMethods(ShowAppsIconWrapper.prototype);
 
 /**
  * A menu for the showAppsIcon
  */
-var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
+export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
     constructor(actor, dtpPanel) {
         super(actor, 0, dtpPanel.getPosition());
@@ -1795,8 +1791,8 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
             });
 
             this._appendList(
-                Me.settings.get_strv('show-apps-button-context-menu-commands'),
-                Me.settings.get_strv('show-apps-button-context-menu-titles')
+                SETTINGS.get_strv('show-apps-button-context-menu-commands'),
+                SETTINGS.get_strv('show-apps-button-context-menu-titles')
             )
 
             this._appendSeparator();
@@ -1828,19 +1824,19 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
         });
 
         this._appendList(
-            Me.settings.get_strv('panel-context-menu-commands'),
-            Me.settings.get_strv('panel-context-menu-titles')
+            SETTINGS.get_strv('panel-context-menu-commands'),
+            SETTINGS.get_strv('panel-context-menu-titles')
         )
 
         this._appendSeparator();
 
-        let lockTaskbarMenuItem = this._appendMenuItem(Me.settings.get_boolean('taskbar-locked') ? _('Unlock taskbar') : _('Lock taskbar'));
+        let lockTaskbarMenuItem = this._appendMenuItem(SETTINGS.get_boolean('taskbar-locked') ? _('Unlock taskbar') : _('Lock taskbar'));
         lockTaskbarMenuItem.connect('activate', () => {
-            Me.settings.set_boolean('taskbar-locked', !Me.settings.get_boolean('taskbar-locked'));
+            SETTINGS.set_boolean('taskbar-locked', !SETTINGS.get_boolean('taskbar-locked'));
         });
 
         let settingsMenuItem = this._appendMenuItem(_('Dash to Panel Settings'));
-        settingsMenuItem.connect('activate', () => ExtensionUtils.openPrefs())
+        settingsMenuItem.connect('activate', () => DTP_EXTENSION.openPreferences())
 
         if(this.sourceActor == Main.layoutManager.dummyCursor) {
             this._appendSeparator();
@@ -1852,7 +1848,7 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
     // Only add menu entries for commands that exist in path
     _appendItem(info) {
-        if (Utils.checkIfCommandExists(info.cmd[0])) {
+        if (GLib.find_program_in_path(info.cmd[0])) {
             let item = this._appendMenuItem(_(info.title));
 
             item.connect('activate', function() {
@@ -1870,7 +1866,7 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
             return;
         }
         
-        for (var entry = 0; entry < commandList.length; entry++) {
+        for (let entry = 0; entry < commandList.length; entry++) {
             _appendItem({
                 title: titleList[entry],
                 cmd: commandList[entry].split(' ')
@@ -1892,10 +1888,10 @@ var MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 };
 
 
-var getIconContainerStyle = function(isVertical) {
+export const getIconContainerStyle = function(isVertical) {
     let style = 'padding: ';
 
-    if (Me.settings.get_boolean('group-apps')) {
+    if (SETTINGS.get_boolean('group-apps')) {
         style += (isVertical ? '0;' : '0 ' + DEFAULT_PADDING_SIZE + 'px;');
     } else {
         style += (isVertical ? '' : '0 ') + DEFAULT_PADDING_SIZE + 'px;';

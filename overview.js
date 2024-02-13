@@ -20,19 +20,18 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Intellihide = Me.imports.intellihide;
-const Utils = Me.imports.utils;
+import * as Intellihide from './intellihide.js';
+import * as Utils from './utils.js';
 
-const Clutter = imports.gi.Clutter;
-const Gio = imports.gi.Gio;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
-const Main = imports.ui.main;
-const Workspace = imports.ui.workspace;
-const { WindowPreview } = imports.ui.windowPreview;
-
-const Meta = imports.gi.Meta;
+import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
+import Shell from 'gi://Shell';
+import St from 'gi://St';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as WindowManager from 'resource:///org/gnome/shell/ui/windowManager.js';
+import {WindowPreview} from 'resource:///org/gnome/shell/ui/windowPreview.js';
+import {InjectionManager} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {SETTINGS} from './extension.js';
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
 
@@ -45,9 +44,10 @@ const LABEL_MARGIN = 60;
 const T1 = 'swipeEndTimeout';
 const T2 = 'numberOverlayTimeout';
 
-var Overview = class {
+export const Overview = class {
 
     constructor() {
+        this._injectionManager = new InjectionManager();
         this._numHotkeys = 10;
     }
 
@@ -65,10 +65,10 @@ var Overview = class {
         this._optionalClickToExit();
 
         this._toggleDash();
-        this._adaptAlloc(true);
+        this._adaptAlloc();
 
         this._signalsHandler.add([
-            Me.settings,
+            SETTINGS,
             [
                 'changed::stockgs-keep-dash',
                 'changed::panel-sizes'
@@ -81,9 +81,9 @@ var Overview = class {
         this._signalsHandler.destroy();
         this._injectionsHandler.destroy();
         this._timeoutsHandler.destroy();
+        this._injectionManager.clear();
 
         this._toggleDash(true);
-        this._adaptAlloc();
 
         // Remove key bindings
         this._disableHotKeys();
@@ -93,7 +93,7 @@ var Overview = class {
 
     _toggleDash(visible) {
         if (visible === undefined) {
-            visible = Me.settings.get_boolean('stockgs-keep-dash');
+            visible = SETTINGS.get_boolean('stockgs-keep-dash');
         }
 
         let visibilityFunc = visible ? 'show' : 'hide';
@@ -104,41 +104,39 @@ var Overview = class {
         overviewControls.dash.set_height(height);
     }
 
-    _adaptAlloc(enable) {
+    _adaptAlloc() {
         let overviewControls = Main.overview._overview._controls
-        let proto = Object.getPrototypeOf(overviewControls)
-        let allocFunc = null
 
-        if (enable)
-            allocFunc = (box) => {
-                let focusedPanel = this._panel.panelManager.focusedMonitorPanel
-                
-                if (focusedPanel) {
-                    let position = focusedPanel.geom.position
-                    let isBottom = position == St.Side.BOTTOM
+        this._injectionManager.overrideMethod(Object.getPrototypeOf(overviewControls), 'vfunc_allocate', 
+            (originalAllocate) => 
+                (box) => {
+                    let focusedPanel = this._panel.panelManager.focusedMonitorPanel
+                    
+                    if (focusedPanel) {
+                        let position = focusedPanel.geom.position
+                        let isBottom = position == St.Side.BOTTOM
 
-                    if (focusedPanel.intellihide?.enabled) {
-                        // Panel intellihide is enabled (struts aren't taken into account on overview allocation),
-                        // dynamically modify the overview box to follow the reveal/hide animation
-                        let { transitioning, finalState, progress } = overviewControls._stateAdjustment.getStateTransitionParams()
-                        let size = focusedPanel.geom[focusedPanel.checkIfVertical() ? 'w' : 'h'] * 
-                                   (transitioning ? Math.abs((finalState != 0 ? 0 : 1) - progress) : 1)
+                        if (focusedPanel.intellihide?.enabled) {
+                            // Panel intellihide is enabled (struts aren't taken into account on overview allocation),
+                            // dynamically modify the overview box to follow the reveal/hide animation
+                            let { transitioning, finalState, progress } = overviewControls._stateAdjustment.getStateTransitionParams()
+                            let size = focusedPanel.geom[focusedPanel.checkIfVertical() ? 'w' : 'h'] * 
+                                    (transitioning ? Math.abs((finalState != 0 ? 0 : 1) - progress) : 1)
 
-                        if (isBottom || position == St.Side.RIGHT)
-                            box[focusedPanel.fixedCoord.c2] -= size
-                        else
-                            box[focusedPanel.fixedCoord.c1] += size
-                    } else if (isBottom)
-                        // The default overview allocation is very good and takes into account external 
-                        // struts, everywhere but the bottom where the dash is usually fixed anyway.
-                        // If there is a bottom panel under the dash location, give it some space here
-                        box.y2 -= focusedPanel.geom.h
+                            if (isBottom || position == St.Side.RIGHT)
+                                box[focusedPanel.fixedCoord.c2] -= size
+                            else
+                                box[focusedPanel.fixedCoord.c1] += size
+                        } else if (isBottom)
+                            // The default overview allocation is very good and takes into account external 
+                            // struts, everywhere but the bottom where the dash is usually fixed anyway.
+                            // If there is a bottom panel under the dash location, give it some space here
+                            box.y2 -= focusedPanel.geom.h
+                    }
+                    
+                    originalAllocate.call(overviewControls, box)
                 }
-                
-                proto.vfunc_allocate.call(overviewControls, box)
-            }
-
-        Utils.hookVfunc(proto, 'allocate', allocFunc)
+        );
     }
 
     /**
@@ -184,19 +182,19 @@ var Overview = class {
         }
 
         this._signalsHandler.add([
-            Me.settings,
+            SETTINGS,
             'changed::isolate-workspaces',
             () => {
                 this._panel.panelManager.allPanels.forEach(p => p.taskbar.resetAppIcons());
 
-                if (Me.settings.get_boolean('isolate-workspaces'))
+                if (SETTINGS.get_boolean('isolate-workspaces'))
                     enable();
                 else
                     disable();
             }
         ]);
 
-        if (Me.settings.get_boolean('isolate-workspaces'))
+        if (SETTINGS.get_boolean('isolate-workspaces'))
             enable();
     }
 
@@ -220,7 +218,7 @@ var Overview = class {
             let seenAppCount = seenApps[appIcon.app];
             let windowCount = appIcon.window || appIcon._hotkeysCycle ? seenAppCount : appIcon._nWindows;
 
-            if (Me.settings.get_boolean('shortcut-previews') && windowCount > 1 && 
+            if (SETTINGS.get_boolean('shortcut-previews') && windowCount > 1 && 
                 !(modifiers & ~(Clutter.ModifierType.MOD1_MASK | Clutter.ModifierType.SUPER_MASK))) { //ignore the alt (MOD1_MASK) and super key (SUPER_MASK)
                 if (this._hotkeyPreviewCycleInfo && this._hotkeyPreviewCycleInfo.appIcon != appIcon) {
                     this._endHotkeyPreviewCycle();
@@ -274,14 +272,14 @@ var Overview = class {
 
     _optionalHotKeys() {
         this._hotKeysEnabled = false;
-        if (Me.settings.get_boolean('hot-keys'))
+        if (SETTINGS.get_boolean('hot-keys'))
             this._enableHotKeys();
 
         this._signalsHandler.add([
-            Me.settings,
+            SETTINGS,
             'changed::hot-keys',
             () => {
-                if (Me.settings.get_boolean('hot-keys'))
+                if (SETTINGS.get_boolean('hot-keys'))
                     this._enableHotKeys();
                 else
                     this._disableHotKeys();
@@ -306,12 +304,12 @@ var Overview = class {
         }
 
         // Setup keyboard bindings for taskbar elements
-        let shortcutNumKeys = Me.settings.get_string('shortcut-num-keys');
+        let shortcutNumKeys = SETTINGS.get_string('shortcut-num-keys');
         let bothNumKeys = shortcutNumKeys == 'BOTH';
         let keys = [];
         let prefixModifiers = Clutter.ModifierType.SUPER_MASK
 
-        if (Me.settings.get_string('hotkey-prefix-text') == 'SuperAlt')
+        if (SETTINGS.get_string('hotkey-prefix-text') == 'SuperAlt')
             prefixModifiers |= Clutter.ModifierType.MOD1_MASK
         
         if (bothNumKeys || shortcutNumKeys == 'NUM_ROW') {
@@ -333,13 +331,13 @@ var Overview = class {
             for (let i = 0; i < this._numHotkeys; i++) {
                 let appNum = i;
 
-                Utils.addKeybinding(key + (i + 1), Me.settings, () => this._activateApp(appNum, modifiers));
+                Utils.addKeybinding(key + (i + 1), SETTINGS, () => this._activateApp(appNum, modifiers));
             }
         }, this);
 
         this._hotKeysEnabled = true;
 
-        if (Me.settings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+        if (SETTINGS.get_string('hotkeys-overlay-combo') === 'ALWAYS')
             this.taskbar.toggleNumberOverlay(true);
     }
 
@@ -356,7 +354,7 @@ var Overview = class {
         }, this);
         
         if (Main.wm._switchToApplication) {
-            let gsSettings = new Gio.Settings({ schema_id: imports.ui.windowManager.SHELL_KEYBINDINGS_SCHEMA });
+            let gsSettings = new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA });
 
             for (let i = 1; i < 10; ++i) {
                 Utils.addKeybinding(GS_HOTKEYS_KEY + i, gsSettings, Main.wm._switchToApplication.bind(Main.wm));
@@ -370,38 +368,38 @@ var Overview = class {
 
     _optionalNumberOverlay() {
         // Enable extra shortcut
-        if (Me.settings.get_boolean('hot-keys'))
+        if (SETTINGS.get_boolean('hot-keys'))
             this._enableExtraShortcut();
 
         this._signalsHandler.add([
-            Me.settings,
+            SETTINGS,
             'changed::hot-keys',
             this._checkHotkeysOptions.bind(this)
         ], [
-            Me.settings,
+            SETTINGS,
             'changed::hotkeys-overlay-combo',
             () => {
-                if (Me.settings.get_boolean('hot-keys') && Me.settings.get_string('hotkeys-overlay-combo') === 'ALWAYS')
+                if (SETTINGS.get_boolean('hot-keys') && SETTINGS.get_string('hotkeys-overlay-combo') === 'ALWAYS')
                     this.taskbar.toggleNumberOverlay(true);
                 else
                     this.taskbar.toggleNumberOverlay(false);
             }
         ], [
-            Me.settings,
+            SETTINGS,
             'changed::shortcut-num-keys',
             () =>  this._resetHotkeys()
         ]);
     }
 
     _checkHotkeysOptions() {
-        if (Me.settings.get_boolean('hot-keys'))
+        if (SETTINGS.get_boolean('hot-keys'))
             this._enableExtraShortcut();
         else
             this._disableExtraShortcut();
     }
 
     _enableExtraShortcut() {
-        Utils.addKeybinding('shortcut', Me.settings, () => this._showOverlay(true));
+        Utils.addKeybinding('shortcut', SETTINGS, () => this._showOverlay(true));
     }
 
     _disableExtraShortcut() {
@@ -415,7 +413,7 @@ var Overview = class {
         }
 
         // Restart the counting if the shortcut is pressed again
-        let hotkey_option = Me.settings.get_string('hotkeys-overlay-combo');
+        let hotkey_option = SETTINGS.get_string('hotkeys-overlay-combo');
 
         if (hotkey_option === 'NEVER')
             return;
@@ -425,10 +423,10 @@ var Overview = class {
 
         this._panel.intellihide.revealAndHold(Intellihide.Hold.TEMPORARY);
 
-        let timeout = Me.settings.get_int('overlay-timeout');
+        let timeout = SETTINGS.get_int('overlay-timeout');
         
         if (overlayFromShortcut) {
-            timeout = Me.settings.get_int('shortcut-timeout');
+            timeout = SETTINGS.get_int('shortcut-timeout');
         }
 
         // Hide the overlay/dock after the timeout
@@ -443,14 +441,14 @@ var Overview = class {
 
     _optionalClickToExit() {
         this._clickToExitEnabled = false;
-        if (Me.settings.get_boolean('overview-click-to-exit'))
+        if (SETTINGS.get_boolean('overview-click-to-exit'))
             this._enableClickToExit();
 
         this._signalsHandler.add([
-            Me.settings,
+            SETTINGS,
             'changed::overview-click-to-exit',
             () => {
-                if (Me.settings.get_boolean('overview-click-to-exit'))
+                if (SETTINGS.get_boolean('overview-click-to-exit'))
                     this._enableClickToExit();
                 else
                     this._disableClickToExit();

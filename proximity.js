@@ -15,13 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Meta = imports.gi.Meta;
+import Meta from 'gi://Meta';
+import Mtk from 'gi://Mtk';
 
-const Layout = imports.ui.layout;
-const Main = imports.ui.main;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Utils = Me.imports.utils;
+import * as Utils from './utils.js';
 
 //timeout intervals
 const MIN_UPDATE_MS = 200;
@@ -29,13 +28,13 @@ const MIN_UPDATE_MS = 200;
 //timeout names
 const T1 = 'limitUpdateTimeout';
 
-var Mode = {
+export const Mode = {
     ALL_WINDOWS: 0,
     FOCUSED_WINDOWS: 1,
     MAXIMIZED_WINDOWS: 2
 };
 
-class ProximityWatch {
+export class ProximityWatch {
 
     constructor(actor, monitorIndex, mode, xThreshold, yThreshold, handler) {
         this.actor = actor;
@@ -57,7 +56,7 @@ class ProximityWatch {
     _updateWatchRect() {
         let [actorX, actorY] = this.actor.get_position();
 
-        this.rect = new Meta.Rectangle({ 
+        this.rect = new Mtk.Rectangle({ 
             x: actorX - this.threshold[0],
             y: actorY - this.threshold[1],
             width: this.actor.width + this.threshold[0] * 2,
@@ -66,7 +65,7 @@ class ProximityWatch {
     }
 };
 
-var ProximityManager = class {
+export const ProximityManager = class {
 
     constructor() {
         this._counter = 1;

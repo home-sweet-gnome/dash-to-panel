@@ -15,11 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Pos = Me.imports.panelPositions;
+import * as Pos from './panelPositions.js';
 
 /** Return object representing a settings value that is stored as JSON. */
-function getSettingsJson(settings, setting) {
+export function getSettingsJson(settings, setting) {
     try {
         return JSON.parse(settings.get_string(setting));
     } catch(e) {
@@ -27,7 +26,7 @@ function getSettingsJson(settings, setting) {
     }
 }
 /** Write value object as JSON to setting in settings. */
-function setSettingsJson(settings, setting, value) {
+export function setSettingsJson(settings, setting, value) {
     try {
         const json = JSON.stringify(value);
         settings.set_string(setting, json);
@@ -37,7 +36,7 @@ function setSettingsJson(settings, setting, value) {
 }
 
 /** Returns size of panel on a specific monitor, in pixels. */
-function getPanelSize(settings, monitorIndex) {
+export function getPanelSize(settings, monitorIndex) {
     const sizes = getSettingsJson(settings, 'panel-sizes');
     // Pull in deprecated setting if panel-sizes does not have setting for monitor.
     const fallbackSize = settings.get_int('panel-size');
@@ -45,7 +44,7 @@ function getPanelSize(settings, monitorIndex) {
     return sizes[monitorIndex] || fallbackSize || theDefault;
 }
 
-function setPanelSize(settings, monitorIndex, value) {
+export function setPanelSize(settings, monitorIndex, value) {
     if (!(Number.isInteger(value) && value <= 128 && value >= 16)) {
         log('Not setting invalid panel size: ' + value);
         return;
@@ -59,13 +58,13 @@ function setPanelSize(settings, monitorIndex, value) {
  * Returns length of panel on a specific monitor, as a whole number percent,
  * from settings. e.g. 100
  */
-function getPanelLength(settings, monitorIndex) {
+export function getPanelLength(settings, monitorIndex) {
     const lengths = getSettingsJson(settings, 'panel-lengths');
     const theDefault = 100;
     return lengths[monitorIndex] || theDefault;
 }
 
-function setPanelLength(settings, monitorIndex, value) {
+export function setPanelLength(settings, monitorIndex, value) {
     if (!(Number.isInteger(value) && value <= 100 && value >= 0)) {
         log('Not setting invalid panel length: ' + value);
         return;
@@ -76,14 +75,14 @@ function setPanelLength(settings, monitorIndex, value) {
 }
 
 /** Returns position of panel on a specific monitor. */
-function getPanelPosition(settings, monitorIndex) {
+export function getPanelPosition(settings, monitorIndex) {
     const positions = getSettingsJson(settings, 'panel-positions');
     const fallbackPosition = settings.get_string('panel-position');
     const theDefault = Pos.BOTTOM;
     return positions[monitorIndex] || fallbackPosition || theDefault;
 }
 
-function setPanelPosition(settings, monitorIndex, value) {
+export function setPanelPosition(settings, monitorIndex, value) {
     if (!(value === Pos.TOP || value === Pos.BOTTOM || value === Pos.LEFT
         || value === Pos.RIGHT)) {
         log('Not setting invalid panel position: ' + value);
@@ -95,13 +94,13 @@ function setPanelPosition(settings, monitorIndex, value) {
 }
 
 /** Returns anchor location of panel on a specific monitor. */
-function getPanelAnchor(settings, monitorIndex) {
+export function getPanelAnchor(settings, monitorIndex) {
     const anchors = getSettingsJson(settings, 'panel-anchors');
     const theDefault = Pos.MIDDLE;
     return anchors[monitorIndex] || theDefault;
 }
 
-function setPanelAnchor(settings, monitorIndex, value) {
+export function setPanelAnchor(settings, monitorIndex, value) {
     if (!(value === Pos.START || value === Pos.MIDDLE || value === Pos.END)) {
         log('Not setting invalid panel anchor: ' + value);
         return;

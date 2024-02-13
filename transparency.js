@@ -15,19 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Clutter = imports.gi.Clutter;
-const GdkPixbuf = imports.gi.GdkPixbuf;
-const Main = imports.ui.main;
-const Meta = imports.gi.Meta;
-const St = imports.gi.St;
-const Config = imports.misc.config;
+import GdkPixbuf from 'gi://GdkPixbuf';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import St from 'gi://St';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Panel = Me.imports.panel;
-const Proximity = Me.imports.proximity;
-const Utils = Me.imports.utils;
+import * as Proximity from './proximity.js';
+import * as Utils from './utils.js';
+import {SETTINGS} from './extension.js';
 
-var DynamicTransparency = class {
+export const DynamicTransparency = class {
 
     constructor(dtpPanel) {
         this._dtpPanel = dtpPanel;
@@ -73,7 +69,7 @@ var DynamicTransparency = class {
                 () => this._updateAlphaAndSet()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::trans-use-custom-bg',
                     'changed::trans-bg-color'
@@ -81,7 +77,7 @@ var DynamicTransparency = class {
                 () => this._updateColorAndSet()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::trans-use-custom-opacity',
                     'changed::trans-panel-opacity',
@@ -92,7 +88,7 @@ var DynamicTransparency = class {
                 () => this._updateAlphaAndSet()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::trans-use-custom-gradient',
                     'changed::trans-gradient-top-color',
@@ -103,7 +99,7 @@ var DynamicTransparency = class {
                 () => this._updateGradientAndSet()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::trans-dynamic-behavior',
                     'changed::trans-use-dynamic-opacity',
@@ -112,7 +108,7 @@ var DynamicTransparency = class {
                 () => this._updateProximityWatch()
             ],
             [
-                Me.settings, 
+                SETTINGS, 
                 'changed::trans-dynamic-anim-time',
                 () => this._updateAnimationDuration()
             ]
@@ -122,9 +118,9 @@ var DynamicTransparency = class {
     _updateProximityWatch() {
         this._proximityManager.removeWatch(this._proximityWatchId);
 
-        if (Me.settings.get_boolean('trans-use-dynamic-opacity')) {
+        if (SETTINGS.get_boolean('trans-use-dynamic-opacity')) {
             let isVertical = this._dtpPanel.checkIfVertical();
-            let threshold = Me.settings.get_int('trans-dynamic-distance');
+            let threshold = SETTINGS.get_int('trans-dynamic-distance');
 
             this._windowOverlap = false;
             this._updateAlphaAndSet()
@@ -132,7 +128,7 @@ var DynamicTransparency = class {
             this._proximityWatchId = this._proximityManager.createWatch(
                 this._dtpPanel.panelBox.get_parent(),
                 this._dtpPanel.monitor.index,
-                Proximity.Mode[Me.settings.get_string('trans-dynamic-behavior')], 
+                Proximity.Mode[SETTINGS.get_string('trans-dynamic-behavior')], 
                 isVertical ? threshold : 0, 
                 isVertical ? 0 : threshold, 
                 overlap => { 
@@ -144,7 +140,7 @@ var DynamicTransparency = class {
     }
 
     _updateAnimationDuration() {
-        this.animationDuration = (Me.settings.get_int('trans-dynamic-anim-time') * 0.001) + 's;';
+        this.animationDuration = (SETTINGS.get_int('trans-dynamic-anim-time') * 0.001) + 's;';
     }
 
     _updateAllAndSet() {
@@ -180,17 +176,17 @@ var DynamicTransparency = class {
     }
 
     _updateColor(themeBackground) {
-        this.backgroundColorRgb = Me.settings.get_boolean('trans-use-custom-bg') ?
-                                  Me.settings.get_string('trans-bg-color') :
+        this.backgroundColorRgb = SETTINGS.get_boolean('trans-use-custom-bg') ?
+                                  SETTINGS.get_string('trans-bg-color') :
                                   (themeBackground || this._getThemeBackground());
     }
 
     _updateAlpha(themeBackground) {
-        if (this._windowOverlap && !Main.overview.visibleTarget && Me.settings.get_boolean('trans-use-dynamic-opacity')) {
-            this.alpha = Me.settings.get_double('trans-dynamic-anim-target');
+        if (this._windowOverlap && !Main.overview.visibleTarget && SETTINGS.get_boolean('trans-use-dynamic-opacity')) {
+            this.alpha = SETTINGS.get_double('trans-dynamic-anim-target');
         } else {
-            this.alpha = Me.settings.get_boolean('trans-use-custom-opacity') ?
-                         Me.settings.get_double('trans-panel-opacity') : 
+            this.alpha = SETTINGS.get_boolean('trans-use-custom-opacity') ?
+                         SETTINGS.get_double('trans-panel-opacity') : 
                          (themeBackground || this._getThemeBackground()).alpha * 0.003921569; // 1 / 255 = 0.003921569
         }
     }
@@ -198,12 +194,12 @@ var DynamicTransparency = class {
     _updateGradient() {
         this._gradientStyle = '';
 
-        if (Me.settings.get_boolean('trans-use-custom-gradient')) {
+        if (SETTINGS.get_boolean('trans-use-custom-gradient')) {
             this._gradientStyle += 'background-gradient-direction: ' + (this._dtpPanel.checkIfVertical() ? 'horizontal;' : 'vertical;') +
-                                   'background-gradient-start: ' + Utils.getrgbaColor(Me.settings.get_string('trans-gradient-top-color'), 
-                                                                                      Me.settings.get_double('trans-gradient-top-opacity')) + 
-                                   'background-gradient-end: ' + Utils.getrgbaColor(Me.settings.get_string('trans-gradient-bottom-color'), 
-                                                                                    Me.settings.get_double('trans-gradient-bottom-opacity'));
+                                   'background-gradient-start: ' + Utils.getrgbaColor(SETTINGS.get_string('trans-gradient-top-color'), 
+                                                                                      SETTINGS.get_double('trans-gradient-top-opacity')) + 
+                                   'background-gradient-end: ' + Utils.getrgbaColor(SETTINGS.get_string('trans-gradient-bottom-color'), 
+                                                                                    SETTINGS.get_double('trans-gradient-bottom-opacity'));
         }
     }
 

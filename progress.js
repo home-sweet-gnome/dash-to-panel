@@ -19,19 +19,22 @@
  * This file is based on code from the Dash to Dock extension by micheleg
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Gio = imports.gi.Gio;
-const Cairo = imports.cairo;
-const Clutter = imports.gi.Clutter;
-const Pango = imports.gi.Pango;
-const St = imports.gi.St;
-const Signals = imports.signals;
-const Utils = Me.imports.utils;
+import Cairo from 'cairo';
+import Gio from 'gi://Gio';
+import Clutter from 'gi://Clutter';
+import Pango from 'gi://Pango';
+import St from 'gi://St';
+import * as Utils from './utils.js';
+import {SETTINGS} from './extension.js';
+
+import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
 
 
-var ProgressManager = class {
+export const ProgressManager = class extends EventEmitter {
 
     constructor() {
+        super();
+
         this._entriesByDBusName = {};
 
         this._launcher_entry_dbus_signal_id =
@@ -162,11 +165,12 @@ var ProgressManager = class {
         }
     }
 };
-Signals.addSignalMethods(ProgressManager.prototype);
 
-class AppProgress {
+export class AppProgress extends EventEmitter {
 
     constructor(dbusName, appId, properties) {
+        super();
+
         this._dbusName = dbusName;
         this._appId = appId;
         this._count = 0;
@@ -262,11 +266,11 @@ class AppProgress {
                     if (property == 'count') {
                         this.setCount(other[property].get_int64());
                     } else if (property == 'count-visible') {
-                        this.setCountVisible(Me.settings.get_boolean('progress-show-count') && other[property].get_boolean());
+                        this.setCountVisible(SETTINGS.get_boolean('progress-show-count') && other[property].get_boolean());
                     } else if (property == 'progress') {
                         this.setProgress(other[property].get_double());
                     } else if (property == 'progress-visible') {
-                        this.setProgressVisible(Me.settings.get_boolean('progress-show-bar') && other[property].get_boolean());
+                        this.setProgressVisible(SETTINGS.get_boolean('progress-show-bar') && other[property].get_boolean());
                     } else if (property == 'urgent') {
                         this.setUrgent(other[property].get_boolean());
                     } else {
@@ -276,11 +280,10 @@ class AppProgress {
             }
         }
     }
-};
-Signals.addSignalMethods(AppProgress.prototype);
+}
 
 
-var ProgressIndicator = class {
+export const ProgressIndicator = class {
 
     constructor(source, progressManager) {
         this._source = source;

@@ -2,7 +2,7 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <object class="AdwPreferencesPage" id="behavior">
-    <property name="title">Behavior</property>
+    <property name="title" translatable="yes">Behavior</property>
     <property name="icon_name">preferences-system-symbolic</property>
 
     <!-- group applications -->
@@ -43,18 +43,6 @@
           </object>
         </child>
 
-        <child>
-          <object class="AdwActionRow">
-            <property name="title" translatable="yes">Show &lt;i&gt;AppMenu&lt;/i&gt; button</property>
-            <property name="subtitle">Top Bar &gt; Show App Menu must be enabled in Tweak Tool</property>
-            <child>
-              <object class="GtkSwitch" id="show_appmenu_switch">
-                <property name="valign">center</property>
-              </object>
-            </child>
-          </object>
-        </child>
-        
         <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Ungroup applications</property>
@@ -99,7 +87,7 @@
     <!-- group hover -->
     <child>
       <object class="AdwPreferencesGroup" id="behavior_group_hover">
-        <property name="title">Hover</property>
+        <property name="title" translatable="yes">Hover</property>
 
         <child>
           <object class="AdwActionRow">

@@ -20,22 +20,17 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-const GdkPixbuf = imports.gi.GdkPixbuf;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const GObject = imports.gi.GObject;
-const Gtk = imports.gi.Gtk;
-const Adw = imports.gi.Adw;
-const Gdk = imports.gi.Gdk;
-const Mainloop = imports.mainloop;
+import GdkPixbuf from 'gi://GdkPixbuf';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gtk from 'gi://Gtk';
+import Gdk from 'gi://Gdk';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const ExtensionUtils = imports.misc.extensionUtils;
-const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
-const _ = Gettext.gettext;
-const N_ = function(e) { return e };
-const PanelSettings = Me.imports.panelSettings;
-const Pos = Me.imports.panelPositions;
+import * as PanelSettings from './panelSettings.js';
+import * as Pos from './panelPositions.js';
+
+import {ExtensionPreferences, gettext as _, ngettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
@@ -147,64 +142,65 @@ function checkHotkeyPrefix(settings) {
 }
 
 function mergeObjects(main, bck) {
-    for (var prop in bck) {
+    for (const prop in bck) {
         if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
             main[prop] = bck[prop];
         }
     }
 
     return main;
-};
+}
 
 const Preferences = class {
 
-    constructor(window) {
-        this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
+    constructor(window, settings, path) {
+        // this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
         this._rtl = (Gtk.Widget.get_default_direction() == Gtk.TextDirection.RTL);
         this._builder = new Gtk.Builder();
         this._builder.set_scope(new BuilderScope(this));
-        this._builder.set_translation_domain(Me.metadata['gettext-domain']);
+        this._settings = settings
+        this._path = path
 
         window.set_search_enabled(true);
 
         // dialogs
-        this._builder.add_from_file(Me.path + '/ui/BoxAnimateAppIconHoverOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxDotOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxShowDesktopOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxDynamicOpacityOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxIntellihideOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxShowApplicationsOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxWindowPreviewOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxGroupAppsOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxMiddleClickOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxOverlayShortcut.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxSecondaryMenuOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxScrollPanelOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxScrollIconOptions.ui');
-        this._builder.add_from_file(Me.path + '/ui/BoxAdvancedOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxAnimateAppIconHoverOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxDotOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxShowDesktopOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxDynamicOpacityOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxIntellihideOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxShowApplicationsOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxWindowPreviewOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxGroupAppsOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxMiddleClickOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxOverlayShortcut.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxSecondaryMenuOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxScrollPanelOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxScrollIconOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxAdvancedOptions.ui');
 
         // pages
-        this._builder.add_from_file(Me.path + '/ui/SettingsPosition.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsPosition.ui');
         let pagePosition = this._builder.get_object('position');
         window.add(pagePosition);
 
-        this._builder.add_from_file(Me.path + '/ui/SettingsStyle.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsStyle.ui');
         let pageStyle = this._builder.get_object('style');
         window.add(pageStyle);
 
-        this._builder.add_from_file(Me.path + '/ui/SettingsBehavior.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsBehavior.ui');
         let pageBehavior = this._builder.get_object('behavior');
         window.add(pageBehavior);
 
-        this._builder.add_from_file(Me.path + '/ui/SettingsAction.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsAction.ui');
         let pageAction = this._builder.get_object('action');
         window.add(pageAction);
 
-        this._builder.add_from_file(Me.path + '/ui/SettingsFineTune.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsFineTune.ui');
         let pageFineTune = this._builder.get_object('finetune');
         window.add(pageFineTune);
 
-        this._builder.add_from_file(Me.path + '/ui/SettingsAbout.ui');
+        this._builder.add_from_file(this._path + '/ui/SettingsAbout.ui');
         let pageAbout = this._builder.get_object('about');
         window.add(pageAbout);
 
@@ -683,7 +679,7 @@ const Preferences = class {
 
         this._builder.get_object('animate_appicon_hover_options_extent_scale')
         .set_format_value_func((scale, value) => {
-            return Gettext.ngettext("%d icon", "%d icons", value).format(value);
+            return ngettext("%d icon", "%d icons", value).format(value);
         });
     }
 
@@ -1317,11 +1313,6 @@ const Preferences = class {
                         'sensitive',
                         Gio.SettingsBindFlags.DEFAULT);
 
-        this._settings.bind('show-appmenu',
-                            this._builder.get_object('show_appmenu_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
-
         this._settings.bind('show-window-previews',
                             this._builder.get_object('show_window_previews_switch'),
                             'active',
@@ -1908,6 +1899,7 @@ const Preferences = class {
                 this._settings.set_value('secondarymenu-contains-showdetails', this._settings.get_default_value('secondarymenu-contains-showdetails'));
             });
 
+            // TODO setting secondarymenu-contains-appmenu is not being used anywhere
             this._settings.bind('secondarymenu-contains-appmenu',
                     this._builder.get_object('secondarymenu_appmenu_switch'),
                     'active',
@@ -1947,7 +1939,7 @@ const Preferences = class {
             {objectName: 'panel_length_scale', valueName: '', range: LENGTH_MARKS }
         ];
 
-        for(var idx in sizeScales) {
+        for(const idx in sizeScales) {
             let size_scale = this._builder.get_object(sizeScales[idx].objectName);
             let range = sizeScales[idx].range;
             size_scale.set_range(range[range.length - 1], range[0]);
@@ -2087,7 +2079,9 @@ const Preferences = class {
 
         // About Panel
 
-        this._builder.get_object('extension_version').set_label(Me.metadata.version.toString() + (Me.metadata.commit ? ' (' + Me.metadata.commit + ')' : ''));
+        const extension = ExtensionPreferences.lookupByURL(import.meta.url);
+        const {metadata} = extension;
+        this._builder.get_object('extension_version').set_label(metadata.version.toString() + (metadata.commit ? ' (' + metadata.commit + ')' : ''));
 
         this._builder.get_object('importexport_export_button').connect('clicked', widget => {
             this._showFileChooser(
@@ -2235,9 +2229,9 @@ const BuilderScope = GObject.registerClass({
     panel_size_scale_value_changed_cb(scale) {
         // Avoid settings the size continuously
         if (this._preferences._panel_size_timeout > 0)
-            Mainloop.source_remove(this._preferences._panel_size_timeout);
+            GLib.Source.remove(this._preferences._panel_size_timeout);
 
-        this._preferences._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, (() => {
+        this._preferences._panel_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             const value = scale.get_value();
             const monitorSync = this._preferences._settings.get_boolean('panel-element-positions-monitors-sync');
             const monitorsToSetFor = monitorSync ? this._preferences.monitors : [this._preferences._currentMonitorIndex];
@@ -2247,15 +2241,15 @@ const BuilderScope = GObject.registerClass({
 
             this._preferences._panel_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
-        }));
+        });
     }
 
     tray_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._tray_size_timeout > 0)
-            Mainloop.source_remove(this._preferences._tray_size_timeout);
+            GLib.Source.remove(this._preferences._tray_size_timeout);
 
-        this._preferences._tray_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._tray_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('tray-size', scale.get_value());
             this._preferences._tray_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2265,9 +2259,9 @@ const BuilderScope = GObject.registerClass({
     leftbox_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._leftbox_size_timeout > 0)
-            Mainloop.source_remove(this._preferences._leftbox_size_timeout);
+            GLib.Source.remove(this._preferences._leftbox_size_timeout);
 
-        this._preferences._leftbox_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._leftbox_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('leftbox-size', scale.get_value());
             this._preferences._leftbox_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2277,9 +2271,9 @@ const BuilderScope = GObject.registerClass({
     appicon_margin_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._appicon_margin_timeout > 0)
-            Mainloop.source_remove(this._preferences._appicon_margin_timeout);
+            GLib.Source.remove(this._preferences._appicon_margin_timeout);
 
-        this._preferences._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._appicon_margin_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('appicon-margin', scale.get_value());
             this._preferences._appicon_margin_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2289,9 +2283,9 @@ const BuilderScope = GObject.registerClass({
     appicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._appicon_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._appicon_padding_timeout);
+            GLib.Source.remove(this._preferences._appicon_padding_timeout);
 
-        this._preferences._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._appicon_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('appicon-padding', scale.get_value());
             this._preferences._appicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2301,9 +2295,9 @@ const BuilderScope = GObject.registerClass({
     tray_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._tray_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._tray_padding_timeout);
+            GLib.Source.remove(this._preferences._tray_padding_timeout);
 
-        this._preferences._tray_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._tray_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('tray-padding', scale.get_value());
             this._preferences._tray_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2313,9 +2307,9 @@ const BuilderScope = GObject.registerClass({
     statusicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._statusicon_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._statusicon_padding_timeout);
+            GLib.Source.remove(this._preferences._statusicon_padding_timeout);
 
-        this._preferences._statusicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._statusicon_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('status-icon-padding', scale.get_value());
             this._preferences._statusicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2325,9 +2319,9 @@ const BuilderScope = GObject.registerClass({
     leftbox_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._leftbox_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._leftbox_padding_timeout);
+            GLib.Source.remove(this._preferences._leftbox_padding_timeout);
 
-        this._preferences._leftbox_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._leftbox_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('leftbox-padding', scale.get_value());
             this._preferences._leftbox_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2335,13 +2329,14 @@ const BuilderScope = GObject.registerClass({
     }
 });
 
-function init() {
-    ExtensionUtils.initTranslations();
-}
 
-function fillPreferencesWindow(window) {
-    // use default width or window
-    window.set_default_size(0, 740);
+export default class DashToPanelPreferences extends ExtensionPreferences {
+    fillPreferencesWindow(window) {
+        window._settings = this.getSettings('org.gnome.shell.extensions.dash-to-panel');
 
-    let preferences = new Preferences(window);
+        // use default width or window
+        window.set_default_size(0, 740);
+
+        let preferences = new Preferences(window, window._settings, this.path);
+    }
 }

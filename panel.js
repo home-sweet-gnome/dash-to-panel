@@ -27,42 +27,36 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Clutter = imports.gi.Clutter;
-const Config = imports.misc.config;
-const Gtk = imports.gi.Gtk;
-const GObject = imports.gi.GObject;
-const Gi = imports._gi;
-const AppIcons = Me.imports.appIcons;
-const Utils = Me.imports.utils;
-const { Taskbar, TaskbarItemContainer } = Me.imports.taskbar;
-const Pos = Me.imports.panelPositions;
-const PanelSettings = Me.imports.panelSettings;
-const { PanelStyle } = Me.imports.panelStyle;
-const Main = imports.ui.main;
-const Mainloop = imports.mainloop;
-const Dash = imports.ui.dash;
-const CtrlAltTab = imports.ui.ctrlAltTab;
-const GSPanel = imports.ui.panel;
-const PanelMenu = imports.ui.panelMenu;
-const St = imports.gi.St;
-const GLib = imports.gi.GLib;
-const Meta = imports.gi.Meta;
-const Pango = imports.gi.Pango;
-const DND = imports.ui.dnd;
-const Shell = imports.gi.Shell;
-const PopupMenu = imports.ui.popupMenu;
-const IconGrid = imports.ui.iconGrid;
-const DateMenu = imports.ui.dateMenu;
-const Volume = imports.ui.status.volume;
-const Progress = Me.imports.progress;
+import Clutter from 'gi://Clutter';
+import GObject from 'gi://GObject';
+import * as AppIcons from './appIcons.js';
+import * as Utils from './utils.js';
+import * as Taskbar from './taskbar.js';
+import * as TaskbarItemContainer from './taskbar.js';
+import * as Pos from './panelPositions.js';
+import * as PanelSettings from './panelSettings.js';
+import * as PanelStyle from './panelStyle.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
+import * as CtrlAltTab from 'resource:///org/gnome/shell/ui/ctrlAltTab.js';
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import St from 'gi://St';
+import Meta from 'gi://Meta';
+import Pango from 'gi://Pango';
+import * as DND from 'resource:///org/gnome/shell/ui/dnd.js';
+import Shell from 'gi://Shell';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as DateMenu from 'resource:///org/gnome/shell/ui/dateMenu.js';
+import * as Volume from 'resource:///org/gnome/shell/ui/status/volume.js';
+import * as Progress from './progress.js';
 
-const Intellihide = Me.imports.intellihide;
-const Transparency = Me.imports.transparency;
-const _ = imports.gettext.domain(Me.imports.utils.TRANSLATION_DOMAIN).gettext;
+import * as Intellihide from './intellihide.js';
+import * as Transparency from './transparency.js';
+import {SETTINGS, DESKTOPSETTINGS, PERSISTENTSTORAGE} from './extension.js';
+import {gettext as _, InjectionManager} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 let tracker = Shell.WindowTracker.get_default();
-var panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
+export const panelBoxes = ['_leftBox', '_centerBox', '_rightBox'];
 
 //timeout names
 const T2 = 'startIntellihideTimeout';
@@ -71,7 +65,7 @@ const T5 = 'trackerFocusAppTimeout';
 const T6 = 'scrollPanelDelayTimeout';
 const T7 = 'waitPanelBoxAllocation';
 
-var Panel = GObject.registerClass({
+export const Panel = GObject.registerClass({
 }, class Panel extends St.Widget {
 
     _init(panelManager, monitor, panelBox, isStandalone) {
@@ -79,9 +73,10 @@ var Panel = GObject.registerClass({
 
         this._timeoutsHandler = new Utils.TimeoutsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
+        this._injectionManager = new InjectionManager();
 
         this.panelManager = panelManager;
-        this.panelStyle = new PanelStyle();
+        this.panelStyle = new PanelStyle.PanelStyle();
 
         this.monitor = monitor;
         this.panelBox = panelBox;
@@ -90,7 +85,7 @@ var Panel = GObject.registerClass({
         // so in this case use isPrimary to get the panel on the primary dtp monitor, which
         // might be different from the system's primary monitor.
         this.isStandalone = isStandalone;
-        this.isPrimary = !isStandalone || (Me.settings.get_boolean('stockgs-keep-top-panel') && 
+        this.isPrimary = !isStandalone || (SETTINGS.get_boolean('stockgs-keep-top-panel') && 
                                            monitor == panelManager.dtpPrimaryMonitor);
 
         this._sessionStyle = null;
@@ -124,7 +119,7 @@ var Panel = GObject.registerClass({
 
             this._setPanelMenu(systemMenuInfo.name, systemMenuInfo.constructor, this.panel);
             this._setPanelMenu('dateMenu', DateMenu.DateMenuButton, this.panel);
-            this._setPanelMenu('activities', GSPanel.ActivitiesButton, this.panel);
+            this._setPanelMenu('activities', Main.panel.statusArea.activities.constructor, this.panel);
 
             this.panel.add_child(this._leftBox);
             this.panel.add_child(this._centerBox);
@@ -177,8 +172,8 @@ var Panel = GObject.registerClass({
     enable () {
         let { name: systemMenuName } = Utils.getSystemMenuInfo();
 
-        if (this.statusArea[systemMenuName]) {
-            Utils.getIndicators(this.statusArea[systemMenuName]._volume)._dtpIgnoreScroll = 1;
+        if (this.statusArea[systemMenuName] && this.statusArea[systemMenuName]._volumeOutput) {
+            Utils.getIndicators(this.statusArea[systemMenuName]._volumeOutput)._dtpIgnoreScroll = 1;
         }
 
         this.geom = this.getGeometry();
@@ -186,12 +181,12 @@ var Panel = GObject.registerClass({
         this._setPanelPosition();
 
         if (!this.isStandalone) {
-            Utils.hookVfunc(Object.getPrototypeOf(this.panel), 'allocate', (box) => this._mainPanelAllocate(box));
+            this._injectionManager.overrideMethod(Object.getPrototypeOf(this.panel), 'vfunc_allocate', () => (box) => this._mainPanelAllocate(box));
 
             // remove the extra space before the clock when the message-indicator is displayed
             if (DateMenu.IndicatorPad) {
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', () => [0,0]);
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', () => [0,0]);
+                this._injectionManager.overrideMethod(DateMenu.IndicatorPad.prototype, 'vfunc_get_preferred_width', () => () => [0,0]);
+                this._injectionManager.overrideMethod(DateMenu.IndicatorPad.prototype, 'vfunc_get_preferred_height', () => () => [0,0]);
             }
         }
 
@@ -205,25 +200,24 @@ var Panel = GObject.registerClass({
 
         this.menuManager._oldChangeMenu = this.menuManager._changeMenu;
         this.menuManager._changeMenu = (menu) => {
-            if (!Me.settings.get_boolean('stockgs-panelbtn-click-only')) {
+            if (!SETTINGS.get_boolean('stockgs-panelbtn-click-only')) {
                 this.menuManager._oldChangeMenu(menu);
             }
         };
 
         this.dynamicTransparency = new Transparency.DynamicTransparency(this);
         
-        this.taskbar = new Taskbar(this);
+        this.taskbar = new Taskbar.Taskbar(this);
 
         this.panel.add_child(this.taskbar.actor);
 
-        this._setAppmenuVisible(Me.settings.get_boolean('show-appmenu'));
         this._setShowDesktopButton(true);
         
         this._setAllocationMap();
 
         this.panel.add_style_class_name('dashtopanelMainPanel ' + this.getOrientation());
 
-        this._timeoutsHandler.add([T2, Me.settings.get_int('intellihide-enable-start-delay'), () => this.intellihide = new Intellihide.Intellihide(this)]);
+        this._timeoutsHandler.add([T2, SETTINGS.get_int('intellihide-enable-start-delay'), () => this.intellihide = new Intellihide.Intellihide(this)]);
 
         this._signalsHandler.add(
             // this is to catch changes to the theme or window scale factor
@@ -329,7 +323,6 @@ var Panel = GObject.registerClass({
         this._signalsHandler.destroy();
         
         this.panel.remove_child(this.taskbar.actor);
-        this._setAppmenuVisible(false);
 
         if (this.intellihide) {
             this.intellihide.destroy();
@@ -379,14 +372,9 @@ var Panel = GObject.registerClass({
 
             this._setShowDesktopButton(false);
 
-            delete Utils.getIndicators(this.statusArea[systemMenuName]._volume)._dtpIgnoreScroll;
+            delete Utils.getIndicators(this.statusArea[systemMenuName]._volumeOutput)._dtpIgnoreScroll;
 
-            if (DateMenu.IndicatorPad) {
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_width', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_width);
-                Utils.hookVfunc(DateMenu.IndicatorPad.prototype, 'get_preferred_height', DateMenu.IndicatorPad.prototype.vfunc_get_preferred_height);
-            }
-
-            Utils.hookVfunc(Object.getPrototypeOf(this.panel), 'allocate', Object.getPrototypeOf(this.panel).vfunc_allocate);
+            this._injectionManager.clear();
             
             this.panel._delegate = this.panel;
         } else {
@@ -411,7 +399,7 @@ var Panel = GObject.registerClass({
     }
 
     getPosition() {
-        let position = PanelSettings.getPanelPosition(Me.settings, this.monitor.index);
+        let position = PanelSettings.getPanelPosition(SETTINGS, this.monitor.index);
 
         if (position == Pos.TOP) {
             return St.Side.TOP;
@@ -498,7 +486,7 @@ var Panel = GObject.registerClass({
 
         this._signalsHandler.add(
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::panel-sizes',
                     'changed::group-apps'
@@ -506,7 +494,7 @@ var Panel = GObject.registerClass({
                 () => this._resetGeometry()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::appicon-margin',
                     'changed::appicon-padding'
@@ -514,12 +502,7 @@ var Panel = GObject.registerClass({
                 () => this.taskbar.resetAppIcons()
             ],
             [
-                Me.settings,
-                'changed::show-appmenu',
-                () => this._setAppmenuVisible(Me.settings.get_boolean('show-appmenu'))
-            ],
-            [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::showdesktop-button-width',
                     'changed::trans-use-custom-bg',
@@ -530,7 +513,7 @@ var Panel = GObject.registerClass({
                 () => this._setShowDesktopButtonStyle()
             ],
             [
-                Me.desktopSettings,
+                DESKTOPSETTINGS,
                 'changed::clock-format',
                 () => {
                     this._clockFormat = null;
@@ -541,19 +524,19 @@ var Panel = GObject.registerClass({
                 }
             ],
             [
-                Me.settings,
+                SETTINGS,
                 'changed::progress-show-bar',
                 () => this._initProgressManager()
             ],
             [
-                Me.settings,
+                SETTINGS,
                 'changed::progress-show-count',
                 () => this._initProgressManager()
             ]
         );
 
         if (isVertical) {
-            this._signalsHandler.add([Me.settings, 'changed::group-apps-label-max-width', () => this._resetGeometry()]);
+            this._signalsHandler.add([SETTINGS, 'changed::group-apps-label-max-width', () => this._resetGeometry()]);
         }
     }
 
@@ -581,19 +564,19 @@ var Panel = GObject.registerClass({
             let panelMenu = this.statusArea[propName];
 
             this.menuManager.removeMenu(panelMenu.menu);
-            Me.persistentStorage[propName].push(panelMenu);
+            PERSISTENTSTORAGE[propName].push(panelMenu);
             this.statusArea[propName] = null;
         }
     }
 
     _getPanelMenu(propName, constr) {
-        Me.persistentStorage[propName] = Me.persistentStorage[propName] || [];
+        PERSISTENTSTORAGE[propName] = PERSISTENTSTORAGE[propName] || [];
 
-        if (!Me.persistentStorage[propName].length) {
-            Me.persistentStorage[propName].push(new constr());
+        if (!PERSISTENTSTORAGE[propName].length) {
+            PERSISTENTSTORAGE[propName].push(new constr());
         }
 
-        return Me.persistentStorage[propName].pop();
+        return PERSISTENTSTORAGE[propName].pop();
     }
 
     _adjustForOverview() {
@@ -632,24 +615,24 @@ var Panel = GObject.registerClass({
         let topPadding = panelBoxTheme.get_padding(St.Side.TOP);
         let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM);
         let position = this.getPosition();
-        let length = PanelSettings.getPanelLength(Me.settings, this.monitor.index) / 100;
-        let anchor = PanelSettings.getPanelAnchor(Me.settings, this.monitor.index);
+        let length = PanelSettings.getPanelLength(SETTINGS, this.monitor.index) / 100;
+        let anchor = PanelSettings.getPanelAnchor(SETTINGS, this.monitor.index);
         let anchorPlaceOnMonitor = 0;
         let gsTopPanelOffset = 0;
         let x = 0, y = 0;
         let w = 0, h = 0;
 
-        const panelSize = PanelSettings.getPanelSize(Me.settings, this.monitor.index);
+        const panelSize = PanelSettings.getPanelSize(SETTINGS, this.monitor.index);
         this.dtpSize = panelSize * scaleFactor;
 
-        if (Me.settings.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
+        if (SETTINGS.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
             gsTopPanelOffset = Main.layoutManager.panelBox.height - topPadding;
         }
 
         if (this.checkIfVertical()) {
-            if (!Me.settings.get_boolean('group-apps')) {
+            if (!SETTINGS.get_boolean('group-apps')) {
                 // add window title width and side padding of _dtpIconContainer when vertical
-                this.dtpSize += Me.settings.get_int('group-apps-label-max-width') + AppIcons.DEFAULT_PADDING_SIZE * 2 / scaleFactor;
+                this.dtpSize += SETTINGS.get_int('group-apps-label-max-width') + AppIcons.DEFAULT_PADDING_SIZE * 2 / scaleFactor;
             }
 
             this.sizeFunc = 'get_preferred_height',
@@ -909,10 +892,14 @@ var Panel = GObject.registerClass({
             this.showAppsIconWrapper.popupMenu(Main.layoutManager.dummyCursor);
 
             return Clutter.EVENT_STOP;
-        } else if (Main.modalCount > 0 || event.get_source() != actor || 
-            (!isPress && type != Clutter.EventType.TOUCH_BEGIN) ||
-            (isPress && button != 1)) {
-            return Clutter.EVENT_PROPAGATE;
+        } else {
+            const targetActor = global.stage.get_event_actor(event);
+
+            if (Main.modalCount > 0 || targetActor != actor || 
+                (!isPress && type != Clutter.EventType.TOUCH_BEGIN) ||
+                (isPress && button != 1)) {
+                return Clutter.EVENT_PROPAGATE;
+            }
         }
 
         let params = this.checkIfVertical() ? [stageY, 'y', 'height'] : [stageX, 'x', 'width'];
@@ -964,7 +951,7 @@ var Panel = GObject.registerClass({
 
     _setVertical(actor, isVertical) {
         let _set = (actor, isVertical) => {
-            if (!actor || actor instanceof Dash.DashItemContainer || actor instanceof TaskbarItemContainer) {
+            if (!actor || actor instanceof Dash.DashItemContainer || actor instanceof TaskbarItemContainer.TaskbarItemContainer) {
                 return;
             }
 
@@ -1011,22 +998,6 @@ var Panel = GObject.registerClass({
         this._unmappedButtons.splice(this._unmappedButtons.indexOf(actor), 1);
     }
 
-    _setAppmenuVisible(isVisible) {
-        let parent;
-        let appMenu = this.statusArea.appMenu;
-
-        if(appMenu)
-            parent = appMenu.container.get_parent();
-
-        if (parent) {
-            parent.remove_child(appMenu.container);
-        }
-
-        if (isVisible && appMenu) {
-            this._leftBox.insert_child_above(appMenu.container, null);
-        }
-    }
-
     _formatVerticalClock() {
         // https://github.com/GNOME/gnome-desktop/blob/master/libgnome-desktop/gnome-wall-clock.c#L310
         if (this.statusArea.dateMenu) {
@@ -1064,7 +1035,7 @@ var Panel = GObject.registerClass({
                 let timeParts = time.split('∶');
 
                 if (!this._clockFormat) {
-                    this._clockFormat = Me.desktopSettings.get_string('clock-format');
+                    this._clockFormat = DESKTOPSETTINGS.get_string('clock-format');
                 }
 
                 if (this._clockFormat == '12h') {
@@ -1095,8 +1066,8 @@ var Panel = GObject.registerClass({
                 this._showDesktopButton.add_style_class_name(this._getBackgroundBrightness() ?
                             'showdesktop-button-light-hovered' : 'showdesktop-button-dark-hovered');
 
-                if (Me.settings.get_boolean('show-showdesktop-hover')) {
-                    this._timeoutsHandler.add([T4, Me.settings.get_int('show-showdesktop-delay'), () => {
+                if (SETTINGS.get_boolean('show-showdesktop-hover')) {
+                    this._timeoutsHandler.add([T4, SETTINGS.get_int('show-showdesktop-delay'), () => {
                         this._hiddenDesktopWorkspace = Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace();
                         this._toggleWorkspaceWindows(true, this._hiddenDesktopWorkspace);
                     }]);
@@ -1107,7 +1078,7 @@ var Panel = GObject.registerClass({
                 this._showDesktopButton.remove_style_class_name(this._getBackgroundBrightness() ?
                             'showdesktop-button-light-hovered' : 'showdesktop-button-dark-hovered');
 
-                if (Me.settings.get_boolean('show-showdesktop-hover')) {
+                if (SETTINGS.get_boolean('show-showdesktop-hover')) {
                     if (this._timeoutsHandler.getId(T4)) {
                         this._timeoutsHandler.remove(T4);
                     } else if (this._hiddenDesktopWorkspace) {
@@ -1130,11 +1101,11 @@ var Panel = GObject.registerClass({
     _setShowDesktopButtonStyle() {
         let rgb = this._getBackgroundBrightness() ? "rgba(55, 55, 55, .2)" : "rgba(200, 200, 200, .2)";
 
-        let isLineCustom = Me.settings.get_boolean('desktop-line-use-custom-color');
-        rgb = isLineCustom ? Me.settings.get_string('desktop-line-custom-color') : rgb;
+        let isLineCustom = SETTINGS.get_boolean('desktop-line-use-custom-color');
+        rgb = isLineCustom ? SETTINGS.get_string('desktop-line-custom-color') : rgb;
 
         if (this._showDesktopButton) {
-            let buttonSize = Me.settings.get_int('showdesktop-button-width') + 'px;';
+            let buttonSize = SETTINGS.get_int('showdesktop-button-width') + 'px;';
             let isVertical = this.checkIfVertical();
 
             let sytle = "border: 0 solid " + rgb + ";";
@@ -1151,7 +1122,7 @@ var Panel = GObject.registerClass({
     }
 
     _toggleWorkspaceWindows(hide, workspace) {
-        let time = Me.settings.get_int('show-showdesktop-time') * .001;
+        let time = SETTINGS.get_int('show-showdesktop-time') * .001;
 
         workspace.list_windows().forEach(w => {
             if (!w.minimized && !w.customJS_ding) {
@@ -1209,10 +1180,12 @@ var Panel = GObject.registerClass({
     }
 
     _onPanelMouseScroll(actor, event) {
-        let scrollAction = Me.settings.get_string('scroll-panel-action');
+        let scrollAction = SETTINGS.get_string('scroll-panel-action');
         let direction = Utils.getMouseScrollDirection(event);
 
-        if (!this._checkIfIgnoredScrollSource(event.get_source()) && !this._timeoutsHandler.getId(T6)) {
+        const targetActor = global.stage.get_event_actor(event);
+
+        if (!this._checkIfIgnoredScrollSource(targetActor) && !this._timeoutsHandler.getId(T6)) {
             if (direction && scrollAction === 'SWITCH_WORKSPACE') {
                 let args = [global.display];
 
@@ -1224,7 +1197,7 @@ var Panel = GObject.registerClass({
                 //gnome-shell < 3.30 needs an additional "screen" param
                 global.screen ? args.push(global.screen) : 0;
 
-                let showWsPopup = Me.settings.get_boolean('scroll-panel-show-ws-popup');
+                let showWsPopup = SETTINGS.get_boolean('scroll-panel-show-ws-popup');
                 showWsPopup ? 0 : Main.wm._workspaceSwitcherPopup = { display: () => {} };
                 Main.wm._showWorkspaceSwitcher.apply(Main.wm, args.concat([0, { get_name: () => 'switch---' + direction }]));
                 showWsPopup ? 0 : Main.wm._workspaceSwitcherPopup = null;
@@ -1233,9 +1206,9 @@ var Panel = GObject.registerClass({
                 
                 Utils.activateSiblingWindow(windows, direction);
             } else if (scrollAction === 'CHANGE_VOLUME' && !event.is_pointer_emulated()) {
-                let proto = Volume.Indicator.prototype;
+                let proto = Volume.OutputIndicator.prototype;
                 let func = proto._handleScrollEvent || proto.vfunc_scroll_event || proto._onScrollEvent;
-                let indicator = Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volume;
+                let indicator = Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volumeOutput;
 
                 if (indicator.quickSettingsItems)
                     // new quick settings menu in gnome-shell > 42
@@ -1246,7 +1219,7 @@ var Panel = GObject.registerClass({
                 return;
             }
 
-            var scrollDelay = Me.settings.get_int('scroll-panel-delay');
+            const scrollDelay = SETTINGS.get_int('scroll-panel-delay');
 
             if (scrollDelay) {
                 this._timeoutsHandler.add([T6, scrollDelay, () => {}]);
@@ -1261,8 +1234,8 @@ var Panel = GObject.registerClass({
     }
 
     _initProgressManager() {
-        const progressVisible = Me.settings.get_boolean('progress-show-bar');
-        const countVisible = Me.settings.get_boolean('progress-show-count');
+        const progressVisible = SETTINGS.get_boolean('progress-show-bar');
+        const countVisible = SETTINGS.get_boolean('progress-show-count');
         const pm = this.progressManager;
 
         if(!pm && (progressVisible || countVisible))
@@ -1272,7 +1245,7 @@ var Panel = GObject.registerClass({
     }
 });
 
-var SecondaryPanel = GObject.registerClass({
+export const SecondaryPanel = GObject.registerClass({
 }, class SecondaryPanel extends St.Widget {
 
     _init(params) {

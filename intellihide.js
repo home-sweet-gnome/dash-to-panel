@@ -15,21 +15,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Clutter = imports.gi.Clutter;
-const Meta = imports.gi.Meta;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
+import Clutter from 'gi://Clutter';
+import Meta from 'gi://Meta';
+import Shell from 'gi://Shell';
+import St from 'gi://St';
 
-var GrabHelper = imports.ui.grabHelper;
-const Layout = imports.ui.layout;
-const Main = imports.ui.main;
-const OverviewControls = imports.ui.overviewControls;
-const PointerWatcher = imports.ui.pointerWatcher;
+import * as GrabHelper from 'resource:///org/gnome/shell/ui/grabHelper.js';
+import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as OverviewControls from 'resource:///org/gnome/shell/ui/overviewControls.js';
+import * as PointerWatcher from 'resource:///org/gnome/shell/ui/pointerWatcher.js';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Panel = Me.imports.panel;
-const Proximity = Me.imports.proximity;
-const Utils = Me.imports.utils;
+import * as Proximity from './proximity.js';
+import * as Utils from './utils.js';
+import {SETTINGS} from './extension.js';
 
 //timeout intervals
 const CHECK_POINTER_MS = 200;
@@ -43,15 +42,15 @@ const T2 = 'limitUpdateTimeout';
 const T3 = 'postAnimateTimeout';
 const T4 = 'panelBoxClipTimeout';
 
-var SIDE_CONTROLS_ANIMATION_TIME = OverviewControls.SIDE_CONTROLS_ANIMATION_TIME / (OverviewControls.SIDE_CONTROLS_ANIMATION_TIME > 1 ? 1000 : 1);
+const SIDE_CONTROLS_ANIMATION_TIME = OverviewControls.SIDE_CONTROLS_ANIMATION_TIME / (OverviewControls.SIDE_CONTROLS_ANIMATION_TIME > 1 ? 1000 : 1);
 
-var Hold = {
+export const Hold = {
     NONE: 0,
     TEMPORARY: 1,
     PERMANENT: 2
 };
 
-var Intellihide = class {
+export const Intellihide = class {
 
     constructor(dtpPanel) {
         this._dtpPanel = dtpPanel;
@@ -63,8 +62,8 @@ var Intellihide = class {
         this._signalsHandler = new Utils.GlobalSignalsHandler();
         this._timeoutsHandler = new Utils.TimeoutsHandler();
 
-        this._intellihideChangedId = Me.settings.connect('changed::intellihide', () => this._changeEnabledStatus());
-        this._intellihideOnlySecondaryChangedId = Me.settings.connect('changed::intellihide-only-secondary', () => this._changeEnabledStatus());
+        this._intellihideChangedId = SETTINGS.connect('changed::intellihide', () => this._changeEnabledStatus());
+        this._intellihideOnlySecondaryChangedId = SETTINGS.connect('changed::intellihide-only-secondary', () => this._changeEnabledStatus());
 
         this.enabled = false;
         this._changeEnabledStatus();
@@ -85,11 +84,11 @@ var Intellihide = class {
         this._setTrackPanel(true);
         this._bindGeneralSignals();
 
-        if (Me.settings.get_boolean('intellihide-hide-from-windows')) {
+        if (SETTINGS.get_boolean('intellihide-hide-from-windows')) {
             this._proximityWatchId = this._proximityManager.createWatch(
                 this._panelBox.get_parent(),
                 this._dtpPanel.monitor.index,
-                Proximity.Mode[Me.settings.get_string('intellihide-behaviour')], 
+                Proximity.Mode[SETTINGS.get_string('intellihide-behaviour')], 
                 0, 0,
                 overlap => { 
                     this._windowOverlap = overlap;
@@ -120,8 +119,8 @@ var Intellihide = class {
     }
 
     destroy() {
-        Me.settings.disconnect(this._intellihideChangedId);
-        Me.settings.disconnect(this._intellihideOnlySecondaryChangedId);
+        SETTINGS.disconnect(this._intellihideChangedId);
+        SETTINGS.disconnect(this._intellihideOnlySecondaryChangedId);
         
         if (this.enabled) {
             this.disable();
@@ -154,8 +153,8 @@ var Intellihide = class {
     }
 
     _changeEnabledStatus() {
-        let intellihide = Me.settings.get_boolean('intellihide');
-        let onlySecondary = Me.settings.get_boolean('intellihide-only-secondary');
+        let intellihide = SETTINGS.get_boolean('intellihide');
+        let onlySecondary = SETTINGS.get_boolean('intellihide-only-secondary');
         let enabled = intellihide && !(this._dtpPanel.isPrimary && onlySecondary);
 
         if (this.enabled !== enabled) {
@@ -174,7 +173,7 @@ var Intellihide = class {
                 }
             ],
             [
-                Me.settings, 
+                SETTINGS, 
                 [
                     'changed::intellihide-use-pressure',
                     'changed::intellihide-hide-from-windows',
@@ -232,11 +231,11 @@ var Intellihide = class {
     }
 
     _setRevealMechanism() {
-        if (global.display.supports_extended_barriers() && Me.settings.get_boolean('intellihide-use-pressure')) {
+        if (global.display.supports_extended_barriers() && SETTINGS.get_boolean('intellihide-use-pressure')) {
             this._edgeBarrier = this._createBarrier();
             this._pressureBarrier = new Layout.PressureBarrier(
-                Me.settings.get_int('intellihide-pressure-threshold'), 
-                Me.settings.get_int('intellihide-pressure-time'), 
+                SETTINGS.get_int('intellihide-pressure-threshold'), 
+                SETTINGS.get_int('intellihide-pressure-time'), 
                 Shell.ActionMode.NORMAL
             );
             this._pressureBarrier.addBarrier(this._edgeBarrier);
@@ -332,13 +331,13 @@ var Intellihide = class {
             
             //the user is trying to reveal the panel
             if (this._monitor.inFullscreen && !mouseBtnIsPressed) {
-                return Me.settings.get_boolean('intellihide-show-in-fullscreen');
+                return SETTINGS.get_boolean('intellihide-show-in-fullscreen');
             }
 
             return !mouseBtnIsPressed;
         }
 
-        if (!Me.settings.get_boolean('intellihide-hide-from-windows')) {
+        if (!SETTINGS.get_boolean('intellihide-hide-from-windows')) {
             return this._panelBox.hover;
         }
 
@@ -406,9 +405,9 @@ var Intellihide = class {
                     //when entering/leaving the overview, use its animation time instead of the one from the settings
                     time: Main.overview.visible ? 
                           SIDE_CONTROLS_ANIMATION_TIME :
-                          Me.settings.get_int('intellihide-animation-time') * 0.001,
+                          SETTINGS.get_int('intellihide-animation-time') * 0.001,
                     //only delay the animation when hiding the panel after the user hovered out
-                    delay: destination != 0 && this._hoveredOut ? Me.settings.get_int('intellihide-close-delay') * 0.001 : 0,
+                    delay: destination != 0 && this._hoveredOut ? SETTINGS.get_int('intellihide-close-delay') * 0.001 : 0,
                     transition: 'easeOutQuad',
                     onComplete: () => {
                         this._panelBox.visible = !destination;
