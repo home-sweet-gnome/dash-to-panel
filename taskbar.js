@@ -378,6 +378,7 @@ export const Taskbar = class extends EventEmitter {
             [
                 SETTINGS,
                 [
+                    'changed::appicon-style',
                     'changed::group-apps-use-launchers',
                     'changed::taskbar-locked'
                 ],

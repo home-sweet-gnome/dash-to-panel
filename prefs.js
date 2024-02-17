@@ -702,6 +702,12 @@ const Preferences = class {
             panel_size_scale.set_inverted(true);
         }
 
+        // App icon style option
+        this._builder.get_object('appicon_style_combo').set_active_id(this._settings.get_string('appicon-style'));
+        this._builder.get_object('appicon_style_combo').connect('changed', (widget) => {
+            this._settings.set_string('appicon-style', widget.get_active_id());
+        });
+
         // Dots Position option
         let dotPosition = this._settings.get_string('dot-position');
 
