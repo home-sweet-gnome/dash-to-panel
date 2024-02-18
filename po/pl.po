@@ -28,7 +28,7 @@ msgstr "Szerokość przycisku <i>Pokaż pulpit</i> (px)"
 
 #: prefs.js:259
 msgid "Unavailable when gnome-shell top panel is present"
-msgstr ""
+msgstr "Niedostępne, gdy górna belka gnome-shell jest widoczna"
 
 #: prefs.js:317 ui/SettingsPosition.ui.h:12 ui/SettingsStyle.ui.h:11
 msgid "Left"
