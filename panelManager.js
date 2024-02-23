@@ -737,7 +737,7 @@ function newUpdatePanelBarrier(panel) {
 
     Object.keys(barriers).forEach(k => {
         let barrierOptions = { 
-            display: global.display,
+            backend: global.backend,
             directions: barriers[k][2]
         };
         
