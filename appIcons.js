@@ -1114,8 +1114,8 @@ export const TaskbarAppIcon = GObject.registerClass({
             } else {
                 let blackenedLength = (1 / 48) * areaSize; // need to scale with the SVG for the stacked highlight
                 let darkenedLength = isFocused ? (2 / 48) * areaSize : (10 / 48) * areaSize;
-                let blackenedColor = bodyColor.shade(.3);
-                let darkenedColor = bodyColor.shade(.7);
+                let blackenedColor = new Clutter.Color({ red: bodyColor.red * .3, green: bodyColor.green * .3, blue: bodyColor.blue * .3, alpha: bodyColor.alpha });
+                let darkenedColor = new Clutter.Color({ red: bodyColor.red * .7, green: bodyColor.green * .7, blue: bodyColor.blue * .7, alpha: bodyColor.alpha });
                 let solidDarkLength = areaSize - darkenedLength;
                 let solidLength = solidDarkLength - blackenedLength;
 
