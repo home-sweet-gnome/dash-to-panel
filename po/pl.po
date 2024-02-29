@@ -126,23 +126,23 @@ msgstr "Położenie panelu na ekranie"
 
 #: prefs.js:443
 msgid "Stacked to top"
-msgstr "Przypomnij do góry"
+msgstr "Przypięto do góry"
 
 #: prefs.js:443
 msgid "Stacked to left"
-msgstr "Prypnij do lewej"
+msgstr "Przypięto do lewej"
 
 #: prefs.js:444
 msgid "Stacked to bottom"
-msgstr "Prypnij do dołu"
+msgstr "Przypięto do dołu"
 
 #: prefs.js:444
 msgid "Stacked to right"
-msgstr "Prypnij do prawej"
+msgstr "Przypięto do prawej"
 
 #: prefs.js:445
 msgid "Centered"
-msgstr "Wyśrodkowano"
+msgstr "Wyśrodkowane"
 
 #: prefs.js:446
 #, fuzzy
@@ -799,7 +799,7 @@ msgstr "Opóźnienie (ms) przed pokazaniem (domyślnie 100)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:2
 msgid "(400 is default)"
-msgstr "(400 domyślnie)"
+msgstr "(Domyślnie 400)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:3
 #, fuzzy
@@ -808,7 +808,7 @@ msgstr "Opóźnienie ukrywania miniatur (domyślnie 100 ms)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:4
 msgid "(100 is default)"
-msgstr "(100 domyślnie)"
+msgstr "(Domyślnie 100)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:5
 msgid "Immediate on application icon click"
@@ -1276,7 +1276,7 @@ msgstr "(np. menu daty)"
 
 #: ui/SettingsFineTune.ui.h:19
 msgid "Force Activities hot corner on primary monitor"
-msgstr "Wymuś gorący róg na głównym monitorze"
+msgstr "Wymuś Aktywności gorącego rogu na głównym monitorze"
 
 #: ui/SettingsFineTune.ui.h:20
 #, fuzzy
@@ -1310,7 +1310,7 @@ msgstr "Ukryj i odsłoń panel według preferencji"
 
 #: ui/SettingsPosition.ui.h:6
 msgid "Order and Position on monitors"
-msgstr "Kolejność i pozycja na monitorze"
+msgstr "Kolejność i pozycja na monitorach"
 
 #: ui/SettingsPosition.ui.h:7
 #, fuzzy
@@ -1320,7 +1320,7 @@ msgstr "Monitor"
 #: ui/SettingsPosition.ui.h:8
 #, fuzzy
 msgid "Apply changes to all monitors"
-msgstr "Wyświetl na wszystkich monitorach"
+msgstr "Zastosuj zmiany na wszyskich monitorach"
 
 #: ui/SettingsPosition.ui.h:9
 msgid "Panel screen position"
