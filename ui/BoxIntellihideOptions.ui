@@ -154,7 +154,7 @@
         <child>
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Keyboard shortcut to reveal and hold the panel</property>
-            <property name="subtitle" translatable="yes">Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;</property>
+            <property name="subtitle" translatable="yes">Syntax: &amp;lt;Shift&amp;gt;, &amp;lt;Ctrl&amp;gt;, &amp;lt;Alt&amp;gt;, &amp;lt;Super&amp;gt;</property>
             <child>
               <object class="GtkEntry" id="intellihide_toggle_entry">
                 <property name="valign">center</property>
