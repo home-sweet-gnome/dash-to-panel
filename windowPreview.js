@@ -509,7 +509,7 @@ export const PreviewMenu = GObject.registerClass({
     }
 
     _getScrollAdjustmentValues() {
-        let [value , , upper, , , pageSize] = this._scrollView[(this.isVertical ? 'v' : 'h') + 'scroll'].adjustment.get_values();
+        let [value , , upper, , , pageSize] = this._scrollView[(this.isVertical ? 'v' : 'h') + 'adjustment'].get_values();
 
         return [value, upper, pageSize];
     }

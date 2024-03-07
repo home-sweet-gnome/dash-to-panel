@@ -142,7 +142,7 @@ export const TaskbarActor = GObject.registerClass({
 
         scrollview.allocate(childBox);
 
-        let [value, , upper, , , pageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
+        let [value, , upper, , , pageSize] = scrollview[orientation[0] + 'adjustment'].get_values();
         upper = Math.floor(upper);
         scrollview._dtpFadeSize = upper > pageSize ? this._delegate.iconSize : 0;
 
@@ -277,7 +277,7 @@ export const Taskbar = class extends EventEmitter {
             x_align: rtl ? Clutter.ActorAlign.END : Clutter.ActorAlign.START
         });
 
-        let adjustment = this._scrollView[orientation[0] + 'scroll'].adjustment;
+        const adjustment = this._scrollView[orientation[0] + 'adjustment'];
         
         this._workId = Main.initializeDeferredWork(this._box, this._redisplay.bind(this));
 
@@ -514,7 +514,7 @@ export const Taskbar = class extends EventEmitter {
 
         let adjustment, delta;
 
-        adjustment = this._scrollView[orientation[0] + 'scroll'].get_adjustment();
+        adjustment = this._scrollView[orientation[0] + 'adjustment'];
 
         let increment = adjustment.step_increment;
 
