@@ -1784,8 +1784,8 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
         }
 
         this._appendItem({
-            title: _('Terminal'),
-            cmd: ['gnome-terminal']
+            title: _('Console'),
+            cmd: ['kgx']
         });
 
         this._appendItem({
