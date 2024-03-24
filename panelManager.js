@@ -201,7 +201,7 @@ export const PanelManager = class {
         Panel.panelBoxes.forEach(c => this._signalsHandler.add(
             [
                 Main.panel[c], 
-                'actor-added', 
+                'child-added', 
                 (parent, child) => 
                     this.primaryPanel && 
                     this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, this.primaryPanel.getPosition())
@@ -246,7 +246,7 @@ export const PanelManager = class {
             } else {
                 p.panelBox.remove_child(p);
                 p.remove_child(p.panel);
-                p.panelBox.add(p.panel);
+                p.panelBox.add_child(p.panel);
 
                 p.panelBox.set_position(clipContainer.x, clipContainer.y);
 
@@ -363,7 +363,7 @@ export const PanelManager = class {
                     this._scrollAdjustment,
                     this._fitModeAdjustment,
                     this._overviewAdjustment);
-                Main.layoutManager.overviewGroup.add_actor(view);
+                Main.layoutManager.overviewGroup.add_child(view);
             }
 
             this._workspacesViews.push(view);
@@ -421,7 +421,7 @@ export const PanelManager = class {
         Main.layoutManager.trackChrome(panelBox, { trackFullscreen: true, affectsStruts: true, affectsInputRegion: true });
         
         panel = new Panel.Panel(this, monitor, panelBox, isStandalone);
-        panelBox.add(panel);
+        panelBox.add_child(panel);
         panel.enable();
 
         panelBox.visible = true;
@@ -737,7 +737,7 @@ function newUpdatePanelBarrier(panel) {
 
     Object.keys(barriers).forEach(k => {
         let barrierOptions = { 
-            display: global.display,
+            backend: global.backend,
             directions: barriers[k][2]
         };
         

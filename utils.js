@@ -505,8 +505,8 @@ export const notify = function(text, iconName, action, isTransient) {
  * Return the amount of shift applied
 */
 export const ensureActorVisibleInScrollView = function(scrollView, actor, fadeSize, onComplete) {
-    let vadjustment = scrollView.vscroll.adjustment;
-    let hadjustment = scrollView.hscroll.adjustment;
+    const vadjustment = scrollView.vadjustment;
+    const hadjustment = scrollView.hadjustment;
     let [vvalue, vlower, vupper, vstepIncrement, vpageIncrement, vpageSize] = vadjustment.get_values();
     let [hvalue, hlower, hupper, hstepIncrement, hpageIncrement, hpageSize] = hadjustment.get_values();
 

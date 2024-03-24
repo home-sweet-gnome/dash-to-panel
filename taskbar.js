@@ -142,7 +142,7 @@ export const TaskbarActor = GObject.registerClass({
 
         scrollview.allocate(childBox);
 
-        let [value, , upper, , , pageSize] = scrollview[orientation[0] + 'scroll'].adjustment.get_values();
+        let [value, , upper, , , pageSize] = scrollview[orientation[0] + 'adjustment'].get_values();
         upper = Math.floor(upper);
         scrollview._dtpFadeSize = upper > pageSize ? this._delegate.iconSize : 0;
 
@@ -227,7 +227,7 @@ export const Taskbar = class extends EventEmitter {
         this._scrollView.connect('leave-event', this._onLeaveEvent.bind(this));
         this._scrollView.connect('motion-event', this._onMotionEvent.bind(this));
         this._scrollView.connect('scroll-event', this._onScrollEvent.bind(this));
-        this._scrollView.add_actor(this._box);
+        this._scrollView.add_child(this._box);
 
         this._showAppsIconWrapper = panel.showAppsIconWrapper;
         this._showAppsIconWrapper.connect('menu-state-changed', (showAppsIconWrapper, opened) => {
@@ -251,7 +251,7 @@ export const Taskbar = class extends EventEmitter {
         this._hookUpLabel(this._showAppsIcon, this._showAppsIconWrapper);
 
         this._container.add_child(new St.Widget({ width: 0, reactive: false }));
-        this._container.add_actor(this._scrollView);
+        this._container.add_child(this._scrollView);
         
         let orientation = panel.getOrientation();
         let fadeStyle = 'background-gradient-direction:' + orientation;
@@ -264,8 +264,8 @@ export const Taskbar = class extends EventEmitter {
         fade1.set_style(fadeStyle);
         fade2.set_style(fadeStyle);
 
-        this._container.add_actor(fade1);
-        this._container.add_actor(fade2);
+        this._container.add_child(fade1);
+        this._container.add_child(fade2);
 
         this.previewMenu = new WindowPreview.PreviewMenu(panel);
         this.previewMenu.enable();
@@ -277,7 +277,7 @@ export const Taskbar = class extends EventEmitter {
             x_align: rtl ? Clutter.ActorAlign.END : Clutter.ActorAlign.START
         });
 
-        let adjustment = this._scrollView[orientation[0] + 'scroll'].adjustment;
+        const adjustment = this._scrollView[orientation[0] + 'adjustment'];
         
         this._workId = Main.initializeDeferredWork(this._box, this._redisplay.bind(this));
 
@@ -514,7 +514,7 @@ export const Taskbar = class extends EventEmitter {
 
         let adjustment, delta;
 
-        adjustment = this._scrollView[orientation[0] + 'scroll'].get_adjustment();
+        adjustment = this._scrollView[orientation[0] + 'adjustment'];
 
         let increment = adjustment.step_increment;
 
@@ -1324,21 +1324,6 @@ export const Taskbar = class extends EventEmitter {
     }
 };
 
-const CloneContainerConstraint = GObject.registerClass({
-}, class CloneContainerConstraint extends Clutter.BindConstraint {
-
-    vfunc_update_allocation(actor, actorBox) {
-        if (!this.source)
-            return;
-
-        let [stageX, stageY] = this.source.get_transformed_position();
-        let [width, height] = this.source.get_transformed_size();
-
-        actorBox.set_origin(stageX, stageY);
-        actorBox.set_size(width, height);
-    }
-});
-
 export const TaskbarItemContainer = GObject.registerClass({
 
 }, class TaskbarItemContainer extends Dash.DashItemContainer {
@@ -1442,7 +1427,7 @@ export const TaskbarItemContainer = GObject.registerClass({
         });
 
         this._raisedClone.source.opacity = 0;
-        Main.uiGroup.add_actor(cloneContainer);
+        Main.uiGroup.add_child(cloneContainer);
     }
 
     // Animate the clone.
@@ -1544,7 +1529,7 @@ const DragPlaceholderItem = GObject.registerClass({
             height: iconSize
         });
 
-        this.add_actor(this._clone);
+        this.add_child(this._clone);
     }
 
     destroy() {

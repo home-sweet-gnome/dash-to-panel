@@ -95,7 +95,7 @@ export const PreviewMenu = GObject.registerClass({
             y_expand: !this.isVertical
         });
 
-        this._scrollView.add_actor(this._box);
+        this._scrollView.add_child(this._box);
         this.menu.add_child(this._scrollView);
         this.add_child(this.menu);
     }
@@ -509,7 +509,7 @@ export const PreviewMenu = GObject.registerClass({
     }
 
     _getScrollAdjustmentValues() {
-        let [value , , upper, , , pageSize] = this._scrollView[(this.isVertical ? 'v' : 'h') + 'scroll'].adjustment.get_values();
+        let [value , , upper, , , pageSize] = this._scrollView[(this.isVertical ? 'v' : 'h') + 'adjustment'].get_values();
 
         return [value, upper, pageSize];
     }
@@ -712,7 +712,7 @@ export const Preview = GObject.registerClass({
         let [previewBinWidth, previewBinHeight] = this._getBinSize();
         let closeButton = new St.Button({ style_class: 'window-close', accessible_name: 'Close window' });
 
-        closeButton.add_actor(new St.Icon({ icon_name: 'window-close-symbolic' }));
+        closeButton.add_child(new St.Icon({ icon_name: 'window-close-symbolic' }));
 
         this._closeButtonBin = new St.Widget({ 
             style_class: 'preview-close-btn-container',

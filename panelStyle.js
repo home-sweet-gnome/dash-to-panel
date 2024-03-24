@@ -184,7 +184,7 @@ export const PanelStyle = class {
         this._applyStylesRecursively();
         
         /* connect signal */
-        this._rightBoxActorAddedID = this.panel._rightBox.connect('actor-added',
+        this._rightBoxActorAddedID = this.panel._rightBox.connect('child-added',
             (container, actor) => {
                 if(this._rightBoxOperations.length && !this._ignoreAddedChild)
                     this._recursiveApply(actor, this._rightBoxOperations);
@@ -192,7 +192,7 @@ export const PanelStyle = class {
                 this._ignoreAddedChild = 0;
             }
         );
-        this._centerBoxActorAddedID = this.panel._centerBox.connect('actor-added',
+        this._centerBoxActorAddedID = this.panel._centerBox.connect('child-added',
             (container, actor) => {
                 if(this._centerBoxOperations.length && !this._ignoreAddedChild)
                     this._recursiveApply(actor, this._centerBoxOperations);
@@ -200,7 +200,7 @@ export const PanelStyle = class {
                 this._ignoreAddedChild = 0;
             }
         );
-        this._leftBoxActorAddedID = this.panel._leftBox.connect('actor-added',
+        this._leftBoxActorAddedID = this.panel._leftBox.connect('child-added',
             (container, actor) => {
                 if(this._leftBoxOperations.length)
                     this._recursiveApply(actor, this._leftBoxOperations);
