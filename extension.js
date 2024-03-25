@@ -40,6 +40,7 @@ let extensionSystem = Main.extensionManager;
 export let DTP_EXTENSION = null;
 export let SETTINGS = null;
 export let DESKTOPSETTINGS = null;
+export let TERMINALSETTINGS = null;
 export let PERSISTENTSTORAGE = null;
 export let EXTENSION_UUID = null;
 export let EXTENSION_PATH = null;
@@ -76,6 +77,7 @@ export default class DashToPanelExtension extends Extension {
         DTP_EXTENSION = null;
         SETTINGS = null;
         DESKTOPSETTINGS = null;
+        TERMINALSETTINGS = null;
         panelManager = null;
 
         if (!reset) {
@@ -122,6 +124,7 @@ function _enable(extension) {
 
     SETTINGS = extension.getSettings('org.gnome.shell.extensions.dash-to-panel');
     DESKTOPSETTINGS = new Gio.Settings({schema_id: 'org.gnome.desktop.interface'});
+    TERMINALSETTINGS = new Gio.Settings({schema_id: 'org.gnome.desktop.default-applications.terminal'})
     EXTENSION_UUID = extension.uuid
     EXTENSION_PATH = extension.path
 

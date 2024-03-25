@@ -45,7 +45,7 @@ import * as Utils from './utils.js';
 import * as PanelSettings from './panelSettings.js';
 import * as Taskbar from './taskbar.js';
 import * as Progress from './progress.js';
-import {DTP_EXTENSION, SETTINGS, DESKTOPSETTINGS, EXTENSION_PATH} from './extension.js';
+import {DTP_EXTENSION, SETTINGS, DESKTOPSETTINGS, TERMINALSETTINGS, EXTENSION_PATH} from './extension.js';
 import {gettext as _, ngettext} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 //timeout names
@@ -1785,7 +1785,7 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
         this._appendItem({
             title: _('Terminal'),
-            cmd: ['gnome-terminal']
+            cmd: [TERMINALSETTINGS.get_string('exec')]
         });
 
         this._appendItem({
