@@ -43,6 +43,7 @@
 	background-color: rgba(238, 238, 236, 0.1);
 }
 
+#dashtopanelTaskbar .dash-item-container .overview-tile:hover,
 #dashtopanelScrollview .overview-tile:hover .dtp-container.animate-appicon-hover {
 	background: none;
 }
