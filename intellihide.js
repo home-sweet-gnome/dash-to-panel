@@ -263,7 +263,7 @@ export const Intellihide = class {
 
     _createBarrier() {
         let position = this._dtpPanel.geom.position;
-        let opts = { display: global.display };
+        let opts = { backend: global.backend };
 
         if (this._dtpPanel.checkIfVertical()) {
             opts.y1 = this._monitor.y;
