@@ -1,10 +1,13 @@
 {
-"extension-id": "dash-to-panel",
-"uuid": "dash-to-panel@jderose9.github.com",
-"name": "Dash to Panel",
-"description": "An icon taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.\n\nFor a more traditional experience, you may also want to use Tweak Tool to enable Windows > Titlebar Buttons > Minimize & Maximize.\n\nFor the best support, please report any issues on Github. Dash-to-panel is developed and maintained by @jderose9 and @charlesg99.",
-"shell-version": [ "46" ],
-"url": "https://github.com/home-sweet-gnome/dash-to-panel",
-"gettext-domain": "dash-to-panel",
-"version": 9999
+  "extension-id": "dash-to-panel",
+  "uuid": "dash-to-panel@jderose9.github.com",
+  "name": "Dash to Panel",
+  "description": "An icon taskbar for the Gnome Shell. This extension moves the dash into the gnome main panel so that the application launchers and system tray are combined into a single panel, similar to that found in KDE Plasma and Windows 7+. A separate dock is no longer needed for easy access to running and favorited applications.\n\nFor a more traditional experience, you may also want to use Tweak Tool to enable Windows > Titlebar Buttons > Minimize & Maximize.\n\nFor the best support, please report any issues on Github. Dash-to-panel is developed and maintained by @jderose9 and @charlesg99.",
+  "shell-version": [ "46" ],
+  "url": "https://github.com/home-sweet-gnome/dash-to-panel",
+  "gettext-domain": "dash-to-panel",
+  "version": 9999,
+  "donations": {
+      "paypal": "charlesg99"
+  }
 }
