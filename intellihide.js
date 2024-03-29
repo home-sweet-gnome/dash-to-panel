@@ -231,7 +231,9 @@ export const Intellihide = class {
     }
 
     _setRevealMechanism() {
-        if ((global.backend.capabilities & Meta.BackendCapabilities.BARRIERS) === 0 && SETTINGS.get_boolean('intellihide-use-pressure')) {
+        let barriers = Meta.BackendCapabilities.BARRIERS
+
+        if ((global.backend.capabilities & barriers) === barriers && SETTINGS.get_boolean('intellihide-use-pressure')) {
             this._edgeBarrier = this._createBarrier();
             this._pressureBarrier = new Layout.PressureBarrier(
                 SETTINGS.get_int('intellihide-pressure-threshold'), 
