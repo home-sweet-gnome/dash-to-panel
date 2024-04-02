@@ -828,7 +828,10 @@ export const TaskbarAppIcon = GObject.registerClass({
             else
                 buttonAction = SETTINGS.get_string('middle-click-action');
         }
-        else if (button && button == 1) {
+        // fixed issue #1676 by checking for button 0 or 1 to also handle touchscreen
+        // input, probably not the proper fix as i'm not aware button 0 should exist
+        // but from using this fix for months it seems to not create any issues
+        else if (typeof button === 'number' && (button == 0 || button == 1)) {
             let now = global.get_current_time()
 
             doubleClick = now - this.lastClick < DOUBLE_CLICK_DELAY_MS
