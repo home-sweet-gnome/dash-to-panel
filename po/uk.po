@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-03 00:40+0300\n"
-"PO-Revision-Date: 2024-04-03 00:47+0300\n"
+"PO-Revision-Date: 2024-04-03 01:12+0300\n"
 "Last-Translator: Yevhen Popok <xalt7x.service@gmail.com>\n"
 "Language-Team: \n"
 "Language: uk\n"
@@ -29,7 +29,7 @@ msgstr "Ширина кнопки «Показати Стільницю» (пк�
 
 #: prefs.js:255
 msgid "Unavailable when gnome-shell top panel is present"
-msgstr "Недоступна, коли присутня верхня панель gnome-shell"
+msgstr "Недоступно, якщо присутня верхня панель gnome-shell"
 
 #: prefs.js:313 ui/SettingsPosition.ui:13 ui/SettingsStyle.ui:15
 msgid "Left"
@@ -1362,7 +1362,7 @@ msgstr "Звичайний"
 
 #: ui/SettingsStyle.ui:10
 msgid "Symbolic"
-msgstr "Символьні"
+msgstr "Символьний"
 
 #: ui/SettingsStyle.ui:11
 msgid "Running indicator"
@@ -1374,7 +1374,7 @@ msgstr "Розміщення індикатора роботи"
 
 #: ui/SettingsStyle.ui:17
 msgid "Running indicator style (Focused app)"
-msgstr "Вигляд індикатора роботи (програма у фокусі)"
+msgstr "Стиль індикатора роботи (програма у фокусі)"
 
 #: ui/SettingsStyle.ui:18
 msgid "Dots"
@@ -1406,7 +1406,7 @@ msgstr "Метро"
 
 #: ui/SettingsStyle.ui:25
 msgid "Running indicator style (Unfocused apps)"
-msgstr "Вигляд індикатора роботи (програма не у фокусі)"
+msgstr "Стиль індикатора роботи (програма не у фокусі)"
 
 #: ui/SettingsStyle.ui:26
 msgid "Panel style"
