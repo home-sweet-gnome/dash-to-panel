@@ -143,3 +143,7 @@
       -progress-bar-border: rgba(0.9, 0.9, 0.9, 1);
     */
 }
+
+.symbolic-icon-style {
+    -st-icon-style: symbolic;
+}
