@@ -158,8 +158,11 @@ const Preferences = class {
         this._rtl = (Gtk.Widget.get_default_direction() == Gtk.TextDirection.RTL);
         this._builder = new Gtk.Builder();
         this._builder.set_scope(new BuilderScope(this));
-        this._settings = settings
-        this._path = path
+        this._settings = settings;
+        this._path = path;
+        
+        this._metadata = ExtensionPreferences.lookupByURL(import.meta.url).metadata;
+        this._builder.set_translation_domain(this._metadata['gettext-domain']);
 
         window.set_search_enabled(true);
 
@@ -2079,9 +2082,7 @@ const Preferences = class {
 
         // About Panel
 
-        const extension = ExtensionPreferences.lookupByURL(import.meta.url);
-        const {metadata} = extension;
-        this._builder.get_object('extension_version').set_label(metadata.version.toString() + (metadata.commit ? ' (' + metadata.commit + ')' : ''));
+        this._builder.get_object('extension_version').set_label(this._metadata.version.toString() + (this._metadata.commit ? ' (' + this._metadata.commit + ')' : ''));
 
         this._builder.get_object('importexport_export_button').connect('clicked', widget => {
             this._showFileChooser(
