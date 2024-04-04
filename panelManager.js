@@ -202,9 +202,11 @@ export const PanelManager = class {
             [
                 Main.panel[c], 
                 'child-added', 
-                (parent, child) => 
-                    this.primaryPanel && 
-                    this._adjustPanelMenuButton(this._getPanelMenuButton(child), this.primaryPanel.monitor, this.primaryPanel.getPosition())
+                (parent, child) => {
+                    this.primaryPanel &&
+                    child instanceof St.Bin && 
+                    this._adjustPanelMenuButton(this._getPanelMenuButton(child.get_first_child()), this.primaryPanel.monitor, this.primaryPanel.getPosition())
+                }
             ]
         ));
 
