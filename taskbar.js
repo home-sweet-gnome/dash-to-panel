@@ -46,8 +46,8 @@ import {SETTINGS} from './extension.js';
 
 const SearchController = Main.overview.searchController;
 
-export const DASH_ANIMATION_TIME = Dash.DASH_ANIMATION_TIME / (Dash.DASH_ANIMATION_TIME > 1 ? 1000 : 1);
-const DASH_ITEM_HOVER_TIMEOUT = Dash.DASH_ITEM_HOVER_TIMEOUT;
+export const DASH_ANIMATION_TIME = .2; // Dash.DASH_ANIMATION_TIME is now private
+const DASH_ITEM_HOVER_TIMEOUT = .3; // Dash.DASH_ITEM_HOVER_TIMEOUT is now private
 export const MIN_ICON_SIZE = 4;
 
 const T1 = 'ensureAppIconVisibilityTimeout'
