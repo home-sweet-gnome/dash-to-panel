@@ -957,7 +957,10 @@ export const Panel = GObject.registerClass({
 
             if (actor instanceof St.BoxLayout) {
                 actor.vertical = isVertical;
-            } else if ((actor._delegate || actor) instanceof PanelMenu.ButtonBox && actor != this.statusArea.appMenu) {
+            } else if (
+                actor != this.statusArea.appMenu &&
+                ((actor._delegate || actor) instanceof PanelMenu.ButtonBox || actor == this.statusArea.quickSettings) 
+            ) {
                 let child = actor.get_first_child();
 
                 if (isVertical && !actor.visible && !actor._dtpVisibleId) {
