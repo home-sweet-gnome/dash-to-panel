@@ -4,4 +4,4 @@ gschemas.compiled
 dash-to-panel@jderose9.github.com*.zip
 *.mo
 po/dash-to-panel.pot
-Settings.ui.h
+ui/*.ui.h

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="group_apps_label_font_size_adjustment">
+    <property name="lower">6</property>
+    <property name="upper">24</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkAdjustment" id="group_apps_label_max_width_adjustment">
+    <property name="upper">1000</property>
+    <property name="step_increment">10</property>
+    <property name="page_increment">100</property>
+  </object>
+
+  <object class="GtkBox" id="box_group_apps_options">
+    <property name="orientation">vertical</property>
+    <property name="width-request">600</property>
+    <property name="spacing">24</property>
+    <property name="margin-top">32</property>
+    <property name="margin-bottom">32</property>
+    <property name="margin-start">32</property>
+    <property name="margin-end">32</property>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Font size (px) of the application titles (default is 14)</property>
+            <child>
+              <object class="GtkSpinButton" id="group_apps_label_font_size_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">0</property>
+                <property name="adjustment">group_apps_label_font_size_adjustment</property>
+                <property name="numeric">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Font weight of application titles</property>
+            <child>
+              <object class="GtkComboBoxText" id="group_apps_label_font_weight_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="inherit" translatable="yes">inherit from theme</item>
+                  <item id="normal" translatable="yes">normal</item>
+                  <item id="lighter" translatable="yes">lighter</item>
+                  <item id="bold" translatable="yes">bold</item>
+                  <item id="bolder" translatable="yes">bolder</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Font color of the application titles</property>
+            <child>
+              <object class="GtkColorButton" id="group_apps_label_font_color_colorbutton">
+                <property name="receives_default">True</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Font color of the minimized application titles</property>
+            <child>
+              <object class="GtkColorButton" id="group_apps_label_font_color_minimized_colorbutton">
+                <property name="receives_default">True</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Maximum width (px) of the application titles</property>
+            <property name="subtitle" translatable="yes">(default is 160)</property>
+            <child>
+              <object class="GtkSpinButton" id="group_apps_label_max_width_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">0</property>
+                <property name="adjustment">group_apps_label_max_width_adjustment</property>
+                <property name="numeric">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Use a fixed width for the application titles</property>
+            <property name="subtitle" translatable="yes">The application titles all have the same width, even if their texts are shorter than the maximum width. The maximum width value is used as the fixed width.</property>
+            <child>
+              <object class="GtkSwitch" id="group_apps_use_fixed_width_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Display running indicators on unfocused applications</property>
+            <child>
+              <object class="GtkSwitch" id="group_apps_underline_unfocused_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Use the favorite icons as application launchers</property>
+            <child>
+              <object class="GtkSwitch" id="group_apps_use_launchers_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </object>
+
+</interface>

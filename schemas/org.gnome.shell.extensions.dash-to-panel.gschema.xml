@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="gnome-shell-extensions">
+  <enum id='org.gnome.shell.extensions.dash-to-panel.appiconStyle'>
+    <value value='0' nick='NORMAL'/>
+    <value value='1' nick='SYMBOLIC'/>
+  </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.dotStyle'>
     <value value='0' nick='DOTS'/>
     <value value='1' nick='SQUARES'/>
@@ -118,6 +122,11 @@
       <default>'BOTTOM'</default>
       <summary>Dot position</summary>
       <description>Running indicators are shown on the Bottom or Top of the screen.</description>
+    </key>
+    <key name="appicon-style" enum="org.gnome.shell.extensions.dash-to-panel.appiconStyle">
+      <default>'NORMAL'</default>
+      <summary>Style of Appicons</summary>
+      <description>Style of Appicons</description>
     </key>
     <key name="dot-style-focused" enum="org.gnome.shell.extensions.dash-to-panel.dotStyle">
       <default>'METRO'</default>
@@ -428,11 +437,6 @@
       <default>300</default>
       <summary>Show desktop animation time</summary>
       <description>Window fade animation time when showing the destop</description>
-    </key>
-    <key type="b" name="show-appmenu">
-      <default>false</default>
-      <summary>Show appMenu button</summary>
-      <description>Show appMenu on the right hand side of the panel</description>
     </key>
     <key type="b" name="show-window-previews">
       <default>true</default>

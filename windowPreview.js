@@ -15,24 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const GObject = imports.gi.GObject;
-const Clutter = imports.gi.Clutter;
-const GLib = imports.gi.GLib;
-const Graphene = imports.gi.Graphene;
-const Gtk = imports.gi.Gtk;
-const Main = imports.ui.main;
-const Mainloop = imports.mainloop;
-const Meta = imports.gi.Meta;
-const PopupMenu = imports.ui.popupMenu;
-const Signals = imports.signals;
-const St = imports.gi.St;
-const WindowManager = imports.ui.windowManager;
-const Workspace = imports.ui.workspace;
+import GObject from 'gi://GObject';
+import Clutter from 'gi://Clutter';
+import GLib from 'gi://GLib';
+import Graphene from 'gi://Graphene';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import Meta from 'gi://Meta';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import St from 'gi://St';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Panel = Me.imports.panel;
-const Taskbar = Me.imports.taskbar;
-const Utils = Me.imports.utils;
+import * as Taskbar from './taskbar.js';
+import * as Utils from './utils.js';
+import {SETTINGS, DESKTOPSETTINGS} from './extension.js';
+import {gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 //timeout intervals
 const ENSURE_VISIBLE_MS = 200;
@@ -61,7 +56,7 @@ let scaleFactor = 1;
 let animationTime = 0;
 let aspectRatio = {};
 
-var PreviewMenu = GObject.registerClass({
+export const PreviewMenu = GObject.registerClass({
     Signals: { 'open-state-changed': {} }
 }, class PreviewMenu extends St.Widget {
 
@@ -94,13 +89,13 @@ var PreviewMenu = GObject.registerClass({
         this._box = new St.BoxLayout({ vertical: this.isVertical });
         this._scrollView = new St.ScrollView({
             name: 'dashtopanelPreviewScrollview',
-            hscrollbar_policy: Gtk.PolicyType.NEVER,
-            vscrollbar_policy: Gtk.PolicyType.NEVER,
+            hscrollbar_policy: St.PolicyType.NEVER,
+            vscrollbar_policy: St.PolicyType.NEVER,
             enable_mouse_scrolling: true,
             y_expand: !this.isVertical
         });
 
-        this._scrollView.add_actor(this._box);
+        this._scrollView.add_child(this._box);
         this.menu.add_child(this._scrollView);
         this.add_child(this.menu);
     }
@@ -143,7 +138,7 @@ var PreviewMenu = GObject.registerClass({
                 }
             ],
             [
-                Me.settings,
+                SETTINGS,
                 [
                     'changed::panel-sizes',
                     'changed::window-preview-size',
@@ -169,7 +164,7 @@ var PreviewMenu = GObject.registerClass({
     }
 
     requestOpen(appIcon) {
-        let timeout = Me.settings.get_int('show-window-previews-timeout');
+        let timeout = SETTINGS.get_int('show-window-previews-timeout');
 
         if (this.opened) {
             timeout = Math.min(100, timeout);
@@ -263,9 +258,9 @@ var PreviewMenu = GObject.registerClass({
     requestPeek(window) {
         this._timeoutsHandler.remove(T3);
 
-        if (Me.settings.get_boolean('peek-mode')) {
+        if (SETTINGS.get_boolean('peek-mode')) {
             if (this.peekInitialWorkspaceIndex < 0) {
-                this._timeoutsHandler.add([T3, Me.settings.get_int('enter-peek-mode-timeout'), () => this._peek(window)]);
+                this._timeoutsHandler.add([T3, SETTINGS.get_int('enter-peek-mode-timeout'), () => this._peek(window)]);
             } else {
                 this._peek(window);
             }
@@ -368,7 +363,7 @@ var PreviewMenu = GObject.registerClass({
     }
 
     _addCloseTimeout() {
-        this._timeoutsHandler.add([T2, Me.settings.get_int('leave-timeout'), () => this.close()]);
+        this._timeoutsHandler.add([T2, SETTINGS.get_int('leave-timeout'), () => this.close()]);
     }
 
     _onHoverChanged() {
@@ -413,22 +408,22 @@ var PreviewMenu = GObject.registerClass({
 
     _refreshGlobals() {
         isLeftButtons = Meta.prefs_get_button_layout().left_buttons.indexOf(Meta.ButtonFunction.CLOSE) >= 0;
-        isTopHeader = Me.settings.get_string('window-preview-title-position') == 'TOP';
-        isManualStyling = Me.settings.get_boolean('window-preview-manual-styling');
+        isTopHeader = SETTINGS.get_string('window-preview-title-position') == 'TOP';
+        isManualStyling = SETTINGS.get_boolean('window-preview-manual-styling');
         scaleFactor = Utils.getScaleFactor();
-        headerHeight = Me.settings.get_boolean('window-preview-show-title') ? HEADER_HEIGHT * scaleFactor : 0;
-        animationTime = Me.settings.get_int('window-preview-animation-time') * .001;
+        headerHeight = SETTINGS.get_boolean('window-preview-show-title') ? HEADER_HEIGHT * scaleFactor : 0;
+        animationTime = SETTINGS.get_int('window-preview-animation-time') * .001;
         aspectRatio.x = {
-            size: Me.settings.get_int('window-preview-aspect-ratio-x'),
-            fixed: Me.settings.get_boolean('window-preview-fixed-x')
+            size: SETTINGS.get_int('window-preview-aspect-ratio-x'),
+            fixed: SETTINGS.get_boolean('window-preview-fixed-x')
         };
         aspectRatio.y = {
-            size: Me.settings.get_int('window-preview-aspect-ratio-y'),
-            fixed: Me.settings.get_boolean('window-preview-fixed-y')
+            size: SETTINGS.get_int('window-preview-aspect-ratio-y'),
+            fixed: SETTINGS.get_boolean('window-preview-fixed-y')
         };
         
-        alphaBg = Me.settings.get_boolean('preview-use-custom-opacity') ? 
-                  Me.settings.get_int('preview-custom-opacity') * .01 : 
+        alphaBg = SETTINGS.get_boolean('preview-use-custom-opacity') ? 
+                  SETTINGS.get_int('preview-custom-opacity') * .01 : 
                   this.panel.dynamicTransparency.alpha;
     }
 
@@ -436,8 +431,8 @@ var PreviewMenu = GObject.registerClass({
         let x, y, w;
         let geom = this.panel.getGeometry();
         let panelBoxTheme = this.panel.panelBox.get_theme_node();
-        let previewSize = (Me.settings.get_int('window-preview-size') + 
-                           Me.settings.get_int('window-preview-padding') * 2) * scaleFactor;
+        let previewSize = (SETTINGS.get_int('window-preview-size') + 
+                           SETTINGS.get_int('window-preview-padding') * 2) * scaleFactor;
         
         if (this.isVertical) {
             w = previewSize;
@@ -467,7 +462,7 @@ var PreviewMenu = GObject.registerClass({
         let sourceContentBox = sourceNode.get_content_box(this.currentAppIcon.get_allocation_box());
         let sourceAllocation = Utils.getTransformedAllocation(this.currentAppIcon);
         let [previewsWidth, previewsHeight] = this._getPreviewsSize();
-        let appIconMargin = Me.settings.get_int('appicon-margin') / scaleFactor;
+        let appIconMargin = SETTINGS.get_int('appicon-margin') / scaleFactor;
         let x = 0, y = 0;
 
         previewsWidth = Math.min(previewsWidth, this.panel.monitor.width);
@@ -514,7 +509,7 @@ var PreviewMenu = GObject.registerClass({
     }
 
     _getScrollAdjustmentValues() {
-        let [value , , upper, , , pageSize] = this._scrollView[(this.isVertical ? 'v' : 'h') + 'scroll'].adjustment.get_values();
+        let [value , , upper, , , pageSize] = this._scrollView[(this.isVertical ? 'v' : 'h') + 'adjustment'].get_values();
 
         return [value, upper, pageSize];
     }
@@ -589,7 +584,7 @@ var PreviewMenu = GObject.registerClass({
     _peek(window) {
         let currentWorkspace = Utils.getCurrentWorkspace();
         let windowWorkspace = window.get_workspace();
-        let focusWindow = () => this._focusMetaWindow(Me.settings.get_int('peek-mode-opacity'), window);
+        let focusWindow = () => this._focusMetaWindow(SETTINGS.get_int('peek-mode-opacity'), window);
         
         this._restorePeekedWindowStack();
 
@@ -693,7 +688,7 @@ var PreviewMenu = GObject.registerClass({
     }
 });
 
-var Preview = GObject.registerClass({
+export const Preview = GObject.registerClass({
 }, class Preview extends St.Widget {
 
     _init(previewMenu) {
@@ -709,7 +704,7 @@ var Preview = GObject.registerClass({
         this._needsCloseButton = true;
         this.cloneWidth = this.cloneHeight = 0;
         this._previewMenu = previewMenu;
-        this._padding = Me.settings.get_int('window-preview-padding') * scaleFactor;
+        this._padding = SETTINGS.get_int('window-preview-padding') * scaleFactor;
         this._previewDimensions = this._getPreviewDimensions();
         this.animatingOut = false;
 
@@ -717,7 +712,7 @@ var Preview = GObject.registerClass({
         let [previewBinWidth, previewBinHeight] = this._getBinSize();
         let closeButton = new St.Button({ style_class: 'window-close', accessible_name: 'Close window' });
 
-        closeButton.add_actor(new St.Icon({ icon_name: 'window-close-symbolic' }));
+        closeButton.add_child(new St.Icon({ icon_name: 'window-close-symbolic' }));
 
         this._closeButtonBin = new St.Widget({ 
             style_class: 'preview-close-btn-container',
@@ -810,12 +805,14 @@ var Preview = GObject.registerClass({
                     this._addClone(cloneBin, animateSize);
                     this._previewMenu.updatePosition();
                 } else if (!this._waitWindowId) {
-                    this._waitWindowId = Mainloop.idle_add(() => {
+                    this._waitWindowId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
                         this._waitWindowId = 0;
 
                         if (this._previewMenu.opened) {
                             _assignWindowClone();
                         }
+
+                        return GLib.SOURCE_REMOVE;
                     });
                 }
             };
@@ -883,7 +880,7 @@ var Preview = GObject.registerClass({
         this._hideOrShowCloseButton(true);
         this.reactive = false;
 
-        if (!Me.settings.get_boolean('group-apps')) {
+        if (!SETTINGS.get_boolean('group-apps')) {
             this._previewMenu.close();
         } else {
             this._previewMenu.endPeekHere();
@@ -898,7 +895,7 @@ var Preview = GObject.registerClass({
                 this.activate();
                 break;
             case 2: // Middle click
-                if (Me.settings.get_boolean('preview-middle-click-close')) {
+                if (SETTINGS.get_boolean('preview-middle-click-close')) {
                     this._onCloseBtnClick();
                 }
                 break;
@@ -957,21 +954,21 @@ var Preview = GObject.registerClass({
 
     _updateHeader() {
         if (headerHeight) {
-            let iconTextureSize = Me.settings.get_boolean('window-preview-use-custom-icon-size') ? 
-                                  Me.settings.get_int('window-preview-custom-icon-size') : 
+            let iconTextureSize = SETTINGS.get_boolean('window-preview-use-custom-icon-size') ? 
+                                  SETTINGS.get_int('window-preview-custom-icon-size') : 
                                   headerHeight / scaleFactor * .6;
             let icon = this._previewMenu.getCurrentAppIcon().app.create_icon_texture(iconTextureSize);
             let workspaceIndex = '';
             let workspaceStyle = null;
-            let fontScale = Me.desktopSettings.get_double('text-scaling-factor');
-            let commonTitleStyles = 'color: ' + Me.settings.get_string('window-preview-title-font-color') + ';' +
-                                    'font-size: ' + Me.settings.get_int('window-preview-title-font-size') * fontScale + 'px;' +
-                                    'font-weight: ' + Me.settings.get_string('window-preview-title-font-weight') + ';';
+            let fontScale = DESKTOPSETTINGS.get_double('text-scaling-factor');
+            let commonTitleStyles = 'color: ' + SETTINGS.get_string('window-preview-title-font-color') + ';' +
+                                    'font-size: ' + SETTINGS.get_int('window-preview-title-font-size') * fontScale + 'px;' +
+                                    'font-weight: ' + SETTINGS.get_string('window-preview-title-font-weight') + ';';
             
             this._iconBin.destroy_all_children();
             this._iconBin.add_child(icon);
 
-            if (!Me.settings.get_boolean('isolate-workspaces')) {
+            if (!SETTINGS.get_boolean('isolate-workspaces')) {
                 workspaceIndex = (this.window.get_workspace().index() + 1).toString();
                 workspaceStyle = 'margin: 0 4px 0 ' + (isLeftButtons ? Math.round((headerHeight - icon.width) * .5) + 'px' : '0') + '; padding: 0 4px;' +  
                                  'border: 2px solid ' + this._getRgbaColor(FOCUSED_COLOR_OFFSET, .8) + 'border-radius: 2px;' + commonTitleStyles;
@@ -1096,7 +1093,7 @@ var Preview = GObject.registerClass({
     }
 
     _getPreviewDimensions() {
-        let size = Me.settings.get_int('window-preview-size') * scaleFactor;
+        let size = SETTINGS.get_int('window-preview-size') * scaleFactor;
         let w, h;
 
         if (this._previewMenu.isVertical) {
@@ -1111,7 +1108,7 @@ var Preview = GObject.registerClass({
     }
 });
 
-var WindowCloneLayout = GObject.registerClass({
+export const WindowCloneLayout = GObject.registerClass({
 }, class WindowCloneLayout extends Clutter.BinLayout {
 
     _init(frameRect, bufferRect) {
@@ -1139,13 +1136,13 @@ var WindowCloneLayout = GObject.registerClass({
     }
 });
 
-function setStyle(actor, style) {
+export function setStyle(actor, style) {
     if (!isManualStyling) {
         actor.set_style(style);
     }
 }
 
-function getTweenOpts(opts) {
+export function getTweenOpts(opts) {
     let defaults = {
         time: animationTime,
         transition: 'easeInOutQuad'

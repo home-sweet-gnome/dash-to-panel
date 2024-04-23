@@ -18,59 +18,93 @@
  */
 
 
-const Main = imports.ui.main;
-const Meta = imports.gi.Meta;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const Shell = imports.gi.Shell;
-const St = imports.gi.St;
-const WindowManager = imports.ui.windowManager;
-const ExtensionUtils = imports.misc.extensionUtils;
-const Mainloop = imports.mainloop;
-const Signals = imports.signals;
+import Gio from 'gi://Gio';
 
-const Me = ExtensionUtils.getCurrentExtension();
-const { PanelManager } = Me.imports.panelManager;
-const Utils = Me.imports.utils;
-const AppIcons = Me.imports.appIcons;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
+import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
+
+import * as  PanelManager from './panelManager.js';
+import * as Utils from './utils.js';
+import * as AppIcons from './appIcons.js';
+
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 
 let panelManager;
 let extensionChangedHandler;
+let startupCompleteHandler;
 let disabledUbuntuDock;
-let extensionSystem = (Main.extensionManager || imports.ui.extensionSystem);
+let extensionSystem = Main.extensionManager;
 
-function init() {
-    this._realHasOverview = Main.sessionMode.hasOverview;
+export let DTP_EXTENSION = null;
+export let SETTINGS = null;
+export let DESKTOPSETTINGS = null;
+export let TERMINALSETTINGS = null;
+export let PERSISTENTSTORAGE = null;
+export let EXTENSION_UUID = null;
+export let EXTENSION_PATH = null;
 
-    ExtensionUtils.initTranslations(Utils.TRANSLATION_DOMAIN);
-    
-    //create an object that persists until gnome-shell is restarted, even if the extension is disabled
-    Me.persistentStorage = {};
-}
+export default class DashToPanelExtension extends Extension {
+    constructor(metadata) {
+        super(metadata);
 
-function enable() {
-    // The Ubuntu Dock extension might get enabled after this extension
-    extensionChangedHandler = extensionSystem.connect('extension-state-changed', (data, extension) => {
-        if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
-            _enable();
+        this._realHasOverview = Main.sessionMode.hasOverview;
+        
+        //create an object that persists until gnome-shell is restarted, even if the extension is disabled
+        PERSISTENTSTORAGE = {};
+    }
+
+    enable() {
+        DTP_EXTENSION = this;
+
+        // The Ubuntu Dock extension might get enabled after this extension
+        extensionChangedHandler = extensionSystem.connect('extension-state-changed', (data, extension) => {
+            if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
+                _enable(this);
+            }
+        });
+
+        //create a global object that can emit signals and conveniently expose functionalities to other extensions 
+        global.dashToPanel = new EventEmitter();
+        
+        _enable(this);
+    }
+
+    disable(reset = false) {
+        panelManager.disable();
+
+        DTP_EXTENSION = null;
+        SETTINGS = null;
+        DESKTOPSETTINGS = null;
+        TERMINALSETTINGS = null;
+        panelManager = null;
+
+        if (!reset) {
+            extensionSystem.disconnect(extensionChangedHandler);
+            delete global.dashToPanel;
+
+            // Re-enable Ubuntu Dock if it was disabled by dash to panel
+            if (disabledUbuntuDock && Main.sessionMode.allowExtensions) {
+                (extensionSystem._callExtensionEnable || extensionSystem.enableExtension).call(extensionSystem, UBUNTU_DOCK_UUID);
+            }
+
+            AppIcons.resetRecentlyClickedApp();
         }
-    });
 
-    //create a global object that can emit signals and conveniently expose functionalities to other extensions 
-    global.dashToPanel = {};
-    Signals.addSignalMethods(global.dashToPanel);
-    
-    _enable();
+        if (startupCompleteHandler) {
+            Main.layoutManager.disconnect(startupCompleteHandler);
+            startupCompleteHandler = null;
+        }
+
+        Main.sessionMode.hasOverview = this._realHasOverview;
+    }
 }
 
-function _enable() {
-    let ubuntuDock = Main.extensionManager ?
-                     Main.extensionManager.lookup(UBUNTU_DOCK_UUID) : //gnome-shell >= 3.33.4
-                     ExtensionUtils.extensions[UBUNTU_DOCK_UUID];
+function _enable(extension) {
+    let ubuntuDock = extensionSystem.lookup(UBUNTU_DOCK_UUID);
 
-    if (ubuntuDock && ubuntuDock.stateObj && ubuntuDock.stateObj.dockManager) {
+    if (ubuntuDock && ubuntuDock.stateObj) {
         // Disable Ubuntu Dock
         let extensionOrder = (extensionSystem.extensionOrder || extensionSystem._extensionOrder);
 
@@ -82,69 +116,28 @@ function _enable() {
 
         //reset to prevent conflicts with the ubuntu-dock
         if (panelManager) {
-            disable(true);
+            extension.disable(true);
         }
     }
 
     if (panelManager) return; //already initialized
 
-    Me.settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
-    Me.desktopSettings = ExtensionUtils.getSettings('org.gnome.desktop.interface');
+    SETTINGS = extension.getSettings('org.gnome.shell.extensions.dash-to-panel');
+    DESKTOPSETTINGS = new Gio.Settings({schema_id: 'org.gnome.desktop.interface'});
+    TERMINALSETTINGS = new Gio.Settings({schema_id: 'org.gnome.desktop.default-applications.terminal'})
+    EXTENSION_UUID = extension.uuid
+    EXTENSION_PATH = extension.path
 
-    Main.layoutManager.startInOverview = !Me.settings.get_boolean('hide-overview-on-startup');
+    Main.layoutManager.startInOverview = !SETTINGS.get_boolean('hide-overview-on-startup');
 
-    if (Me.settings.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
+    if (SETTINGS.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
         Main.sessionMode.hasOverview = false;
-        Main.layoutManager.connect('startup-complete', () => {
-            Main.sessionMode.hasOverview = this._realHasOverview
+        startupCompleteHandler = Main.layoutManager.connect('startup-complete', () => {
+            Main.sessionMode.hasOverview = extension._realHasOverview
         });
     }
 
-    panelManager = new PanelManager();
+    panelManager = new PanelManager.PanelManager();
 
     panelManager.enable();
-    
-    Utils.removeKeybinding('open-application-menu');
-    Utils.addKeybinding(
-        'open-application-menu',
-        new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
-        () => {
-            if(Me.settings.get_boolean('show-appmenu'))
-                Main.wm._toggleAppMenu();
-            else
-                panelManager.primaryPanel.taskbar.popupFocusedAppSecondaryMenu();
-        },
-        Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
-    );
-}
-
-function disable(reset) {
-    panelManager.disable();
-    Me.settings.run_dispose();
-    Me.desktopSettings.run_dispose();
-
-    delete Me.settings;
-    panelManager = null;
-    
-    Utils.removeKeybinding('open-application-menu');
-    Utils.addKeybinding(
-        'open-application-menu',
-        new Gio.Settings({ schema_id: WindowManager.SHELL_KEYBINDINGS_SCHEMA }),
-        Main.wm._toggleAppMenu.bind(Main.wm),
-        Shell.ActionMode.NORMAL | Shell.ActionMode.POPUP
-    );
-
-    if (!reset) {
-        extensionSystem.disconnect(extensionChangedHandler);
-        delete global.dashToPanel;
-
-        // Re-enable Ubuntu Dock if it was disabled by dash to panel
-        if (disabledUbuntuDock && Main.sessionMode.allowExtensions) {
-            (extensionSystem._callExtensionEnable || extensionSystem.enableExtension).call(extensionSystem, UBUNTU_DOCK_UUID);
-        }
-
-        AppIcons.resetRecentlyClickedApp();
-    }
-
-    Main.sessionMode.hasOverview = this._realHasOverview;
 }

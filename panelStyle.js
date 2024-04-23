@@ -21,18 +21,11 @@
  * mathematical.coffee@gmail.com
  */
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const ExtensionUtils = imports.misc.extensionUtils;
-const Main = imports.ui.main;
-const Mainloop = imports.mainloop;
-const St = imports.gi.St;
-const Shell = imports.gi.Shell;
+import * as Utils from './utils.js';
+import {SETTINGS} from './extension.js';
 
-const Panel = Me.imports.panel;
-const Taskbar = Me.imports.taskbar;
-const Utils = Me.imports.utils;
 
-var PanelStyle = class {
+export const PanelStyle = class {
 
     enable(panel) {
         this.panel = panel;
@@ -44,7 +37,7 @@ var PanelStyle = class {
 
     disable() {
         for (let i = 0; i < this._dtpSettingsSignalIds.length; ++i) {
-            Me.settings.disconnect(this._dtpSettingsSignalIds[i]);
+            SETTINGS.disconnect(this._dtpSettingsSignalIds[i]);
         }
 
         this._removeStyles();
@@ -62,7 +55,7 @@ var PanelStyle = class {
         this._dtpSettingsSignalIds = [];
         
         for(let i in configKeys) {
-            this._dtpSettingsSignalIds.push(Me.settings.connect('changed::' + configKeys[i], () => {
+            this._dtpSettingsSignalIds.push(SETTINGS.connect('changed::' + configKeys[i], () => {
                 this._removeStyles();
                 this._applyStyles();
             }));
@@ -72,7 +65,7 @@ var PanelStyle = class {
     _applyStyles() {
         this._rightBoxOperations = [];
         
-        let trayPadding = Me.settings.get_int('tray-padding');
+        let trayPadding = SETTINGS.get_int('tray-padding');
         let isVertical = this.panel.checkIfVertical();
         let paddingStyle = 'padding: ' + (isVertical ? '%dpx 0' : '0 %dpx');
 
@@ -105,7 +98,7 @@ var PanelStyle = class {
             this._rightBoxOperations.push(operation);
         }
 
-        let statusIconPadding = Me.settings.get_int('status-icon-padding');
+        let statusIconPadding = SETTINGS.get_int('status-icon-padding');
         if(statusIconPadding >= 0) {
             let statusIconPaddingStyleLine = paddingStyle.format(statusIconPadding)
             let operation = {};
@@ -118,7 +111,7 @@ var PanelStyle = class {
             this._rightBoxOperations.push(operation);
         }
 
-        let trayContentSize = Me.settings.get_int('tray-size');
+        let trayContentSize = SETTINGS.get_int('tray-size');
         if(trayContentSize > 0) {
             let trayIconSizeStyleLine = 'icon-size: %dpx'.format(trayContentSize)
             let operation = {};
@@ -149,7 +142,7 @@ var PanelStyle = class {
 
         this._leftBoxOperations = [];
 
-        let leftboxPadding = Me.settings.get_int('leftbox-padding');
+        let leftboxPadding = SETTINGS.get_int('leftbox-padding');
         if(leftboxPadding >= 0) {
             let leftboxPaddingStyleLine = paddingStyle.format(leftboxPadding);
             let operation = {};
@@ -163,7 +156,7 @@ var PanelStyle = class {
             this._leftBoxOperations.push(operation);
         }
 
-        let leftboxContentSize = Me.settings.get_int('leftbox-size');
+        let leftboxContentSize = SETTINGS.get_int('leftbox-size');
         if(leftboxContentSize > 0) {
             let leftboxIconSizeStyleLine = 'icon-size: %dpx'.format(leftboxContentSize)
             let operation = {};
@@ -191,7 +184,7 @@ var PanelStyle = class {
         this._applyStylesRecursively();
         
         /* connect signal */
-        this._rightBoxActorAddedID = this.panel._rightBox.connect('actor-added',
+        this._rightBoxActorAddedID = this.panel._rightBox.connect('child-added',
             (container, actor) => {
                 if(this._rightBoxOperations.length && !this._ignoreAddedChild)
                     this._recursiveApply(actor, this._rightBoxOperations);
@@ -199,7 +192,7 @@ var PanelStyle = class {
                 this._ignoreAddedChild = 0;
             }
         );
-        this._centerBoxActorAddedID = this.panel._centerBox.connect('actor-added',
+        this._centerBoxActorAddedID = this.panel._centerBox.connect('child-added',
             (container, actor) => {
                 if(this._centerBoxOperations.length && !this._ignoreAddedChild)
                     this._recursiveApply(actor, this._centerBoxOperations);
@@ -207,7 +200,7 @@ var PanelStyle = class {
                 this._ignoreAddedChild = 0;
             }
         );
-        this._leftBoxActorAddedID = this.panel._leftBox.connect('actor-added',
+        this._leftBoxActorAddedID = this.panel._leftBox.connect('child-added',
             (container, actor) => {
                 if(this._leftBoxOperations.length)
                     this._recursiveApply(actor, this._leftBoxOperations);

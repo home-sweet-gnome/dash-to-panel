@@ -27,44 +27,33 @@
 	padding: 0; 
 }
 
-#dashtopanelScrollview .app-well-app .overview-icon,
-.dashtopanelMainPanel .show-apps .overview-icon {
+#dashtopanelScrollview .overview-tile,
+.dashtopanelMainPanel .overview-tile {
 	background: none;
-	border: none;
-	margin: 0;
-	padding: 0;
 }
 
-#dashtopanelScrollview .app-well-app .overview-label {
+#dashtopanelScrollview .overview-tile .overview-label {
 	/* must match TITLE_RIGHT_PADDING in apppicons.js */
 	padding-right: 8px;
+	text-align: left;
 }
 
-#dashtopanelScrollview .app-well-app:hover .overview-icon,
-#dashtopanelScrollview .app-well-app:focus .overview-icon {
-	background: none;
-}
-
-.dashtopanelMainPanel .show-apps:hover .overview-icon,
-#dashtopanelScrollview .app-well-app:hover .dtp-container,
-#dashtopanelScrollview .app-well-app:focus .dtp-container {
+#dashtopanelScrollview .overview-tile:hover .dtp-container,
+#dashtopanelScrollview .overview-tile:focus .dtp-container {
 	background-color: rgba(238, 238, 236, 0.1);
 }
 
-#dashtopanelScrollview .app-well-app:hover .dtp-container.animate-appicon-hover {
+#dashtopanelTaskbar .dash-item-container .overview-tile:hover,
+#dashtopanelScrollview .overview-tile:hover .dtp-container.animate-appicon-hover {
 	background: none;
 }
 
-#dashtopanelScrollview .app-well-app:active .dtp-container {
+#dashtopanelScrollview .overview-tile:active .dtp-container {
 	background-color: rgba(238, 238, 236, 0.18);
 }
 
-#dashtopanelScrollview .app-well-app .favorite {
+#dashtopanelScrollview .overview-tile .favorite {
 	background-color: rgba(80, 150, 255, 0.4);
-}
-
-#dashtopanelScrollview .app-well-app-running-dot {
-	margin-bottom: 0;
 }
 
 #dashtopanelTaskbar .scrollview-fade {
@@ -134,9 +123,6 @@
 	background-color: rgba(55, 55, 55, .4);
 }
 
-.panel-corner.hidden:active, .panel-corner.hidden:overview, .panel-corner.hidden:focus {
-    -panel-corner-border-color: rgba(0, 0, 0, .001);
-}
 #dashtopanelScrollview .badge {
 	color: rgba(255, 255, 255, 1);
 	font-weight: bold;
@@ -156,4 +142,8 @@
       -progress-bar-background: rgba(0.8, 0.8, 0.8, 1);
       -progress-bar-border: rgba(0.9, 0.9, 0.9, 1);
     */
+}
+
+.symbolic-icon-style {
+    -st-icon-style: symbolic;
 }

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <object class="AdwPreferencesPage" id="behavior">
+    <property name="title" translatable="yes">Behavior</property>
+    <property name="icon_name">preferences-system-symbolic</property>
+
+    <!-- group applications -->
+    <child>
+      <object class="AdwPreferencesGroup" id="behavior_group_applications">
+        <property name="title" translatable="yes">Applications</property>
+        
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show favorite applications</property>
+            <child>
+              <object class="GtkSwitch" id="show_favorite_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show favorite applications on secondary panels</property>
+            <child>
+              <object class="GtkSwitch" id="multimon_multi_show_favorites_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show running applications</property>
+            <child>
+              <object class="GtkSwitch" id="show_runnning_apps_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Ungroup applications</property>
+            <child>
+              <object class="GtkButton" id="show_group_apps_options_button">
+                <property name="receives_default">True</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkImage" id="image_show_group_apps_options">
+                    <property name="icon_name">emblem-system-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSwitch" id="group_apps_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show notification counter badge</property>
+            <child>
+              <object class="GtkSwitch" id="show_notification_badge_switch">
+                <property name="visible">True</property>
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <!-- group hover -->
+    <child>
+      <object class="AdwPreferencesGroup" id="behavior_group_hover">
+        <property name="title" translatable="yes">Hover</property>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show window previews on hover</property>
+            <child>
+              <object class="GtkButton" id="show_window_previews_button">
+                <property name="receives_default">True</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkImage" id="image_window_previews_options">
+                    <property name="icon_name">emblem-system-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSwitch" id="show_window_previews_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show tooltip on hover</property>
+            <child>
+              <object class="GtkSwitch" id="show_tooltip_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <!-- group isolate -->
+    <child>
+      <object class="AdwPreferencesGroup" id="behavior_group_isolate">
+        <property name="title" translatable="yes">Isolate</property>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Isolate Workspaces</property>
+            <child>
+              <object class="GtkSwitch" id="isolate_workspaces_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Isolate monitors</property>
+            <child>
+              <object class="GtkSwitch" id="multimon_multi_isolate_monitor_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <!-- group overview -->
+    <child>
+      <object class="AdwPreferencesGroup" id="behavior_group_overview">
+        <property name="title" translatable="yes">Overview</property>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Click empty space to close overview</property>
+            <child>
+              <object class="GtkSwitch" id="clicktoexit_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Disable show overview on startup</property>
+            <child>
+              <object class="GtkSwitch" id="hide_overview_on_startup_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+  </object>
+</interface>

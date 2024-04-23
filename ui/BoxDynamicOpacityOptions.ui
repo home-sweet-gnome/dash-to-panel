@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="trans_distance_adjustment">
+    <property name="upper">200</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+
+  <object class="GtkAdjustment" id="trans_opacity_min_adjustment">
+    <property name="upper">100</property>
+    <property name="step_increment">5</property>
+    <property name="page_increment">10</property>
+  </object>
+
+  <object class="GtkAdjustment" id="trans_anim_time_adjustment">
+    <property name="upper">2000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+
+  <object class="GtkBox" id="box_dynamic_opacity_options">
+    <property name="orientation">vertical</property>
+    <property name="width-request">600</property>
+    <property name="spacing">24</property>
+    <property name="margin-top">32</property>
+    <property name="margin-bottom">32</property>
+    <property name="margin-start">32</property>
+    <property name="margin-end">32</property>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">The panel background opacity is affected by</property>
+            <child>
+              <object class="GtkComboBoxText" id="trans_options_window_type_combo">
+                <property name="valign">center</property>
+                <items>
+                  <item id="ALL_WINDOWS" translatable="yes">All windows</item>
+                  <item id="FOCUSED_WINDOWS" translatable="yes">Focused windows</item>
+                  <item id="MAXIMIZED_WINDOWS" translatable="yes">Maximized windows</item>
+                </items>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Change opacity when a window gets closer than (px)</property>
+            <child>
+              <object class="GtkSpinButton" id="trans_options_distance_spinbutton">
+                <property name="valign">center</property>
+                <property name="width_chars">4</property>
+                <property name="text">50</property>
+                <property name="adjustment">trans_distance_adjustment</property>
+                <property name="numeric">True</property>
+                <property name="value">50</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Change opacity to (%)</property>
+            <child>
+              <object class="GtkSpinButton" id="trans_options_min_opacity_spinbutton">
+                <property name="text" translatable="yes">0</property>
+                <property name="valign">center</property>
+                <property name="adjustment">trans_opacity_min_adjustment</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Opacity change animation duration (ms)</property>
+            <child>
+              <object class="GtkSpinButton" id="trans_options_anim_time_spinbutton">
+                <property name="width_chars">4</property>
+                <property name="text">50</property>
+                <property name="valign">center</property>
+                <property name="adjustment">trans_anim_time_adjustment</property>
+                <property name="numeric">True</property>
+                <property name="value">50</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </object>
+
+</interface>

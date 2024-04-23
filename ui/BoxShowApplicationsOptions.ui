@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <object class="GtkAdjustment" id="show_applications_side_padding_adjustment">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+
+  <object class="GtkBox" id="show_applications_options">
+    <property name="orientation">vertical</property>
+    <property name="width-request">600</property>
+    <property name="spacing">24</property>
+    <property name="margin-top">32</property>
+    <property name="margin-bottom">32</property>
+    <property name="margin-start">32</property>
+    <property name="margin-end">32</property>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show Applications icon</property>
+            <child>
+              <object class="GtkImage" id="show_applications_current_icon_image">
+                <property name="width_request">32</property>
+                <property name="height_request">32</property>
+                <property name="icon_name">gtk-missing-image</property>
+                <property name="pixel_size">32</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesRow">
+            <child>
+              <object class="GtkButton" id="show_applications_icon_file_filebutton">
+                <property name="margin-start">8</property>
+                <property name="margin-end">8</property>
+                <property name="margin-top">8</property>
+                <property name="margin-bottom">8</property>
+                <property name="width_request">140</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
+    <child>
+      <object class="AdwPreferencesGroup">
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show Applications icon side padding (px)</property>
+            <child>
+              <object class="GtkSpinButton" id="show_applications_side_padding_spinbutton">
+                <property name="valign">center</property>
+                <property name="text" translatable="yes">0</property>
+                <property name="adjustment">show_applications_side_padding_adjustment</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Override escape key and return to desktop</property>
+            <child>
+              <object class="GtkSwitch" id="show_applications_esc_key_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </object>
+
+</interface>

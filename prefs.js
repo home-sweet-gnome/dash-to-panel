@@ -20,21 +20,17 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
-const GdkPixbuf = imports.gi.GdkPixbuf;
-const Gio = imports.gi.Gio;
-const GLib = imports.gi.GLib;
-const GObject = imports.gi.GObject;
-const Gtk = imports.gi.Gtk;
-const Gdk = imports.gi.Gdk;
-const Mainloop = imports.mainloop;
+import GdkPixbuf from 'gi://GdkPixbuf';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Gtk from 'gi://Gtk';
+import Gdk from 'gi://Gdk';
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const ExtensionUtils = imports.misc.extensionUtils;
-const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
-const _ = Gettext.gettext;
-const N_ = function(e) { return e };
-const PanelSettings = Me.imports.panelSettings;
-const Pos = Me.imports.panelPositions;
+import * as PanelSettings from './panelSettings.js';
+import * as Pos from './panelPositions.js';
+
+import {ExtensionPreferences, gettext as _, ngettext} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const SCALE_UPDATE_TIMEOUT = 500;
 const DEFAULT_PANEL_SIZES = [ 128, 96, 64, 48, 32, 24, 16 ];
@@ -146,25 +142,79 @@ function checkHotkeyPrefix(settings) {
 }
 
 function mergeObjects(main, bck) {
-    for (var prop in bck) {
+    for (const prop in bck) {
         if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
             main[prop] = bck[prop];
         }
     }
 
     return main;
-};
+}
 
 const Preferences = class {
 
-    constructor() {
-        this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
+    constructor(window, settings, path) {
+        // this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
         this._rtl = (Gtk.Widget.get_default_direction() == Gtk.TextDirection.RTL);
         this._builder = new Gtk.Builder();
         this._builder.set_scope(new BuilderScope(this));
-        this._builder.set_translation_domain(Me.metadata['gettext-domain']);
-        this._builder.add_from_file(Me.path + '/Settings.ui');
-        this.notebook = this._builder.get_object('settings_notebook');
+        this._settings = settings;
+        this._path = path;
+        
+        this._metadata = ExtensionPreferences.lookupByURL(import.meta.url).metadata;
+        this._builder.set_translation_domain(this._metadata['gettext-domain']);
+
+        window.set_search_enabled(true);
+
+        // dialogs
+        this._builder.add_from_file(this._path + '/ui/BoxAnimateAppIconHoverOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxDotOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxShowDesktopOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxDynamicOpacityOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxIntellihideOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxShowApplicationsOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxWindowPreviewOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxGroupAppsOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxMiddleClickOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxOverlayShortcut.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxSecondaryMenuOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxScrollPanelOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxScrollIconOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxAdvancedOptions.ui');
+
+        // pages
+        this._builder.add_from_file(this._path + '/ui/SettingsPosition.ui');
+        let pagePosition = this._builder.get_object('position');
+        window.add(pagePosition);
+
+        this._builder.add_from_file(this._path + '/ui/SettingsStyle.ui');
+        let pageStyle = this._builder.get_object('style');
+        window.add(pageStyle);
+
+        this._builder.add_from_file(this._path + '/ui/SettingsBehavior.ui');
+        let pageBehavior = this._builder.get_object('behavior');
+        window.add(pageBehavior);
+
+        this._builder.add_from_file(this._path + '/ui/SettingsAction.ui');
+        let pageAction = this._builder.get_object('action');
+        window.add(pageAction);
+
+        this._builder.add_from_file(this._path + '/ui/SettingsFineTune.ui');
+        let pageFineTune = this._builder.get_object('finetune');
+        window.add(pageFineTune);
+
+        this._builder.add_from_file(this._path + '/ui/SettingsAbout.ui');
+        let pageAbout = this._builder.get_object('about');
+        window.add(pageAbout);
+
+        let listbox = this._builder.get_object('taskbar_display_listbox');
+        let provider = new Gtk.CssProvider();
+        provider.load_from_data('list { background-color: transparent; }', -1);
+        let context = listbox.get_style_context();
+        context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+        // set the window as notebook, it is being used as parent for dialogs
+        this.notebook = window;
 
         // Timeout to delay the update of the settings
         this._panel_size_timeout = 0;
@@ -193,7 +243,7 @@ const Preferences = class {
         let isVertical = position == Pos.LEFT || position == Pos.RIGHT;
         let showDesktopWidthLabel = this._builder.get_object('show_showdesktop_width_label');
 
-        showDesktopWidthLabel.set_text(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
+        showDesktopWidthLabel.set_title(isVertical ? _('Show Desktop button height (px)') : _('Show Desktop button width (px)'));
 
         this._displayPanelPositionsForMonitor(this._currentMonitorIndex);
     }
@@ -432,18 +482,48 @@ const Preferences = class {
         });
     }
 
-    _showShowAppsButtonOptions() {
-        let dialog = new Gtk.Dialog({ title: _('Show Applications options'),
-                                        transient_for: this.notebook.get_root(),
-                                        use_header_bar: true,
-                                        modal: true });
+    _createPreferencesDialog(title, content, reset_function = null) {
+        let dialog;
+        
+        dialog = new Gtk.Dialog({ title: title,
+                                    transient_for: this.notebook.get_root(),
+                                    use_header_bar: true,
+                                    modal: true });
 
         // GTK+ leaves positive values for application-defined response ids.
         // Use +1 for the reset action
-        dialog.add_button(_('Reset to defaults'), 1);
+        if (reset_function != null)
+            dialog.add_button(_('Reset to defaults'), 1);
 
+        dialog.get_content_area().append(content);
+
+        dialog.connect('response', (dialog, id) => {
+            if (id == 1) {
+                // restore default settings
+                if (reset_function)
+                    reset_function();
+            } else {
+                // remove the settings content so it doesn't get destroyed;
+                dialog.get_content_area().remove(content);
+                dialog.destroy();
+            }
+            return;
+        });
+
+        return dialog;
+    }
+
+    _showShowAppsButtonOptions() {
         let box = this._builder.get_object('show_applications_options');
-        dialog.get_content_area().append(box);
+
+        let dialog = this._createPreferencesDialog(_('Show Applications options'), box, () =>
+        {
+            // restore default settings
+            this._settings.set_value('show-apps-icon-side-padding', this._settings.get_default_value('show-apps-icon-side-padding'));
+            this._builder.get_object('show_applications_side_padding_spinbutton').set_value(this._settings.get_int('show-apps-icon-side-padding'));
+            this._settings.set_value('show-apps-override-escape', this._settings.get_default_value('show-apps-override-escape'));
+            handleIconChange.call(this, null);
+        });
 
         let fileChooserButton = this._builder.get_object('show_applications_icon_file_filebutton');
         let fileChooser = new Gtk.FileChooserNative({ title: _('Open icon'), transient_for: dialog });
@@ -478,17 +558,9 @@ const Preferences = class {
         fileChooser.connect('response', widget => handleIconChange.call(this, widget.get_file().get_path()));
         handleIconChange.call(this, this._settings.get_string('show-apps-icon-file'));
 
+        // we have to destroy the fileChooser as well
         dialog.connect('response', (dialog, id) => {
-            if (id == 1) {
-                // restore default settings
-                this._settings.set_value('show-apps-icon-side-padding', this._settings.get_default_value('show-apps-icon-side-padding'));
-                this._builder.get_object('show_applications_side_padding_spinbutton').set_value(this._settings.get_int('show-apps-icon-side-padding'));
-                this._settings.set_value('show-apps-override-escape', this._settings.get_default_value('show-apps-override-escape'));
-                handleIconChange.call(this, null);
-            } else {
-                // remove the settings box so it doesn't get destroyed;
-                dialog.get_content_area().remove(box);
-                dialog.destroy();
+            if (id != 1) {
                 fileChooser.destroy();
             }
             return;
@@ -499,17 +571,24 @@ const Preferences = class {
     }
 
     _showDesktopButtonOptions() {
-        let dialog = new Gtk.Dialog({ title: _('Show Desktop options'),
-                                        transient_for: this.notebook.get_root(),
-                                        use_header_bar: true,
-                                        modal: true });
-
-        // GTK+ leaves positive values for application-defined response ids.
-        // Use +1 for the reset action
-        dialog.add_button(_('Reset to defaults'), 1);
-
         let box = this._builder.get_object('box_show_showdesktop_options');
-        dialog.get_content_area().append(box);
+        
+        let dialog = this._createPreferencesDialog(_('Show Desktop options'), box, () =>
+        {
+            // restore default settings
+            this._settings.set_value('showdesktop-button-width', this._settings.get_default_value('showdesktop-button-width'));
+            this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
+
+            this._settings.set_value('desktop-line-use-custom-color', this._settings.get_default_value('desktop-line-use-custom-color'));
+
+            this._settings.set_value('show-showdesktop-hover', this._settings.get_default_value('show-showdesktop-hover'));
+
+            this._settings.set_value('show-showdesktop-delay', this._settings.get_default_value('show-showdesktop-delay'));
+            this._builder.get_object('show_showdesktop_delay_spinbutton').set_value(this._settings.get_int('show-showdesktop-delay'));
+
+            this._settings.set_value('show-showdesktop-time', this._settings.get_default_value('show-showdesktop-time'));
+            this._builder.get_object('show_showdesktop_time_spinbutton').set_value(this._settings.get_int('show-showdesktop-time'));
+        });
 
         this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
         this._builder.get_object('show_showdesktop_width_spinbutton').connect('value-changed', (widget) => {
@@ -524,27 +603,6 @@ const Preferences = class {
         this._builder.get_object('show_showdesktop_time_spinbutton').set_value(this._settings.get_int('show-showdesktop-time'));
         this._builder.get_object('show_showdesktop_time_spinbutton').connect('value-changed', (widget) => {
             this._settings.set_int('show-showdesktop-time', widget.get_value());
-        });
-
-        dialog.connect('response', (dialog, id) => {
-            if (id == 1) {
-                // restore default settings
-                this._settings.set_value('showdesktop-button-width', this._settings.get_default_value('showdesktop-button-width'));
-                this._builder.get_object('show_showdesktop_width_spinbutton').set_value(this._settings.get_int('showdesktop-button-width'));
-
-                this._settings.set_value('show-showdesktop-hover', this._settings.get_default_value('show-showdesktop-hover'));
-
-                this._settings.set_value('show-showdesktop-delay', this._settings.get_default_value('show-showdesktop-delay'));
-                this._builder.get_object('show_showdesktop_delay_spinbutton').set_value(this._settings.get_int('show-showdesktop-delay'));
-
-                this._settings.set_value('show-showdesktop-time', this._settings.get_default_value('show-showdesktop-time'));
-                this._builder.get_object('show_showdesktop_time_spinbutton').set_value(this._settings.get_int('show-showdesktop-time'));
-            } else {
-                // remove the settings box so it doesn't get destroyed;
-                dialog.get_content_area().remove(box);
-                dialog.destroy();
-            }
-            return;
         });
 
         dialog.show();
@@ -624,7 +682,7 @@ const Preferences = class {
 
         this._builder.get_object('animate_appicon_hover_options_extent_scale')
         .set_format_value_func((scale, value) => {
-            return Gettext.ngettext("%d icon", "%d icons", value).format(value);
+            return ngettext("%d icon", "%d icons", value).format(value);
         });
     }
 
@@ -646,6 +704,12 @@ const Preferences = class {
             panel_size_scale.set_flippable(false);
             panel_size_scale.set_inverted(true);
         }
+
+        // App icon style option
+        this._builder.get_object('appicon_style_combo').set_active_id(this._settings.get_string('appicon-style'));
+        this._builder.get_object('appicon_style_combo').connect('changed', (widget) => {
+            this._settings.set_string('appicon-style', widget.get_active_id());
+        });
 
         // Dots Position option
         let dotPosition = this._settings.get_string('dot-position');
@@ -718,18 +782,41 @@ const Preferences = class {
         });
 
         this._builder.get_object('dot_style_options_button').connect('clicked', () => {
-
-            let dialog = new Gtk.Dialog({ title: _('Running Indicator Options'),
-                                          transient_for: this.notebook.get_root(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('box_dots_options');
-            dialog.get_content_area().append(box);
+
+            let dialog = this._createPreferencesDialog(_('Running Indicator Options'), box, () =>
+            {
+                // restore default settings
+                this._settings.set_value('dot-color-dominant', this._settings.get_default_value('dot-color-dominant'));
+                this._settings.set_value('dot-color-override', this._settings.get_default_value('dot-color-override'));
+                this._settings.set_value('dot-color-unfocused-different', this._settings.get_default_value('dot-color-unfocused-different'));
+
+                this._settings.set_value('focus-highlight-color', this._settings.get_default_value('focus-highlight-color'));
+                let rgba = new Gdk.RGBA();
+                rgba.parse(this._settings.get_string('focus-highlight-color'));
+                this._builder.get_object('focus_highlight_color_colorbutton').set_rgba(rgba);
+
+                this._settings.set_value('focus-highlight-opacity', this._settings.get_default_value('focus-highlight-opacity'));
+                this._builder.get_object('focus_highlight_opacity_spinbutton').set_value(this._settings.get_int('focus-highlight-opacity'));
+
+                for (let i = 1; i <= MAX_WINDOW_INDICATOR; i++) {
+                    this._settings.set_value('dot-color-' + i, this._settings.get_default_value('dot-color-' + i));
+                    rgba = new Gdk.RGBA();
+                    rgba.parse(this._settings.get_string('dot-color-' + i));
+                    this._builder.get_object('dot_color_' + i + '_colorbutton').set_rgba(rgba);
+
+                    this._settings.set_value('dot-color-unfocused-' + i, this._settings.get_default_value('dot-color-unfocused-' + i));
+                    rgba = new Gdk.RGBA();
+                    rgba.parse(this._settings.get_string('dot-color-unfocused-' + i));
+                    this._builder.get_object('dot_color_unfocused_' + i + '_colorbutton').set_rgba(rgba);
+                }
+
+                this._settings.set_value('dot-size', this._settings.get_default_value('dot-size'));
+                this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));
+
+                this._settings.set_value('focus-highlight', this._settings.get_default_value('focus-highlight'));
+                this._settings.set_value('focus-highlight-dominant', this._settings.get_default_value('focus-highlight-dominant'));
+            });
 
             this._settings.bind('dot-color-dominant',
                             this._builder.get_object('dot_color_dominant_switch'),
@@ -747,6 +834,7 @@ const Preferences = class {
             });
             this._builder.get_object('dot_color_override_switch').connect('state-set', (widget) => {
                 if (widget.get_active()) this._settings.set_boolean('dot-color-dominant', false);
+                else this._settings.set_boolean('dot-color-unfocused-different', false);
             });
 
             this._settings.bind('dot-color-unfocused-different',
@@ -819,47 +907,6 @@ const Preferences = class {
             this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));
             this._builder.get_object('dot_size_spinbutton').connect('value-changed', (widget) => {
                 this._settings.set_int('dot-size', widget.get_value());
-            });
-
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('dot-color-dominant', this._settings.get_default_value('dot-color-dominant'));
-                    this._settings.set_value('dot-color-override', this._settings.get_default_value('dot-color-override'));
-                    this._settings.set_value('dot-color-unfocused-different', this._settings.get_default_value('dot-color-unfocused-different'));
-
-                    this._settings.set_value('focus-highlight-color', this._settings.get_default_value('focus-highlight-color'));
-                    let rgba = new Gdk.RGBA();
-                    rgba.parse(this._settings.get_string('focus-highlight-color'));
-                    this._builder.get_object('focus_highlight_color_colorbutton').set_rgba(rgba);
-
-                    this._settings.set_value('focus-highlight-opacity', this._settings.get_default_value('focus-highlight-opacity'));
-                    this._builder.get_object('focus_highlight_opacity_spinbutton').set_value(this._settings.get_int('focus-highlight-opacity'));
-
-                    for (let i = 1; i <= MAX_WINDOW_INDICATOR; i++) {
-                        this._settings.set_value('dot-color-' + i, this._settings.get_default_value('dot-color-' + i));
-                        rgba = new Gdk.RGBA();
-                        rgba.parse(this._settings.get_string('dot-color-' + i));
-                        this._builder.get_object('dot_color_' + i + '_colorbutton').set_rgba(rgba);
-
-                        this._settings.set_value('dot-color-unfocused-' + i, this._settings.get_default_value('dot-color-unfocused-' + i));
-                        rgba = new Gdk.RGBA();
-                        rgba.parse(this._settings.get_string('dot-color-unfocused-' + i));
-                        this._builder.get_object('dot_color_unfocused_' + i + '_colorbutton').set_rgba(rgba);
-                    }
-
-                    this._settings.set_value('dot-size', this._settings.get_default_value('dot-size'));
-                    this._builder.get_object('dot_size_spinbutton').set_value(this._settings.get_int('dot-size'));
-                   
-                    this._settings.set_value('focus-highlight', this._settings.get_default_value('focus-highlight'));
-                    this._settings.set_value('focus-highlight-dominant', this._settings.get_default_value('focus-highlight-dominant'));
-
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
             });
 
             dialog.show();
@@ -984,6 +1031,11 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('trans-use-custom-opacity',
+                        this._builder.get_object('trans_opacity_box2'),
+                        'sensitive',
+                        Gio.SettingsBindFlags.DEFAULT);
+
         this._builder.get_object('trans_opacity_override_switch').connect('notify::active', (widget) => {
             if (!widget.get_active())
                 this._builder.get_object('trans_dyn_switch').set_active(false);
@@ -1018,6 +1070,11 @@ const Preferences = class {
                             this._builder.get_object('trans_gradient_box'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('trans-use-custom-gradient',
+                        this._builder.get_object('trans_gradient_box2'),
+                        'sensitive',
+                        Gio.SettingsBindFlags.DEFAULT);
 
         rgba.parse(this._settings.get_string('trans-gradient-top-color'));
         this._builder.get_object('trans_gradient_color1_colorbutton').set_rgba(rgba);
@@ -1065,20 +1122,10 @@ const Preferences = class {
         });
 
         this._builder.get_object('trans_dyn_options_button').connect('clicked', () => {
-            let dialog = new Gtk.Dialog({ title: _('Dynamic opacity options'),
-                                            transient_for: this.notebook.get_root(),
-                                            use_header_bar: true,
-                                            modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('box_dynamic_opacity_options');
-            dialog.get_content_area().append(box);
 
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
+            let dialog = this._createPreferencesDialog(_('Dynamic opacity options'), box, () =>
+            {
                     // restore default settings
                     this._settings.set_value('trans-dynamic-behavior', this._settings.get_default_value('trans-dynamic-behavior'));
 
@@ -1090,12 +1137,6 @@ const Preferences = class {
 
                     this._settings.set_value('trans-dynamic-anim-time', this._settings.get_default_value('trans-dynamic-anim-time'));
                     this._builder.get_object('trans_options_anim_time_spinbutton').set_value(this._settings.get_int('trans-dynamic-anim-time'));
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
             });
 
             dialog.show();
@@ -1157,6 +1198,11 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('intellihide-use-pressure',
+                        this._builder.get_object('intellihide_use_pressure_options2'),
+                        'sensitive',
+                        Gio.SettingsBindFlags.DEFAULT);
+
         this._settings.bind('intellihide-show-in-fullscreen',
                             this._builder.get_object('intellihide_show_in_fullscreen_switch'),
                             'active',
@@ -1209,49 +1255,33 @@ const Preferences = class {
         });
 
         this._builder.get_object('intellihide_options_button').connect('clicked', () => {
-            let dialog = new Gtk.Dialog({ title: _('Intellihide options'),
-                                          transient_for: this.notebook.get_root(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('box_intellihide_options');
-            dialog.get_content_area().append(box);
 
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('intellihide-hide-from-windows', this._settings.get_default_value('intellihide-hide-from-windows'));
-                    this._settings.set_value('intellihide-behaviour', this._settings.get_default_value('intellihide-behaviour'));
-                    this._settings.set_value('intellihide-use-pressure', this._settings.get_default_value('intellihide-use-pressure'));
-                    this._settings.set_value('intellihide-show-in-fullscreen', this._settings.get_default_value('intellihide-show-in-fullscreen'));
-                    this._settings.set_value('intellihide-only-secondary', this._settings.get_default_value('intellihide-only-secondary'));
+            let dialog = this._createPreferencesDialog(_('Intellihide options'), box, () =>
+            {
+                // restore default settings
+                this._settings.set_value('intellihide-hide-from-windows', this._settings.get_default_value('intellihide-hide-from-windows'));
+                this._settings.set_value('intellihide-behaviour', this._settings.get_default_value('intellihide-behaviour'));
+                this._settings.set_value('intellihide-use-pressure', this._settings.get_default_value('intellihide-use-pressure'));
+                this._settings.set_value('intellihide-show-in-fullscreen', this._settings.get_default_value('intellihide-show-in-fullscreen'));
+                this._settings.set_value('intellihide-only-secondary', this._settings.get_default_value('intellihide-only-secondary'));
 
-                    this._settings.set_value('intellihide-pressure-threshold', this._settings.get_default_value('intellihide-pressure-threshold'));
-                    this._builder.get_object('intellihide_pressure_threshold_spinbutton').set_value(this._settings.get_int('intellihide-pressure-threshold'));
-                    
-                    this._settings.set_value('intellihide-pressure-time', this._settings.get_default_value('intellihide-pressure-time'));
-                    this._builder.get_object('intellihide_pressure_time_spinbutton').set_value(this._settings.get_int('intellihide-pressure-time'));
+                this._settings.set_value('intellihide-pressure-threshold', this._settings.get_default_value('intellihide-pressure-threshold'));
+                this._builder.get_object('intellihide_pressure_threshold_spinbutton').set_value(this._settings.get_int('intellihide-pressure-threshold'));
+                
+                this._settings.set_value('intellihide-pressure-time', this._settings.get_default_value('intellihide-pressure-time'));
+                this._builder.get_object('intellihide_pressure_time_spinbutton').set_value(this._settings.get_int('intellihide-pressure-time'));
 
-                    this._settings.set_value('intellihide-key-toggle-text', this._settings.get_default_value('intellihide-key-toggle-text'));
+                this._settings.set_value('intellihide-key-toggle-text', this._settings.get_default_value('intellihide-key-toggle-text'));
 
-                    this._settings.set_value('intellihide-animation-time', this._settings.get_default_value('intellihide-animation-time'));
-                    this._builder.get_object('intellihide_animation_time_spinbutton').set_value(this._settings.get_int('intellihide-animation-time'));
+                this._settings.set_value('intellihide-animation-time', this._settings.get_default_value('intellihide-animation-time'));
+                this._builder.get_object('intellihide_animation_time_spinbutton').set_value(this._settings.get_int('intellihide-animation-time'));
 
-                    this._settings.set_value('intellihide-close-delay', this._settings.get_default_value('intellihide-close-delay'));
-                    this._builder.get_object('intellihide_close_delay_spinbutton').set_value(this._settings.get_int('intellihide-close-delay'));
+                this._settings.set_value('intellihide-close-delay', this._settings.get_default_value('intellihide-close-delay'));
+                this._builder.get_object('intellihide_close_delay_spinbutton').set_value(this._settings.get_int('intellihide-close-delay'));
 
-                    this._settings.set_value('intellihide-enable-start-delay', this._settings.get_default_value('intellihide-enable-start-delay'));
-                    this._builder.get_object('intellihide_enable_start_delay_spinbutton').set_value(this._settings.get_int('intellihide-enable-start-delay'));
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
+                this._settings.set_value('intellihide-enable-start-delay', this._settings.get_default_value('intellihide-enable-start-delay'));
+                this._builder.get_object('intellihide_enable_start_delay_spinbutton').set_value(this._settings.get_int('intellihide-enable-start-delay'));
             });
 
             dialog.show();
@@ -1281,10 +1311,10 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
 
-        this._settings.bind('show-appmenu',
-                            this._builder.get_object('show_appmenu_switch'),
-                            'active',
-                            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.bind('show-showdesktop-hover',
+                        this._builder.get_object('grid_show_showdesktop_hide_options2'),
+                        'sensitive',
+                        Gio.SettingsBindFlags.DEFAULT);
 
         this._settings.bind('show-window-previews',
                             this._builder.get_object('show_window_previews_switch'),
@@ -1331,19 +1361,70 @@ const Preferences = class {
         });
 
         this._builder.get_object('show_window_previews_button').connect('clicked', () => {
-
-            let dialog = new Gtk.Dialog({ title: _('Window preview options'),
-                                          transient_for: this.notebook.get_root(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let scrolledWindow = this._builder.get_object('box_window_preview_options');
 
-            dialog.get_content_area().append(scrolledWindow);
+            let dialog = this._createPreferencesDialog(_('Window preview options'), scrolledWindow, () =>
+            {
+                // restore default settings
+                this._settings.set_value('show-window-previews-timeout', this._settings.get_default_value('show-window-previews-timeout'));
+                this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
+
+                this._settings.set_value('leave-timeout', this._settings.get_default_value('leave-timeout'));
+                this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
+
+                this._settings.set_value('window-preview-hide-immediate-click', this._settings.get_default_value('window-preview-hide-immediate-click'));
+
+                this._settings.set_value('window-preview-animation-time', this._settings.get_default_value('window-preview-animation-time'));
+                this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));
+
+                this._settings.set_value('preview-use-custom-opacity', this._settings.get_default_value('preview-use-custom-opacity'));
+                
+                this._settings.set_value('window-preview-use-custom-icon-size', this._settings.get_default_value('window-preview-use-custom-icon-size'));
+
+                this._settings.set_value('preview-custom-opacity', this._settings.get_default_value('preview-custom-opacity'));
+                this._builder.get_object('preview_custom_opacity_spinbutton').set_value(this._settings.get_int('preview-custom-opacity'));
+
+                this._settings.set_value('window-preview-title-position', this._settings.get_default_value('window-preview-title-position'));
+                this._setPreviewTitlePosition();
+
+                this._settings.set_value('peek-mode', this._settings.get_default_value('peek-mode'));
+                this._settings.set_value('window-preview-show-title', this._settings.get_default_value('window-preview-show-title'));
+                this._settings.set_value('enter-peek-mode-timeout', this._settings.get_default_value('enter-peek-mode-timeout'));
+                this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
+                this._settings.set_value('peek-mode-opacity', this._settings.get_default_value('peek-mode-opacity'));
+                this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
+
+                this._settings.set_value('window-preview-size', this._settings.get_default_value('window-preview-size'));
+                this._builder.get_object('preview_size_spinbutton').set_value(this._settings.get_int('window-preview-size'));
+
+                this._settings.set_value('window-preview-fixed-x', this._settings.get_default_value('window-preview-fixed-x'));
+                this._settings.set_value('window-preview-fixed-y', this._settings.get_default_value('window-preview-fixed-y'));
+
+                this._settings.set_value('window-preview-aspect-ratio-x', this._settings.get_default_value('window-preview-aspect-ratio-x'));
+                this._builder.get_object('preview_aspect_ratio_x_combo').set_active_id(this._settings.get_int('window-preview-aspect-ratio-x').toString());
+
+                this._settings.set_value('window-preview-aspect-ratio-y', this._settings.get_default_value('window-preview-aspect-ratio-y'));
+                this._builder.get_object('preview_aspect_ratio_y_combo').set_active_id(this._settings.get_int('window-preview-aspect-ratio-y').toString());
+                
+                this._settings.set_value('window-preview-padding', this._settings.get_default_value('window-preview-padding'));
+                this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
+
+                this._settings.set_value('preview-middle-click-close', this._settings.get_default_value('preview-middle-click-close'));
+
+                this._settings.set_value('window-preview-title-font-size', this._settings.get_default_value('window-preview-title-font-size'));
+                this._builder.get_object('preview_title_size_spinbutton').set_value(this._settings.get_int('window-preview-title-font-size'));
+                
+                this._settings.set_value('window-preview-custom-icon-size', this._settings.get_default_value('window-preview-custom-icon-size'));
+                this._builder.get_object('preview_custom_icon_size_spinbutton').set_value(this._settings.get_int('window-preview-custom-icon-size'));
+
+                this._settings.set_value('window-preview-title-font-weight', this._settings.get_default_value('window-preview-title-font-weight'));
+                this._builder.get_object('grid_preview_title_weight_combo').set_active_id(this._settings.get_string('window-preview-title-font-weight'));
+
+                this._settings.set_value('window-preview-title-font-color', this._settings.get_default_value('window-preview-title-font-color'));
+                let rgba = new Gdk.RGBA();
+                rgba.parse(this._settings.get_string('window-preview-title-font-color'));
+                this._builder.get_object('grid_preview_title_font_color_colorbutton').set_rgba(rgba);
+            });
 
             this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
             this._builder.get_object('preview_timeout_spinbutton').connect('value-changed', (widget) => {
@@ -1487,76 +1568,6 @@ const Preferences = class {
                 this._builder.get_object('grid_preview_title_font_color_colorbutton').set_rgba(rgba);
             }).apply(this);
 
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('show-window-previews-timeout', this._settings.get_default_value('show-window-previews-timeout'));
-                    this._builder.get_object('preview_timeout_spinbutton').set_value(this._settings.get_int('show-window-previews-timeout'));
-
-                    this._settings.set_value('leave-timeout', this._settings.get_default_value('leave-timeout'));
-                    this._builder.get_object('leave_timeout_spinbutton').set_value(this._settings.get_int('leave-timeout'));
-
-                    this._settings.set_value('window-preview-hide-immediate-click', this._settings.get_default_value('window-preview-hide-immediate-click'));
-
-                    this._settings.set_value('window-preview-animation-time', this._settings.get_default_value('window-preview-animation-time'));
-                    this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));
-
-                    this._settings.set_value('preview-use-custom-opacity', this._settings.get_default_value('preview-use-custom-opacity'));
-                    
-                    this._settings.set_value('window-preview-use-custom-icon-size', this._settings.get_default_value('window-preview-use-custom-icon-size'));
-
-                    this._settings.set_value('preview-custom-opacity', this._settings.get_default_value('preview-custom-opacity'));
-                    this._builder.get_object('preview_custom_opacity_spinbutton').set_value(this._settings.get_int('preview-custom-opacity'));
-
-                    this._settings.set_value('window-preview-title-position', this._settings.get_default_value('window-preview-title-position'));
-                    this._setPreviewTitlePosition();
-
-                    this._settings.set_value('peek-mode', this._settings.get_default_value('peek-mode'));
-                    this._settings.set_value('window-preview-show-title', this._settings.get_default_value('window-preview-show-title'));
-                    this._settings.set_value('enter-peek-mode-timeout', this._settings.get_default_value('enter-peek-mode-timeout'));
-                    this._builder.get_object('enter_peek_mode_timeout_spinbutton').set_value(this._settings.get_int('enter-peek-mode-timeout'));
-                    this._settings.set_value('peek-mode-opacity', this._settings.get_default_value('peek-mode-opacity'));
-                    this._builder.get_object('peek_mode_opacity_spinbutton').set_value(this._settings.get_int('peek-mode-opacity'));
-
-                    this._settings.set_value('window-preview-size', this._settings.get_default_value('window-preview-size'));
-                    this._builder.get_object('preview_size_spinbutton').set_value(this._settings.get_int('window-preview-size'));
-
-                    this._settings.set_value('window-preview-fixed-x', this._settings.get_default_value('window-preview-fixed-x'));
-                    this._settings.set_value('window-preview-fixed-y', this._settings.get_default_value('window-preview-fixed-y'));
-
-                    this._settings.set_value('window-preview-aspect-ratio-x', this._settings.get_default_value('window-preview-aspect-ratio-x'));
-                    this._builder.get_object('preview_aspect_ratio_x_combo').set_active_id(this._settings.get_int('window-preview-aspect-ratio-x').toString());
-
-                    this._settings.set_value('window-preview-aspect-ratio-y', this._settings.get_default_value('window-preview-aspect-ratio-y'));
-                    this._builder.get_object('preview_aspect_ratio_y_combo').set_active_id(this._settings.get_int('window-preview-aspect-ratio-y').toString());
-                    
-                    this._settings.set_value('window-preview-padding', this._settings.get_default_value('window-preview-padding'));
-                    this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
-
-                    this._settings.set_value('preview-middle-click-close', this._settings.get_default_value('preview-middle-click-close'));
-
-                    this._settings.set_value('window-preview-title-font-size', this._settings.get_default_value('window-preview-title-font-size'));
-                    this._builder.get_object('preview_title_size_spinbutton').set_value(this._settings.get_int('window-preview-title-font-size'));
-                    
-                    this._settings.set_value('window-preview-custom-icon-size', this._settings.get_default_value('window-preview-custom-icon-size'));
-                    this._builder.get_object('preview_custom_icon_size_spinbutton').set_value(this._settings.get_int('window-preview-custom-icon-size'));
-
-                    this._settings.set_value('window-preview-title-font-weight', this._settings.get_default_value('window-preview-title-font-weight'));
-                    this._builder.get_object('grid_preview_title_weight_combo').set_active_id(this._settings.get_string('window-preview-title-font-weight'));
-
-                    this._settings.set_value('window-preview-title-font-color', this._settings.get_default_value('window-preview-title-font-color'));
-                    let rgba = new Gdk.RGBA();
-                    rgba.parse(this._settings.get_string('window-preview-title-font-color'));
-                    this._builder.get_object('grid_preview_title_font_color_colorbutton').set_rgba(rgba);
-
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(scrolledWindow);
-                    dialog.destroy();
-                }
-                return;
-            });
-
             dialog.show();
 
         });
@@ -1626,17 +1637,34 @@ const Preferences = class {
                             Gio.SettingsBindFlags.DEFAULT);    
 
         this._builder.get_object('show_group_apps_options_button').connect('clicked', () => {
-            let dialog = new Gtk.Dialog({ title: _('Ungrouped application options'),
-                                          transient_for: this.notebook.get_root(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('box_group_apps_options');
-            dialog.get_content_area().append(box);
+
+            let dialog = this._createPreferencesDialog(_('Ungrouped application options'), box, () =>
+            {
+                // restore default settings
+                this._settings.set_value('group-apps-label-font-size', this._settings.get_default_value('group-apps-label-font-size'));
+                this._builder.get_object('group_apps_label_font_size_spinbutton').set_value(this._settings.get_int('group-apps-label-font-size'));
+
+                this._settings.set_value('group-apps-label-font-weight', this._settings.get_default_value('group-apps-label-font-weight'));
+                this._builder.get_object('group_apps_label_font_weight_combo').set_active_id(this._settings.get_string('group-apps-label-font-weight'));
+
+                this._settings.set_value('group-apps-label-font-color', this._settings.get_default_value('group-apps-label-font-color'));
+                let rgba = new Gdk.RGBA();
+                rgba.parse(this._settings.get_string('group-apps-label-font-color'));
+                this._builder.get_object('group_apps_label_font_color_colorbutton').set_rgba(rgba);
+
+                this._settings.set_value('group-apps-label-font-color-minimized', this._settings.get_default_value('group-apps-label-font-color-minimized'));
+                let minimizedFontColor = new Gdk.RGBA();
+                minimizedFontColor.parse(this._settings.get_string('group-apps-label-font-color-minimized'));
+                this._builder.get_object('group_apps_label_font_color_minimized_colorbutton').set_rgba(minimizedFontColor);
+
+                this._settings.set_value('group-apps-label-max-width', this._settings.get_default_value('group-apps-label-max-width'));
+                this._builder.get_object('group_apps_label_max_width_spinbutton').set_value(this._settings.get_int('group-apps-label-max-width'));
+
+                this._settings.set_value('group-apps-use-fixed-width', this._settings.get_default_value('group-apps-use-fixed-width'));
+                this._settings.set_value('group-apps-underline-unfocused', this._settings.get_default_value('group-apps-underline-unfocused'));
+                this._settings.set_value('group-apps-use-launchers', this._settings.get_default_value('group-apps-use-launchers'));
+            });
 
             this._builder.get_object('group_apps_label_font_size_spinbutton').set_value(this._settings.get_int('group-apps-label-font-size'));
             this._builder.get_object('group_apps_label_font_size_spinbutton').connect('value-changed', (widget) => {
@@ -1665,39 +1693,6 @@ const Preferences = class {
                 this._settings.set_int('group-apps-label-max-width', widget.get_value());
             });
 
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('group-apps-label-font-size', this._settings.get_default_value('group-apps-label-font-size'));
-                    this._builder.get_object('group_apps_label_font_size_spinbutton').set_value(this._settings.get_int('group-apps-label-font-size'));
-
-                    this._settings.set_value('group-apps-label-font-weight', this._settings.get_default_value('group-apps-label-font-weight'));
-                    this._builder.get_object('group_apps_label_font_weight_combo').set_active_id(this._settings.get_string('group-apps-label-font-weight'));
-
-                    this._settings.set_value('group-apps-label-font-color', this._settings.get_default_value('group-apps-label-font-color'));
-                    let rgba = new Gdk.RGBA();
-                    rgba.parse(this._settings.get_string('group-apps-label-font-color'));
-                    this._builder.get_object('group_apps_label_font_color_colorbutton').set_rgba(rgba);
-
-                    this._settings.set_value('group-apps-label-font-color-minimized', this._settings.get_default_value('group-apps-label-font-color-minimized'));
-                    let minimizedFontColor = new Gdk.RGBA();
-                    minimizedFontColor.parse(this._settings.get_string('group-apps-label-font-color-minimized'));
-                    this._builder.get_object('group_apps_label_font_color_minimized_colorbutton').set_rgba(minimizedFontColor);
-
-                    this._settings.set_value('group-apps-label-max-width', this._settings.get_default_value('group-apps-label-max-width'));
-                    this._builder.get_object('group_apps_label_max_width_spinbutton').set_value(this._settings.get_int('group-apps-label-max-width'));
-
-                    this._settings.set_value('group-apps-use-fixed-width', this._settings.get_default_value('group-apps-use-fixed-width'));
-                    this._settings.set_value('group-apps-underline-unfocused', this._settings.get_default_value('group-apps-underline-unfocused'));
-                    this._settings.set_value('group-apps-use-launchers', this._settings.get_default_value('group-apps-use-launchers'));
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
-            });
-
             dialog.show();
             dialog.set_default_size(600, 1);
 
@@ -1721,18 +1716,19 @@ const Preferences = class {
 
         // Create dialog for middle-click options
         this._builder.get_object('middle_click_options_button').connect('clicked', () => {
-
-            let dialog = new Gtk.Dialog({ title: _('Customize middle-click behavior'),
-                                          transient_for: this.notebook.get_root(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('box_middle_click_options');
-            dialog.get_content_area().append(box);
+
+            let dialog = this._createPreferencesDialog(_('Customize middle-click behavior'), box, () =>
+            {
+                // restore default settings for the relevant keys
+                let keys = ['shift-click-action', 'middle-click-action', 'shift-middle-click-action'];
+                keys.forEach(function(val) {
+                    this._settings.set_value(val, this._settings.get_default_value(val));
+                }, this);
+                this._builder.get_object('shift_click_action_combo').set_active_id(this._settings.get_string('shift-click-action'));
+                this._builder.get_object('middle_click_action_combo').set_active_id(this._settings.get_string('middle-click-action'));
+                this._builder.get_object('shift_middle_click_action_combo').set_active_id(this._settings.get_string('shift-middle-click-action'));
+            });
 
             this._builder.get_object('shift_click_action_combo').set_active_id(this._settings.get_string('shift-click-action'));
 
@@ -1753,24 +1749,6 @@ const Preferences = class {
                                 'active-id',
                                 Gio.SettingsBindFlags.DEFAULT);
 
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings for the relevant keys
-                    let keys = ['shift-click-action', 'middle-click-action', 'shift-middle-click-action'];
-                    keys.forEach(function(val) {
-                        this._settings.set_value(val, this._settings.get_default_value(val));
-                    }, this);
-                    this._builder.get_object('shift_click_action_combo').set_active_id(this._settings.get_string('shift-click-action'));
-                    this._builder.get_object('middle_click_action_combo').set_active_id(this._settings.get_string('middle-click-action'));
-                    this._builder.get_object('shift_middle_click_action_combo').set_active_id(this._settings.get_string('shift-middle-click-action'));
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
-            });
-
             dialog.show();
             dialog.set_default_size(700, 1);
 
@@ -1788,17 +1766,16 @@ const Preferences = class {
 
         // Create dialog for panel scroll options
         this._builder.get_object('scroll_panel_options_button').connect('clicked', () => {
-            let dialog = new Gtk.Dialog({ title: _('Customize panel scroll behavior'),
-                                          transient_for: this.notebook.get_root(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('scroll_panel_options_box');
-            dialog.get_content_area().append(box);
+
+            let dialog = this._createPreferencesDialog(_('Customize panel scroll behavior'), box, () =>
+            {
+                // restore default settings
+                this._settings.set_value('scroll-panel-delay', this._settings.get_default_value('scroll-panel-delay'));
+                this._builder.get_object('scroll_panel_options_delay_spinbutton').set_value(this._settings.get_int('scroll-panel-delay'));
+
+                this._settings.set_value('scroll-panel-show-ws-popup', this._settings.get_default_value('scroll-panel-show-ws-popup'));
+            });
 
             this._builder.get_object('scroll_panel_options_delay_spinbutton').set_value(this._settings.get_int('scroll-panel-delay'));
             this._builder.get_object('scroll_panel_options_delay_spinbutton').connect('value-changed', (widget) => {
@@ -1810,21 +1787,6 @@ const Preferences = class {
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('scroll-panel-delay', this._settings.get_default_value('scroll-panel-delay'));
-                    this._builder.get_object('scroll_panel_options_delay_spinbutton').set_value(this._settings.get_int('scroll-panel-delay'));
-
-                    this._settings.set_value('scroll-panel-show-ws-popup', this._settings.get_default_value('scroll-panel-show-ws-popup'));
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
-            });
-
             dialog.show();
             dialog.set_default_size(640, 1);
 
@@ -1832,34 +1794,18 @@ const Preferences = class {
 
         // Create dialog for icon scroll options
         this._builder.get_object('scroll_icon_options_button').connect('clicked', () => {
-            let dialog = new Gtk.Dialog({ title: _('Customize icon scroll behavior'),
-                                            transient_for: this.notebook.get_root(),
-                                            use_header_bar: true,
-                                            modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('scroll_icon_options_box');
-            dialog.get_content_area().append(box);
+
+            let dialog = this._createPreferencesDialog(_('Customize icon scroll behavior'), box, () =>
+            {
+                // restore default settings
+                this._settings.set_value('scroll-icon-delay', this._settings.get_default_value('scroll-icon-delay'));
+                this._builder.get_object('scroll_icon_options_delay_spinbutton').set_value(this._settings.get_int('scroll-icon-delay'));
+            });
 
             this._builder.get_object('scroll_icon_options_delay_spinbutton').set_value(this._settings.get_int('scroll-icon-delay'));
             this._builder.get_object('scroll_icon_options_delay_spinbutton').connect('value-changed', (widget) => {
                 this._settings.set_int('scroll-icon-delay', widget.get_value());
-            });
-
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('scroll-icon-delay', this._settings.get_default_value('scroll-icon-delay'));
-                    this._builder.get_object('scroll_icon_options_delay_spinbutton').set_value(this._settings.get_int('scroll-icon-delay'));
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
             });
 
             dialog.show();
@@ -1929,32 +1875,15 @@ const Preferences = class {
 
         // Create dialog for number overlay options
         this._builder.get_object('overlay_button').connect('clicked', () => {
-
-            let dialog = new Gtk.Dialog({ title: _('Advanced hotkeys options'),
-                                          transient_for: this.notebook.get_root(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('box_overlay_shortcut');
-            dialog.get_content_area().append(box);
 
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings for the relevant keys
-                    let keys = ['hotkey-prefix-text', 'shortcut-text', 'hotkeys-overlay-combo', 'overlay-timeout', 'shortcut-previews'];
-                    keys.forEach(function(val) {
-                        this._settings.set_value(val, this._settings.get_default_value(val));
-                    }, this);
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
+            let dialog = this._createPreferencesDialog(_('Advanced hotkeys options'), box, () =>
+            {
+                // restore default settings for the relevant keys
+                let keys = ['hotkey-prefix-text', 'shortcut-text', 'hotkeys-overlay-combo', 'overlay-timeout', 'shortcut-previews'];
+                keys.forEach(function(val) {
+                    this._settings.set_value(val, this._settings.get_default_value(val));
+                }, this);
             });
 
             dialog.show();
@@ -1964,19 +1893,16 @@ const Preferences = class {
         
         // setup dialog for secondary menu options
         this._builder.get_object('secondarymenu_options_button').connect('clicked', () => {
-
-            let dialog = new Gtk.Dialog({ title: _('Secondary Menu Options'),
-                                          transient_for: this.notebook.get_root(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('box_secondarymenu_options');
-            dialog.get_content_area().append(box);
 
+            let dialog = this._createPreferencesDialog(_('Secondary Menu Options'), box, () =>
+            {
+                // restore default settings
+                this._settings.set_value('secondarymenu-contains-appmenu', this._settings.get_default_value('secondarymenu-contains-appmenu'));
+                this._settings.set_value('secondarymenu-contains-showdetails', this._settings.get_default_value('secondarymenu-contains-showdetails'));
+            });
+
+            // TODO setting secondarymenu-contains-appmenu is not being used anywhere
             this._settings.bind('secondarymenu-contains-appmenu',
                     this._builder.get_object('secondarymenu_appmenu_switch'),
                     'active',
@@ -1987,19 +1913,6 @@ const Preferences = class {
                     'active',
                     Gio.SettingsBindFlags.DEFAULT);
 
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('secondarymenu-contains-appmenu', this._settings.get_default_value('secondarymenu-contains-appmenu'));
-                    this._settings.set_value('secondarymenu-contains-showdetails', this._settings.get_default_value('secondarymenu-contains-showdetails'));
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
-            });
-
             dialog.show();
             dialog.set_default_size(480, 1);
 
@@ -2007,30 +1920,9 @@ const Preferences = class {
 
         // setup dialog for advanced options
         this._builder.get_object('button_advanced_options').connect('clicked', () => {
-
-            let dialog = new Gtk.Dialog({ title: _('Advanced Options'),
-                                          transient_for: this.notebook.get_root(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('box_advanced_options');
-            dialog.get_content_area().append(box);
 
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings  
-                                 
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
-            });
+            let dialog = this._createPreferencesDialog(_('Advanced Options'), box);
 
             dialog.show();
             dialog.set_default_size(480, 1);
@@ -2050,7 +1942,7 @@ const Preferences = class {
             {objectName: 'panel_length_scale', valueName: '', range: LENGTH_MARKS }
         ];
 
-        for(var idx in sizeScales) {
+        for(const idx in sizeScales) {
             let size_scale = this._builder.get_object(sizeScales[idx].objectName);
             let range = sizeScales[idx].range;
             size_scale.set_range(range[range.length - 1], range[0]);
@@ -2144,34 +2036,18 @@ const Preferences = class {
         }
 
         this._builder.get_object('animate_appicon_hover_button').connect('clicked', () => {
-            let dialog = new Gtk.Dialog({ title: _('App icon animation options'),
-                                          transient_for: this.notebook.get_root(),
-                                          use_header_bar: true,
-                                          modal: true });
-
-            // GTK+ leaves positive values for application-defined response ids.
-            // Use +1 for the reset action
-            dialog.add_button(_('Reset to defaults'), 1);
-
             let box = this._builder.get_object('animate_appicon_hover_options');
-            dialog.get_content_area().append(box);
 
-            dialog.connect('response', (dialog, id) => {
-                if (id == 1) {
-                    // restore default settings
-                    this._settings.set_value('animate-appicon-hover-animation-type', this._settings.get_default_value('animate-appicon-hover-animation-type'));
-                    this._settings.set_value('animate-appicon-hover-animation-duration', this._settings.get_default_value('animate-appicon-hover-animation-duration'));
-                    this._settings.set_value('animate-appicon-hover-animation-rotation', this._settings.get_default_value('animate-appicon-hover-animation-rotation'));
-                    this._settings.set_value('animate-appicon-hover-animation-travel', this._settings.get_default_value('animate-appicon-hover-animation-travel'));
-                    this._settings.set_value('animate-appicon-hover-animation-zoom', this._settings.get_default_value('animate-appicon-hover-animation-zoom'));
-                    this._settings.set_value('animate-appicon-hover-animation-convexity', this._settings.get_default_value('animate-appicon-hover-animation-convexity'));
-                    this._settings.set_value('animate-appicon-hover-animation-extent', this._settings.get_default_value('animate-appicon-hover-animation-extent'));
-                } else {
-                    // remove the settings box so it doesn't get destroyed;
-                    dialog.get_content_area().remove(box);
-                    dialog.destroy();
-                }
-                return;
+            let dialog = this._createPreferencesDialog(_('App icon animation options'), box, () =>
+            {
+                // restore default settings
+                this._settings.set_value('animate-appicon-hover-animation-type', this._settings.get_default_value('animate-appicon-hover-animation-type'));
+                this._settings.set_value('animate-appicon-hover-animation-duration', this._settings.get_default_value('animate-appicon-hover-animation-duration'));
+                this._settings.set_value('animate-appicon-hover-animation-rotation', this._settings.get_default_value('animate-appicon-hover-animation-rotation'));
+                this._settings.set_value('animate-appicon-hover-animation-travel', this._settings.get_default_value('animate-appicon-hover-animation-travel'));
+                this._settings.set_value('animate-appicon-hover-animation-zoom', this._settings.get_default_value('animate-appicon-hover-animation-zoom'));
+                this._settings.set_value('animate-appicon-hover-animation-convexity', this._settings.get_default_value('animate-appicon-hover-animation-convexity'));
+                this._settings.set_value('animate-appicon-hover-animation-extent', this._settings.get_default_value('animate-appicon-hover-animation-extent'));
             });
 
             dialog.show();
@@ -2206,7 +2082,7 @@ const Preferences = class {
 
         // About Panel
 
-        this._builder.get_object('extension_version').set_label(Me.metadata.version.toString() + (Me.metadata.commit ? ' (' + Me.metadata.commit + ')' : ''));
+        this._builder.get_object('extension_version').set_label(this._metadata.version.toString() + (this._metadata.commit ? ' (' + this._metadata.commit + ')' : ''));
 
         this._builder.get_object('importexport_export_button').connect('clicked', widget => {
             this._showFileChooser(
@@ -2354,9 +2230,9 @@ const BuilderScope = GObject.registerClass({
     panel_size_scale_value_changed_cb(scale) {
         // Avoid settings the size continuously
         if (this._preferences._panel_size_timeout > 0)
-            Mainloop.source_remove(this._preferences._panel_size_timeout);
+            GLib.Source.remove(this._preferences._panel_size_timeout);
 
-        this._preferences._panel_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, (() => {
+        this._preferences._panel_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             const value = scale.get_value();
             const monitorSync = this._preferences._settings.get_boolean('panel-element-positions-monitors-sync');
             const monitorsToSetFor = monitorSync ? this._preferences.monitors : [this._preferences._currentMonitorIndex];
@@ -2366,15 +2242,15 @@ const BuilderScope = GObject.registerClass({
 
             this._preferences._panel_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
-        }));
+        });
     }
 
     tray_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._tray_size_timeout > 0)
-            Mainloop.source_remove(this._preferences._tray_size_timeout);
+            GLib.Source.remove(this._preferences._tray_size_timeout);
 
-        this._preferences._tray_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._tray_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('tray-size', scale.get_value());
             this._preferences._tray_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2384,9 +2260,9 @@ const BuilderScope = GObject.registerClass({
     leftbox_size_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._leftbox_size_timeout > 0)
-            Mainloop.source_remove(this._preferences._leftbox_size_timeout);
+            GLib.Source.remove(this._preferences._leftbox_size_timeout);
 
-        this._preferences._leftbox_size_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._leftbox_size_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('leftbox-size', scale.get_value());
             this._preferences._leftbox_size_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2396,9 +2272,9 @@ const BuilderScope = GObject.registerClass({
     appicon_margin_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._appicon_margin_timeout > 0)
-            Mainloop.source_remove(this._preferences._appicon_margin_timeout);
+            GLib.Source.remove(this._preferences._appicon_margin_timeout);
 
-        this._preferences._appicon_margin_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._appicon_margin_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('appicon-margin', scale.get_value());
             this._preferences._appicon_margin_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2408,9 +2284,9 @@ const BuilderScope = GObject.registerClass({
     appicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._appicon_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._appicon_padding_timeout);
+            GLib.Source.remove(this._preferences._appicon_padding_timeout);
 
-        this._preferences._appicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._appicon_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('appicon-padding', scale.get_value());
             this._preferences._appicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2420,9 +2296,9 @@ const BuilderScope = GObject.registerClass({
     tray_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._tray_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._tray_padding_timeout);
+            GLib.Source.remove(this._preferences._tray_padding_timeout);
 
-        this._preferences._tray_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._tray_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('tray-padding', scale.get_value());
             this._preferences._tray_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2432,9 +2308,9 @@ const BuilderScope = GObject.registerClass({
     statusicon_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._statusicon_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._statusicon_padding_timeout);
+            GLib.Source.remove(this._preferences._statusicon_padding_timeout);
 
-        this._preferences._statusicon_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._statusicon_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('status-icon-padding', scale.get_value());
             this._preferences._statusicon_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2444,9 +2320,9 @@ const BuilderScope = GObject.registerClass({
     leftbox_padding_scale_value_changed_cb(scale) {
         // Avoid settings the size consinuosly
         if (this._preferences._leftbox_padding_timeout > 0)
-            Mainloop.source_remove(this._preferences._leftbox_padding_timeout);
+            GLib.Source.remove(this._preferences._leftbox_padding_timeout);
 
-        this._preferences._leftbox_padding_timeout = Mainloop.timeout_add(SCALE_UPDATE_TIMEOUT, () => {
+        this._preferences._leftbox_padding_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('leftbox-padding', scale.get_value());
             this._preferences._leftbox_padding_timeout = 0;
             return GLib.SOURCE_REMOVE;
@@ -2454,32 +2330,14 @@ const BuilderScope = GObject.registerClass({
     }
 });
 
-function init() {
-    ExtensionUtils.initTranslations();
-}
 
-function fillPreferencesWindow(window) {
-    window.set_default_size(680, 740);
+export default class DashToPanelPreferences extends ExtensionPreferences {
+    fillPreferencesWindow(window) {
+        window._settings = this.getSettings('org.gnome.shell.extensions.dash-to-panel');
 
-    let preferences = new Preferences();
-    let box = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL});
+        // use default width or window
+        window.set_default_size(0, 740);
 
-    // dummy page to prevent 'Extension did not provide any UI'
-    // error until we migrate to Adw
-    let dummyPage = new imports.gi.Adw.PreferencesPage()
-
-    box.append(new imports.gi.Adw.HeaderBar);
-    window.add(dummyPage);
-    window.visible_page = dummyPage
-
-    box.append(preferences.notebook);
-    window.set_content(box);
-}
-
-function buildPrefsWidget() {
-    Gtk.Window.list_toplevels()[0].set_default_size(680, 740);
-    
-    let preferences = new Preferences();
-    
-    return preferences.notebook;
+        let preferences = new Preferences(window, window._settings, this.path);
+    }
 }
