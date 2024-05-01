@@ -147,3 +147,7 @@
 .symbolic-icon-style {
     -st-icon-style: symbolic;
 }
+
+#dashtopanelAppIcon .overview-icon {
+	background: none;
+}

@@ -149,7 +149,7 @@ export const TaskbarAppIcon = GObject.registerClass({
         
         this._container = new St.Widget({ style_class: 'dtp-container', layout_manager: new Clutter.BinLayout() });
         this._dotsContainer = new St.Widget({ layout_manager: new Clutter.BinLayout() });
-        this._dtpIconContainer = new St.Widget({ layout_manager: new Clutter.BinLayout(), style: getIconContainerStyle(panel.checkIfVertical()) });
+        this._dtpIconContainer = new St.Widget({ name: 'dashtopanelAppIcon', layout_manager: new Clutter.BinLayout(), style: getIconContainerStyle(panel.checkIfVertical()) });
 
         this.remove_child(this._iconContainer);
         
