@@ -44,6 +44,7 @@
 }
 
 #dashtopanelTaskbar .dash-item-container .overview-tile:hover,
+#dashtopanelTaskbar .dash-item-container .overview-tile .dtp-container .overview-icon,
 #dashtopanelScrollview .overview-tile:hover .dtp-container.animate-appicon-hover {
 	background: none;
 }
