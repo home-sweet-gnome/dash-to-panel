@@ -395,18 +395,6 @@ export const Panel = GObject.registerClass({
         Main.ctrlAltTabManager.removeGroup(this);
     }
 
-    handleDragOver(source, actor, x, y, time) {
-        if (source == Main.xdndHandler) {
-            
-            // open overview so they can choose a window for focusing
-            // and ultimately dropping dragged item onto
-            if(Main.overview.shouldToggleByCornerOrButton())
-                Main.overview.show();
-        }
-        
-        return DND.DragMotionResult.CONTINUE;
-    }
-
     getPosition() {
         let position = PanelSettings.getPanelPosition(SETTINGS, this.monitor.index);
 
