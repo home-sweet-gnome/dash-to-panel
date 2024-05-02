@@ -85,7 +85,7 @@ export default class DashToPanelExtension extends Extension {
             delete global.dashToPanel;
 
             // Re-enable Ubuntu Dock if it was disabled by dash to panel
-            if (disabledUbuntuDock && Main.sessionMode.allowExtensions) {
+            if (disabledUbuntuDock) {
                 (extensionSystem._callExtensionEnable || extensionSystem.enableExtension).call(extensionSystem, UBUNTU_DOCK_UUID);
             }
 
