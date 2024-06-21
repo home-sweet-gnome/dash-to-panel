@@ -252,7 +252,9 @@ export const TaskbarAppIcon = GObject.registerClass({
             SETTINGS.connect('changed::group-apps-label-font-size', this._updateWindowTitleStyle.bind(this)),
             SETTINGS.connect('changed::group-apps-label-font-weight', this._updateWindowTitleStyle.bind(this)),
             SETTINGS.connect('changed::group-apps-label-font-color', this._updateWindowTitleStyle.bind(this)),
+            SETTINGS.connect('changed::group-apps-label-font-color-on-light', this._updateWindowTitleStyle.bind(this)),
             SETTINGS.connect('changed::group-apps-label-font-color-minimized', this._updateWindowTitleStyle.bind(this)),
+            SETTINGS.connect('changed::group-apps-label-font-color-minimized-on-light', this._updateWindowTitleStyle.bind(this)),
             SETTINGS.connect('changed::group-apps-label-max-width', this._updateWindowTitleStyle.bind(this)),
             SETTINGS.connect('changed::group-apps-use-fixed-width', this._updateWindowTitleStyle.bind(this)),
             SETTINGS.connect('changed::group-apps-underline-unfocused', this._settingsChangeRefresh.bind(this))
@@ -538,14 +540,40 @@ export const TaskbarAppIcon = GObject.registerClass({
         this._displayProperIndicator();
     }
 
+    _colorStyleVariant() {
+        const {colorScheme} = St.Settings.get();
+        switch (Main.sessionMode.colorScheme) {
+            case 'force-dark':
+                return 'dark';
+            case 'force-light':
+                return 'light';
+            case 'prefer-dark':
+                return colorScheme === St.SystemColorScheme.PREFER_LIGHT
+                    ? 'light' : 'dark';
+            case 'prefer-light':
+                return colorScheme === St.SystemColorScheme.PREFER_DARK
+                    ? 'dark' : 'light';
+            default:
+                return '';
+        }
+    }
+
     _updateWindowTitleStyle() {
         if (this._windowTitle) {
             let useFixedWidth = SETTINGS.get_boolean('group-apps-use-fixed-width');
             let fontWeight = SETTINGS.get_string('group-apps-label-font-weight');
             let fontScale = DESKTOPSETTINGS.get_double('text-scaling-factor');
+            let colorStyleVariant = this._colorStyleVariant();
+            if (colorStyleVariant === 'dark') {
+                // settings without suffix is considered to have dark values
+                // to maintain compatibility before were color style-aware
+                colorStyleVariant = '';
+            } else {
+                colorStyleVariant = `-on-${colorStyleVariant}`;
+            }
             let fontColor = this.window.minimized ?
-                            SETTINGS.get_string('group-apps-label-font-color-minimized') :
-                            SETTINGS.get_string('group-apps-label-font-color');
+                            SETTINGS.get_string(`group-apps-label-font-color-minimized${colorStyleVariant}`) :
+                            SETTINGS.get_string(`group-apps-label-font-color${colorStyleVariant}`);
             let scaleFactor = Utils.getScaleFactor();
             let maxLabelWidth = SETTINGS.get_int('group-apps-label-max-width') * scaleFactor;
             let variableWidth = !useFixedWidth || this.dtpPanel.checkIfVertical() || this.dtpPanel.taskbar.fullScrollView;
