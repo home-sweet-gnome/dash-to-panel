@@ -1870,7 +1870,7 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
         }
         
         for (let entry = 0; entry < commandList.length; entry++) {
-            _appendItem({
+            this._appendItem({
                 title: titleList[entry],
                 cmd: commandList[entry].split(' ')
             });
