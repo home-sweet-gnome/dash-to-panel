@@ -287,6 +287,8 @@ export const Taskbar = class extends EventEmitter {
 
         this.iconAnimator = new PanelManager.IconAnimator(this.dtpPanel.panel);
 
+        this._messageTray = Main.messageTray;
+
         this._signalsHandler.add(
             [
                 this.dtpPanel.panel,
@@ -394,6 +396,21 @@ export const Taskbar = class extends EventEmitter {
                     'notify::pageSize'
                 ],
                 () => this._onScrollSizeChange(adjustment)
+            ],
+            [
+                this._messageTray,
+                'source-added',
+                this._onMessageTraySource.bind(this)
+            ],
+            [
+                this._messageTray,
+                'source-removed',
+                this._onMessageTraySource.bind(this)
+            ],
+            [
+                this._messageTray,
+                'queue-changed',
+                this._onMessageTrayQueueChanged.bind(this)
             ]
         );
 
@@ -797,6 +814,28 @@ export const Taskbar = class extends EventEmitter {
 
         appIcons.filter(icon => icon.constructor === AppIcons.TaskbarAppIcon).forEach(icon => {
             icon.updateIcon();
+        });
+    }
+
+    _onMessageTraySource(source) {
+        // The source from signals does not contain the policy, and
+        // source-removed does not even contain any id. Ignore and
+        // always handle changes as if there was any other queue change.
+        this._onMessageTrayQueueChanged();
+    }
+
+    _onMessageTrayQueueChanged() {
+        this._getAppIcons().filter(icon => icon.constructor === AppIcons.TaskbarAppIcon).forEach(icon => {
+            let count = 0;
+            let enable = false;
+            for (let source of this._messageTray.getSources()) {
+                if (icon.app.id === `${source.policy.id}.desktop`) {
+                    count = source.count;
+                    enable = source.policy.enable;
+                }
+            }
+
+            icon.updateBadge(count, enable);
         });
     }
 
