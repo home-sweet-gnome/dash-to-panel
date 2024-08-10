@@ -101,6 +101,16 @@ export const DynamicTransparency = class {
             [
                 SETTINGS,
                 [
+                    'changed::trans-use-border',
+                    'changed::trans-border-use-custom-color',
+                    'changed::trans-border-custom-color',
+                    'changed::trans-border-width',
+                ],
+                () => this._updateBorderAndSet()
+            ],
+            [
+                SETTINGS,
+                [
                     'changed::trans-dynamic-behavior',
                     'changed::trans-use-dynamic-opacity',
                     'changed::trans-dynamic-distance'
@@ -108,7 +118,7 @@ export const DynamicTransparency = class {
                 () => this._updateProximityWatch()
             ],
             [
-                SETTINGS, 
+                SETTINGS,
                 'changed::trans-dynamic-anim-time',
                 () => this._updateAnimationDuration()
             ]
@@ -128,10 +138,10 @@ export const DynamicTransparency = class {
             this._proximityWatchId = this._proximityManager.createWatch(
                 this._dtpPanel.panelBox.get_parent(),
                 this._dtpPanel.monitor.index,
-                Proximity.Mode[SETTINGS.get_string('trans-dynamic-behavior')], 
-                isVertical ? threshold : 0, 
-                isVertical ? 0 : threshold, 
-                overlap => { 
+                Proximity.Mode[SETTINGS.get_string('trans-dynamic-behavior')],
+                isVertical ? threshold : 0,
+                isVertical ? 0 : threshold,
+                overlap => {
                     this._windowOverlap = overlap;
                     this._updateAlphaAndSet();
                 }
@@ -149,6 +159,7 @@ export const DynamicTransparency = class {
         this._updateColor(themeBackground);
         this._updateAlpha(themeBackground);
         this._updateComplementaryStyles();
+        this._updateBorder();
         this._updateGradient();
         this._setBackground();
         this._setGradient();
@@ -169,6 +180,11 @@ export const DynamicTransparency = class {
         this._setGradient();
     }
 
+    _updateBorderAndSet() {
+        this._updateBorder();
+        this._setBackground();
+    }
+
     _updateComplementaryStyles() {
         let panelThemeNode = this._dtpPanel.panel.get_theme_node();
 
@@ -181,12 +197,31 @@ export const DynamicTransparency = class {
                                   (themeBackground || this._getThemeBackground());
     }
 
+    _updateBorder() {
+        let rgba = this._dtpPanel._getDefaultLineColor(Utils.checkIfColorIsBright(this.backgroundColorRgb)); // supply parameter manually or else an exception (something is undefined) will arise
+        const isLineCustom = SETTINGS.get_boolean('trans-border-use-custom-color');
+        rgba = isLineCustom ? SETTINGS.get_string('trans-border-custom-color') : rgba;
+
+        const showBorder = SETTINGS.get_boolean('trans-use-border');
+        const borderWidth = SETTINGS.get_int('trans-border-width');
+
+        const position = this._dtpPanel.getPosition();
+        let borderPosition = '';
+        if (position == St.Side.LEFT) { borderPosition = 'right'; }
+        if (position == St.Side.RIGHT) { borderPosition = 'left'; }
+        if (position == St.Side.TOP) { borderPosition = 'bottom'; }
+        if (position == St.Side.BOTTOM) { borderPosition = 'top'; }
+
+        const style = `border: 0 solid ${rgba}; border-${borderPosition}-width:${borderWidth}px;`;
+        this._borderStyle = showBorder ? style : '';
+    }
+
     _updateAlpha(themeBackground) {
         if (this._windowOverlap && !Main.overview.visibleTarget && SETTINGS.get_boolean('trans-use-dynamic-opacity')) {
             this.alpha = SETTINGS.get_double('trans-dynamic-anim-target');
         } else {
             this.alpha = SETTINGS.get_boolean('trans-use-custom-opacity') ?
-                         SETTINGS.get_double('trans-panel-opacity') : 
+                         SETTINGS.get_double('trans-panel-opacity') :
                          (themeBackground || this._getThemeBackground()).alpha * 0.003921569; // 1 / 255 = 0.003921569
         }
     }
@@ -196,9 +231,9 @@ export const DynamicTransparency = class {
 
         if (SETTINGS.get_boolean('trans-use-custom-gradient')) {
             this._gradientStyle += 'background-gradient-direction: ' + (this._dtpPanel.checkIfVertical() ? 'horizontal;' : 'vertical;') +
-                                   'background-gradient-start: ' + Utils.getrgbaColor(SETTINGS.get_string('trans-gradient-top-color'), 
-                                                                                      SETTINGS.get_double('trans-gradient-top-opacity')) + 
-                                   'background-gradient-end: ' + Utils.getrgbaColor(SETTINGS.get_string('trans-gradient-bottom-color'), 
+                                   'background-gradient-start: ' + Utils.getrgbaColor(SETTINGS.get_string('trans-gradient-top-color'),
+                                                                                      SETTINGS.get_double('trans-gradient-top-opacity')) +
+                                   'background-gradient-end: ' + Utils.getrgbaColor(SETTINGS.get_string('trans-gradient-bottom-color'),
                                                                                     SETTINGS.get_double('trans-gradient-bottom-opacity'));
         }
     }
@@ -208,13 +243,13 @@ export const DynamicTransparency = class {
 
         let transition = 'transition-duration:' + this.animationDuration;
 
-        this._dtpPanel.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles);
+        this._dtpPanel.set_style('background-color: ' + this.currentBackgroundColor + transition + this._complementaryStyles + this._borderStyle);
     }
 
     _setGradient() {
         this._dtpPanel.panel.set_style(
-            'background: none; ' + 
-            'border-image: none; ' + 
+            'background: none; ' +
+            'border-image: none; ' +
             'background-image: none; ' +
             this._gradientStyle +
             'transition-duration:' + this.animationDuration
