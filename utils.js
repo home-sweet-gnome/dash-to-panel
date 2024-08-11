@@ -22,6 +22,7 @@
  */
 
 import Clutter from 'gi://Clutter';
+import Cogl from 'gi://Cogl';
 import GdkPixbuf from 'gi://GdkPixbuf';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
@@ -317,7 +318,7 @@ export const removeKeybinding = function(key) {
 };
 
 export const getrgbColor = function(color) {
-    color = typeof color === 'string' ? Clutter.color_from_string(color)[1] : color;
+    color = typeof color === 'string' ? Cogl.color_from_string(color)[1] : color;
 
     return { red: color.red, green: color.green, blue: color.blue };
 };
