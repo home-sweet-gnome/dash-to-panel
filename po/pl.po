@@ -323,7 +323,7 @@ msgstr "Zablokuj pasek zadań"
 
 #: appIcons.js:1855
 msgid "Dash to Panel Settings"
-msgstr "Ustawienia panela"
+msgstr "Ustawienia panelu"
 
 #: appIcons.js:1860
 msgid "Restore Windows"
