@@ -22,7 +22,7 @@
  */
 
 #dashtopanelTaskbar .dash-item-container > StWidget,
-.dashtopanelMainPanel .show-apps {
+.dashtopanelMainPanel .dash-item-container .show-apps {
 	margin: 0;
 	padding: 0; 
 }
