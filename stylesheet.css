@@ -39,24 +39,40 @@
 }
 
 #dashtopanelScrollview .overview-tile:hover .dtp-container,
-#dashtopanelScrollview .overview-tile:focus .dtp-container,
+#dashtopanelScrollview .overview-tile:focus .dtp-container {
+	background-color: rgba(238, 238, 236, 0.1);
+	border-radius: 0px;
+	background-color: var(--dtp-hover-background-color);
+	border-radius: var(--dtp-hover-border-radius);
+}
+
+#dashtopanelScrollview .overview-tile:hover .dtp-container > .dtp-dots-container,
+#dashtopanelScrollview .overview-tile:focus .dtp-container > .dtp-dots-container {
+	border-radius: 0px;
+	border-radius: var(--dtp-hover-border-radius);
+}
+
 .dashtopanelMainPanel .dash-item-container .show-apps:hover {
 	background-color: rgba(238, 238, 238, 0.1);
 }
-
 .dashtopanelMainPanel .dash-item-container .show-apps .overview-icon {
 	color: #FFF;
 }
-
-#dashtopanelTaskbar .dash-item-container .overview-tile:hover,
-#dashtopanelTaskbar .dash-item-container .overview-tile .dtp-container .overview-icon,
-#dashtopanelScrollview .overview-tile:hover .dtp-container.animate-appicon-hover,
 .dashtopanelMainPanel .dash-item-container .show-apps:hover .overview-icon {
 	background: none;
 }
 
+#dashtopanelTaskbar .dash-item-container .overview-tile:hover,
+#dashtopanelTaskbar .dash-item-container .overview-tile .dtp-container .overview-icon,
+#dashtopanelScrollview .overview-tile:hover .dtp-container.no-highlight,
+#dashtopanelScrollview .overview-tile:focus .dtp-container.no-highlight {
+	background: none;
+}
+
+
 #dashtopanelScrollview .overview-tile:active .dtp-container {
 	background-color: rgba(238, 238, 236, 0.18);
+	background-color: var(--dtp-pressed-background-color);
 }
 
 #dashtopanelScrollview .overview-tile .favorite {
