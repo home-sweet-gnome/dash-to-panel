@@ -218,7 +218,7 @@ export const TaskbarAppIcon = GObject.registerClass({
 
             this._fullscreenId = Utils.DisplayWrapper.getScreen().connect('in-fullscreen-changed', () => {
                 if (
-                    global.display.focus_window?.get_monitor() == this.dtpPanel.monitor.index && 
+                    global.display.focus_window?.get_monitor() == this.dtpPanel.monitor.index &&
                     !this.dtpPanel.monitor.inFullscreen
                 ) {
                     this._resetDots(true);
