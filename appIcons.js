@@ -292,10 +292,11 @@ export const TaskbarAppIcon = GObject.registerClass({
         // The source of the clone is this._dtpIconContainer,
         // which contains the icon but no highlighting elements
         // using this.actor directly would break DnD style.
+        let cloneSource = this._dtpIconContainer;
         let clone = new Clutter.Clone({
-            source: this._dtpIconContainer,
+            source: cloneSource,
             x: this.child.x, y: this.child.y,
-            width: this.child.width, height: this.child.height,
+            width: cloneSource.width, height: cloneSource.height,
             pivot_point: new Graphene.Point({ x: 0.5, y: 0.5 }),
             opacity: 255,
             reactive: false,
