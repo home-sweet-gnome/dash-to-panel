@@ -23,6 +23,7 @@
 
 
 import Clutter from 'gi://Clutter';
+import Cogl from 'gi://Cogl';
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
 import Graphene from 'gi://Graphene';
@@ -1049,13 +1050,13 @@ export const TaskbarAppIcon = GObject.registerClass({
 
     _getRunningIndicatorColor(isFocused) {
         let color;
-        const fallbackColor = new Clutter.Color({ red: 82, green: 148, blue: 226, alpha: 255 });
+        const fallbackColor = new Cogl.Color({ red: 82, green: 148, blue: 226, alpha: 255 })
 
         if (SETTINGS.get_boolean('dot-color-dominant')) {
             let dce = new Utils.DominantColorExtractor(this.app);
             let palette = dce._getColorPalette();
             if (palette) {
-                color = Clutter.color_from_string(palette.original)[1];
+                color = Cogl.color_from_string(palette.original)[1];
             } else { // unable to determine color, fall back to theme
                 let themeNode = this._dot.get_theme_node();
                 color = themeNode.get_background_color();
@@ -1069,7 +1070,7 @@ export const TaskbarAppIcon = GObject.registerClass({
             if(!isFocused && SETTINGS.get_boolean('dot-color-unfocused-different'))
                 dotColorSettingPrefix = 'dot-color-unfocused-';
 
-            color = Clutter.color_from_string(SETTINGS.get_string(dotColorSettingPrefix + (this._getRunningIndicatorCount() || 1) ))[1];
+            color = Cogl.color_from_string(SETTINGS.get_string(dotColorSettingPrefix + (this._getRunningIndicatorCount() || 1) ))[1];
         } else {
             // Re-use the style - background color, and border width and color -
             // of the default dot
@@ -1132,8 +1133,8 @@ export const TaskbarAppIcon = GObject.registerClass({
             } else {
                 let blackenedLength = (1 / 48) * areaSize; // need to scale with the SVG for the stacked highlight
                 let darkenedLength = isFocused ? (2 / 48) * areaSize : (10 / 48) * areaSize;
-                let blackenedColor = new Clutter.Color({ red: bodyColor.red * .3, green: bodyColor.green * .3, blue: bodyColor.blue * .3, alpha: bodyColor.alpha });
-                let darkenedColor = new Clutter.Color({ red: bodyColor.red * .7, green: bodyColor.green * .7, blue: bodyColor.blue * .7, alpha: bodyColor.alpha });
+                let blackenedColor = new Cogl.Color({ red: bodyColor.red * .3, green: bodyColor.green * .3, blue: bodyColor.blue * .3, alpha: bodyColor.alpha });
+                let darkenedColor = new Cogl.Color({ red: bodyColor.red * .7, green: bodyColor.green * .7, blue: bodyColor.blue * .7, alpha: bodyColor.alpha });
                 let solidDarkLength = areaSize - darkenedLength;
                 let solidLength = solidDarkLength - blackenedLength;
 
