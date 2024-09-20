@@ -194,7 +194,7 @@
       <description>Customize the color of the unfocused running indicator when four or more windows are running for that application</description>
     </key>
     <key type="i" name="dot-size">
-      <default>3</default>
+      <default>4</default>
       <summary>Running indicator height</summary>
       <description>Height of the running indicator line/diameter of window indicator dots</description>
     </key>
@@ -419,7 +419,7 @@
       <description>Show activities button on the left hand side of the taskbar</description>
     </key>
     <key type="i" name="showdesktop-button-width">
-      <default>8</default>
+      <default>10</default>
       <summary>Width of show Desktop button</summary>
       <description>Customize the width of the show Desktop button</description>
     </key>
@@ -731,12 +731,12 @@
         <description>Set the size of the leftBox font. (0 for default)</description>
     </key>
     <key type="i" name="appicon-margin">
-        <default>8</default>
+        <default>4</default>
         <summary>App icon margin</summary>
         <description>Set the margin for application icons in the embedded dash.</description>
     </key>
     <key type="i" name="appicon-padding">
-        <default>4</default>
+        <default>8</default>
         <summary>App icon padding</summary>
         <description>Set the padding for application icons in the embedded dash.</description>
     </key>
