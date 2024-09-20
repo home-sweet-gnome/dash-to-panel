@@ -405,13 +405,13 @@ export const ProgressIndicator = class {
         if (hasColor)
             this._progressbar_background = color
         else
-            this._progressbar_background = new Clutter.Color({red: 204, green: 204, blue: 204, alpha: 255});
+            this._progressbar_background = new Utils.ColorUtils.Color({red: 204, green: 204, blue: 204, alpha: 255});
 
         [hasColor, color] = node.lookup_color('-progress-bar-border', false);
         if (hasColor)
             this._progressbar_border = color;
         else
-            this._progressbar_border = new Clutter.Color({red: 230, green: 230, blue: 230, alpha: 255});
+            this._progressbar_border = new Utils.ColorUtils.Color({red: 230, green: 230, blue: 230, alpha: 255});
 
         this._updateProgressOverlay();
     }
