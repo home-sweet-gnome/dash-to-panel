@@ -39,14 +39,19 @@
 }
 
 #dashtopanelScrollview .overview-tile:hover .dtp-container,
-#dashtopanelScrollview .overview-tile:focus .dtp-container {
-	background-color: rgba(238, 238, 236, 0.1);
+#dashtopanelScrollview .overview-tile:focus .dtp-container,
+.dashtopanelMainPanel .dash-item-container .show-apps:hover {
+	background-color: rgba(238, 238, 238, 0.1);
+}
+
+.dashtopanelMainPanel .dash-item-container .show-apps .overview-icon {
+	color: #FFF;
 }
 
 #dashtopanelTaskbar .dash-item-container .overview-tile:hover,
 #dashtopanelTaskbar .dash-item-container .overview-tile .dtp-container .overview-icon,
 #dashtopanelScrollview .overview-tile:hover .dtp-container.animate-appicon-hover,
-.dashtopanelMainPanel .dash-item-container .show-apps .overview-icon {
+.dashtopanelMainPanel .dash-item-container .show-apps:hover .overview-icon {
 	background: none;
 }
 
