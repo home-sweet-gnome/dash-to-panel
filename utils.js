@@ -22,6 +22,7 @@
  */
 
 import Clutter from 'gi://Clutter';
+import Cogl from 'gi://Cogl';
 import GdkPixbuf from 'gi://GdkPixbuf';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
@@ -317,7 +318,7 @@ export const removeKeybinding = function(key) {
 };
 
 export const getrgbColor = function(color) {
-    color = typeof color === 'string' ? Clutter.color_from_string(color)[1] : color;
+    color = typeof color === 'string' ? ColorUtils.color_from_string(color)[1] : color;
 
     return { red: color.red, green: color.green, blue: color.blue };
 };
@@ -561,7 +562,12 @@ export const ensureActorVisibleInScrollView = function(scrollView, actor, fadeSi
 /**
  *  ColorUtils is adapted from https://github.com/micheleg/dash-to-dock
  */
+let colorNs = Clutter.Color ? Clutter : Cogl
+
 export const ColorUtils = {
+    color_from_string: colorNs.color_from_string,
+    Color: colorNs.Color,
+
     colorLuminance(r, g, b, dlum) {
         // Darken or brighten color by a fraction dlum
         // Each rgb value is modified by the same fraction.

@@ -25,7 +25,6 @@ import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
 import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 import * as  PanelManager from './panelManager.js';
-import * as Utils from './utils.js';
 import * as AppIcons from './appIcons.js';
 
 
@@ -34,7 +33,6 @@ const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
 let panelManager;
 let extensionChangedHandler;
 let startupCompleteHandler;
-let disabledUbuntuDock;
 let extensionSystem = Main.extensionManager;
 
 export let DTP_EXTENSION = null;
@@ -82,12 +80,9 @@ export default class DashToPanelExtension extends Extension {
 
         if (!reset) {
             extensionSystem.disconnect(extensionChangedHandler);
-            delete global.dashToPanel;
+            extensionSystem.enableExtension(UBUNTU_DOCK_UUID);
 
-            // Re-enable Ubuntu Dock if it was disabled by dash to panel
-            if (disabledUbuntuDock) {
-                (extensionSystem._callExtensionEnable || extensionSystem.enableExtension).call(extensionSystem, UBUNTU_DOCK_UUID);
-            }
+            delete global.dashToPanel;
 
             AppIcons.resetRecentlyClickedApp();
         }
@@ -102,24 +97,7 @@ export default class DashToPanelExtension extends Extension {
 }
 
 function _enable(extension) {
-    let ubuntuDock = extensionSystem.lookup(UBUNTU_DOCK_UUID);
-
-    if (ubuntuDock && ubuntuDock.stateObj && ubuntuDock.state == 1) { //ExtensionState.ACTIVE
-        // Disable Ubuntu Dock
-        let extensionOrder = extensionSystem._extensionOrder;
-
-        ubuntuDock.stateObj.disable();
-        extensionSystem._unloadExtensionStylesheet(ubuntuDock);
-        ubuntuDock.state = 2; //ExtensionState.INACTIVE
-        extensionOrder.splice(extensionOrder.indexOf(UBUNTU_DOCK_UUID), 1);
-
-        disabledUbuntuDock = true;
-
-        //reset to prevent conflicts with the ubuntu-dock
-        if (panelManager) {
-            extension.disable(true);
-        }
-    }
+    extensionSystem.disableExtension(UBUNTU_DOCK_UUID);
 
     if (panelManager) return; //already initialized
 

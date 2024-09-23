@@ -22,9 +22,9 @@
  */
 
 #dashtopanelTaskbar .dash-item-container > StWidget,
-.dashtopanelMainPanel .show-apps {
+.dashtopanelMainPanel .dash-item-container .show-apps {
 	margin: 0;
-	padding: 0; 
+	padding: 0;
 }
 
 #dashtopanelScrollview .overview-tile,
@@ -39,13 +39,19 @@
 }
 
 #dashtopanelScrollview .overview-tile:hover .dtp-container,
-#dashtopanelScrollview .overview-tile:focus .dtp-container {
-	background-color: rgba(238, 238, 236, 0.1);
+#dashtopanelScrollview .overview-tile:focus .dtp-container,
+.dashtopanelMainPanel .dash-item-container .show-apps:hover {
+	background-color: rgba(238, 238, 238, 0.1);
+}
+
+.dashtopanelMainPanel .dash-item-container .show-apps .overview-icon {
+	color: #FFF;
 }
 
 #dashtopanelTaskbar .dash-item-container .overview-tile:hover,
 #dashtopanelTaskbar .dash-item-container .overview-tile .dtp-container .overview-icon,
-#dashtopanelScrollview .overview-tile:hover .dtp-container.animate-appicon-hover {
+#dashtopanelScrollview .overview-tile:hover .dtp-container.animate-appicon-hover,
+.dashtopanelMainPanel .dash-item-container .show-apps:hover .overview-icon {
 	background: none;
 }
 
@@ -58,7 +64,7 @@
 }
 
 #dashtopanelTaskbar .scrollview-fade {
-    background-gradient-end: rgba(0, 0, 0, 0);
+	background-gradient-end: rgba(0, 0, 0, 0);
 }
 
 .dashtopanelSecondaryMenu {
@@ -66,13 +72,13 @@
 }
 
 .dashtopanelMainPanel.vertical .panel-button {
-	text-align: center; 
+	text-align: center;
 }
 
 .dashtopanelMainPanel.vertical .panel-button.vertical *,
 .dashtopanelMainPanel.vertical .panel-button.clock-display * {
 	padding: 0;
-	margin: 0; 
+	margin: 0;
 }
 
 .dashtopanelMainPanel.vertical .panel-button > *,
@@ -80,7 +86,7 @@
 .dashtopanelMainPanel.vertical .panel-button.vertical .system-status-icon,
 .dashtopanelMainPanel.vertical .panel-button.clock-display > *,
 .dashtopanelMainPanel.vertical .panel-button.clock-display .clock {
-	padding: 8px 0; 
+	padding: 8px 0;
 }
 
 .dashtopanelMainPanel.vertical .panel-button.clock-display {
@@ -109,11 +115,11 @@
 }
 
 .popup-menu.panel-menu {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 #panel #panelLeft, #panel #panelCenter {
-	spacing: 0px; 
+	spacing: 0px;
 }
 
 .showdesktop-button-dark-hovered {
@@ -135,16 +141,15 @@
 }
 
 #dashtopanelScrollview .notification-badge {
-    background-color: rgba(255,0,0,0.8);
+	background-color: rgba(255,0,0,0.8);
 }
 
 #dashtopanelScrollview .progress-bar {
-    /* Customization of the progress bar style, e.g.:
-      -progress-bar-background: rgba(0.8, 0.8, 0.8, 1);
-      -progress-bar-border: rgba(0.9, 0.9, 0.9, 1);
-    */
+	/* Customization of the progress bar style, e.g.:
+	-progress-bar-background: rgba(0.8, 0.8, 0.8, 1);
+	-progress-bar-border: rgba(0.9, 0.9, 0.9, 1); */
 }
 
 .symbolic-icon-style {
-    -st-icon-style: symbolic;
+	-st-icon-style: symbolic;
 }
