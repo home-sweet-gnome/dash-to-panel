@@ -65,17 +65,14 @@ msgid "End"
 msgstr "Koniec"
 
 #: prefs.js:413
-#, fuzzy
 msgid "Show Applications button"
 msgstr "Opcje wyświetlania programów"
 
 #: prefs.js:414
-#, fuzzy
 msgid "Activities button"
 msgstr "Pokaż przycisk <i>Podgląd</i>"
 
 #: prefs.js:415
-#, fuzzy
 msgid "Taskbar"
 msgstr "Górna strona paska zadań"
 
@@ -84,26 +81,22 @@ msgid "Date menu"
 msgstr "Menu daty"
 
 #: prefs.js:417
-#, fuzzy
 msgid "System menu"
 msgstr "Monitor procesów"
 
 #: prefs.js:418
-#, fuzzy
 msgid "Left box"
-msgstr "Lewo"
+msgstr "Po lewej"
 
 #: prefs.js:419
 msgid "Center box"
 msgstr "Wyśrodkowanie do okna"
 
 #: prefs.js:420
-#, fuzzy
 msgid "Right box"
-msgstr "Prawo"
+msgstr "Po prawej"
 
 #: prefs.js:421
-#, fuzzy
 msgid "Desktop button"
 msgstr "Pokaż przycisk <i>Pulpit</i>"
 
@@ -120,7 +113,6 @@ msgid "Visible"
 msgstr "Widoczny"
 
 #: prefs.js:432
-#, fuzzy
 msgid "Select element position"
 msgstr "Położenie panelu na ekranie"
 
@@ -142,17 +134,15 @@ msgstr "Przypięto do prawej"
 
 #: prefs.js:445
 msgid "Centered"
-msgstr "Wyśrodkowane"
+msgstr "Wyśrodkowano"
 
 #: prefs.js:446
-#, fuzzy
 msgid "Monitor Center"
 msgstr "Monitor "
 
 #: prefs.js:465
-#, fuzzy
 msgid "More options"
-msgstr "Opcje zasilania"
+msgstr "Więcej opcji"
 
 #: prefs.js:497
 msgid "Reset to defaults"
@@ -160,11 +150,11 @@ msgstr "Przywróć domyślne"
 
 #: prefs.js:520
 msgid "Show Applications options"
-msgstr "Opcje wyświetlania programów"
+msgstr "Pokaż opcje programów"
 
 #: prefs.js:530
 msgid "Open icon"
-msgstr "Otwórz ikonę"
+msgstr "Wybierz ikonę"
 
 #: prefs.js:577
 msgid "Show Desktop options"
@@ -203,7 +193,6 @@ msgid "Running Indicator Options"
 msgstr "Opcje wskaźnika aktywnych programów"
 
 #: prefs.js:928
-#, fuzzy
 msgid "Primary monitor"
 msgstr "Domyślny (Główny monitor)"
 
@@ -252,7 +241,6 @@ msgid "Advanced Options"
 msgstr "Opcje zaawansowane"
 
 #: prefs.js:2040
-#, fuzzy
 msgid "App icon animation options"
 msgstr "Opcje wyświetlania programów"
 
@@ -342,7 +330,6 @@ msgid "For real..."
 msgstr "Na pewno..."
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:1
-#, fuzzy
 msgid "Animation type"
 msgstr "Długość animacji (ms)"
 
@@ -363,7 +350,6 @@ msgid "Duration"
 msgstr "Trwanie"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:6
-#, fuzzy
 msgid "Rotation"
 msgstr "Położenie"
 
@@ -400,7 +386,6 @@ msgid "Highlight opacity"
 msgstr "Przeźroczystość podświetlenia"
 
 #: ui/BoxDotOptions.ui.h:5
-#, fuzzy
 msgid "Indicator size (px)"
 msgstr "Wysokość wskaźnika (px)"
 
@@ -503,21 +488,16 @@ msgid "Font color of the application titles"
 msgstr "Kolor czcionki"
 
 #: ui/BoxGroupAppsOptions.ui.h:9
-#, fuzzy
 msgid "Font color of the minimized application titles"
 msgstr "Kolor czcionki"
 
 #: ui/BoxGroupAppsOptions.ui.h:10
-#, fuzzy
 msgid "Maximum width (px) of the application titles"
 msgstr "Maksymalna szerokość (px) etykiet (domyślnie 160)"
 
 #: ui/BoxGroupAppsOptions.ui.h:11
-#, fuzzy
 msgid "(default is 160)"
-msgstr ""
-"Rozmiar panelu\n"
-"(domyślnie 48)"
+msgstr "(domyślnie 160)"
 
 #: ui/BoxGroupAppsOptions.ui.h:12
 msgid "Use a fixed width for the application titles"
@@ -542,7 +522,6 @@ msgid "Use the favorite icons as application launchers"
 msgstr "Oddziel ulubione od uruchomionych programów"
 
 #: ui/BoxIntellihideOptions.ui.h:1
-#, fuzzy
 msgid "Only hide the panel when it is obstructed by windows"
 msgstr "Ukryj panel tylko wtedy, gdy jest zasłonięty przez okna "
 
@@ -567,12 +546,10 @@ msgid "Allow the panel to be revealed while in fullscreen mode"
 msgstr "Pozwól, aby panel został odsłonięty w trybie pełnoekranowym"
 
 #: ui/BoxIntellihideOptions.ui.h:10
-#, fuzzy
 msgid "Only hide secondary panels"
 msgstr "Ukryj wyłącznie drugorzędne panele (dla wielu monitorów)"
 
 #: ui/BoxIntellihideOptions.ui.h:11
-#, fuzzy
 msgid "(requires multi-monitors option)"
 msgstr "Opcje wielu monitorów"
 
@@ -637,7 +614,6 @@ msgid "Toggle single / Preview multiple"
 msgstr "Przełącz pojedyncze / Podejrzyj wiele"
 
 #: ui/BoxMiddleClickOptions.ui.h:9 ui/SettingsAction.ui.h:6
-#, fuzzy
 msgid "Toggle single / Cycle multiple"
 msgstr "Przełącz pojedyncze / Podejrzyj wiele"
 
@@ -655,9 +631,7 @@ msgstr "Kliknięcie środkowym przyciskiem + Shift"
 
 #: ui/BoxMiddleClickOptions.ui.h:14
 msgid "Behavior for Shift+Middle-Click."
-msgstr ""
-"Konfiguruje działanie kliknięcia środkowym przyciskiem z przytrzymanym "
-"klawiszem Shift."
+msgstr "Zachowanie dla Shift+środkowy przycisk"
 
 #: ui/BoxOverlayShortcut.ui.h:1
 msgid "Hotkeys prefix"
@@ -749,11 +723,11 @@ msgstr "Użyj tą wartość by ograniczyć liczbę przechwyceń przewijania mysz
 
 #: ui/BoxScrollPanelOptions.ui.h:3
 msgid "Show popup when changing workspace"
-msgstr ""
+msgstr "Pokaż wyskakujące okno podczas zmiany przestrzeni roboczej"
 
 #: ui/BoxScrollPanelOptions.ui.h:4
 msgid "This affects workspace popup when scrolling on the panel only."
-msgstr ""
+msgstr "Ma wpływ na wyskakujące okno w przestrzeni roboczej tylko na panelu"
 
 #: ui/BoxSecondaryMenuOptions.ui.h:1
 msgid "Integrate <i>AppMenu</i> items"
@@ -764,7 +738,6 @@ msgid "<i>Show Details</i> menu item"
 msgstr "<i>Wyświetl szczegóły</i>"
 
 #: ui/BoxShowApplicationsOptions.ui.h:1
-#, fuzzy
 msgid "Show Applications icon"
 msgstr "Opcje wyświetlania programów"
 
@@ -774,11 +747,11 @@ msgstr "Wewnętrzny margines przycisku <i>Pokaż programy</i> (px)"
 
 #: ui/BoxShowApplicationsOptions.ui.h:4
 msgid "Override escape key and return to desktop"
-msgstr ""
+msgstr "Nadpisz przycisk wyjścia i wróć do pulpitu"
 
 #: ui/BoxShowDesktopOptions.ui.h:1
 msgid "Override Show Desktop line color"
-msgstr ""
+msgstr "Nadpisz kolor przycisku Pokaż pulpit"
 
 #: ui/BoxShowDesktopOptions.ui.h:2
 msgid "Reveal the desktop when hovering the Show Desktop button"
@@ -793,7 +766,6 @@ msgid "Fade duration (ms)"
 msgstr "Opóźnienie ukrywania (ms)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:1
-#, fuzzy
 msgid "Time (ms) before showing"
 msgstr "Opóźnienie (ms) przed pokazaniem (domyślnie 100)"
 
@@ -802,7 +774,6 @@ msgid "(400 is default)"
 msgstr "(Domyślnie 400)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:3
-#, fuzzy
 msgid "Time (ms) before hiding"
 msgstr "Opóźnienie ukrywania miniatur (domyślnie 100 ms)"
 
@@ -932,7 +903,6 @@ msgid "Use custom opacity for the previews background"
 msgstr "Własna przeźroczystość dla tła podglądu okna"
 
 #: ui/BoxWindowPreviewOptions.ui.h:35
-#, fuzzy
 msgid ""
 "If disabled, the previews background have the same opacity as the panel."
 msgstr ""
@@ -947,12 +917,10 @@ msgid "Display window preview headers"
 msgstr "Wyświetlaj nagłówek w podglądzie okna"
 
 #: ui/BoxWindowPreviewOptions.ui.h:40
-#, fuzzy
 msgid "Icon size (px) of the window preview"
 msgstr "Wielkość czcionki etykiet (px) etykiet podglądu"
 
 #: ui/BoxWindowPreviewOptions.ui.h:41
-#, fuzzy
 msgid "If disabled, the previews icon size will be based on headerbar size"
 msgstr ""
 "Jeśli wyłączone, podgląd okna będzie mieć taką samą przeźroczystość jak panel"
@@ -1010,7 +978,6 @@ msgid "Info"
 msgstr "Info"
 
 #: ui/SettingsAbout.ui.h:2
-#, fuzzy
 msgid "Version"
 msgstr "Wersja"
 
@@ -1023,7 +990,6 @@ msgid "GitHub"
 msgstr "GitHub"
 
 #: ui/SettingsAbout.ui.h:5
-#, fuzzy
 msgid "Export and Import"
 msgstr "Ustawienia eksportu i importu"
 
@@ -1071,7 +1037,6 @@ msgid "Toggle windows"
 msgstr "Przełącz okna"
 
 #: ui/SettingsAction.ui.h:10
-#, fuzzy
 msgid "Scroll action"
 msgstr "Działanie przewijania na ikonie"
 
@@ -1112,7 +1077,6 @@ msgid "Same as panel"
 msgstr "Tak jak panel"
 
 #: ui/SettingsAction.ui.h:20
-#, fuzzy
 msgid "Hotkey overlay"
 msgstr "Pokazywanie cyfr"
 
@@ -1129,7 +1093,6 @@ msgstr ""
 "Super+(0-9) - możliwe użycie razem z Shift i Ctrl."
 
 #: ui/SettingsBehavior.ui.h:1
-#, fuzzy
 msgid "Applications"
 msgstr "Tryb listy (nie scalaj ikon)"
 
@@ -1138,7 +1101,6 @@ msgid "Show favorite applications"
 msgstr "Pokaż ulubione programy"
 
 #: ui/SettingsBehavior.ui.h:3
-#, fuzzy
 msgid "Show favorite applications on secondary panels"
 msgstr "Pokaż ulubione programy"
 
@@ -1167,7 +1129,6 @@ msgid "Show tooltip on hover"
 msgstr "Pokaż szczegóły po najechaniu myszą"
 
 #: ui/SettingsBehavior.ui.h:10
-#, fuzzy
 msgid "Isolate"
 msgstr "Niezależne obszary robocze"
 
@@ -1200,12 +1161,10 @@ msgid "Tray Font Size"
 msgstr "Rozmiar czcionki zasobnika"
 
 #: ui/SettingsFineTune.ui.h:3
-#, fuzzy
 msgid "(0 = theme default)"
 msgstr "(0 - domyślne motywu)"
 
 #: ui/SettingsFineTune.ui.h:4
-#, fuzzy
 msgid "LeftBox Font Size"
 msgstr ""
 "Rozmiar czcionki lewej strony panelu\n"
@@ -1216,17 +1175,14 @@ msgid "Padding"
 msgstr "Odstęp"
 
 #: ui/SettingsFineTune.ui.h:6
-#, fuzzy
 msgid "Tray Item Padding"
 msgstr "Odstęp elementów zasobnika"
 
 #: ui/SettingsFineTune.ui.h:7
-#, fuzzy
 msgid "(-1 = theme default)"
 msgstr "(-1 - domyślne motywu)"
 
 #: ui/SettingsFineTune.ui.h:8
-#, fuzzy
 msgid "Status Icon Padding"
 msgstr "Odstęp ikon stanu"
 
@@ -1251,7 +1207,6 @@ msgid "Gnome functionality"
 msgstr "Funkcja Gnome"
 
 #: ui/SettingsFineTune.ui.h:14
-#, fuzzy
 msgid "Keep original gnome-shell dash"
 msgstr "Zachowaj oryginalny panel (podgląd)"
 
@@ -1260,12 +1215,10 @@ msgid "(overview)"
 msgstr "(przegląd)"
 
 #: ui/SettingsFineTune.ui.h:16
-#, fuzzy
 msgid "Keep original gnome-shell top panel"
 msgstr "Zachowaj oryginalny panel (podgląd)"
 
 #: ui/SettingsFineTune.ui.h:17
-#, fuzzy
 msgid "Activate panel menu buttons on click only"
 msgstr ""
 "Aktywuj przyciski menu panelu (np. menu kalendarza) tylko po kliknięciu"
@@ -1279,12 +1232,10 @@ msgid "Force Activities hot corner on primary monitor"
 msgstr "Wymuś Aktywności gorącego rogu na głównym monitorze"
 
 #: ui/SettingsFineTune.ui.h:20
-#, fuzzy
 msgid "App icon secondary menu"
 msgstr "Menu kontekstowe programu (prawy przycisk myszy)"
 
 #: ui/SettingsFineTune.ui.h:21
-#, fuzzy
 msgid "(right-click menu)"
 msgstr "(prawy przycisk myszy)"
 
@@ -1313,12 +1264,10 @@ msgid "Order and Position on monitors"
 msgstr "Kolejność i pozycja na monitorach"
 
 #: ui/SettingsPosition.ui.h:7
-#, fuzzy
 msgid "Monitor"
 msgstr "Monitor"
 
 #: ui/SettingsPosition.ui.h:8
-#, fuzzy
 msgid "Apply changes to all monitors"
 msgstr "Zastosuj zmiany na wszyskich monitorach"
 
@@ -1327,12 +1276,10 @@ msgid "Panel screen position"
 msgstr "Położenie panelu na ekranie"
 
 #: ui/SettingsPosition.ui.h:14
-#, fuzzy
 msgid "Panel thickness"
 msgstr "Inteligentne ukrywanie panelu"
 
 #: ui/SettingsPosition.ui.h:15
-#, fuzzy
 msgid "(default is 48)"
 msgstr "(domyślnie 48)"
 
@@ -1342,7 +1289,6 @@ msgid "Panel length (%)"
 msgstr "Długość panela (%)"
 
 #: ui/SettingsPosition.ui.h:18
-#, fuzzy
 msgid "(default is 100)"
 msgstr "(domyślnie 100)"
 
@@ -1359,32 +1305,26 @@ msgid "AppIcon style"
 msgstr "Styl ikon aplikacji"
 
 #: ui/SettingsStyle.ui.h:2
-#, fuzzy
 msgid "App Icon Margin"
 msgstr "Odstęp między ikonami"
 
 #: ui/SettingsStyle.ui.h:3
-#, fuzzy
 msgid "(default is 8)"
 msgstr "(domyślnie 8)"
 
 #: ui/SettingsStyle.ui.h:4
-#, fuzzy
 msgid "App Icon Padding"
 msgstr "Wypełnienie ikony aplikacji"
 
 #: ui/SettingsStyle.ui.h:5
-#, fuzzy
 msgid "(default is 4)"
 msgstr "(domyślnie 4)"
 
 #: ui/SettingsStyle.ui.h:6
-#, fuzzy
 msgid "Animate hovering app icons"
 msgstr "Animuj przełączenie programów"
 
 #: ui/SettingsStyle.ui.h:7
-#, fuzzy
 msgid "Running indicator"
 msgstr "Pozycja wskaźnika aktywnych okien"
 
@@ -1429,12 +1369,10 @@ msgid "Running indicator style (Unfocused apps)"
 msgstr "Wygląd wskaźnika (okno na drugim planie)"
 
 #: ui/SettingsStyle.ui.h:22
-#, fuzzy
 msgid "Panel style"
 msgstr "Inteligentne ukrywanie panelu"
 
 #: ui/SettingsStyle.ui.h:23
-#, fuzzy
 msgid "Override panel theme background color"
 msgstr "Zastąp kolor panelu "
 
@@ -1456,7 +1394,6 @@ msgid "Change opacity when a window gets close to the panel"
 msgstr "Zmiana przeźroczystości w kontakcie z oknem"
 
 #: ui/SettingsStyle.ui.h:30
-#, fuzzy
 msgid "Override panel theme gradient"
 msgstr "Zastąp kolor panelu gradientem "
 
