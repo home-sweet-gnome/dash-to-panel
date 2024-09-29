@@ -1408,7 +1408,7 @@ export const TaskbarItemContainer = GObject.registerClass({
 
         // The clone follows its source when the taskbar is scrolled.
         let taskbarScrollView = this.get_parent().get_parent();
-        let adjustment = this._dtpPanel.checkIfVertical() ? taskbarScrollView.vscroll.get_adjustment() : taskbarScrollView.hscroll.get_adjustment();
+        let adjustment = this._dtpPanel.checkIfVertical() ? taskbarScrollView.get_vadjustment() : taskbarScrollView.get_hadjustment();
         let adjustmentChangedId = adjustment.connect('notify::value', () => this._updateCloneContainerPosition(cloneContainer));
 
         // Update clone position when an item is added to / removed from the taskbar.
