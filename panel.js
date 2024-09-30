@@ -17,13 +17,13 @@
  * Credits:
  * This file is based on code from the Dash to Dock extension by micheleg
  * and code from the Taskbar extension by Zorin OS
- * 
+ *
  * Code to re-anchor the panel was taken from Thoma5 BottomPanel:
  * https://github.com/Thoma5/gnome-shell-extension-bottompanel
- * 
+ *
  * Pattern for moving clock based on Frippery Move Clock by R M Yorston
  * http://frippery.org/extensions/
- * 
+ *
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
@@ -85,7 +85,7 @@ export const Panel = GObject.registerClass({
         // so in this case use isPrimary to get the panel on the primary dtp monitor, which
         // might be different from the system's primary monitor.
         this.isStandalone = isStandalone;
-        this.isPrimary = !isStandalone || (SETTINGS.get_boolean('stockgs-keep-top-panel') && 
+        this.isPrimary = !isStandalone || (SETTINGS.get_boolean('stockgs-keep-top-panel') &&
                                            monitor == panelManager.dtpPrimaryMonitor);
 
         this._sessionStyle = null;
@@ -144,20 +144,20 @@ export const Panel = GObject.registerClass({
             });
         }
 
-        // Create a wrapper around the real showAppsIcon in order to add a popupMenu. Most of 
+        // Create a wrapper around the real showAppsIcon in order to add a popupMenu. Most of
         // its behavior is handled by the taskbar, but its positioning is done at the panel level
         this.showAppsIconWrapper = new AppIcons.ShowAppsIconWrapper(this);
         this.panel.add_child(this.showAppsIconWrapper.realShowAppsIcon);
 
         this.panel._delegate = this;
-        
+
         this.add_child(this.panel);
 
         if (Main.panel._onButtonPress || Main.panel._tryDragWindow) {
             this._signalsHandler.add([
-                this.panel, 
+                this.panel,
                 [
-                    'button-press-event', 
+                    'button-press-event',
                     'touch-event'
                 ],
                 this._onButtonPress.bind(this)
@@ -167,7 +167,7 @@ export const Panel = GObject.registerClass({
         if (Main.panel._onKeyPress) {
             this._signalsHandler.add([this.panel, 'key-press-event', Main.panel._onKeyPress.bind(this)]);
         }
-       
+
         Main.ctrlAltTabManager.addGroup(this, _("Top Bar")+" "+ monitor.index, 'focus-top-bar-symbolic',
                                         { sortGroup: CtrlAltTab.SortGroup.TOP });
     }
@@ -180,7 +180,7 @@ export const Panel = GObject.registerClass({
         }
 
         this.geom = this.getGeometry();
-        
+
         this._setPanelPosition();
 
         if (!this.isStandalone) {
@@ -209,13 +209,13 @@ export const Panel = GObject.registerClass({
         };
 
         this.dynamicTransparency = new Transparency.DynamicTransparency(this);
-        
+
         this.taskbar = new Taskbar.Taskbar(this);
 
         this.panel.add_child(this.taskbar.actor);
 
         this._setShowDesktopButton(true);
-        
+
         this._setAllocationMap();
 
         this.panel.add_style_class_name('dashtopanelMainPanel ' + this.getOrientation());
@@ -225,14 +225,14 @@ export const Panel = GObject.registerClass({
         this._signalsHandler.add(
             // this is to catch changes to the theme or window scale factor
             [
-                Utils.getStageTheme(), 
-                'changed', 
+                Utils.getStageTheme(),
+                'changed',
                 () => (this._resetGeometry(), this._setShowDesktopButtonStyle()),
             ],
             [
                 // sync hover after a popupmenu is closed
                 this.taskbar,
-                'menu-closed', 
+                'menu-closed',
                 () => this.panel.sync_hover()
             ],
             [
@@ -255,10 +255,10 @@ export const Panel = GObject.registerClass({
             ],
             [
                 this.statusArea.activities,
-                'captured-event', 
+                'captured-event',
                 (actor, e) => {
                     if (e.type() == Clutter.EventType.BUTTON_PRESS || e.type() == Clutter.EventType.TOUCH_BEGIN) {
-                        //temporarily use as primary the monitor on which the activities btn was clicked 
+                        //temporarily use as primary the monitor on which the activities btn was clicked
                         this.panelManager.setFocusedMonitor(this.monitor);
                     }
                 }
@@ -302,7 +302,7 @@ export const Panel = GObject.registerClass({
 
             if (this.statusArea.dateMenu) {
                 this._formatVerticalClock();
-                
+
                 this._signalsHandler.add([
                     this.statusArea.dateMenu._clock,
                     'notify::clock',
@@ -324,7 +324,7 @@ export const Panel = GObject.registerClass({
 
         this._timeoutsHandler.destroy();
         this._signalsHandler.destroy();
-        
+
         this.panel.remove_child(this.taskbar.actor);
 
         if (this.intellihide) {
@@ -366,14 +366,14 @@ export const Panel = GObject.registerClass({
                 ['activities', systemMenuName, 'dateMenu'].forEach(b => {
                     let container = this.statusArea[b].container;
                     let originalParent = container._dtpOriginalParent;
-    
+
                     this.panel.remove_child(container);
 
                     originalParent && originalParent.insert_child_at_index(
-                        container, 
+                        container,
                         Math.min(container._dtpOriginalIndex, originalParent.get_children().length - 1)
                     );
-                    
+
                     delete container._dtpOriginalParent;
                     delete container._dtpOriginalIndex;
                 });
@@ -384,7 +384,7 @@ export const Panel = GObject.registerClass({
             delete Utils.getIndicators(this.statusArea[systemMenuName]._volumeOutput)._dtpIgnoreScroll;
 
             this._injectionManager.clear();
-            
+
             this.panel._delegate = this.panel;
         } else {
             this._removePanelMenu('dateMenu');
@@ -405,16 +405,16 @@ export const Panel = GObject.registerClass({
         } else if (position == Pos.BOTTOM) {
             return St.Side.BOTTOM;
         }
-        
+
         return St.Side.LEFT;
     }
 
     checkIfVertical() {
         let position = this.getPosition();
-    
+
         return (position == St.Side.LEFT || position == St.Side.RIGHT);
     }
-    
+
     getOrientation() {
         return (this.checkIfVertical() ? 'vertical' : 'horizontal');
     }
@@ -452,7 +452,7 @@ export const Panel = GObject.registerClass({
                     currentPosition = Pos.STACKED_BR;
                 }
 
-                if (!previousPosition || 
+                if (!previousPosition ||
                     (previousPosition == Pos.STACKED_TL && currentPosition != Pos.STACKED_TL) ||
                     (previousPosition != Pos.STACKED_BR && currentPosition == Pos.STACKED_BR) ||
                     (isCentered && previousPosition != currentPosition && previousPosition != Pos.STACKED_BR)) {
@@ -486,6 +486,8 @@ export const Panel = GObject.registerClass({
                 SETTINGS,
                 [
                     'changed::panel-sizes',
+                    'changed::appicon-margin-todesktop',
+                    'changed::appicon-margin-toscreenborder',
                     'changed::group-apps'
                 ],
                 () => this._resetGeometry()
@@ -514,7 +516,7 @@ export const Panel = GObject.registerClass({
                 'changed::clock-format',
                 () => {
                     this._clockFormat = null;
-                    
+
                     if (isVertical) {
                         this._formatVerticalClock();
                     }
@@ -544,7 +546,7 @@ export const Panel = GObject.registerClass({
             container.insert_child_at_index(this.statusArea[propName].container, 0);
         }
     }
-    
+
     _removePanelMenu(propName) {
         if (this.statusArea[propName]) {
             let parent = this.statusArea[propName].container.get_parent();
@@ -555,8 +557,8 @@ export const Panel = GObject.registerClass({
 
             //calling this.statusArea[propName].destroy(); is buggy for now, gnome-shell never
             //destroys those panel menus...
-            //since we can't destroy the menu (hence properly disconnect its signals), let's 
-            //store it so the next time a panel needs one of its kind, we can reuse it instead 
+            //since we can't destroy the menu (hence properly disconnect its signals), let's
+            //store it so the next time a panel needs one of its kind, we can reuse it instead
             //of creating a new one
             let panelMenu = this.statusArea[propName];
 
@@ -619,7 +621,7 @@ export const Panel = GObject.registerClass({
         let x = 0, y = 0;
         let w = 0, h = 0;
 
-        const panelSize = PanelSettings.getPanelSize(SETTINGS, this.monitor.index);
+        const panelSize = PanelSettings.getPanelSize(SETTINGS, this.monitor.index) + SETTINGS.get_int('appicon-margin-todesktop') + SETTINGS.get_int('appicon-margin-toscreenborder');
         this.dtpSize = panelSize * scaleFactor;
 
         if (SETTINGS.get_boolean('stockgs-keep-top-panel') && Main.layoutManager.primaryMonitor == this.monitor) {
@@ -660,7 +662,7 @@ export const Panel = GObject.registerClass({
 
         if (this.checkIfVertical()) {
             let viewHeight = this.monitor.height - gsTopPanelOffset;
-            
+
             if (anchor === Pos.MIDDLE) {
                 anchorPlaceOnMonitor = (viewHeight - h) / 2;
             } else if (anchor === Pos.END) {
@@ -681,7 +683,7 @@ export const Panel = GObject.registerClass({
         }
 
         return {
-            x, y, 
+            x, y,
             w, h,
             lrPadding,
             tbPadding,
@@ -691,11 +693,11 @@ export const Panel = GObject.registerClass({
 
     _setAllocationMap() {
         this.allocationMap = {};
-        let setMap = (name, actor) => this.allocationMap[name] = { 
+        let setMap = (name, actor) => this.allocationMap[name] = {
             actor: actor,
-            box: new Clutter.ActorBox() 
+            box: new Clutter.ActorBox()
         };
-        
+
         setMap(Pos.SHOW_APPS_BTN, this.showAppsIconWrapper.realShowAppsIcon);
         setMap(Pos.ACTIVITIES_BTN, this.statusArea.activities ? this.statusArea.activities.container : 0);
         setMap(Pos.LEFT_BOX, this._leftBox);
@@ -772,19 +774,19 @@ export const Panel = GObject.registerClass({
                         brSize += refGroup.size;
                     }
                 }
-                
+
                 if (group.isCentered) {
                     availableSize -= Math.max(tlSize, brSize) * 2;
                 } else {
                     availableSize -= tlSize + brSize;
                 }
-                
+
                 if (availableSize < group.size) {
                     expandable.natSize -= (group.size - availableSize) * (group.isCentered && !Pos.checkIfCentered(expandable.position) ? .5 : 1);
                     assignGroupSize(group, true);
                 }
             }
-            
+
             if (group.isCentered) {
                 startPosition = tlLimit + (brLimit - tlLimit - group.size) * .5;
             } else if (group.position == Pos.STACKED_BR) {
@@ -833,9 +835,9 @@ export const Panel = GObject.registerClass({
 
                 let prevGroup = this._elementGroups[i - 1];
                 let nextGroup = this._elementGroups[i + 1];
-                let prevLimit = prevGroup && prevGroup.fixed ? prevGroup[this.varCoord.c2] : 
+                let prevLimit = prevGroup && prevGroup.fixed ? prevGroup[this.varCoord.c2] :
                                     centeredMonitorGroup && group.index > centeredMonitorGroup.index ? centeredMonitorGroup[this.varCoord.c2] : panelAlloc[this.varCoord.c1];
-                let nextLimit = nextGroup && nextGroup.fixed ? nextGroup[this.varCoord.c1] : 
+                let nextLimit = nextGroup && nextGroup.fixed ? nextGroup[this.varCoord.c1] :
                                     centeredMonitorGroup && group.index < centeredMonitorGroup.index ? centeredMonitorGroup[this.varCoord.c1] : panelAlloc[this.varCoord.c2];
 
                 if (group.position == Pos.STACKED_TL) {
@@ -860,7 +862,7 @@ export const Panel = GObject.registerClass({
         // styles for theming
         Object.keys(St.Side).forEach(p => {
             let cssName = 'dashtopanel' + p.charAt(0) + p.slice(1).toLowerCase();
-            
+
             this.panel[(St.Side[p] == this.geom.position ? 'add' : 'remove') + '_style_class_name'](cssName);
         });
 
@@ -892,7 +894,7 @@ export const Panel = GObject.registerClass({
         } else {
             const targetActor = global.stage.get_event_actor(event);
 
-            if (Main.modalCount > 0 || targetActor != actor || 
+            if (Main.modalCount > 0 || targetActor != actor ||
                 (!isPress && type != Clutter.EventType.TOUCH_BEGIN) ||
                 (isPress && button != 1)) {
                 return Clutter.EVENT_PROPAGATE;
@@ -956,7 +958,7 @@ export const Panel = GObject.registerClass({
                 actor.vertical = isVertical;
             } else if (
                 actor != this.statusArea.appMenu &&
-                ((actor._delegate || actor) instanceof PanelMenu.ButtonBox || actor == this.statusArea.quickSettings) 
+                ((actor._delegate || actor) instanceof PanelMenu.ButtonBox || actor == this.statusArea.quickSettings)
             ) {
                 let child = actor.get_first_child();
 
@@ -983,7 +985,7 @@ export const Panel = GObject.registerClass({
         };
 
         _set(actor, false);
-        
+
         if (isVertical)
             _set(actor, isVertical);
     }
@@ -994,7 +996,7 @@ export const Panel = GObject.registerClass({
 
         delete actor._dtpVisibleId;
         delete actor._dtpDestroyId;
-        
+
         this._unmappedButtons.splice(this._unmappedButtons.indexOf(actor), 1);
     }
 
@@ -1008,16 +1010,16 @@ export const Panel = GObject.registerClass({
             let setClockText = (text, useTimeSeparator) => {
                 let stacks = text instanceof Array;
                 let separator = `\n<span size="8192"> ${useTimeSeparator ? '‧‧' : '—' } </span>\n`;
-        
+
                 clockText.set_text((stacks ? text.join(separator) : text).trim());
                 clockText.set_use_markup(stacks);
                 clockText.get_allocation_box();
-        
+
                 return !clockText.get_layout().is_ellipsized();
             };
 
             if (clockText.ellipsize == Pango.EllipsizeMode.NONE) {
-                //on gnome-shell 3.36.4, the clockdisplay isn't ellipsize anymore, so set it back 
+                //on gnome-shell 3.36.4, the clockdisplay isn't ellipsize anymore, so set it back
                 clockText.ellipsize = Pango.EllipsizeMode.END;
             }
 
@@ -1029,8 +1031,8 @@ export const Panel = GObject.registerClass({
                 datetimeParts = [datetimeParts.join(' '), time];
             }
 
-            if (!setClockText(datetime) && 
-                !setClockText(datetimeParts) && 
+            if (!setClockText(datetime) &&
+                !setClockText(datetimeParts) &&
                 !setClockText(time)) {
                 let timeParts = time.split('∶');
 
@@ -1078,7 +1080,7 @@ export const Panel = GObject.registerClass({
                     }]);
                 }
             });
-            
+
             this._showDesktopButton.connect('leave-event', () => {
                 this._showDesktopButton.remove_style_class_name(this._getBackgroundBrightness() ?
                             'showdesktop-button-light-hovered' : 'showdesktop-button-dark-hovered');
@@ -1136,7 +1138,7 @@ export const Panel = GObject.registerClass({
                     time: time,
                     transition: 'easeOutQuad'
                 };
-                
+
                 Utils.animateWindowOpacity(w.get_compositor_private(), tweenOpts);
             }
         });
@@ -1168,14 +1170,14 @@ export const Panel = GObject.registerClass({
             windows.forEach(function(w) {
                 w.minimize();
             });
-            
+
             this._restoreWindowList = windows;
 
             this._timeoutsHandler.add([T5, 20, () => this._signalsHandler.addWithLabel(
-                label, 
+                label,
                 [
-                    tracker, 
-                    'notify::focus-app', 
+                    tracker,
+                    'notify::focus-app',
                     () => this._restoreWindowList = null
                 ]
             )]);
@@ -1208,7 +1210,7 @@ export const Panel = GObject.registerClass({
                 showWsPopup ? 0 : Main.wm._workspaceSwitcherPopup = null;
             } else if (direction && scrollAction === 'CYCLE_WINDOWS') {
                 let windows = this.taskbar.getAppInfos().reduce((ws, appInfo) => ws.concat(appInfo.windows), []);
-                
+
                 Utils.activateSiblingWindow(windows, direction);
             } else if (scrollAction === 'CHANGE_VOLUME' && !event.is_pointer_emulated()) {
                 let proto = Volume.OutputIndicator.prototype;

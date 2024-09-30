@@ -735,6 +735,16 @@
         <summary>App icon margin</summary>
         <description>Set the margin for application icons in the embedded dash.</description>
     </key>
+    <key type="i" name="appicon-margin-todesktop">
+        <default>0</default>
+        <summary>App icon margin to desktop</summary>
+        <description>Set the margin for application icons in the embedded dash towards the desktop (top margin if panel is on the bottom).</description>
+    </key>
+        <key type="i" name="appicon-margin-toscreenborder">
+        <default>0</default>
+        <summary>App icon margin to screen border</summary>
+        <description>Set the margin for application icons in the embedded dash towards the desktop (bottom margin if panel is on the bottom).</description>
+    </key>
     <key type="i" name="appicon-padding">
         <default>4</default>
         <summary>App icon padding</summary>
@@ -794,6 +804,22 @@
     <key type="a{sd}" name="animate-appicon-hover-animation-zoom">
       <default>{'SIMPLE':1,'RIPPLE':1.25,'PLANK':2}</default>
       <summary>App icon hover animation zoom scale in relation to the app icon size</summary>
+    </key>
+    <key type="b" name="highlight-appicon-hover">
+      <default>true</default>
+      <summary>Highlight app icon on hover</summary>
+    </key>
+    <key type="s" name="highlight-appicon-hover-background-color">
+      <default>"rgba(238, 238, 236, 0.1)"</default>
+      <summary>Highlight color</summary>
+    </key>
+    <key type="s" name="highlight-appicon-pressed-background-color">
+      <default>"rgba(238, 238, 236, 0.18)"</default>
+      <summary>Mouse down highlight color</summary>
+    </key>
+    <key type="i" name="highlight-appicon-hover-border-radius">
+      <default>0</default>
+      <summary>Highlight border radius</summary>
     </key>
     <key type="b" name="secondarymenu-contains-appmenu">
       <default>true</default>
