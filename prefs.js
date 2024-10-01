@@ -1900,6 +1900,7 @@ const Preferences = class {
                 // restore default settings
                 this._settings.set_value('secondarymenu-contains-appmenu', this._settings.get_default_value('secondarymenu-contains-appmenu'));
                 this._settings.set_value('secondarymenu-contains-showdetails', this._settings.get_default_value('secondarymenu-contains-showdetails'));
+                this._settings.set_value('secondarymenu-contains-useresources', this._settings.get_default_value('secondarymenu-contains-useresources'));
             });
 
             // TODO setting secondarymenu-contains-appmenu is not being used anywhere
@@ -1910,6 +1911,11 @@ const Preferences = class {
 
             this._settings.bind('secondarymenu-contains-showdetails',
                     this._builder.get_object('secondarymenu_showdetails_switch'),
+                    'active',
+                    Gio.SettingsBindFlags.DEFAULT);
+            
+            this._settings.bind('secondarymenu-contains-useresources',
+                    this._builder.get_object('secondarymenu_useresources_switch'),
                     'active',
                     Gio.SettingsBindFlags.DEFAULT);
 
