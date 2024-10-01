@@ -36,6 +36,17 @@
           </object>
         </child>
 
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Use Resources instead of System Monitor</property>
+            <child>
+              <object class="GtkSwitch" id="secondarymenu_useresources_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
       </object>
     </child>
   </object>

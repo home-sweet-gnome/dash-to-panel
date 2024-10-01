@@ -803,6 +803,10 @@
       <default>false</default>
       <summary>Display Show Details to open Gnome Software from right click menu</summary>
     </key>
+    <key type="b" name="secondarymenu-contains-useresources">
+      <default>false</default>
+      <summary>Use Resources instead of System Monitor from right click menu</summary>
+    </key>
     <key type="s" name="shortcut-text">
       <default>"&lt;Super&gt;q"</default>
       <summary>Keybinding to show the dock and the number overlay.</summary>

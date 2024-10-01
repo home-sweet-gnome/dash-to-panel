@@ -1806,10 +1806,18 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
             cmd: [TERMINALSETTINGS.get_string('exec')]
         });
 
-        this._appendItem({
-            title: _('System monitor'),
-            cmd: ['gnome-system-monitor']
-        });
+        if(SETTINGS.get_boolean('secondarymenu-contains-useresources')) {
+            this._appendItem({
+                title: _('Resources'),
+                cmd: ['resources']
+            });
+        }
+        else {
+            this._appendItem({
+                title: _('System monitor'),
+                cmd: ['gnome-system-monitor']
+            });
+        }
 
         this._appendItem({
             title: _('Files'),
@@ -1818,7 +1826,7 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
         this._appendItem({
             title: _('Extensions'),
-            cmd: ['gnome-shell-extension-prefs']
+            cmd: ['gnome-extensions-app']
         });
 
         this._appendItem({
