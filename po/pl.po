@@ -20,11 +20,11 @@ msgstr ""
 
 #: prefs.js:247
 msgid "Show Desktop button height (px)"
-msgstr "Wysokość przycisku <i>Pokaż pulpit</i> (px)"
+msgstr "Wysokość przycisku <Pokaż pulpit (px)"
 
 #: prefs.js:247
 msgid "Show Desktop button width (px)"
-msgstr "Szerokość przycisku <i>Pokaż pulpit</i> (px)"
+msgstr "Szerokość przycisku Pokaż pulpit (px)"
 
 #: prefs.js:259
 msgid "Unavailable when gnome-shell top panel is present"
@@ -70,7 +70,7 @@ msgstr "Opcje wyświetlania programów"
 
 #: prefs.js:414
 msgid "Activities button"
-msgstr "Pokaż przycisk <i>Podgląd</i>"
+msgstr "Przycisk Podgląd"
 
 #: prefs.js:415
 msgid "Taskbar"
@@ -98,7 +98,7 @@ msgstr "Po prawej"
 
 #: prefs.js:421
 msgid "Desktop button"
-msgstr "Pokaż przycisk <i>Pulpit</i>"
+msgstr "Przycisk Pulpit"
 
 #: prefs.js:427
 msgid "Move up"
@@ -731,7 +731,7 @@ msgstr "Ma wpływ na wyskakujące okno w przestrzeni roboczej tylko na panelu"
 
 #: ui/BoxSecondaryMenuOptions.ui.h:1
 msgid "Integrate <i>AppMenu</i> items"
-msgstr "Zintegruj elementy <i>menu programów</i>"
+msgstr "Zintegruj elementy <i>Menu programów</i>"
 
 #: ui/BoxSecondaryMenuOptions.ui.h:2
 msgid "<i>Show Details</i> menu item"
@@ -743,7 +743,7 @@ msgstr "Opcje wyświetlania programów"
 
 #: ui/BoxShowApplicationsOptions.ui.h:2
 msgid "Show Applications icon side padding (px)"
-msgstr "Wewnętrzny margines przycisku <i>Pokaż programy</i> (px)"
+msgstr "Wewnętrzny margines przycisku Pokaż programy (px)"
 
 #: ui/BoxShowApplicationsOptions.ui.h:4
 msgid "Override escape key and return to desktop"
@@ -755,7 +755,7 @@ msgstr "Nadpisz kolor przycisku Pokaż pulpit"
 
 #: ui/BoxShowDesktopOptions.ui.h:2
 msgid "Reveal the desktop when hovering the Show Desktop button"
-msgstr "Pokaż pulpit po najechaniu na przycisk <i>Pokaż pulpit</i>"
+msgstr "Pokaż pulpit po najechaniu na przycisk Pokaż pulpit"
 
 #: ui/BoxShowDesktopOptions.ui.h:3
 msgid "Delay before revealing the desktop (ms)"
@@ -1548,6 +1548,18 @@ msgstr "Gradient dolnego koloru i przeźroczystość (%)"
 
 #~ msgid "Fine-Tune"
 #~ msgstr "Dostrajanie"
+
+#~ msgid "Position"
+#~ msgstr "Pozycja"
+
+#~ msgid "Icon style"
+#~ msgstr "Styl ikony"
+
+#~ msgid "Normal"
+#~ msgstr "Normalna"
+
+#~ msgid "Symbolic"
+#~ msgstr "Symboliczna"
 
 #~ msgid ""
 #~ "This allows you to update the extension directly from the GitHub "
