@@ -64,7 +64,7 @@ export const Overview = class {
         this._optionalNumberOverlay();
         this._optionalClickToExit();
 
-        this._toggleDash();
+        this.toggleDash();
         this._adaptAlloc();
 
         this._signalsHandler.add([
@@ -73,7 +73,7 @@ export const Overview = class {
                 'changed::stockgs-keep-dash',
                 'changed::panel-sizes'
             ], 
-            () => this._toggleDash()
+            () => this.toggleDash()
         ]);
     }
 
@@ -83,7 +83,7 @@ export const Overview = class {
         this._timeoutsHandler.destroy();
         this._injectionManager.clear();
 
-        this._toggleDash(true);
+        this.toggleDash(true);
 
         // Remove key bindings
         this._disableHotKeys();
@@ -91,7 +91,7 @@ export const Overview = class {
         this._disableClickToExit();
     }
 
-    _toggleDash(visible) {
+    toggleDash(visible) {
         if (visible === undefined) {
             visible = SETTINGS.get_boolean('stockgs-keep-dash');
         }
