@@ -99,7 +99,8 @@ export default class DashToPanelExtension extends Extension {
 function _enable(extension) {
     extensionSystem.disableExtension(UBUNTU_DOCK_UUID);
 
-    if (panelManager) return; //already initialized
+    if (panelManager)
+        return panelManager.toggleDash(); // already initialized but ubuntu dock restored the original dash on disable
 
     SETTINGS = extension.getSettings('org.gnome.shell.extensions.dash-to-panel');
     DESKTOPSETTINGS = new Gio.Settings({schema_id: 'org.gnome.desktop.interface'});
