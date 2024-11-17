@@ -28,6 +28,7 @@
  */
 
 import * as Overview from './overview.js';
+import * as LinearSwitcher from './linearSwitcher.js';
 import * as Panel from './panel.js';
 import * as PanelSettings from './panelSettings.js';
 import * as Proximity from './proximity.js';
@@ -55,6 +56,8 @@ export const PanelManager = class {
 
     constructor() {
         this.overview = new Overview.Overview();
+        this.linearSwitching = new LinearSwitcher.LinearSwitcher();
+        
         this.panelsElementPositions = {};
         this._injectionManager = new InjectionManager();
 
@@ -72,6 +75,7 @@ export const PanelManager = class {
             this.primaryPanel = this._createPanel(this.dtpPrimaryMonitor, SETTINGS.get_boolean('stockgs-keep-top-panel'));
             this.allPanels.push(this.primaryPanel);
             this.overview.enable(this.primaryPanel);
+            this.linearSwitching.enable(this.primaryPanel);
 
             this.setFocusedMonitor(this.dtpPrimaryMonitor);
         }
@@ -219,6 +223,7 @@ export const PanelManager = class {
 
     disable(reset) {
         this.primaryPanel && this.overview.disable();
+        this.linearSwitching.disable();
         this.proximityManager.destroy();
 
         this.allPanels.forEach(p => {

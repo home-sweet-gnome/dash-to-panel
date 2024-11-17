@@ -161,5 +161,41 @@
       </object>
     </child>
 
+    <!-- switch left and right hotkeys -->
+    <child>
+      <object class="AdwPreferencesGroup" id="action_group_linear_switching">
+        <property name="title" translatable="yes">Linear window switching hotkeys</property>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Shortcut to switch to the window on the left</property>
+            <property name="subtitle" translatable="yes">Syntax: &amp;lt;Shift&amp;gt;, &amp;lt;Ctrl&amp;gt;, &amp;lt;Alt&amp;gt;, &amp;lt;Super&amp;gt;</property>
+            <child>
+              <object class="GtkEntry" id="app-hotkey-switch-left-entry">
+                <property name="valign">center</property>
+                <property name="width_chars">12</property>
+                <property name="placeholder_text" translatable="yes">e.g. &lt;Super&gt;h</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Shortcut to switch to the window on the right</property>
+            <property name="subtitle" translatable="yes">Syntax: &amp;lt;Shift&amp;gt;, &amp;lt;Ctrl&amp;gt;, &amp;lt;Alt&amp;gt;, &amp;lt;Super&amp;gt;</property>
+            <child>
+              <object class="GtkEntry" id="app-hotkey-switch-right-entry">
+                <property name="valign">center</property>
+                <property name="width_chars">12</property>
+                <property name="placeholder_text" translatable="yes">e.g. &lt;Super&gt;l</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+      </object>
+    </child>
+
   </object>
 </interface>

@@ -1872,6 +1872,19 @@ const Preferences = class {
                             'text',
                             Gio.SettingsBindFlags.DEFAULT);
         this._settings.connect('changed::shortcut-text', () => {setShortcut(this._settings, 'shortcut');});
+        
+        // Settings for the linear window switching
+        this._settings.bind('app-hotkey-switch-left-text',
+            this._builder.get_object('app-hotkey-switch-left-entry'),
+            'text',
+            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.connect('changed::app-hotkey-switch-left-text', () => {setShortcut(this._settings, 'app-hotkey-switch-left');});
+
+        this._settings.bind('app-hotkey-switch-right-text',
+            this._builder.get_object('app-hotkey-switch-right-entry'),
+            'text',
+            Gio.SettingsBindFlags.DEFAULT);
+        this._settings.connect('changed::app-hotkey-switch-right-text', () => {setShortcut(this._settings, 'app-hotkey-switch-right');});
 
         // Create dialog for number overlay options
         this._builder.get_object('overlay_button').connect('clicked', () => {
