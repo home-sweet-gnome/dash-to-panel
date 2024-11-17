@@ -231,6 +231,34 @@
         </object>
       </child>
 
+      <!-- group context menu -->
+      <child>
+        <object class="AdwPreferencesGroup" id="finetune_group_context_menu">
+          <property name="title" translatable="yes">Context Menu</property>
+
+          <child>
+            <object class="AdwExpanderRow">
+              <property name="title" bind-source="sysmon_title_entry" bind-property="text" bind-flags="sync-create"></property>
+              <property name="subtitle" bind-source="sysmon_cmd_entry" bind-property="text" bind-flags="sync-create"></property>
+
+              <child>
+                <object class="AdwEntryRow" id="sysmon_title_entry">
+                  <property name="title" translatable="yes">Title</property>
+                </object>
+              </child>
+
+              <child>
+                <object class="AdwEntryRow" id="sysmon_cmd_entry">
+                  <property name="title" translatable="yes">Command</property>
+                </object>
+              </child>
+
+            </object>
+          </child>
+
+        </object>
+      </child>
+
       <!-- group panel -->
       <child>
         <object class="AdwPreferencesGroup" id="finetune_group_">
