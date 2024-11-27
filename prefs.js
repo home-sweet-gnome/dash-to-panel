@@ -2080,6 +2080,16 @@ const Preferences = class {
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
+        this._settings.bind('contextmenu-sysmon-title',
+                            this._builder.get_object('sysmon_title_entry'),
+                            'text',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('contextmenu-sysmon-cmd',
+                            this._builder.get_object('sysmon_cmd_entry'),
+                            'text',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         // About Panel
 
         this._builder.get_object('extension_version').set_label(this._metadata.version.toString() + (this._metadata.commit ? ' (' + this._metadata.commit + ')' : ''));

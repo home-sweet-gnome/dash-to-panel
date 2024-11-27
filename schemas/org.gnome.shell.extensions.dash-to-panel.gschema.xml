@@ -795,6 +795,14 @@
       <default>{'SIMPLE':1,'RIPPLE':1.25,'PLANK':2}</default>
       <summary>App icon hover animation zoom scale in relation to the app icon size</summary>
     </key>
+    <key type="s" name="contextmenu-sysmon-title">
+      <default>"System monitor"</default>
+      <summary>Context menu system monitor titile</summary>
+    </key>
+    <key type="s" name="contextmenu-sysmon-cmd">
+      <default>"gnome-system-monitor"</default>
+      <summary>Context menu system monitor command</summary>
+    </key>
     <key type="b" name="secondarymenu-contains-appmenu">
       <default>true</default>
       <summary>Integrate items from the gnome appmenu into the right click menu</summary>
