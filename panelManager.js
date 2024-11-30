@@ -59,6 +59,14 @@ export const PanelManager = class {
         this._injectionManager = new InjectionManager();
 
         this._saveMonitors();
+
+        global.connect('shutdown', () => {
+            if (this.allPanels) {
+                this.allPanels.forEach(p => {
+                    this._removePanelBarriers(p);
+                });
+            }
+        });
     }
 
     enable(reset) {
