@@ -52,7 +52,7 @@
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Override Show Desktop line color</property>
             <child>
-              <object class="GtkColorButton" id="override_show_desktop_line_color_colorbutton">>
+              <object class="GtkColorButton" id="override_show_desktop_line_color_colorbutton">
                 <property name="receives_default">True</property>
                 <property name="valign">center</property>
                 <property name="use_alpha">True</property>
