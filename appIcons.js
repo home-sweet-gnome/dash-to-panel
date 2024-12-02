@@ -1912,7 +1912,7 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
         this._appendItem({
             title: _('Extensions'),
-            cmd: ['gnome-shell-extension-prefs']
+            cmd: ['gnome-extensions-app']
         });
 
         this._appendItem({
