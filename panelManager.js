@@ -59,6 +59,8 @@ export const PanelManager = class {
         this._injectionManager = new InjectionManager();
 
         this._saveMonitors();
+
+        this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass();
     }
 
     enable(reset) {
@@ -116,8 +118,6 @@ export const PanelManager = class {
         this._updatePanelElementPositions();
         
         if (reset) return;
-
-        this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass();
 
         this._oldUpdatePanelBarrier = Main.layoutManager._updatePanelBarrier;
         Main.layoutManager._updatePanelBarrier = (panel) => {
@@ -263,6 +263,8 @@ export const PanelManager = class {
             Main.layoutManager.panelBox.set_position(Main.layoutManager.primaryMonitor.x, Main.layoutManager.primaryMonitor.y);
             Main.layoutManager.panelBox.set_size(Main.layoutManager.primaryMonitor.width, -1);
         }
+
+        this._desktopIconsUsableArea.resetMargins();
 
         if (reset) return;
         
