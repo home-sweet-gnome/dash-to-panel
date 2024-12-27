@@ -491,7 +491,9 @@ export const TaskbarAppIcon = GObject.registerClass({
     }
 
     _checkGtkVersion_cssVariables() {
-        // Support for CSS variables will be added in GTK 4.16
+        // Support for CSS variables was added in GTK 4.16
+        // However, using them is still impossible within an extension [Gnome version 47]
+        return false;
         return Gtk.get_major_version() >= 5 ||
                (Gtk.get_major_version() == 4 && Gtk.get_minor_version() >= 16);
     }
@@ -509,6 +511,8 @@ export const TaskbarAppIcon = GObject.registerClass({
     _onAppIconPressedChanged_GtkWorkaround() {
         if (this.pressed && this._appicon_pressedstyle) {
             this._container.set_style(this._appicon_pressedstyle);
+        } else if (this.hover && this._appicon_hoverstyle) {
+            this._container.set_style(this._appicon_hoverstyle);
         } else if(this._appicon_normalstyle) {
             this._container.set_style(this._appicon_normalstyle);
         } else {
