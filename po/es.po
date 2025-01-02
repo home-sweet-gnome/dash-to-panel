@@ -255,6 +255,12 @@ msgstr "Importar configuraciones"
 msgid "Quit"
 msgstr "Salir"
 
+#: appIcons.js:1497
+msgid "Quit %d Window"
+msgid_plural "Quit %d Windows"
+msgstr[0] "Cerrar %d ventana"
+msgstr[1] "Cerrar %d ventanas"
+
 #: appIcons.js:1515
 msgid "Windows"
 msgstr "Ventanas"
