@@ -273,9 +273,9 @@ export const TaskbarAppIcon = GObject.registerClass({
         ];
 
         if (!this._checkGtkVersion_cssVariables()) {
-            this._dtpSettingsSignalIds += [
+            this._dtpSettingsSignalIds = this._dtpSettingsSignalIds.concat([
                 SETTINGS.connect('changed::highlight-appicon-hover-border-radius', () => this._setIconStyle(this._isFocusedWindow())),
-            ];
+            ]);
         }
 
         this._progressIndicator = new Progress.ProgressIndicator(this, panel.progressManager);
