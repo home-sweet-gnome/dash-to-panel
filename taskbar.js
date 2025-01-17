@@ -1331,6 +1331,7 @@ export const TaskbarItemContainer = GObject.registerClass({
 
     _init() {
         super._init()
+        this.x_expand = this.y_expand = false
     }
 
     vfunc_allocate(box) {
