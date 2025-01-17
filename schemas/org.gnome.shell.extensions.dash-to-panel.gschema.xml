@@ -3,6 +3,7 @@
   <enum id='org.gnome.shell.extensions.dash-to-panel.appiconStyle'>
     <value value='0' nick='NORMAL'/>
     <value value='1' nick='SYMBOLIC'/>
+    <value value='2' nick='GRAYSCALE'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.dotStyle'>
     <value value='0' nick='DOTS'/>
