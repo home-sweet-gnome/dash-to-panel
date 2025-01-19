@@ -877,6 +877,7 @@ export const Preview = GObject.registerClass({
     }
 
     _onCloseBtnClick() {
+        if(!this.reactive) return;
         this._hideOrShowCloseButton(true);
         this.reactive = false;
 
