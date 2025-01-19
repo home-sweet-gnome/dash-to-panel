@@ -328,6 +328,14 @@ export const PanelManager = class {
             Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
 
             Main.overview._overview._controls._workspacesDisplay._primaryIndex = monitor.index;
+
+            // https://gitlab.gnome.org/GNOME/gnome-shell/-/merge_requests/2395
+            // The overview allocation used to calculate its workarea based on the monitor where the overview
+            // was displayed, but it got changed back to always use the primary monitor. So now, temporarily assign 
+            // the primary monitor to dtp focused monitor while recalculating the overview workarea
+            Main.layoutManager.primaryMonitor = monitor
+            Main.overview._overview._controls.layout_manager._updateWorkAreaBox()
+            Main.layoutManager.primaryMonitor = Main.layoutManager.monitors[Main.layoutManager.primaryIndex]
         }
     }
 
