@@ -565,16 +565,25 @@ export const IconAnimator = class {
     }
 
     destroy() {
-        this._timeline.stop();
-        this._timeline = null;
-        for (let name in this._animations) {
-            const pairs = this._animations[name];
-            for (let i = 0, iMax = pairs.length; i < iMax; i++) {
-                const pair = pairs[i];
-                pair.target.disconnect(pair.targetDestroyId);
-            }
+        // Avoid potential error where `this._timeline` is already null.
+        // https://github.com/home-sweet-gnome/dash-to-panel/issues/2082
+        const timeline = this._timeline;
+        if (timeline) {
+            timeline.stop();
+            this._timeline = null;
         }
-        this._animations = null;
+
+        const animations = this._animations;
+        if (animations) {
+            for (let name in animations) {
+                const pairs = animations[name];
+                for (let i = 0, iMax = pairs.length; i < iMax; i++) {
+                    const pair = pairs[i];
+                    pair.target.disconnect(pair.targetDestroyId);
+                }
+            }
+            this._animations = null;
+        }
     }
 
     pause() {
