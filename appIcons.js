@@ -215,6 +215,16 @@ export const TaskbarAppIcon = GObject.registerClass({
 
             this._titleWindowChangeId = 0;
             this._minimizedWindowChangeId = 0;
+
+            this._fullscreenId = Utils.DisplayWrapper.getScreen().connect('in-fullscreen-changed', () => {
+                if (
+                    global.display.focus_window?.get_monitor() == this.dtpPanel.monitor.index && 
+                    !this.dtpPanel.monitor.inFullscreen
+                ) {
+                    this._resetDots(true);
+                    this._displayProperIndicator();
+                }
+            })
         } else {
             this._titleWindowChangeId = this.window.connect('notify::title',
                                                 this._updateWindowTitle.bind(this));
@@ -357,6 +367,9 @@ export const TaskbarAppIcon = GObject.registerClass({
 
         if(this._focusWindowChangedId)
             global.display.disconnect(this._focusWindowChangedId);
+
+        if (this._fullscreenId)
+            Utils.DisplayWrapper.getScreen().disconnect(this._fullscreenId);
 
         if(this._titleWindowChangeId)
             this.window.disconnect(this._titleWindowChangeId);
@@ -588,7 +601,7 @@ export const TaskbarAppIcon = GObject.registerClass({
         this._dotsContainer.add_child(this._focusedDots);
     }
 
-    _resetDots() {
+    _resetDots(ignoreSizeReset) {
         let position = SETTINGS.get_string('dot-position');
         let isHorizontalDots = position == DOT_POSITION.TOP || position == DOT_POSITION.BOTTOM;
         let sizeProp = isHorizontalDots ? 'width' : 'height';
@@ -600,13 +613,15 @@ export const TaskbarAppIcon = GObject.registerClass({
 
         [, this._containerSize] = this._container[`get_preferred_${sizeProp}`](-1);
 
-        [this._focusedDots, this._unfocusedDots].forEach(d => {
-            d.set_size(-1, -1);
-            d.x_expand = d.y_expand = false;
+        if (!ignoreSizeReset) {
+            [this._focusedDots, this._unfocusedDots].forEach(d => {
+                d.set_size(-1, -1);
+                d.x_expand = d.y_expand = false;
 
-            d[sizeProp] = 1;
-            d[(isHorizontalDots ? 'y' : 'x') + '_expand'] = true;
-        });
+                d[sizeProp] = 1;
+                d[(isHorizontalDots ? 'y' : 'x') + '_expand'] = true;
+            });
+        }
     }
 
     _settingsChangeRefresh() {
