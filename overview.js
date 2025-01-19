@@ -128,7 +128,7 @@ export const Overview = class {
                             else
                                 box[focusedPanel.fixedCoord.c1] += size
                         } else if (isBottom)
-                            // The default overview allocation is very good and takes into account external 
+                            // The default overview allocation takes into account external 
                             // struts, everywhere but the bottom where the dash is usually fixed anyway.
                             // If there is a bottom panel under the dash location, give it some space here
                             box.y2 -= focusedPanel.geom.h
