@@ -188,7 +188,7 @@ export const PreviewMenu = GObject.registerClass({
                 this._refreshGlobals();
                 
                 this.set_height(this.clipHeight);
-                this.menu.show();
+                this.show();
                 
                 setStyle(this.menu, 'background: ' + Utils.getrgbaColor(this.panel.dynamicTransparency.backgroundColorRgb, alphaBg));
             }
@@ -298,7 +298,7 @@ export const PreviewMenu = GObject.registerClass({
     }
 
     _resetHiddenState() {
-        this.menu.hide();
+        this.hide();
         this.set_height(0);
         this._setOpenedState(false);
         this.menu.opacity = 0;
