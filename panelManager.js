@@ -296,10 +296,6 @@ export const PanelManager = class {
         this._desktopIconsUsableArea = null;
     }
 
-    toggleDash() {
-        this.overview.toggleDash();
-    }
-
     _setDesktopIconsMargins() {
         this._desktopIconsUsableArea?.resetMargins();
         this.allPanels.forEach(p => {
