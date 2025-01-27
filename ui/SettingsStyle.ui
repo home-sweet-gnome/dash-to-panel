@@ -68,7 +68,7 @@
                 <property name="digits">0</property>
                 <property name="value_pos">right</property>
                 <property name="draw_value">True</property>
-                <signal name="value-changed" handler="appicon_margin_scale_value_changed_cb" swapped="no"/>
+                <signal name="value-changed" handler="appicon_margin_scale_value_changed_cb"/>
               </object>
             </child>
           </object>
@@ -86,7 +86,7 @@
                 <property name="digits">0</property>
                 <property name="value_pos">right</property>
                 <property name="draw_value">True</property>
-                <signal name="value-changed" handler="appicon_padding_scale_value_changed_cb" swapped="no"/>
+                <signal name="value-changed" handler="appicon_padding_scale_value_changed_cb"/>
               </object>
             </child>
           </object>
@@ -146,7 +146,7 @@
               <object class="GtkToggleButton" id="dots_bottom_button">
                 <property name="label" translatable="yes">Bottom</property>
                 <property name="valign">center</property>
-                <signal name="toggled" handler="dots_bottom_button_toggled_cb" swapped="no"/>
+                <signal name="toggled" handler="dots_bottom_button_toggled_cb"/>
               </object>
             </child>
             <child>
@@ -154,7 +154,7 @@
                 <property name="label" translatable="yes">Top</property>
                 <property name="valign">center</property>
                 <property name="group">dots_bottom_button</property>
-                <signal name="toggled" handler="dots_top_button_toggled_cb" swapped="no"/>
+                <signal name="toggled" handler="dots_top_button_toggled_cb"/>
               </object>
             </child>
             <child>
@@ -162,7 +162,7 @@
                 <property name="label" translatable="yes">Left</property>
                 <property name="valign">center</property>
                 <property name="group">dots_bottom_button</property>
-                <signal name="toggled" handler="dots_left_button_toggled_cb" swapped="no"/>
+                <signal name="toggled" handler="dots_left_button_toggled_cb"/>
               </object>
             </child>
             <child>
@@ -170,7 +170,7 @@
                 <property name="label" translatable="yes">Right</property>
                 <property name="valign">center</property>
                 <property name="group">dots_bottom_button</property>
-                <signal name="toggled" handler="dots_right_button_toggled_cb" swapped="no"/>
+                <signal name="toggled" handler="dots_right_button_toggled_cb"/>
               </object>
             </child>
           </object>
