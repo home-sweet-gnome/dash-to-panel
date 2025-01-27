@@ -816,6 +816,14 @@ export const TaskbarAppIcon = GObject.registerClass({
         return false;
     }
 
+    isRunning() {
+        let appCount = this.getAppIconInterestingWindows().length;
+
+        // We check if the app is running, and that the # of windows is > 0 in
+        // case we use workspace isolation,
+        return this.app.state == Shell.AppState.RUNNING && appCount > 0;
+    }
+
     _isWideDotStyle(dotStyle) {
         return dotStyle == DOT_STYLE.SEGMENTED || 
             dotStyle == DOT_STYLE.CILIORA || 

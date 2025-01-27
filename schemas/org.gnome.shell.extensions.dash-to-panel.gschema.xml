@@ -1268,6 +1268,30 @@
         Keybinding to either show or launch the 10th application in the dash.
       </description>
     </key>
+    <key type="s" name="app-hotkey-switch-left-text">
+      <default>"&lt;Super&gt;h"</default>
+      <summary>Keybinding to show the dock and the number overlay.</summary>
+      <description>Behavior depends on hotkeys-show-dock and hotkeys-overlay.</description>
+    </key>
+    <key name="app-hotkey-switch-left" type="as">
+      <default><![CDATA[['<Super>h']]]></default>
+      <summary>Keybinding to switch to the window on the left</summary>
+      <description>
+        Keybinding to switch the window on the left. If the current window is leftmost, it will cycle to the rightmost window.
+      </description>
+    </key>
+    <key type="s" name="app-hotkey-switch-right-text">
+      <default>"&lt;Super&gt;l"</default>
+      <summary>Keybinding to show the dock and the number overlay.</summary>
+      <description>Behavior depends on hotkeys-show-dock and hotkeys-overlay.</description>
+    </key>
+    <key name="app-hotkey-switch-right" type="as">
+      <default><![CDATA[['<Super>l']]]></default>
+      <summary>Keybinding to switch to the window on the right</summary>
+      <description>
+        Keybinding to switch the window on the right. If the current window is rightmost, it will cycle to the leftmost window.
+      </description>
+    </key>
      <key type="b" name="progress-show-bar">
       <default>true</default>
       <summary>Show progress bar on app icon</summary>
