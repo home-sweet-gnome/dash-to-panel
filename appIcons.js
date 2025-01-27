@@ -30,6 +30,7 @@ import GObject from 'gi://GObject';
 import Mtk from 'gi://Mtk';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
+import Gtk from 'gi://Gtk';
 
 import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
 import * as AppMenu from 'resource:///org/gnome/shell/ui/appMenu.js';
@@ -241,10 +242,10 @@ export const TaskbarAppIcon = GObject.registerClass({
             this._onSwitchWorkspace.bind(this));
 
         this._hoverChangeId = this.connect('notify::hover', () => this._onAppIconHoverChanged());
-
-        this._hoverChangeId2 = this.connect('notify::hover', () => this._onAppIconHoverChanged_GtkWorkaround());
-        this._pressedChangedId = this.connect('notify::pressed', () => this._onAppIconPressedChanged_GtkWorkaround());
-
+        if (!this._checkGtkVersion_cssVariables()) {
+            this._hoverChangeId2 = this.connect('notify::hover', () => this._onAppIconHoverChanged_GtkWorkaround());
+            this._pressedChangedId = this.connect('notify::pressed', () => this._onAppIconPressedChanged_GtkWorkaround());
+        }
 
         this._dtpSettingsSignalIds = [
             SETTINGS.connect('changed::animate-appicon-hover', this._onAnimateAppiconHoverChanged.bind(this)),
@@ -281,10 +282,11 @@ export const TaskbarAppIcon = GObject.registerClass({
             SETTINGS.connect('changed::group-apps-underline-unfocused', this._settingsChangeRefresh.bind(this)),
         ];
 
-        this._dtpSettingsSignalIds = this._dtpSettingsSignalIds.concat([
-            SETTINGS.connect('changed::highlight-appicon-hover-border-radius', () => this._setIconStyle(this._isFocusedWindow())),
-        ]);
-
+        if (!this._checkGtkVersion_cssVariables()) {
+            this._dtpSettingsSignalIds = this._dtpSettingsSignalIds.concat([
+                SETTINGS.connect('changed::highlight-appicon-hover-border-radius', () => this._setIconStyle(this._isFocusedWindow())),
+            ]);
+        }
 
         this._progressIndicator = new Progress.ProgressIndicator(this, panel.progressManager);
 
@@ -481,14 +483,16 @@ export const TaskbarAppIcon = GObject.registerClass({
         const background_color = SETTINGS.get_string('highlight-appicon-hover-background-color');
         const pressed_color = SETTINGS.get_string('highlight-appicon-pressed-background-color');
         const border_radius = SETTINGS.get_int('highlight-appicon-hover-border-radius');
-
-        // Some trickery needed to get the effect
-        const br = `border-radius: ${border_radius}px;`;
-        this._appicon_normalstyle = br;
-        this._container.set_style(this._appicon_normalstyle);
-        this._appicon_hoverstyle = `background-color: ${background_color}; ${br}`;
-        this._appicon_pressedstyle = `background-color: ${pressed_color}; ${br}`;
-
+        if (this._checkGtkVersion_cssVariables()) {
+            this._container.set_style(`--dtp-hover-background-color: ${background_color}; --dtp-hover-border-radius: ${border_radius}px; --dtp-pressed-background-color: ${pressed_color};`);
+        } else {
+            // Some trickery needed to get the same effect
+            const br = `border-radius: ${border_radius}px;`;
+            this._appicon_normalstyle = br;
+            this._container.set_style(this._appicon_normalstyle);
+            this._appicon_hoverstyle = `background-color: ${background_color}; ${br}`;
+            this._appicon_pressedstyle = `background-color: ${pressed_color}; ${br}`;
+        }
         if (SETTINGS.get_boolean('highlight-appicon-hover')) {
             this._container.remove_style_class_name('no-highlight');
         } else {
@@ -497,6 +501,14 @@ export const TaskbarAppIcon = GObject.registerClass({
             this._appicon_hoverstyle = '';
             this._appicon_pressedstyle = '';
         }
+    }
+
+    _checkGtkVersion_cssVariables() {
+        // Support for CSS variables was added in GTK 4.16
+        // However, using them is still impossible within an extension [Gnome version 47]
+        return false;
+        return Gtk.get_major_version() >= 5 ||
+            (Gtk.get_major_version() == 4 && Gtk.get_minor_version() >= 16);
     }
 
     _onAppIconHoverChanged_GtkWorkaround() {
@@ -691,7 +703,9 @@ export const TaskbarAppIcon = GObject.registerClass({
 
             let highlightColor = this._getFocusHighlightColor();
             inlineStyle += "background-color: " + cssHexTocssRgba(highlightColor, SETTINGS.get_int('focus-highlight-opacity') * 0.01) + ";";
-            inlineStyle += this._appicon_normalstyle;
+            if (!this._checkGtkVersion_cssVariables()) {
+                inlineStyle += this._appicon_normalstyle;
+            }
         }
 
         if (this._dotsContainer.get_style() != inlineStyle) {
