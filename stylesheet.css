@@ -42,14 +42,11 @@
 #dashtopanelScrollview .overview-tile:focus .dtp-container {
 	background-color: rgba(238, 238, 236, 0.1);
 	border-radius: 0px;
-	background-color: var(--dtp-hover-background-color);
-	border-radius: var(--dtp-hover-border-radius);
 }
 
 #dashtopanelScrollview .overview-tile:hover .dtp-container > .dtp-dots-container,
 #dashtopanelScrollview .overview-tile:focus .dtp-container > .dtp-dots-container {
 	border-radius: 0px;
-	border-radius: var(--dtp-hover-border-radius);
 }
 
 .dashtopanelMainPanel .dash-item-container .show-apps:hover {
@@ -72,7 +69,6 @@
 
 #dashtopanelScrollview .overview-tile:active .dtp-container {
 	background-color: rgba(238, 238, 236, 0.18);
-	background-color: var(--dtp-pressed-background-color);
 }
 
 #dashtopanelScrollview .overview-tile .favorite {
