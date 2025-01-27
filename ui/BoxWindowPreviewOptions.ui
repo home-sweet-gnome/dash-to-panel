@@ -322,7 +322,7 @@
                     <property name="receives_default">False</property>
                     <property name="valign">center</property>
                     <property name="active">True</property>
-                    <signal name="toggled" handler="preview_title_position_bottom_button_toggled_cb" swapped="no"/>
+                    <signal name="toggled" handler="preview_title_position_bottom_button_toggled_cb"/>
                   </object>
                 </child>
                 <child>
@@ -331,7 +331,7 @@
                     <property name="receives_default">False</property>
                     <property name="valign">center</property>
                     <property name="group">preview_title_position_bottom_button</property>
-                    <signal name="toggled" handler="preview_title_position_top_button_toggled_cb" swapped="no"/>
+                    <signal name="toggled" handler="preview_title_position_top_button_toggled_cb"/>
                   </object>
                 </child>
               </object>

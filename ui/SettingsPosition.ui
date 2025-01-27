@@ -131,7 +131,7 @@
                   <property name="receives_default">False</property>
                   <property name="valign">center</property>
                   <property name="active">True</property>
-                  <signal name="clicked" handler="position_bottom_button_clicked_cb" swapped="no"/>
+                  <signal name="clicked" handler="position_bottom_button_clicked_cb"/>
                 </object>
               </child>
               <child>
@@ -140,7 +140,7 @@
                   <property name="receives_default">False</property>
                   <property name="valign">center</property>
                   <property name="group">position_bottom_button</property>
-                  <signal name="clicked" handler="position_top_button_clicked_cb" swapped="no"/>
+                  <signal name="clicked" handler="position_top_button_clicked_cb"/>
                 </object>
               </child>
               <child>
@@ -149,7 +149,7 @@
                   <property name="receives_default">False</property>
                   <property name="valign">center</property>
                   <property name="group">position_bottom_button</property>
-                  <signal name="clicked" handler="position_left_button_clicked_cb" swapped="no"/>
+                  <signal name="clicked" handler="position_left_button_clicked_cb"/>
                 </object>
               </child>
               <child>
@@ -158,7 +158,7 @@
                   <property name="receives_default">False</property>
                   <property name="valign">center</property>
                   <property name="group">position_bottom_button</property>
-                  <signal name="clicked" handler="position_right_button_clicked_cb" swapped="no"/>
+                  <signal name="clicked" handler="position_right_button_clicked_cb"/>
                 </object>
               </child>
             </object>
@@ -176,7 +176,7 @@
                   <property name="digits">0</property>
                   <property name="value_pos">right</property>
                   <property name="draw_value">True</property>
-                  <signal name="value-changed" handler="panel_size_scale_value_changed_cb" swapped="no"/>
+                  <signal name="value-changed" handler="panel_size_scale_value_changed_cb"/>
                 </object>
               </child>
             </object>
