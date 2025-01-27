@@ -30,7 +30,6 @@ import GObject from 'gi://GObject';
 import Mtk from 'gi://Mtk';
 import Shell from 'gi://Shell';
 import St from 'gi://St';
-import Gtk from 'gi://Gtk';
 
 import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js';
 import * as AppMenu from 'resource:///org/gnome/shell/ui/appMenu.js';
@@ -692,9 +691,7 @@ export const TaskbarAppIcon = GObject.registerClass({
 
             let highlightColor = this._getFocusHighlightColor();
             inlineStyle += "background-color: " + cssHexTocssRgba(highlightColor, SETTINGS.get_int('focus-highlight-opacity') * 0.01) + ";";
-            if (!this._checkGtkVersion_cssVariables()) {
-                inlineStyle += this._appicon_normalstyle;
-            }
+            inlineStyle += this._appicon_normalstyle;
         }
 
         if (this._dotsContainer.get_style() != inlineStyle) {
