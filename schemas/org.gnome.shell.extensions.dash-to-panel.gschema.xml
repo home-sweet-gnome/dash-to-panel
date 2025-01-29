@@ -1279,5 +1279,13 @@
       <summary>Show badge count on app icon</summary>
       <description>Whether to show badge count overlay on app icon, for supported applications.</description>
     </key>
+    <key type="s" name="target-prefs-page">
+      <default>''</default>
+      <summary>The preferences page name to display</summary>
+    </key>
+    <key type="s" name="hide-donate-icon-unixtime">
+      <default>''</default>
+      <summary>Unix time when the donate icon was hidden</summary>
+    </key>
   </schema>
 </schemalist>

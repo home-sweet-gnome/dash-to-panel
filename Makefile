@@ -1,11 +1,9 @@
 # Basic Makefile
 
 UUID = dash-to-panel@jderose9.github.com
-BASE_MODULES = extension.js stylesheet.css metadata.json COPYING README.md
-EXTRA_MODULES = appIcons.js panel.js panelManager.js proximity.js intellihide.js progress.js panelPositions.js panelSettings.js panelStyle.js overview.js taskbar.js transparency.js windowPreview.js prefs.js utils.js desktopIconsIntegration.js
-UI_MODULES = ui/BoxAdvancedOptions.ui ui/BoxAnimateAppIconHoverOptions.ui ui/BoxDotOptions.ui ui/BoxDynamicOpacityOptions.ui ui/BoxGroupAppsOptions.ui ui/BoxIntellihideOptions.ui ui/BoxMiddleClickOptions.ui ui/BoxOverlayShortcut.ui ui/BoxScrollIconOptions.ui ui/BoxScrollPanelOptions.ui ui/BoxSecondaryMenuOptions.ui ui/BoxShowApplicationsOptions.ui ui/BoxShowDesktopOptions.ui ui/BoxWindowPreviewOptions.ui ui/SettingsAbout.ui ui/SettingsAction.ui ui/SettingsBehavior.ui ui/SettingsFineTune.ui ui/SettingsPosition.ui ui/SettingsStyle.ui
-
-EXTRA_IMAGES = highlight_stacked_bg.svg highlight_stacked_bg_2.svg highlight_stacked_bg_3.svg
+MODULES = ./*.js stylesheet.css metadata.json COPYING README.md
+UI_MODULES = ui/*.ui
+IMAGES = ./* ../media/design/svg/dash-to-panel-logo-light.svg
 
 TOLOCALIZE =  prefs.js appIcons.js
 MSGSRC = $(wildcard po/*.po)
@@ -83,12 +81,12 @@ zip-file: _build
 _build: all
 	-rm -fR ./_build
 	mkdir -p _build
-	cp $(BASE_MODULES) $(EXTRA_MODULES) _build
+	cp $(MODULES) _build
 	mkdir -p _build/ui
 	cp $(UI_MODULES) _build/ui
 
 	mkdir -p _build/img
-	cd img ; cp $(EXTRA_IMAGES) ../_build/img/
+	cd img ; cp $(IMAGES) ../_build/img/
 	mkdir -p _build/schemas
 	cp schemas/*.xml _build/schemas/
 	cp schemas/gschemas.compiled _build/schemas/
