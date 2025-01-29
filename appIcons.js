@@ -65,7 +65,8 @@ export const DEFAULT_PADDING_SIZE = 4;
 
 let APPICON_STYLE = {
     NORMAL: "NORMAL",
-    SYMBOLIC: "SYMBOLIC"
+    SYMBOLIC: "SYMBOLIC",
+    GRAYSCALE: "GRAYSCALE"
 }
 
 let DOT_STYLE = {
@@ -653,6 +654,13 @@ export const TaskbarAppIcon = GObject.registerClass({
             this.add_style_class_name(symbolic_icon_style_name);
         } else {
             this.remove_style_class_name(symbolic_icon_style_name);
+            if (SETTINGS.get_string('appicon-style') === APPICON_STYLE.GRAYSCALE) {
+                let desaturationValue = 1.0
+                let sat_effect = new Clutter.DesaturateEffect({factor : desaturationValue});
+                sat_effect.set_factor(desaturationValue);
+                this._iconContainer.add_effect_with_name('desaturate', sat_effect);
+            }
+
         }
     }
 
