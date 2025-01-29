@@ -643,7 +643,7 @@ export const TaskbarAppIcon = GObject.registerClass({
                 let desaturationValue = 1.0
                 let sat_effect = new Clutter.DesaturateEffect({factor : desaturationValue});
                 sat_effect.set_factor(desaturationValue);
-                this.add_effect_with_name('desaturate', sat_effect);
+                this._iconContainer.add_effect_with_name('desaturate', sat_effect);
             }
 
         }
