@@ -649,18 +649,12 @@ export const TaskbarAppIcon = GObject.registerClass({
     }
 
     _setAppIconStyle() {
-        let symbolic_icon_style_name = 'symbolic-icon-style';
-        if (SETTINGS.get_string('appicon-style') === APPICON_STYLE.SYMBOLIC) {
-            this.add_style_class_name(symbolic_icon_style_name);
-        } else {
-            this.remove_style_class_name(symbolic_icon_style_name);
-            if (SETTINGS.get_string('appicon-style') === APPICON_STYLE.GRAYSCALE) {
-                let desaturationValue = 1.0
-                let sat_effect = new Clutter.DesaturateEffect({factor : desaturationValue});
-                sat_effect.set_factor(desaturationValue);
-                this._iconContainer.add_effect_with_name('desaturate', sat_effect);
-            }
+        let appIconStyle = SETTINGS.get_string('appicon-style');
 
+        if (appIconStyle === APPICON_STYLE.SYMBOLIC) {
+            this.add_style_class_name('symbolic-icon-style');
+        } else if (appIconStyle === APPICON_STYLE.GRAYSCALE) {
+            this._iconContainer.add_effect_with_name('desaturate', new Clutter.DesaturateEffect({ factor: 1 }));
         }
     }
 
