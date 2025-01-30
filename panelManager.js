@@ -215,9 +215,16 @@ export const PanelManager = class {
         // keep GS overview.js from blowing away custom panel styles
         if(!SETTINGS.get_boolean('stockgs-keep-top-panel'))
             Object.defineProperty(Main.panel, "style", {configurable: true, set(v) {}});
+
+        this._shutdownId = global.connect('shutdown', () => {
+            this.allPanels.forEach(p => {
+                this._removePanelBarriers(p);
+            });
+        });
     }
 
     disable(reset) {
+        global.disconnect(this._shutdownId);
         this.primaryPanel && this.overview.disable();
         this.proximityManager.destroy();
 
