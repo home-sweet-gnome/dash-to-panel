@@ -1533,6 +1533,12 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
             return GLib.SOURCE_REMOVE;
         });
     }
+
+    setApp(app) {
+        super.setApp(app);
+        
+        this._detailsItem.visible = !app.hideDetails
+    }
 }
 
 /**

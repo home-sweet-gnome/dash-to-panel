@@ -56,6 +56,7 @@ const T3 = 'resetHoverTimeout'
 const T4 = 'donateAppTimeout'
 
 let donateDummyApp = {
+    hideDetails: true,
     app_info: {
         should_show: () => false,
         list_actions: () => ['opts'],
@@ -78,10 +79,11 @@ let donateDummyApp = {
         })
     },
     activate: function() {
+        SETTINGS.set_string('target-prefs-page', 'donation')
+        
         if (this.isActive())
             return
 
-        SETTINGS.set_string('target-prefs-page', 'donation')
         DTP_EXTENSION.openPreferences()
         this._taskbar._timeoutsHandler.add([T4, 5000, this.forceRefresh.bind(this)])
         this.forceRefresh()
