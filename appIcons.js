@@ -1824,8 +1824,8 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
         });
 
         this._appendItem({
-            title: _('System monitor'),
-            cmd: ['gnome-system-monitor']
+            title: _(SETTINGS.get_string('contextmenu-sysmon-title')),
+            cmd: [SETTINGS.get_string('contextmenu-sysmon-cmd')]
         });
 
         this._appendItem({
