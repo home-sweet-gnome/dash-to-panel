@@ -234,12 +234,18 @@ const Preferences = class {
         this._addFormatValueCallbacks();
         this._bindSettings();
 
-        let targetPageName = settings.get_string('target-prefs-page')
-        
-        if (targetPageName) {
-            window.set_visible_page_name(targetPageName)
-            settings.set_string('target-prefs-page', '')
+        let maybeGoToPage = () => {
+            let targetPageName = settings.get_string('target-prefs-page')
+
+            if (targetPageName) {
+                window.set_visible_page_name(targetPageName)
+                settings.set_string('target-prefs-page', '')
+            }
         }
+        
+        settings.connect('changed::target-prefs-page', maybeGoToPage);
+
+        maybeGoToPage();
     }
 
     /**
@@ -2161,7 +2167,7 @@ const Preferences = class {
             clearTimeout(revealDonateTimeout)
             
             if (this.notebook.visible_page_name == 'donation' && !donationRevealer.get_reveal_child())
-                revealDonateTimeout = setTimeout(() => donationRevealer.set_reveal_child(true), 14000)
+                revealDonateTimeout = setTimeout(() => donationRevealer.set_reveal_child(true), 10000)
         })
     }
 

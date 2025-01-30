@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <interface>
+  <!-- interface-name SettingsDonation.ui -->
   <requires lib="gtk" version="4.12"/>
   <requires lib="libadwaita" version="1.6"/>
   <object class="AdwPreferencesPage" id="donation">
@@ -63,8 +64,9 @@
                     <child>
                       <object class="GtkImage" id="paypal_logo">
                         <property name="margin-bottom">2</property>
+                        <property name="margin-end">2</property>
                         <property name="margin-top">2</property>
-                        <property name="pixel-size">32</property>
+                        <property name="pixel-size">24</property>
                       </object>
                     </child>
                     <child>
@@ -89,8 +91,9 @@
                     <child>
                       <object class="GtkImage" id="stripe_logo">
                         <property name="margin-bottom">2</property>
+                        <property name="margin-end">2</property>
                         <property name="margin-top">2</property>
-                        <property name="pixel-size">32</property>
+                        <property name="pixel-size">24</property>
                       </object>
                     </child>
                     <child>
@@ -115,8 +118,9 @@
                     <child>
                       <object class="GtkImage" id="kofi_logo">
                         <property name="margin-bottom">2</property>
+                        <property name="margin-end">2</property>
                         <property name="margin-top">2</property>
-                        <property name="pixel-size">32</property>
+                        <property name="pixel-size">24</property>
                       </object>
                     </child>
                     <child>
