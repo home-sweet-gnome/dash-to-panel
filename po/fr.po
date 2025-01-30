@@ -7,9 +7,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: DAsh To PAnel\n"
+"Project-Id-Version: Dash To Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-30 10:54-0500\n"
+"POT-Creation-Date: 2025-01-30 14:13-0500\n"
 "PO-Revision-Date: 2025-01-30 11:29-0500\n"
 "Last-Translator: Charles Gagnon <charlesg99@outlook.com>\n"
 "Language-Team: French\n"
@@ -342,6 +342,18 @@ msgstr "Restaurer les fenêtres"
 #: appIcons.js:1863
 msgid "Show Desktop"
 msgstr "Afficher le bureau"
+
+#: taskbar.js:64
+msgid "Donation options"
+msgstr "Options de don"
+
+#: taskbar.js:79
+msgid "Thank you!"
+msgstr "Merci!"
+
+#: taskbar.js:79
+msgid "Please donate :)"
+msgstr "Merci de faire un don :)"
 
 #: ui/BoxAdvancedOptions.ui.h:1
 msgid "Nothing yet!"

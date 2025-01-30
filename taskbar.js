@@ -56,16 +56,24 @@ const T3 = 'resetHoverTimeout'
 const T4 = 'donateAppTimeout'
 
 let donateDummyApp = {
+    app_info: {
+        should_show: () => false,
+        list_actions: () => ['opts'],
+        get_action_name: (action) => action == 'opts' ? _('Donation options') : '',
+    },
     connect: () => [],
     connectObject: () => [],
-    get_id: () => "dtp_donate",
+    get_id: () => 'dtp_donate',
     get_windows: () => [],
+    can_open_new_window: () => false,
+    launch_action: function(action) { action == 'opts' ? this.activate() : null },
     get_name: function() { 
-        return this.isActive() ? _('Thank you!') : _("Please donate :)") 
+        return this.isActive() ? _('Thank you!') : _('Please donate :)') 
     },
     create_icon_texture: function(size) { 
         return new St.Icon({
-            icon_name: this.isActive() ? 'face-smile' : 'emote-love',
+            icon_name: this.isActive() ? 'face-smile-big-symbolic' : 'emote-love-symbolic',
+            style: `color: ${this.isActive() ? '#FFC730' : '#C71807'}`,
             icon_size: size
         })
     },
