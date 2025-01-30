@@ -71,16 +71,20 @@ let donateDummyApp = {
     get_name: function() { 
         return this.isActive() ? _('Thank you!') : _('Please donate :)') 
     },
-    create_icon_texture: function(size) { 
-        return new St.Icon({
+    create_icon_texture: function(size) {
+        let iconParams = {
             icon_name: this.isActive() ? 'face-smile-big-symbolic' : 'emote-love-symbolic',
-            style: `color: ${this.isActive() ? '#FFC730' : '#C71807'}`,
             icon_size: size
-        })
+        }
+
+        if (SETTINGS.get_string('appicon-style') !== 'SYMBOLIC')
+            iconParams.style = `color: ${this.isActive() ? '#FFC730' : '#C71807'}`
+
+        return new St.Icon(iconParams)
     },
     activate: function() {
         SETTINGS.set_string('target-prefs-page', 'donation')
-        
+
         if (this.isActive())
             return
 
