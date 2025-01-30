@@ -102,9 +102,12 @@ let donateDummyApp = {
 }
 
 function setDonateApp() {
-    this._donateApp = Object.create(donateDummyApp)
-    this._donateApp._taskbar = this
-    this._donateApp.visible = !SETTINGS.get_string('hide-donate-icon-unixtime')
+    delete this._donateApp
+
+    if (!SETTINGS.get_string('hide-donate-icon-unixtime')) {
+        this._donateApp = Object.create(donateDummyApp)
+        this._donateApp._taskbar = this
+    }
 }
 
 /**
@@ -980,7 +983,7 @@ export const Taskbar = class extends EventEmitter {
                        .filter(appInfo => appInfo.windows.length || favoriteApps.indexOf(appInfo.app) >= 0);
         }
 
-        if (this._donateApp.visible)
+        if (this._donateApp)
             appInfos = [
                 {
                     app: this._donateApp,
