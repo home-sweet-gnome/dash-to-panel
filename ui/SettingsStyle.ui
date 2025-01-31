@@ -188,6 +188,7 @@
                 <items>
                   <item id="NORMAL" translatable="yes">Normal</item>
                   <item id="SYMBOLIC" translatable="yes">Symbolic</item>
+                  <item id="GRAYSCALE" translatable="yes">Grayscale</item>
                 </items>
               </object>
             </child>

@@ -118,6 +118,12 @@ function _enable(extension) {
         });
     }
 
+    // show the donate icon every 120 days (10368000000 milliseconds)
+    let donateIconUnixtime = SETTINGS.get_string('hide-donate-icon-unixtime')
+
+    if (donateIconUnixtime && donateIconUnixtime < Date.now() - 10368000000)
+        SETTINGS.set_string('hide-donate-icon-unixtime', '')
+
     panelManager = new PanelManager.PanelManager();
 
     panelManager.enable();

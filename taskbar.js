@@ -42,7 +42,7 @@ import * as PanelSettings from './panelSettings.js';
 import * as Pos from './panelPositions.js';
 import * as Utils from './utils.js';
 import * as WindowPreview from './windowPreview.js';
-import {SETTINGS} from './extension.js';
+import {DTP_EXTENSION, SETTINGS} from './extension.js';
 
 const SearchController = Main.overview.searchController;
 
@@ -53,7 +53,62 @@ export const MIN_ICON_SIZE = 4;
 const T1 = 'ensureAppIconVisibilityTimeout'
 const T2 = 'showLabelTimeout'
 const T3 = 'resetHoverTimeout'
+const T4 = 'donateAppTimeout'
 
+let donateDummyApp = {
+    hideDetails: true,
+    app_info: {
+        should_show: () => false,
+        list_actions: () => ['opts'],
+        get_action_name: (action) => action == 'opts' ? _('Donation options') : '',
+    },
+    connect: () => [],
+    connectObject: () => [],
+    get_id: () => 'dtp_donate',
+    get_windows: () => [],
+    can_open_new_window: () => false,
+    launch_action: function(action) { action == 'opts' ? this.activate() : null },
+    get_name: function() { 
+        return this.isActive() ? _('Thank you!') : _('Please donate :)') 
+    },
+    create_icon_texture: function(size) {
+        let iconParams = {
+            icon_name: this.isActive() ? 'face-smile-big-symbolic' : 'emote-love-symbolic',
+            icon_size: size
+        }
+
+        if (SETTINGS.get_string('appicon-style') !== 'SYMBOLIC')
+            iconParams.style = `color: ${this.isActive() ? '#FFC730' : '#C71807'}`
+
+        return new St.Icon(iconParams)
+    },
+    activate: function() {
+        SETTINGS.set_string('target-prefs-page', 'donation')
+
+        if (this.isActive())
+            return
+
+        DTP_EXTENSION.openPreferences()
+        this._taskbar._timeoutsHandler.add([T4, 5000, this.forceRefresh.bind(this)])
+        this.forceRefresh()
+    },
+    forceRefresh: function() {
+        setDonateApp.call(this._taskbar)
+        this._taskbar._queueRedisplay()
+    },
+    isActive: function() {
+        return !!this._taskbar._timeoutsHandler.getId(T4)
+    }
+}
+
+function setDonateApp() {
+    delete this._donateApp
+
+    if (!SETTINGS.get_string('hide-donate-icon-unixtime')) {
+        this._donateApp = Object.create(donateDummyApp)
+        this._donateApp._taskbar = this
+    }
+}
 
 /**
  * Extend DashItemContainer
@@ -360,7 +415,8 @@ export const Taskbar = class extends EventEmitter {
                     'changed::dot-size',
                     'changed::show-favorites',
                     'changed::show-running-apps',
-                    'changed::show-favorites-all-monitors'
+                    'changed::show-favorites-all-monitors',
+                    'changed::hide-donate-icon-unixtime'
                 ],
                 () => {
                     setAttributes()
@@ -404,6 +460,8 @@ export const Taskbar = class extends EventEmitter {
                                  (this.dtpPanel.isPrimary || SETTINGS.get_boolean('show-favorites-all-monitors'))
             this.showRunningApps = SETTINGS.get_boolean('show-running-apps')
             this.allowSplitApps = this.usingLaunchers || (!this.isGroupApps && !this.showFavorites)
+            
+            setDonateApp.call(this)
         }
 
         setAttributes()
@@ -914,15 +972,28 @@ export const Taskbar = class extends EventEmitter {
         // When using isolation, we filter out apps that have no windows in
         // the current workspace (this check is done in AppIcons.getInterestingWindows)
         let runningApps = this.showRunningApps ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this)) : [];
+        let appInfos
 
         if (this.allowSplitApps) {
-            return this._createAppInfos(favoriteApps, [], true)
+            appInfos = this._createAppInfos(favoriteApps, [], true)
                        .concat(this._createAppInfos(runningApps)
                        .filter(appInfo => appInfo.windows.length));
         } else {
-            return this._createAppInfos(favoriteApps.concat(runningApps.filter(app => favoriteApps.indexOf(app) < 0)))
+            appInfos = this._createAppInfos(favoriteApps.concat(runningApps.filter(app => favoriteApps.indexOf(app) < 0)))
                        .filter(appInfo => appInfo.windows.length || favoriteApps.indexOf(appInfo.app) >= 0);
         }
+
+        if (this._donateApp)
+            appInfos = [
+                {
+                    app: this._donateApp,
+                    isLauncher: true,
+                    windows: [],
+                },
+                ...appInfos
+            ]
+
+        return appInfos
     }
 
     _redisplay() {
