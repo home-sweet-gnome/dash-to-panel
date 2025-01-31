@@ -1,7 +1,7 @@
 # Basic Makefile
 
 UUID = dash-to-panel@jderose9.github.com
-MODULES = ./*.js stylesheet.css metadata.json COPYING README.md
+MODULES = src/*.js src/stylesheet.css metadata.json COPYING README.md
 UI_MODULES = ui/*.ui
 IMAGES = ./* ../media/design/svg/dash-to-panel-logo-light.svg
 
