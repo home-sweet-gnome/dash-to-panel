@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<interface>
+  <!-- interface-name SettingsDonation.ui -->
+  <requires lib="gtk" version="4.12"/>
+  <requires lib="libadwaita" version="1.6"/>
+  <object class="AdwPreferencesPage" id="donation">
+    <property name="hexpand-set">True</property>
+    <property name="icon-name">emote-love-symbolic</property>
+    <property name="name">donation</property>
+    <property name="title" translatable="yes">Donation</property>
+    <child>
+      <object class="AdwPreferencesGroup" id="donation_group">
+        <child>
+          <object class="GtkBox">
+            <property name="halign">center</property>
+            <property name="margin-bottom">50</property>
+            <property name="margin-top">50</property>
+            <property name="spacing">16</property>
+            <child>
+              <object class="GtkImage" id="donation_title_icon">
+                <property name="css-classes">error</property>
+                <property name="icon-name">emote-love-symbolic</property>
+                <property name="pixel-size">48</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkImage" id="donation_logo">
+                <property name="pixel-size">96</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="donation_label_1">
+            <property name="justify">center</property>
+            <property name="label" translatable="yes">&lt;span size="large"&gt;Gnome is the best desktop environment. No question. But if you're like me and would never use it without the enhanced workflow that Dash to Panel provides, please support my work by making a donation.&lt;/span&gt;</property>
+            <property name="margin-bottom">40</property>
+            <property name="use-markup">True</property>
+            <property name="wrap">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="donation_label_2">
+            <property name="justify">center</property>
+            <property name="label" translatable="yes">I know you're thinking "I don't have time for this", but consider that I've poured countless volunteer hours into making Dash to Panel a quality extension that is useful to YOU! :)</property>
+            <property name="margin-bottom">60</property>
+            <property name="use-markup">True</property>
+            <property name="wrap">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="halign">center</property>
+            <property name="margin-bottom">60</property>
+            <property name="spacing">40</property>
+            <property name="valign">center</property>
+            <child>
+              <object class="GtkLinkButton">
+                <property name="child">
+                  <object class="GtkBox">
+                    <property name="halign">center</property>
+                    <property name="spacing">6</property>
+                    <property name="valign">center</property>
+                    <child>
+                      <object class="GtkImage" id="paypal_logo">
+                        <property name="margin-bottom">2</property>
+                        <property name="margin-end">2</property>
+                        <property name="margin-top">2</property>
+                        <property name="pixel-size">24</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Paypal</property>
+                        <property name="margin-end">6</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="css-classes">button</property>
+                <property name="uri">https://www.paypal.com/donate/?hosted_button_id=5DCVELP7BSAVQ</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLinkButton">
+                <property name="child">
+                  <object class="GtkBox">
+                    <property name="halign">center</property>
+                    <property name="spacing">6</property>
+                    <property name="valign">center</property>
+                    <child>
+                      <object class="GtkImage" id="stripe_logo">
+                        <property name="margin-bottom">2</property>
+                        <property name="margin-end">2</property>
+                        <property name="margin-top">2</property>
+                        <property name="pixel-size">24</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Stripe</property>
+                        <property name="margin-end">6</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="css-classes">button</property>
+                <property name="uri">https://donate.stripe.com/9AQg1g8sA5EY1y07ss</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLinkButton">
+                <property name="child">
+                  <object class="GtkBox">
+                    <property name="halign">center</property>
+                    <property name="spacing">6</property>
+                    <property name="valign">center</property>
+                    <child>
+                      <object class="GtkImage" id="kofi_logo">
+                        <property name="margin-bottom">2</property>
+                        <property name="margin-end">2</property>
+                        <property name="margin-top">2</property>
+                        <property name="pixel-size">24</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="label">Ko-fi</property>
+                        <property name="margin-end">6</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="css-classes">button</property>
+                <property name="uri">https://ko-fi.com/charlesgagnon</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkRevealer" id="donation_revealer">
+            <property name="child">
+              <object class="GtkBox">
+                <property name="halign">center</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">&lt;span size="9000"&gt;Thanks for your time!
+If you like, you can now hide the donate icon&lt;/span&gt;</property>
+                    <property name="margin-end">10</property>
+                    <property name="use-markup">True</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="donation_icon_switch">
+                    <property name="halign">end</property>
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </property>
+            <property name="margin-bottom">20</property>
+            <property name="transition-type">crossfade</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

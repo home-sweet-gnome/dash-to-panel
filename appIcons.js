@@ -65,7 +65,8 @@ export const DEFAULT_PADDING_SIZE = 4;
 
 let APPICON_STYLE = {
     NORMAL: "NORMAL",
-    SYMBOLIC: "SYMBOLIC"
+    SYMBOLIC: "SYMBOLIC",
+    GRAYSCALE: "GRAYSCALE"
 }
 
 let DOT_STYLE = {
@@ -648,11 +649,12 @@ export const TaskbarAppIcon = GObject.registerClass({
     }
 
     _setAppIconStyle() {
-        let symbolic_icon_style_name = 'symbolic-icon-style';
-        if (SETTINGS.get_string('appicon-style') === APPICON_STYLE.SYMBOLIC) {
-            this.add_style_class_name(symbolic_icon_style_name);
-        } else {
-            this.remove_style_class_name(symbolic_icon_style_name);
+        let appIconStyle = SETTINGS.get_string('appicon-style');
+
+        if (appIconStyle === APPICON_STYLE.SYMBOLIC) {
+            this.add_style_class_name('symbolic-icon-style');
+        } else if (appIconStyle === APPICON_STYLE.GRAYSCALE) {
+            this._iconContainer.add_effect_with_name('desaturate', new Clutter.DesaturateEffect({ factor: 1 }));
         }
     }
 
@@ -1530,6 +1532,12 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
             
             return GLib.SOURCE_REMOVE;
         });
+    }
+
+    setApp(app) {
+        super.setApp(app);
+        
+        this._detailsItem.visible = !app.hideDetails
     }
 }
 
