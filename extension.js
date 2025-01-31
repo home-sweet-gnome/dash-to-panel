@@ -17,114 +17,129 @@
  *
  */
 
+import Gio from 'gi://Gio'
 
-import Gio from 'gi://Gio';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js'
+import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
+import {
+  Extension,
+  gettext as _,
+} from 'resource:///org/gnome/shell/extensions/extension.js'
 
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import {EventEmitter} from 'resource:///org/gnome/shell/misc/signals.js';
-import {Extension, gettext as _} from 'resource:///org/gnome/shell/extensions/extension.js';
+import * as PanelManager from './panelManager.js'
+import * as AppIcons from './appIcons.js'
 
-import * as  PanelManager from './panelManager.js';
-import * as AppIcons from './appIcons.js';
+const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com'
 
+let panelManager
+let extensionChangedHandler
+let startupCompleteHandler
+let extensionSystem = Main.extensionManager
 
-const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com';
-
-let panelManager;
-let extensionChangedHandler;
-let startupCompleteHandler;
-let extensionSystem = Main.extensionManager;
-
-export let DTP_EXTENSION = null;
-export let SETTINGS = null;
-export let DESKTOPSETTINGS = null;
-export let TERMINALSETTINGS = null;
-export let PERSISTENTSTORAGE = null;
-export let EXTENSION_UUID = null;
-export let EXTENSION_PATH = null;
+export let DTP_EXTENSION = null
+export let SETTINGS = null
+export let DESKTOPSETTINGS = null
+export let TERMINALSETTINGS = null
+export let PERSISTENTSTORAGE = null
+export let EXTENSION_UUID = null
+export let EXTENSION_PATH = null
 
 export default class DashToPanelExtension extends Extension {
-    constructor(metadata) {
-        super(metadata);
+  constructor(metadata) {
+    super(metadata)
 
-        this._realHasOverview = Main.sessionMode.hasOverview;
-        
-        //create an object that persists until gnome-shell is restarted, even if the extension is disabled
-        PERSISTENTSTORAGE = {};
-    }
+    this._realHasOverview = Main.sessionMode.hasOverview
 
-    enable() {
-        DTP_EXTENSION = this;
+    //create an object that persists until gnome-shell is restarted, even if the extension is disabled
+    PERSISTENTSTORAGE = {}
+  }
 
-        // The Ubuntu Dock extension might get enabled after this extension
-        extensionChangedHandler = extensionSystem.connect('extension-state-changed', (data, extension) => {
-            if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
-                _enable(this);
-            }
-        });
+  enable() {
+    DTP_EXTENSION = this
 
-        //create a global object that can emit signals and conveniently expose functionalities to other extensions 
-        global.dashToPanel = new EventEmitter();
-        
-        _enable(this);
-    }
-
-    disable(reset = false) {
-        panelManager.disable();
-
-        DTP_EXTENSION = null;
-        SETTINGS = null;
-        DESKTOPSETTINGS = null;
-        TERMINALSETTINGS = null;
-        panelManager = null;
-
-        if (!reset) {
-            extensionSystem.disconnect(extensionChangedHandler);
-            delete global.dashToPanel;
-
-            AppIcons.resetRecentlyClickedApp();
+    // The Ubuntu Dock extension might get enabled after this extension
+    extensionChangedHandler = extensionSystem.connect(
+      'extension-state-changed',
+      (data, extension) => {
+        if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
+          _enable(this)
         }
+      },
+    )
 
-        if (startupCompleteHandler) {
-            Main.layoutManager.disconnect(startupCompleteHandler);
-            startupCompleteHandler = null;
-        }
+    //create a global object that can emit signals and conveniently expose functionalities to other extensions
+    global.dashToPanel = new EventEmitter()
 
-        Main.sessionMode.hasOverview = this._realHasOverview;
+    _enable(this)
+  }
+
+  disable(reset = false) {
+    panelManager.disable()
+
+    DTP_EXTENSION = null
+    SETTINGS = null
+    DESKTOPSETTINGS = null
+    TERMINALSETTINGS = null
+    panelManager = null
+
+    if (!reset) {
+      extensionSystem.disconnect(extensionChangedHandler)
+      delete global.dashToPanel
+
+      AppIcons.resetRecentlyClickedApp()
     }
+
+    if (startupCompleteHandler) {
+      Main.layoutManager.disconnect(startupCompleteHandler)
+      startupCompleteHandler = null
+    }
+
+    Main.sessionMode.hasOverview = this._realHasOverview
+  }
 }
 
 function _enable(extension) {
-    let enabled = global.settings.get_strv('enabled-extensions');
+  let enabled = global.settings.get_strv('enabled-extensions')
 
-    if (enabled?.indexOf(UBUNTU_DOCK_UUID) >= 0)
-        extensionSystem.disableExtension(UBUNTU_DOCK_UUID);
+  if (enabled?.indexOf(UBUNTU_DOCK_UUID) >= 0)
+    extensionSystem.disableExtension(UBUNTU_DOCK_UUID)
 
-    if (panelManager)
-        return
+  if (panelManager) return
 
-    SETTINGS = extension.getSettings('org.gnome.shell.extensions.dash-to-panel');
-    DESKTOPSETTINGS = new Gio.Settings({schema_id: 'org.gnome.desktop.interface'});
-    TERMINALSETTINGS = new Gio.Settings({schema_id: 'org.gnome.desktop.default-applications.terminal'})
-    EXTENSION_UUID = extension.uuid
-    EXTENSION_PATH = extension.path
+  SETTINGS = extension.getSettings('org.gnome.shell.extensions.dash-to-panel')
+  DESKTOPSETTINGS = new Gio.Settings({
+    schema_id: 'org.gnome.desktop.interface',
+  })
+  TERMINALSETTINGS = new Gio.Settings({
+    schema_id: 'org.gnome.desktop.default-applications.terminal',
+  })
+  EXTENSION_UUID = extension.uuid
+  EXTENSION_PATH = extension.path
 
-    Main.layoutManager.startInOverview = !SETTINGS.get_boolean('hide-overview-on-startup');
+  Main.layoutManager.startInOverview = !SETTINGS.get_boolean(
+    'hide-overview-on-startup',
+  )
 
-    if (SETTINGS.get_boolean('hide-overview-on-startup') && Main.layoutManager._startingUp) {
-        Main.sessionMode.hasOverview = false;
-        startupCompleteHandler = Main.layoutManager.connect('startup-complete', () => {
-            Main.sessionMode.hasOverview = extension._realHasOverview
-        });
-    }
+  if (
+    SETTINGS.get_boolean('hide-overview-on-startup') &&
+    Main.layoutManager._startingUp
+  ) {
+    Main.sessionMode.hasOverview = false
+    startupCompleteHandler = Main.layoutManager.connect(
+      'startup-complete',
+      () => {
+        Main.sessionMode.hasOverview = extension._realHasOverview
+      },
+    )
+  }
 
-    // show the donate icon every 120 days (10368000000 milliseconds)
-    let donateIconUnixtime = SETTINGS.get_string('hide-donate-icon-unixtime')
+  // show the donate icon every 120 days (10368000000 milliseconds)
+  let donateIconUnixtime = SETTINGS.get_string('hide-donate-icon-unixtime')
 
-    if (donateIconUnixtime && donateIconUnixtime < Date.now() - 10368000000)
-        SETTINGS.set_string('hide-donate-icon-unixtime', '')
+  if (donateIconUnixtime && donateIconUnixtime < Date.now() - 10368000000)
+    SETTINGS.set_string('hide-donate-icon-unixtime', '')
 
-    panelManager = new PanelManager.PanelManager();
+  panelManager = new PanelManager.PanelManager()
 
-    panelManager.enable();
+  panelManager.enable()
 }
