@@ -160,7 +160,7 @@ const Preferences = class {
         this._builder.set_scope(new BuilderScope(this));
         this._settings = settings;
         this._path = path;
-        
+
         this._metadata = ExtensionPreferences.lookupByURL(import.meta.url).metadata;
         this._builder.set_translation_domain(this._metadata['gettext-domain']);
 
@@ -168,6 +168,7 @@ const Preferences = class {
 
         // dialogs
         this._builder.add_from_file(this._path + '/ui/BoxAnimateAppIconHoverOptions.ui');
+        this._builder.add_from_file(this._path + '/ui/BoxHighlightAppIconHoverOptions.ui');
         this._builder.add_from_file(this._path + '/ui/BoxDotOptions.ui');
         this._builder.add_from_file(this._path + '/ui/BoxShowDesktopOptions.ui');
         this._builder.add_from_file(this._path + '/ui/BoxDynamicOpacityOptions.ui');
@@ -226,6 +227,8 @@ const Preferences = class {
         this._tray_size_timeout = 0;
         this._leftbox_size_timeout = 0;
         this._appicon_margin_timeout = 0;
+        this._appicon_margin_todesktop_timeout = 0;
+        this._appicon_margin_toscreenborder_timeout = 0;
         this._appicon_padding_timeout = 0;
         this._opacity_timeout = 0;
         this._tray_padding_timeout = 0;
@@ -394,7 +397,7 @@ const Preferences = class {
 
     _displayPanelPositionsForMonitor(monitorIndex) {
         let taskbarListBox = this._builder.get_object('taskbar_display_listbox');
-        
+
         while(taskbarListBox.get_first_child())
         {
             taskbarListBox.remove(taskbarListBox.get_first_child());
@@ -420,7 +423,7 @@ const Preferences = class {
                 });
                 child = child.get_next_sibling();
             }
-            
+
             monitors.forEach(m => panelElementPositionsSettings[m] = newPanelElementPositions);
             this._settings.set_string('panel-element-positions', JSON.stringify(panelElementPositionsSettings));
         };
@@ -479,7 +482,7 @@ const Preferences = class {
             if (Pos.optionDialogFunctions[el.element]) {
                 let cogImg = new Gtk.Image({ icon_name: 'emblem-system-symbolic' });
                 let optionsBtn = new Gtk.Button({ tooltip_text: _('More options') });
-                
+
                 optionsBtn.get_style_context().add_class('circular');
                 optionsBtn.set_child(cogImg);
                 grid.attach(optionsBtn, 2, 0, 1, 1);
@@ -501,7 +504,7 @@ const Preferences = class {
 
     _createPreferencesDialog(title, content, reset_function = null) {
         let dialog;
-        
+
         dialog = new Gtk.Dialog({ title: title,
                                     transient_for: this.notebook.get_root(),
                                     use_header_bar: true,
@@ -589,7 +592,7 @@ const Preferences = class {
 
     _showDesktopButtonOptions() {
         let box = this._builder.get_object('box_show_showdesktop_options');
-        
+
         let dialog = this._createPreferencesDialog(_('Show Desktop options'), box, () =>
         {
             // restore default settings
@@ -635,6 +638,14 @@ const Preferences = class {
 
         // style
         this._builder.get_object('appicon_margin_scale')
+        .set_format_value_func((scale, value) => {
+            return value + ' px';
+        });
+        this._builder.get_object('appicon_margin_todesktop_scale')
+        .set_format_value_func((scale, value) => {
+            return value + ' px';
+        });
+        this._builder.get_object('appicon_margin_toscreenborder_scale')
         .set_format_value_func((scale, value) => {
             return value + ' px';
         });
@@ -700,6 +711,12 @@ const Preferences = class {
         this._builder.get_object('animate_appicon_hover_options_extent_scale')
         .set_format_value_func((scale, value) => {
             return ngettext("%d icon", "%d icons", value).format(value);
+        });
+
+        // highlight appicon on hover dialog
+        this._builder.get_object('highlight_appicon_borderradius')
+        .set_format_value_func((scale, value) => {
+            return value + ' px';
         });
     }
 
@@ -863,7 +880,7 @@ const Preferences = class {
                                 this._builder.get_object('grid_dot_color'),
                                 'sensitive',
                                 Gio.SettingsBindFlags.DEFAULT);
-            
+
             this._settings.bind('dot-color-override',
                                 this._builder.get_object('dot_color_unfocused_box'),
                                 'sensitive',
@@ -873,7 +890,7 @@ const Preferences = class {
                                 this._builder.get_object('grid_dot_color_unfocused'),
                                 'sensitive',
                                 Gio.SettingsBindFlags.DEFAULT);
-            
+
             for (let i = 1; i <= MAX_WINDOW_INDICATOR; i++) {
                 let rgba = new Gdk.RGBA();
                 rgba.parse(this._settings.get_string('dot-color-' + i));
@@ -944,7 +961,7 @@ const Preferences = class {
 
         this._settings.connect('changed::panel-positions', () => this._updateVerticalRelatedOptions());
         this._updateVerticalRelatedOptions();
-        
+
         for (let i = 0; i < this.monitors.length; ++i) {
             //the gnome-shell primary index is the first one in the "available-monitors" setting
             let label = !i ? _('Primary monitor') : _('Monitor ') + (i + 1);
@@ -952,7 +969,7 @@ const Preferences = class {
             this._builder.get_object('multimon_primary_combo').append_text(label);
             this._builder.get_object('taskbar_position_monitor_combo').append_text(label);
         }
-        
+
         this._builder.get_object('multimon_primary_combo').set_active(dtpPrimaryMonitorIndex);
         this._builder.get_object('taskbar_position_monitor_combo').set_active(dtpPrimaryMonitorIndex);
 
@@ -1127,7 +1144,7 @@ const Preferences = class {
         this._builder.get_object('trans_options_distance_spinbutton').connect('value-changed',  (widget) => {
             this._settings.set_int('trans-dynamic-distance', widget.get_value());
         });
-        
+
         this._builder.get_object('trans_options_min_opacity_spinbutton').set_value(this._settings.get_double('trans-dynamic-anim-target') * 100);
         this._builder.get_object('trans_options_min_opacity_spinbutton').connect('value-changed',  (widget) => {
             this._settings.set_double('trans-dynamic-anim-target', widget.get_value() * 0.01);
@@ -1160,7 +1177,7 @@ const Preferences = class {
             dialog.set_default_size(1, 1);
 
         });
-        
+
         this._settings.bind('desktop-line-use-custom-color',
                             this._builder.get_object('override_show_desktop_line_color_switch'),
                             'active',
@@ -1170,7 +1187,7 @@ const Preferences = class {
                             this._builder.get_object('override_show_desktop_line_color_colorbutton'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
-        
+
         rgba.parse(this._settings.get_string('desktop-line-custom-color'));
         this._builder.get_object('override_show_desktop_line_color_colorbutton').set_rgba(rgba);
         this._builder.get_object('override_show_desktop_line_color_colorbutton').connect('color-set',  (button) => {
@@ -1208,7 +1225,7 @@ const Preferences = class {
         this._settings.bind('intellihide-use-pressure',
                             this._builder.get_object('intellihide_use_pressure_switch'),
                             'active',
-                            Gio.SettingsBindFlags.DEFAULT); 
+                            Gio.SettingsBindFlags.DEFAULT);
 
         this._settings.bind('intellihide-use-pressure',
                             this._builder.get_object('intellihide_use_pressure_options'),
@@ -1285,7 +1302,7 @@ const Preferences = class {
 
                 this._settings.set_value('intellihide-pressure-threshold', this._settings.get_default_value('intellihide-pressure-threshold'));
                 this._builder.get_object('intellihide_pressure_threshold_spinbutton').set_value(this._settings.get_int('intellihide-pressure-threshold'));
-                
+
                 this._settings.set_value('intellihide-pressure-time', this._settings.get_default_value('intellihide-pressure-time'));
                 this._builder.get_object('intellihide_pressure_time_spinbutton').set_value(this._settings.get_int('intellihide-pressure-time'));
 
@@ -1357,7 +1374,7 @@ const Preferences = class {
                             this._builder.get_object('multimon_multi_show_favorites_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
-                            
+
         this._settings.bind('show-favorites',
                             this._builder.get_object('multimon_multi_show_favorites_switch'),
                             'sensitive',
@@ -1366,7 +1383,7 @@ const Preferences = class {
         this._settings.bind('show-running-apps',
                             this._builder.get_object('show_runnning_apps_switch'),
                             'active',
-                            Gio.SettingsBindFlags.DEFAULT); 
+                            Gio.SettingsBindFlags.DEFAULT);
 
         this._setPreviewTitlePosition();
 
@@ -1395,7 +1412,7 @@ const Preferences = class {
                 this._builder.get_object('animation_time_spinbutton').set_value(this._settings.get_int('window-preview-animation-time'));
 
                 this._settings.set_value('preview-use-custom-opacity', this._settings.get_default_value('preview-use-custom-opacity'));
-                
+
                 this._settings.set_value('window-preview-use-custom-icon-size', this._settings.get_default_value('window-preview-use-custom-icon-size'));
 
                 this._settings.set_value('preview-custom-opacity', this._settings.get_default_value('preview-custom-opacity'));
@@ -1422,7 +1439,7 @@ const Preferences = class {
 
                 this._settings.set_value('window-preview-aspect-ratio-y', this._settings.get_default_value('window-preview-aspect-ratio-y'));
                 this._builder.get_object('preview_aspect_ratio_y_combo').set_active_id(this._settings.get_int('window-preview-aspect-ratio-y').toString());
-                
+
                 this._settings.set_value('window-preview-padding', this._settings.get_default_value('window-preview-padding'));
                 this._builder.get_object('preview_padding_spinbutton').set_value(this._settings.get_int('window-preview-padding'));
 
@@ -1430,7 +1447,7 @@ const Preferences = class {
 
                 this._settings.set_value('window-preview-title-font-size', this._settings.get_default_value('window-preview-title-font-size'));
                 this._builder.get_object('preview_title_size_spinbutton').set_value(this._settings.get_int('window-preview-title-font-size'));
-                
+
                 this._settings.set_value('window-preview-custom-icon-size', this._settings.get_default_value('window-preview-custom-icon-size'));
                 this._builder.get_object('preview_custom_icon_size_spinbutton').set_value(this._settings.get_int('window-preview-custom-icon-size'));
 
@@ -1484,7 +1501,7 @@ const Preferences = class {
             this._builder.get_object('preview_custom_opacity_spinbutton').connect('value-changed', (widget) => {
                 this._settings.set_int('preview-custom-opacity', widget.get_value());
             });
-                            
+
             this._settings.bind('peek-mode',
                             this._builder.get_object('peek_mode_switch'),
                             'active',
@@ -1497,7 +1514,7 @@ const Preferences = class {
                             this._builder.get_object('grid_peek_mode_opacity'),
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT);
-            
+
             this._settings.bind('window-preview-show-title',
                             this._builder.get_object('preview_show_title_switch'),
                             'active',
@@ -1568,7 +1585,7 @@ const Preferences = class {
             this._builder.get_object('preview_title_size_spinbutton').connect('value-changed', (widget) => {
                 this._settings.set_int('window-preview-title-font-size', widget.get_value());
             });
-            
+
             this._builder.get_object('preview_custom_icon_size_spinbutton').set_value(this._settings.get_int('window-preview-custom-icon-size'));
             this._builder.get_object('preview_custom_icon_size_spinbutton').connect('value-changed', (widget) => {
                 this._settings.set_int('window-preview-custom-icon-size', widget.get_value());
@@ -1588,7 +1605,7 @@ const Preferences = class {
             dialog.show();
 
         });
-       
+
         this._settings.bind('isolate-workspaces',
                             this._builder.get_object('isolate_workspaces_switch'),
                             'active',
@@ -1651,7 +1668,7 @@ const Preferences = class {
         this._settings.bind('group-apps-use-launchers',
                             this._builder.get_object('group_apps_use_launchers_switch'),
                             'active',
-                            Gio.SettingsBindFlags.DEFAULT);    
+                            Gio.SettingsBindFlags.DEFAULT);
 
         this._builder.get_object('show_group_apps_options_button').connect('clicked', () => {
             let box = this._builder.get_object('box_group_apps_options');
@@ -1713,7 +1730,7 @@ const Preferences = class {
             dialog.show();
             dialog.set_default_size(600, 1);
 
-        });    
+        });
 
         this._builder.get_object('click_action_combo').set_active_id(this._settings.get_string('click-action'));
         this._builder.get_object('click_action_combo').connect('changed', (widget) => {
@@ -1907,7 +1924,7 @@ const Preferences = class {
             dialog.set_default_size(600, 1);
 
         });
-        
+
         // setup dialog for secondary menu options
         this._builder.get_object('secondarymenu_options_button').connect('clicked', () => {
             let box = this._builder.get_object('box_secondarymenu_options');
@@ -1952,11 +1969,14 @@ const Preferences = class {
             {objectName: 'tray_size_scale', valueName: 'tray-size', range: DEFAULT_FONT_SIZES },
             {objectName: 'leftbox_size_scale', valueName: 'leftbox-size', range: DEFAULT_FONT_SIZES },
             {objectName: 'appicon_margin_scale', valueName: 'appicon-margin', range: DEFAULT_MARGIN_SIZES },
+            {objectName: 'appicon_margin_todesktop_scale', valueName: 'appicon-margin-todesktop', range: DEFAULT_MARGIN_SIZES },
+            {objectName: 'appicon_margin_toscreenborder_scale', valueName: 'appicon-margin-toscreenborder', range: DEFAULT_MARGIN_SIZES },
             {objectName: 'appicon_padding_scale', valueName: 'appicon-padding', range: DEFAULT_MARGIN_SIZES },
             {objectName: 'tray_padding_scale', valueName: 'tray-padding', range: DEFAULT_PADDING_SIZES },
             {objectName: 'leftbox_padding_scale', valueName: 'leftbox-padding', range: DEFAULT_PADDING_SIZES },
             {objectName: 'statusicon_padding_scale', valueName: 'status-icon-padding', range: DEFAULT_PADDING_SIZES },
-            {objectName: 'panel_length_scale', valueName: '', range: LENGTH_MARKS }
+            {objectName: 'panel_length_scale', valueName: '', range: LENGTH_MARKS },
+            {objectName: 'highlight_appicon_borderradius', valueName: 'highlight-appicon-hover-border-radius', range: [ 16, 12, 8, 4, 2, 0 ] },
         ];
 
         for(const idx in sizeScales) {
@@ -2071,6 +2091,71 @@ const Preferences = class {
 
         });
 
+        this._settings.bind('highlight-appicon-hover',
+                            this._builder.get_object('highlight_appicon_hover_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        this._settings.bind('highlight-appicon-hover',
+                            this._builder.get_object('highlight_appicon_hover_button'),
+                            'sensitive',
+                            Gio.SettingsBindFlags.DEFAULT);
+
+        {
+            rgba.parse(this._settings.get_string('highlight-appicon-hover-background-color'));
+            this._builder.get_object('highlight_appicon_color').set_rgba(rgba);
+            this._builder.get_object('highlight_appicon_color').connect('color-set',  (button) => {
+                let rgba = button.get_rgba();
+                let css = rgba.to_string();
+                this._settings.set_string('highlight-appicon-hover-background-color', css);
+            });
+
+            rgba.parse(this._settings.get_string('highlight-appicon-pressed-background-color'));
+            this._builder.get_object('pressed_appicon_color').set_rgba(rgba);
+            this._builder.get_object('pressed_appicon_color').connect('color-set',  (button) => {
+                let rgba = button.get_rgba();
+                let css = rgba.to_string();
+                this._settings.set_string('highlight-appicon-pressed-background-color', css);
+            });
+
+            let scales = [
+                ['highlight_appicon_borderradius', 'highlight-appicon-hover-border-radius'],
+            ];
+
+            const updateScale = scale => {
+                let [id, key] = scale;
+                this._builder.get_object(id).set_value(this._settings.get_int(key));
+            };
+            scales.forEach(scale => {
+                updateScale(scale);
+                let [id, key] = scale;
+                this._builder.get_object(id).connect('value-changed', widget => {
+                    this._settings.set_int(key, widget.get_value());
+                });
+            });
+
+        }
+
+        this._builder.get_object('highlight_appicon_hover_button').connect('clicked', () => {
+            let box = this._builder.get_object('highlight_appicon_hover_options');
+
+            let dialog = this._createPreferencesDialog(_('App icon highlight options'), box, () =>
+            {
+                // restore default settings
+                this._settings.set_value('highlight-appicon-hover-background-color', this._settings.get_default_value('highlight-appicon-hover-background-color'));
+                rgba.parse(this._settings.get_string('highlight-appicon-hover-background-color'));
+                this._builder.get_object('highlight_appicon_color').set_rgba(rgba);
+                this._settings.set_value('highlight-appicon-pressed-background-color', this._settings.get_default_value('highlight-appicon-pressed-background-color'));
+                rgba.parse(this._settings.get_string('highlight-appicon-pressed-background-color'));
+                this._builder.get_object('pressed_appicon_color').set_rgba(rgba);
+                this._settings.set_value('highlight-appicon-hover-border-radius', this._settings.get_default_value('highlight-appicon-hover-border-radius'));
+                this._builder.get_object('highlight_appicon_borderradius').set_value(this._settings.get_int('highlight-appicon-hover-border-radius'));
+            });
+
+            dialog.show();
+
+        });
+
         this._settings.bind('stockgs-keep-dash',
                             this._builder.get_object('stockgs_dash_switch'),
                             'active',
@@ -2081,7 +2166,7 @@ const Preferences = class {
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
 
-        
+
 
         this._settings.connect('changed::stockgs-keep-top-panel', () => this._maybeDisableTopPosition());
 
@@ -2091,7 +2176,7 @@ const Preferences = class {
                             this._builder.get_object('stockgs_panelbtn_switch'),
                             'active',
                             Gio.SettingsBindFlags.DEFAULT);
-        
+
         this._settings.bind('stockgs-force-hotcorner',
                             this._builder.get_object('stockgs_hotcorner_switch'),
                             'active',
@@ -2193,7 +2278,7 @@ const Preferences = class {
         dialog.connect('response', (dialog, id) => {
             if (id == Gtk.ResponseType.ACCEPT)
                 acceptHandler.call(this, dialog.get_file().get_path());
-            
+
             dialog.destroy();
         });
     }
@@ -2203,7 +2288,7 @@ const Preferences = class {
 const BuilderScope = GObject.registerClass({
     Implements: [Gtk.BuilderScope],
 }, class BuilderScope extends GObject.Object {
-  
+
     _init(preferences) {
         this._preferences = preferences;
         super._init();
@@ -2212,13 +2297,13 @@ const BuilderScope = GObject.registerClass({
     vfunc_create_closure(builder, handlerName, flags, connectObject) {
         if (flags & Gtk.BuilderClosureFlags.SWAPPED)
             throw new Error('Unsupported template signal flag "swapped"');
-        
+
         if (typeof this[handlerName] === 'undefined')
             throw new Error(`${handlerName} is undefined`);
-        
+
         return this[handlerName].bind(connectObject || this);
     }
-    
+
     on_btn_click(connectObject) {
         connectObject.set_label("Clicked");
     }
@@ -2230,7 +2315,7 @@ const BuilderScope = GObject.registerClass({
     position_top_button_clicked_cb(button) {
         if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.TOP);
     }
-    
+
     position_left_button_clicked_cb(button) {
        if (!this._preferences._ignorePositionRadios && button.get_active()) this._preferences._setPanelPosition(Pos.LEFT);
     }
@@ -2319,6 +2404,30 @@ const BuilderScope = GObject.registerClass({
         this._preferences._appicon_margin_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
             this._preferences._settings.set_int('appicon-margin', scale.get_value());
             this._preferences._appicon_margin_timeout = 0;
+            return GLib.SOURCE_REMOVE;
+        });
+    }
+
+    appicon_margin_todesktop_scale_value_changed_cb(scale) {
+        // Avoid settings the size consinuosly
+        if (this._preferences._appicon_margin_todesktop_timeout > 0)
+            GLib.Source.remove(this._preferences._appicon_margin_todesktop_timeout);
+
+        this._preferences._appicon_margin_todesktop_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
+            this._preferences._settings.set_int('appicon-margin-todesktop', scale.get_value());
+            this._preferences._appicon_margin_todesktop_timeout = 0;
+            return GLib.SOURCE_REMOVE;
+        });
+    }
+
+    appicon_margin_toscreenborder_scale_value_changed_cb(scale) {
+        // Avoid settings the size consinuosly
+        if (this._preferences._appicon_margin_toscreenborder_timeout > 0)
+            GLib.Source.remove(this._preferences._appicon_margin_toscreenborder_timeout);
+
+        this._preferences._appicon_margin_toscreenborder_timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
+            this._preferences._settings.set_int('appicon-margin-toscreenborder', scale.get_value());
+            this._preferences._appicon_margin_toscreenborder_timeout = 0;
             return GLib.SOURCE_REMOVE;
         });
     }

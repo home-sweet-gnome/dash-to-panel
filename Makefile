@@ -16,7 +16,7 @@ INSTALLNAME = dash-to-panel@jderose9.github.com
 
 # The command line passed variable VERSION is used to set the version string
 # in the metadata and in the generated zip-file. If no VERSION is passed, the
-# version is pulled from the latest git tag and the current commit SHA1 is 
+# version is pulled from the latest git tag and the current commit SHA1 is
 # added to the metadata
 ifdef VERSION
     ifdef TARGET
@@ -51,7 +51,7 @@ mergepo: potfile
 ./po/dash-to-panel.pot: $(TOLOCALIZE)
 	mkdir -p po
 	xgettext -k_ -kN_ -o po/dash-to-panel.pot --package-name "Dash To Panel" $(TOLOCALIZE) --from-code=UTF-8
-	
+
 	for l in $(UI_MODULES) ; do \
 		intltool-extract --type=gettext/glade $$l; \
 		xgettext -k_ -kN_ -o po/dash-to-panel.pot $$l.h --join-existing --from-code=UTF-8; \
