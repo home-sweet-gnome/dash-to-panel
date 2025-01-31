@@ -80,12 +80,12 @@ export const BasicHandler = class {
 
   /* Virtual methods to be implemented by subclass */
   // create single element to be stored in the storage structure
-  _create(item) {
+  _create() {
     throw new Error('no implementation of _create in ' + this)
   }
 
   // correctly delete single element
-  _remove(item) {
+  _remove() {
     throw new Error('no implementation of _remove in ' + this)
   }
 }
@@ -105,7 +105,9 @@ export const GlobalSignalsHandler = class extends BasicHandler {
         let id = object.connect(event, callback)
 
         handlers.push([object, id])
-      } catch (e) {}
+      } catch (e) {
+        console.log(e)
+      }
     }
 
     return handlers
@@ -257,7 +259,7 @@ export const find = function (array, predicate) {
 
 export const mergeObjects = function (main, bck) {
   for (const prop in bck) {
-    if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
+    if (!Object.hasOwn(main, prop) && Object.hasOwn(bck, prop)) {
       main[prop] = bck[prop]
     }
   }
@@ -367,7 +369,7 @@ export const getMouseScrollDirection = function (event) {
 export const checkIfWindowHasTransient = function (window) {
   let hasTransient
 
-  window.foreach_transient((t) => !(hasTransient = true))
+  window.foreach_transient(() => (hasTransient = true))
 
   return hasTransient
 }
@@ -518,10 +520,8 @@ export const ensureActorVisibleInScrollView = function (
 ) {
   const vadjustment = scrollView.vadjustment
   const hadjustment = scrollView.hadjustment
-  let [vvalue, vlower, vupper, vstepIncrement, vpageIncrement, vpageSize] =
-    vadjustment.get_values()
-  let [hvalue, hlower, hupper, hstepIncrement, hpageIncrement, hpageSize] =
-    hadjustment.get_values()
+  let [vvalue, , vupper, , , vpageSize] = vadjustment.get_values()
+  let [hvalue, , hupper, , , hpageSize] = hadjustment.get_values()
 
   let [hvalue0, vvalue0] = [hvalue, vvalue]
 
@@ -749,8 +749,7 @@ export const DominantColorExtractor = class {
     let pixBuf = this._getIconPixBuf()
     if (pixBuf == null) return null
 
-    let pixels = pixBuf.get_pixels(),
-      offset = 0
+    let pixels = pixBuf.get_pixels()
 
     let total = 0,
       rTotal = 0,

@@ -22,7 +22,7 @@ export function getSettingsJson(settings, setting) {
   try {
     return JSON.parse(settings.get_string(setting))
   } catch (e) {
-    log('Error parsing positions: ' + e.message)
+    console.log('Error parsing positions: ' + e.message)
   }
 }
 /** Write value object as JSON to setting in settings. */
@@ -31,7 +31,7 @@ export function setSettingsJson(settings, setting, value) {
     const json = JSON.stringify(value)
     settings.set_string(setting, json)
   } catch (e) {
-    log('Error serializing setting: ' + e.message)
+    console.log('Error serializing setting: ' + e.message)
   }
 }
 
@@ -46,7 +46,7 @@ export function getPanelSize(settings, monitorIndex) {
 
 export function setPanelSize(settings, monitorIndex, value) {
   if (!(Number.isInteger(value) && value <= 128 && value >= 16)) {
-    log('Not setting invalid panel size: ' + value)
+    console.log('Not setting invalid panel size: ' + value)
     return
   }
   let sizes = getSettingsJson(settings, 'panel-sizes')
@@ -66,7 +66,7 @@ export function getPanelLength(settings, monitorIndex) {
 
 export function setPanelLength(settings, monitorIndex, value) {
   if (!(Number.isInteger(value) && value <= 100 && value >= 0)) {
-    log('Not setting invalid panel length: ' + value)
+    console.log('Not setting invalid panel length: ' + value)
     return
   }
   let lengths = getSettingsJson(settings, 'panel-lengths')
@@ -91,7 +91,7 @@ export function setPanelPosition(settings, monitorIndex, value) {
       value === Pos.RIGHT
     )
   ) {
-    log('Not setting invalid panel position: ' + value)
+    console.log('Not setting invalid panel position: ' + value)
     return
   }
   const positions = getSettingsJson(settings, 'panel-positions')
@@ -108,7 +108,7 @@ export function getPanelAnchor(settings, monitorIndex) {
 
 export function setPanelAnchor(settings, monitorIndex, value) {
   if (!(value === Pos.START || value === Pos.MIDDLE || value === Pos.END)) {
-    log('Not setting invalid panel anchor: ' + value)
+    console.log('Not setting invalid panel anchor: ' + value)
     return
   }
   const anchors = getSettingsJson(settings, 'panel-anchors')

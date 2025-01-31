@@ -146,7 +146,7 @@ function checkHotkeyPrefix(settings) {
 
 function mergeObjects(main, bck) {
   for (const prop in bck) {
-    if (!main.hasOwnProperty(prop) && bck.hasOwnProperty(prop)) {
+    if (!Object.hasOwn(main, prop) && Object.hasOwn(bck, prop)) {
       main[prop] = bck[prop]
     }
   }
@@ -3437,7 +3437,7 @@ const Preferences = class {
 
     this._builder
       .get_object('importexport_export_button')
-      .connect('clicked', (widget) => {
+      .connect('clicked', () => {
         this._showFileChooser(
           _('Export settings'),
           { action: Gtk.FileChooserAction.SAVE },
@@ -3458,7 +3458,7 @@ const Preferences = class {
 
     this._builder
       .get_object('importexport_import_button')
-      .connect('clicked', (widget) => {
+      .connect('clicked', () => {
         this._showFileChooser(
           _('Import settings'),
           { action: Gtk.FileChooserAction.OPEN },
@@ -3466,7 +3466,7 @@ const Preferences = class {
           (filename) => {
             if (filename && GLib.file_test(filename, GLib.FileTest.EXISTS)) {
               let settingsFile = Gio.File.new_for_path(filename)
-              let [, pid, stdin, stdout, stderr] = GLib.spawn_async_with_pipes(
+              let [, , stdin, stdout, stderr] = GLib.spawn_async_with_pipes(
                 null,
                 ['dconf', 'load', SCHEMA_PATH],
                 null,
@@ -3854,6 +3854,6 @@ export default class DashToPanelPreferences extends ExtensionPreferences {
     // use default width or window
     window.set_default_size(0, 740)
 
-    let preferences = new Preferences(window, window._settings, this.path)
+    new Preferences(window, window._settings, this.path)
   }
 }

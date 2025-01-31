@@ -77,7 +77,7 @@ export const ProgressManager = class extends EventEmitter {
   }
 
   lookupByDBusName(dbusName) {
-    return this._entriesByDBusName.hasOwnProperty(dbusName)
+    return Object.hasOwn(this._entriesByDBusName, dbusName)
       ? this._entriesByDBusName[dbusName]
       : null
   }
@@ -134,7 +134,6 @@ export const ProgressManager = class extends EventEmitter {
     interface_name,
     signal_name,
     parameters,
-    user_data,
   ) {
     if (!parameters || !signal_name) return
 
@@ -154,14 +153,13 @@ export const ProgressManager = class extends EventEmitter {
     interface_name,
     signal_name,
     parameters,
-    user_data,
   ) {
     if (!parameters || !this.size()) return
 
-    let [name, before, after] = parameters.deep_unpack()
+    let [, before, after] = parameters.deep_unpack()
 
     if (!after) {
-      if (this._entriesByDBusName.hasOwnProperty(before)) {
+      if (Object.hasOwn(this._entriesByDBusName, before)) {
         this.removeEntry(this._entriesByDBusName[before])
       }
     }
@@ -281,7 +279,7 @@ export class AppProgress extends EventEmitter {
       this.setUrgent(other.urgent())
     } else {
       for (let property in other) {
-        if (other.hasOwnProperty(property)) {
+        if (Object.hasOwn(other, property)) {
           if (property == 'count') {
             this.setCount(other[property].get_int64())
           } else if (property == 'count-visible') {

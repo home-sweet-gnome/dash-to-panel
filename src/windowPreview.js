@@ -414,11 +414,12 @@ export const PreviewMenu = GObject.registerClass(
           case Clutter.ScrollDirection.UP:
             delta = -increment
             break
-          case Clutter.ScrollDirection.SMOOTH:
+          case Clutter.ScrollDirection.SMOOTH: {
             let [dx, dy] = event.get_scroll_delta()
             delta = dy * increment
             delta += dx * increment
             break
+          }
         }
 
         adjustment.set_value(adjustment.get_value() + delta)
@@ -788,7 +789,7 @@ export const PreviewMenu = GObject.registerClass(
         : null
 
       if (windowActor) {
-        if (this._peekedWindow.hasOwnProperty(PEEK_INDEX_PROP)) {
+        if (Object.hasOwn(this._peekedWindow, PEEK_INDEX_PROP)) {
           windowActor
             .get_parent()
             .set_child_at_index(

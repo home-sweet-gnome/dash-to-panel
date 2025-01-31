@@ -153,7 +153,7 @@ export const TaskbarAppIcon = GObject.registerClass(
         return Clutter.EVENT_STOP
       }
       // Hack for missing TOUCH_END event.
-      this._onLeaveEvent = function (actor, event) {
+      this._onLeaveEvent = function () {
         this.fake_release()
         if (this._menuTimeoutId != 0) this.activate(1) // Activate/launch the application if TOUCH_END didn't fire.
         this._removeMenuTimeout()
@@ -1038,11 +1038,11 @@ export const TaskbarAppIcon = GObject.registerClass(
       return false
     }
 
-    _onFocusAppChanged(windowTracker) {
+    _onFocusAppChanged() {
       this._displayProperIndicator()
     }
 
-    _onOverviewWindowDragEnd(windowTracker) {
+    _onOverviewWindowDragEnd() {
       this._timeoutsHandler.add([
         T4,
         0,
@@ -1054,7 +1054,7 @@ export const TaskbarAppIcon = GObject.registerClass(
       ])
     }
 
-    _onSwitchWorkspace(windowTracker) {
+    _onSwitchWorkspace() {
       if (this._isGroupApps) {
         this._timeoutsHandler.add([T5, 0, () => this._displayProperIndicator()])
       } else {
@@ -1648,7 +1648,7 @@ export const TaskbarAppIcon = GObject.registerClass(
               )
             }
             break
-          case DOT_STYLE.DOTS:
+          case DOT_STYLE.DOTS: {
             let radius = size / 2
 
             translate = () => {
@@ -1674,6 +1674,7 @@ export const TaskbarAppIcon = GObject.registerClass(
               )
             }
             break
+          }
           case DOT_STYLE.SQUARES:
             translate = () => {
               indicatorSize = Math.floor(
@@ -1754,7 +1755,7 @@ export const TaskbarAppIcon = GObject.registerClass(
       // pixels, so make sure to consider the scale.
       // Set the font size to something smaller than the whole icon so it is
       // still visible. The border radius is large to make the shape circular
-      let [minWidth, natWidth] = this._dtpIconContainer.get_preferred_width(-1)
+      let [, natWidth] = this._dtpIconContainer.get_preferred_width(-1)
       let font_size = Math.round(
         Math.max(12, 0.3 * natWidth) / Utils.getScaleFactor(),
       )
@@ -1792,7 +1793,7 @@ export const TaskbarAppIcon = GObject.registerClass(
       else this._numberOverlayBin.hide()
     }
 
-    handleDragOver(source, actor, x, y, time) {
+    handleDragOver(source) {
       if (source == Main.xdndHandler) {
         this._previewMenu.close(true)
       }
@@ -2150,7 +2151,7 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
       AppDisplay.AppIcon.prototype._onKeyboardPopupMenu
 
     // No action on clicked (showing of the appsview is controlled elsewhere)
-    this._onClicked = (actor, button) => this._removeMenuTimeout()
+    this._onClicked = () => this._removeMenuTimeout()
 
     this.actor.connect('leave-event', this._onLeaveEvent.bind(this))
     this.actor.connect('button-press-event', this._onButtonPress.bind(this))
@@ -2217,7 +2218,7 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
     return Clutter.EVENT_PROPAGATE
   }
 
-  _onLeaveEvent(_actor, _event) {
+  _onLeaveEvent() {
     this.actor.fake_release()
     this._removeMenuTimeout()
   }
@@ -2424,7 +2425,6 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
       let item = this._appendMenuItem(_(info.title))
 
       item.connect('activate', function () {
-        print('activated: ' + info.title)
         Util.spawn(info.cmd)
       })
       return item

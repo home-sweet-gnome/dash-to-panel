@@ -21,10 +21,7 @@ import Gio from 'gi://Gio'
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
-import {
-  Extension,
-  gettext as _,
-} from 'resource:///org/gnome/shell/extensions/extension.js'
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js'
 
 import * as PanelManager from './panelManager.js'
 import * as AppIcons from './appIcons.js'

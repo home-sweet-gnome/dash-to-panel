@@ -258,7 +258,7 @@ export const PanelManager = class {
     if (!SETTINGS.get_boolean('stockgs-keep-top-panel'))
       Object.defineProperty(Main.panel, 'style', {
         configurable: true,
-        set(v) {},
+        set() {},
       })
   }
 

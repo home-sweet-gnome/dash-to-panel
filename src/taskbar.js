@@ -34,6 +34,7 @@ import * as Dash from 'resource:///org/gnome/shell/ui/dash.js'
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
+import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js'
 
 import * as AppIcons from './appIcons.js'
 import * as PanelManager from './panelManager.js'
@@ -627,11 +628,12 @@ export const Taskbar = class extends EventEmitter {
       case Clutter.ScrollDirection.RIGHT:
         delta = +increment
         break
-      case Clutter.ScrollDirection.SMOOTH:
+      case Clutter.ScrollDirection.SMOOTH: {
         let [dx, dy] = event.get_scroll_delta()
         delta = dy * increment
         delta += dx * increment
         break
+      }
     }
 
     adjustment.set_value(adjustment.get_value() + delta)
@@ -1315,7 +1317,7 @@ export const Taskbar = class extends EventEmitter {
     }
   }
 
-  handleDragOver(source, actor, x, y, time) {
+  handleDragOver(source, actor, x, y) {
     if (source == Main.xdndHandler) return DND.DragMotionResult.CONTINUE
 
     // Don't allow favoriting of transient apps
@@ -1407,7 +1409,7 @@ export const Taskbar = class extends EventEmitter {
   }
 
   // Draggable target interface
-  acceptDrop(source, actor, x, y, time) {
+  acceptDrop(source) {
     // Don't allow favoriting of transient apps
     if (
       !this._dragInfo ||
@@ -1618,8 +1620,7 @@ export const TaskbarItemContainer = GObject.registerClass(
 
       let availWidth = box.x2 - box.x1
       let availHeight = box.y2 - box.y1
-      let [minChildWidth, minChildHeight, natChildWidth, natChildHeight] =
-        this.child.get_preferred_size()
+      let [, , natChildWidth, natChildHeight] = this.child.get_preferred_size()
       let [childScaleX, childScaleY] = this.child.get_scale()
 
       let childWidth = Math.min(natChildWidth * childScaleX, availWidth)

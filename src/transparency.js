@@ -261,7 +261,9 @@ export const DynamicTransparency = class {
           alpha: pixels[3],
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
 
     return bg
   }
