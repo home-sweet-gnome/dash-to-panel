@@ -22,6 +22,7 @@
 
 import GdkPixbuf from 'gi://GdkPixbuf'
 import Gio from 'gi://Gio'
+import GioUnix from 'gi://GioUnix'
 import GLib from 'gi://GLib'
 import GObject from 'gi://GObject'
 import Gtk from 'gi://Gtk'
@@ -3474,7 +3475,7 @@ const Preferences = class {
                 null,
               )
 
-              stdin = new Gio.UnixOutputStream({ fd: stdin, close_fd: true })
+              stdin = new GioUnix.OutputStream({ fd: stdin, close_fd: true })
               GLib.close(stdout)
               GLib.close(stderr)
 
