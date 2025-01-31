@@ -68,6 +68,7 @@ let donateDummyApp = {
   get_id: () => 'dtp_donate',
   get_windows: () => [],
   can_open_new_window: () => false,
+  is_window_backed: () => false,
   launch_action: function (action) {
     action == 'opts' ? this.activate() : null
   },

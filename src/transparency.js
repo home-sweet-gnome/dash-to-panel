@@ -248,7 +248,7 @@ export const DynamicTransparency = class {
 
     try {
       let imageFile =
-        theme.get_background_image() || theme.get_border_image().get_file()
+        theme.get_background_image() || theme.get_border_image()?.get_file()
 
       if (imageFile) {
         let imageBuf = GdkPixbuf.Pixbuf.new_from_file(imageFile.get_path())
