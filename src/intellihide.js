@@ -437,50 +437,39 @@ export const Intellihide = class {
   }
 
   _animatePanel(destination, immediate) {
-    let animating = Utils.isAnimating(this._panelBox, this._translationProp)
+    if (destination === this._animationDestination) return
 
-    if (
-      !(
-        (animating && destination === this._animationDestination) ||
-        (!animating && destination === this._panelBox[this._translationProp])
-      )
-    ) {
-      //the panel isn't already at, or animating to the asked destination
-      if (animating) {
-        Utils.stopAnimations(this._panelBox)
+    Utils.stopAnimations(this._panelBox)
+    this._animationDestination = destination
+
+    if (immediate) {
+      this._panelBox[this._translationProp] = destination
+      this._panelBox.visible = !destination
+    } else if (destination !== this._panelBox[this._translationProp]) {
+      let tweenOpts = {
+        //when entering/leaving the overview, use its animation time instead of the one from the settings
+        time: Main.overview.visible
+          ? SIDE_CONTROLS_ANIMATION_TIME
+          : SETTINGS.get_int('intellihide-animation-time') * 0.001,
+        //only delay the animation when hiding the panel after the user hovered out
+        delay:
+          destination != 0 && this._hoveredOut
+            ? SETTINGS.get_int('intellihide-close-delay') * 0.001
+            : 0,
+        transition: 'easeOutQuad',
+        onComplete: () => {
+          this._panelBox.visible = !destination
+          Main.layoutManager._queueUpdateRegions()
+          this._timeoutsHandler.add([
+            T3,
+            POST_ANIMATE_MS,
+            () => this._queueUpdatePanelPosition(),
+          ])
+        },
       }
 
-      this._animationDestination = destination
-
-      if (immediate) {
-        this._panelBox[this._translationProp] = destination
-        this._panelBox.visible = !destination
-      } else {
-        let tweenOpts = {
-          //when entering/leaving the overview, use its animation time instead of the one from the settings
-          time: Main.overview.visible
-            ? SIDE_CONTROLS_ANIMATION_TIME
-            : SETTINGS.get_int('intellihide-animation-time') * 0.001,
-          //only delay the animation when hiding the panel after the user hovered out
-          delay:
-            destination != 0 && this._hoveredOut
-              ? SETTINGS.get_int('intellihide-close-delay') * 0.001
-              : 0,
-          transition: 'easeOutQuad',
-          onComplete: () => {
-            this._panelBox.visible = !destination
-            Main.layoutManager._queueUpdateRegions()
-            this._timeoutsHandler.add([
-              T3,
-              POST_ANIMATE_MS,
-              () => this._queueUpdatePanelPosition(),
-            ])
-          },
-        }
-
-        tweenOpts[this._translationProp] = destination
-        Utils.animate(this._panelBox, tweenOpts)
-      }
+      tweenOpts[this._translationProp] = destination
+      Utils.animate(this._panelBox, tweenOpts)
     }
 
     this._hoveredOut = false

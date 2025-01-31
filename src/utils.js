@@ -461,10 +461,6 @@ export const animate = function (actor, options) {
   actor.ease.apply(actor, params)
 }
 
-export const isAnimating = function (actor, prop) {
-  return !!actor.get_transition(prop)
-}
-
 export const stopAnimations = function (actor) {
   actor.remove_all_transitions()
 }
