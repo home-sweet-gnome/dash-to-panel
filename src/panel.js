@@ -1146,7 +1146,7 @@ export const Panel = GObject.registerClass(
         }
 
         if (actor instanceof St.BoxLayout) {
-          actor.vertical = isVertical
+          Utils.setBoxLayoutVertical(actor, isVertical)
         } else if (
           actor != this.statusArea.appMenu &&
           ((actor._delegate || actor) instanceof PanelMenu.ButtonBox ||

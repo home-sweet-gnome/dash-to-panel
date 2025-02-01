@@ -182,13 +182,21 @@ export const TimeoutsHandler = class extends BasicHandler {
 }
 
 export function createBoxLayout(options) {
-  if (options && Config.PACKAGE_VERSION >= '48') {
-    // https://mutter.gnome.org/clutter/enum.Orientation.html
-    options.orientation = options.vertical ? 1 : 0
+  if (options && 'vertical' in options) {
+    let vertical = options.vertical
+
     delete options.vertical
+    setBoxLayoutVertical(options, vertical)
   }
 
   return new St.BoxLayout(options)
+}
+
+export function setBoxLayoutVertical(box, vertical) {
+  if (Config.PACKAGE_VERSION >= '48')
+    // https://mutter.gnome.org/clutter/enum.Orientation.html
+    box.orientation = vertical ? 1 : 0
+  else box.vertical = vertical
 }
 
 // This is wrapper to maintain compatibility with GNOME-Shell 3.30+ as well as

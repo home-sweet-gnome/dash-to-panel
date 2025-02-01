@@ -535,6 +535,7 @@ export const Taskbar = class extends EventEmitter {
   _updateIconAnimations(pointerX, pointerY) {
     this._iconAnimationTimestamp = Date.now()
     let type = iconAnimationSettings.type
+    let vertical = this.dtpPanel.checkIfVertical()
 
     if (!pointerX || !pointerY) [pointerX, pointerY] = global.get_pointer()
 
@@ -542,10 +543,8 @@ export const Taskbar = class extends EventEmitter {
       let [x, y] = item.get_transformed_position()
       let [width, height] = item.get_transformed_size()
       let [centerX, centerY] = [x + width / 2, y + height / 2]
-      let size = this._box.vertical ? height : width
-      let difference = this._box.vertical
-        ? pointerY - centerY
-        : pointerX - centerX
+      let size = vertical ? height : width
+      let difference = vertical ? pointerY - centerY : pointerX - centerX
       let distance = Math.abs(difference)
       let maxDistance = (iconAnimationSettings.extent / 2) * size
 
