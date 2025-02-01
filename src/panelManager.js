@@ -153,6 +153,14 @@ export const PanelManager = class {
     )
     Main.layoutManager._updateHotCorners()
 
+    Main.layoutManager.findIndexForActor = (actor) =>
+      '_dtpIndex' in actor
+        ? actor._dtpIndex
+        : Layout.LayoutManager.prototype.findIndexForActor.call(
+            Main.layoutManager,
+            actor,
+          )
+
     this._forceHotCornerId = SETTINGS.connect(
       'changed::stockgs-force-hotcorner',
       () => Main.layoutManager._updateHotCorners(),
@@ -328,6 +336,8 @@ export const PanelManager = class {
 
     Main.layoutManager._updateHotCorners = this._oldUpdateHotCorners
     Main.layoutManager._updateHotCorners()
+
+    delete Main.layoutManager.findIndexForActor
 
     SETTINGS.disconnect(this._forceHotCornerId)
 
@@ -540,10 +550,7 @@ export const PanelManager = class {
     panelBox.add_child(panel)
     panel.enable()
 
-    panelBox.visible = true
-    if (monitor.inFullscreen) {
-      panelBox.hide()
-    }
+    panelBox._dtpIndex = monitor.index
     panelBox.set_position(0, 0)
 
     return panel
