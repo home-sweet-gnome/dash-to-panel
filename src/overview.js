@@ -33,7 +33,8 @@ import { WindowPreview } from 'resource:///org/gnome/shell/ui/windowPreview.js'
 import { InjectionManager } from 'resource:///org/gnome/shell/extensions/extension.js'
 import { SETTINGS } from './extension.js'
 
-const GS_HOTKEYS_KEY = 'switch-to-application-'
+const GS_SWITCH_HOTKEYS_KEY = 'switch-to-application-'
+const GS_OPEN_HOTKEYS_KEY = 'open-new-window-application-'
 
 // When the dash is shown, workspace window preview bottom labels go over it (default
 // gnome-shell behavior), but when the extension hides the dash, leave some space
@@ -322,23 +323,27 @@ export const Overview = class {
   _enableHotKeys() {
     if (this._hotKeysEnabled) return
 
-    //3.32 introduced app hotkeys, disable them to prevent conflicts
-    if (Main.wm._switchToApplication) {
-      for (let i = 1; i < 10; ++i) {
-        Utils.removeKeybinding(GS_HOTKEYS_KEY + i)
-      }
-    }
-
     // Setup keyboard bindings for taskbar elements
     let shortcutNumKeys = SETTINGS.get_string('shortcut-num-keys')
     let bothNumKeys = shortcutNumKeys == 'BOTH'
+    let numRowKeys = shortcutNumKeys == 'NUM_ROW'
     let keys = []
     let prefixModifiers = Clutter.ModifierType.SUPER_MASK
+
+    //3.32 introduced app hotkeys, disable them to prevent conflicts
+    if (Main.wm._switchToApplication) {
+      for (let i = 1; i < 10; ++i) {
+        Utils.removeKeybinding(GS_SWITCH_HOTKEYS_KEY + i)
+
+        if (bothNumKeys || numRowKeys)
+          Utils.removeKeybinding(GS_OPEN_HOTKEYS_KEY + i)
+      }
+    }
 
     if (SETTINGS.get_string('hotkey-prefix-text') == 'SuperAlt')
       prefixModifiers |= Clutter.ModifierType.MOD1_MASK
 
-    if (bothNumKeys || shortcutNumKeys == 'NUM_ROW') {
+    if (bothNumKeys || numRowKeys) {
       keys.push('app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-') // Regular numbers
     }
 
@@ -374,14 +379,16 @@ export const Overview = class {
   _disableHotKeys() {
     if (!this._hotKeysEnabled) return
 
+    let shortcutNumKeys = SETTINGS.get_string('shortcut-num-keys')
     let keys = [
       'app-hotkey-',
       'app-shift-hotkey-',
       'app-ctrl-hotkey-', // Regular numbers
       'app-hotkey-kp-',
       'app-shift-hotkey-kp-',
-      'app-ctrl-hotkey-kp-',
-    ] // Key-pad numbers
+      'app-ctrl-hotkey-kp-', // Key-pad numbers
+    ]
+
     keys.forEach(function (key) {
       for (let i = 0; i < this._numHotkeys; i++) {
         Utils.removeKeybinding(key + (i + 1))
@@ -395,10 +402,17 @@ export const Overview = class {
 
       for (let i = 1; i < 10; ++i) {
         Utils.addKeybinding(
-          GS_HOTKEYS_KEY + i,
+          GS_SWITCH_HOTKEYS_KEY + i,
           gsSettings,
           Main.wm._switchToApplication.bind(Main.wm),
         )
+
+        if (shortcutNumKeys == 'BOTH' || shortcutNumKeys == 'NUM_ROW')
+          Utils.addKeybinding(
+            GS_OPEN_HOTKEYS_KEY + i,
+            gsSettings,
+            Main.wm._openNewApplicationWindow.bind(Main.wm),
+          )
       }
     }
 
