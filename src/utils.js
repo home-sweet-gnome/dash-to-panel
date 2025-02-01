@@ -30,6 +30,7 @@ import Graphene from 'gi://Graphene'
 import Meta from 'gi://Meta'
 import Shell from 'gi://Shell'
 import St from 'gi://St'
+import * as Config from 'resource:///org/gnome/shell/misc/config.js'
 import * as Util from 'resource:///org/gnome/shell/misc/util.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js'
@@ -178,6 +179,16 @@ export const TimeoutsHandler = class extends BasicHandler {
   getId(name) {
     return this[name] ? this[name] : 0
   }
+}
+
+export function createBoxLayout(options) {
+  if (options && Config.PACKAGE_VERSION >= '48') {
+    // https://mutter.gnome.org/clutter/enum.Orientation.html
+    options.orientation = options.vertical ? 1 : 0
+    delete options.vertical
+  }
+
+  return new St.BoxLayout(options)
 }
 
 // This is wrapper to maintain compatibility with GNOME-Shell 3.30+ as well as

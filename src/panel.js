@@ -121,13 +121,13 @@ export const Panel = GObject.registerClass(
           Main.panel._onMenuSet.call(this, indicator)
         }
 
-        this._leftBox = this.panel._leftBox = new St.BoxLayout({
+        this._leftBox = this.panel._leftBox = Utils.createBoxLayout({
           name: 'panelLeft',
         })
-        this._centerBox = this.panel._centerBox = new St.BoxLayout({
+        this._centerBox = this.panel._centerBox = Utils.createBoxLayout({
           name: 'panelCenter',
         })
-        this._rightBox = this.panel._rightBox = new St.BoxLayout({
+        this._rightBox = this.panel._rightBox = Utils.createBoxLayout({
           name: 'panelRight',
         })
 

@@ -530,7 +530,7 @@ export const PanelManager = class {
     let clipContainer = new Clutter.Actor()
 
     if (isStandalone) {
-      panelBox = new St.BoxLayout({ name: 'panelBox' })
+      panelBox = new Utils.createBoxLayout({ name: 'panelBox' })
     } else {
       panelBox = Main.layoutManager.panelBox
       Main.layoutManager._untrackActor(panelBox)

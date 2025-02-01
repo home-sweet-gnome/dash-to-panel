@@ -180,7 +180,7 @@ export const TaskbarAppIcon = GObject.registerClass(
       this._dtpIconContainer.add_child(this._iconContainer)
 
       if (appInfo.window) {
-        let box = new St.BoxLayout()
+        let box = Utils.createBoxLayout()
 
         this._windowTitle = new St.Label({
           y_align: Clutter.ActorAlign.CENTER,
