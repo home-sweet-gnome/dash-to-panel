@@ -29,16 +29,14 @@ import * as AppIcons from './appIcons.js'
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com'
 
 let panelManager
-let extensionChangedHandler
 let startupCompleteHandler
-let extensionSystem = Main.extensionManager
+let ubuntuDockDelayId = 0
 
 export let DTP_EXTENSION = null
 export let SETTINGS = null
 export let DESKTOPSETTINGS = null
 export let TERMINALSETTINGS = null
 export let PERSISTENTSTORAGE = null
-export let EXTENSION_UUID = null
 export let EXTENSION_PATH = null
 
 export default class DashToPanelExtension extends Extension {
@@ -53,24 +51,61 @@ export default class DashToPanelExtension extends Extension {
 
   enable() {
     DTP_EXTENSION = this
-
-    // The Ubuntu Dock extension might get enabled after this extension
-    extensionChangedHandler = extensionSystem.connect(
-      'extension-state-changed',
-      (data, extension) => {
-        if (extension.uuid === UBUNTU_DOCK_UUID && extension.state === 1) {
-          _enable(this)
-        }
-      },
-    )
+    SETTINGS = this.getSettings('org.gnome.shell.extensions.dash-to-panel')
+    DESKTOPSETTINGS = new Gio.Settings({
+      schema_id: 'org.gnome.desktop.interface',
+    })
+    TERMINALSETTINGS = new Gio.Settings({
+      schema_id: 'org.gnome.desktop.default-applications.terminal',
+    })
+    EXTENSION_PATH = this.path
 
     //create a global object that can emit signals and conveniently expose functionalities to other extensions
     global.dashToPanel = new EventEmitter()
 
-    _enable(this)
+    let completeEnable = () => {
+      panelManager = new PanelManager.PanelManager()
+      panelManager.enable()
+      ubuntuDockDelayId = 0
+    }
+    let donateIconUnixtime = SETTINGS.get_string('hide-donate-icon-unixtime')
+
+    // show the donate icon every 120 days (10368000000 milliseconds)
+    if (donateIconUnixtime && donateIconUnixtime < Date.now() - 10368000000)
+      SETTINGS.set_string('hide-donate-icon-unixtime', '')
+
+    Main.layoutManager.startInOverview = !SETTINGS.get_boolean(
+      'hide-overview-on-startup',
+    )
+
+    if (
+      SETTINGS.get_boolean('hide-overview-on-startup') &&
+      Main.layoutManager._startingUp
+    ) {
+      Main.sessionMode.hasOverview = false
+      startupCompleteHandler = Main.layoutManager.connect(
+        'startup-complete',
+        () => (Main.sessionMode.hasOverview = this._realHasOverview),
+      )
+    }
+
+    // disable ubuntu dock if present
+    if (Main.extensionManager._extensionOrder.indexOf(UBUNTU_DOCK_UUID) >= 0) {
+      let disabled = global.settings.get_strv('disabled-extensions')
+
+      if (disabled.indexOf(UBUNTU_DOCK_UUID) < 0) {
+        disabled.push(UBUNTU_DOCK_UUID)
+        global.settings.set_strv('disabled-extensions', disabled)
+
+        // wait a bit so ubuntu dock can disable itself and restore the showappsbutton
+        ubuntuDockDelayId = setTimeout(completeEnable, 200)
+      }
+    } else completeEnable()
   }
 
-  disable(reset = false) {
+  disable() {
+    if (ubuntuDockDelayId) clearTimeout(ubuntuDockDelayId)
+
     panelManager.disable()
 
     DTP_EXTENSION = null
@@ -79,12 +114,9 @@ export default class DashToPanelExtension extends Extension {
     TERMINALSETTINGS = null
     panelManager = null
 
-    if (!reset) {
-      extensionSystem.disconnect(extensionChangedHandler)
-      delete global.dashToPanel
+    delete global.dashToPanel
 
-      AppIcons.resetRecentlyClickedApp()
-    }
+    AppIcons.resetRecentlyClickedApp()
 
     if (startupCompleteHandler) {
       Main.layoutManager.disconnect(startupCompleteHandler)
@@ -93,50 +125,4 @@ export default class DashToPanelExtension extends Extension {
 
     Main.sessionMode.hasOverview = this._realHasOverview
   }
-}
-
-function _enable(extension) {
-  let enabled = global.settings.get_strv('enabled-extensions')
-
-  if (enabled?.indexOf(UBUNTU_DOCK_UUID) >= 0)
-    extensionSystem.disableExtension(UBUNTU_DOCK_UUID)
-
-  if (panelManager) return
-
-  SETTINGS = extension.getSettings('org.gnome.shell.extensions.dash-to-panel')
-  DESKTOPSETTINGS = new Gio.Settings({
-    schema_id: 'org.gnome.desktop.interface',
-  })
-  TERMINALSETTINGS = new Gio.Settings({
-    schema_id: 'org.gnome.desktop.default-applications.terminal',
-  })
-  EXTENSION_UUID = extension.uuid
-  EXTENSION_PATH = extension.path
-
-  Main.layoutManager.startInOverview = !SETTINGS.get_boolean(
-    'hide-overview-on-startup',
-  )
-
-  if (
-    SETTINGS.get_boolean('hide-overview-on-startup') &&
-    Main.layoutManager._startingUp
-  ) {
-    Main.sessionMode.hasOverview = false
-    startupCompleteHandler = Main.layoutManager.connect(
-      'startup-complete',
-      () => {
-        Main.sessionMode.hasOverview = extension._realHasOverview
-      },
-    )
-  }
-
-  // show the donate icon every 120 days (10368000000 milliseconds)
-  let donateIconUnixtime = SETTINGS.get_string('hide-donate-icon-unixtime')
-
-  if (donateIconUnixtime && donateIconUnixtime < Date.now() - 10368000000)
-    SETTINGS.set_string('hide-donate-icon-unixtime', '')
-
-  panelManager = new PanelManager.PanelManager()
-
-  panelManager.enable()
 }
