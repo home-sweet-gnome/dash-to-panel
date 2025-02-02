@@ -217,10 +217,16 @@ export const DisplayWrapper = {
 
 let unredirectEnabled = true
 export const setDisplayUnredirect = (enable) => {
+  let v48 = Config.PACKAGE_VERSION >= '48'
+
   if (enable && !unredirectEnabled)
-    Meta.enable_unredirect_for_display(global.display)
+    v48
+      ? global.compositor.enable_unredirect()
+      : Meta.enable_unredirect_for_display(global.display)
   else if (!enable && unredirectEnabled)
-    Meta.disable_unredirect_for_display(global.display)
+    v48
+      ? global.compositor.disable_unredirect()
+      : Meta.disable_unredirect_for_display(global.display)
 
   unredirectEnabled = enable
 }
