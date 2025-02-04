@@ -1797,6 +1797,9 @@ export const TaskbarAppIcon = GObject.registerClass(
       if (source == Main.xdndHandler) {
         this._previewMenu.close(true)
 
+        if (!this._nWindows && !this.window)
+          return DND.DragMotionResult.MOVE_DROP
+
         if (this._nWindows == 1 || this.window) {
           this.window
             ? Main.activateWindow(this.window)
