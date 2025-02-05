@@ -3506,6 +3506,7 @@ const Preferences = class {
     let revealDonateTimeout = 0
     let donationIconSwitch = this._builder.get_object('donation_icon_switch')
     let donationRevealer = this._builder.get_object('donation_revealer')
+    let donationSpinner = this._builder.get_object('donation_spinner')
     let hiddenDonateIcon = !!this._settings.get_string(
       'hide-donate-icon-unixtime',
     )
@@ -3525,6 +3526,7 @@ const Preferences = class {
 
     donationIconSwitch.set_active(hiddenDonateIcon)
     donationRevealer.set_reveal_child(hiddenDonateIcon)
+    donationSpinner.set_spinning(!hiddenDonateIcon)
 
     donationIconSwitch.connect('notify::active', (widget) =>
       this._settings.set_string(
@@ -3540,10 +3542,10 @@ const Preferences = class {
         this.notebook.visible_page_name == 'donation' &&
         !donationRevealer.get_reveal_child()
       )
-        revealDonateTimeout = setTimeout(
-          () => donationRevealer.set_reveal_child(true),
-          10000,
-        )
+        revealDonateTimeout = setTimeout(() => {
+          donationRevealer.set_reveal_child(true)
+          donationSpinner.set_spinning(false)
+        }, 20000)
     })
   }
 

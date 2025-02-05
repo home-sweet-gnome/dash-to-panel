@@ -138,6 +138,11 @@
           </object>
         </child>
         <child>
+          <object class="GtkSpinner" id="donation_spinner">
+            <property name="opacity">0.3</property>
+          </object>
+        </child>
+        <child>
           <object class="GtkRevealer" id="donation_revealer">
             <property name="child">
               <object class="GtkBox">
