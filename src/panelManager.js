@@ -210,12 +210,18 @@ export const PanelManager = class {
           'changed::panel-anchors',
           'changed::stockgs-keep-top-panel',
         ],
-        () => this._reset(),
+        (settings,settingChanged) => {
+          PanelSettings.clearCache(settingChanged)
+          this._reset()
+        }
       ],
       [
         SETTINGS,
         'changed::panel-element-positions',
-        () => this._updatePanelElementPositions(),
+        () => {
+          PanelSettings.clearCache('panel-element-positions')
+          this._updatePanelElementPositions()
+        }
       ],
       [
         SETTINGS,

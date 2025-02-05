@@ -17,10 +17,30 @@
 
 import * as Pos from './panelPositions.js'
 
+// cache is a different object in the settings dialog (gjs process)
+// and in gnome-shell (gnome-shell process)
+let cache = {}
+
+export function clearCache(setting) {
+  if (setting) {
+    cache[setting] = null
+    return
+  }
+
+  cache = {}
+}
+
 /** Return object representing a settings value that is stored as JSON. */
 export function getSettingsJson(settings, setting) {
   try {
-    return JSON.parse(settings.get_string(setting))
+    if (cache[setting])
+      return cache[setting]
+
+    let res = JSON.parse(settings.get_string(setting))
+
+    cache[setting] = res
+
+    return res
   } catch (e) {
     console.log('Error parsing positions: ' + e.message)
   }
@@ -30,6 +50,7 @@ export function setSettingsJson(settings, setting, value) {
   try {
     const json = JSON.stringify(value)
     settings.set_string(setting, json)
+    cache[setting] = value
   } catch (e) {
     console.log('Error serializing setting: ' + e.message)
   }

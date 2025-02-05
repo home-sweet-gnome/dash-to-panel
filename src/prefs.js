@@ -473,9 +473,10 @@ const Preferences = class {
       monitors.forEach(
         (m) => (panelElementPositionsSettings[m] = newPanelElementPositions),
       )
-      this._settings.set_string(
+      PanelSettings.setSettingsJson(
+        this._settings,
         'panel-element-positions',
-        JSON.stringify(panelElementPositionsSettings),
+        panelElementPositionsSettings,
       )
     }
 
