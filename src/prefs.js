@@ -1234,17 +1234,26 @@ const Preferences = class {
       })
 
     //multi-monitor
-    this.monitors = this._settings.get_value('available-monitors').deep_unpack()
+    this.monitors = []
 
+    for (
+      let i = 0;
+      i < Gdk.Display.get_default().get_monitors().get_n_items();
+      ++i
+    ) {
+      this.monitors.push(i)
+    }
+
+    let primaryMonitorIndex = this._settings.get_int('gs-primary-monitor')
     let dtpPrimaryMonitorIndex = this.monitors.indexOf(
       this._settings.get_int('primary-monitor'),
     )
 
     if (dtpPrimaryMonitorIndex < 0) {
-      dtpPrimaryMonitorIndex = 0
+      dtpPrimaryMonitorIndex = primaryMonitorIndex
     }
 
-    this._currentMonitorIndex = this.monitors[dtpPrimaryMonitorIndex]
+    this._currentMonitorIndex = dtpPrimaryMonitorIndex
 
     this._settings.connect('changed::panel-positions', () =>
       this._updateVerticalRelatedOptions(),
@@ -1252,8 +1261,10 @@ const Preferences = class {
     this._updateVerticalRelatedOptions()
 
     for (let i = 0; i < this.monitors.length; ++i) {
-      //the gnome-shell primary index is the first one in the "available-monitors" setting
-      let label = !i ? _('Primary monitor') : _('Monitor ') + (i + 1)
+      let label =
+        i == primaryMonitorIndex
+          ? _('Primary monitor')
+          : _('Monitor ') + (i + 1)
 
       this._builder.get_object('multimon_primary_combo').append_text(label)
       this._builder

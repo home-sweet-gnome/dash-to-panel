@@ -491,30 +491,18 @@ export const PanelManager = class {
     //monitor as GDK gdk_screen_get_primary_monitor (imports.gi.Gdk.Screen.get_default().get_primary_monitor()).
     //Since the Mutter function is what's used in gnome-shell and we can't access it from the settings dialog, store
     //the monitors information in a setting so we can use the same monitor indexes as the ones in gnome-shell
-    let keyMonitors = 'available-monitors'
     let keyPrimary = 'primary-monitor'
     let primaryIndex = Main.layoutManager.primaryIndex
-    let newMonitors = [primaryIndex]
-    let savedMonitors = SETTINGS.get_value(keyMonitors).deep_unpack()
     let dtpPrimaryIndex = SETTINGS.get_int(keyPrimary)
-    let newDtpPrimaryIndex = primaryIndex
 
-    Main.layoutManager.monitors
-      .filter((m) => m.index != primaryIndex)
-      .forEach((m) => newMonitors.push(m.index))
+    if (
+      !Main.layoutManager.monitors[dtpPrimaryIndex] ||
+      dtpPrimaryIndex == primaryIndex
+    )
+      dtpPrimaryIndex = -1
 
-    if (savedMonitors[0] != dtpPrimaryIndex) {
-      // dash to panel primary wasn't the gnome-shell primary (first index of available-monitors)
-      let savedIndex = savedMonitors.indexOf(dtpPrimaryIndex)
-
-      // default to primary if it was set to a monitor that is no longer available
-      newDtpPrimaryIndex = newMonitors[savedIndex]
-      newDtpPrimaryIndex =
-        newDtpPrimaryIndex == null ? primaryIndex : newDtpPrimaryIndex
-    }
-
-    SETTINGS.set_int(keyPrimary, newDtpPrimaryIndex)
-    SETTINGS.set_value(keyMonitors, new GLib.Variant('ai', newMonitors))
+    SETTINGS.set_int(keyPrimary, dtpPrimaryIndex)
+    SETTINGS.set_int('gs-primary-monitor', primaryIndex)
   }
 
   checkIfFocusedMonitor(monitor) {
