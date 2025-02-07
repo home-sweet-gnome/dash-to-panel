@@ -137,7 +137,20 @@ export default class DashToPanelExtension extends Extension {
   }
 
   openPreferences() {
-    if (SETTINGS.get_boolean('prefs-opened')) return
+    if (SETTINGS.get_boolean('prefs-opened')) {
+      let prefsWindow = global
+        .get_window_actors()
+        .map((wa) => wa.meta_window)
+        .find(
+          (w) =>
+            w.title == 'Dash to Panel' &&
+            w.wm_class == 'org.gnome.Shell.Extensions',
+        )
+
+      if (prefsWindow) Main.activateWindow(prefsWindow)
+
+      return
+    }
 
     super.openPreferences()
   }
