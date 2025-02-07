@@ -244,20 +244,31 @@ const Preferences = class {
     this._statusicon_padding_timeout = 0
     this._leftbox_padding_timeout = 0
     this._addFormatValueCallbacks()
-    this._bindSettings()
 
-    let maybeGoToPage = () => {
-      let targetPageName = settings.get_string('target-prefs-page')
+    PanelSettings.setMonitorsInfo(settings).then(() => {
+      this._bindSettings()
 
-      if (targetPageName) {
-        window.set_visible_page_name(targetPageName)
-        settings.set_string('target-prefs-page', '')
+      PanelSettings.displayConfigProxy.connectSignal(
+        'MonitorsChanged',
+        async () => {
+          await PanelSettings.setMonitorsInfo(settings)
+          this._setMonitorsInfo()
+        },
+      )
+  
+      let maybeGoToPage = () => {
+        let targetPageName = settings.get_string('target-prefs-page')
+  
+        if (targetPageName) {
+          window.set_visible_page_name(targetPageName)
+          settings.set_string('target-prefs-page', '')
+        }
       }
-    }
-
-    settings.connect('changed::target-prefs-page', maybeGoToPage)
-
-    maybeGoToPage()
+  
+      settings.connect('changed::target-prefs-page', maybeGoToPage)
+  
+      maybeGoToPage()
+    })
   }
 
   /**
@@ -3547,7 +3558,7 @@ const Preferences = class {
         revealDonateTimeout = setTimeout(() => {
           donationRevealer.set_reveal_child(true)
           donationSpinner.set_spinning(false)
-        }, 18000)
+        }, 15000)
     })
   }
 
@@ -3862,7 +3873,7 @@ const BuilderScope = GObject.registerClass(
 )
 
 export default class DashToPanelPreferences extends ExtensionPreferences {
-  async fillPreferencesWindow(window) {
+  fillPreferencesWindow(window) {
     let closeRequestId = null
 
     window._settings = this.getSettings(
@@ -3878,16 +3889,6 @@ export default class DashToPanelPreferences extends ExtensionPreferences {
       window.disconnect(closeRequestId)
     })
 
-    await PanelSettings.setMonitorsInfo(window._settings)
-
-    PanelSettings.displayConfigProxy.connectSignal(
-      'MonitorsChanged',
-      async () => {
-        await PanelSettings.setMonitorsInfo(window._settings)
-        preferences._setMonitorsInfo()
-      },
-    )
-
-    let preferences = new Preferences(window, window._settings, this.path)
+    new Preferences(window, window._settings, this.path)
   }
 }
