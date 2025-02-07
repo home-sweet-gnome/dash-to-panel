@@ -578,7 +578,10 @@ export const Panel = GObject.registerClass(
             'changed::appicon-margin-toscreenborder',
             'changed::group-apps',
           ],
-          () => this._resetGeometry(),
+          (settings, settingChanged) => {
+            PanelSettings.clearCache(settingChanged)
+            this._resetGeometry()
+          },
         ],
         [
           SETTINGS,

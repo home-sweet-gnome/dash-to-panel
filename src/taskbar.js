@@ -90,10 +90,10 @@ let donateDummyApp = {
   },
   activate: function () {
     SETTINGS.set_string('target-prefs-page', 'donation')
+    DTP_EXTENSION.openPreferences()
 
     if (this.isActive()) return
 
-    DTP_EXTENSION.openPreferences()
     this._taskbar._timeoutsHandler.add([T4, 5000, this.forceRefresh.bind(this)])
     this.forceRefresh()
   },

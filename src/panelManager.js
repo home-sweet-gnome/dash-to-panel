@@ -60,8 +60,9 @@ export const PanelManager = class {
   }
 
   enable(reset) {
-    let dtpPrimaryIndex =
-      PanelSettings.monitorIdToIndex[SETTINGS.get_string('primary-monitor')]
+    let dtpPrimaryIndex = PanelSettings.getPrimaryIndex(
+      SETTINGS.get_string('primary-monitor'),
+    )
 
     this.allPanels = []
     this.dtpPrimaryMonitor =

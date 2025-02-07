@@ -38,11 +38,11 @@ const displayConfigWrapper = Gio.DBusProxy.makeProxyWrapper(
 let prefsOpenedId = null
 let useCache = false
 let cache = {}
+let monitorIdToIndex = {}
+let monitorIndexToId = {}
 
 export var displayConfigProxy = null
 export var availableMonitors = []
-export var monitorIdToIndex = {}
-export var monitorIndexToId = {}
 
 export async function init(settings) {
   useCache = true
@@ -100,7 +100,12 @@ function getMonitorSetting(settings, settingName, monitorIndex, fallback) {
 
   settings = getSettingsJson(settings, settingName)
 
-  return settings[monitorId] || settings[monitorIndex] || fallback
+  return (
+    settings[monitorId] ||
+    settings[monitorIndex] ||
+    settings[availableMonitors[monitorIndex]?.id] ||
+    fallback
+  )
 }
 
 function setMonitorSetting(settings, settingName, monitorIndex, value) {
@@ -205,6 +210,15 @@ export function setPanelElementPositions(settings, monitorIndex, value) {
   setMonitorSetting(settings, 'panel-element-positions', monitorIndex, value)
 }
 
+export function getPrimaryIndex(dtpPrimaryId) {
+  if (dtpPrimaryId in monitorIdToIndex) return monitorIdToIndex[dtpPrimaryId]
+
+  if (dtpPrimaryId.match(/^\d{1,2}$/) && availableMonitors[dtpPrimaryId])
+    return dtpPrimaryId
+
+  return availableMonitors.findIndex((am) => am.primary)
+}
+
 export async function setMonitorsInfo(settings) {
   return new Promise((resolve, reject) => {
     try {
@@ -214,22 +228,32 @@ export async function setMonitorsInfo(settings) {
           if (e) return reject(`Error getting display state: ${e}`)
 
           let gsPrimaryIndex = 0
+          let ids = {}
 
           //https://gitlab.gnome.org/GNOME/mutter/-/blob/main/data/dbus-interfaces/org.gnome.Mutter.DisplayConfig.xml#L347
           displayInfo[2].forEach((logicalMonitor, i) => {
-            let id = logicalMonitor[5][0][3]
+            let [connector, vendor, product, serial] = logicalMonitor[5][0]
+            let id = i
             let primary = logicalMonitor[4]
+
+            // if by any chance 2 monitors have the same id, use the connector string
+            // instead, which should be unique but varies between x11 and wayland :(
+            // worst case scenario, resort to using the dumbass index
+            if (vendor && serial) id = `${vendor}-${serial}`
+
+            if (ids[id]) id = connector && !ids[connector] ? connector : i
 
             if (primary) gsPrimaryIndex = i
 
             monitorInfos.push({
               id,
-              name: logicalMonitor[5][0][2],
+              product,
               primary,
             })
 
             monitorIdToIndex[id] = i
             monitorIndexToId[i] = id
+            ids[id] = 1
           })
 
           _saveMonitors(settings, monitorInfos, gsPrimaryIndex)
@@ -261,11 +285,12 @@ function _saveMonitors(settings, monitorInfos, gsPrimaryIndex) {
   let dtpPrimaryMonitor = settings.get_string(keyPrimary)
 
   // convert previously saved index to monitor id
-  if (dtpPrimaryMonitor.match(/^\d{1,2}$/))
-    dtpPrimaryMonitor = monitorInfos[dtpPrimaryMonitor]?.id
+  if (dtpPrimaryMonitor.match(/^\d{1,2}$/) && monitorInfos[dtpPrimaryMonitor])
+    dtpPrimaryMonitor = monitorInfos[dtpPrimaryMonitor].id
 
   // default to gnome-shell primary monitor
-  if (!dtpPrimaryMonitor) dtpPrimaryMonitor = monitorInfos[gsPrimaryIndex]?.id
+  if (!dtpPrimaryMonitor)
+    dtpPrimaryMonitor = monitorInfos[gsPrimaryIndex]?.id || 0
 
   settings.set_string(keyPrimary, dtpPrimaryMonitor)
   availableMonitors = Object.freeze(monitorInfos)

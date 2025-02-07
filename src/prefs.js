@@ -348,7 +348,9 @@ const Preferences = class {
     const monitorSync = this._settings.get_boolean(
       'panel-element-positions-monitors-sync',
     )
-    const monitorsToSetFor = monitorSync ? this.monitors : [currentMonitorIndex]
+    const monitorsToSetFor = monitorSync
+      ? Object.keys(this.monitors)
+      : [currentMonitorIndex]
     const allVertical = monitorsToSetFor.every((i) => {
       const position = PanelSettings.getPanelPosition(this._settings, i)
       return position === Pos.LEFT || position === Pos.RIGHT
@@ -780,6 +782,12 @@ const Preferences = class {
         return value + ' px'
       })
 
+    this._builder
+      .get_object('panel_length_scale')
+      .set_format_value_func((scale, value) => {
+        return value + ' %'
+      })
+
     // style
     this._builder
       .get_object('appicon_margin_scale')
@@ -889,7 +897,7 @@ const Preferences = class {
     )
     let dtpPrimaryMonitorId = this._settings.get_string('primary-monitor')
     let dtpPrimaryMonitorIndex =
-      PanelSettings.monitorIdToIndex[dtpPrimaryMonitorId]
+      PanelSettings.getPrimaryIndex(dtpPrimaryMonitorId)
 
     this._currentMonitorIndex = dtpPrimaryMonitorIndex
 
@@ -904,7 +912,7 @@ const Preferences = class {
         ? _('Primary monitor')
         : _('Monitor ') + (i + 1)
 
-      label += monitor.name ? ` (${monitor.name})` : ''
+      label += monitor.product ? ` (${monitor.product})` : ''
 
       primaryCombo.append_text(label)
       panelOptionsMonitorCombo.append_text(label)
@@ -3539,7 +3547,7 @@ const Preferences = class {
         revealDonateTimeout = setTimeout(() => {
           donationRevealer.set_reveal_child(true)
           donationSpinner.set_spinning(false)
-        }, 20000)
+        }, 18000)
     })
   }
 
@@ -3674,7 +3682,7 @@ const BuilderScope = GObject.registerClass(
             'panel-element-positions-monitors-sync',
           )
           const monitorsToSetFor = monitorSync
-            ? this._preferences.monitors
+            ? Object.keys(this._preferences.monitors)
             : [this._preferences._currentMonitorIndex]
           monitorsToSetFor.forEach((monitorIndex) => {
             PanelSettings.setPanelSize(
