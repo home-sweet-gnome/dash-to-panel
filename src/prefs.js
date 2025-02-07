@@ -880,6 +880,40 @@ const Preferences = class {
       })
   }
 
+  _setMonitorsInfo() {
+    this.monitors = PanelSettings.availableMonitors
+
+    let primaryCombo = this._builder.get_object('multimon_primary_combo')
+    let panelOptionsMonitorCombo = this._builder.get_object(
+      'taskbar_position_monitor_combo',
+    )
+    let dtpPrimaryMonitorId = this._settings.get_string('primary-monitor')
+    let dtpPrimaryMonitorIndex =
+      PanelSettings.monitorIdToIndex[dtpPrimaryMonitorId]
+
+    this._currentMonitorIndex = dtpPrimaryMonitorIndex
+
+    this._updateVerticalRelatedOptions()
+
+    primaryCombo.remove_all()
+    panelOptionsMonitorCombo.remove_all()
+
+    for (let i = 0; i < this.monitors.length; ++i) {
+      let monitor = this.monitors[i]
+      let label = monitor.primary
+        ? _('Primary monitor')
+        : _('Monitor ') + (i + 1)
+
+      label += monitor.name ? ` (${monitor.name})` : ''
+
+      primaryCombo.append_text(label)
+      panelOptionsMonitorCombo.append_text(label)
+    }
+
+    primaryCombo.set_active(dtpPrimaryMonitorIndex)
+    panelOptionsMonitorCombo.set_active(dtpPrimaryMonitorIndex)
+  }
+
   _bindSettings() {
     // size options
     let panel_size_scale = this._builder.get_object('panel_size_scale')
@@ -1232,39 +1266,11 @@ const Preferences = class {
       })
 
     //multi-monitor
-    this.monitors = PanelSettings.availableMonitors
-
-    let dtpPrimaryMonitorId = this._settings.get_string('primary-monitor')
-    let dtpPrimaryMonitorIndex =
-      PanelSettings.monitorIdToIndex[dtpPrimaryMonitorId]
-
-    this._currentMonitorIndex = dtpPrimaryMonitorIndex
+    this._setMonitorsInfo()
 
     this._settings.connect('changed::panel-positions', () =>
       this._updateVerticalRelatedOptions(),
     )
-    this._updateVerticalRelatedOptions()
-
-    for (let i = 0; i < this.monitors.length; ++i) {
-      let monitor = this.monitors[i]
-      let label = monitor.primary
-        ? _('Primary monitor')
-        : _('Monitor ') + (i + 1)
-
-      label += monitor.name ? ` (${monitor.name})` : ''
-
-      this._builder.get_object('multimon_primary_combo').append_text(label)
-      this._builder
-        .get_object('taskbar_position_monitor_combo')
-        .append_text(label)
-    }
-
-    this._builder
-      .get_object('multimon_primary_combo')
-      .set_active(dtpPrimaryMonitorIndex)
-    this._builder
-      .get_object('taskbar_position_monitor_combo')
-      .set_active(dtpPrimaryMonitorIndex)
 
     this._settings.bind(
       'panel-element-positions-monitors-sync',
@@ -1292,10 +1298,11 @@ const Preferences = class {
     this._builder
       .get_object('multimon_primary_combo')
       .connect('changed', (widget) => {
-        this._settings.set_string(
-          'primary-monitor',
-          this.monitors[widget.get_active()].id,
-        )
+        if (this.monitors[widget.get_active()])
+          this._settings.set_string(
+            'primary-monitor',
+            this.monitors[widget.get_active()].id,
+          )
       })
 
     this._builder
@@ -3865,6 +3872,14 @@ export default class DashToPanelPreferences extends ExtensionPreferences {
 
     await PanelSettings.setMonitorsInfo(window._settings)
 
-    new Preferences(window, window._settings, this.path)
+    PanelSettings.displayConfigProxy.connectSignal(
+      'MonitorsChanged',
+      async () => {
+        await PanelSettings.setMonitorsInfo(window._settings)
+        preferences._setMonitorsInfo()
+      },
+    )
+
+    let preferences = new Preferences(window, window._settings, this.path)
   }
 }

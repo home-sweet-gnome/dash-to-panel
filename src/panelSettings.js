@@ -22,6 +22,7 @@ import * as Pos from './panelPositions.js'
 const displayConfigWrapper = Gio.DBusProxy.makeProxyWrapper(
   `<node>
     <interface name="org.gnome.Mutter.DisplayConfig">
+      <signal name="MonitorsChanged" />
       <method name="GetCurrentState">
         <arg name="serial" direction="out" type="u" />
         <arg name="monitors" direction="out" type="a((ssss)a(siiddada{sv})a{sv})" />
@@ -34,11 +35,11 @@ const displayConfigWrapper = Gio.DBusProxy.makeProxyWrapper(
 
 // the module variables here are different in the settings dialog (gjs process)
 // and in gnome-shell (gnome-shell process)
-let displayConfigProxy = null
 let prefsOpenedId = null
 let useCache = false
 let cache = {}
 
+export var displayConfigProxy = null
 export var availableMonitors = []
 export var monitorIdToIndex = {}
 export var monitorIndexToId = {}
