@@ -1732,10 +1732,10 @@ export const TaskbarItemContainer = GObject.registerClass(
       else return
 
       let panelPosition = this._dtpPanel.getPosition()
-      let panelElementPositions =
-        this._dtpPanel.panelManager.panelsElementPositions[
-          this._dtpPanel.monitor.index
-        ] || Pos.defaults
+      let panelElementPositions = PanelSettings.getPanelElementPositions(
+        SETTINGS,
+        this._dtpPanel.monitor.index,
+      )
       let taskbarPosition = panelElementPositions.filter(
         (pos) => pos.element == 'taskbar',
       )[0].position

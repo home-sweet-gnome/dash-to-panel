@@ -490,9 +490,10 @@ export const Panel = GObject.registerClass(
     }
 
     updateElementPositions() {
-      let panelPositions =
-        this.panelManager.panelsElementPositions[this.monitor.index] ||
-        Pos.defaults
+      let panelPositions = PanelSettings.getPanelElementPositions(
+        SETTINGS,
+        this.monitor.index,
+      )
 
       this._updateGroupedElements(panelPositions)
 

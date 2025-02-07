@@ -22,6 +22,7 @@ import Gio from 'gi://Gio'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js'
+import * as PanelSettings from './panelSettings.js'
 
 import * as PanelManager from './panelManager.js'
 import * as AppIcons from './appIcons.js'
@@ -49,7 +50,7 @@ export default class DashToPanelExtension extends Extension {
     PERSISTENTSTORAGE = {}
   }
 
-  enable() {
+  async enable() {
     DTP_EXTENSION = this
     SETTINGS = this.getSettings('org.gnome.shell.extensions.dash-to-panel')
     DESKTOPSETTINGS = new Gio.Settings({
@@ -62,6 +63,14 @@ export default class DashToPanelExtension extends Extension {
 
     //create a global object that can emit signals and conveniently expose functionalities to other extensions
     global.dashToPanel = new EventEmitter()
+
+    // reset to be safe
+    SETTINGS.set_boolean('prefs-opened', false)
+
+    await PanelSettings.init(SETTINGS)
+
+    // To remove later, try to map settings using monitor indexes to monitor ids
+    PanelSettings.adjustMonitorSettings(SETTINGS)
 
     let completeEnable = () => {
       panelManager = new PanelManager.PanelManager()
@@ -106,6 +115,7 @@ export default class DashToPanelExtension extends Extension {
   disable() {
     if (ubuntuDockDelayId) clearTimeout(ubuntuDockDelayId)
 
+    PanelSettings.disable(SETTINGS)
     panelManager.disable()
 
     DTP_EXTENSION = null
@@ -124,5 +134,11 @@ export default class DashToPanelExtension extends Extension {
     }
 
     Main.sessionMode.hasOverview = this._realHasOverview
+  }
+
+  openPreferences() {
+    if (SETTINGS.get_boolean('prefs-opened')) return
+
+    super.openPreferences()
   }
 }
