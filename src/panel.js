@@ -48,7 +48,6 @@ import Shell from 'gi://Shell'
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js'
 import * as DateMenu from 'resource:///org/gnome/shell/ui/dateMenu.js'
 import * as Volume from 'resource:///org/gnome/shell/ui/status/volume.js'
-import * as Progress from './progress.js'
 
 import * as Intellihide from './intellihide.js'
 import * as Transparency from './transparency.js'
@@ -359,8 +358,6 @@ export const Panel = GObject.registerClass(
       // most repaint requests don't actually require us to repaint anything.
       // This saves significant CPU when repainting the screen.
       this.set_offscreen_redirect(Clutter.OffscreenRedirect.ALWAYS)
-
-      this._initProgressManager()
     }
 
     disable() {
@@ -376,8 +373,6 @@ export const Panel = GObject.registerClass(
       }
 
       this.dynamicTransparency.destroy()
-
-      this.progressManager.destroy()
 
       this.taskbar.destroy()
       this.showAppsIconWrapper.destroy()
@@ -609,16 +604,6 @@ export const Panel = GObject.registerClass(
               this._formatVerticalClock()
             }
           },
-        ],
-        [
-          SETTINGS,
-          'changed::progress-show-bar',
-          () => this._initProgressManager(),
-        ],
-        [
-          SETTINGS,
-          'changed::progress-show-count',
-          () => this._initProgressManager(),
         ],
       )
 
@@ -1493,19 +1478,6 @@ export const Panel = GObject.registerClass(
         source.get_parent()._dtpIgnoreScroll ||
         ignoredConstr.indexOf(source.constructor.name) >= 0
       )
-    }
-
-    _initProgressManager() {
-      const progressVisible = SETTINGS.get_boolean('progress-show-bar')
-      const countVisible = SETTINGS.get_boolean('progress-show-count')
-      const pm = this.progressManager
-
-      if (!pm && (progressVisible || countVisible))
-        this.progressManager = new Progress.ProgressManager()
-      else if (pm)
-        Object.keys(pm._entriesByDBusName).forEach((k) =>
-          pm._entriesByDBusName[k].setCountVisible(countVisible),
-        )
     }
   },
 )

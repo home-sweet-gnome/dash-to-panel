@@ -64,6 +64,7 @@ let donateDummyApp = {
       action == 'opts' ? _('Donation options') : '',
   },
   connect: () => [],
+  disconnect: () => false,
   connectObject: () => [],
   get_id: () => 'dtp_donate',
   get_windows: () => [],
@@ -1197,10 +1198,8 @@ export const Taskbar = class extends EventEmitter {
     // This is required for icon reordering when the scrollview is used.
     this._updateAppIcons()
 
-    // This will update the size, and the corresponding number for each icon on the primary panel
-    if (this.dtpPanel.isPrimary) {
-      this._updateNumberOverlay()
-    }
+    // This will update the size, and the corresponding number for each icon
+    this._updateHotkeysNumberOverlay()
 
     this._shownInitially = true
   }
@@ -1276,7 +1275,7 @@ export const Taskbar = class extends EventEmitter {
     }
   }
 
-  _updateNumberOverlay() {
+  _updateHotkeysNumberOverlay() {
     let seenApps = {}
     let counter = 0
 
@@ -1287,26 +1286,24 @@ export const Taskbar = class extends EventEmitter {
       }
 
       if (counter <= 10) {
-        icon.setNumberOverlay(counter == 10 ? 0 : counter)
+        icon.setHotkeysNumberOverlayLabel(counter == 10 ? 0 : counter)
       } else {
         // No overlay after 10
-        icon.setNumberOverlay(-1)
+        icon.setHotkeysNumberOverlayLabel(-1)
       }
-
-      icon.updateHotkeyNumberOverlay()
     })
 
     if (
       SETTINGS.get_boolean('hot-keys') &&
       SETTINGS.get_string('hotkeys-overlay-combo') === 'ALWAYS'
     )
-      this.toggleNumberOverlay(true)
+      this.toggleHotkeysNumberOverlay(true)
   }
 
-  toggleNumberOverlay(activate) {
+  toggleHotkeysNumberOverlay(activate) {
     let appIcons = this._getAppIcons()
     appIcons.forEach(function (icon) {
-      icon.toggleNumberOverlay(activate)
+      icon.toggleHotkeysNumberOverlay(activate)
     })
   }
 

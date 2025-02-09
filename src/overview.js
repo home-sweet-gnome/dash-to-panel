@@ -373,7 +373,7 @@ export const Overview = class {
     this._hotKeysEnabled = true
 
     if (SETTINGS.get_string('hotkeys-overlay-combo') === 'ALWAYS')
-      this.taskbar.toggleNumberOverlay(true)
+      this.taskbar.toggleHotkeysNumberOverlay(true)
   }
 
   _disableHotKeys() {
@@ -418,7 +418,7 @@ export const Overview = class {
 
     this._hotKeysEnabled = false
 
-    this.taskbar.toggleNumberOverlay(false)
+    this.taskbar.toggleHotkeysNumberOverlay(false)
   }
 
   _optionalNumberOverlay() {
@@ -435,8 +435,8 @@ export const Overview = class {
             SETTINGS.get_boolean('hot-keys') &&
             SETTINGS.get_string('hotkeys-overlay-combo') === 'ALWAYS'
           )
-            this.taskbar.toggleNumberOverlay(true)
-          else this.taskbar.toggleNumberOverlay(false)
+            this.taskbar.toggleHotkeysNumberOverlay(true)
+          else this.taskbar.toggleHotkeysNumberOverlay(false)
         },
       ],
       [SETTINGS, 'changed::shortcut-num-keys', () => this._resetHotkeys()],
@@ -468,7 +468,7 @@ export const Overview = class {
     if (hotkey_option === 'NEVER') return
 
     if (hotkey_option === 'TEMPORARILY' || overlayFromShortcut)
-      this.taskbar.toggleNumberOverlay(true)
+      this.taskbar.toggleHotkeysNumberOverlay(true)
 
     this._panel.intellihide.revealAndHold(Intellihide.Hold.TEMPORARY)
 
@@ -484,7 +484,7 @@ export const Overview = class {
       timeout,
       () => {
         if (hotkey_option != 'ALWAYS') {
-          this.taskbar.toggleNumberOverlay(false)
+          this.taskbar.toggleHotkeysNumberOverlay(false)
         }
 
         this._panel.intellihide.release(Intellihide.Hold.TEMPORARY)

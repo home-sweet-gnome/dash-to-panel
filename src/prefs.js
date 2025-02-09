@@ -255,18 +255,18 @@ const Preferences = class {
           this._setMonitorsInfo()
         },
       )
-  
+
       let maybeGoToPage = () => {
         let targetPageName = settings.get_string('target-prefs-page')
-  
+
         if (targetPageName) {
           window.set_visible_page_name(targetPageName)
           settings.set_string('target-prefs-page', '')
         }
       }
-  
+
       settings.connect('changed::target-prefs-page', maybeGoToPage)
-  
+
       maybeGoToPage()
     })
   }

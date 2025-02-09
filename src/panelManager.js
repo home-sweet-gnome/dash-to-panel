@@ -45,6 +45,7 @@ import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js'
 import * as LookingGlass from 'resource:///org/gnome/shell/ui/lookingGlass.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js'
+import { NotificationsMonitor } from './notificationsMonitor.js'
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js'
 import { InjectionManager } from 'resource:///org/gnome/shell/extensions/extension.js'
 import { SETTINGS } from './extension.js'
@@ -132,6 +133,8 @@ export const PanelManager = class {
     this._updatePanelElementPositions()
 
     if (reset) return
+
+    this.notificationsMonitor = new NotificationsMonitor()
 
     this._desktopIconsUsableArea =
       new DesktopIconsIntegration.DesktopIconsUsableAreaClass()
@@ -336,6 +339,8 @@ export const PanelManager = class {
     if (reset) return
 
     this._setKeyBindings(false)
+
+    this.notificationsMonitor.destroy()
 
     this._signalsHandler.destroy()
 
@@ -716,6 +721,9 @@ export const IconAnimator = class {
         if (this._started && this._count === 0) {
           this._timeline.stop()
         }
+
+        if (name == 'dance') target.rotation_angle_z = 0
+
         return
       }
     }
