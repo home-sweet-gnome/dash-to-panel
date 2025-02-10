@@ -120,7 +120,6 @@ export const TaskbarAppIcon = GObject.registerClass(
     _init(appInfo, panel, iconParams, previewMenu, iconAnimator) {
       this.dtpPanel = panel
       this._nWindows = 0
-      this._notifications = {}
       this.window = appInfo.window
       this.isLauncher = appInfo.isLauncher
       this._previewMenu = previewMenu
@@ -224,6 +223,11 @@ export const TaskbarAppIcon = GObject.registerClass(
 
       this._signalsHandler.add(
         [
+          this,
+          'notify::mapped',
+          () => (this.mapped ? this._handleNotifications() : null),
+        ],
+        [
           Utils.getStageTheme(),
           'changed',
           this._updateWindowTitleStyle.bind(this),
@@ -298,6 +302,11 @@ export const TaskbarAppIcon = GObject.registerClass(
         [
           this.dtpPanel.panelManager.notificationsMonitor,
           `update-${this.app.id}`,
+          this._handleNotifications.bind(this),
+        ],
+        [
+          SETTINGS,
+          'changed::progress-show-count',
           this._handleNotifications.bind(this),
         ],
         [
@@ -1599,67 +1608,49 @@ export const TaskbarAppIcon = GObject.registerClass(
       cr.$dispose()
     }
 
-    _handleNotifications(notificationsMonitor, state) {
-      if (!this._nWindows && !this.window) {
-        delete this._notifications.total
-        return
-      }
+    _handleNotifications() {
+      if (!this._nWindows && !this.window) return
 
-      let urgent =
-        'urgent' in state ? state.urgent : this._notifications.urgent || false
-      let formatCount = (count) => {
-        if (!count) return 0
+      let monitor = this.dtpPanel.panelManager.notificationsMonitor
+      let state = monitor.getState(this.app)
+      let count = 0
 
-        return count > 10 ? '10+' : count
-      }
+      if (!state) return
 
-      if ('count-visible' in state)
-        this._notifications.countVisible = state['count-visible']
-
-      if ('count' in state) this._notifications.count = state.count
-
-      if ('trayCount' in state)
-        this._notifications.trayCount = this._checkIfFocusedApp()
-          ? 0
-          : state.trayCount
-
-      this._notifications.total =
-        SETTINGS.get_boolean('progress-show-count') &&
-        ((this._notifications.countVisible || 0) &&
-          (this._notifications.count || 0)) +
-          (this._notifications.trayCount || 0)
-
-      urgent = urgent && !!this._notifications.total
-
-      if (urgent !== this._notifications.urgent)
-        this.iconAnimator[`${urgent ? 'add' : 'remove'}Animation`](
+      if (SETTINGS.get_boolean('progress-show-count')) {
+        this.iconAnimator[`${state.urgent ? 'add' : 'remove'}Animation`](
           this.icon._iconBin,
           'dance',
         )
 
-      this._notifications.urgent = urgent
+        if (state.total) count = state.total > 9 ? '9+' : state.total
+      }
 
-      // restore hotkeys number if no more notifications
-      this._maybeToggleNumberOverlay(
-        formatCount(this._notifications.total) ||
-          this._numberHotkeysOverlayLabel,
-      )
+      this._notificationsCount = count
+
+      this._maybeUpdateNumberOverlay()
     }
 
-    _maybeToggleNumberOverlay(labelNumber) {
+    _maybeUpdateNumberOverlay() {
       let visible = this._numberOverlayBin.visible
       let shouldBeVisible =
-        this._hotkeysOverlayActive || this._notifications.total
+        (this._hotkeysOverlayActiveMode &&
+          this._numberHotkeysOverlayLabel > -1) ||
+        this._notificationsCount
+
+      let showNotifications =
+        this._notificationsCount &&
+        this._hotkeysOverlayActiveMode !== 'TEMPORARILY'
+      let label = showNotifications
+        ? this._notificationsCount
+        : this._numberHotkeysOverlayLabel
 
       this._numberOverlayLabel[
-        `${this._notifications.total ? 'add' : 'remove'}_style_class_name`
+        `${showNotifications ? 'add' : 'remove'}_style_class_name`
       ]('notification-badge')
 
-      if (
-        shouldBeVisible &&
-        labelNumber != this._numberOverlayLabel.get_text()
-      ) {
-        this._numberOverlayLabel.set_text(labelNumber.toString())
+      if (shouldBeVisible && label !== this._numberOverlayLabel.get_text()) {
+        this._numberOverlayLabel.set_text(label.toString())
         this._updateNumberOverlay()
       }
 
@@ -1687,28 +1678,16 @@ export const TaskbarAppIcon = GObject.registerClass(
       // pixels, so make sure to consider the scale.
       // Set the font size to something smaller than the whole icon so it is
       // still visible. The border radius is large to make the shape circular
-      let [, natWidth] = this._dtpIconContainer.get_preferred_width(-1)
-      let font_size = Math.round(
-        Math.max(12, 0.3 * natWidth) / Utils.getScaleFactor(),
+      let panelSize =
+        this.dtpPanel.geom[this.dtpPanel.checkIfVertical() ? 'w' : 'h']
+      let fontSize = Math.round(
+        Math.max(10, 0.3 * panelSize) / Utils.getScaleFactor(),
       )
-      let size = Math.round(font_size * 1.3)
-      let style =
-        'font-size: ' +
-        font_size +
-        'px;' +
-        'border-radius: ' +
-        this.icon.iconSize +
-        'px;' +
-        'height: ' +
-        size +
-        'px;'
-
-      if (this._numberOverlayLabel.get_text().length == 1) {
-        style += 'width: ' + size + 'px;'
-      } else {
-        style += 'padding: 0 2px;'
-      }
-
+      let size = Math.round(fontSize * 1.3)
+      let style = `
+        font-size: ${fontSize}px;
+        height: ${size}px;
+      `
       this._numberOverlayLabel.set_style(style)
     }
 
@@ -1716,12 +1695,11 @@ export const TaskbarAppIcon = GObject.registerClass(
       this._numberHotkeysOverlayLabel = number
     }
 
-    toggleHotkeysNumberOverlay(activate) {
-      this._hotkeysOverlayActive =
-        activate && this._numberHotkeysOverlayLabel > -1
+    toggleHotkeysNumberOverlay(activateMode) {
+      this._hotkeysOverlayActiveMode =
+        this._numberHotkeysOverlayLabel > -1 && activateMode
 
-      if (!this._notifications.total)
-        this._maybeToggleNumberOverlay(this._numberHotkeysOverlayLabel)
+      this._maybeUpdateNumberOverlay()
     }
 
     handleDragOver(source) {

@@ -144,8 +144,11 @@
 
 #dashtopanelScrollview .badge {
 	color: rgba(255, 255, 255, 1);
+	padding: 0.2em 0.5em;
+	border-radius: 1em;
 	font-weight: bold;
 	text-align: center;
+	margin: 0 0 0 2px;
 }
 
 #dashtopanelScrollview .number-overlay {

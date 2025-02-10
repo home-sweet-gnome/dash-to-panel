@@ -33,6 +33,7 @@ export const NotificationsMonitor = class extends EventEmitter {
   constructor() {
     super()
 
+    this._state = {}
     this._signalsHandler = new Utils.GlobalSignalsHandler()
 
     // pretty much useless, but might as well keep it for now
@@ -59,7 +60,7 @@ export const NotificationsMonitor = class extends EventEmitter {
       () => {
         // reset notifications from message tray on app focus
         if (tracker.focus_app)
-          this.dispatch(tracker.focus_app.id, { trayCount: 0 }, true)
+          this._updateState(tracker.focus_app.id, { trayCount: 0 }, true)
       },
     ])
     this._acquireUnityDBus()
@@ -75,10 +76,11 @@ export const NotificationsMonitor = class extends EventEmitter {
     this._signalsHandler.destroy()
   }
 
-  dispatch(appId, state, ignoreMapping) {
+  _updateState(appId, state, ignoreMapping) {
     // depending of the notification source, some app id end
     // with ".desktop" and some don't ¯\_(ツ)_/¯
     appId = appId.replace('.desktop', '')
+    appId = `${appId}.desktop`
 
     // some app have different source app id, deamon and such,
     // but it maps to a desktop app so match those here
@@ -88,7 +90,29 @@ export const NotificationsMonitor = class extends EventEmitter {
           knownCorrespondances[k].some((regex) => appId.match(regex)),
         ) || appId
 
-    this.emit(`update-${appId}.desktop`, state)
+    this._state[appId] = this._state[appId] || {}
+    this._mergeState(appId, state)
+
+    this.emit(`update-${appId}`)
+  }
+
+  getState(app) {
+    return this._state[app.id]
+  }
+
+  _mergeState(appId, state) {
+    this._state[appId] = Object.assign(this._state[appId], state)
+
+    if (tracker.focus_app?.id == appId) this._state[appId].trayCount = 0
+
+    this._state[appId].urgent =
+      state.urgent ||
+      (this._state[appId].trayUrgent && this._state[appId].trayCount) ||
+      false
+
+    this._state[appId].total =
+      ((this._state[appId]['count-visible'] || 0) &&
+        (this._state[appId].count || 0)) + (this._state[appId].trayCount || 0)
   }
 
   _acquireUnityDBus() {
@@ -120,26 +144,30 @@ export const NotificationsMonitor = class extends EventEmitter {
     for (let property in properties)
       updates[property] = properties[property].unpack()
 
-    this.dispatch(appId, updates)
+    this._updateState(appId, updates)
   }
 
   _checkNotifications() {
     let addSource = (tray, source) => {
       let appId = source?._appId || source?.app?.id
+      let updateTray = () => {
+        this._updateState(appId, {
+          trayCount: source.count, // always source.unseenCount might be less annoying
+          trayUrgent: !!source.notifications.find(
+            (n) => n.urgency > MessageTray.Urgency.NORMAL,
+          ),
+        })
+      }
 
       if (!appId) return
 
       this._signalsHandler.addWithLabel(appId, [
         source,
         'notify::count',
-        () =>
-          this.dispatch(appId, {
-            trayCount: source.count, // source.unseenCount might be less annoying
-            urgent: !!source.notifications.find(
-              (n) => n.urgency > MessageTray.Urgency.NORMAL,
-            ),
-          }),
+        updateTray,
       ])
+
+      updateTray()
     }
 
     this._signalsHandler.add(

@@ -1303,7 +1303,9 @@ export const Taskbar = class extends EventEmitter {
   toggleHotkeysNumberOverlay(activate) {
     let appIcons = this._getAppIcons()
     appIcons.forEach(function (icon) {
-      icon.toggleHotkeysNumberOverlay(activate)
+      icon.toggleHotkeysNumberOverlay(
+        activate ? SETTINGS.get_string('hotkeys-overlay-combo') : false,
+      )
     })
   }
 
