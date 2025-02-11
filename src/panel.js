@@ -451,8 +451,10 @@ export const Panel = GObject.registerClass(
       if (
         source == Main.xdndHandler &&
         Main.overview.shouldToggleByCornerOrButton()
-      )
+      ) {
+        this.panelManager.showFocusedAppInOverview(null)
         Main.overview.show()
+      }
 
       return DND.DragMotionResult.CONTINUE
     }

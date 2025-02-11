@@ -37,6 +37,7 @@
                   <item id="CYCLE" translatable="yes">Cycle through windows</item>
                   <item id="TOGGLE-SHOWPREVIEW" translatable="yes">Toggle single / Preview multiple</item>
                   <item id="TOGGLE-CYCLE" translatable="yes">Toggle single / Cycle multiple</item>
+                  <item id="TOGGLE-SPREAD" translatable="yes">Toggle single / Spread multiple</item>
                   <item id="MINIMIZE" translatable="yes">Toggle windows</item>
                   <item id="RAISE" translatable="yes">Raise windows</item>
                   <item id="LAUNCH" translatable="yes">Launch new instance</item>

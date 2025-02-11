@@ -23,6 +23,7 @@
     <value value='5' nick='QUIT'/>
     <value value='6' nick='TOGGLE-SHOWPREVIEW'/>
     <value value='7' nick='TOGGLE-CYCLE'/>
+    <value value='8' nick='TOGGLE-SPREAD'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.scrollAction'>
     <value value='0' nick='NOTHING'/>

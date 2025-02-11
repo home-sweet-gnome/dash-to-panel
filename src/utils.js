@@ -79,6 +79,10 @@ export const BasicHandler = class {
     }
   }
 
+  hasLabel(label) {
+    return !!this._storage[label]
+  }
+
   /* Virtual methods to be implemented by subclass */
   // create single element to be stored in the storage structure
   _create() {

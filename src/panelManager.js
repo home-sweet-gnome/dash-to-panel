@@ -46,6 +46,7 @@ import * as LookingGlass from 'resource:///org/gnome/shell/ui/lookingGlass.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js'
 import { NotificationsMonitor } from './notificationsMonitor.js'
+import { Workspace } from 'resource:///org/gnome/shell/ui/workspace.js'
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js'
 import { InjectionManager } from 'resource:///org/gnome/shell/extensions/extension.js'
 import { SETTINGS } from './extension.js'
@@ -53,6 +54,8 @@ import {
   SecondaryMonitorDisplay,
   WorkspacesView,
 } from 'resource:///org/gnome/shell/ui/workspacesView.js'
+
+let tracker = Shell.WindowTracker.get_default()
 
 export const PanelManager = class {
   constructor() {
@@ -188,6 +191,13 @@ export const PanelManager = class {
       this._newSetPrimaryWorkspaceVisible.bind(
         Main.overview._overview._controls._workspacesDisplay,
       )
+
+    Workspace.prototype._oldIsOverviewWindow =
+      Workspace.prototype._isOverviewWindow
+    Workspace.prototype._isOverviewWindow = (metaWindow) =>
+      !metaWindow.skip_taskbar &&
+      (!this.focusedApp ||
+        tracker.get_window_app(metaWindow) == this.focusedApp)
 
     LookingGlass.LookingGlass.prototype._oldResize =
       LookingGlass.LookingGlass.prototype._resize
@@ -363,6 +373,10 @@ export const PanelManager = class {
     Main.overview._overview._controls._workspacesDisplay.setPrimaryWorkspaceVisible =
       this._oldSetPrimaryWorkspaceVisible
 
+    Workspace.prototype._isOverviewWindow =
+      Workspace.prototype._oldIsOverviewWindow
+    delete Workspace.prototype._oldIsOverviewWindow
+
     LookingGlass.LookingGlass.prototype._resize =
       LookingGlass.LookingGlass.prototype._oldResize
     delete LookingGlass.LookingGlass.prototype._oldResize
@@ -441,6 +455,69 @@ export const PanelManager = class {
       Main.layoutManager.primaryMonitor =
         Main.layoutManager.monitors[Main.layoutManager.primaryIndex]
     }
+  }
+
+  showFocusedAppInOverview(app) {
+    if (app == this.focusedApp) return
+
+    this.focusedApp = app
+
+    if (!this._signalsHandler.hasLabel('overview-spread'))
+      this._signalsHandler.addWithLabel('overview-spread', [
+        Main.overview,
+        'hidden',
+        () => {
+          Utils.getCurrentWorkspace()
+            .list_windows()
+            .forEach((w) => {
+              if (
+                !w.minimized &&
+                !w.customJS_ding &&
+                tracker.get_window_app(w) != this.focusedApp
+              ) {
+                let window = w.get_compositor_private()
+
+                ;(window.get_first_child() || window).opacity = 0
+
+                Utils.animateWindowOpacity(window, {
+                  opacity: 255,
+                  time: 0.25,
+                  transition: 'easeOutQuad',
+                })
+              }
+            })
+
+          this.focusedApp = null
+          this._signalsHandler.removeWithLabel('overview-spread')
+        },
+      ])
+
+    if (Main.overview._shown) {
+      let workspaces = []
+
+      Main.overview._overview._controls._workspacesDisplay._workspacesViews.forEach(
+        (wv) =>
+          (workspaces = [
+            ...workspaces,
+            ...(wv._workspaces || []), // WorkspacesDisplay --> WorkspacesView (primary monitor)
+            ...(wv._workspacesView?._workspaces || []), // WorkspacesDisplay --> SecondaryMonitorDisplay --> WorkspacesView
+            ...(wv._workspacesView?._workspace // WorkspacesDisplay --> SecondaryMonitorDisplay --> ExtraWorkspaceView
+              ? [wv._workspacesView?._workspace]
+              : []),
+          ]),
+      )
+
+      workspaces.forEach((w) => {
+        let metaWorkspace =
+          w.metaWorkspace ||
+          Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace()
+
+        w._container.layout_manager._windows.forEach((info, preview) =>
+          preview.destroy(),
+        )
+        metaWorkspace.list_windows().forEach((mw) => w._doAddWindow(mw))
+      })
+    } else Main.overview.show()
   }
 
   _newSetPrimaryWorkspaceVisible(visible) {

@@ -1156,17 +1156,21 @@ export const TaskbarAppIcon = GObject.registerClass(
         if (this.window && !handleAsGrouped) {
           //ungrouped applications behaviors
           switch (buttonAction) {
-            case 'RAISE':
-            case 'CYCLE':
-            case 'CYCLE-MIN':
-            case 'MINIMIZE':
-            case 'TOGGLE-SHOWPREVIEW':
-            case 'TOGGLE-CYCLE':
+            case 'LAUNCH':
+              this._launchNewInstance()
+              break
+
+            case 'QUIT':
+              this.window.delete(global.get_current_time())
+              break
+
+            default:
               if (
                 !Main.overview._shown &&
                 (buttonAction == 'MINIMIZE' ||
                   buttonAction == 'TOGGLE-SHOWPREVIEW' ||
                   buttonAction == 'TOGGLE-CYCLE' ||
+                  buttonAction == 'TOGGLE-SPREAD' ||
                   buttonAction == 'CYCLE-MIN') &&
                 (this._isFocusedWindow() ||
                   (buttonAction == 'MINIMIZE' &&
@@ -1177,16 +1181,6 @@ export const TaskbarAppIcon = GObject.registerClass(
               } else {
                 Main.activateWindow(this.window)
               }
-
-              break
-
-            case 'LAUNCH':
-              this._launchNewInstance()
-              break
-
-            case 'QUIT':
-              this.window.delete(global.get_current_time())
-              break
           }
         } else {
           //grouped application behaviors
@@ -1279,6 +1273,16 @@ export const TaskbarAppIcon = GObject.registerClass(
             case 'QUIT':
               closeAllWindows(this.app, monitor)
               break
+            case 'TOGGLE-SPREAD':
+              if (appCount == 1) {
+                if (appHasFocus && !Main.overview._shown)
+                  minimizeWindow(this.app, false, monitor)
+                else activateFirstWindow(this.app, monitor)
+              } else
+                // return so the overview stays open if it already is
+                return this.dtpPanel.panelManager.showFocusedAppInOverview(
+                  this.app,
+                )
           }
         }
       } else {
@@ -1680,8 +1684,9 @@ export const TaskbarAppIcon = GObject.registerClass(
       // still visible. The border radius is large to make the shape circular
       let panelSize =
         this.dtpPanel.geom[this.dtpPanel.checkIfVertical() ? 'w' : 'h']
+      let minFontSize = panelSize >= 32 ? 12 : 10
       let fontSize = Math.round(
-        Math.max(11, 0.3 * panelSize) / Utils.getScaleFactor(),
+        Math.max(minFontSize, 0.3 * panelSize) / Utils.getScaleFactor(),
       )
       let size = Math.round(fontSize * 1.3)
       let style = `
@@ -1713,9 +1718,9 @@ export const TaskbarAppIcon = GObject.registerClass(
           this.window
             ? Main.activateWindow(this.window)
             : activateFirstWindow(this.app, this.monitor)
+        } else this.dtpPanel.panelManager.showFocusedAppInOverview(this.app)
 
-          return DND.DragMotionResult.MOVE_DROP
-        }
+        return DND.DragMotionResult.MOVE_DROP
       }
 
       return DND.DragMotionResult.CONTINUE
