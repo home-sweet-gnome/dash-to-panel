@@ -25,7 +25,7 @@ import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
 import * as Utils from './utils.js'
 
 const tracker = Shell.WindowTracker.get_default()
-const knownCorrespondances = {
+const knownIdMappings = {
   'org.gnome.Evolution': [/^org\.gnome\.[eE]volution([.-].+)?$/g],
 }
 
@@ -80,16 +80,17 @@ export const NotificationsMonitor = class extends EventEmitter {
     // depending of the notification source, some app id end
     // with ".desktop" and some don't ¯\_(ツ)_/¯
     appId = appId.replace('.desktop', '')
-    appId = `${appId}.desktop`
 
     // some app have different source app id, deamon and such,
     // but it maps to a desktop app so match those here
-    if (!ignoreMapping && !knownCorrespondances[appId])
+    if (!ignoreMapping && !knownIdMappings[appId])
       appId =
-        Object.keys(knownCorrespondances).find((k) =>
-          knownCorrespondances[k].some((regex) => appId.match(regex)),
+        Object.keys(knownIdMappings).find((k) =>
+          knownIdMappings[k].some((regex) => appId.match(regex)),
         ) || appId
 
+
+    appId = `${appId}.desktop`
     this._state[appId] = this._state[appId] || {}
     this._mergeState(appId, state)
 

@@ -1681,7 +1681,7 @@ export const TaskbarAppIcon = GObject.registerClass(
       let panelSize =
         this.dtpPanel.geom[this.dtpPanel.checkIfVertical() ? 'w' : 'h']
       let fontSize = Math.round(
-        Math.max(10, 0.3 * panelSize) / Utils.getScaleFactor(),
+        Math.max(11, 0.3 * panelSize) / Utils.getScaleFactor(),
       )
       let size = Math.round(fontSize * 1.3)
       let style = `
