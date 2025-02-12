@@ -678,7 +678,10 @@ export const PreviewMenu = GObject.registerClass(
 
     _peek(window) {
       let currentWorkspace = Utils.getCurrentWorkspace()
-      let windowWorkspace = window.get_workspace()
+      let isAppSpread = !Main.sessionMode.hasWorkspaces
+      let windowWorkspace = isAppSpread
+        ? currentWorkspace
+        : window.get_workspace()
       let focusWindow = () =>
         this._focusMetaWindow(SETTINGS.get_int('peek-mode-opacity'), window)
 
@@ -742,31 +745,36 @@ export const PreviewMenu = GObject.registerClass(
     }
 
     _focusMetaWindow(dimOpacity, window, immediate, ignoreFocus) {
-      window
-        .get_workspace()
-        .list_windows()
-        .forEach((mw) => {
-          let wa = mw.get_compositor_private()
-          let isFocused = !ignoreFocus && mw == window
+      let isAppSpread = !Main.sessionMode.hasWorkspaces
+      let windowWorkspace = isAppSpread
+        ? Utils.getCurrentWorkspace()
+        : window.get_workspace()
+      let windows = isAppSpread
+        ? Utils.getAllMetaWindows()
+        : windowWorkspace.list_windows()
 
-          if (wa) {
-            if (isFocused) {
-              mw[PEEK_INDEX_PROP] = wa.get_parent().get_children().indexOf(wa)
-              wa.get_parent().set_child_above_sibling(wa, null)
-            }
+      windows.forEach((mw) => {
+        let wa = mw.get_compositor_private()
+        let isFocused = !ignoreFocus && mw == window
 
-            if (isFocused && mw.minimized) {
-              wa.show()
-            }
-
-            this.animateWindowOpacity(
-              mw,
-              wa,
-              isFocused ? 255 : dimOpacity,
-              immediate,
-            )
+        if (wa) {
+          if (isFocused) {
+            mw[PEEK_INDEX_PROP] = wa.get_parent().get_children().indexOf(wa)
+            wa.get_parent().set_child_above_sibling(wa, null)
           }
-        })
+
+          if (isFocused && mw.minimized) {
+            wa.show()
+          }
+
+          this.animateWindowOpacity(
+            mw,
+            wa,
+            isFocused ? 255 : dimOpacity,
+            immediate,
+          )
+        }
+      })
     }
 
     animateWindowOpacity(metaWindow, windowActor, opacity, immediate) {

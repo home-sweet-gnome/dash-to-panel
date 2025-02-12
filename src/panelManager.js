@@ -192,13 +192,6 @@ export const PanelManager = class {
         Main.overview._overview._controls._workspacesDisplay,
       )
 
-    Workspace.prototype._oldIsOverviewWindow =
-      Workspace.prototype._isOverviewWindow
-    Workspace.prototype._isOverviewWindow = (metaWindow) =>
-      !metaWindow.skip_taskbar &&
-      (!this.focusedApp ||
-        tracker.get_window_app(metaWindow) == this.focusedApp)
-
     LookingGlass.LookingGlass.prototype._oldResize =
       LookingGlass.LookingGlass.prototype._resize
     LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize
@@ -373,10 +366,6 @@ export const PanelManager = class {
     Main.overview._overview._controls._workspacesDisplay.setPrimaryWorkspaceVisible =
       this._oldSetPrimaryWorkspaceVisible
 
-    Workspace.prototype._isOverviewWindow =
-      Workspace.prototype._oldIsOverviewWindow
-    delete Workspace.prototype._oldIsOverviewWindow
-
     LookingGlass.LookingGlass.prototype._resize =
       LookingGlass.LookingGlass.prototype._oldResize
     delete LookingGlass.LookingGlass.prototype._oldResize
@@ -457,57 +446,95 @@ export const PanelManager = class {
     }
   }
 
-  showFocusedAppInOverview(app) {
-    if (app == this.focusedApp) return
+  showFocusedAppInOverview(app, keepOverviewOpen) {
+    if (app == this.focusedApp) {
+      if (!keepOverviewOpen && Main.overview._shown) Main.overview.hide()
+
+      return
+    }
+
+    let isolateWorkspaces = SETTINGS.get_boolean('isolate-workspaces')
+    let isolateMonitors = SETTINGS.get_boolean('isolate-monitors')
 
     this.focusedApp = app
 
-    if (!this._signalsHandler.hasLabel('overview-spread'))
-      this._signalsHandler.addWithLabel('overview-spread', [
-        Main.overview,
-        'hidden',
-        () => {
-          Utils.getCurrentWorkspace()
-            .list_windows()
-            .forEach((w) => {
-              if (
-                !w.minimized &&
-                !w.customJS_ding &&
-                tracker.get_window_app(w) != this.focusedApp
-              ) {
-                let window = w.get_compositor_private()
+    if (!this._signalsHandler.hasLabel('overview-spread')) {
+      let hasWorkspaces = Main.sessionMode.hasWorkspaces
+      let maybeDisableWorkspacesClick = () => {
+        if (!isolateWorkspaces)
+          Utils.getOverviewWorkspaces().forEach(
+            (w) => (w._container.get_actions()[0].enabled = false),
+          )
+      }
+      let isIncludedWindow = (metaWindow) =>
+        !this.focusedApp ||
+        tracker.get_window_app(metaWindow) == this.focusedApp
 
-                ;(window.get_first_child() || window).opacity = 0
+      Main.sessionMode.hasWorkspaces = isolateWorkspaces
+      maybeDisableWorkspacesClick()
 
-                Utils.animateWindowOpacity(window, {
-                  opacity: 255,
-                  time: 0.25,
-                  transition: 'easeOutQuad',
-                })
-              }
-            })
+      Workspace.prototype._oldIsMyWindow = Workspace.prototype._isMyWindow
+      Workspace.prototype._isMyWindow = function (metaWindow) {
+        if (!metaWindow) return false
 
-          this.focusedApp = null
-          this._signalsHandler.removeWithLabel('overview-spread')
-        },
-      ])
+        return (
+          isIncludedWindow(metaWindow) &&
+          (this.metaWorkspace === null ||
+            (!isolateWorkspaces && this.metaWorkspace.active) ||
+            (isolateWorkspaces &&
+              metaWindow.located_on_workspace(this.metaWorkspace))) &&
+          (!isolateMonitors || metaWindow.get_monitor() === this.monitorIndex)
+        )
+      }
+
+      this.focusedWorkspace = !isolateWorkspaces
+        ? Utils.getCurrentWorkspace()
+        : null
+
+      this._signalsHandler.addWithLabel(
+        'overview-spread',
+        [Main.overview, 'showing', maybeDisableWorkspacesClick],
+        [
+          Main.overview,
+          'hidden',
+          () => {
+            Utils.getCurrentWorkspace()
+              .list_windows()
+              .forEach((w) => {
+                if (
+                  !w.minimized &&
+                  !w.customJS_ding &&
+                  global.display.focus_window != w &&
+                  tracker.get_window_app(w) != this.focusedApp
+                ) {
+                  let window = w.get_compositor_private()
+
+                  ;(window.get_first_child() || window).opacity = 0
+
+                  Utils.animateWindowOpacity(window, {
+                    opacity: 255,
+                    time: 0.25,
+                    transition: 'easeOutQuad',
+                  })
+                }
+              })
+
+            this.focusedApp = null
+            this.focusedWorkspace = null
+            this._signalsHandler.removeWithLabel('overview-spread')
+
+            Main.sessionMode.hasWorkspaces = hasWorkspaces
+
+            Workspace.prototype._isMyWindow = Workspace.prototype._oldIsMyWindow
+            delete Workspace.prototype._oldIsMyWindow
+          },
+        ],
+      )
+    }
 
     if (Main.overview._shown) {
-      let workspaces = []
-
-      Main.overview._overview._controls._workspacesDisplay._workspacesViews.forEach(
-        (wv) =>
-          (workspaces = [
-            ...workspaces,
-            ...(wv._workspaces || []), // WorkspacesDisplay --> WorkspacesView (primary monitor)
-            ...(wv._workspacesView?._workspaces || []), // WorkspacesDisplay --> SecondaryMonitorDisplay --> WorkspacesView
-            ...(wv._workspacesView?._workspace // WorkspacesDisplay --> SecondaryMonitorDisplay --> ExtraWorkspaceView
-              ? [wv._workspacesView?._workspace]
-              : []),
-          ]),
-      )
-
-      workspaces.forEach((w) => {
+      Utils.getOverviewWorkspaces().forEach((w) => {
+        let metaWindows = []
         let metaWorkspace =
           w.metaWorkspace ||
           Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace()
@@ -515,7 +542,13 @@ export const PanelManager = class {
         w._container.layout_manager._windows.forEach((info, preview) =>
           preview.destroy(),
         )
-        metaWorkspace.list_windows().forEach((mw) => w._doAddWindow(mw))
+
+        if (this.focusedWorkspace && this.focusedWorkspace == metaWorkspace)
+          metaWindows = Utils.getAllMetaWindows()
+        else if (!this.focusedWorkspace)
+          metaWindows = metaWorkspace.list_windows()
+
+        metaWindows.forEach((mw) => w._doAddWindow(mw))
       })
     } else Main.overview.show()
   }

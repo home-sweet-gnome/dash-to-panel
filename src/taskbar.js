@@ -1206,11 +1206,11 @@ export const Taskbar = class extends EventEmitter {
 
   _getRunningApps() {
     let tracker = Shell.WindowTracker.get_default()
-    let windows = global.get_window_actors()
+    let windows = Utils.getAllMetaWindows()
     let apps = []
 
     for (let i = 0, l = windows.length; i < l; ++i) {
-      let app = tracker.get_window_app(windows[i].metaWindow)
+      let app = tracker.get_window_app(windows[i])
 
       if (app && apps.indexOf(app) < 0) {
         apps.push(app)

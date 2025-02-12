@@ -26,6 +26,7 @@ import * as PanelSettings from './panelSettings.js'
 
 import * as PanelManager from './panelManager.js'
 import * as AppIcons from './appIcons.js'
+import * as Utils from './utils.js'
 
 const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com'
 
@@ -138,14 +139,11 @@ export default class DashToPanelExtension extends Extension {
 
   openPreferences() {
     if (SETTINGS.get_boolean('prefs-opened')) {
-      let prefsWindow = global
-        .get_window_actors()
-        .map((wa) => wa.meta_window)
-        .find(
-          (w) =>
-            w.title == 'Dash to Panel' &&
-            w.wm_class == 'org.gnome.Shell.Extensions',
-        )
+      let prefsWindow = Utils.getAllMetaWindows().find(
+        (w) =>
+          w.title == 'Dash to Panel' &&
+          w.wm_class == 'org.gnome.Shell.Extensions',
+      )
 
       if (prefsWindow) Main.activateWindow(prefsWindow)
 

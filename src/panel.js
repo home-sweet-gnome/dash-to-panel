@@ -452,7 +452,7 @@ export const Panel = GObject.registerClass(
         source == Main.xdndHandler &&
         Main.overview.shouldToggleByCornerOrButton()
       ) {
-        this.panelManager.showFocusedAppInOverview(null)
+        this.panelManager.showFocusedAppInOverview(null, true)
         Main.overview.show()
       }
 

@@ -89,7 +89,6 @@ export const NotificationsMonitor = class extends EventEmitter {
           knownIdMappings[k].some((regex) => appId.match(regex)),
         ) || appId
 
-
     appId = `${appId}.desktop`
     this._state[appId] = this._state[appId] || {}
     this._mergeState(appId, state)

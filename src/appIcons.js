@@ -1850,11 +1850,9 @@ export function closeAllWindows(app, monitor) {
 // Filter out unnecessary windows, for instance
 // nautilus desktop window.
 export function getInterestingWindows(app, monitor, isolateMonitors) {
-  let windows = (
-    app
-      ? app.get_windows()
-      : global.get_window_actors().map((wa) => wa.get_meta_window())
-  ).filter((w) => !w.skip_taskbar)
+  let windows = (app ? app.get_windows() : Utils.getAllMetaWindows()).filter(
+    (w) => !w.skip_taskbar,
+  )
 
   // When using workspace or monitor isolation, we filter out windows
   // that are not in the current workspace or on the same monitor as the appicon
