@@ -1718,7 +1718,7 @@ export const TaskbarAppIcon = GObject.registerClass(
           this.window
             ? Main.activateWindow(this.window)
             : activateFirstWindow(this.app, this.monitor)
-        } else this.dtpPanel.panelManager.showFocusedAppInOverview(this.app)
+        } else this.dtpPanel.panelManager.showFocusedAppInOverview(this.app, true)
 
         return DND.DragMotionResult.MOVE_DROP
       }
