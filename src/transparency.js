@@ -48,7 +48,6 @@ export const DynamicTransparency = class {
   }
 
   updateExternalStyle() {
-    this._updateComplementaryStyles()
     this._setBackground()
   }
 
@@ -134,7 +133,6 @@ export const DynamicTransparency = class {
 
     this._updateColor(themeBackground)
     this._updateAlpha(themeBackground)
-    this._updateComplementaryStyles()
     this._updateGradient()
     this._setBackground()
     this._setGradient()
@@ -153,13 +151,6 @@ export const DynamicTransparency = class {
   _updateGradientAndSet() {
     this._updateGradient()
     this._setGradient()
-  }
-
-  _updateComplementaryStyles() {
-    let panelThemeNode = this._dtpPanel.panel.get_theme_node()
-
-    this._complementaryStyles =
-      'border-radius: ' + panelThemeNode.get_border_radius(0) + 'px;'
   }
 
   _updateColor(themeBackground) {
@@ -211,10 +202,7 @@ export const DynamicTransparency = class {
     let transition = 'transition-duration:' + this.animationDuration
 
     this._dtpPanel.set_style(
-      'background-color: ' +
-        this.currentBackgroundColor +
-        transition +
-        this._complementaryStyles,
+      'background-color: ' + this.currentBackgroundColor + transition,
     )
   }
 

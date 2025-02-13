@@ -66,7 +66,6 @@
 	background: none;
 }
 
-
 #dashtopanelScrollview .overview-tile:active .dtp-container {
 	background-color: rgba(238, 238, 236, 0.18);
 }
@@ -167,4 +166,81 @@
 
 .symbolic-icon-style {
 	-st-icon-style: symbolic;
+}
+
+
+/* border radius, grrr no css variables in ST */
+#uiGroup.br4 #dashtopanelPanel,
+#uiGroup.br4 .show-apps,
+#uiGroup.br4 .dtp-container,
+#uiGroup.br4 .dtp-dots-container,
+#uiGroup.br4 #preview-menu, 
+#uiGroup.br4 #preview-menu .preview-header-box,
+#uiGroup.br4 #preview-menu .preview-container,
+#uiGroup.br4 #preview-menu .preview-close-btn-container { 
+	border-radius: 4px !important;
+	overflow: hidden !important;
+}
+#uiGroup.br4 .showdesktop-button { 
+	border-radius: 0 4px 4px 0 !important;
+}
+
+#uiGroup.br8 #dashtopanelPanel,
+#uiGroup.br8 .show-apps,
+#uiGroup.br8 .dtp-container,
+#uiGroup.br8 .dtp-dots-container,
+#uiGroup.br8 #preview-menu, 
+#uiGroup.br8 #preview-menu .preview-header-box,
+#uiGroup.br8 #preview-menu .preview-container,
+#uiGroup.br8 #preview-menu .preview-close-btn-container { 
+	border-radius: 8px !important;
+	overflow: hidden !important;
+}
+#uiGroup.br8 .showdesktop-button { 
+	border-radius: 0 8px 8px 0 !important;
+}
+
+#uiGroup.br12 #dashtopanelPanel,
+#uiGroup.br12 .show-apps,
+#uiGroup.br12 .dtp-container,
+#uiGroup.br12 .dtp-dots-container,
+#uiGroup.br12 #preview-menu, 
+#uiGroup.br12 #preview-menu .preview-header-box,
+#uiGroup.br12 #preview-menu .preview-container,
+#uiGroup.br12 #preview-menu .preview-close-btn-container { 
+	border-radius: 12px !important;
+	overflow: hidden !important;
+}
+#uiGroup.br12 .showdesktop-button { 
+	border-radius: 0 12px 12px 0 !important;
+}
+
+#uiGroup.br16 #dashtopanelPanel,
+#uiGroup.br16 .show-apps,
+#uiGroup.br16 .dtp-container,
+#uiGroup.br16 .dtp-dots-container,
+#uiGroup.br16 #preview-menu, 
+#uiGroup.br16 #preview-menu .preview-header-box,
+#uiGroup.br16 #preview-menu .preview-container,
+#uiGroup.br16 #preview-menu .preview-close-btn-container { 
+	border-radius: 16px !important;
+	overflow: hidden !important;
+}
+#uiGroup.br16 .showdesktop-button { 
+	border-radius: 0 16px 16px 0 !important;
+}
+
+#uiGroup.br20 #dashtopanelPanel,
+#uiGroup.br20 .show-apps,
+#uiGroup.br20 .dtp-container,
+#uiGroup.br20 .dtp-dots-container,
+#uiGroup.br20 #preview-menu, 
+#uiGroup.br20 #preview-menu .preview-header-box,
+#uiGroup.br20 #preview-menu .preview-container,
+#uiGroup.br20 #preview-menu .preview-close-btn-container { 
+	border-radius: 20px !important;
+	overflow: hidden !important;
+}
+#uiGroup.br20 .showdesktop-button { 
+	border-radius: 0 20px 20px 0 !important;
 }

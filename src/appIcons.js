@@ -541,7 +541,7 @@ export const TaskbarAppIcon = GObject.registerClass(
       )
 
       // Some trickery needed to get the effect
-      const br = `border-radius: ${border_radius}px;`
+      const br = border_radius ? `border-radius: ${border_radius}px;` : ''
       this._appicon_normalstyle = br
       this._container.set_style(this._appicon_normalstyle)
       this._appicon_hoverstyle = `background-color: ${background_color}; ${br}`
@@ -1718,7 +1718,8 @@ export const TaskbarAppIcon = GObject.registerClass(
           this.window
             ? Main.activateWindow(this.window)
             : activateFirstWindow(this.app, this.monitor)
-        } else this.dtpPanel.panelManager.showFocusedAppInOverview(this.app, true)
+        } else
+          this.dtpPanel.panelManager.showFocusedAppInOverview(this.app, true)
 
         return DND.DragMotionResult.MOVE_DROP
       }

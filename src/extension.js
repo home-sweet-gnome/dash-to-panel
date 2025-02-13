@@ -73,14 +73,8 @@ export default class DashToPanelExtension extends Extension {
     // To remove later, try to map settings using monitor indexes to monitor ids
     PanelSettings.adjustMonitorSettings(SETTINGS)
 
-    let completeEnable = () => {
-      panelManager = new PanelManager.PanelManager()
-      panelManager.enable()
-      ubuntuDockDelayId = 0
-    }
-    let donateIconUnixtime = SETTINGS.get_string('hide-donate-icon-unixtime')
-
     // show the donate icon every 120 days (10368000000 milliseconds)
+    let donateIconUnixtime = SETTINGS.get_string('hide-donate-icon-unixtime')
     if (donateIconUnixtime && donateIconUnixtime < Date.now() - 10368000000)
       SETTINGS.set_string('hide-donate-icon-unixtime', '')
 
@@ -97,6 +91,14 @@ export default class DashToPanelExtension extends Extension {
         'startup-complete',
         () => (Main.sessionMode.hasOverview = this._realHasOverview),
       )
+    }
+
+    this.enableGlobalStyles()
+
+    let completeEnable = () => {
+      panelManager = new PanelManager.PanelManager()
+      panelManager.enable()
+      ubuntuDockDelayId = 0
     }
 
     // disable ubuntu dock if present
@@ -127,6 +129,8 @@ export default class DashToPanelExtension extends Extension {
 
     delete global.dashToPanel
 
+    this.disableGlobalStyles()
+
     AppIcons.resetRecentlyClickedApp()
 
     if (startupCompleteHandler) {
@@ -151,5 +155,25 @@ export default class DashToPanelExtension extends Extension {
     }
 
     super.openPreferences()
+  }
+
+  resetGlobalStyles() {
+    this.disableGlobalStyles()
+    this.enableGlobalStyles()
+  }
+
+  enableGlobalStyles() {
+    let globalBorderRadius = SETTINGS.get_int('global-border-radius')
+
+    if (globalBorderRadius)
+      Main.layoutManager.uiGroup.add_style_class_name(
+        `br${globalBorderRadius * 4}`,
+      )
+  }
+
+  disableGlobalStyles() {
+    ;['br4', 'br8', 'br12', 'br16', 'br20'].forEach((c) =>
+      Main.layoutManager.uiGroup.remove_style_class_name(c),
+    )
   }
 }

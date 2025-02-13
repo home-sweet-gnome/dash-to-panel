@@ -235,6 +235,7 @@ const Preferences = class {
     this._dot_height_timeout = 0
     this._tray_size_timeout = 0
     this._leftbox_size_timeout = 0
+    this._globalBorderRadius_margin_timeout = 0
     this._appicon_margin_timeout = 0
     this._appicon_margin_todesktop_timeout = 0
     this._appicon_margin_toscreenborder_timeout = 0
@@ -800,6 +801,12 @@ const Preferences = class {
       })
 
     // style
+    this._builder
+      .get_object('global_border_radius_scale')
+      .set_format_value_func((scale, value) => {
+        return value * 4 + ' px'
+      })
+
     this._builder
       .get_object('appicon_margin_scale')
       .set_format_value_func((scale, value) => {
@@ -3052,6 +3059,12 @@ const Preferences = class {
         range: DEFAULT_FONT_SIZES,
       },
       {
+        objectName: 'global_border_radius_scale',
+        valueName: 'global-border-radius',
+        range: [5, 4, 3, 2, 1, 0],
+        rangeFactor: 4,
+      },
+      {
         objectName: 'appicon_margin_scale',
         valueName: 'appicon-margin',
         range: DEFAULT_MARGIN_SIZES,
@@ -3097,6 +3110,7 @@ const Preferences = class {
     for (const idx in sizeScales) {
       let size_scale = this._builder.get_object(sizeScales[idx].objectName)
       let range = sizeScales[idx].range
+      let factor = sizeScales[idx].rangeFactor
       size_scale.set_range(range[range.length - 1], range[0])
       let value
       if (sizeScales[idx].objectName === 'panel_length_scale') {
@@ -3110,7 +3124,11 @@ const Preferences = class {
       size_scale.set_value(value)
       // Add marks from range arrays, omitting the first and last values.
       range.slice(1, -1).forEach(function (val) {
-        size_scale.add_mark(val, Gtk.PositionType.TOP, val.toString())
+        size_scale.add_mark(
+          val,
+          Gtk.PositionType.TOP,
+          (val * (factor || 1)).toString(),
+        )
       })
 
       // Corrent for rtl languages
@@ -3736,6 +3754,25 @@ const BuilderScope = GObject.registerClass(
         () => {
           this._preferences._settings.set_int('leftbox-size', scale.get_value())
           this._preferences._leftbox_size_timeout = 0
+          return GLib.SOURCE_REMOVE
+        },
+      )
+    }
+
+    global_border_radius_scale_value_changed_cb(scale) {
+      // Avoid settings the size consinuosly
+      if (this._preferences._globalBorderRadius_margin_timeout > 0)
+        GLib.Source.remove(this._preferences._globalBorderRadius_margin_timeout)
+
+      this._preferences._globalBorderRadius_margin_timeout = GLib.timeout_add(
+        GLib.PRIORITY_DEFAULT,
+        SCALE_UPDATE_TIMEOUT,
+        () => {
+          this._preferences._settings.set_int(
+            'global-border-radius',
+            scale.get_value(),
+          )
+          this._preferences._globalBorderRadius_margin_timeout = 0
           return GLib.SOURCE_REMOVE
         },
       )

@@ -71,7 +71,10 @@ export const Panel = GObject.registerClass(
   {},
   class Panel extends St.Widget {
     _init(panelManager, monitor, panelBox, isStandalone) {
-      super._init({ layout_manager: new Clutter.BinLayout() })
+      super._init({
+        name: 'dashtopanelPanel',
+        layout_manager: new Clutter.BinLayout(),
+      })
 
       this._timeoutsHandler = new Utils.TimeoutsHandler()
       this._signalsHandler = new Utils.GlobalSignalsHandler()

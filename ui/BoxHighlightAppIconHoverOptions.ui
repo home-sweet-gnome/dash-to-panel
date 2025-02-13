@@ -48,7 +48,7 @@
           <child>
             <object class="AdwActionRow">
               <property name="title" translatable="yes">Highlight AppIcon border radius</property>
-              <property name="subtitle" translatable="yes">(default is 0)</property>
+              <property name="subtitle" translatable="yes">Overrides global border radius (default is 0)</property>
               <child>
                 <object class="GtkScale" id="highlight_appicon_borderradius">
                   <property name="width-request">300</property>

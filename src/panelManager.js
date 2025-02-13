@@ -49,7 +49,7 @@ import { NotificationsMonitor } from './notificationsMonitor.js'
 import { Workspace } from 'resource:///org/gnome/shell/ui/workspace.js'
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js'
 import { InjectionManager } from 'resource:///org/gnome/shell/extensions/extension.js'
-import { SETTINGS } from './extension.js'
+import { DTP_EXTENSION, SETTINGS } from './extension.js'
 import {
   SecondaryMonitorDisplay,
   WorkspacesView,
@@ -204,6 +204,11 @@ export const PanelManager = class {
 
     //listen settings
     this._signalsHandler.add(
+      [
+        SETTINGS,
+        'changed::global-border-radius',
+        () => DTP_EXTENSION.resetGlobalStyles(),
+      ],
       [
         SETTINGS,
         [
