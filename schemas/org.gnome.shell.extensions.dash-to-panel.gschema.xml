@@ -253,6 +253,14 @@
         <default>0</default>
         <summary>Panel side margins</summary>
     </key>
+      <key type="i" name="panel-top-bottom-padding">
+        <default>0</default>
+        <summary>Panel top and bottom padding</summary>
+    </key>
+    <key type="i" name="panel-sides-padding">
+        <default>0</default>
+        <summary>Panel sides padding</summary>
+    </key>
     <key type="b" name="trans-use-custom-bg">
       <default>false</default>
       <summary>Override theme background color</summary>

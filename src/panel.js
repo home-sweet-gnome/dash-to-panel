@@ -382,6 +382,9 @@ export const Panel = GObject.registerClass(
       this.taskbar.destroy()
       this.showAppsIconWrapper.destroy()
 
+      this._setPanelBoxStyle('0', '0')
+      this._maybeSetDockCss(true)
+
       this.menuManager._changeMenu = this.menuManager._oldChangeMenu
 
       this._unmappedButtons.forEach((a) => this._disconnectVisibleId(a))
@@ -700,6 +703,7 @@ export const Panel = GObject.registerClass(
     }
 
     getGeometry() {
+      let isVertical = this.checkIfVertical()
       let scaleFactor = Utils.getScaleFactor()
       let panelBoxTheme = this.panelBox.get_theme_node()
       let leftPadding = panelBoxTheme.get_padding(St.Side.LEFT)
@@ -715,7 +719,6 @@ export const Panel = GObject.registerClass(
       let dynamic = panelLength == -1 ? Pos.anchorToPosition[anchor] : 0
       let dockMode = false
       let length = (dynamic ? 100 : panelLength) / 100
-      let anchorPlaceOnMonitor = 0
       let gsTopPanelOffset = 0
       let x = 0,
         y = 0
@@ -729,10 +732,10 @@ export const Panel = GObject.registerClass(
         SETTINGS.get_boolean('stockgs-keep-top-panel') &&
         Main.layoutManager.primaryMonitor == this.monitor
       ) {
-        gsTopPanelOffset = Main.layoutManager.panelBox.height - topPadding
+        gsTopPanelOffset = Main.layoutManager.panelBox.height
       }
 
-      if (this.checkIfVertical()) {
+      if (isVertical) {
         if (!SETTINGS.get_boolean('group-apps')) {
           // add window title width and side padding of _dtpIconContainer when vertical
           this.dtpSize +=
@@ -746,7 +749,7 @@ export const Panel = GObject.registerClass(
 
         w = this.dtpSize
         h = this.monitor.height * length - tbPadding - gsTopPanelOffset
-        dockMode = h < this.monitor.height
+        dockMode = !!dynamic || tbPadding > 0 || h < this.monitor.height
       } else {
         this.sizeFunc = 'get_preferred_width'
         this.fixedCoord = { c1: 'y1', c2: 'y2' }
@@ -754,43 +757,31 @@ export const Panel = GObject.registerClass(
 
         w = this.monitor.width * length - lrPadding
         h = this.dtpSize
-        dockMode = w < this.monitor.width
+        dockMode = !!dynamic || lrPadding > 0 || w < this.monitor.width
       }
 
       if (position == St.Side.TOP || position == St.Side.LEFT) {
         x = this.monitor.x
         y = this.monitor.y + gsTopPanelOffset
       } else if (position == St.Side.RIGHT) {
-        x = this.monitor.x + this.monitor.width - this.dtpSize - lrPadding
+        x = this.monitor.x + this.monitor.width - w - lrPadding
         y = this.monitor.y + gsTopPanelOffset
       } else {
         //BOTTOM
-        x = this.monitor.x - leftPadding
-        y = this.monitor.y + this.monitor.height - this.dtpSize - tbPadding
+        x = this.monitor.x
+        y = this.monitor.y + this.monitor.height - h - tbPadding
       }
 
-      if (this.checkIfVertical()) {
-        let viewHeight = this.monitor.height - gsTopPanelOffset
-
-        if (anchor === Pos.MIDDLE) {
-          anchorPlaceOnMonitor = (viewHeight - h) / 2
-        } else if (anchor === Pos.END) {
-          anchorPlaceOnMonitor = viewHeight - h
-        } else {
-          // Pos.START
-          anchorPlaceOnMonitor = 0
-        }
-        y = y + anchorPlaceOnMonitor
-      } else {
-        if (anchor === Pos.MIDDLE) {
-          anchorPlaceOnMonitor = (this.monitor.width - w) / 2
-        } else if (anchor === Pos.END) {
-          anchorPlaceOnMonitor = this.monitor.width - w
-        } else {
-          // Pos.START
-          anchorPlaceOnMonitor = 0
-        }
-        x = x + anchorPlaceOnMonitor
+      if (length < 1) {
+        // fixed size, less than 100%, so adjust start coordinate
+        if (!isVertical && anchor == Pos.MIDDLE)
+          x += (this.monitor.width - w - lrPadding) * 0.5
+        else if (isVertical && anchor == Pos.MIDDLE)
+          y += (this.monitor.height - h - tbPadding) * 0.5
+        else if (!isVertical && anchor == Pos.END)
+          x += this.monitor.width - w - lrPadding
+        else if (isVertical && anchor == Pos.END)
+          y += this.monitor.height - h - tbPadding
       }
 
       return {
@@ -966,8 +957,8 @@ export const Panel = GObject.registerClass(
 
       if (this.geom.dynamic && this._elementGroups.length == 1) {
         let dynamicGroup = this._elementGroups[0] // only one group if dynamic
-        let tl = 0
-        let br = 0
+        let tl = box[this.varCoord.c1]
+        let br = box[this.varCoord.c2]
 
         if (this.geom.dynamic == Pos.STACKED_TL) {
           br = Math.min(box[this.varCoord.c2], dynamicGroup.size)
@@ -978,7 +969,10 @@ export const Panel = GObject.registerClass(
           // CENTERED_MONITOR
           let half = Math.max(
             0,
-            (box[this.varCoord.c2] - dynamicGroup.size) * 0.5,
+            (box[this.varCoord.c2] -
+              box[this.varCoord.c1] -
+              dynamicGroup.size) *
+              0.5,
           )
 
           tl = box[this.varCoord.c1] + half
@@ -1041,19 +1035,20 @@ export const Panel = GObject.registerClass(
       }
     }
 
-    _setPanelBoxStyle() {
-      let topBottomMargins = SETTINGS.get_int('panel-top-bottom-margins')
-      let sideMargins = SETTINGS.get_int('panel-side-margins')
+    _setPanelBoxStyle(topBottomMargins, sideMargins) {
+      topBottomMargins =
+        topBottomMargins || SETTINGS.get_int('panel-top-bottom-margins')
+      sideMargins = sideMargins || SETTINGS.get_int('panel-side-margins')
 
       this.panelBox.set_style(
         `padding: ${topBottomMargins}px ${sideMargins}px;`,
       )
     }
 
-    _maybeSetDockCss() {
+    _maybeSetDockCss(disable) {
       this.remove_style_class_name('dock')
 
-      if (this.geom.dockMode) this.add_style_class_name('dock')
+      if (!disable && this.geom.dockMode) this.add_style_class_name('dock')
     }
 
     _setPanelPosition() {

@@ -1214,6 +1214,17 @@ const Preferences = class {
       this._builder.get_object('multimon_multi_switch').set_sensitive(false)
     }
 
+    let panelLengthScale = {
+      objectName: 'panel_length_scale',
+      valueName: '',
+      range: LENGTH_MARKS,
+      unit: '%',
+      getValue: () =>
+        PanelSettings.getPanelLength(this._settings, this._currentMonitorIndex),
+      setValue: (value) => setPanelLength(value),
+      manualConnect: true,
+    }
+
     let setPanelLength = (value) => {
       const monitorSync = this._settings.get_boolean(
         'panel-element-positions-monitors-sync',
@@ -2930,16 +2941,6 @@ const Preferences = class {
 
     // Fine-tune panel
 
-    let panelLengthScale = {
-      objectName: 'panel_length_scale',
-      valueName: '',
-      range: LENGTH_MARKS,
-      unit: '%',
-      getValue: () =>
-        PanelSettings.getPanelLength(this._settings, this._currentMonitorIndex),
-      setValue: (value) => setPanelLength(value),
-      manualConnect: true,
-    }
     let scaleInfos = [
       {
         objectName: 'panel_size_scale',

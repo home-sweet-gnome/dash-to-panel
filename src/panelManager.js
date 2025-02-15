@@ -96,23 +96,6 @@ export const PanelManager = class {
     global.dashToPanel.panels = this.allPanels
     global.dashToPanel.emit('panels-created')
 
-    this.allPanels.forEach((p) => {
-      let panelPosition = p.getPosition()
-      let leftOrRight =
-        panelPosition == St.Side.LEFT || panelPosition == St.Side.RIGHT
-
-      p.panelBox.set_size(
-        leftOrRight ? -1 : p.geom.w + p.geom.lrPadding,
-        leftOrRight ? p.geom.h + p.geom.tbPadding : -1,
-      )
-
-      this._findPanelMenuButtons(p.panelBox).forEach((pmb) =>
-        this._adjustPanelMenuButton(pmb, p.monitor, panelPosition),
-      )
-
-      p.taskbar.iconAnimator.start()
-    })
-
     this._setDesktopIconsMargins()
     //in 3.32, BoxPointer now inherits St.Widget
     if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
@@ -647,6 +630,14 @@ export const PanelManager = class {
     panelBox._dtpIndex = monitor.index
     panelBox.set_position(0, 0)
 
+    if (panel.checkIfVertical) panelBox.set_width(-1)
+
+    this._findPanelMenuButtons(panelBox).forEach((pmb) =>
+      this._adjustPanelMenuButton(pmb, monitor, panel.getPosition()),
+    )
+
+    panel.taskbar.iconAnimator.start()
+
     return panel
   }
 
@@ -654,6 +645,10 @@ export const PanelManager = class {
     this.disable(true)
     this.allPanels = []
     this.enable(true)
+
+    // not ideal, but on startup the panel geometries are updated when the initial
+    // gnome-shell startup is complete, so simulate this here to update as well
+    Main.layoutManager.emit('startup-complete')
   }
 
   _updatePanelElementPositions() {
