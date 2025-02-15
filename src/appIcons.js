@@ -844,23 +844,11 @@ export const TaskbarAppIcon = GObject.registerClass(
     _setAppIconPadding() {
       const padding = getIconPadding(this.dtpPanel.monitor.index)
       const margin = SETTINGS.get_int('appicon-margin')
-      const margin_todesktop = SETTINGS.get_int('appicon-margin-todesktop')
-      const margin_toscreenborder = SETTINGS.get_int(
-        'appicon-margin-toscreenborder',
-      )
+      let vertical = this.dtpPanel.checkIfVertical()
 
-      let margin_style = ''
-      const panelPosition = this.dtpPanel.getPosition()
-      if (panelPosition == St.Side.TOP) {
-        margin_style = `${margin_toscreenborder}px ${margin}px ${margin_todesktop}px ${margin}px`
-      } else if (panelPosition == St.Side.RIGHT) {
-        margin_style = `${margin}px ${margin_toscreenborder}px ${margin}px ${margin_todesktop}px`
-      } else if (panelPosition == St.Side.LEFT) {
-        margin_style = `${margin}px ${margin_todesktop}px ${margin}px ${margin_toscreenborder}px`
-      } else {
-        margin_style = `${margin_todesktop}px ${margin}px ${margin_toscreenborder}px ${margin}px`
-      }
-      this.set_style(`padding: ${margin_style};`)
+      this.set_style(
+        `padding: ${vertical ? margin : 0}px ${vertical ? 0 : margin}px;`,
+      )
       this._iconContainer.set_style('padding: ' + padding + 'px;')
     }
 

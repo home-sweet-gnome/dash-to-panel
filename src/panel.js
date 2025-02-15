@@ -219,6 +219,7 @@ export const Panel = GObject.registerClass(
 
       this.geom = this.getGeometry()
 
+      this._setPanelBoxStyle()
       this._setPanelPosition()
 
       if (!this.isStandalone) {
@@ -575,9 +576,9 @@ export const Panel = GObject.registerClass(
         [
           SETTINGS,
           [
+            'changed::panel-side-margins',
+            'changed::panel-top-bottom-margins',
             'changed::panel-sizes',
-            'changed::appicon-margin-todesktop',
-            'changed::appicon-margin-toscreenborder',
             'changed::group-apps',
           ],
           (settings, settingChanged) => {
@@ -678,6 +679,7 @@ export const Panel = GObject.registerClass(
     }
 
     _resetGeometry() {
+      this._setPanelBoxStyle()
       this.geom = this.getGeometry()
       this._setPanelPosition()
       this.taskbar.resetAppIcons(true)
@@ -698,9 +700,8 @@ export const Panel = GObject.registerClass(
     getGeometry() {
       let scaleFactor = Utils.getScaleFactor()
       let panelBoxTheme = this.panelBox.get_theme_node()
-      let lrPadding =
-        panelBoxTheme.get_padding(St.Side.RIGHT) +
-        panelBoxTheme.get_padding(St.Side.LEFT)
+      let leftPadding = panelBoxTheme.get_padding(St.Side.LEFT)
+      let lrPadding = leftPadding + panelBoxTheme.get_padding(St.Side.RIGHT)
       let topPadding = panelBoxTheme.get_padding(St.Side.TOP)
       let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM)
       let position = this.getPosition()
@@ -718,10 +719,7 @@ export const Panel = GObject.registerClass(
       let w = 0,
         h = 0
 
-      const panelSize =
-        PanelSettings.getPanelSize(SETTINGS, this.monitor.index) +
-        SETTINGS.get_int('appicon-margin-todesktop') +
-        SETTINGS.get_int('appicon-margin-toscreenborder')
+      const panelSize = PanelSettings.getPanelSize(SETTINGS, this.monitor.index)
       this.dtpSize = panelSize * scaleFactor
 
       if (
@@ -762,7 +760,7 @@ export const Panel = GObject.registerClass(
         y = this.monitor.y + gsTopPanelOffset
       } else {
         //BOTTOM
-        x = this.monitor.x
+        x = this.monitor.x - leftPadding
         y = this.monitor.y + this.monitor.height - this.dtpSize - tbPadding
       }
 
@@ -984,10 +982,7 @@ export const Panel = GObject.registerClass(
         box[this.varCoord.c1] = tl
         box[this.varCoord.c2] = br
 
-        panelAlloc[this.varCoord.c2] = Math.min(
-          dynamicGroup.size,
-          panelAlloc[this.varCoord.c2],
-        )
+        panelAlloc[this.varCoord.c2] = Math.min(dynamicGroup.size, br - tl)
       }
 
       this.set_allocation(box)
@@ -1038,6 +1033,15 @@ export const Panel = GObject.registerClass(
           }
         }
       }
+    }
+
+    _setPanelBoxStyle() {
+      let topBottomMargins = SETTINGS.get_int('panel-top-bottom-margins')
+      let sideMargins = SETTINGS.get_int('panel-side-margins')
+
+      this.panelBox.set_style(
+        `padding: ${topBottomMargins}px ${sideMargins}px;`,
+      )
     }
 
     _setPanelPosition() {

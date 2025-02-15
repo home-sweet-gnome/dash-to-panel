@@ -237,8 +237,8 @@ const Preferences = class {
     this._leftbox_size_timeout = 0
     this._globalBorderRadius_margin_timeout = 0
     this._appicon_margin_timeout = 0
-    this._appicon_margin_todesktop_timeout = 0
-    this._appicon_margin_toscreenborder_timeout = 0
+    this._panel_top_bottom_margins_timeout = 0
+    this._panel_side_margins_timeout = 0
     this._appicon_padding_timeout = 0
     this._opacity_timeout = 0
     this._tray_padding_timeout = 0
@@ -835,12 +835,12 @@ const Preferences = class {
         return value + ' px'
       })
     this._builder
-      .get_object('appicon_margin_todesktop_scale')
+      .get_object('panel_top_bottom_margins_scale')
       .set_format_value_func((scale, value) => {
         return value + ' px'
       })
     this._builder
-      .get_object('appicon_margin_toscreenborder_scale')
+      .get_object('panel_side_margins_scale')
       .set_format_value_func((scale, value) => {
         return value + ' px'
       })
@@ -3114,13 +3114,13 @@ const Preferences = class {
         range: DEFAULT_MARGIN_SIZES,
       },
       {
-        objectName: 'appicon_margin_todesktop_scale',
-        valueName: 'appicon-margin-todesktop',
+        objectName: 'panel_top_bottom_margins_scale',
+        valueName: 'panel-top-bottom-margins',
         range: DEFAULT_MARGIN_SIZES,
       },
       {
-        objectName: 'appicon_margin_toscreenborder_scale',
-        valueName: 'appicon-margin-toscreenborder',
+        objectName: 'panel_side_margins_scale',
+        valueName: 'panel-side-margins',
         range: DEFAULT_MARGIN_SIZES,
       },
       {
@@ -3847,41 +3847,42 @@ const BuilderScope = GObject.registerClass(
       )
     }
 
-    appicon_margin_todesktop_scale_value_changed_cb(scale) {
+    panel_top_bottom_margins_scale_value_changed_cb(scale) {
       // Avoid settings the size consinuosly
-      if (this._preferences._appicon_margin_todesktop_timeout > 0)
-        GLib.Source.remove(this._preferences._appicon_margin_todesktop_timeout)
+      if (this._preferences._panel_top_bottom_margins_timeout > 0)
+        GLib.Source.remove(this._preferences._panel_top_bottom_margins_timeout)
 
-      this._preferences._appicon_margin_todesktop_timeout = GLib.timeout_add(
+      this._preferences._panel_top_bottom_margins_timeout = GLib.timeout_add(
         GLib.PRIORITY_DEFAULT,
         SCALE_UPDATE_TIMEOUT,
         () => {
           this._preferences._settings.set_int(
-            'appicon-margin-todesktop',
+            'panel-top-bottom-margins',
             scale.get_value(),
           )
-          this._preferences._appicon_margin_todesktop_timeout = 0
+          this._preferences._panel_top_bottom_margins_timeout = 0
           return GLib.SOURCE_REMOVE
         },
       )
     }
 
-    appicon_margin_toscreenborder_scale_value_changed_cb(scale) {
+    panel_side_margins_scale_value_changed_cb(scale) {
       // Avoid settings the size consinuosly
-      if (this._preferences._appicon_margin_toscreenborder_timeout > 0)
-        GLib.Source.remove(
-          this._preferences._appicon_margin_toscreenborder_timeout,
-        )
+      if (this._preferences._panel_side_margins_timeout > 0)
+        GLib.Source.remove(this._preferences._panel_side_margins_timeout)
 
-      this._preferences._appicon_margin_toscreenborder_timeout =
-        GLib.timeout_add(GLib.PRIORITY_DEFAULT, SCALE_UPDATE_TIMEOUT, () => {
+      this._preferences._panel_side_margins_timeout = GLib.timeout_add(
+        GLib.PRIORITY_DEFAULT,
+        SCALE_UPDATE_TIMEOUT,
+        () => {
           this._preferences._settings.set_int(
-            'appicon-margin-toscreenborder',
+            'panel-side-margins',
             scale.get_value(),
           )
-          this._preferences._appicon_margin_toscreenborder_timeout = 0
+          this._preferences._panel_side_margins_timeout = 0
           return GLib.SOURCE_REMOVE
-        })
+        },
+      )
     }
 
     appicon_padding_scale_value_changed_cb(scale) {

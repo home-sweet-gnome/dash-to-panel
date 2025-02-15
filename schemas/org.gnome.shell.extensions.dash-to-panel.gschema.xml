@@ -245,6 +245,14 @@
       <summary>Lock the taskbar</summary>
       <description>Specifies if the user can modify the taskbar</description>
     </key>
+    <key type="i" name="panel-top-bottom-margins">
+        <default>0</default>
+        <summary>Panel top and bottom margins</summary>
+    </key>
+    <key type="i" name="panel-side-margins">
+        <default>0</default>
+        <summary>Panel side margins</summary>
+    </key>
     <key type="b" name="trans-use-custom-bg">
       <default>false</default>
       <summary>Override theme background color</summary>
@@ -735,16 +743,6 @@
         <default>8</default>
         <summary>App icon margin</summary>
         <description>Set the margin for application icons in the embedded dash.</description>
-    </key>
-    <key type="i" name="appicon-margin-todesktop">
-        <default>0</default>
-        <summary>App icon margin to desktop</summary>
-        <description>Set the margin for application icons in the embedded dash towards the desktop (top margin if panel is on the bottom).</description>
-    </key>
-        <key type="i" name="appicon-margin-toscreenborder">
-        <default>0</default>
-        <summary>App icon margin to screen border</summary>
-        <description>Set the margin for application icons in the embedded dash towards the desktop (bottom margin if panel is on the bottom).</description>
     </key>
     <key type="i" name="appicon-padding">
         <default>4</default>
