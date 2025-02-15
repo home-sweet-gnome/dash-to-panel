@@ -51,6 +51,12 @@ export const defaults = [
   { element: DESKTOP_BTN, visible: true, position: STACKED_BR },
 ]
 
+export const anchorToPosition = {
+  [START]: STACKED_TL,
+  [MIDDLE]: CENTERED_MONITOR,
+  [END]: STACKED_BR,
+}
+
 export const optionDialogFunctions = {}
 
 optionDialogFunctions[SHOW_APPS_BTN] = '_showShowAppsButtonOptions'

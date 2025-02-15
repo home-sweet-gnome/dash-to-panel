@@ -518,7 +518,9 @@ export const Panel = GObject.registerClass(
             return
           }
 
-          let currentPosition = pos.position
+          // if the panel length is dynamic, get all visible
+          // elements as a single group
+          let currentPosition = this.geom.dynamic || pos.position
           let isCentered = Pos.checkIfCentered(currentPosition)
 
           if (
@@ -702,9 +704,13 @@ export const Panel = GObject.registerClass(
       let topPadding = panelBoxTheme.get_padding(St.Side.TOP)
       let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM)
       let position = this.getPosition()
-      let length =
-        PanelSettings.getPanelLength(SETTINGS, this.monitor.index) / 100
+      let panelLength = PanelSettings.getPanelLength(
+        SETTINGS,
+        this.monitor.index,
+      )
       let anchor = PanelSettings.getPanelAnchor(SETTINGS, this.monitor.index)
+      let dynamic = panelLength == -1 ? Pos.anchorToPosition[anchor] : 0
+      let length = (dynamic ? 100 : panelLength) / 100
       let anchorPlaceOnMonitor = 0
       let gsTopPanelOffset = 0
       let x = 0,
@@ -792,6 +798,7 @@ export const Panel = GObject.registerClass(
         lrPadding,
         tbPadding,
         position,
+        dynamic,
       }
     }
 
@@ -825,14 +832,12 @@ export const Panel = GObject.registerClass(
     }
 
     vfunc_allocate(box) {
-      this.set_allocation(box)
-
       let fixed = 0
       let centeredMonitorGroup
       let panelAlloc = new Clutter.ActorBox({
         x1: 0,
-        y1: 0,
         x2: this.geom.w,
+        y1: 0,
         y2: this.geom.h,
       })
       let assignGroupSize = (group, update) => {
@@ -945,8 +950,6 @@ export const Panel = GObject.registerClass(
         ++fixed
       }
 
-      this.panel.allocate(panelAlloc)
-
       this._elementGroups.forEach((group) => {
         group.fixed = 0
 
@@ -956,6 +959,39 @@ export const Panel = GObject.registerClass(
           centeredMonitorGroup = group
         }
       })
+
+      if (this.geom.dynamic && this._elementGroups.length == 1) {
+        let dynamicGroup = this._elementGroups[0] // only one group if dynamic
+        let tl = 0
+        let br = 0
+
+        if (this.geom.dynamic == Pos.STACKED_TL) {
+          br = Math.min(box[this.varCoord.c2], dynamicGroup.size)
+        } else if (this.geom.dynamic == Pos.STACKED_BR) {
+          tl = Math.max(box[this.varCoord.c2] - dynamicGroup.size, 0)
+          br = box[this.varCoord.c2]
+        } else {
+          // CENTERED_MONITOR
+          let half = Math.max(
+            0,
+            (box[this.varCoord.c2] - dynamicGroup.size) * 0.5,
+          )
+
+          tl = box[this.varCoord.c1] + half
+          br = box[this.varCoord.c2] - half
+        }
+
+        box[this.varCoord.c1] = tl
+        box[this.varCoord.c2] = br
+
+        panelAlloc[this.varCoord.c2] = Math.min(
+          dynamicGroup.size,
+          panelAlloc[this.varCoord.c2],
+        )
+      }
+
+      this.set_allocation(box)
+      this.panel.allocate(panelAlloc)
 
       if (centeredMonitorGroup) {
         allocateGroup(

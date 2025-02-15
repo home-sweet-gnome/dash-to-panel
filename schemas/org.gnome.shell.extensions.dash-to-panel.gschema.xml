@@ -92,7 +92,7 @@
     </key>
     <key type="s" name="panel-lengths">
       <default>'{}'</default>
-      <summary>Percentages of screen edge for panel to span</summary>
+      <summary>Percentages of screen edge for panel to span, -1 for dynamic length (dock mode)</summary>
       <description>Length of the panels, in percent (JSON).</description>
     </key>
     <key type="s" name="panel-anchors">

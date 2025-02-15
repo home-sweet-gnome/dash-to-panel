@@ -142,15 +142,17 @@ export function setPanelSize(settings, monitorIndex, value) {
 
 /**
  * Returns length of panel on a specific monitor, as a whole number percent,
- * from settings. e.g. 100
+ * from settings. e.g. 100, or -1 for a dynamic panel length
  */
 export function getPanelLength(settings, monitorIndex) {
   return getMonitorSetting(settings, 'panel-lengths', monitorIndex, 100)
 }
 
 export function setPanelLength(settings, monitorIndex, value) {
-  if (!(Number.isInteger(value) && value <= 100 && value >= 0)) {
-    console.log('Not setting invalid panel length: ' + value)
+  if (
+    !(Number.isInteger(value) && ((value <= 100 && value >= 20) || value == -1))
+  ) {
+    console.log('Not setting invalid panel length: ' + value, new Error().stack)
     return
   }
 
