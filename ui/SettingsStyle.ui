@@ -59,7 +59,6 @@
                 <property name="round-digits">0</property>
                 <property name="value-pos">right</property>
                 <property name="width-request">300</property>
-                <signal name="value-changed" handler="global_border_radius_scale_value_changed_cb"/>
               </object>
             </child>
           </object>
@@ -81,7 +80,6 @@
                 <property name="round-digits">0</property>
                 <property name="value-pos">right</property>
                 <property name="width-request">300</property>
-                <signal name="value-changed" handler="appicon_margin_scale_value_changed_cb"/>
               </object>
             </child>
           </object>
@@ -98,7 +96,6 @@
                 <property name="round-digits">0</property>
                 <property name="value-pos">right</property>
                 <property name="width-request">300</property>
-                <signal name="value-changed" handler="appicon_padding_scale_value_changed_cb"/>
               </object>
             </child>
           </object>
@@ -275,7 +272,6 @@
                 <property name="round-digits">0</property>
                 <property name="value-pos">right</property>
                 <property name="width-request">300</property>
-                <signal name="value-changed" handler="panel_side_margins_scale_value_changed_cb"/>
               </object>
             </child>
           </object>
@@ -292,7 +288,6 @@
                 <property name="round-digits">0</property>
                 <property name="value-pos">right</property>
                 <property name="width-request">300</property>
-                <signal name="value-changed" handler="panel_top_bottom_margins_scale_value_changed_cb"/>
               </object>
             </child>
           </object>

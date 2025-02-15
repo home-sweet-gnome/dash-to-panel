@@ -58,7 +58,6 @@
                   <property name="digits">0</property>
                   <property name="value_pos">right</property>
                   <property name="draw_value">True</property>
-                  <signal name="value-changed" handler="tray_size_scale_value_changed_cb"/>
                 </object>
               </child>
             </object>
@@ -76,7 +75,6 @@
                   <property name="digits">0</property>
                   <property name="value_pos">right</property>
                   <property name="draw_value">True</property>
-                  <signal name="value-changed" handler="leftbox_size_scale_value_changed_cb"/>
                 </object>
               </child>
             </object>
@@ -102,7 +100,6 @@
                   <property name="digits">0</property>
                   <property name="value_pos">right</property>
                   <property name="draw_value">True</property>
-                  <signal name="value-changed" handler="tray_padding_scale_value_changed_cb"/>
                 </object>
               </child>
             </object>
@@ -120,7 +117,6 @@
                   <property name="digits">0</property>
                   <property name="value_pos">right</property>
                   <property name="draw_value">True</property>
-                  <signal name="value-changed" handler="statusicon_padding_scale_value_changed_cb"/>
                 </object>
               </child>
             </object>
@@ -138,7 +134,6 @@
                   <property name="digits">0</property>
                   <property name="value_pos">right</property>
                   <property name="draw_value">True</property>
-                  <signal name="value-changed" handler="leftbox_padding_scale_value_changed_cb"/>
                 </object>
               </child>
             </object>

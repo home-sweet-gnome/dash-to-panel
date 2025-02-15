@@ -159,7 +159,6 @@
                 <property name="round-digits">0</property>
                 <property name="value-pos">right</property>
                 <property name="width-request">300</property>
-                <signal name="value-changed" handler="panel_size_scale_value_changed_cb"/>
               </object>
             </child>
           </object>
