@@ -220,6 +220,7 @@ export const Panel = GObject.registerClass(
       this.geom = this.getGeometry()
 
       this._setPanelBoxStyle()
+      this._maybeSetDockCss()
       this._setPanelPosition()
 
       if (!this.isStandalone) {
@@ -681,6 +682,7 @@ export const Panel = GObject.registerClass(
     _resetGeometry() {
       this._setPanelBoxStyle()
       this.geom = this.getGeometry()
+      this._maybeSetDockCss()
       this._setPanelPosition()
       this.taskbar.resetAppIcons(true)
       this.dynamicTransparency.updateExternalStyle()
@@ -711,6 +713,7 @@ export const Panel = GObject.registerClass(
       )
       let anchor = PanelSettings.getPanelAnchor(SETTINGS, this.monitor.index)
       let dynamic = panelLength == -1 ? Pos.anchorToPosition[anchor] : 0
+      let dockMode = false
       let length = (dynamic ? 100 : panelLength) / 100
       let anchorPlaceOnMonitor = 0
       let gsTopPanelOffset = 0
@@ -743,6 +746,7 @@ export const Panel = GObject.registerClass(
 
         w = this.dtpSize
         h = this.monitor.height * length - tbPadding - gsTopPanelOffset
+        dockMode = h < this.monitor.height
       } else {
         this.sizeFunc = 'get_preferred_width'
         this.fixedCoord = { c1: 'y1', c2: 'y2' }
@@ -750,6 +754,7 @@ export const Panel = GObject.registerClass(
 
         w = this.monitor.width * length - lrPadding
         h = this.dtpSize
+        dockMode = w < this.monitor.width
       }
 
       if (position == St.Side.TOP || position == St.Side.LEFT) {
@@ -797,6 +802,7 @@ export const Panel = GObject.registerClass(
         tbPadding,
         position,
         dynamic,
+        dockMode,
       }
     }
 
@@ -1042,6 +1048,12 @@ export const Panel = GObject.registerClass(
       this.panelBox.set_style(
         `padding: ${topBottomMargins}px ${sideMargins}px;`,
       )
+    }
+
+    _maybeSetDockCss() {
+      this.remove_style_class_name('dock')
+
+      if (this.geom.dockMode) this.add_style_class_name('dock')
     }
 
     _setPanelPosition() {
