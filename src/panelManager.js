@@ -59,7 +59,7 @@ let tracker = Shell.WindowTracker.get_default()
 
 export const PanelManager = class {
   constructor() {
-    this.overview = new Overview.Overview()
+    this.overview = new Overview.Overview(this)
     this._injectionManager = new InjectionManager()
   }
 

@@ -871,6 +871,10 @@
       <summary>Prefix to use for hotkeys</summary>
       <description>You can choose between Super or SuperAlt as the prefix for hotkeys.</description>
     </key>
+    <key type="b" name="overlay-on-secondary-switch">
+      <default>false</default>
+      <summary>Show overlay on secondary monitors</summary>
+    </key>
     <key type="b" name="shortcut-previews">
       <default>false</default>
       <summary>Show window previews</summary>

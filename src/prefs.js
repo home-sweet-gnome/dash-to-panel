@@ -2789,6 +2789,13 @@ const Preferences = class {
     })
 
     this._settings.bind(
+      'overlay-on-secondary-switch',
+      this._builder.get_object('overlay_on_secondary_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
       'shortcut-previews',
       this._builder.get_object('shortcut_preview_switch'),
       'active',

@@ -46,6 +46,8 @@ import { DTP_EXTENSION, SETTINGS } from './extension.js'
 
 const SearchController = Main.overview.searchController
 
+export var hotkeyAppNumbers = {}
+
 export const DASH_ANIMATION_TIME = 0.2 // Dash.DASH_ANIMATION_TIME is now private
 const DASH_ITEM_HOVER_TIMEOUT = 0.3 // Dash.DASH_ITEM_HOVER_TIMEOUT is now private
 export const MIN_ICON_SIZE = 4
@@ -1276,17 +1278,22 @@ export const Taskbar = class extends EventEmitter {
   }
 
   _updateHotkeysNumberOverlay() {
-    let seenApps = {}
     let counter = 0
 
+    if (this.dtpPanel.isPrimary) hotkeyAppNumbers = {}
+
     this._getAppIcons().forEach((icon) => {
-      if (!seenApps[icon.app] || this.allowSplitApps) {
-        seenApps[icon.app] = 1
-        counter++
+      if (
+        this.dtpPanel.isPrimary &&
+        (!hotkeyAppNumbers[icon.app] || this.allowSplitApps)
+      ) {
+        hotkeyAppNumbers[icon.app] = ++counter
       }
 
-      if (counter <= 10) {
-        icon.setHotkeysNumberOverlayLabel(counter == 10 ? 0 : counter)
+      let label = hotkeyAppNumbers[icon.app]
+
+      if (label <= 10) {
+        icon.setHotkeysNumberOverlayLabel(label == 10 ? 0 : label)
       } else {
         // No overlay after 10
         icon.setHotkeysNumberOverlayLabel(-1)

@@ -46,9 +46,10 @@ const T1 = 'swipeEndTimeout'
 const T2 = 'numberOverlayTimeout'
 
 export const Overview = class {
-  constructor() {
+  constructor(panelManager) {
     this._injectionManager = new InjectionManager()
     this._numHotkeys = 10
+    this._panelManager = panelManager
   }
 
   enable(primaryPanel) {
@@ -373,7 +374,7 @@ export const Overview = class {
     this._hotKeysEnabled = true
 
     if (SETTINGS.get_string('hotkeys-overlay-combo') === 'ALWAYS')
-      this.taskbar.toggleHotkeysNumberOverlay(true)
+      this._toggleHotkeysNumberOverlay(true)
   }
 
   _disableHotKeys() {
@@ -418,7 +419,7 @@ export const Overview = class {
 
     this._hotKeysEnabled = false
 
-    this.taskbar.toggleHotkeysNumberOverlay(false)
+    this._toggleHotkeysNumberOverlay(false)
   }
 
   _optionalNumberOverlay() {
@@ -435,8 +436,8 @@ export const Overview = class {
             SETTINGS.get_boolean('hot-keys') &&
             SETTINGS.get_string('hotkeys-overlay-combo') === 'ALWAYS'
           )
-            this.taskbar.toggleHotkeysNumberOverlay(true)
-          else this.taskbar.toggleHotkeysNumberOverlay(false)
+            this._toggleHotkeysNumberOverlay(true)
+          else this._toggleHotkeysNumberOverlay(false)
         },
       ],
       [SETTINGS, 'changed::shortcut-num-keys', () => this._resetHotkeys()],
@@ -468,7 +469,7 @@ export const Overview = class {
     if (hotkey_option === 'NEVER') return
 
     if (hotkey_option === 'TEMPORARILY' || overlayFromShortcut)
-      this.taskbar.toggleHotkeysNumberOverlay(true)
+      this._toggleHotkeysNumberOverlay(true)
 
     this._panel.intellihide.revealAndHold(Intellihide.Hold.TEMPORARY)
 
@@ -484,12 +485,27 @@ export const Overview = class {
       timeout,
       () => {
         if (hotkey_option != 'ALWAYS') {
-          this.taskbar.toggleHotkeysNumberOverlay(false)
+          this._toggleHotkeysNumberOverlay(false)
         }
 
         this._panel.intellihide.release(Intellihide.Hold.TEMPORARY)
       },
     ])
+  }
+
+  _toggleHotkeysNumberOverlay(show) {
+    // this.taskbar is the primary taskbar
+    this.taskbar.toggleHotkeysNumberOverlay(show)
+
+    if (SETTINGS.get_boolean('overlay-on-secondary-switch')) {
+      // on secondary panels, show the overlay on icons matching the ones
+      // found on the primary panel (see Taksbar.hotkeyAppNumbers)
+      this._panelManager.allPanels.forEach((p) => {
+        if (p.isPrimary) return
+
+        p.taskbar.toggleHotkeysNumberOverlay(show)
+      })
+    }
   }
 
   _optionalClickToExit() {
