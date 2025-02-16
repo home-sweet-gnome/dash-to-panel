@@ -430,14 +430,17 @@ export const Overview = class {
       [SETTINGS, 'changed::hot-keys', this._checkHotkeysOptions.bind(this)],
       [
         SETTINGS,
-        'changed::hotkeys-overlay-combo',
+        [
+          'changed::hotkeys-overlay-combo',
+          'changed::shortcut-overlay-on-secondary',
+        ],
         () => {
           if (
             SETTINGS.get_boolean('hot-keys') &&
             SETTINGS.get_string('hotkeys-overlay-combo') === 'ALWAYS'
           )
             this._toggleHotkeysNumberOverlay(true)
-          else this._toggleHotkeysNumberOverlay(false)
+          else this._toggleHotkeysNumberOverlay(false, true)
         },
       ],
       [SETTINGS, 'changed::shortcut-num-keys', () => this._resetHotkeys()],
@@ -493,11 +496,11 @@ export const Overview = class {
     ])
   }
 
-  _toggleHotkeysNumberOverlay(show) {
+  _toggleHotkeysNumberOverlay(show, reset) {
     // this.taskbar is the primary taskbar
     this.taskbar.toggleHotkeysNumberOverlay(show)
 
-    if (SETTINGS.get_boolean('overlay-on-secondary-switch')) {
+    if (reset || SETTINGS.get_boolean('shortcut-overlay-on-secondary')) {
       // on secondary panels, show the overlay on icons matching the ones
       // found on the primary panel (see Taksbar.hotkeyAppNumbers)
       this._panelManager.allPanels.forEach((p) => {

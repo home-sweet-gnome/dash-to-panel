@@ -2789,7 +2789,7 @@ const Preferences = class {
     })
 
     this._settings.bind(
-      'overlay-on-secondary-switch',
+      'shortcut-overlay-on-secondary',
       this._builder.get_object('overlay_on_secondary_switch'),
       'active',
       Gio.SettingsBindFlags.DEFAULT,
@@ -3075,7 +3075,7 @@ const Preferences = class {
       if (!scaleInfo.manualConnect) connectValueChanged(scaleObj, scaleInfo)
 
       scaleObj.set_format_value_func((scale, value) => {
-        return `${value} ${scaleInfo.unit || 'px'}`
+        return `${value * (factor || 1)} ${scaleInfo.unit || 'px'}`
       })
 
       // Corrent for rtl languages
