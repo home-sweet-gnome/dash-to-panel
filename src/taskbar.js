@@ -998,8 +998,7 @@ export const Taskbar = class extends EventEmitter {
   }
 
   _adjustIconSize() {
-    const thisMonitorIndex = this.dtpPanel.monitor.index
-    let panelSize = PanelSettings.getPanelSize(SETTINGS, thisMonitorIndex)
+    let panelSize = this.dtpPanel.geom.iconSize
     let availSize = panelSize - SETTINGS.get_int('appicon-padding') * 2
     let minIconSize = MIN_ICON_SIZE + (panelSize % 2)
 
@@ -1658,7 +1657,9 @@ export const TaskbarItemContainer = GObject.registerClass(
 
       let travel = iconAnimationSettings.travel
       let zoom = iconAnimationSettings.zoom
-      return this._dtpPanel.dtpSize * Math.max(0, travel + (zoom - 1) / 2)
+      return (
+        this._dtpPanel.geom.innerSize * Math.max(0, travel + (zoom - 1) / 2)
+      )
     }
 
     _updateCloneContainerPosition(cloneContainer) {

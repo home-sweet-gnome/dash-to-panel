@@ -257,7 +257,7 @@
         <default>0</default>
         <summary>Panel top and bottom padding</summary>
     </key>
-    <key type="i" name="panel-sides-padding">
+    <key type="i" name="panel-side-padding">
         <default>0</default>
         <summary>Panel sides padding</summary>
     </key>

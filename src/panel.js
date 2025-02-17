@@ -67,6 +67,8 @@ const T5 = 'trackerFocusAppTimeout'
 const T6 = 'scrollPanelDelayTimeout'
 const T7 = 'waitPanelBoxAllocation'
 
+const MIN_PANEL_SIZE = 22
+
 export const Panel = GObject.registerClass(
   {},
   class Panel extends St.Widget {
@@ -172,6 +174,8 @@ export const Panel = GObject.registerClass(
         })
       }
 
+      this.geom = this.getGeometry()
+
       // Create a wrapper around the real showAppsIcon in order to add a popupMenu. Most of
       // its behavior is handled by the taskbar, but its positioning is done at the panel level
       this.showAppsIconWrapper = new AppIcons.ShowAppsIconWrapper(this)
@@ -216,8 +220,6 @@ export const Panel = GObject.registerClass(
           this.statusArea[systemMenuName]._volumeOutput,
         )._dtpIgnoreScroll = 1
       }
-
-      this.geom = this.getGeometry()
 
       this._setPanelBoxStyle()
       this._maybeSetDockCss()
@@ -582,6 +584,8 @@ export const Panel = GObject.registerClass(
           [
             'changed::panel-side-margins',
             'changed::panel-top-bottom-margins',
+            'changed::panel-side-padding',
+            'changed::panel-top-bottom-padding',
             'changed::panel-sizes',
             'changed::group-apps',
           ],
@@ -706,10 +710,14 @@ export const Panel = GObject.registerClass(
       let isVertical = this.checkIfVertical()
       let scaleFactor = Utils.getScaleFactor()
       let panelBoxTheme = this.panelBox.get_theme_node()
-      let leftPadding = panelBoxTheme.get_padding(St.Side.LEFT)
-      let lrPadding = leftPadding + panelBoxTheme.get_padding(St.Side.RIGHT)
-      let topPadding = panelBoxTheme.get_padding(St.Side.TOP)
-      let tbPadding = topPadding + panelBoxTheme.get_padding(St.Side.BOTTOM)
+      let sideMargins =
+        panelBoxTheme.get_padding(St.Side.LEFT) +
+        panelBoxTheme.get_padding(St.Side.RIGHT)
+      let topBottomMargins =
+        panelBoxTheme.get_padding(St.Side.TOP) +
+        panelBoxTheme.get_padding(St.Side.BOTTOM)
+      let sidePadding = SETTINGS.get_int('panel-side-padding')
+      let topBottomPadding = SETTINGS.get_int('panel-top-bottom-padding')
       let position = this.getPosition()
       let panelLength = PanelSettings.getPanelLength(
         SETTINGS,
@@ -720,13 +728,23 @@ export const Panel = GObject.registerClass(
       let dockMode = false
       let length = (dynamic ? 100 : panelLength) / 100
       let gsTopPanelOffset = 0
-      let x = 0,
-        y = 0
-      let w = 0,
-        h = 0
+      let x = 0
+      let y = 0
+      let w = 0
+      let h = 0
+      let fixedPadding = 0
+      let varPadding = 0
+      let iconSize = 0
+      let innerSize = 0
+      let outerSize = 0
+      let panelSize = PanelSettings.getPanelSize(SETTINGS, this.monitor.index)
 
-      const panelSize = PanelSettings.getPanelSize(SETTINGS, this.monitor.index)
-      this.dtpSize = panelSize * scaleFactor
+      if (isVertical && panelSize - sidePadding * 2 < MIN_PANEL_SIZE)
+        sidePadding = (panelSize - MIN_PANEL_SIZE) * 0.5
+      else if (!isVertical && panelSize - topBottomPadding * 2 < MIN_PANEL_SIZE)
+        topBottomPadding = (panelSize - MIN_PANEL_SIZE) * 0.5
+
+      iconSize = innerSize = outerSize = panelSize
 
       if (
         SETTINGS.get_boolean('stockgs-keep-top-panel') &&
@@ -738,59 +756,71 @@ export const Panel = GObject.registerClass(
       if (isVertical) {
         if (!SETTINGS.get_boolean('group-apps')) {
           // add window title width and side padding of _dtpIconContainer when vertical
-          this.dtpSize +=
+          innerSize = outerSize +=
             SETTINGS.get_int('group-apps-label-max-width') +
             (AppIcons.DEFAULT_PADDING_SIZE * 2) / scaleFactor
         }
 
-        ;(this.sizeFunc = 'get_preferred_height'),
-          (this.fixedCoord = { c1: 'x1', c2: 'x2' })
+        this.sizeFunc = 'get_preferred_height'
+        this.fixedCoord = { c1: 'x1', c2: 'x2' }
         this.varCoord = { c1: 'y1', c2: 'y2' }
 
-        w = this.dtpSize
-        h = this.monitor.height * length - tbPadding - gsTopPanelOffset
-        dockMode = !!dynamic || tbPadding > 0 || h < this.monitor.height
+        w = innerSize
+        h = this.monitor.height * length - topBottomMargins - gsTopPanelOffset
+        dockMode = !!dynamic || topBottomMargins > 0 || h < this.monitor.height
+        fixedPadding = sidePadding * scaleFactor
+        varPadding = topBottomPadding * scaleFactor
+        outerSize += sideMargins
       } else {
         this.sizeFunc = 'get_preferred_width'
         this.fixedCoord = { c1: 'y1', c2: 'y2' }
         this.varCoord = { c1: 'x1', c2: 'x2' }
 
-        w = this.monitor.width * length - lrPadding
-        h = this.dtpSize
-        dockMode = !!dynamic || lrPadding > 0 || w < this.monitor.width
+        w = this.monitor.width * length - sideMargins
+        h = innerSize
+        dockMode = !!dynamic || sideMargins > 0 || w < this.monitor.width
+        fixedPadding = topBottomPadding * scaleFactor
+        varPadding = sidePadding * scaleFactor
+        outerSize += topBottomMargins
       }
 
       if (position == St.Side.TOP || position == St.Side.LEFT) {
         x = this.monitor.x
         y = this.monitor.y + gsTopPanelOffset
       } else if (position == St.Side.RIGHT) {
-        x = this.monitor.x + this.monitor.width - w - lrPadding
+        x = this.monitor.x + this.monitor.width - w - sideMargins
         y = this.monitor.y + gsTopPanelOffset
       } else {
         //BOTTOM
         x = this.monitor.x
-        y = this.monitor.y + this.monitor.height - h - tbPadding
+        y = this.monitor.y + this.monitor.height - h - topBottomMargins
       }
 
       if (length < 1) {
         // fixed size, less than 100%, so adjust start coordinate
         if (!isVertical && anchor == Pos.MIDDLE)
-          x += (this.monitor.width - w - lrPadding) * 0.5
+          x += (this.monitor.width - w - sideMargins) * 0.5
         else if (isVertical && anchor == Pos.MIDDLE)
-          y += (this.monitor.height - h - tbPadding) * 0.5
+          y += (this.monitor.height - h - topBottomMargins) * 0.5
         else if (!isVertical && anchor == Pos.END)
-          x += this.monitor.width - w - lrPadding
+          x += this.monitor.width - w - sideMargins
         else if (isVertical && anchor == Pos.END)
-          y += this.monitor.height - h - tbPadding
+          y += this.monitor.height - h - topBottomMargins
       }
+
+      innerSize -= fixedPadding * 2
+      iconSize -= fixedPadding * 2
 
       return {
         x,
         y,
         w,
         h,
-        lrPadding,
-        tbPadding,
+        iconSize, // selected panel thickness in settings
+        innerSize, // excludes padding and margins
+        outerSize, // includes padding and margins
+        fixedPadding,
+        varPadding,
         position,
         dynamic,
         dockMode,
@@ -829,12 +859,9 @@ export const Panel = GObject.registerClass(
     vfunc_allocate(box) {
       let fixed = 0
       let centeredMonitorGroup
-      let panelAlloc = new Clutter.ActorBox({
-        x1: 0,
-        x2: this.geom.w,
-        y1: 0,
-        y2: this.geom.h,
-      })
+      let varSize = box[this.varCoord.c2] - box[this.varCoord.c1]
+      let fixedSize = box[this.fixedCoord.c2] - box[this.fixedCoord.c1]
+      let panelAlloc = new Clutter.ActorBox()
       let assignGroupSize = (group, update) => {
         group.size = 0
         group.tlOffset = 0
@@ -842,8 +869,10 @@ export const Panel = GObject.registerClass(
 
         group.elements.forEach((element) => {
           if (!update) {
-            element.box[this.fixedCoord.c1] = panelAlloc[this.fixedCoord.c1]
-            element.box[this.fixedCoord.c2] = panelAlloc[this.fixedCoord.c2]
+            element.box[this.fixedCoord.c1] =
+              panelAlloc[this.fixedCoord.c1] + this.geom.fixedPadding
+            element.box[this.fixedCoord.c2] =
+              panelAlloc[this.fixedCoord.c2] - this.geom.fixedPadding
             element.natSize = element.actor[this.sizeFunc](-1)[1]
           }
 
@@ -945,6 +974,9 @@ export const Panel = GObject.registerClass(
         ++fixed
       }
 
+      panelAlloc[this.varCoord.c2] = varSize
+      panelAlloc[this.fixedCoord.c2] = fixedSize
+
       this._elementGroups.forEach((group) => {
         group.fixed = 0
 
@@ -959,34 +991,32 @@ export const Panel = GObject.registerClass(
         let dynamicGroup = this._elementGroups[0] // only one group if dynamic
         let tl = box[this.varCoord.c1]
         let br = box[this.varCoord.c2]
+        let groupSize = dynamicGroup.size + this.geom.varPadding * 2
 
         if (this.geom.dynamic == Pos.STACKED_TL) {
-          br = Math.min(box[this.varCoord.c2], dynamicGroup.size)
+          br = Math.min(br, tl + groupSize)
         } else if (this.geom.dynamic == Pos.STACKED_BR) {
-          tl = Math.max(box[this.varCoord.c2] - dynamicGroup.size, 0)
-          br = box[this.varCoord.c2]
+          tl = Math.max(tl, br - groupSize)
         } else {
           // CENTERED_MONITOR
-          let half = Math.max(
-            0,
-            (box[this.varCoord.c2] -
-              box[this.varCoord.c1] -
-              dynamicGroup.size) *
-              0.5,
-          )
+          let half = Math.max(0, Math.round((br - tl - groupSize) * 0.5))
 
-          tl = box[this.varCoord.c1] + half
-          br = box[this.varCoord.c2] - half
+          tl += half
+          br -= half
         }
 
         box[this.varCoord.c1] = tl
         box[this.varCoord.c2] = br
 
-        panelAlloc[this.varCoord.c2] = Math.min(dynamicGroup.size, br - tl)
+        panelAlloc[this.varCoord.c2] = Math.min(groupSize, br - tl)
       }
 
       this.set_allocation(box)
       this.panel.allocate(panelAlloc)
+
+      // apply padding to panel's children, after panel allocation
+      panelAlloc[this.varCoord.c1] += this.geom.varPadding
+      panelAlloc[this.varCoord.c2] -= this.geom.varPadding
 
       if (centeredMonitorGroup) {
         allocateGroup(
@@ -1221,8 +1251,8 @@ export const Panel = GObject.registerClass(
             let [, natWidth] = actor.get_preferred_width(-1)
 
             child.x_align = Clutter.ActorAlign[isVertical ? 'CENTER' : 'START']
-            actor.set_width(isVertical ? this.dtpSize : -1)
-            isVertical = isVertical && natWidth > this.dtpSize
+            actor.set_width(isVertical ? this.geom.innerSize : -1)
+            isVertical = isVertical && natWidth > this.geom.innerSize
             actor[(isVertical ? 'add' : 'remove') + '_style_class_name'](
               'vertical',
             )
@@ -1270,7 +1300,7 @@ export const Panel = GObject.registerClass(
           clockText.ellipsize = Pango.EllipsizeMode.END
         }
 
-        clockText.natural_width = this.dtpSize
+        clockText.natural_width = this.geom.innerSize
 
         if (!time) {
           datetimeParts = datetime.split(' ')

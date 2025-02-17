@@ -374,7 +374,7 @@ export const PanelManager = class {
         case St.Side.TOP:
           this._desktopIconsUsableArea?.setMargins(
             p.monitor.index,
-            p.geom.h,
+            p.geom.outerSize,
             0,
             0,
             0,
@@ -384,7 +384,7 @@ export const PanelManager = class {
           this._desktopIconsUsableArea?.setMargins(
             p.monitor.index,
             0,
-            p.geom.h,
+            p.geom.outerSize,
             0,
             0,
           )
@@ -394,7 +394,7 @@ export const PanelManager = class {
             p.monitor.index,
             0,
             0,
-            p.geom.w,
+            p.geom.outerSize,
             0,
           )
           break
@@ -404,7 +404,7 @@ export const PanelManager = class {
             0,
             0,
             0,
-            p.geom.w,
+            p.geom.outerSize,
           )
           break
       }
@@ -692,7 +692,7 @@ export const PanelManager = class {
         global.dashToPanel.panels,
         (p) => p.monitor == monitor,
       )
-      let excess = alloc.natural_size + panel.dtpSize + 10 - monitor.height // 10 is arbitrary
+      let excess = alloc.natural_size + panel.outerSize + 10 - monitor.height // 10 is arbitrary
 
       if (excess > 0) {
         alloc.natural_size -= excess
@@ -921,7 +921,7 @@ function newUpdateHotCorners() {
           corner,
           Math.min(size, 32),
         )
-      corner.setBarrierSize(panel ? panel.dtpSize : 32)
+      corner.setBarrierSize(panel ? panel.geom.innerSize : 32)
       this.hotCorners.push(corner)
     } else {
       this.hotCorners.push(null)
@@ -1026,7 +1026,7 @@ function _newLookingGlassResize() {
   )
   let topOffset =
     primaryMonitorPanel.getPosition() == St.Side.TOP
-      ? primaryMonitorPanel.dtpSize + 8
+      ? primaryMonitorPanel.geom.outerSize + 8
       : 32
 
   this._oldResize()
