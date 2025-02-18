@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-16 23:36+0200\n"
-"PO-Revision-Date: 2025-02-17 00:22+0200\n"
+"POT-Creation-Date: 2025-02-18 21:54+0200\n"
+"PO-Revision-Date: 2025-02-18 21:59+0200\n"
 "Last-Translator: Yevhen Popok <xalt7x.service@gmail.com>\n"
 "Language-Team: \n"
 "Language: uk\n"
@@ -31,7 +31,7 @@ msgstr "Ширина кнопки «Показати Стільницю» (пк�
 msgid "Unavailable when gnome-shell top panel is present"
 msgstr "Недоступно, коли присутня верхня панель gnome-shell"
 
-#: src/prefs.js:363 ui/SettingsPosition.ui:133 ui/SettingsStyle.ui:192
+#: src/prefs.js:363 ui/SettingsPosition.ui:133 ui/SettingsStyle.ui:204
 msgid "Left"
 msgstr "Ліворуч"
 
@@ -39,12 +39,12 @@ msgstr "Ліворуч"
 msgid "Center"
 msgstr "По центру"
 
-#: src/prefs.js:365 ui/SettingsPosition.ui:142 ui/SettingsStyle.ui:200
+#: src/prefs.js:365 ui/SettingsPosition.ui:142 ui/SettingsStyle.ui:212
 msgid "Right"
 msgstr "Праворуч"
 
 #: src/prefs.js:367 ui/BoxWindowPreviewOptions.ui:334
-#: ui/SettingsPosition.ui:124 ui/SettingsStyle.ui:184
+#: ui/SettingsPosition.ui:124 ui/SettingsStyle.ui:196
 msgid "Top"
 msgstr "Вгорі"
 
@@ -53,7 +53,7 @@ msgid "Middle"
 msgstr "Посередині"
 
 #: src/prefs.js:369 ui/BoxWindowPreviewOptions.ui:325
-#: ui/SettingsPosition.ui:115 ui/SettingsStyle.ui:176
+#: ui/SettingsPosition.ui:115 ui/SettingsStyle.ui:188
 msgid "Bottom"
 msgstr "Знизу"
 
@@ -213,27 +213,27 @@ msgstr "Параметри контекстного меню"
 msgid "Advanced Options"
 msgstr "Розширені параметри"
 
-#: src/prefs.js:3101
+#: src/prefs.js:3111
 #, javascript-format
 msgid "%d ms"
 msgstr "%d мс"
 
-#: src/prefs.js:3107
+#: src/prefs.js:3117
 #, javascript-format
 msgid "%d °"
 msgstr "%d °"
 
-#: src/prefs.js:3113 src/prefs.js:3119
+#: src/prefs.js:3123 src/prefs.js:3129
 #, javascript-format
 msgid "%d %%"
 msgstr "%d %%"
 
-#: src/prefs.js:3125
+#: src/prefs.js:3135
 #, javascript-format
 msgid "%.1f"
 msgstr "%.1f"
 
-#: src/prefs.js:3131
+#: src/prefs.js:3141
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
@@ -241,28 +241,28 @@ msgstr[0] "%d піктограма"
 msgstr[1] "%d піктограми"
 msgstr[2] "%d піктограм"
 
-#: src/prefs.js:3258
+#: src/prefs.js:3268
 msgid "App icon animation options"
 msgstr "Параметри анімації піктограм програм"
 
-#: src/prefs.js:3381
+#: src/prefs.js:3391
 msgid "App icon highlight options"
 msgstr "Параметри підсвічування піктограм програм"
 
-#: src/prefs.js:3473
+#: src/prefs.js:3483
 msgid "Export settings"
 msgstr "Експортувати налаштування"
 
-#: src/prefs.js:3494
+#: src/prefs.js:3504
 msgid "Import settings"
 msgstr "Імпортувати налаштування"
 
-#: src/appIcons.js:1920 src/appIcons.js:1931 ui/BoxMiddleClickOptions.ui:33
+#: src/appIcons.js:1919 src/appIcons.js:1930 ui/BoxMiddleClickOptions.ui:33
 #: ui/BoxMiddleClickOptions.ui:62 ui/BoxMiddleClickOptions.ui:91
 msgid "Quit"
 msgstr "Закрити"
 
-#: src/appIcons.js:1934
+#: src/appIcons.js:1933
 #, javascript-format
 msgid "Quit %d Window"
 msgid_plural "Quit %d Windows"
@@ -270,63 +270,63 @@ msgstr[0] "Закрити %d вікно"
 msgstr[1] "Закрити %d вікна"
 msgstr[2] "Закрити %d вікон"
 
-#: src/appIcons.js:2241
+#: src/appIcons.js:2240
 msgid "Power options"
 msgstr "Параметри живлення"
 
-#: src/appIcons.js:2246
+#: src/appIcons.js:2245
 msgid "Event logs"
 msgstr "Журнали"
 
-#: src/appIcons.js:2251
+#: src/appIcons.js:2250
 msgid "System"
 msgstr "Система"
 
-#: src/appIcons.js:2256
+#: src/appIcons.js:2255
 msgid "Device Management"
 msgstr "Керування пристроями"
 
-#: src/appIcons.js:2261
+#: src/appIcons.js:2260
 msgid "Disk Management"
 msgstr "Керування дисками"
 
-#: src/appIcons.js:2274
+#: src/appIcons.js:2273
 msgid "Terminal"
 msgstr "Термінал"
 
-#: src/appIcons.js:2279
+#: src/appIcons.js:2278
 msgid "System monitor"
 msgstr "Системний монітор"
 
-#: src/appIcons.js:2284
+#: src/appIcons.js:2283
 msgid "Files"
 msgstr "Файли"
 
-#: src/appIcons.js:2289
+#: src/appIcons.js:2288
 msgid "Extensions"
 msgstr "Розширення"
 
-#: src/appIcons.js:2294
+#: src/appIcons.js:2293
 msgid "Settings"
 msgstr "Налаштування"
 
-#: src/appIcons.js:2307
+#: src/appIcons.js:2306
 msgid "Unlock taskbar"
 msgstr "Розблокувати панель завдань"
 
-#: src/appIcons.js:2308
+#: src/appIcons.js:2307
 msgid "Lock taskbar"
 msgstr "Заблокувати панель завдань"
 
-#: src/appIcons.js:2317
+#: src/appIcons.js:2316
 msgid "Dash to Panel Settings"
 msgstr "Параметри Dash to Panel"
 
-#: src/appIcons.js:2324
+#: src/appIcons.js:2323
 msgid "Restore Windows"
 msgstr "Відновити вікна"
 
-#: src/appIcons.js:2325
+#: src/appIcons.js:2324
 msgid "Show Desktop"
 msgstr "Показати Стільницю"
 
@@ -467,8 +467,8 @@ msgid "Change opacity to (%)"
 msgstr "Значення непрозорості (%)"
 
 #: ui/BoxDynamicOpacityOptions.ui:72 ui/BoxShowApplicationsOptions.ui:64
-#: ui/BoxWindowPreviewOptions.ui:472 ui/SettingsStyle.ui:330
-#: ui/SettingsStyle.ui:387 ui/SettingsStyle.ui:405
+#: ui/BoxWindowPreviewOptions.ui:472 ui/SettingsStyle.ui:374
+#: ui/SettingsStyle.ui:431 ui/SettingsStyle.ui:449
 msgid "0"
 msgstr "0"
 
@@ -1422,150 +1422,159 @@ msgstr "Вирівнювання"
 msgid "Taskbar Display"
 msgstr "Показ панелі завдань"
 
-#: ui/SettingsStyle.ui:47
+#: ui/SettingsStyle.ui:59
 msgid "Style"
 msgstr "Стиль"
 
-#: ui/SettingsStyle.ui:50
+#: ui/SettingsStyle.ui:62
 msgid "Global style"
 msgstr "Глобальний стиль"
 
-#: ui/SettingsStyle.ui:53
+#: ui/SettingsStyle.ui:65
 msgid "Border radius"
 msgstr "Радіус межі"
 
-#: ui/SettingsStyle.ui:70
+#: ui/SettingsStyle.ui:82
 msgid "AppIcon style"
 msgstr "Стиль піктограм програм"
 
-#: ui/SettingsStyle.ui:73
+#: ui/SettingsStyle.ui:85
 msgid "(default is 8)"
 msgstr "(типово - 8)"
 
-#: ui/SettingsStyle.ui:74
+#: ui/SettingsStyle.ui:86
 msgid "App Icon Margin"
 msgstr "Зовнішні відступи піктограм програм"
 
-#: ui/SettingsStyle.ui:89
+#: ui/SettingsStyle.ui:101
 msgid "(default is 4)"
 msgstr "(типово - 4)"
 
-#: ui/SettingsStyle.ui:90
+#: ui/SettingsStyle.ui:102
 msgid "App Icon Padding"
 msgstr "Відступи між піктограмами програм"
 
-#: ui/SettingsStyle.ui:105
+#: ui/SettingsStyle.ui:117
 msgid "Animate hovering app icons"
 msgstr "Анімація під час наведення на піктограми програмами"
 
-#: ui/SettingsStyle.ui:129
+#: ui/SettingsStyle.ui:141
 msgid "Highlight hovering app icons"
 msgstr "Підсвічування піктограм програм під час наведення"
 
-#: ui/SettingsStyle.ui:153
+#: ui/SettingsStyle.ui:165
 msgid "Icon style"
 msgstr "Стиль піктограм"
 
-#: ui/SettingsStyle.ui:158
+#: ui/SettingsStyle.ui:170
 msgid "Normal"
 msgstr "Звичайний"
 
-#: ui/SettingsStyle.ui:159
+#: ui/SettingsStyle.ui:171
 msgid "Symbolic"
 msgstr "Символьний"
 
-#: ui/SettingsStyle.ui:160
+#: ui/SettingsStyle.ui:172
 msgid "Grayscale"
 msgstr "Відтінки сірого"
 
-#: ui/SettingsStyle.ui:170
+#: ui/SettingsStyle.ui:182
 msgid "Running indicator"
 msgstr "Індикатор роботи"
 
-#: ui/SettingsStyle.ui:173
+#: ui/SettingsStyle.ui:185
 msgid "Running indicator position"
 msgstr "Розміщення індикатора роботи"
 
-#: ui/SettingsStyle.ui:209
+#: ui/SettingsStyle.ui:221
 msgid "Running indicator style (Focused app)"
 msgstr "Стиль індикатора роботи (для програми у фокусі)"
 
-#: ui/SettingsStyle.ui:227 ui/SettingsStyle.ui:246
+#: ui/SettingsStyle.ui:239 ui/SettingsStyle.ui:258
 msgid "Dots"
 msgstr "Крапки"
 
-#: ui/SettingsStyle.ui:228 ui/SettingsStyle.ui:247
+#: ui/SettingsStyle.ui:240 ui/SettingsStyle.ui:259
 msgid "Squares"
 msgstr "Квадрати"
 
-#: ui/SettingsStyle.ui:229 ui/SettingsStyle.ui:248
+#: ui/SettingsStyle.ui:241 ui/SettingsStyle.ui:260
 msgid "Dashes"
 msgstr "Рисочки"
 
-#: ui/SettingsStyle.ui:230 ui/SettingsStyle.ui:249
+#: ui/SettingsStyle.ui:242 ui/SettingsStyle.ui:261
 msgid "Segmented"
 msgstr "Сегментований"
 
-#: ui/SettingsStyle.ui:231 ui/SettingsStyle.ui:250
+#: ui/SettingsStyle.ui:243 ui/SettingsStyle.ui:262
 msgid "Solid"
 msgstr "Суцільний"
 
-#: ui/SettingsStyle.ui:232 ui/SettingsStyle.ui:251
+#: ui/SettingsStyle.ui:244 ui/SettingsStyle.ui:263
 msgid "Ciliora"
 msgstr "Ciliora"
 
-#: ui/SettingsStyle.ui:233 ui/SettingsStyle.ui:252
+#: ui/SettingsStyle.ui:245 ui/SettingsStyle.ui:264
 msgid "Metro"
 msgstr "Metro"
 
-#: ui/SettingsStyle.ui:241
+#: ui/SettingsStyle.ui:253
 msgid "Running indicator style (Unfocused apps)"
 msgstr "Стиль індикатора роботи (для програми не у фокусі)"
 
-#: ui/SettingsStyle.ui:262
+#: ui/SettingsStyle.ui:274
 msgid "Panel style"
 msgstr "Стиль панелі"
 
-#: ui/SettingsStyle.ui:265 ui/SettingsStyle.ui:281
+#: ui/SettingsStyle.ui:277 ui/SettingsStyle.ui:293 ui/SettingsStyle.ui:309
+#: ui/SettingsStyle.ui:325
 msgid "(default is 0)"
 msgstr "(типово - 0)"
 
-#: ui/SettingsStyle.ui:266
+#: ui/SettingsStyle.ui:278
 msgid "Side margins"
-msgstr "Бічні відступи ззовні"
+msgstr "Зовнішні бічні відступи"
 
-#: ui/SettingsStyle.ui:282
+#: ui/SettingsStyle.ui:294
 msgid "Top and bottom margins"
-msgstr "Верхній та нижній відступи ззовні"
+msgstr "Верхній та нижній зовнішні відступи"
 
-#: ui/SettingsStyle.ui:301
+#: ui/SettingsStyle.ui:310
+msgid "Side padding"
+msgstr "Внутрішні бічні відступи"
+
+#: ui/SettingsStyle.ui:326
+msgid "Top and bottom padding"
+msgstr "Верхній та нижній внутрішні відступи"
+
+#: ui/SettingsStyle.ui:345
 msgid "Override panel theme background color"
 msgstr "Зміна кольору тла панелі (типово - як в темі)"
 
-#: ui/SettingsStyle.ui:316
+#: ui/SettingsStyle.ui:360
 msgid "Override panel theme background opacity"
 msgstr "Зміна непрозорості тла панелі (типово - як в темі)"
 
-#: ui/SettingsStyle.ui:326
+#: ui/SettingsStyle.ui:370
 msgid "Panel background opacity (%)"
 msgstr "Непрозорість тла панелі (%)"
 
-#: ui/SettingsStyle.ui:338
+#: ui/SettingsStyle.ui:382
 msgid "Change opacity when a window gets close to the panel"
 msgstr "Зміна непрозорості, коли вікно наближається до панелі"
 
-#: ui/SettingsStyle.ui:339
+#: ui/SettingsStyle.ui:383
 msgid "Dynamic background opacity"
 msgstr "Динамічна непрозорість тла"
 
-#: ui/SettingsStyle.ui:367
+#: ui/SettingsStyle.ui:411
 msgid "Override panel theme gradient"
 msgstr "Зміна градієнта панелі"
 
-#: ui/SettingsStyle.ui:377
+#: ui/SettingsStyle.ui:421
 msgid "Gradient top color and opacity (%)"
 msgstr "Колір та непрозорість градієнта вгорі (%)"
 
-#: ui/SettingsStyle.ui:395
+#: ui/SettingsStyle.ui:439
 msgid "Gradient bottom color and opacity (%)"
 msgstr "Колір та непрозорість градієнта знизу (%)"
