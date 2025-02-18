@@ -645,10 +645,6 @@ export const PanelManager = class {
     this.disable(true)
     this.allPanels = []
     this.enable(true)
-
-    // not ideal, but on startup the panel geometries are updated when the initial
-    // gnome-shell startup is complete, so simulate this here to update as well
-    Main.layoutManager.emit('startup-complete')
   }
 
   _updatePanelElementPositions() {

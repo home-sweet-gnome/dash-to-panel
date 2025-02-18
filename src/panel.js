@@ -365,6 +365,8 @@ export const Panel = GObject.registerClass(
       // most repaint requests don't actually require us to repaint anything.
       // This saves significant CPU when repainting the screen.
       this.set_offscreen_redirect(Clutter.OffscreenRedirect.ALWAYS)
+
+      if (!Main.layoutManager._startingUp) this._resetGeometry()
     }
 
     disable() {
