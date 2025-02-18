@@ -41,7 +41,6 @@ import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js'
 import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
 
 import * as Utils from './utils.js'
-import * as PanelSettings from './panelSettings.js'
 import * as Taskbar from './taskbar.js'
 import {
   DTP_EXTENSION,
@@ -204,7 +203,7 @@ export const TaskbarAppIcon = GObject.registerClass(
       this.set_child(this._container)
 
       if (panel.checkIfVertical()) {
-        this.set_width(panel.geom.w)
+        this.set_width(panel.geom.innerSize)
       }
 
       // Monitor windows-changes instead of app state.
@@ -842,7 +841,7 @@ export const TaskbarAppIcon = GObject.registerClass(
     }
 
     _setAppIconPadding() {
-      const padding = getIconPadding(this.dtpPanel.monitor.index)
+      const padding = getIconPadding(this.dtpPanel)
       const margin = SETTINGS.get_int('appicon-margin')
       let vertical = this.dtpPanel.checkIfVertical()
 
@@ -1874,8 +1873,8 @@ export function cssHexTocssRgba(cssHex, opacity) {
   return 'rgba(' + [r, g, b].join(',') + ',' + opacity + ')'
 }
 
-export function getIconPadding(monitorIndex) {
-  let panelSize = PanelSettings.getPanelSize(SETTINGS, monitorIndex)
+export function getIconPadding(dtpPanel) {
+  let panelSize = dtpPanel.geom.innerSize
   let padding = SETTINGS.get_int('appicon-padding')
   let availSize = panelSize - Taskbar.MIN_ICON_SIZE - (panelSize % 2)
 
@@ -2148,7 +2147,7 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
   }
 
   setShowAppsPadding() {
-    let padding = getIconPadding(this.realShowAppsIcon._dtpPanel.monitor.index)
+    let padding = getIconPadding(this.realShowAppsIcon._dtpPanel)
     let sidePadding = SETTINGS.get_int('show-apps-icon-side-padding')
     let isVertical = this.realShowAppsIcon._dtpPanel.checkIfVertical()
 

@@ -38,7 +38,7 @@ import {
 } from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js'
 
 const SCALE_UPDATE_TIMEOUT = 500
-const DEFAULT_PANEL_SIZES = [128, 96, 64, 48, 32, 24, 16]
+const DEFAULT_PANEL_SIZES = [128, 96, 64, 48, 32, 22]
 const DEFAULT_FONT_SIZES = [96, 64, 48, 32, 24, 16, 0]
 const DEFAULT_MARGIN_SIZES = [32, 24, 16, 12, 8, 4, 0]
 const DEFAULT_PADDING_SIZES = [32, 24, 16, 12, 8, 4, 0, -1]
@@ -2997,6 +2997,16 @@ const Preferences = class {
       {
         objectName: 'panel_side_margins_scale',
         valueName: 'panel-side-margins',
+        range: DEFAULT_MARGIN_SIZES,
+      },
+      {
+        objectName: 'panel_top_bottom_padding_scale',
+        valueName: 'panel-top-bottom-padding',
+        range: DEFAULT_MARGIN_SIZES,
+      },
+      {
+        objectName: 'panel_side_padding_scale',
+        valueName: 'panel-side-padding',
         range: DEFAULT_MARGIN_SIZES,
       },
       {

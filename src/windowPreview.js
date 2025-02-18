@@ -78,7 +78,8 @@ export const PreviewMenu = GObject.registerClass(
       this._translationDirection =
         geom.position == St.Side.TOP || geom.position == St.Side.LEFT ? -1 : 1
       this._translationOffset =
-        Math.min(panel.dtpSize, MAX_TRANSLATION) * this._translationDirection
+        Math.min(panel.geom.innerSize, MAX_TRANSLATION) *
+        this._translationDirection
 
       this.menu = new St.Widget({
         name: 'preview-menu',
@@ -465,6 +466,7 @@ export const PreviewMenu = GObject.registerClass(
     _updateClip() {
       let x, y, w
       let geom = this.panel.getGeometry()
+      let panelSize = geom.outerSize - geom.fixedPadding
       let panelBoxTheme = this.panel.panelBox.get_theme_node()
       let previewSize =
         (SETTINGS.get_int('window-preview-size') +
@@ -484,26 +486,26 @@ export const PreviewMenu = GObject.registerClass(
       if (geom.position == St.Side.LEFT) {
         x =
           this.panel.monitor.x +
-          this.panel.dtpSize +
-          panelBoxTheme.get_padding(St.Side.LEFT)
+          panelSize -
+          panelBoxTheme.get_padding(St.Side.RIGHT)
       } else if (geom.position == St.Side.RIGHT) {
         x =
           this.panel.monitor.x +
           this.panel.monitor.width -
-          (this.panel.dtpSize + previewSize) -
-          panelBoxTheme.get_padding(St.Side.RIGHT)
+          (panelSize + previewSize) +
+          panelBoxTheme.get_padding(St.Side.LEFT)
       } else if (geom.position == St.Side.TOP) {
         y =
           this.panel.monitor.y +
-          this.panel.dtpSize +
-          panelBoxTheme.get_padding(St.Side.TOP)
+          panelSize -
+          panelBoxTheme.get_padding(St.Side.BOTTOM)
       } else {
         //St.Side.BOTTOM
         y =
           this.panel.monitor.y +
           this.panel.monitor.height -
-          (this.panel.dtpSize +
-            panelBoxTheme.get_padding(St.Side.BOTTOM) +
+          (panelSize -
+            panelBoxTheme.get_padding(St.Side.TOP) +
             previewSize +
             headerHeight)
       }
