@@ -999,7 +999,7 @@ export const Panel = GObject.registerClass(
           tl = Math.max(tl, br - groupSize)
         } else {
           // CENTERED_MONITOR
-          let half = Math.max(0, Math.round((br - tl - groupSize) * 0.5))
+          let half = Math.max(0, Math.floor((br - tl - groupSize) * 0.5))
 
           tl += half
           br -= half
