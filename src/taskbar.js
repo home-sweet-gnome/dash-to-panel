@@ -224,7 +224,7 @@ export const TaskbarActor = GObject.registerClass(
 
       scrollview.allocate(childBox)
 
-      let [value, , upper, , , pageSize] =
+      let [, , upper, , , pageSize] =
         scrollview[orientation[0] + 'adjustment'].get_values()
       upper = Math.floor(upper)
       scrollview._dtpFadeSize = upper > pageSize ? this._delegate.iconSize : 0
@@ -246,12 +246,11 @@ export const TaskbarActor = GObject.registerClass(
       }
 
       childBox[panel.varCoord.c2] =
-        childBox[panel.varCoord.c1] + (value > 0 ? scrollview._dtpFadeSize : 0)
+        childBox[panel.varCoord.c1] + scrollview._dtpFadeSize
       leftFade.allocate(childBox)
 
       childBox[panel.varCoord.c1] =
-        box[panel.varCoord.c2] -
-        (value + pageSize < upper ? scrollview._dtpFadeSize : 0)
+        box[panel.varCoord.c2] - scrollview._dtpFadeSize
       childBox[panel.varCoord.c2] = box[panel.varCoord.c2]
       rightFade.allocate(childBox)
     }
@@ -366,22 +365,22 @@ export const Taskbar = class extends EventEmitter {
 
     let orientation = panel.getOrientation()
     let fadeStyle = 'background-gradient-direction:' + orientation
-    let fade1 = new St.Widget({
+    this._fadeLeft = new St.Widget({
       style_class: 'scrollview-fade',
       reactive: false,
     })
-    let fade2 = new St.Widget({
+    this._fadeRight = new St.Widget({
       style_class: 'scrollview-fade',
       reactive: false,
       pivot_point: new Graphene.Point({ x: 0.5, y: 0.5 }),
       rotation_angle_z: 180,
     })
 
-    fade1.set_style(fadeStyle)
-    fade2.set_style(fadeStyle)
+    this._fadeLeft.set_style(fadeStyle)
+    this._fadeRight.set_style(fadeStyle)
 
-    this._container.add_child(fade1)
-    this._container.add_child(fade2)
+    this._container.add_child(this._fadeLeft)
+    this._container.add_child(this._fadeRight)
 
     this.previewMenu = new WindowPreview.PreviewMenu(panel)
     this.previewMenu.enable()
@@ -604,7 +603,21 @@ export const Taskbar = class extends EventEmitter {
       }
     }
 
+    this._maybeUpdateScrollviewFade()
+
     return Clutter.EVENT_PROPAGATE
+  }
+
+  _maybeUpdateScrollviewFade(adjustment) {
+    if (this._scrollView._dtpFadeSize) {
+      adjustment =
+        adjustment ||
+        this._scrollView[this.dtpPanel.getOrientation()[0] + 'adjustment']
+      let [value, , upper, , , pageSize] = adjustment.get_values()
+
+      this._fadeLeft.visible = value > 0
+      this._fadeRight.visible = value + pageSize < upper
+    }
   }
 
   _onScrollEvent(actor, event) {
@@ -641,12 +654,15 @@ export const Taskbar = class extends EventEmitter {
 
     adjustment.set_value(adjustment.get_value() + delta)
 
+    this._maybeUpdateScrollviewFade(adjustment)
+
     return Clutter.EVENT_STOP
   }
 
   _onScrollSizeChange(adjustment) {
     // Update minimization animation target position on scrollview change.
     this._updateAppIcons()
+    this._maybeUpdateScrollviewFade()
 
     // When applications are ungrouped and there is some empty space on the horizontal taskbar,
     // force a fixed label width to prevent the icons from "wiggling" when an animation runs
