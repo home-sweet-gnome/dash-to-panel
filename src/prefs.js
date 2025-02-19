@@ -3491,12 +3491,15 @@ const Preferences = class {
 
     // About Panel
 
-    this._builder
-      .get_object('extension_version')
-      .set_label(
-        this._metadata.version.toString() +
-          (this._metadata.commit ? ' (' + this._metadata.commit + ')' : ''),
-      )
+    let versionLinkButton = this._builder.get_object('extension_version')
+
+    versionLinkButton.set_label(
+      this._metadata.version.toString() +
+        (this._metadata.commit ? ' (' + this._metadata.commit + ')' : ''),
+    )
+    versionLinkButton.set_uri(
+      `${this._metadata.url}/${this._metadata.commit ? `commit/${this._metadata.commit}` : `releases/tag/v${this._metadata.version}`}`,
+    )
 
     this._builder
       .get_object('importexport_export_button')
@@ -3587,16 +3590,22 @@ const Preferences = class {
     )
 
     this.notebook.connect('notify::visible-page', () => {
-      clearTimeout(revealDonateTimeout)
+      if (revealDonateTimeout) GLib.Source.remove(revealDonateTimeout)
 
       if (
         this.notebook.visible_page_name == 'donation' &&
         !donationRevealer.get_reveal_child()
       )
-        revealDonateTimeout = setTimeout(() => {
-          donationRevealer.set_reveal_child(true)
-          donationSpinner.set_spinning(false)
-        }, 15000)
+        revealDonateTimeout = GLib.timeout_add(
+          GLib.PRIORITY_DEFAULT,
+          15000,
+          () => {
+            donationRevealer.set_reveal_child(true)
+            donationSpinner.set_spinning(false)
+
+            return GLib.SOURCE_REMOVE
+          },
+        )
     })
   }
 

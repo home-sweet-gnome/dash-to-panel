@@ -528,16 +528,18 @@ export const getPoint = function (coords) {
   return new Graphene.Point(coords)
 }
 
-export const notify = function (text, iconName, action, isTransient) {
-  let source = new MessageTray.SystemNotificationSource()
-  let notification = new MessageTray.Notification(source, 'Dash to Panel', text)
-  let notifyFunc = source.showNotification || source.notify
+export const notify = function (title, body, iconName, action, isTransient) {
+  let source = new MessageTray.Source({
+    title: 'Dash to Panel',
+  })
+  let notification = new MessageTray.Notification({
+    source,
+    title,
+    body,
+    isTransient: isTransient || false,
+  })
 
-  if (iconName) {
-    source.createIcon = function () {
-      return new St.Icon({ icon_name: iconName })
-    }
-  }
+  if (iconName) source.iconName = iconName
 
   if (action) {
     if (!(action instanceof Array)) {
@@ -548,9 +550,7 @@ export const notify = function (text, iconName, action, isTransient) {
   }
 
   Main.messageTray.add(source)
-
-  notification.setTransient(isTransient)
-  notifyFunc.call(source, notification)
+  source.addNotification(notification)
 }
 
 /*

@@ -1331,5 +1331,9 @@
       <default>''</default>
       <summary>Unix time when the donate icon was hidden</summary>
     </key>
+    <key type="i" name="extension-version">
+      <default>65</default>
+      <summary>Installed extension version</summary>
+    </key>
   </schema>
 </schemalist>

@@ -1826,7 +1826,7 @@ export function resetRecentlyClickedApp() {
   recentlyClickedAppIndex = 0
   recentlyClickedAppMonitorIndex = null
 
-  return false
+  return GLib.SOURCE_REMOVE
 }
 
 export function closeAllWindows(app, monitor) {

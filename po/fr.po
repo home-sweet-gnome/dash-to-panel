@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash To Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-19 08:28-0500\n"
-"PO-Revision-Date: 2025-02-19 09:46-0500\n"
+"POT-Creation-Date: 2025-02-19 16:00-0500\n"
+"PO-Revision-Date: 2025-02-19 16:04-0500\n"
 "Last-Translator: Charles Gagnon <charlesg99@outlook.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -38,6 +38,14 @@ msgstr ""
 "X-Poedit-SearchPath-15: extension.js\n"
 "X-Poedit-SearchPath-16: desktopIconsIntegration.js\n"
 "X-Poedit-SearchPath-17: appIcons.js\n"
+
+#: src/extension.js:87
+msgid "Dash to panel has been updated!"
+msgstr "Dash to panel a été mis à jour!"
+
+#: src/extension.js:91
+msgid "See what's new"
+msgstr "Voir les nouveautés"
 
 #: src/prefs.js:275
 msgid "Show Desktop button height (px)"
@@ -268,11 +276,11 @@ msgstr "Options d'animation des icônes d'application"
 msgid "App icon highlight options"
 msgstr "Options d'animation du surlignement des icônes d'application"
 
-#: src/prefs.js:3505
+#: src/prefs.js:3508
 msgid "Export settings"
 msgstr "Exporter les paramètres"
 
-#: src/prefs.js:3526
+#: src/prefs.js:3529
 msgid "Import settings"
 msgstr "Importer des paramètres"
 
@@ -1081,16 +1089,16 @@ msgid "Export and Import"
 msgstr "Import et export"
 
 #: ui/SettingsAbout.ui.h:7
-msgid "Export and import settings"
-msgstr "Import et export de paramètres"
-
-#: ui/SettingsAbout.ui.h:8
 msgid ""
 "Use the buttons below to create a settings file from your current "
 "preferences that can be imported on a different machine."
 msgstr ""
 "Utiliser les boutons ci-dessous pour créer un fichier de paramètres à partir "
 "de vos préférences actuelles qui pourra être importé sur une autre machine."
+
+#: ui/SettingsAbout.ui.h:8
+msgid "Export and import settings"
+msgstr "Import et export de paramètres"
 
 #: ui/SettingsAbout.ui.h:9
 msgid "Export to file"
