@@ -391,6 +391,10 @@
       <summary>Keybinding toggle intellihide</summary>
       <description>Keybinding to reveal the panel while in intellihide mode</description>
     </key>
+    <key type="i" name="intellihide-persisted-state">
+      <default>-1</default>
+      <summary>Persisted intellihide hold status. -1 means the option is disabled</summary>
+    </key>
     <key type="i" name="intellihide-enable-start-delay">
       <default>2000</default>
       <summary>Intellihide enable start delay</summary>

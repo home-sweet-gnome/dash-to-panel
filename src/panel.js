@@ -28,6 +28,7 @@
  */
 
 import Clutter from 'gi://Clutter'
+import GLib from 'gi://GLib'
 import GObject from 'gi://GObject'
 import * as AppIcons from './appIcons.js'
 import * as Utils from './utils.js'
@@ -61,7 +62,6 @@ let tracker = Shell.WindowTracker.get_default()
 export const panelBoxes = ['_leftBox', '_centerBox', '_rightBox']
 
 //timeout names
-const T2 = 'startIntellihideTimeout'
 const T4 = 'showDesktopTimeout'
 const T5 = 'trackerFocusAppTimeout'
 const T6 = 'scrollPanelDelayTimeout'
@@ -278,11 +278,7 @@ export const Panel = GObject.registerClass(
         'dashtopanelMainPanel ' + this.getOrientation(),
       )
 
-      this._timeoutsHandler.add([
-        T2,
-        SETTINGS.get_int('intellihide-enable-start-delay'),
-        () => (this.intellihide = new Intellihide.Intellihide(this)),
-      ])
+      this.intellihide = new Intellihide.Intellihide(this)
 
       this._signalsHandler.add(
         // this is to catch changes to the theme or window scale factor
@@ -366,7 +362,11 @@ export const Panel = GObject.registerClass(
       // This saves significant CPU when repainting the screen.
       this.set_offscreen_redirect(Clutter.OffscreenRedirect.ALWAYS)
 
-      if (!Main.layoutManager._startingUp) this._resetGeometry()
+      if (!Main.layoutManager._startingUp)
+        GLib.idle_add(GLib.PRIORITY_LOW, () => {
+          this._resetGeometry()
+          return GLib.SOURCE_REMOVE
+        })
     }
 
     disable() {
@@ -695,10 +695,6 @@ export const Panel = GObject.registerClass(
       this._setPanelPosition()
       this.taskbar.resetAppIcons(true)
       this.dynamicTransparency.updateExternalStyle()
-
-      if (this.intellihide && this.intellihide.enabled) {
-        this.intellihide.reset()
-      }
 
       if (this.checkIfVertical()) {
         this.showAppsIconWrapper.realShowAppsIcon.toggleButton.set_width(

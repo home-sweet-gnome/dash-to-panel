@@ -40,6 +40,7 @@ const MIN_UPDATE_MS = 250
 const T1 = 'checkGrabTimeout'
 const T2 = 'limitUpdateTimeout'
 const T3 = 'postAnimateTimeout'
+const T4 = 'enableStartTimeout'
 
 const SIDE_CONTROLS_ANIMATION_TIME =
   OverviewControls.SIDE_CONTROLS_ANIMATION_TIME /
@@ -105,7 +106,26 @@ export const Intellihide = class {
     }
 
     this._setRevealMechanism()
-    this._queueUpdatePanelPosition()
+
+    let lastState = SETTINGS.get_int('intellihide-persisted-state')
+
+    if (lastState > -1) {
+      this._holdStatus = lastState
+
+      if (lastState == Hold.NONE && Main.layoutManager._startingUp)
+        this._signalsHandler.add([
+          this._panelBox,
+          'notify::mapped',
+          () => this._hidePanel(true),
+        ])
+      else this._queueUpdatePanelPosition()
+    } else
+      // -1 means that the option to persist hold isn't activated, so normal start
+      this._timeoutsHandler.add([
+        T4,
+        SETTINGS.get_int('intellihide-enable-start-delay'),
+        () => this._queueUpdatePanelPosition(),
+      ])
   }
 
   disable(reset) {
@@ -146,12 +166,14 @@ export const Intellihide = class {
     }
 
     this._holdStatus |= holdStatus
+    this._maybePersistHoldStatus()
   }
 
   release(holdStatus) {
     this._holdStatus -= holdStatus
 
     if (this.enabled && !this._holdStatus) {
+      this._maybePersistHoldStatus()
       this._queueUpdatePanelPosition()
     }
   }
@@ -169,6 +191,14 @@ export const Intellihide = class {
     if (this.enabled !== enabled) {
       this[enabled ? 'enable' : 'disable']()
     }
+  }
+
+  _maybePersistHoldStatus() {
+    if (SETTINGS.get_int('intellihide-persisted-state') > -1)
+      SETTINGS.set_int(
+        'intellihide-persisted-state',
+        this._holdStatus & Hold.PERMANENT ? Hold.PERMANENT : Hold.NONE,
+      )
   }
 
   _bindGeneralSignals() {

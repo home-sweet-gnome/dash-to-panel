@@ -1659,6 +1659,30 @@ const Preferences = class {
       setShortcut(this._settings, 'intellihide-key-toggle'),
     )
 
+    let intellihidePersistStateSwitch = this._builder.get_object(
+      'intellihide_persist_state_switch',
+    )
+    let intellihideStartDelayButton = this._builder.get_object(
+      'intellihide_enable_start_delay_spinbutton',
+    )
+
+    intellihidePersistStateSwitch.set_active(
+      this._settings.get_int('intellihide-persisted-state') > -1,
+    )
+
+    intellihideStartDelayButton.set_sensitive(
+      this._settings.get_int('intellihide-persisted-state') == -1,
+    )
+
+    intellihidePersistStateSwitch.connect('notify::active', (widget) => {
+      intellihideStartDelayButton.set_sensitive(!widget.get_active())
+
+      this._settings.set_int(
+        'intellihide-persisted-state',
+        widget.get_active() ? 0 : -1,
+      )
+    })
+
     this._builder
       .get_object('intellihide_animation_time_spinbutton')
       .set_value(this._settings.get_int('intellihide-animation-time'))
@@ -1677,17 +1701,15 @@ const Preferences = class {
         this._settings.set_int('intellihide-close-delay', widget.get_value())
       })
 
-    this._builder
-      .get_object('intellihide_enable_start_delay_spinbutton')
-      .set_value(this._settings.get_int('intellihide-enable-start-delay'))
-    this._builder
-      .get_object('intellihide_enable_start_delay_spinbutton')
-      .connect('value-changed', (widget) => {
-        this._settings.set_int(
-          'intellihide-enable-start-delay',
-          widget.get_value(),
-        )
-      })
+    intellihideStartDelayButton.set_value(
+      this._settings.get_int('intellihide-enable-start-delay'),
+    )
+    intellihideStartDelayButton.connect('value-changed', (widget) => {
+      this._settings.set_int(
+        'intellihide-enable-start-delay',
+        widget.get_value(),
+      )
+    })
 
     this._builder
       .get_object('intellihide_options_button')
@@ -1747,6 +1769,8 @@ const Preferences = class {
               this._settings.get_default_value('intellihide-key-toggle-text'),
             )
 
+            intellihidePersistStateSwitch.set_active(false)
+
             this._settings.set_value(
               'intellihide-animation-time',
               this._settings.get_default_value('intellihide-animation-time'),
@@ -1769,11 +1793,9 @@ const Preferences = class {
                 'intellihide-enable-start-delay',
               ),
             )
-            this._builder
-              .get_object('intellihide_enable_start_delay_spinbutton')
-              .set_value(
-                this._settings.get_int('intellihide-enable-start-delay'),
-              )
+            intellihideStartDelayButton.set_value(
+              this._settings.get_int('intellihide-enable-start-delay'),
+            )
           },
         )
 
