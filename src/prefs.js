@@ -284,16 +284,24 @@ const Preferences = class {
     let monitorSync = this._settings.get_boolean(
       'panel-element-positions-monitors-sync',
     )
-    let topAvailable =
-      !keepTopPanel ||
-      (!monitorSync && !this.monitors[this._currentMonitorIndex].primary)
-    let topRadio = this._builder.get_object('position_top_button')
+    let isPrimary = this.monitors[this._currentMonitorIndex].primary
+    let topAvailable = !keepTopPanel || (!monitorSync && !isPrimary)
+    let topButton = this._builder.get_object('position_top_button')
+    let keepGsPanelAvailable = !(topButton.get_active() && isPrimary)
+    let keepGsPanelSwitch = this._builder.get_object('stockgs_top_panel_switch')
 
-    topRadio.set_sensitive(topAvailable)
-    topRadio.set_tooltip_text(
+    topButton.set_sensitive(topAvailable)
+    topButton.set_tooltip_text(
       !topAvailable
         ? _('Unavailable when gnome-shell top panel is present')
         : '',
+    )
+
+    keepGsPanelSwitch.set_sensitive(keepGsPanelAvailable)
+    keepGsPanelSwitch.set_tooltip_text(
+      keepGsPanelAvailable
+        ? ''
+        : _('Unavailable when the panel on the primary monitor is at the top'),
     )
   }
 
@@ -312,6 +320,7 @@ const Preferences = class {
       PanelSettings.setPanelPosition(this._settings, monitorIndex, position)
     })
     this._setAnchorLabels(this._currentMonitorIndex)
+    this._maybeDisableTopPosition()
   }
 
   _setPositionRadios(position) {

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash To Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-19 16:00-0500\n"
-"PO-Revision-Date: 2025-02-19 16:04-0500\n"
+"POT-Creation-Date: 2025-02-19 18:50-0500\n"
+"PO-Revision-Date: 2025-02-19 18:51-0500\n"
 "Last-Translator: Charles Gagnon <charlesg99@outlook.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -55,232 +55,236 @@ msgstr "Hauteur du bouton Afficher le Bureau (px)"
 msgid "Show Desktop button width (px)"
 msgstr "Longueur du bouton Afficher le Bureau (px)"
 
-#: src/prefs.js:295
+#: src/prefs.js:296
 msgid "Unavailable when gnome-shell top panel is present"
 msgstr "Indisponible quand le panneau de gnome-shell est présent"
 
-#: src/prefs.js:363 ui/SettingsPosition.ui.h:13 ui/SettingsStyle.ui.h:19
+#: src/prefs.js:304
+msgid "Unavailable when the panel on the primary monitor is at the top"
+msgstr "Indisponible quand le panneau sur l'écran principal est au haut"
+
+#: src/prefs.js:372 ui/SettingsPosition.ui.h:13 ui/SettingsStyle.ui.h:19
 msgid "Left"
 msgstr "Gauche"
 
-#: src/prefs.js:364
+#: src/prefs.js:373
 msgid "Center"
 msgstr "Centre"
 
-#: src/prefs.js:365 ui/SettingsPosition.ui.h:14 ui/SettingsStyle.ui.h:20
+#: src/prefs.js:374 ui/SettingsPosition.ui.h:14 ui/SettingsStyle.ui.h:20
 msgid "Right"
 msgstr "Droit"
 
-#: src/prefs.js:367 ui/BoxWindowPreviewOptions.ui.h:38
+#: src/prefs.js:376 ui/BoxWindowPreviewOptions.ui.h:38
 #: ui/SettingsPosition.ui.h:12 ui/SettingsStyle.ui.h:18
 msgid "Top"
 msgstr "Haut"
 
-#: src/prefs.js:368 src/prefs.js:373 ui/SettingsPosition.ui.h:22
+#: src/prefs.js:377 src/prefs.js:382 ui/SettingsPosition.ui.h:22
 msgid "Middle"
 msgstr "Milieu"
 
-#: src/prefs.js:369 ui/BoxWindowPreviewOptions.ui.h:37
+#: src/prefs.js:378 ui/BoxWindowPreviewOptions.ui.h:37
 #: ui/SettingsPosition.ui.h:11 ui/SettingsStyle.ui.h:17
 msgid "Bottom"
 msgstr "Bas"
 
-#: src/prefs.js:372 ui/SettingsPosition.ui.h:21
+#: src/prefs.js:381 ui/SettingsPosition.ui.h:21
 msgid "Start"
 msgstr "Début"
 
-#: src/prefs.js:374 ui/SettingsPosition.ui.h:23
+#: src/prefs.js:383 ui/SettingsPosition.ui.h:23
 msgid "End"
 msgstr "Fin"
 
-#: src/prefs.js:500
+#: src/prefs.js:509
 msgid "Show Applications button"
 msgstr "Bouton Afficher les Applications"
 
-#: src/prefs.js:501
+#: src/prefs.js:510
 msgid "Activities button"
 msgstr "Bouton Activités"
 
-#: src/prefs.js:502
+#: src/prefs.js:511
 msgid "Taskbar"
 msgstr "Barre des tâches"
 
-#: src/prefs.js:503
+#: src/prefs.js:512
 msgid "Date menu"
 msgstr "Horloge"
 
-#: src/prefs.js:504
+#: src/prefs.js:513
 msgid "System menu"
 msgstr "Menu système"
 
-#: src/prefs.js:505
+#: src/prefs.js:514
 msgid "Left box"
 msgstr "Zone gauche"
 
-#: src/prefs.js:506
+#: src/prefs.js:515
 msgid "Center box"
 msgstr "Zone centre"
 
-#: src/prefs.js:507
+#: src/prefs.js:516
 msgid "Right box"
 msgstr "Zone droite"
 
-#: src/prefs.js:508
+#: src/prefs.js:517
 msgid "Desktop button"
 msgstr "Bouton Afficher le Bureau"
 
-#: src/prefs.js:518
+#: src/prefs.js:527
 msgid "Move up"
 msgstr "Déplacer vers le haut"
 
-#: src/prefs.js:520
+#: src/prefs.js:529
 msgid "Move down"
 msgstr "Déplacer vers le bas"
 
-#: src/prefs.js:526
+#: src/prefs.js:535
 msgid "Visible"
 msgstr "Visible"
 
-#: src/prefs.js:530
+#: src/prefs.js:539
 msgid "Select element position"
 msgstr "Sélectionner la position de l'élément"
 
-#: src/prefs.js:544
+#: src/prefs.js:553
 msgid "Stacked to top"
 msgstr "Empilé en haut"
 
-#: src/prefs.js:544
+#: src/prefs.js:553
 msgid "Stacked to left"
 msgstr "Empilé à gauche"
 
-#: src/prefs.js:548
+#: src/prefs.js:557
 msgid "Stacked to bottom"
 msgstr "Empilé en bas"
 
-#: src/prefs.js:548
+#: src/prefs.js:557
 msgid "Stacked to right"
 msgstr "Empilé à droite"
 
-#: src/prefs.js:550
+#: src/prefs.js:559
 msgid "Centered"
 msgstr "Centré"
 
-#: src/prefs.js:551
+#: src/prefs.js:560
 msgid "Monitor Center"
 msgstr "Centre de l'écran "
 
-#: src/prefs.js:578
+#: src/prefs.js:587
 msgid "More options"
 msgstr "Plus d'options"
 
-#: src/prefs.js:613
+#: src/prefs.js:622
 msgid "Reset to defaults"
 msgstr "Restaurer paramètres"
 
-#: src/prefs.js:636
+#: src/prefs.js:645
 msgid "Show Applications options"
 msgstr "Options du bouton Afficher les Applications"
 
-#: src/prefs.js:659
+#: src/prefs.js:668
 msgid "Open icon"
 msgstr "Choisir l'icône"
 
-#: src/prefs.js:724
+#: src/prefs.js:733
 msgid "Show Desktop options"
 msgstr "Options du bouton Afficher le Bureau"
 
-#: src/prefs.js:816
+#: src/prefs.js:825
 msgid "Primary monitor"
 msgstr "Écran principal"
 
-#: src/prefs.js:817
+#: src/prefs.js:826
 msgid "Monitor "
 msgstr "Écran "
 
-#: src/prefs.js:944
+#: src/prefs.js:953
 msgid "Running Indicator Options"
 msgstr "Options de l'indicateur d'activité"
 
-#: src/prefs.js:1478
+#: src/prefs.js:1487
 msgid "Dynamic opacity options"
 msgstr "Options d'opacité dynamique"
 
-#: src/prefs.js:1720
+#: src/prefs.js:1729
 msgid "Intellihide options"
 msgstr "Options du masquage intelligent"
 
-#: src/prefs.js:1916
+#: src/prefs.js:1925
 msgid "Window preview options"
 msgstr "Options de la prévisualisation"
 
-#: src/prefs.js:2467
+#: src/prefs.js:2476
 msgid "Ungrouped application options"
 msgstr "Options des applications dégroupées"
 
-#: src/prefs.js:2634
+#: src/prefs.js:2643
 msgid "Customize middle-click behavior"
 msgstr "Modifier l'action du clic de la molette"
 
-#: src/prefs.js:2723
+#: src/prefs.js:2732
 msgid "Customize panel scroll behavior"
 msgstr "Modifier l'action du défilement de la souris sur le panneau"
 
-#: src/prefs.js:2769
+#: src/prefs.js:2778
 msgid "Customize icon scroll behavior"
 msgstr "Modifier l'action du défilement de la souris sur une application"
 
-#: src/prefs.js:2893
+#: src/prefs.js:2902
 msgid "Advanced hotkeys options"
 msgstr "Raccourcis avancés"
 
-#: src/prefs.js:2921
+#: src/prefs.js:2930
 msgid "Secondary Menu Options"
 msgstr "Options du menu secondaire"
 
-#: src/prefs.js:2965 ui/SettingsFineTune.ui.h:23
+#: src/prefs.js:2974 ui/SettingsFineTune.ui.h:23
 msgid "Advanced Options"
 msgstr "Options avancées"
 
-#: src/prefs.js:3133
+#: src/prefs.js:3142
 #, javascript-format
 msgid "%d ms"
 msgstr "%d ms"
 
-#: src/prefs.js:3139
+#: src/prefs.js:3148
 #, javascript-format
 msgid "%d °"
 msgstr "%d °"
 
-#: src/prefs.js:3145 src/prefs.js:3151
+#: src/prefs.js:3154 src/prefs.js:3160
 #, javascript-format
 msgid "%d %%"
 msgstr "%d %%"
 
-#: src/prefs.js:3157
+#: src/prefs.js:3166
 #, javascript-format
 msgid "%.1f"
 msgstr "%.1f"
 
-#: src/prefs.js:3163
+#: src/prefs.js:3172
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
 msgstr[0] "%d icône"
 msgstr[1] "%d icônes"
 
-#: src/prefs.js:3290
+#: src/prefs.js:3299
 msgid "App icon animation options"
 msgstr "Options d'animation des icônes d'application"
 
-#: src/prefs.js:3413
+#: src/prefs.js:3422
 msgid "App icon highlight options"
 msgstr "Options d'animation du surlignement des icônes d'application"
 
-#: src/prefs.js:3508
+#: src/prefs.js:3517
 msgid "Export settings"
 msgstr "Exporter les paramètres"
 
-#: src/prefs.js:3529
+#: src/prefs.js:3538
 msgid "Import settings"
 msgstr "Importer des paramètres"
 
