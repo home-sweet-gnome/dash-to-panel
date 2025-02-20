@@ -40,8 +40,8 @@ msgstr ""
 "X-Poedit-SearchPath-17: appIcons.js\n"
 
 #: src/extension.js:87
-msgid "Dash to panel has been updated!"
-msgstr "Dash to panel a été mis à jour!"
+msgid "Dash to Panel has been updated!"
+msgstr "Dash to Panel a été mis à jour!"
 
 #: src/extension.js:91
 msgid "See what's new"
