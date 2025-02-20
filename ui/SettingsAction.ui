@@ -1,27 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <interface>
+  <!-- interface-name SettingsAction.ui -->
   <requires lib="gtk" version="4.0"/>
-
+  <requires lib="libadwaita" version="1.6"/>
   <object class="AdwPreferencesPage" id="action">
+    <property name="icon-name">input-mouse-symbolic</property>
     <property name="title" translatable="yes">Action</property>
-    <property name="icon_name">input-mouse-symbolic</property>
-
-    <!-- group click action -->
     <child>
       <object class="AdwPreferencesGroup" id="action_group_click_action">
         <property name="title" translatable="yes">Click action</property>
-
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Click action</property>
             <property name="subtitle" translatable="yes">Behaviour when clicking on the icon of a running application.</property>
+            <property name="title" translatable="yes">Click action</property>
             <child>
               <object class="GtkButton" id="middle_click_options_button">
-                <property name="receives_default">True</property>
+                <property name="receives-default">True</property>
                 <property name="valign">center</property>
                 <child>
                   <object class="GtkImage" id="middle_click_image">
-                    <property name="icon_name">emblem-system-symbolic</property>
+                    <property name="icon-name">emblem-system-symbolic</property>
                   </object>
                 </child>
                 <style>
@@ -46,29 +44,25 @@
             </child>
           </object>
         </child>
-
       </object>
     </child>
-
-    <!-- group scroll action -->
     <child>
       <object class="AdwPreferencesGroup" id="action_group_scroll_action">
         <property name="title" translatable="yes">Scroll action</property>
-
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Scroll panel action</property>
             <property name="subtitle" translatable="yes">Behavior when mouse scrolling over the panel.</property>
+            <property name="title" translatable="yes">Scroll panel action</property>
             <child>
               <object class="GtkButton" id="scroll_panel_options_button">
-                <property name="visible">True</property>
-                <property name="receives_default">True</property>
                 <property name="halign">end</property>
+                <property name="receives-default">True</property>
                 <property name="valign">center</property>
+                <property name="visible">True</property>
                 <child>
                   <object class="GtkImage" id="scroll_panel_options_button_image">
+                    <property name="icon-name">emblem-system-symbolic</property>
                     <property name="visible">True</property>
-                    <property name="icon_name">emblem-system-symbolic</property>
                   </object>
                 </child>
                 <style>
@@ -78,9 +72,9 @@
             </child>
             <child>
               <object class="GtkComboBoxText" id="scroll_panel_combo">
-                <property name="visible">True</property>
-                <property name="valign">center</property>
                 <property name="hexpand">True</property>
+                <property name="valign">center</property>
+                <property name="visible">True</property>
                 <items>
                   <item id="NOTHING" translatable="yes">Do nothing</item>
                   <item id="SWITCH_WORKSPACE" translatable="yes">Switch workspace</item>
@@ -91,19 +85,18 @@
             </child>
           </object>
         </child>
-
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Scroll icon action</property>
             <property name="subtitle" translatable="yes">Behavior when mouse scrolling over an application icon.</property>
+            <property name="title" translatable="yes">Scroll icon action</property>
             <child>
               <object class="GtkButton" id="scroll_icon_options_button">
-                <property name="receives_default">True</property>
+                <property name="receives-default">True</property>
                 <property name="valign">center</property>
                 <child>
                   <object class="GtkImage" id="scroll_icon_options_button_image">
+                    <property name="icon-name">emblem-system-symbolic</property>
                     <property name="visible">True</property>
-                    <property name="icon_name">emblem-system-symbolic</property>
                   </object>
                 </child>
                 <style>
@@ -113,8 +106,8 @@
             </child>
             <child>
               <object class="GtkComboBoxText" id="scroll_icon_combo">
-                <property name="valign">center</property>
                 <property name="hexpand">True</property>
+                <property name="valign">center</property>
                 <items>
                   <item id="NOTHING" translatable="yes">Do nothing</item>
                   <item id="CYCLE_WINDOWS" translatable="yes">Cycle windows</item>
@@ -124,26 +117,22 @@
             </child>
           </object>
         </child>
-
       </object>
     </child>
-
-    <!-- group hotkey -->
     <child>
-      <object class="AdwPreferencesGroup" id="action_group_hotkry">
+      <object class="AdwPreferencesGroup" id="action_group_hotkey">
         <property name="title" translatable="yes">Hotkey overlay</property>
-
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Use hotkeys to activate apps</property>
             <property name="subtitle" translatable="yes">Enable Super+(0-9) as shortcuts to activate apps. It can also be used together with Shift and Ctrl.</property>
+            <property name="title" translatable="yes">Use hotkeys to activate apps</property>
             <child>
               <object class="GtkButton" id="overlay_button">
-                <property name="receives_default">True</property>
+                <property name="receives-default">True</property>
                 <property name="valign">center</property>
                 <child>
                   <object class="GtkImage" id="image_overlay">
-                    <property name="icon_name">emblem-system-symbolic</property>
+                    <property name="icon-name">emblem-system-symbolic</property>
                   </object>
                 </child>
                 <style>
@@ -158,9 +147,30 @@
             </child>
           </object>
         </child>
-
       </object>
     </child>
-
+    <child>
+      <object class="AdwPreferencesGroup" id="context_menu_group">
+        <property name="title" translatable="yes">Context menu entries</property>
+        <child>
+          <object class="GtkButton" id="context_menu_add_button">
+            <property name="halign">center</property>
+            <property name="margin-top">10</property>
+            <property name="receives-default">True</property>
+            <property name="valign">center</property>
+            <property name="width-request">100</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">list-add-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Add entry</property>
+              </object>
+            </child>
+            <style>
+              <class name="circular"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>

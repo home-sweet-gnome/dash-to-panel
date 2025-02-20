@@ -688,6 +688,29 @@
       <summary>Action when scrolling over the panel</summary>
       <description>Set the action that is executed when scrolling over the panel</description>
     </key>
+    <key type="s" name="context-menu-entries">
+      <default>'
+        [
+          {
+            "title": "Terminal",
+            "cmd": "gnome-terminal"
+          },
+          {
+            "title": "System monitor",
+            "cmd": "gnome-system-monitor"
+          },
+          {
+            "title": "Files",
+            "cmd": "nautilus"
+          },
+          {
+            "title": "Extensions",
+            "cmd": "gnome-extensions-app"
+          }
+        ]'
+      </default>
+      <summary>User defined context menu entries</summary>
+    </key>
     <key type="i" name="scroll-panel-delay">
       <default>0</default>
       <summary>Delay between panel mouse scroll events</summary>

@@ -20,6 +20,7 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
+import Adw from 'gi://Adw'
 import GdkPixbuf from 'gi://GdkPixbuf'
 import Gio from 'gi://Gio'
 import GioUnix from 'gi://GioUnix'
@@ -2721,6 +2722,115 @@ const Preferences = class {
       .connect('changed', (widget) => {
         this._settings.set_string('scroll-icon-action', widget.get_active_id())
       })
+
+    let expanders = []
+    let contextMenuGroup = this._builder.get_object('context_menu_group')
+    let contextMenuActions = JSON.parse(
+      this._settings.get_string('context-menu-entries'),
+    )
+    let contextMenuAddButton = this._builder.get_object(
+      'context_menu_add_button',
+    )
+
+    contextMenuAddButton.connect('clicked', () => {
+      contextMenuActions.push({
+        title: '',
+        cmd: '',
+      })
+
+      createContextMenuEntries()
+    })
+
+    let createButton = (icon, tooltip_text, clicked) => {
+      let btn = new Gtk.Button({ tooltip_text })
+
+      btn.set_icon_name(icon)
+      btn.add_css_class('circular')
+      btn.set_has_frame(false)
+      btn.connect('clicked', clicked)
+
+      return btn
+    }
+    let updateContextMenuEntries = (rebuild) => {
+      contextMenuActions = contextMenuActions.filter((a) => a.title || a.cmd)
+
+      this._settings.set_string(
+        'context-menu-entries',
+        JSON.stringify(contextMenuActions),
+      )
+
+      if (rebuild) createContextMenuEntries()
+    }
+    let createContextMenuEntries = () => {
+      expanders.forEach((e) => contextMenuGroup.remove(e))
+      expanders = []
+
+      contextMenuActions.forEach((a, i) => {
+        let expander = new Adw.ExpanderRow()
+        let textRow = new Adw.EntryRow()
+        let commandRow = new Adw.EntryRow()
+
+        textRow.set_title(_('Text'))
+        textRow.set_text(a.title)
+        textRow.set_show_apply_button(true)
+        textRow.connect('apply', () => {
+          a.title = textRow.text
+          expander.set_title(a.title)
+          updateContextMenuEntries()
+        })
+
+        commandRow.set_title(_('Command'))
+        commandRow.set_text(a.cmd)
+        commandRow.set_show_apply_button(true)
+        commandRow.connect('apply', () => {
+          a.cmd = commandRow.text
+          expander.set_subtitle(a.cmd)
+          updateContextMenuEntries()
+        })
+
+        expander.add_row(textRow)
+        expander.add_row(commandRow)
+
+        expander.set_title(a.title)
+        expander.set_subtitle(a.cmd)
+
+        let box = new Gtk.Box()
+        let upBtn = createButton('go-up-symbolic', _('Move up'), () => {
+          contextMenuActions.splice(
+            i - 1,
+            0,
+            contextMenuActions.splice(i, 1)[0],
+          )
+          updateContextMenuEntries(true)
+        })
+        let downBtn = createButton('go-down-symbolic', _('Move down'), () => {
+          contextMenuActions.splice(
+            i + 1,
+            0,
+            contextMenuActions.splice(i, 1)[0],
+          )
+          updateContextMenuEntries(true)
+        })
+        let deleteBtn = createButton('user-trash-symbolic', _('Remove'), () => {
+          contextMenuActions.splice(i, 1)
+          updateContextMenuEntries(true)
+        })
+
+        if (i == 0) upBtn.set_sensitive(false)
+        if (i == contextMenuActions.length - 1) downBtn.set_sensitive(false)
+
+        box.append(upBtn)
+        box.append(downBtn)
+
+        expander.add_suffix(deleteBtn)
+        expander.add_prefix(box)
+
+        contextMenuGroup.add(expander)
+        expanders.push(expander)
+      })
+    }
+
+    createContextMenuEntries()
 
     // Create dialog for panel scroll options
     this._builder

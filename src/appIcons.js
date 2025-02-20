@@ -46,7 +46,6 @@ import {
   DTP_EXTENSION,
   SETTINGS,
   DESKTOPSETTINGS,
-  TERMINALSETTINGS,
   EXTENSION_PATH,
 } from './extension.js'
 import {
@@ -2248,7 +2247,7 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
       this._appendItem({
         title: _('System'),
-        cmd: ['gnome-control-center', 'info-overview'],
+        cmd: ['gnome-control-center', 'system'],
       })
 
       this._appendItem({
@@ -2269,30 +2268,12 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
       this._appendSeparator()
     }
 
-    this._appendItem({
-      title: _('Terminal'),
-      cmd: [TERMINALSETTINGS.get_string('exec')],
-    })
-
-    this._appendItem({
-      title: _('System monitor'),
-      cmd: ['gnome-system-monitor'],
-    })
-
-    this._appendItem({
-      title: _('Files'),
-      cmd: ['nautilus'],
-    })
-
-    this._appendItem({
-      title: _('Extensions'),
-      cmd: ['gnome-extensions-app'],
-    })
-
-    this._appendItem({
-      title: _('Settings'),
-      cmd: ['gnome-control-center'],
-    })
+    JSON.parse(SETTINGS.get_string('context-menu-entries')).forEach((e) =>
+      this._appendItem({
+        title: e.title,
+        cmd: e.cmd.split(' '),
+      }),
+    )
 
     this._appendList(
       SETTINGS.get_strv('panel-context-menu-commands'),
@@ -2300,6 +2281,11 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
     )
 
     this._appendSeparator()
+
+    this._appendItem({
+      title: _('Gnome Settings'),
+      cmd: ['gnome-control-center'],
+    })
 
     let lockTaskbarMenuItem = this._appendMenuItem(
       SETTINGS.get_boolean('taskbar-locked')
