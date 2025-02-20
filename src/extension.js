@@ -82,6 +82,7 @@ export default class DashToPanelExtension extends Extension {
     if (donateIconUnixtime && donateIconUnixtime < Date.now() - 10368000000)
       SETTINGS.set_string('hide-donate-icon-unixtime', '')
 
+    // if new version, display a notification linking to release notes
     if (this.metadata.version != SETTINGS.get_int('extension-version')) {
       Utils.notify(
         _('Dash to panel has been updated!'),

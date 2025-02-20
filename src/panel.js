@@ -698,7 +698,7 @@ export const Panel = GObject.registerClass(
 
       if (this.checkIfVertical()) {
         this.showAppsIconWrapper.realShowAppsIcon.toggleButton.set_width(
-          this.geom.w,
+          this.geom.innerSize,
         )
         this._refreshVerticalAlloc()
       }
