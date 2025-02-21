@@ -46,6 +46,7 @@ import {
   DTP_EXTENSION,
   SETTINGS,
   DESKTOPSETTINGS,
+  TERMINALSETTINGS,
   EXTENSION_PATH,
 } from './extension.js'
 import {
@@ -2268,12 +2269,15 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
       this._appendSeparator()
     }
 
-    JSON.parse(SETTINGS.get_string('context-menu-entries')).forEach((e) =>
+    JSON.parse(SETTINGS.get_string('context-menu-entries')).forEach((e) => {
+      if (e.cmd == 'TERMINALSETTINGS')
+        e.cmd = TERMINALSETTINGS.get_string('exec')
+
       this._appendItem({
         title: e.title,
         cmd: e.cmd.split(' '),
-      }),
-    )
+      })
+    })
 
     this._appendList(
       SETTINGS.get_strv('panel-context-menu-commands'),
@@ -2281,11 +2285,6 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
     )
 
     this._appendSeparator()
-
-    this._appendItem({
-      title: _('Gnome Settings'),
-      cmd: ['gnome-control-center'],
-    })
 
     let lockTaskbarMenuItem = this._appendMenuItem(
       SETTINGS.get_boolean('taskbar-locked')
@@ -2297,6 +2296,11 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
         'taskbar-locked',
         !SETTINGS.get_boolean('taskbar-locked'),
       )
+    })
+
+    this._appendItem({
+      title: _('Gnome Settings'),
+      cmd: ['gnome-control-center'],
     })
 
     let settingsMenuItem = this._appendMenuItem(_('Dash to Panel Settings'))

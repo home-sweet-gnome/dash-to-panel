@@ -693,7 +693,7 @@
         [
           {
             "title": "Terminal",
-            "cmd": "gnome-terminal"
+            "cmd": "TERMINALSETTINGS"
           },
           {
             "title": "System monitor",
