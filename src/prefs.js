@@ -191,7 +191,6 @@ const Preferences = class {
     this._builder.add_from_file(this._path + '/ui/BoxSecondaryMenuOptions.ui')
     this._builder.add_from_file(this._path + '/ui/BoxScrollPanelOptions.ui')
     this._builder.add_from_file(this._path + '/ui/BoxScrollIconOptions.ui')
-    this._builder.add_from_file(this._path + '/ui/BoxAdvancedOptions.ui')
 
     // pages
     this._builder.add_from_file(this._path + '/ui/SettingsPosition.ui')
@@ -3070,18 +3069,6 @@ const Preferences = class {
           'active',
           Gio.SettingsBindFlags.DEFAULT,
         )
-
-        dialog.show()
-        dialog.set_default_size(480, 1)
-      })
-
-    // setup dialog for advanced options
-    this._builder
-      .get_object('button_advanced_options')
-      .connect('clicked', () => {
-        let box = this._builder.get_object('box_advanced_options')
-
-        let dialog = this._createPreferencesDialog(_('Advanced Options'), box)
 
         dialog.show()
         dialog.set_default_size(480, 1)
