@@ -528,18 +528,24 @@ export const getPoint = function (coords) {
   return new Graphene.Point(coords)
 }
 
-export const notify = function (title, body, iconName, action, isTransient) {
-  let source = new MessageTray.Source({
-    title: 'Dash to Panel',
-  })
+export const notify = function (
+  title,
+  body,
+  sourceIconName,
+  notificationIcon,
+  action,
+  isTransient,
+) {
+  let source = MessageTray.getSystemSource()
   let notification = new MessageTray.Notification({
     source,
     title,
     body,
     isTransient: isTransient || false,
+    gicon: notificationIcon || null,
   })
 
-  if (iconName) source.iconName = iconName
+  if (sourceIconName) source.iconName = sourceIconName
 
   if (action) {
     if (!(action instanceof Array)) {
@@ -549,7 +555,6 @@ export const notify = function (title, body, iconName, action, isTransient) {
     action.forEach((a) => notification.addAction(a.text, a.func))
   }
 
-  Main.messageTray.add(source)
   source.addNotification(notification)
 }
 

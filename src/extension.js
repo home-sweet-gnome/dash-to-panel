@@ -88,6 +88,9 @@ export default class DashToPanelExtension extends Extension {
         _('Dash to Panel has been updated!'),
         _(`You are now running version ${this.metadata.version}.`),
         'software-update-available-symbolic',
+        Gio.icon_new_for_string(
+          `${this.path}/img/dash-to-panel-logo-light.svg`,
+        ),
         {
           text: _(`See what's new`),
           func: () =>
