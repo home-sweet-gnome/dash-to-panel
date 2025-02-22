@@ -133,7 +133,7 @@ export const Overview = class {
             // The default overview allocation takes into account external
             // struts, everywhere but the bottom where the dash is usually fixed anyway.
             // If there is a bottom panel under the dash location, give it some space here
-            box.y2 -= focusedPanel.geom.h
+            box.y2 -= focusedPanel.geom.outerSize
         }
 
         originalAllocate.call(overviewControls, box)

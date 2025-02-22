@@ -5,7 +5,7 @@ MODULES = src/*.js src/stylesheet.css metadata.json COPYING README.md
 UI_MODULES = ui/*.ui
 IMAGES = ./* ../media/design/svg/dash-to-panel-logo-light.svg
 
-TOLOCALIZE =  src/prefs.js src/appIcons.js src/taskbar.js
+TOLOCALIZE = src/extension.js src/prefs.js src/appIcons.js src/taskbar.js
 MSGSRC = $(wildcard po/*.po)
 ifeq ($(strip $(DESTDIR)),)
 	INSTALLBASE = $(HOME)/.local/share/gnome-shell/extensions

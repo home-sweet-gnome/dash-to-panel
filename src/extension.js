@@ -18,10 +18,14 @@
  */
 
 import Gio from 'gi://Gio'
+import GLib from 'gi://GLib'
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
-import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js'
+import {
+  Extension,
+  gettext as _,
+} from 'resource:///org/gnome/shell/extensions/extension.js'
 import * as PanelSettings from './panelSettings.js'
 
 import * as PanelManager from './panelManager.js'
@@ -78,6 +82,28 @@ export default class DashToPanelExtension extends Extension {
     if (donateIconUnixtime && donateIconUnixtime < Date.now() - 10368000000)
       SETTINGS.set_string('hide-donate-icon-unixtime', '')
 
+    // if new version, display a notification linking to release notes
+    if (this.metadata.version != SETTINGS.get_int('extension-version')) {
+      Utils.notify(
+        _('Dash to Panel has been updated!'),
+        _(`You are now running version ${this.metadata.version}.`),
+        'software-update-available-symbolic',
+        Gio.icon_new_for_string(
+          `${this.path}/img/dash-to-panel-logo-light.svg`,
+        ),
+        {
+          text: _(`See what's new`),
+          func: () =>
+            Gio.app_info_launch_default_for_uri(
+              `${this.metadata.url}/releases/tag/v${this.metadata.version}`,
+              global.create_app_launch_context(0, -1),
+            ),
+        },
+      )
+
+      SETTINGS.set_int('extension-version', this.metadata.version)
+    }
+
     Main.layoutManager.startInOverview = !SETTINGS.get_boolean(
       'hide-overview-on-startup',
     )
@@ -99,6 +125,8 @@ export default class DashToPanelExtension extends Extension {
       panelManager = new PanelManager.PanelManager()
       panelManager.enable()
       ubuntuDockDelayId = 0
+
+      return GLib.SOURCE_REMOVE
     }
 
     // disable ubuntu dock if present
@@ -110,13 +138,17 @@ export default class DashToPanelExtension extends Extension {
         global.settings.set_strv('disabled-extensions', disabled)
 
         // wait a bit so ubuntu dock can disable itself and restore the showappsbutton
-        ubuntuDockDelayId = setTimeout(completeEnable, 200)
+        ubuntuDockDelayId = GLib.timeout_add(
+          GLib.PRIORITY_DEFAULT,
+          200,
+          completeEnable,
+        )
       }
     } else completeEnable()
   }
 
   disable() {
-    if (ubuntuDockDelayId) clearTimeout(ubuntuDockDelayId)
+    if (ubuntuDockDelayId) GLib.Source.remove(ubuntuDockDelayId)
 
     PanelSettings.disable(SETTINGS)
     panelManager.disable()

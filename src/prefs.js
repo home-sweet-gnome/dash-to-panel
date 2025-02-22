@@ -20,6 +20,7 @@
  * Some code was also adapted from the upstream Gnome Shell source code.
  */
 
+import Adw from 'gi://Adw'
 import GdkPixbuf from 'gi://GdkPixbuf'
 import Gio from 'gi://Gio'
 import GioUnix from 'gi://GioUnix'
@@ -190,7 +191,6 @@ const Preferences = class {
     this._builder.add_from_file(this._path + '/ui/BoxSecondaryMenuOptions.ui')
     this._builder.add_from_file(this._path + '/ui/BoxScrollPanelOptions.ui')
     this._builder.add_from_file(this._path + '/ui/BoxScrollIconOptions.ui')
-    this._builder.add_from_file(this._path + '/ui/BoxAdvancedOptions.ui')
 
     // pages
     this._builder.add_from_file(this._path + '/ui/SettingsPosition.ui')
@@ -284,16 +284,24 @@ const Preferences = class {
     let monitorSync = this._settings.get_boolean(
       'panel-element-positions-monitors-sync',
     )
-    let topAvailable =
-      !keepTopPanel ||
-      (!monitorSync && !this.monitors[this._currentMonitorIndex].primary)
-    let topRadio = this._builder.get_object('position_top_button')
+    let isPrimary = this.monitors[this._currentMonitorIndex].primary
+    let topAvailable = !keepTopPanel || (!monitorSync && !isPrimary)
+    let topButton = this._builder.get_object('position_top_button')
+    let keepGsPanelAvailable = !(topButton.get_active() && isPrimary)
+    let keepGsPanelSwitch = this._builder.get_object('stockgs_top_panel_switch')
 
-    topRadio.set_sensitive(topAvailable)
-    topRadio.set_tooltip_text(
+    topButton.set_sensitive(topAvailable)
+    topButton.set_tooltip_text(
       !topAvailable
         ? _('Unavailable when gnome-shell top panel is present')
         : '',
+    )
+
+    keepGsPanelSwitch.set_sensitive(keepGsPanelAvailable)
+    keepGsPanelSwitch.set_tooltip_text(
+      keepGsPanelAvailable
+        ? ''
+        : _('Unavailable when the panel on the primary monitor is at the top'),
     )
   }
 
@@ -312,6 +320,7 @@ const Preferences = class {
       PanelSettings.setPanelPosition(this._settings, monitorIndex, position)
     })
     this._setAnchorLabels(this._currentMonitorIndex)
+    this._maybeDisableTopPosition()
   }
 
   _setPositionRadios(position) {
@@ -1659,6 +1668,30 @@ const Preferences = class {
       setShortcut(this._settings, 'intellihide-key-toggle'),
     )
 
+    let intellihidePersistStateSwitch = this._builder.get_object(
+      'intellihide_persist_state_switch',
+    )
+    let intellihideStartDelayButton = this._builder.get_object(
+      'intellihide_enable_start_delay_spinbutton',
+    )
+
+    intellihidePersistStateSwitch.set_active(
+      this._settings.get_int('intellihide-persisted-state') > -1,
+    )
+
+    intellihideStartDelayButton.set_sensitive(
+      this._settings.get_int('intellihide-persisted-state') == -1,
+    )
+
+    intellihidePersistStateSwitch.connect('notify::active', (widget) => {
+      intellihideStartDelayButton.set_sensitive(!widget.get_active())
+
+      this._settings.set_int(
+        'intellihide-persisted-state',
+        widget.get_active() ? 0 : -1,
+      )
+    })
+
     this._builder
       .get_object('intellihide_animation_time_spinbutton')
       .set_value(this._settings.get_int('intellihide-animation-time'))
@@ -1677,17 +1710,15 @@ const Preferences = class {
         this._settings.set_int('intellihide-close-delay', widget.get_value())
       })
 
-    this._builder
-      .get_object('intellihide_enable_start_delay_spinbutton')
-      .set_value(this._settings.get_int('intellihide-enable-start-delay'))
-    this._builder
-      .get_object('intellihide_enable_start_delay_spinbutton')
-      .connect('value-changed', (widget) => {
-        this._settings.set_int(
-          'intellihide-enable-start-delay',
-          widget.get_value(),
-        )
-      })
+    intellihideStartDelayButton.set_value(
+      this._settings.get_int('intellihide-enable-start-delay'),
+    )
+    intellihideStartDelayButton.connect('value-changed', (widget) => {
+      this._settings.set_int(
+        'intellihide-enable-start-delay',
+        widget.get_value(),
+      )
+    })
 
     this._builder
       .get_object('intellihide_options_button')
@@ -1747,6 +1778,8 @@ const Preferences = class {
               this._settings.get_default_value('intellihide-key-toggle-text'),
             )
 
+            intellihidePersistStateSwitch.set_active(false)
+
             this._settings.set_value(
               'intellihide-animation-time',
               this._settings.get_default_value('intellihide-animation-time'),
@@ -1769,11 +1802,9 @@ const Preferences = class {
                 'intellihide-enable-start-delay',
               ),
             )
-            this._builder
-              .get_object('intellihide_enable_start_delay_spinbutton')
-              .set_value(
-                this._settings.get_int('intellihide-enable-start-delay'),
-              )
+            intellihideStartDelayButton.set_value(
+              this._settings.get_int('intellihide-enable-start-delay'),
+            )
           },
         )
 
@@ -2691,6 +2722,115 @@ const Preferences = class {
         this._settings.set_string('scroll-icon-action', widget.get_active_id())
       })
 
+    let expanders = []
+    let contextMenuGroup = this._builder.get_object('context_menu_group')
+    let contextMenuActions = JSON.parse(
+      this._settings.get_string('context-menu-entries'),
+    )
+    let contextMenuAddButton = this._builder.get_object(
+      'context_menu_add_button',
+    )
+
+    contextMenuAddButton.connect('clicked', () => {
+      contextMenuActions.push({
+        title: '',
+        cmd: '',
+      })
+
+      createContextMenuEntries()
+    })
+
+    let createButton = (icon, tooltip_text, clicked) => {
+      let btn = new Gtk.Button({ tooltip_text })
+
+      btn.set_icon_name(icon)
+      btn.add_css_class('circular')
+      btn.set_has_frame(false)
+      btn.connect('clicked', clicked)
+
+      return btn
+    }
+    let updateContextMenuEntries = (rebuild) => {
+      contextMenuActions = contextMenuActions.filter((a) => a.title || a.cmd)
+
+      this._settings.set_string(
+        'context-menu-entries',
+        JSON.stringify(contextMenuActions),
+      )
+
+      if (rebuild) createContextMenuEntries()
+    }
+    let createContextMenuEntries = () => {
+      expanders.forEach((e) => contextMenuGroup.remove(e))
+      expanders = []
+
+      contextMenuActions.forEach((a, i) => {
+        let expander = new Adw.ExpanderRow()
+        let textRow = new Adw.EntryRow()
+        let commandRow = new Adw.EntryRow()
+
+        textRow.set_title(_('Text'))
+        textRow.set_text(a.title)
+        textRow.set_show_apply_button(true)
+        textRow.connect('apply', () => {
+          a.title = textRow.text
+          expander.set_title(a.title)
+          updateContextMenuEntries()
+        })
+
+        commandRow.set_title(_('Command'))
+        commandRow.set_text(a.cmd)
+        commandRow.set_show_apply_button(true)
+        commandRow.connect('apply', () => {
+          a.cmd = commandRow.text
+          expander.set_subtitle(a.cmd)
+          updateContextMenuEntries()
+        })
+
+        expander.add_row(textRow)
+        expander.add_row(commandRow)
+
+        expander.set_title(a.title)
+        expander.set_subtitle(a.cmd)
+
+        let box = new Gtk.Box()
+        let upBtn = createButton('go-up-symbolic', _('Move up'), () => {
+          contextMenuActions.splice(
+            i - 1,
+            0,
+            contextMenuActions.splice(i, 1)[0],
+          )
+          updateContextMenuEntries(true)
+        })
+        let downBtn = createButton('go-down-symbolic', _('Move down'), () => {
+          contextMenuActions.splice(
+            i + 1,
+            0,
+            contextMenuActions.splice(i, 1)[0],
+          )
+          updateContextMenuEntries(true)
+        })
+        let deleteBtn = createButton('user-trash-symbolic', _('Remove'), () => {
+          contextMenuActions.splice(i, 1)
+          updateContextMenuEntries(true)
+        })
+
+        if (i == 0) upBtn.set_sensitive(false)
+        if (i == contextMenuActions.length - 1) downBtn.set_sensitive(false)
+
+        box.append(upBtn)
+        box.append(downBtn)
+
+        expander.add_suffix(deleteBtn)
+        expander.add_prefix(box)
+
+        contextMenuGroup.add(expander)
+        expanders.push(expander)
+      })
+    }
+
+    createContextMenuEntries()
+
     // Create dialog for panel scroll options
     this._builder
       .get_object('scroll_panel_options_button')
@@ -2929,18 +3069,6 @@ const Preferences = class {
           'active',
           Gio.SettingsBindFlags.DEFAULT,
         )
-
-        dialog.show()
-        dialog.set_default_size(480, 1)
-      })
-
-    // setup dialog for advanced options
-    this._builder
-      .get_object('button_advanced_options')
-      .connect('clicked', () => {
-        let box = this._builder.get_object('box_advanced_options')
-
-        let dialog = this._createPreferencesDialog(_('Advanced Options'), box)
 
         dialog.show()
         dialog.set_default_size(480, 1)
@@ -3469,12 +3597,15 @@ const Preferences = class {
 
     // About Panel
 
-    this._builder
-      .get_object('extension_version')
-      .set_label(
-        this._metadata.version.toString() +
-          (this._metadata.commit ? ' (' + this._metadata.commit + ')' : ''),
-      )
+    let versionLinkButton = this._builder.get_object('extension_version')
+
+    versionLinkButton.set_label(
+      this._metadata.version.toString() +
+        (this._metadata.commit ? ' (' + this._metadata.commit + ')' : ''),
+    )
+    versionLinkButton.set_uri(
+      `${this._metadata.url}/${this._metadata.commit ? `commit/${this._metadata.commit}` : `releases/tag/v${this._metadata.version}`}`,
+    )
 
     this._builder
       .get_object('importexport_export_button')
@@ -3565,16 +3696,22 @@ const Preferences = class {
     )
 
     this.notebook.connect('notify::visible-page', () => {
-      clearTimeout(revealDonateTimeout)
+      if (revealDonateTimeout) GLib.Source.remove(revealDonateTimeout)
 
       if (
         this.notebook.visible_page_name == 'donation' &&
         !donationRevealer.get_reveal_child()
       )
-        revealDonateTimeout = setTimeout(() => {
-          donationRevealer.set_reveal_child(true)
-          donationSpinner.set_spinning(false)
-        }, 15000)
+        revealDonateTimeout = GLib.timeout_add(
+          GLib.PRIORITY_DEFAULT,
+          15000,
+          () => {
+            donationRevealer.set_reveal_child(true)
+            donationSpinner.set_spinning(false)
+
+            return GLib.SOURCE_REMOVE
+          },
+        )
     })
   }
 

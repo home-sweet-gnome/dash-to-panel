@@ -391,6 +391,10 @@
       <summary>Keybinding toggle intellihide</summary>
       <description>Keybinding to reveal the panel while in intellihide mode</description>
     </key>
+    <key type="i" name="intellihide-persisted-state">
+      <default>-1</default>
+      <summary>Persisted intellihide hold status. -1 means the option is disabled</summary>
+    </key>
     <key type="i" name="intellihide-enable-start-delay">
       <default>2000</default>
       <summary>Intellihide enable start delay</summary>
@@ -683,6 +687,29 @@
       <default>'SWITCH_WORKSPACE'</default>
       <summary>Action when scrolling over the panel</summary>
       <description>Set the action that is executed when scrolling over the panel</description>
+    </key>
+    <key type="s" name="context-menu-entries">
+      <default>'
+        [
+          {
+            "title": "Terminal",
+            "cmd": "TERMINALSETTINGS"
+          },
+          {
+            "title": "System monitor",
+            "cmd": "gnome-system-monitor"
+          },
+          {
+            "title": "Files",
+            "cmd": "nautilus"
+          },
+          {
+            "title": "Extensions",
+            "cmd": "gnome-extensions-app"
+          }
+        ]'
+      </default>
+      <summary>User defined context menu entries</summary>
     </key>
     <key type="i" name="scroll-panel-delay">
       <default>0</default>
@@ -1326,6 +1353,10 @@
     <key type="s" name="hide-donate-icon-unixtime">
       <default>''</default>
       <summary>Unix time when the donate icon was hidden</summary>
+    </key>
+    <key type="i" name="extension-version">
+      <default>65</default>
+      <summary>Installed extension version</summary>
     </key>
   </schema>
 </schemalist>

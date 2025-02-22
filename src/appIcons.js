@@ -1826,7 +1826,7 @@ export function resetRecentlyClickedApp() {
   recentlyClickedAppIndex = 0
   recentlyClickedAppMonitorIndex = null
 
-  return false
+  return GLib.SOURCE_REMOVE
 }
 
 export function closeAllWindows(app, monitor) {
@@ -2248,7 +2248,7 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
 
       this._appendItem({
         title: _('System'),
-        cmd: ['gnome-control-center', 'info-overview'],
+        cmd: ['gnome-control-center', 'system'],
       })
 
       this._appendItem({
@@ -2269,29 +2269,14 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
       this._appendSeparator()
     }
 
-    this._appendItem({
-      title: _('Terminal'),
-      cmd: [TERMINALSETTINGS.get_string('exec')],
-    })
+    JSON.parse(SETTINGS.get_string('context-menu-entries')).forEach((e) => {
+      if (e.cmd == 'TERMINALSETTINGS')
+        e.cmd = TERMINALSETTINGS.get_string('exec')
 
-    this._appendItem({
-      title: _('System monitor'),
-      cmd: ['gnome-system-monitor'],
-    })
-
-    this._appendItem({
-      title: _('Files'),
-      cmd: ['nautilus'],
-    })
-
-    this._appendItem({
-      title: _('Extensions'),
-      cmd: ['gnome-extensions-app'],
-    })
-
-    this._appendItem({
-      title: _('Settings'),
-      cmd: ['gnome-control-center'],
+      this._appendItem({
+        title: e.title,
+        cmd: e.cmd.split(' '),
+      })
     })
 
     this._appendList(
@@ -2311,6 +2296,11 @@ export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
         'taskbar-locked',
         !SETTINGS.get_boolean('taskbar-locked'),
       )
+    })
+
+    this._appendItem({
+      title: _('Gnome Settings'),
+      cmd: ['gnome-control-center'],
     })
 
     let settingsMenuItem = this._appendMenuItem(_('Dash to Panel Settings'))
