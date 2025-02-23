@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-18 21:54+0200\n"
-"PO-Revision-Date: 2025-02-18 21:59+0200\n"
+"POT-Creation-Date: 2025-02-23 14:43+0200\n"
+"PO-Revision-Date: 2025-02-23 15:28+0200\n"
 "Last-Translator: Yevhen Popok <xalt7x.service@gmail.com>\n"
 "Language-Team: \n"
 "Language: uk\n"
@@ -27,213 +27,225 @@ msgstr "Висота кнопки «Показати Стільницю» (пк�
 msgid "Show Desktop button width (px)"
 msgstr "Ширина кнопки «Показати Стільницю» (пкс)"
 
-#: src/prefs.js:295
+#: src/prefs.js:296
 msgid "Unavailable when gnome-shell top panel is present"
 msgstr "Недоступно, коли присутня верхня панель gnome-shell"
 
-#: src/prefs.js:363 ui/SettingsPosition.ui:133 ui/SettingsStyle.ui:204
+#: src/prefs.js:304
+msgid "Unavailable when the panel on the primary monitor is at the top"
+msgstr "Недоступно, коли панель розміщена вгорі на основному моніторі"
+
+#: src/prefs.js:372 ui/SettingsPosition.ui:133 ui/SettingsStyle.ui:204
 msgid "Left"
 msgstr "Ліворуч"
 
-#: src/prefs.js:364
+#: src/prefs.js:373
 msgid "Center"
 msgstr "По центру"
 
-#: src/prefs.js:365 ui/SettingsPosition.ui:142 ui/SettingsStyle.ui:212
+#: src/prefs.js:374 ui/SettingsPosition.ui:142 ui/SettingsStyle.ui:212
 msgid "Right"
 msgstr "Праворуч"
 
-#: src/prefs.js:367 ui/BoxWindowPreviewOptions.ui:334
+#: src/prefs.js:376 ui/BoxWindowPreviewOptions.ui:334
 #: ui/SettingsPosition.ui:124 ui/SettingsStyle.ui:196
 msgid "Top"
 msgstr "Вгорі"
 
-#: src/prefs.js:368 src/prefs.js:373 ui/SettingsPosition.ui:198
+#: src/prefs.js:377 src/prefs.js:382 ui/SettingsPosition.ui:198
 msgid "Middle"
 msgstr "Посередині"
 
-#: src/prefs.js:369 ui/BoxWindowPreviewOptions.ui:325
+#: src/prefs.js:378 ui/BoxWindowPreviewOptions.ui:325
 #: ui/SettingsPosition.ui:115 ui/SettingsStyle.ui:188
 msgid "Bottom"
 msgstr "Знизу"
 
-#: src/prefs.js:372 ui/SettingsPosition.ui:197
+#: src/prefs.js:381 ui/SettingsPosition.ui:197
 msgid "Start"
 msgstr "На початку"
 
-#: src/prefs.js:374 ui/SettingsPosition.ui:199
+#: src/prefs.js:383 ui/SettingsPosition.ui:199
 msgid "End"
 msgstr "В кінці"
 
-#: src/prefs.js:500
+#: src/prefs.js:509
 msgid "Show Applications button"
 msgstr "Кнопка «Показати програми»"
 
-#: src/prefs.js:501
+#: src/prefs.js:510
 msgid "Activities button"
 msgstr "Кнопка «Діяльність»"
 
-#: src/prefs.js:502
+#: src/prefs.js:511
 msgid "Taskbar"
 msgstr "Панель завдань"
 
-#: src/prefs.js:503
+#: src/prefs.js:512
 msgid "Date menu"
 msgstr "Меню дати"
 
-#: src/prefs.js:504
+#: src/prefs.js:513
 msgid "System menu"
 msgstr "Меню системи"
 
-#: src/prefs.js:505
+#: src/prefs.js:514
 msgid "Left box"
 msgstr "Лівий блок"
 
-#: src/prefs.js:506
+#: src/prefs.js:515
 msgid "Center box"
 msgstr "Центральний блок"
 
-#: src/prefs.js:507
+#: src/prefs.js:516
 msgid "Right box"
 msgstr "Правий блок"
 
-#: src/prefs.js:508
+#: src/prefs.js:517
 msgid "Desktop button"
 msgstr "Кнопка «Стільниця»"
 
-#: src/prefs.js:518
+#: src/prefs.js:527 src/prefs.js:2797
 msgid "Move up"
 msgstr "Перемістити вище"
 
-#: src/prefs.js:520
+#: src/prefs.js:529 src/prefs.js:2805
 msgid "Move down"
 msgstr "Перемістити нижче"
 
-#: src/prefs.js:526
+#: src/prefs.js:535
 msgid "Visible"
 msgstr "Видимість"
 
-#: src/prefs.js:530
+#: src/prefs.js:539
 msgid "Select element position"
 msgstr "Визначте розміщення елемента"
 
-#: src/prefs.js:544
+#: src/prefs.js:553
 msgid "Stacked to top"
 msgstr "Укладено вгору"
 
-#: src/prefs.js:544
+#: src/prefs.js:553
 msgid "Stacked to left"
 msgstr "Укладено ліворуч"
 
-#: src/prefs.js:548
+#: src/prefs.js:557
 msgid "Stacked to bottom"
 msgstr "Укладено вниз"
 
-#: src/prefs.js:548
+#: src/prefs.js:557
 msgid "Stacked to right"
 msgstr "Укладено праворуч"
 
-#: src/prefs.js:550
+#: src/prefs.js:559
 msgid "Centered"
 msgstr "По центру"
 
-#: src/prefs.js:551
+#: src/prefs.js:560
 msgid "Monitor Center"
 msgstr "По центру монітора"
 
-#: src/prefs.js:578
+#: src/prefs.js:587
 msgid "More options"
 msgstr "Більше параметрів"
 
-#: src/prefs.js:613
+#: src/prefs.js:622
 msgid "Reset to defaults"
 msgstr "Скинути налаштування"
 
-#: src/prefs.js:636
+#: src/prefs.js:645
 msgid "Show Applications options"
 msgstr "Параметри «Показати програми»"
 
-#: src/prefs.js:659
+#: src/prefs.js:668
 msgid "Open icon"
 msgstr "Відкрити піктограму"
 
-#: src/prefs.js:724
+#: src/prefs.js:733
 msgid "Show Desktop options"
 msgstr "Параметри «Показати Cтільницю»"
 
-#: src/prefs.js:816
+#: src/prefs.js:825
 msgid "Primary monitor"
 msgstr "Основний монітор"
 
-#: src/prefs.js:817
+#: src/prefs.js:826
 msgid "Monitor "
 msgstr "Монітор "
 
-#: src/prefs.js:944
+#: src/prefs.js:953
 msgid "Running Indicator Options"
 msgstr "Параметри індикатора роботи"
 
-#: src/prefs.js:1478
+#: src/prefs.js:1487
 msgid "Dynamic opacity options"
 msgstr "Параметри динамічної непрозорості"
 
-#: src/prefs.js:1698
+#: src/prefs.js:1729
 msgid "Intellihide options"
 msgstr "Параметри розумного автоприховування"
 
-#: src/prefs.js:1894
+#: src/prefs.js:1925
 msgid "Window preview options"
 msgstr "Параметри мініатюр вікон"
 
-#: src/prefs.js:2445
+#: src/prefs.js:2476
 msgid "Ungrouped application options"
 msgstr "Параметри не згрупованих програм"
 
-#: src/prefs.js:2612
+#: src/prefs.js:2643
 msgid "Customize middle-click behavior"
 msgstr "Поведінка під час клацання середньою"
 
-#: src/prefs.js:2701
+#: src/prefs.js:2772
+msgid "Text"
+msgstr "Текст"
+
+#: src/prefs.js:2781
+msgid "Command"
+msgstr "Команда"
+
+#: src/prefs.js:2813
+msgid "Remove"
+msgstr "Вилучити"
+
+#: src/prefs.js:2841
 msgid "Customize panel scroll behavior"
 msgstr "Налаштування гортання над панеллю"
 
-#: src/prefs.js:2747
+#: src/prefs.js:2887
 msgid "Customize icon scroll behavior"
 msgstr "Налаштування гортання над піктограмою"
 
-#: src/prefs.js:2871
+#: src/prefs.js:3011
 msgid "Advanced hotkeys options"
 msgstr "Розширені параметри гарячих клавіш"
 
-#: src/prefs.js:2899
+#: src/prefs.js:3039
 msgid "Secondary Menu Options"
 msgstr "Параметри контекстного меню"
 
-#: src/prefs.js:2943 ui/SettingsFineTune.ui:263
-msgid "Advanced Options"
-msgstr "Розширені параметри"
-
-#: src/prefs.js:3111
+#: src/prefs.js:3239
 #, javascript-format
 msgid "%d ms"
 msgstr "%d мс"
 
-#: src/prefs.js:3117
+#: src/prefs.js:3245
 #, javascript-format
 msgid "%d °"
 msgstr "%d °"
 
-#: src/prefs.js:3123 src/prefs.js:3129
+#: src/prefs.js:3251 src/prefs.js:3257
 #, javascript-format
 msgid "%d %%"
 msgstr "%d %%"
 
-#: src/prefs.js:3135
+#: src/prefs.js:3263
 #, javascript-format
 msgid "%.1f"
 msgstr "%.1f"
 
-#: src/prefs.js:3141
+#: src/prefs.js:3269
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
@@ -241,19 +253,19 @@ msgstr[0] "%d піктограма"
 msgstr[1] "%d піктограми"
 msgstr[2] "%d піктограм"
 
-#: src/prefs.js:3268
+#: src/prefs.js:3396
 msgid "App icon animation options"
 msgstr "Параметри анімації піктограм програм"
 
-#: src/prefs.js:3391
+#: src/prefs.js:3519
 msgid "App icon highlight options"
 msgstr "Параметри підсвічування піктограм програм"
 
-#: src/prefs.js:3483
+#: src/prefs.js:3614
 msgid "Export settings"
 msgstr "Експортувати налаштування"
 
-#: src/prefs.js:3504
+#: src/prefs.js:3635
 msgid "Import settings"
 msgstr "Імпортувати налаштування"
 
@@ -290,43 +302,27 @@ msgstr "Керування пристроями"
 msgid "Disk Management"
 msgstr "Керування дисками"
 
-#: src/appIcons.js:2273
-msgid "Terminal"
-msgstr "Термінал"
-
-#: src/appIcons.js:2278
-msgid "System monitor"
-msgstr "Системний монітор"
-
-#: src/appIcons.js:2283
-msgid "Files"
-msgstr "Файли"
-
-#: src/appIcons.js:2288
-msgid "Extensions"
-msgstr "Розширення"
-
-#: src/appIcons.js:2293
-msgid "Settings"
-msgstr "Налаштування"
-
-#: src/appIcons.js:2306
+#: src/appIcons.js:2291
 msgid "Unlock taskbar"
 msgstr "Розблокувати панель завдань"
 
-#: src/appIcons.js:2307
+#: src/appIcons.js:2292
 msgid "Lock taskbar"
 msgstr "Заблокувати панель завдань"
 
-#: src/appIcons.js:2316
+#: src/appIcons.js:2302
+msgid "Gnome Settings"
+msgstr "Параметри Gnome"
+
+#: src/appIcons.js:2306
 msgid "Dash to Panel Settings"
 msgstr "Параметри Dash to Panel"
 
-#: src/appIcons.js:2323
+#: src/appIcons.js:2313
 msgid "Restore Windows"
 msgstr "Відновити вікна"
 
-#: src/appIcons.js:2324
+#: src/appIcons.js:2314
 msgid "Show Desktop"
 msgstr "Показати Стільницю"
 
@@ -341,14 +337,6 @@ msgstr "Дякую!"
 #: src/taskbar.js:79
 msgid "Please donate :)"
 msgstr "Прохання підтримати фінансово :)"
-
-#: ui/BoxAdvancedOptions.ui:19
-msgid "Nothing yet!"
-msgstr "Поки нічого!"
-
-#: ui/BoxAdvancedOptions.ui:20
-msgid "For real..."
-msgstr "Справді..."
 
 #: ui/BoxAnimateAppIconHoverOptions.ui:62
 msgid "Animation type"
@@ -446,15 +434,15 @@ msgstr "Окремо для вікон не у фокусі"
 msgid "The panel background opacity is affected by"
 msgstr "Непрозорий фон панелі зумовлюють"
 
-#: ui/BoxDynamicOpacityOptions.ui:42 ui/BoxIntellihideOptions.ui:69
+#: ui/BoxDynamicOpacityOptions.ui:42 ui/BoxIntellihideOptions.ui:62
 msgid "All windows"
 msgstr "Всі вікна"
 
-#: ui/BoxDynamicOpacityOptions.ui:43 ui/BoxIntellihideOptions.ui:70
+#: ui/BoxDynamicOpacityOptions.ui:43 ui/BoxIntellihideOptions.ui:63
 msgid "Focused windows"
 msgstr "Вікна у фокусі"
 
-#: ui/BoxDynamicOpacityOptions.ui:44 ui/BoxIntellihideOptions.ui:71
+#: ui/BoxDynamicOpacityOptions.ui:44 ui/BoxIntellihideOptions.ui:64
 msgid "Maximized windows"
 msgstr "Розгорнуті вікна"
 
@@ -558,59 +546,63 @@ msgstr "Радіус рамки підсвічування піктограм п
 msgid "Overrides global border radius (default is 0)"
 msgstr "Замінює глобальний радіус межі (типово - 0)"
 
-#: ui/BoxIntellihideOptions.ui:53
+#: ui/BoxIntellihideOptions.ui:47
 msgid "Only hide the panel when it is obstructed by windows"
 msgstr "Приховувати панель лише якщо її перекривають вікна"
 
-#: ui/BoxIntellihideOptions.ui:64
+#: ui/BoxIntellihideOptions.ui:57
 msgid "The panel hides from"
 msgstr "Приховування панелі зумовлюють"
 
-#: ui/BoxIntellihideOptions.ui:86
+#: ui/BoxIntellihideOptions.ui:76
 msgid "Require pressure at the edge of the screen to reveal the panel"
 msgstr "Для появи панелі потрібне притискання на межі екрану"
 
-#: ui/BoxIntellihideOptions.ui:97
+#: ui/BoxIntellihideOptions.ui:86
 msgid "Required pressure threshold (px)"
 msgstr "Поріг притискання (пкс)"
 
-#: ui/BoxIntellihideOptions.ui:112
+#: ui/BoxIntellihideOptions.ui:100
 msgid "Required pressure timeout (ms)"
 msgstr "Затримка після притискання (мс)"
 
-#: ui/BoxIntellihideOptions.ui:133
+#: ui/BoxIntellihideOptions.ui:118
 msgid "Allow the panel to be revealed while in fullscreen mode"
 msgstr "Дозволити появу панелі в повноекранному режимі"
 
-#: ui/BoxIntellihideOptions.ui:144
-msgid "Only hide secondary panels"
-msgstr "Приховувати лише додаткові панелі"
-
-#: ui/BoxIntellihideOptions.ui:145
+#: ui/BoxIntellihideOptions.ui:128
 msgid "(requires multi-monitors option)"
 msgstr "(необхідна присутність на кількох моніторах)"
 
-#: ui/BoxIntellihideOptions.ui:156
-msgid "Keyboard shortcut to reveal and hold the panel"
-msgstr "Клавіатурне скорочення для появи та утримання панелі"
+#: ui/BoxIntellihideOptions.ui:129
+msgid "Only hide secondary panels"
+msgstr "Приховувати лише додаткові панелі"
 
-#: ui/BoxIntellihideOptions.ui:157 ui/BoxOverlayShortcut.ui:65
+#: ui/BoxIntellihideOptions.ui:139 ui/BoxOverlayShortcut.ui:65
 msgid "Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
 msgstr "Синтаксис: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
 
-#: ui/BoxIntellihideOptions.ui:162
+#: ui/BoxIntellihideOptions.ui:140
+msgid "Keyboard shortcut to reveal and hold the panel"
+msgstr "Клавіатурне скорочення для появи та утримання панелі"
+
+#: ui/BoxIntellihideOptions.ui:143
 msgid "e.g. <Super>i"
 msgstr "напр., <Super>i"
 
-#: ui/BoxIntellihideOptions.ui:176
+#: ui/BoxIntellihideOptions.ui:152
+msgid "Persist state across restarts"
+msgstr "Зберігати стан між перезапусками"
+
+#: ui/BoxIntellihideOptions.ui:166
 msgid "Hide and reveal animation duration (ms)"
 msgstr "Тривалість анімації приховування та появи (мс)"
 
-#: ui/BoxIntellihideOptions.ui:191
+#: ui/BoxIntellihideOptions.ui:180
 msgid "Delay before hiding the panel (ms)"
 msgstr "Затримка перед приховуванням панелі (мс)"
 
-#: ui/BoxIntellihideOptions.ui:207
+#: ui/BoxIntellihideOptions.ui:195
 msgid "Delay before enabling intellihide on start (ms)"
 msgstr "Затримка перед активацією розумного приховування під час запуску (мс)"
 
@@ -627,7 +619,7 @@ msgstr ""
 "вікна програми."
 
 #: ui/BoxMiddleClickOptions.ui:25 ui/BoxMiddleClickOptions.ui:54
-#: ui/BoxMiddleClickOptions.ui:83 ui/SettingsAction.ui:42
+#: ui/BoxMiddleClickOptions.ui:83 ui/SettingsAction.ui:40
 msgid "Raise windows"
 msgstr "Підняття вікон"
 
@@ -637,32 +629,32 @@ msgid "Minimize window"
 msgstr "Згортання вікна"
 
 #: ui/BoxMiddleClickOptions.ui:27 ui/BoxMiddleClickOptions.ui:56
-#: ui/BoxMiddleClickOptions.ui:85 ui/SettingsAction.ui:43
+#: ui/BoxMiddleClickOptions.ui:85 ui/SettingsAction.ui:41
 msgid "Launch new instance"
 msgstr "Запуск нового екземпляра"
 
 #: ui/BoxMiddleClickOptions.ui:28 ui/BoxMiddleClickOptions.ui:57
-#: ui/BoxMiddleClickOptions.ui:86 ui/SettingsAction.ui:37
+#: ui/BoxMiddleClickOptions.ui:86 ui/SettingsAction.ui:35
 msgid "Cycle through windows"
 msgstr "Циклічне перемикання вікон"
 
 #: ui/BoxMiddleClickOptions.ui:29 ui/BoxMiddleClickOptions.ui:58
-#: ui/BoxMiddleClickOptions.ui:87 ui/SettingsAction.ui:36
+#: ui/BoxMiddleClickOptions.ui:87 ui/SettingsAction.ui:34
 msgid "Cycle windows + minimize"
 msgstr "Циклічне перемикання + згортання вікон"
 
 #: ui/BoxMiddleClickOptions.ui:30 ui/BoxMiddleClickOptions.ui:59
-#: ui/BoxMiddleClickOptions.ui:88 ui/SettingsAction.ui:38
+#: ui/BoxMiddleClickOptions.ui:88 ui/SettingsAction.ui:36
 msgid "Toggle single / Preview multiple"
 msgstr "Видимість одного / мініатюри кількох"
 
 #: ui/BoxMiddleClickOptions.ui:31 ui/BoxMiddleClickOptions.ui:60
-#: ui/BoxMiddleClickOptions.ui:89 ui/SettingsAction.ui:39
+#: ui/BoxMiddleClickOptions.ui:89 ui/SettingsAction.ui:37
 msgid "Toggle single / Cycle multiple"
 msgstr "Видимість одного / перемикання кількох"
 
 #: ui/BoxMiddleClickOptions.ui:32 ui/BoxMiddleClickOptions.ui:61
-#: ui/BoxMiddleClickOptions.ui:90 ui/SettingsAction.ui:40
+#: ui/BoxMiddleClickOptions.ui:90 ui/SettingsAction.ui:38
 msgid "Toggle single / Spread multiple"
 msgstr "Видимість одного / показ кількох"
 
@@ -1041,51 +1033,51 @@ msgid ""
 msgstr ""
 "Всі вікна, окрім того, що показується, мають однакове значення непрозорості."
 
-#: ui/SettingsAbout.ui:6
+#: ui/SettingsAbout.ui:8
 msgid "About"
 msgstr "Деталі"
 
-#: ui/SettingsAbout.ui:12
+#: ui/SettingsAbout.ui:11
 msgid "Info"
 msgstr "Інформація"
 
-#: ui/SettingsAbout.ui:16
+#: ui/SettingsAbout.ui:14
 msgid "Version"
 msgstr "Версія"
 
-#: ui/SettingsAbout.ui:27
+#: ui/SettingsAbout.ui:22
 msgid "Source"
 msgstr "Вихідний код"
 
-#: ui/SettingsAbout.ui:30
+#: ui/SettingsAbout.ui:26
 msgid "GitHub"
 msgstr "GitHub"
 
-#: ui/SettingsAbout.ui:45
+#: ui/SettingsAbout.ui:37
 msgid "Export and Import"
 msgstr "Експорт та імпорт"
 
-#: ui/SettingsAbout.ui:49
-msgid "Export and import settings"
-msgstr "Експорт та імпорт налаштувань"
-
-#: ui/SettingsAbout.ui:50
+#: ui/SettingsAbout.ui:40
 msgid ""
 "Use the buttons below to create a settings file from your current "
 "preferences that can be imported on a different machine."
 msgstr ""
-"Скористайтеся кнопками нижче, щоб створити файл налаштувань з вашими "
-"поточними вподобаннями, який можна буде імпортувати на іншій машині."
+"Використайте кнопки нижче, щоб створити файл налаштувань з вашими поточними "
+"вподобаннями, який можна буде імпортувати на іншій машині."
 
-#: ui/SettingsAbout.ui:66
+#: ui/SettingsAbout.ui:41
+msgid "Export and import settings"
+msgstr "Експорт та імпорт налаштувань"
+
+#: ui/SettingsAbout.ui:56
 msgid "Export to file"
 msgstr "Експорт до файлу"
 
-#: ui/SettingsAbout.ui:72
+#: ui/SettingsAbout.ui:62
 msgid "Import from file"
 msgstr "Імпорт з файлу"
 
-#: ui/SettingsAbout.ui:89
+#: ui/SettingsAbout.ui:77
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
 "See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0."
@@ -1096,77 +1088,93 @@ msgstr ""
 "html\">GNU General Public License, version 2 or later</a>, щоб дізнатися "
 "більше.</span>"
 
-#: ui/SettingsAction.ui:6
+#: ui/SettingsAction.ui:8
 msgid "Action"
 msgstr "Дії"
 
-#: ui/SettingsAction.ui:12 ui/SettingsAction.ui:16
+#: ui/SettingsAction.ui:11 ui/SettingsAction.ui:15
 msgid "Click action"
 msgstr "Дія під час клацання"
 
-#: ui/SettingsAction.ui:17
+#: ui/SettingsAction.ui:14
 msgid "Behaviour when clicking on the icon of a running application."
 msgstr "Поведінка під час клацання на піктограмі запущеної програми."
 
-#: ui/SettingsAction.ui:41
+#: ui/SettingsAction.ui:39
 msgid "Toggle windows"
 msgstr "Згортання вікон"
 
-#: ui/SettingsAction.ui:56
+#: ui/SettingsAction.ui:51
 msgid "Scroll action"
 msgstr "Дія під час гортання"
 
-#: ui/SettingsAction.ui:60
-msgid "Scroll panel action"
-msgstr "Дія під час гортання над панеллю"
-
-#: ui/SettingsAction.ui:61
+#: ui/SettingsAction.ui:54
 msgid "Behavior when mouse scrolling over the panel."
 msgstr "Поведінка під час гортанні над панеллю."
 
-#: ui/SettingsAction.ui:85 ui/SettingsAction.ui:119
+#: ui/SettingsAction.ui:55
+msgid "Scroll panel action"
+msgstr "Дія під час гортання над панеллю"
+
+#: ui/SettingsAction.ui:79 ui/SettingsAction.ui:112
 msgid "Do nothing"
 msgstr "Нічого не робити"
 
-#: ui/SettingsAction.ui:86
+#: ui/SettingsAction.ui:80
 msgid "Switch workspace"
 msgstr "Перемкнути робочий простір"
 
-#: ui/SettingsAction.ui:87 ui/SettingsAction.ui:120
+#: ui/SettingsAction.ui:81 ui/SettingsAction.ui:113
 msgid "Cycle windows"
 msgstr "Циклічне перемикання вікон"
 
-#: ui/SettingsAction.ui:88
+#: ui/SettingsAction.ui:82
 msgid "Change volume"
 msgstr "Зміна гучності"
 
-#: ui/SettingsAction.ui:97
-msgid "Scroll icon action"
-msgstr "Дія під час гортання над піктограмою"
-
-#: ui/SettingsAction.ui:98
+#: ui/SettingsAction.ui:90
 msgid "Behavior when mouse scrolling over an application icon."
 msgstr "Поведінка під час гортання над піктограмою програми."
 
-#: ui/SettingsAction.ui:121
+#: ui/SettingsAction.ui:91
+msgid "Scroll icon action"
+msgstr "Дія під час гортання над піктограмою"
+
+#: ui/SettingsAction.ui:114
 msgid "Same as panel"
 msgstr "Та сама, що і для панелі"
 
-#: ui/SettingsAction.ui:134
+#: ui/SettingsAction.ui:124
 msgid "Hotkey overlay"
 msgstr "Накладання гарячих клавіш"
 
-#: ui/SettingsAction.ui:138
-msgid "Use hotkeys to activate apps"
-msgstr "Використовувати гарячі клавіші для активації програм"
-
-#: ui/SettingsAction.ui:139
+#: ui/SettingsAction.ui:127
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
 msgstr ""
 "Використовувати клавіші Super+(0-9) для активації програм. Також можна "
 "комбінувати з клавішами Shift та Ctrl."
+
+#: ui/SettingsAction.ui:128
+msgid "Use hotkeys to activate apps"
+msgstr "Використовувати гарячі клавіші для активації програм"
+
+#: ui/SettingsAction.ui:157
+msgid "(right-click menu)"
+msgstr "(меню правої клавіші)"
+
+#: ui/SettingsAction.ui:158
+msgid "Secondary menu"
+msgstr "Контекстне меню"
+
+#: ui/SettingsAction.ui:179
+msgid "Panel context menu entries"
+msgstr "Пункти контекстного меню панелі"
+
+#: ui/SettingsAction.ui:190
+msgid "Add entry"
+msgstr "Додати пункт"
 
 #: ui/SettingsBehavior.ui:5
 msgid "Behavior"
@@ -1265,94 +1273,86 @@ msgstr ""
 "<span size=\"9000\">Дякую за ваш час!\n"
 "Якщо бажаєте, ви можете приховати піктограму фінансової підтримки</span>"
 
-#: ui/SettingsFineTune.ui:41
+#: ui/SettingsFineTune.ui:38
 msgid "Fine-Tune"
 msgstr "Доналаштування"
 
-#: ui/SettingsFineTune.ui:47
+#: ui/SettingsFineTune.ui:41
 msgid "Font size"
 msgstr "Розмір шрифту"
 
-#: ui/SettingsFineTune.ui:51
-msgid "Tray Font Size"
-msgstr "Розмір шрифту лотка"
-
-#: ui/SettingsFineTune.ui:52 ui/SettingsFineTune.ui:69
+#: ui/SettingsFineTune.ui:44 ui/SettingsFineTune.ui:60
 msgid "(0 = theme default)"
 msgstr "(0 = як в темі)"
 
-#: ui/SettingsFineTune.ui:68
+#: ui/SettingsFineTune.ui:45
+msgid "Tray Font Size"
+msgstr "Розмір шрифту лотка"
+
+#: ui/SettingsFineTune.ui:61
 msgid "LeftBox Font Size"
 msgstr "Розмір шрифту лівого блока"
 
-#: ui/SettingsFineTune.ui:89
+#: ui/SettingsFineTune.ui:78
 msgid "Padding"
 msgstr "Внутрішні відступи"
 
-#: ui/SettingsFineTune.ui:93
-msgid "Tray Item Padding"
-msgstr "Відступи між елементами лотка"
-
-#: ui/SettingsFineTune.ui:94 ui/SettingsFineTune.ui:111
-#: ui/SettingsFineTune.ui:128
+#: ui/SettingsFineTune.ui:81 ui/SettingsFineTune.ui:97
+#: ui/SettingsFineTune.ui:113
 msgid "(-1 = theme default)"
 msgstr "(-1 = як в темі)"
 
-#: ui/SettingsFineTune.ui:110
+#: ui/SettingsFineTune.ui:82
+msgid "Tray Item Padding"
+msgstr "Відступи між елементами лотка"
+
+#: ui/SettingsFineTune.ui:98
 msgid "Status Icon Padding"
 msgstr "Відступи між піктограмами в рядку стану"
 
-#: ui/SettingsFineTune.ui:127
+#: ui/SettingsFineTune.ui:114
 msgid "LeftBox Padding"
-msgstr "Відступ лівого блока"
+msgstr "Відступи лівого блока"
 
-#: ui/SettingsFineTune.ui:148
+#: ui/SettingsFineTune.ui:131
 msgid "Animate"
 msgstr "Анімації"
 
-#: ui/SettingsFineTune.ui:152
+#: ui/SettingsFineTune.ui:134
 msgid "Animate switching applications"
 msgstr "Анімація перемикання між програмами"
 
-#: ui/SettingsFineTune.ui:163
+#: ui/SettingsFineTune.ui:144
 msgid "Animate launching new windows"
 msgstr "Анімація запуску нових вікон"
 
-#: ui/SettingsFineTune.ui:178
+#: ui/SettingsFineTune.ui:156
 msgid "Gnome functionality"
 msgstr "Функціонал GNOME"
 
-#: ui/SettingsFineTune.ui:182
-msgid "Keep original gnome-shell dash"
-msgstr "Зберегти оригінальну панель програм gnome-shell"
-
-#: ui/SettingsFineTune.ui:183
+#: ui/SettingsFineTune.ui:159
 msgid "(overview)"
 msgstr "(огляд)"
 
-#: ui/SettingsFineTune.ui:194
+#: ui/SettingsFineTune.ui:160
+msgid "Keep original gnome-shell dash"
+msgstr "Зберегти оригінальну панель програм gnome-shell"
+
+#: ui/SettingsFineTune.ui:170
 msgid "Keep original gnome-shell top panel"
 msgstr "Зберегти оригінальну верхню панель gnome-shell"
 
-#: ui/SettingsFineTune.ui:205
-msgid "Activate panel menu buttons on click only"
-msgstr "Активувати кнопки меню на панелі лише під час клацання"
-
-#: ui/SettingsFineTune.ui:206
+#: ui/SettingsFineTune.ui:180
 msgid "(e.g. date menu)"
 msgstr "(напр., меню дати)"
 
-#: ui/SettingsFineTune.ui:217
+#: ui/SettingsFineTune.ui:181
+msgid "Activate panel menu buttons on click only"
+msgstr "Активувати кнопки меню панелі лише під час клацання"
+
+#: ui/SettingsFineTune.ui:191
 msgid "Force Activities hot corner on primary monitor"
 msgstr "Примусово розмістити гарячий кут «Діяльності» на основному моніторі"
-
-#: ui/SettingsFineTune.ui:235
-msgid "App icon secondary menu"
-msgstr "Контекстне меню піктограм програм"
-
-#: ui/SettingsFineTune.ui:236
-msgid "(right-click menu)"
-msgstr "(меню правої кнопки)"
 
 #: ui/SettingsPosition.ui:19
 msgid "Position"
@@ -1533,7 +1533,7 @@ msgstr "(типово - 0)"
 
 #: ui/SettingsStyle.ui:278
 msgid "Side margins"
-msgstr "Зовнішні бічні відступи"
+msgstr "Бічні зовнішні відступи"
 
 #: ui/SettingsStyle.ui:294
 msgid "Top and bottom margins"
@@ -1541,7 +1541,7 @@ msgstr "Верхній та нижній зовнішні відступи"
 
 #: ui/SettingsStyle.ui:310
 msgid "Side padding"
-msgstr "Внутрішні бічні відступи"
+msgstr "Бічні внутрішні відступи"
 
 #: ui/SettingsStyle.ui:326
 msgid "Top and bottom padding"
