@@ -1888,7 +1888,7 @@ export function getIconPadding(dtpPanel) {
 /**
  * Extend AppMenu (AppIconMenu for pre gnome 41)
  *
- * - hide 'Show Details' according to setting
+ * - hide 'App Details' according to setting
  * - show windows header only if show-window-previews is disabled
  * - Add close windows option based on quitfromdash extension
  *   (https://github.com/deuill/shell-extension-quitfromdash)
@@ -1900,19 +1900,6 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
     // constructor parameter does nos work for some reason
     this._enableFavorites = true
     this._showSingleWindows = true
-
-    // Remove "Show Details" menu item
-    if (!SETTINGS.get_boolean('secondarymenu-contains-showdetails')) {
-      let existingMenuItems = this._getMenuItems()
-      for (let i = 0; i < existingMenuItems.length; i++) {
-        let item = existingMenuItems[i]
-        if (item !== undefined && item.label !== undefined) {
-          if (item.label.text == 'Show Details') {
-            this.box.remove_child(item.actor)
-          }
-        }
-      }
-    }
 
     // replace quit item
     delete this._quitItem
@@ -1958,7 +1945,10 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
   setApp(app) {
     super.setApp(app)
 
-    this._detailsItem.visible = !app.hideDetails
+    // set "App Details" menu item visibility
+    this._detailsItem.visible =
+    !app.hideDetails &&
+    SETTINGS.get_boolean('secondarymenu-contains-showdetails')
   }
 }
 

@@ -861,7 +861,7 @@
     </key>
     <key type="b" name="secondarymenu-contains-showdetails">
       <default>false</default>
-      <summary>Display Show Details to open Gnome Software from right click menu</summary>
+      <summary>Display App Details to open Gnome Software from right click menu</summary>
     </key>
     <key type="s" name="shortcut-text">
       <default>"&lt;Super&gt;q"</default>
