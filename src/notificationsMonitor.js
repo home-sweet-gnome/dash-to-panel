@@ -148,8 +148,9 @@ export const NotificationsMonitor = class extends EventEmitter {
   }
 
   _checkNotifications() {
+    let getSourceId = (source) => source?._appId || source?.app?.id
     let addSource = (tray, source) => {
-      let appId = source?._appId || source?.app?.id
+      let appId = getSourceId(source)
       let updateTray = () => {
         this._updateState(appId, {
           trayCount: source.count, // always source.unseenCount might be less annoying
@@ -176,8 +177,9 @@ export const NotificationsMonitor = class extends EventEmitter {
         Main.messageTray,
         'source-removed',
         (tray, source) => {
-          if (source?._appId)
-            this._signalsHandler.removeWithLabel(source._appId)
+          let appId = getSourceId(source)
+
+          if (appId) this._signalsHandler.removeWithLabel(appId)
         },
       ],
     )
