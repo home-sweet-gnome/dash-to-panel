@@ -277,6 +277,9 @@ const Preferences = class {
     )
 
     this._displayPanelPositionsForMonitor(this._currentMonitorIndex)
+    this._setPanelLenghtWidgetSensitivity(
+      PanelSettings.getPanelLength(this._settings, this._currentMonitorIndex),
+    )
   }
 
   _maybeDisableTopPosition() {
@@ -3666,7 +3669,10 @@ const Preferences = class {
     let revealDonateTimeout = 0
     let donationIconSwitch = this._builder.get_object('donation_icon_switch')
     let donationRevealer = this._builder.get_object('donation_revealer')
-    let donationSpinner = this._builder.get_object('donation_spinner')
+    let donationCountdown = this._builder.get_object('donation_countdown')
+    let donationCountdownLabel = this._builder.get_object(
+      'donation_countdown_label',
+    )
     let hiddenDonateIcon = !!this._settings.get_string(
       'hide-donate-icon-unixtime',
     )
@@ -3686,7 +3692,7 @@ const Preferences = class {
 
     donationIconSwitch.set_active(hiddenDonateIcon)
     donationRevealer.set_reveal_child(hiddenDonateIcon)
-    donationSpinner.set_spinning(!hiddenDonateIcon)
+    donationCountdown.set_visible(!hiddenDonateIcon)
 
     donationIconSwitch.connect('notify::active', (widget) =>
       this._settings.set_string(
@@ -3696,22 +3702,37 @@ const Preferences = class {
     )
 
     this.notebook.connect('notify::visible-page', () => {
-      if (revealDonateTimeout) GLib.Source.remove(revealDonateTimeout)
+      if (revealDonateTimeout) {
+        GLib.Source.remove(revealDonateTimeout)
+        revealDonateTimeout = 0
+      }
 
       if (
         this.notebook.visible_page_name == 'donation' &&
         !donationRevealer.get_reveal_child()
-      )
+      ) {
+        let secs = 20
+
+        donationCountdownLabel.set_label(secs.toString())
+
         revealDonateTimeout = GLib.timeout_add(
           GLib.PRIORITY_DEFAULT,
-          15000,
+          1000,
           () => {
-            donationRevealer.set_reveal_child(true)
-            donationSpinner.set_spinning(false)
+            donationCountdownLabel.set_label((--secs).toString())
 
-            return GLib.SOURCE_REMOVE
+            if (secs < 1) {
+              donationRevealer.set_reveal_child(true)
+              donationCountdown.set_visible(false)
+              revealDonateTimeout = 0
+
+              return GLib.SOURCE_REMOVE
+            }
+
+            return GLib.SOURCE_CONTINUE
           },
         )
+      }
     })
   }
 

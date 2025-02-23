@@ -138,8 +138,24 @@
           </object>
         </child>
         <child>
-          <object class="GtkSpinner" id="donation_spinner">
-            <property name="opacity">0.3</property>
+          <object class="GtkBox" id="donation_countdown">
+            <property name="halign">center</property>
+            <property name="spacing">6</property>
+            <child>
+              <object class="GtkSpinner" id="donation_spinner">
+                <property name="halign">end</property>
+                <property name="opacity">0.3</property>
+                <property name="spinning">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="donation_countdown_label">
+                <attributes>
+                  <attribute name="size" value="8000"/>
+                  <attribute name="style" value="italic"/>
+                </attributes>
+              </object>
+            </child>
           </object>
         </child>
         <child>
