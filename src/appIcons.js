@@ -1904,6 +1904,12 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
     // replace quit item
     delete this._quitItem
     this._quitItem = this.addAction(_('Quit'), () => this._quitFromTaskbar())
+
+    source._signalsHandler.add([
+      SETTINGS,
+      'changed::secondarymenu-contains-showdetails',
+      () => this._setAppDetailsVisibility(source.app),
+    ])
   }
 
   updateQuitText() {
@@ -1946,9 +1952,21 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
     super.setApp(app)
 
     // set "App Details" menu item visibility
+    this._setAppDetailsVisibility(app)
+  }
+
+  _setAppDetailsVisibility(app) {
+    // This next line sets the app details menu to visible if Gnome Software is
+    // installed. If it isn't, no point of showing the menu anymay because
+    // its only purpose is to opens Gnome Software
+    super._updateDetailsVisibility()
+
+    let gnomeSoftwareIsInstalled = this._detailsItem.visible
+
     this._detailsItem.visible =
-    !app.hideDetails &&
-    SETTINGS.get_boolean('secondarymenu-contains-showdetails')
+      gnomeSoftwareIsInstalled &&
+      !app.hideDetails &&
+      SETTINGS.get_boolean('secondarymenu-contains-showdetails')
   }
 }
 
