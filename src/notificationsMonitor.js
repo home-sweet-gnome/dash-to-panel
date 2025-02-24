@@ -148,15 +148,19 @@ export const NotificationsMonitor = class extends EventEmitter {
   }
 
   _checkNotifications() {
-    let getSourceId = (source) => source?._appId || source?.app?.id
+    let getSourceId = (source) =>
+      source?._appId || source?.app?.id || source?.policy?.id
     let addSource = (tray, source) => {
       let appId = getSourceId(source)
       let updateTray = () => {
         this._updateState(appId, {
           trayCount: source.count, // always source.unseenCount might be less annoying
-          trayUrgent: !!source.notifications.find(
-            (n) => n.urgency > MessageTray.Urgency.NORMAL,
-          ),
+          trayUrgent: !!source.notifications.find((n) => {
+            return (
+              n.urgency > MessageTray.Urgency.NORMAL ||
+              source.constructor.name == 'WindowAttentionSource' // private type from gnome-shell
+            )
+          }),
         })
       }
 
