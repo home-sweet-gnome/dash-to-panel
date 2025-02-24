@@ -50,6 +50,7 @@ export const Hold = {
   NONE: 0,
   TEMPORARY: 1,
   PERMANENT: 2,
+  NOTIFY: 4,
 }
 
 export const Intellihide = class {
@@ -59,6 +60,7 @@ export const Intellihide = class {
     this._panelManager = dtpPanel.panelManager
     this._proximityManager = this._panelManager.proximityManager
     this._holdStatus = Hold.NONE
+    this._holdCount = {}
 
     this._signalsHandler = new Utils.GlobalSignalsHandler()
     this._timeoutsHandler = new Utils.TimeoutsHandler()
@@ -129,6 +131,8 @@ export const Intellihide = class {
   }
 
   disable(reset) {
+    this.enabled = false
+
     if (this._proximityWatchId) {
       this._proximityManager.removeWatch(this._proximityWatchId)
     }
@@ -141,8 +145,6 @@ export const Intellihide = class {
     this._removeRevealMechanism()
 
     this._revealPanel(!reset)
-
-    this.enabled = false
   }
 
   destroy() {
@@ -161,18 +163,35 @@ export const Intellihide = class {
   }
 
   revealAndHold(holdStatus) {
-    if (this.enabled && !this._holdStatus) {
-      this._revealPanel()
-    }
+    if (
+      !this.enabled ||
+      (holdStatus == Hold.NOTIFY &&
+        !SETTINGS.get_boolean('intellihide-show-on-notification'))
+    )
+      return
+
+    if (!this._holdStatus) this._revealPanel()
 
     this._holdStatus |= holdStatus
+    this._holdCount[holdStatus] = (this._holdCount[holdStatus] || 0) + 1
+
     this._maybePersistHoldStatus()
   }
 
   release(holdStatus) {
-    this._holdStatus -= holdStatus
+    if (!this.enabled) return
 
-    if (this.enabled && !this._holdStatus) {
+    if (this._holdStatus & holdStatus && !--this._holdCount[holdStatus])
+      this._holdStatus -= holdStatus
+
+    if (holdStatus == Hold.PERMANENT && this._holdStatus & Hold.NOTIFY) {
+      // the user pressed the keyboard shortcut to hide the panel while a
+      // notification hold is present, clear it to hide the panel
+      this._holdStatus -= Hold.NOTIFY
+      this._holdCount[Hold.NOTIFY] = 0
+    }
+
+    if (!this._holdStatus) {
       this._maybePersistHoldStatus()
       this._queueUpdatePanelPosition()
     }

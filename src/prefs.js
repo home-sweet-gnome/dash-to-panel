@@ -1695,6 +1695,13 @@ const Preferences = class {
       )
     })
 
+    this._settings.bind(
+      'intellihide-show-on-notification',
+      this._builder.get_object('intellihide_show_on_notification_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
     this._builder
       .get_object('intellihide_animation_time_spinbutton')
       .set_value(this._settings.get_int('intellihide-animation-time'))
@@ -1750,6 +1757,16 @@ const Preferences = class {
               this._settings.get_default_value(
                 'intellihide-show-in-fullscreen',
               ),
+            )
+            this._settings.set_value(
+              'intellihide-show-on-notification',
+              this._settings.get_default_value(
+                'intellihide-show-on-notification',
+              ),
+            )
+            this._settings.set_value(
+              'intellihide-persisted-state',
+              this._settings.get_default_value('intellihide-persisted-state'),
             )
             this._settings.set_value(
               'intellihide-only-secondary',

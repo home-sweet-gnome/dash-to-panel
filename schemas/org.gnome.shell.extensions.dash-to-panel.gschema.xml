@@ -363,8 +363,12 @@
     </key>
     <key type="b" name="intellihide-show-in-fullscreen">
       <default>false</default>
-      <summary>Intellihide pressure</summary>
+      <summary>Allow revealing the panel while in fullscreen</summary>
       <description>Allow the panel to be revealed while an application is in fullscreen mode</description>
+    </key>
+    <key type="b" name="intellihide-show-on-notification">
+      <default>false</default>
+      <summary>Reveal the panel on notification</summary>
     </key>
     <key type="b" name="intellihide-only-secondary">
       <default>false</default>

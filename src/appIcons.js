@@ -40,6 +40,7 @@ import * as Util from 'resource:///org/gnome/shell/misc/util.js'
 import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js'
 import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
 
+import { Hold } from './intellihide.js'
 import * as Utils from './utils.js'
 import * as Taskbar from './taskbar.js'
 import {
@@ -224,7 +225,10 @@ export const TaskbarAppIcon = GObject.registerClass(
         [
           this,
           'notify::mapped',
-          () => (this.mapped ? this._handleNotifications() : null),
+          () =>
+            this.mapped && !this.dtpPanel.intellihide.enabled
+              ? this._handleNotifications()
+              : null,
         ],
         [
           Utils.getStageTheme(),
@@ -1614,7 +1618,10 @@ export const TaskbarAppIcon = GObject.registerClass(
           'dance',
         )
 
-        if (state.total) count = state.total > 9 ? '9+' : state.total
+        if (state.total) {
+          count = state.total > 9 ? '9+' : state.total
+          this.dtpPanel.intellihide.revealAndHold(Hold.NOTIFY)
+        } else this.dtpPanel.intellihide.release(Hold.NOTIFY)
       }
 
       this._notificationsCount = count

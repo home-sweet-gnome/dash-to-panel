@@ -803,6 +803,22 @@ export const IconAnimator = class {
   }
 
   addAnimation(target, name) {
+    // before adding a new animation, remove previous one to only have one running
+    let animationNames = Object.keys(this._animations)
+
+    for (let i = 0; i < animationNames.length; ++i) {
+      let n = animationNames[i]
+      let currentAnimationPair = this._animations[n].find(
+        (p) => p.target == target,
+      )
+
+      if (currentAnimationPair) {
+        if (n == name) return // already have this animation running, nothing else to do
+
+        this.removeAnimation(currentAnimationPair.target, n)
+      }
+    }
+
     const targetDestroyId = target.connect('destroy', () =>
       this.removeAnimation(target, name),
     )

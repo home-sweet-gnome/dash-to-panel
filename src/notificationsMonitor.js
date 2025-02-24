@@ -58,9 +58,11 @@ export const NotificationsMonitor = class extends EventEmitter {
       tracker,
       'notify::focus-app',
       () => {
+        let appId = tracker.focus_app?.id
+
         // reset notifications from message tray on app focus
-        if (tracker.focus_app)
-          this._updateState(tracker.focus_app.id, { trayCount: 0 }, true)
+        if (tracker.focus_app && this._state[appId])
+          this._updateState(tracker.focus_app.id, this._getDefaultState(), true)
       },
     ])
     this._acquireUnityDBus()
@@ -90,10 +92,13 @@ export const NotificationsMonitor = class extends EventEmitter {
         ) || appId
 
     appId = `${appId}.desktop`
-    this._state[appId] = this._state[appId] || {}
-    this._mergeState(appId, state)
+    this._state[appId] = this._state[appId] || this._getDefaultState()
 
-    this.emit(`update-${appId}`)
+    if (this._mergeState(appId, state)) this.emit(`update-${appId}`)
+  }
+
+  _getDefaultState() {
+    return { trayCount: 0, trayUrgent: false, urgent: false, total: 0 }
   }
 
   getState(app) {
@@ -101,6 +106,8 @@ export const NotificationsMonitor = class extends EventEmitter {
   }
 
   _mergeState(appId, state) {
+    let currenState = JSON.stringify(this._state[appId])
+
     this._state[appId] = Object.assign(this._state[appId], state)
 
     if (tracker.focus_app?.id == appId) this._state[appId].trayCount = 0
@@ -113,6 +120,8 @@ export const NotificationsMonitor = class extends EventEmitter {
     this._state[appId].total =
       ((this._state[appId]['count-visible'] || 0) &&
         (this._state[appId].count || 0)) + (this._state[appId].trayCount || 0)
+
+    return currenState != JSON.stringify(this._state[appId])
   }
 
   _acquireUnityDBus() {
