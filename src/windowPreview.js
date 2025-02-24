@@ -139,6 +139,10 @@ export const PreviewMenu = GObject.registerClass(
           SETTINGS,
           [
             'changed::panel-sizes',
+            'changed::panel-side-margins',
+            'changed::panel-top-bottom-margins',
+            'changed::panel-side-padding',
+            'changed::panel-top-bottom-padding',
             'changed::window-preview-size',
             'changed::window-preview-padding',
             'changed::window-preview-show-title',
