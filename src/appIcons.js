@@ -1669,8 +1669,7 @@ export const TaskbarAppIcon = GObject.registerClass(
       // pixels, so make sure to consider the scale.
       // Set the font size to something smaller than the whole icon so it is
       // still visible. The border radius is large to make the shape circular
-      let panelSize =
-        this.dtpPanel.geom[this.dtpPanel.checkIfVertical() ? 'w' : 'h']
+      let panelSize = this.dtpPanel.geom.iconSize
       let minFontSize = panelSize >= 32 ? 12 : 10
       let fontSize = Math.round(
         Math.max(minFontSize, 0.3 * panelSize) / Utils.getScaleFactor(),
@@ -1957,8 +1956,8 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
 
   _setAppDetailsVisibility(app) {
     // This next line sets the app details menu to visible if Gnome Software is
-    // installed. If it isn't, no point of showing the menu anymay because
-    // its only purpose is to opens Gnome Software
+    // installed. If it isn't, no point of showing the menu anyway because
+    // its only purpose is to open Gnome Software
     super._updateDetailsVisibility()
 
     let gnomeSoftwareIsInstalled = this._detailsItem.visible
