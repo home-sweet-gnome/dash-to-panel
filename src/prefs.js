@@ -282,32 +282,6 @@ const Preferences = class {
     )
   }
 
-  _maybeDisableTopPosition() {
-    let keepTopPanel = this._settings.get_boolean('stockgs-keep-top-panel')
-    let monitorSync = this._settings.get_boolean(
-      'panel-element-positions-monitors-sync',
-    )
-    let isPrimary = this.monitors[this._currentMonitorIndex].primary
-    let topAvailable = !keepTopPanel || (!monitorSync && !isPrimary)
-    let topButton = this._builder.get_object('position_top_button')
-    let keepGsPanelAvailable = !(topButton.get_active() && isPrimary)
-    let keepGsPanelSwitch = this._builder.get_object('stockgs_top_panel_switch')
-
-    topButton.set_sensitive(topAvailable)
-    topButton.set_tooltip_text(
-      !topAvailable
-        ? _('Unavailable when gnome-shell top panel is present')
-        : '',
-    )
-
-    keepGsPanelSwitch.set_sensitive(keepGsPanelAvailable)
-    keepGsPanelSwitch.set_tooltip_text(
-      keepGsPanelAvailable
-        ? ''
-        : _('Unavailable when the panel on the primary monitor is at the top'),
-    )
-  }
-
   _getPanelPosition(monitorIndex) {
     return PanelSettings.getPanelPosition(this._settings, monitorIndex)
   }
@@ -323,7 +297,6 @@ const Preferences = class {
       PanelSettings.setPanelPosition(this._settings, monitorIndex, position)
     })
     this._setAnchorLabels(this._currentMonitorIndex)
-    this._maybeDisableTopPosition()
   }
 
   _setPositionRadios(position) {
@@ -413,7 +386,6 @@ const Preferences = class {
    */
   _updateWidgetSettingsForMonitor(monitorIndex) {
     // Update display of panel screen position setting
-    this._maybeDisableTopPosition()
     const panelPosition = this._getPanelPosition(monitorIndex)
     this._setPositionRadios(panelPosition)
 
@@ -1192,7 +1164,6 @@ const Preferences = class {
     this._settings.connect(
       'changed::panel-element-positions-monitors-sync',
       () => {
-        this._maybeDisableTopPosition()
         // The anchor combo box may has different labels for single- or all-monitor configuration.
         this._setAnchorLabels(this._currentMonitorIndex)
       },
@@ -3594,12 +3565,6 @@ const Preferences = class {
       'active',
       Gio.SettingsBindFlags.DEFAULT,
     )
-
-    this._settings.connect('changed::stockgs-keep-top-panel', () =>
-      this._maybeDisableTopPosition(),
-    )
-
-    this._maybeDisableTopPosition()
 
     this._settings.bind(
       'stockgs-panelbtn-click-only',

@@ -1038,7 +1038,11 @@ function _newLookingGlassResize() {
   )
   let topOffset =
     primaryMonitorPanel.getPosition() == St.Side.TOP
-      ? primaryMonitorPanel.geom.outerSize + 8
+      ? primaryMonitorPanel.geom.outerSize +
+        (SETTINGS.get_boolean('stockgs-keep-top-panel')
+          ? Main.layoutManager.panelBox.height
+          : 0) +
+        8
       : 32
 
   this._oldResize()

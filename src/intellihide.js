@@ -278,6 +278,9 @@ export const Intellihide = class {
     actorData.affectsStruts = !enable
     actorData.trackFullscreen = !enable
 
+    Main.layoutManager.panelBox.reactive = enable
+    Main.layoutManager.panelBox.track_hover = enable
+
     this._panelBox.track_hover = enable
     this._panelBox.reactive = enable
     this._panelBox.visible = enable ? enable : this._panelBox.visible
@@ -409,6 +412,8 @@ export const Intellihide = class {
       this._dtpPanel.taskbar.previewMenu.opened ||
       this._dtpPanel.taskbar._dragMonitor ||
       this._panelBox.get_hover() ||
+      (this._dtpPanel.geom.position == St.Side.TOP &&
+        Main.layoutManager.panelBox.get_hover()) ||
       this._checkIfGrab()
     ) {
       return true

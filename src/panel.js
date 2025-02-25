@@ -30,6 +30,8 @@
 import Clutter from 'gi://Clutter'
 import GLib from 'gi://GLib'
 import GObject from 'gi://GObject'
+import Graphene from 'gi://Graphene'
+
 import * as AppIcons from './appIcons.js'
 import * as Utils from './utils.js'
 import * as Taskbar from './taskbar.js'
@@ -496,6 +498,18 @@ export const Panel = GObject.registerClass(
       return position == St.Side.LEFT || position == St.Side.RIGHT
     }
 
+    getTopOffset() {
+      let offset = SETTINGS.get_int('panel-top-bottom-margins')
+
+      if (
+        SETTINGS.get_boolean('stockgs-keep-top-panel') &&
+        this.geom.position == St.Side.TOP
+      )
+        offset += Main.layoutManager.panelBox.height
+
+      return offset
+    }
+
     getOrientation() {
       return this.checkIfVertical() ? 'vertical' : 'horizontal'
     }
@@ -727,7 +741,7 @@ export const Panel = GObject.registerClass(
       let dynamic = panelLength == -1 ? Pos.anchorToPosition[anchor] : 0
       let dockMode = false
       let length = (dynamic ? 100 : panelLength) / 100
-      let gsTopPanelOffset = 0
+      let gsTopPanelHeight = 0
       let x = 0
       let y = 0
       let w = 0
@@ -750,7 +764,7 @@ export const Panel = GObject.registerClass(
         SETTINGS.get_boolean('stockgs-keep-top-panel') &&
         Main.layoutManager.primaryMonitor == this.monitor
       ) {
-        gsTopPanelOffset = Main.layoutManager.panelBox.height
+        gsTopPanelHeight = Main.layoutManager.panelBox.height
       }
 
       if (isVertical) {
@@ -766,7 +780,7 @@ export const Panel = GObject.registerClass(
         this.varCoord = { c1: 'y1', c2: 'y2' }
 
         w = innerSize
-        h = this.monitor.height * length - topBottomMargins - gsTopPanelOffset
+        h = this.monitor.height * length - topBottomMargins - gsTopPanelHeight
         dockMode = !!dynamic || topBottomMargins > 0 || h < this.monitor.height
         fixedPadding = sidePadding * scaleFactor
         varPadding = topBottomPadding * scaleFactor
@@ -784,12 +798,15 @@ export const Panel = GObject.registerClass(
         outerSize += topBottomMargins
       }
 
-      if (position == St.Side.TOP || position == St.Side.LEFT) {
+      if (position == St.Side.TOP) {
         x = this.monitor.x
-        y = this.monitor.y + gsTopPanelOffset
+        y = this.monitor.y
+      } else if (position == St.Side.LEFT) {
+        x = this.monitor.x
+        y = this.monitor.y + gsTopPanelHeight
       } else if (position == St.Side.RIGHT) {
         x = this.monitor.x + this.monitor.width - w - sideMargins
-        y = this.monitor.y + gsTopPanelOffset
+        y = this.monitor.y + gsTopPanelHeight
       } else {
         //BOTTOM
         x = this.monitor.x
@@ -1071,7 +1088,7 @@ export const Panel = GObject.registerClass(
       sideMargins = sideMargins || SETTINGS.get_int('panel-side-margins')
 
       this.panelBox.set_style(
-        `padding: ${topBottomMargins}px ${sideMargins}px;`,
+        `padding: ${this.getTopOffset()}px ${sideMargins}px ${topBottomMargins}px;`,
       )
     }
 
@@ -1117,6 +1134,8 @@ export const Panel = GObject.registerClass(
             clipContainer.y,
             this.panelBox.width,
             this.panelBox.height,
+            0,
+            this.getTopOffset(),
           ),
       ])
     }
@@ -1165,16 +1184,12 @@ export const Panel = GObject.registerClass(
 
       if (!dragWindow) return Clutter.EVENT_PROPAGATE
 
-      global.display.begin_grab_op(
-        dragWindow,
+      dragWindow.begin_grab_op(
         Meta.GrabOp.MOVING,
-        false /* pointer grab */,
-        true /* frame action */,
-        button,
-        event.get_state(),
+        event.get_device(),
+        event.get_event_sequence(),
         event.get_time(),
-        stageX,
-        stageY,
+        new Graphene.Point({ x: stageX, y: stageY }),
       )
 
       return Clutter.EVENT_STOP

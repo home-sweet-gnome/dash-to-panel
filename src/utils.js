@@ -328,8 +328,8 @@ export const getTransformedAllocation = function (actor) {
   return { x1: topLeft.x, x2: bottomRight.x, y1: topLeft.y, y2: bottomRight.y }
 }
 
-export const setClip = function (actor, x, y, width, height) {
-  actor.set_clip(0, 0, width, height)
+export const setClip = function (actor, x, y, width, height, offsetX, offsetY) {
+  actor.set_clip(offsetX || 0, offsetY || 0, width, height)
   actor.set_position(x, y)
   actor.set_size(width, height)
 }
