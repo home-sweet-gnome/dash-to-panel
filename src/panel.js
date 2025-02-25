@@ -37,6 +37,8 @@ import * as TaskbarItemContainer from './taskbar.js'
 import * as Pos from './panelPositions.js'
 import * as PanelSettings from './panelSettings.js'
 import * as PanelStyle from './panelStyle.js'
+
+import * as Config from 'resource:///org/gnome/shell/misc/config.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js'
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js'
@@ -1498,24 +1500,24 @@ export const Panel = GObject.registerClass(
         !this._timeoutsHandler.getId(T6)
       ) {
         if (direction && scrollAction === 'SWITCH_WORKSPACE') {
-          let args = [global.display]
+          let args = [global.display, 0]
 
           //adjust for horizontal workspaces
           if (Utils.DisplayWrapper.getWorkspaceManager().layout_rows === 1) {
             direction = direction == 'up' ? 'left' : 'right'
           }
 
-          //gnome-shell < 3.30 needs an additional "screen" param
-          global.screen ? args.push(global.screen) : 0
+          //gnome-shell >= 48 needs a third "event" param
+          if (Config.PACKAGE_VERSION >= '48') args.push(event)
 
           let showWsPopup = SETTINGS.get_boolean('scroll-panel-show-ws-popup')
           showWsPopup
             ? 0
             : (Main.wm._workspaceSwitcherPopup = { display: () => {} })
-          Main.wm._showWorkspaceSwitcher.apply(
-            Main.wm,
-            args.concat([0, { get_name: () => 'switch---' + direction }]),
-          )
+
+          Main.wm._showWorkspaceSwitcher.call(Main.wm, ...args, {
+            get_name: () => 'switch---' + direction,
+          })
           showWsPopup ? 0 : (Main.wm._workspaceSwitcherPopup = null)
         } else if (direction && scrollAction === 'CYCLE_WINDOWS') {
           let windows = this.taskbar
