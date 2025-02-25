@@ -390,7 +390,7 @@ export const Panel = GObject.registerClass(
       this.taskbar.destroy()
       this.showAppsIconWrapper.destroy()
 
-      this._setPanelBoxStyle('0', '0')
+      this._setPanelBoxStyle(true)
       this._maybeSetDockCss(true)
 
       this.menuManager._changeMenu = this.menuManager._oldChangeMenu
@@ -1082,14 +1082,17 @@ export const Panel = GObject.registerClass(
       }
     }
 
-    _setPanelBoxStyle(topBottomMargins, sideMargins) {
-      topBottomMargins =
-        topBottomMargins || SETTINGS.get_int('panel-top-bottom-margins')
-      sideMargins = sideMargins || SETTINGS.get_int('panel-side-margins')
+    _setPanelBoxStyle(disable) {
+      let style = ''
 
-      this.panelBox.set_style(
-        `padding: ${this.getTopOffset()}px ${sideMargins}px ${topBottomMargins}px;`,
-      )
+      if (!disable) {
+        let topBottomMargins = SETTINGS.get_int('panel-top-bottom-margins')
+        let sideMargins = SETTINGS.get_int('panel-side-margins')
+
+        style = `padding: ${this.getTopOffset()}px ${sideMargins}px ${topBottomMargins}px;`
+      }
+
+      this.panelBox.set_style(style)
     }
 
     _maybeSetDockCss(disable) {
