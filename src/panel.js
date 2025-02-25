@@ -537,9 +537,12 @@ export const Panel = GObject.registerClass(
         let allocationMap = this.allocationMap[pos.element]
 
         if (allocationMap.actor) {
-          allocationMap.actor.visible = pos.visible
+          let considerActor =
+            pos.visible && allocationMap.actor.get_children().length
 
-          if (!pos.visible) {
+          allocationMap.actor.visible = considerActor
+
+          if (!considerActor) {
             return
           }
 
