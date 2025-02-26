@@ -183,6 +183,27 @@ export const PanelManager = class {
       LookingGlass.LookingGlass.prototype.open
     LookingGlass.LookingGlass.prototype.open = _newLookingGlassOpen
 
+    Main.messageTray._bannerBin.ease = (params) => {
+      if (params.y === 0) {
+        let panelOnPrimary = this.allPanels.find(
+          (p) => p.monitor == Main.layoutManager.primaryMonitor,
+        )
+
+        if (
+          panelOnPrimary &&
+          panelOnPrimary.intellihide?.enabled &&
+          panelOnPrimary.geom.position == St.Side.TOP &&
+          panelOnPrimary.panelBox.visible
+        )
+          params.y += panelOnPrimary.geom.outerSize
+      }
+
+      Object.getPrototypeOf(Main.messageTray._bannerBin).ease.call(
+        Main.messageTray._bannerBin,
+        params,
+      )
+    }
+
     this._signalsHandler = new Utils.GlobalSignalsHandler()
 
     //listen settings
@@ -361,6 +382,8 @@ export const PanelManager = class {
     LookingGlass.LookingGlass.prototype.open =
       LookingGlass.LookingGlass.prototype._oldOpen
     delete LookingGlass.LookingGlass.prototype._oldOpen
+
+    delete Main.messageTray._bannerBin.ease
 
     delete Main.panel.style
     this._desktopIconsUsableArea.destroy()

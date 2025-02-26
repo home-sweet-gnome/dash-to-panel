@@ -800,7 +800,8 @@ export const Panel = GObject.registerClass(
         dockMode = !!dynamic || sideMargins > 0 || w < this.monitor.width
         fixedPadding = topBottomPadding * scaleFactor
         varPadding = sidePadding * scaleFactor
-        outerSize += topBottomMargins
+        outerSize +=
+          topBottomMargins - (position == St.Side.TOP ? gsTopPanelHeight : 0)
       }
 
       if (position == St.Side.TOP) {
