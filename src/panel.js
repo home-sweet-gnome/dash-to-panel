@@ -538,7 +538,9 @@ export const Panel = GObject.registerClass(
 
         if (allocationMap.actor) {
           let considerActor =
-            pos.visible && allocationMap.actor.get_children().length
+            pos.visible &&
+            (pos.element == Pos.DESKTOP_BTN ||
+              allocationMap.actor.get_children().length)
 
           allocationMap.actor.visible = considerActor
 
