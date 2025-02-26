@@ -28,7 +28,7 @@ import * as PointerWatcher from 'resource:///org/gnome/shell/ui/pointerWatcher.j
 
 import * as Proximity from './proximity.js'
 import * as Utils from './utils.js'
-import { SETTINGS } from './extension.js'
+import { SETTINGS, NOTIFICATIONSSETTINGS } from './extension.js'
 
 //timeout intervals
 const CHECK_POINTER_MS = 200
@@ -165,7 +165,8 @@ export const Intellihide = class {
     if (
       !this.enabled ||
       (holdStatus == Hold.NOTIFY &&
-        !SETTINGS.get_boolean('intellihide-show-on-notification'))
+        (!SETTINGS.get_boolean('intellihide-show-on-notification') ||
+          !NOTIFICATIONSSETTINGS.get_boolean('show-banners')))
     )
       return
 

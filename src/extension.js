@@ -42,6 +42,7 @@ export let DTP_EXTENSION = null
 export let SETTINGS = null
 export let DESKTOPSETTINGS = null
 export let TERMINALSETTINGS = null
+export let NOTIFICATIONSSETTINGS = null
 export let PERSISTENTSTORAGE = null
 export let EXTENSION_PATH = null
 
@@ -63,6 +64,9 @@ export default class DashToPanelExtension extends Extension {
     })
     TERMINALSETTINGS = new Gio.Settings({
       schema_id: 'org.gnome.desktop.default-applications.terminal',
+    })
+    NOTIFICATIONSSETTINGS = new Gio.Settings({
+      schema_id: 'org.gnome.desktop.notifications',
     })
     EXTENSION_PATH = this.path
 
