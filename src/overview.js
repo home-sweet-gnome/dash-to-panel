@@ -468,19 +468,17 @@ export const Overview = class {
 
     // Restart the counting if the shortcut is pressed again
     let hotkey_option = SETTINGS.get_string('hotkeys-overlay-combo')
+    let temporarily = hotkey_option === 'TEMPORARILY'
+    let timeout = SETTINGS.get_int(
+      overlayFromShortcut ? 'shortcut-timeout' : 'overlay-timeout',
+    )
 
-    if (hotkey_option === 'NEVER') return
+    if (hotkey_option === 'NEVER' || (!timeout && temporarily)) return
 
-    if (hotkey_option === 'TEMPORARILY' || overlayFromShortcut)
+    if (temporarily || overlayFromShortcut)
       this._toggleHotkeysNumberOverlay(true)
 
     this._panel.intellihide.revealAndHold(Intellihide.Hold.TEMPORARY)
-
-    let timeout = SETTINGS.get_int('overlay-timeout')
-
-    if (overlayFromShortcut) {
-      timeout = SETTINGS.get_int('shortcut-timeout')
-    }
 
     // Hide the overlay/dock after the timeout
     this._timeoutsHandler.add([
