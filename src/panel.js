@@ -431,7 +431,9 @@ export const Panel = GObject.registerClass(
 
             this.panel.remove_child(container)
 
-            originalParent &&
+            if (originalParent) {
+              originalParent.visible = true
+
               originalParent.insert_child_at_index(
                 container,
                 Math.min(
@@ -439,6 +441,7 @@ export const Panel = GObject.registerClass(
                   originalParent.get_children().length - 1,
                 ),
               )
+            }
 
             delete container._dtpOriginalParent
             delete container._dtpOriginalIndex
