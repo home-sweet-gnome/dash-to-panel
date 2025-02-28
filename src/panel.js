@@ -498,18 +498,6 @@ export const Panel = GObject.registerClass(
       return position == St.Side.LEFT || position == St.Side.RIGHT
     }
 
-    getTopOffset() {
-      let offset = SETTINGS.get_int('panel-top-bottom-margins')
-
-      if (
-        SETTINGS.get_boolean('stockgs-keep-top-panel') &&
-        this.geom.position == St.Side.TOP
-      )
-        offset += Main.layoutManager.panelBox.height
-
-      return offset
-    }
-
     getOrientation() {
       return this.checkIfVertical() ? 'vertical' : 'horizontal'
     }
@@ -844,6 +832,7 @@ export const Panel = GObject.registerClass(
         outerSize, // includes padding and margins
         fixedPadding,
         varPadding,
+        topOffset: gsTopPanelHeight,
         position,
         dynamic,
         dockMode,
@@ -1095,7 +1084,7 @@ export const Panel = GObject.registerClass(
         let topBottomMargins = SETTINGS.get_int('panel-top-bottom-margins')
         let sideMargins = SETTINGS.get_int('panel-side-margins')
 
-        style = `padding: ${this.getTopOffset()}px ${sideMargins}px ${topBottomMargins}px;`
+        style = `padding: ${this.geom.topOffset + topBottomMargins}px ${sideMargins}px ${topBottomMargins}px;`
       }
 
       this.panelBox.set_style(style)
@@ -1144,7 +1133,7 @@ export const Panel = GObject.registerClass(
             this.panelBox.width,
             this.panelBox.height,
             0,
-            this.getTopOffset(),
+            this.geom.topOffset,
           ),
       ])
     }
