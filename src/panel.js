@@ -741,6 +741,7 @@ export const Panel = GObject.registerClass(
       let h = 0
       let fixedPadding = 0
       let varPadding = 0
+      let topOffset = 0
       let iconSize = 0
       let innerSize = 0
       let outerSize = 0
@@ -758,6 +759,7 @@ export const Panel = GObject.registerClass(
         Main.layoutManager.primaryMonitor == this.monitor
       ) {
         gsTopPanelHeight = Main.layoutManager.panelBox.height
+        topOffset = position == St.Side.TOP ? gsTopPanelHeight : 0
       }
 
       if (isVertical) {
@@ -788,8 +790,7 @@ export const Panel = GObject.registerClass(
         dockMode = !!dynamic || sideMargins > 0 || w < this.monitor.width
         fixedPadding = topBottomPadding * scaleFactor
         varPadding = sidePadding * scaleFactor
-        outerSize +=
-          topBottomMargins - (position == St.Side.TOP ? gsTopPanelHeight : 0)
+        outerSize += topBottomMargins - topOffset
       }
 
       if (position == St.Side.TOP) {
@@ -832,7 +833,7 @@ export const Panel = GObject.registerClass(
         outerSize, // includes padding and margins
         fixedPadding,
         varPadding,
-        topOffset: gsTopPanelHeight,
+        topOffset,
         position,
         dynamic,
         dockMode,
