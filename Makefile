@@ -8,9 +8,12 @@ IMAGES = ./* ../media/design/svg/dash-to-panel-logo-light.svg
 TOLOCALIZE = src/extension.js src/prefs.js src/appIcons.js src/taskbar.js
 MSGSRC = $(wildcard po/*.po)
 ifeq ($(strip $(DESTDIR)),)
+	INSTALLTYPE = local
 	INSTALLBASE = $(HOME)/.local/share/gnome-shell/extensions
 else
+	INSTALLTYPE = system
 	INSTALLBASE = $(DESTDIR)/usr/share/gnome-shell/extensions
+	SHARE_PREFIX = $(DESTDIR)/usr/share
 endif
 INSTALLNAME = dash-to-panel@jderose9.github.com
 
@@ -69,6 +72,12 @@ install-local: _build
 	rm -rf $(INSTALLBASE)/$(INSTALLNAME)
 	mkdir -p $(INSTALLBASE)/$(INSTALLNAME)
 	cp -r ./_build/* $(INSTALLBASE)/$(INSTALLNAME)/
+ifeq ($(INSTALLTYPE),system)
+	rm -r $(INSTALLBASE)/$(INSTALLNAME)/schemas $(INSTALLBASE)/$(INSTALLNAME)/locale
+	mkdir -p $(SHARE_PREFIX)/glib-2.0/schemas $(SHARE_PREFIX)/locale
+	cp -r ./schemas/*gschema.* $(SHARE_PREFIX)/glib-2.0/schemas
+	cp -r ./_build/locale/* $(SHARE_PREFIX)/locale
+endif
 	-rm -fR _build
 	echo done
 
