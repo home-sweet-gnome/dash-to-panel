@@ -836,7 +836,7 @@ export const Panel = GObject.registerClass(
         outerSize, // includes padding and margins
         fixedPadding,
         varPadding,
-        topOffset,
+        topOffset, // only if gnome-shell top panel is present and position is TOP
         position,
         dynamic,
         dockMode,

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash To Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-21 17:44-0500\n"
-"PO-Revision-Date: 2025-02-21 17:45-0500\n"
+"POT-Creation-Date: 2025-03-02 18:29-0500\n"
+"PO-Revision-Date: 2025-03-02 18:35-0500\n"
 "Last-Translator: Charles Gagnon <charlesg99@outlook.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -39,11 +39,11 @@ msgstr ""
 "X-Poedit-SearchPath-16: desktopIconsIntegration.js\n"
 "X-Poedit-SearchPath-17: appIcons.js\n"
 
-#: src/extension.js:88
+#: src/extension.js:92
 msgid "Dash to Panel has been updated!"
 msgstr "Dash to Panel a été mis à jour!"
 
-#: src/extension.js:95
+#: src/extension.js:99
 msgid "See what's new"
 msgstr "Voir les nouveautés"
 
@@ -55,299 +55,291 @@ msgstr "Hauteur du bouton Afficher le Bureau (px)"
 msgid "Show Desktop button width (px)"
 msgstr "Longueur du bouton Afficher le Bureau (px)"
 
-#: src/prefs.js:296
-msgid "Unavailable when gnome-shell top panel is present"
-msgstr "Indisponible quand le panneau de gnome-shell est présent"
-
-#: src/prefs.js:304
-msgid "Unavailable when the panel on the primary monitor is at the top"
-msgstr "Indisponible quand le panneau sur l'écran principal est au haut"
-
-#: src/prefs.js:372 ui/SettingsPosition.ui.h:13 ui/SettingsStyle.ui.h:19
+#: src/prefs.js:348 ui/SettingsPosition.ui.h:13 ui/SettingsStyle.ui.h:19
 msgid "Left"
 msgstr "Gauche"
 
-#: src/prefs.js:373
+#: src/prefs.js:349
 msgid "Center"
 msgstr "Centre"
 
-#: src/prefs.js:374 ui/SettingsPosition.ui.h:14 ui/SettingsStyle.ui.h:20
+#: src/prefs.js:350 ui/SettingsPosition.ui.h:14 ui/SettingsStyle.ui.h:20
 msgid "Right"
 msgstr "Droit"
 
-#: src/prefs.js:376 ui/BoxWindowPreviewOptions.ui.h:38
+#: src/prefs.js:352 ui/BoxWindowPreviewOptions.ui.h:38
 #: ui/SettingsPosition.ui.h:12 ui/SettingsStyle.ui.h:18
 msgid "Top"
 msgstr "Haut"
 
-#: src/prefs.js:377 src/prefs.js:382 ui/SettingsPosition.ui.h:22
+#: src/prefs.js:353 src/prefs.js:358 ui/SettingsPosition.ui.h:22
 msgid "Middle"
 msgstr "Milieu"
 
-#: src/prefs.js:378 ui/BoxWindowPreviewOptions.ui.h:37
+#: src/prefs.js:354 ui/BoxWindowPreviewOptions.ui.h:37
 #: ui/SettingsPosition.ui.h:11 ui/SettingsStyle.ui.h:17
 msgid "Bottom"
 msgstr "Bas"
 
-#: src/prefs.js:381 ui/SettingsPosition.ui.h:21
+#: src/prefs.js:357 ui/SettingsPosition.ui.h:21
 msgid "Start"
 msgstr "Début"
 
-#: src/prefs.js:383 ui/SettingsPosition.ui.h:23
+#: src/prefs.js:359 ui/SettingsPosition.ui.h:23
 msgid "End"
 msgstr "Fin"
 
-#: src/prefs.js:509
+#: src/prefs.js:484
 msgid "Show Applications button"
 msgstr "Bouton Afficher les Applications"
 
-#: src/prefs.js:510
+#: src/prefs.js:485
 msgid "Activities button"
 msgstr "Bouton Activités"
 
-#: src/prefs.js:511
+#: src/prefs.js:486
 msgid "Taskbar"
 msgstr "Barre des tâches"
 
-#: src/prefs.js:512
+#: src/prefs.js:487
 msgid "Date menu"
 msgstr "Horloge"
 
-#: src/prefs.js:513
+#: src/prefs.js:488
 msgid "System menu"
 msgstr "Menu système"
 
-#: src/prefs.js:514
+#: src/prefs.js:489
 msgid "Left box"
 msgstr "Zone gauche"
 
-#: src/prefs.js:515
+#: src/prefs.js:490
 msgid "Center box"
 msgstr "Zone centre"
 
-#: src/prefs.js:516
+#: src/prefs.js:491
 msgid "Right box"
 msgstr "Zone droite"
 
-#: src/prefs.js:517
+#: src/prefs.js:492
 msgid "Desktop button"
 msgstr "Bouton Afficher le Bureau"
 
-#: src/prefs.js:527 src/prefs.js:2797
+#: src/prefs.js:502 src/prefs.js:2788
 msgid "Move up"
 msgstr "Déplacer vers le haut"
 
-#: src/prefs.js:529 src/prefs.js:2805
+#: src/prefs.js:504 src/prefs.js:2796
 msgid "Move down"
 msgstr "Déplacer vers le bas"
 
-#: src/prefs.js:535
+#: src/prefs.js:510
 msgid "Visible"
 msgstr "Visible"
 
-#: src/prefs.js:539
+#: src/prefs.js:514
 msgid "Select element position"
 msgstr "Sélectionner la position de l'élément"
 
-#: src/prefs.js:553
+#: src/prefs.js:528
 msgid "Stacked to top"
 msgstr "Empilé en haut"
 
-#: src/prefs.js:553
+#: src/prefs.js:528
 msgid "Stacked to left"
 msgstr "Empilé à gauche"
 
-#: src/prefs.js:557
+#: src/prefs.js:532
 msgid "Stacked to bottom"
 msgstr "Empilé en bas"
 
-#: src/prefs.js:557
+#: src/prefs.js:532
 msgid "Stacked to right"
 msgstr "Empilé à droite"
 
-#: src/prefs.js:559
+#: src/prefs.js:534
 msgid "Centered"
 msgstr "Centré"
 
-#: src/prefs.js:560
+#: src/prefs.js:535
 msgid "Monitor Center"
 msgstr "Centre de l'écran "
 
-#: src/prefs.js:587
+#: src/prefs.js:562
 msgid "More options"
 msgstr "Plus d'options"
 
-#: src/prefs.js:622
+#: src/prefs.js:597
 msgid "Reset to defaults"
 msgstr "Restaurer paramètres"
 
-#: src/prefs.js:645
+#: src/prefs.js:620
 msgid "Show Applications options"
 msgstr "Options du bouton Afficher les Applications"
 
-#: src/prefs.js:668
+#: src/prefs.js:643
 msgid "Open icon"
 msgstr "Choisir l'icône"
 
-#: src/prefs.js:733
+#: src/prefs.js:708
 msgid "Show Desktop options"
 msgstr "Options du bouton Afficher le Bureau"
 
-#: src/prefs.js:825
+#: src/prefs.js:800
 msgid "Primary monitor"
 msgstr "Écran principal"
 
-#: src/prefs.js:826
+#: src/prefs.js:801
 msgid "Monitor "
 msgstr "Écran "
 
-#: src/prefs.js:953
+#: src/prefs.js:928
 msgid "Running Indicator Options"
 msgstr "Options de l'indicateur d'activité"
 
-#: src/prefs.js:1487
+#: src/prefs.js:1461
 msgid "Dynamic opacity options"
 msgstr "Options d'opacité dynamique"
 
-#: src/prefs.js:1729
+#: src/prefs.js:1710
 msgid "Intellihide options"
 msgstr "Options du masquage intelligent"
 
-#: src/prefs.js:1925
+#: src/prefs.js:1916
 msgid "Window preview options"
 msgstr "Options de la prévisualisation"
 
-#: src/prefs.js:2476
+#: src/prefs.js:2467
 msgid "Ungrouped application options"
 msgstr "Options des applications dégroupées"
 
-#: src/prefs.js:2643
+#: src/prefs.js:2634
 msgid "Customize middle-click behavior"
 msgstr "Modifier l'action du clic de la molette"
 
-#: src/prefs.js:2772
+#: src/prefs.js:2763
 msgid "Text"
 msgstr "Texte"
 
-#: src/prefs.js:2781
+#: src/prefs.js:2772
 msgid "Command"
 msgstr "Commande"
 
-#: src/prefs.js:2813
+#: src/prefs.js:2804
 msgid "Remove"
 msgstr "Retirer"
 
-#: src/prefs.js:2841
+#: src/prefs.js:2832
 msgid "Customize panel scroll behavior"
 msgstr "Modifier l'action du défilement de la souris sur le panneau"
 
-#: src/prefs.js:2887
+#: src/prefs.js:2878
 msgid "Customize icon scroll behavior"
 msgstr "Modifier l'action du défilement de la souris sur une application"
 
-#: src/prefs.js:3011
+#: src/prefs.js:3002
 msgid "Advanced hotkeys options"
 msgstr "Raccourcis avancés"
 
-#: src/prefs.js:3039
+#: src/prefs.js:3030
 msgid "Secondary Menu Options"
 msgstr "Options du menu secondaire"
 
-#: src/prefs.js:3239
+#: src/prefs.js:3230
 #, javascript-format
 msgid "%d ms"
 msgstr "%d ms"
 
-#: src/prefs.js:3245
+#: src/prefs.js:3236
 #, javascript-format
 msgid "%d °"
 msgstr "%d °"
 
-#: src/prefs.js:3251 src/prefs.js:3257
+#: src/prefs.js:3242 src/prefs.js:3248
 #, javascript-format
 msgid "%d %%"
 msgstr "%d %%"
 
-#: src/prefs.js:3263
+#: src/prefs.js:3254
 #, javascript-format
 msgid "%.1f"
 msgstr "%.1f"
 
-#: src/prefs.js:3269
+#: src/prefs.js:3260
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
 msgstr[0] "%d icône"
 msgstr[1] "%d icônes"
 
-#: src/prefs.js:3396
+#: src/prefs.js:3387
 msgid "App icon animation options"
 msgstr "Options d'animation des icônes d'application"
 
-#: src/prefs.js:3519
+#: src/prefs.js:3510
 msgid "App icon highlight options"
 msgstr "Options d'animation du surlignement des icônes d'application"
 
-#: src/prefs.js:3614
+#: src/prefs.js:3599
 msgid "Export settings"
 msgstr "Exporter les paramètres"
 
-#: src/prefs.js:3635
+#: src/prefs.js:3620
 msgid "Import settings"
 msgstr "Importer des paramètres"
 
-#: src/appIcons.js:1919 src/appIcons.js:1930 ui/BoxMiddleClickOptions.ui.h:11
+#: src/appIcons.js:1912 src/appIcons.js:1929 ui/BoxMiddleClickOptions.ui.h:11
 msgid "Quit"
 msgstr "Quitter"
 
-#: src/appIcons.js:1933
+#: src/appIcons.js:1932
 #, javascript-format
 msgid "Quit %d Window"
 msgid_plural "Quit %d Windows"
 msgstr[0] "Fermer %d fenêtre"
 msgstr[1] "Fermer %d fenêtres"
 
-#: src/appIcons.js:2240
+#: src/appIcons.js:2254
 msgid "Power options"
 msgstr "Options d'alimentation"
 
-#: src/appIcons.js:2245
+#: src/appIcons.js:2259
 msgid "Event logs"
 msgstr "Journaux d'évènements"
 
-#: src/appIcons.js:2250
+#: src/appIcons.js:2264
 msgid "System"
 msgstr "Système"
 
-#: src/appIcons.js:2255
+#: src/appIcons.js:2269
 msgid "Device Management"
 msgstr "Gestionnaire de périphériques"
 
-#: src/appIcons.js:2260
+#: src/appIcons.js:2274
 msgid "Disk Management"
 msgstr "Gestionnaire de disques"
 
-#: src/appIcons.js:2291
+#: src/appIcons.js:2305
 msgid "Unlock taskbar"
 msgstr "Déverrouiller la barre des tâches"
 
-#: src/appIcons.js:2292
+#: src/appIcons.js:2306
 msgid "Lock taskbar"
 msgstr "Verrouiller la barre des tâches"
 
-#: src/appIcons.js:2302
+#: src/appIcons.js:2316
 msgid "Gnome Settings"
 msgstr "Paramètres Gnome"
 
-#: src/appIcons.js:2306
+#: src/appIcons.js:2320
 msgid "Dash to Panel Settings"
 msgstr "Paramètres Dash to Panel"
 
-#: src/appIcons.js:2313
+#: src/appIcons.js:2327
 msgid "Restore Windows"
 msgstr "Restaurer les fenêtres"
 
-#: src/appIcons.js:2314
+#: src/appIcons.js:2328
 msgid "Show Desktop"
 msgstr "Afficher le bureau"
 
@@ -362,14 +354,6 @@ msgstr "Merci!"
 #: src/taskbar.js:79
 msgid "Please donate :)"
 msgstr "Merci de faire un don :)"
-
-#: ui/BoxAdvancedOptions.ui.h:1
-msgid "Nothing yet!"
-msgstr "Rien pour l'instant !"
-
-#: ui/BoxAdvancedOptions.ui.h:2
-msgid "For real..."
-msgstr "Pour vrai..."
 
 #: ui/BoxAnimateAppIconHoverOptions.ui.h:1
 msgid "Animation type"
@@ -628,14 +612,18 @@ msgid "Persist state across restarts"
 msgstr "Conserver l'état lors des redémarrages"
 
 #: ui/BoxIntellihideOptions.ui.h:16
+msgid "Reveal and hold the panel on notification"
+msgstr "Révéler le panneau à la réception d'une notification"
+
+#: ui/BoxIntellihideOptions.ui.h:17
 msgid "Hide and reveal animation duration (ms)"
 msgstr "Durée des animations d'affichage (ms)"
 
-#: ui/BoxIntellihideOptions.ui.h:17
+#: ui/BoxIntellihideOptions.ui.h:18
 msgid "Delay before hiding the panel (ms)"
 msgstr "Délai avant le masquage du panneau (ms)"
 
-#: ui/BoxIntellihideOptions.ui.h:18
+#: ui/BoxIntellihideOptions.ui.h:19
 msgid "Delay before enabling intellihide on start (ms)"
 msgstr "Délai avant l'activation du masquage intelligent (ms)"
 
@@ -818,8 +806,14 @@ msgid "Integrate <i>AppMenu</i> items"
 msgstr "Intégrer les actions du <i>Menu d'applications</i>"
 
 #: ui/BoxSecondaryMenuOptions.ui.h:2
-msgid "<i>Show Details</i> menu item"
-msgstr "Menu <i>Afficher les détails</i>"
+msgid "<i>App Details</i> menu item"
+msgstr "Menu <i>Détails de l’application</i>"
+
+#: ui/BoxSecondaryMenuOptions.ui.h:3
+msgid "<i>App Details</i> is only available when Gnome Software is installed"
+msgstr ""
+"<i>Détails de l’application</i> est uniquement disponible lorsque Gnome "
+"Software est installé"
 
 #: ui/BoxShowApplicationsOptions.ui.h:1
 msgid "Show Applications icon"
@@ -1607,6 +1601,18 @@ msgstr "Couleur et opacité (%) du haut du gradient"
 #, no-c-format
 msgid "Gradient bottom color and opacity (%)"
 msgstr "Couleur et opacité (%) du bas du gradient"
+
+#~ msgid "Unavailable when gnome-shell top panel is present"
+#~ msgstr "Indisponible quand le panneau de gnome-shell est présent"
+
+#~ msgid "Unavailable when the panel on the primary monitor is at the top"
+#~ msgstr "Indisponible quand le panneau sur l'écran principal est au haut"
+
+#~ msgid "Nothing yet!"
+#~ msgstr "Rien pour l'instant !"
+
+#~ msgid "For real..."
+#~ msgstr "Pour vrai..."
 
 #~ msgid "Advanced Options"
 #~ msgstr "Options avancées"

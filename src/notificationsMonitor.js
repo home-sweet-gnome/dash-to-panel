@@ -158,7 +158,10 @@ export const NotificationsMonitor = class extends EventEmitter {
 
   _checkNotifications() {
     let getSourceId = (source) =>
-      source?._appId || source?.app?.id || source?.policy?.id
+      source?._appId ||
+      source?.app?.id ||
+      (source?.policy instanceof MessageTray.NotificationApplicationPolicy &&
+        source.policy.id)
     let addSource = (tray, source) => {
       let appId = getSourceId(source)
       let updateTray = () => {
