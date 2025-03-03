@@ -1369,7 +1369,7 @@ msgstr "Wygląd wskaźnika uruchomienia (okno na drugim planie)"
 
 #: ui/SettingsStyle.ui.h:22
 msgid "Panel style"
-msgstr "Styl panelu
+msgstr "Styl panelu"
 
 #: ui/SettingsStyle.ui.h:23
 msgid "Override panel theme background color"
