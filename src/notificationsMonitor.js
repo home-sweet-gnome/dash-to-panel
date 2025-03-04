@@ -98,7 +98,13 @@ export const NotificationsMonitor = class extends EventEmitter {
   }
 
   _getDefaultState() {
-    return { trayCount: 0, trayUrgent: false, urgent: false, total: 0 }
+    return {
+      count: 0, // Unity
+      trayCount: 0, // MessageTray
+      trayUrgent: false, // MessageTray
+      urgent: false, // Unity add MessageTray combined
+      total: 0, // Unity add MessageTray combined
+    }
   }
 
   getState(app) {
