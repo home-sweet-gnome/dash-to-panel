@@ -116,7 +116,10 @@ export const NotificationsMonitor = class extends EventEmitter {
 
     this._state[appId] = Object.assign(this._state[appId], state)
 
-    if (tracker.focus_app?.id == appId) this._state[appId].trayCount = 0
+    if (tracker.focus_app?.id == appId) {
+      this._state[appId].count = 0
+      this._state[appId].trayCount = 0
+    }
 
     this._state[appId].urgent =
       state.urgent ||
