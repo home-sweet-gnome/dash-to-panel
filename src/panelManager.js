@@ -33,6 +33,7 @@ import * as PanelSettings from './panelSettings.js'
 import * as Proximity from './proximity.js'
 import * as Utils from './utils.js'
 import * as DesktopIconsIntegration from './desktopIconsIntegration.js'
+import { DTP_EXTENSION, SETTINGS } from './extension.js'
 
 import GLib from 'gi://GLib'
 import GObject from 'gi://GObject'
@@ -49,7 +50,6 @@ import { NotificationsMonitor } from './notificationsMonitor.js'
 import { Workspace } from 'resource:///org/gnome/shell/ui/workspace.js'
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js'
 import { InjectionManager } from 'resource:///org/gnome/shell/extensions/extension.js'
-import { DTP_EXTENSION, SETTINGS } from './extension.js'
 import {
   SecondaryMonitorDisplay,
   WorkspacesView,
@@ -97,24 +97,6 @@ export const PanelManager = class {
     global.dashToPanel.emit('panels-created')
 
     this._setDesktopIconsMargins()
-    //in 3.32, BoxPointer now inherits St.Widget
-    if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
-      let panelManager = this
-
-      this._injectionManager.overrideMethod(
-        BoxPointer.BoxPointer.prototype,
-        'vfunc_get_preferred_height',
-        () =>
-          function (forWidth) {
-            let alloc = { min_size: 0, natural_size: 0 }
-
-            ;[alloc.min_size, alloc.natural_size] =
-              this.vfunc_get_preferred_height(forWidth)
-
-            return panelManager._getBoxPointerPreferredHeight(this, alloc)
-          },
-      )
-    }
 
     this._updatePanelElementPositions()
 
@@ -174,6 +156,35 @@ export const PanelManager = class {
       this._newSetPrimaryWorkspaceVisible.bind(
         Main.overview._overview._controls._workspacesDisplay,
       )
+
+    let panelManager = this
+    this._injectionManager.overrideMethod(
+      BoxPointer.BoxPointer.prototype,
+      'vfunc_get_preferred_height',
+      () =>
+        function (forWidth) {
+          let alloc = { min_size: 0, natural_size: 0 }
+
+          ;[alloc.min_size, alloc.natural_size] =
+            this.vfunc_get_preferred_height(forWidth)
+
+          return panelManager._getBoxPointerPreferredHeight(this, alloc)
+        },
+    )
+
+    this._injectionManager.overrideMethod(
+      Object.getPrototypeOf(
+        // WorkspaceDot in activities button
+        Main.panel.statusArea.activities.get_first_child().get_first_child(),
+      ),
+      'vfunc_get_preferred_width',
+      (get_preferred_width) =>
+        function (forHeight) {
+          return Utils.getBoxLayoutVertical(this.get_parent())
+            ? [0, forHeight]
+            : get_preferred_width.call(this, forHeight)
+        },
+    )
 
     LookingGlass.LookingGlass.prototype._oldResize =
       LookingGlass.LookingGlass.prototype._resize
@@ -335,8 +346,6 @@ export const PanelManager = class {
       }
     })
 
-    this._injectionManager.clear()
-
     if (Main.layoutManager.primaryMonitor) {
       Main.layoutManager.panelBox.set_position(
         Main.layoutManager.primaryMonitor.x,
@@ -349,6 +358,8 @@ export const PanelManager = class {
     }
 
     if (reset) return
+
+    this._injectionManager.clear()
 
     this._setKeyBindings(false)
 

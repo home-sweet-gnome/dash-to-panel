@@ -203,6 +203,10 @@ export function setBoxLayoutVertical(box, vertical) {
   else box.vertical = vertical
 }
 
+export function getBoxLayoutVertical(box) {
+  return Config.PACKAGE_VERSION >= '48' ? box.orientation == 1 : box.vertical
+}
+
 // This is wrapper to maintain compatibility with GNOME-Shell 3.30+ as well as
 // previous versions.
 export const DisplayWrapper = {
