@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-03-07 16:23+0100\n"
-"PO-Revision-Date: 2025-03-07 19:27+0100\n"
+"PO-Revision-Date: 2025-03-08 15:34+0100\n"
 "Last-Translator: Adam Lewicki <a.lewicki95@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -93,7 +93,7 @@ msgstr "Ustaw rozmiar panelu."
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:115
 #: ui/BoxShowDesktopOptions.ui:53
 msgid "Override Show Desktop line color"
-msgstr "Nadpisz kolor przycisku Pokaż pulpit"
+msgstr "Zastąp kolor linii Pokaż pulpit"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:116
 msgid "Replace current Show Desktop button line color"
@@ -123,35 +123,35 @@ msgstr "Styl ikon programów"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:135
 msgid "Style of the running indicator (focused)"
-msgstr "Styl wskaźnika uruchomionych programów (skupiony)"
+msgstr "Styl wskaźnika uruchomionych programów (pierwszoplanowych)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:136
 msgid ""
 "Style of the running indicator for the icon for the currently focused "
 "application"
 msgstr ""
-"Styl wskaźnika uruchomionych programów dla ikony aktualnie skupionej "
-"aplikacji"
+"Styl wskaźnika uruchomionych programów dla ich ikony programów "
+"pierwszoplanowych"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:140
 msgid "Style of the running indicator (unfocused)"
-msgstr "Styl wskaźnika uruchomionych programów (nieskupiony)"
+msgstr "Styl wskaźnika uruchomionych programów (drugoplanowych)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:141
 msgid ""
 "Style of the running indicator for the icon for applications which are not "
 "currently focused"
 msgstr ""
-"Styl wskaźnika uruchomionych programów dla ikon aplikacji, które nie są "
-"aktualnie skupione"
+"Styl wskaźnika uruchomionych programów dla ich ikon, które nie są aktualnie "
+"na pierwszym planie"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:145
 msgid "Running indicator dominant color"
-msgstr "Dominujący kolor wskaźnika uruchomionych programów"
+msgstr "Dominujący kolor wskaźnika uruchomienia"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:146
 msgid "Whether to use the app icon's dominant color for .app-well-running-dot"
-msgstr "Dominujący kolor ikony aplikacji dla .app-well-running-dot"
+msgstr "Używanie dominującego koloru ikony aplikacji dla .app-well-running-dot"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:150
 msgid "Running indicator color override"
@@ -160,112 +160,114 @@ msgstr "Zastąpienie koloru wskaźnika uruchomionych programów"
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:151
 msgid ""
 "Whether to override the theme background color for .app-well-running-dot"
-msgstr "Zastąpienie kolor tła motywu dla .app-well-running-dot"
+msgstr "Zastąpienie koloru tła motywu dla .app-well-running-dot"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:155
 msgid "Color of running indicator (1 window)"
-msgstr "Kolor wskaźnika uruchomionych programów (1 okno)"
+msgstr "Kolor wskaźnika uruchomienia (1 okno)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:156
 msgid ""
 "Customize the color of the running indicator when one window is running for "
 "that application"
 msgstr ""
-"Dostosuj kolor wskaźnika uruchomionych programów, gdy dla danej aplikacji "
+"Dostosuj kolor wskaźnika uruchomionych programów, gdy dla danego programu "
 "jest uruchomione jedno okno"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:160
 msgid "Color of running indicator (2 windows)"
-msgstr "Kolor wskaźnika uruchomionych programów (2 okna)"
+msgstr "Kolor wskaźnika uruchomienia (2 okna)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:161
 msgid ""
 "Customize the color of the running indicator when two windows are running "
 "for that application"
 msgstr ""
-"Dostosuj kolor wskaźnika uruchomionych programów, gdy dla danej aplikacji są "
+"Dostosuj kolor wskaźnika uruchomionych programów, gdy dla danego programu są "
 "uruchomione dwa okna"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:165
 msgid "Color of running indicator (3 windows)"
-msgstr "Kolor wskaźnika uruchomionych programów (3 okna)"
+msgstr "Kolor wskaźnika uruchomienia (3 okna)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:166
 msgid ""
 "Customize the color of the running indicator when three windows are running "
 "for that application"
 msgstr ""
-"Dostosuj kolor wskaźnika uruchomionych programów, gdy dla danej aplikacji są "
+"Dostosuj kolor wskaźnika uruchomionych programów, gdy dla danego programu są "
 "uruchomione trzy okna"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:170
 msgid "Color of running indicator (4+ windows)"
-msgstr "Kolor wskaźnika uruchomionych programów (4+ okien)"
+msgstr "Kolor wskaźnika uruchomienia (4+ okien)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:171
 msgid ""
 "Customize the color of the running indicator when four or more windows are "
 "running for that application"
 msgstr ""
-"Dostosuj kolor wskaźnika uruchomionych programów, gdy dla danej aplikacji są "
+"Dostosuj kolor wskaźnika uruchomionych programów, gdy dla danego programu są "
 "uruchomione cztery lub więcej okien"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:175
 msgid "Unfocused color is different than focused"
-msgstr "Kolor nieskupionych programów jest inny niż skupionych"
+msgstr "Kolor programów drugoplanowych jest inny niż pierwszoplanowych"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:176
 msgid ""
 "Whether to apply a 2nd color scheme to the indicator when the app is not "
 "focused"
-msgstr "Drugi schemat kolorów do wskaźnika, gdy aplikacja nie jest skupiona"
+msgstr ""
+"Drugi schemat kolorów do wskaźnika, gdy aplikacja nie jest na pierwszym "
+"planie"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:180
 msgid "Color of unfocused running indicator (1 window)"
-msgstr "Kolor nieskupionego wskaźnika uruchomionych programów (1 okno)"
+msgstr "Kolor wskaźnika drugoplanowych uruchomionych programów (1 okno)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:181
 msgid ""
 "Customize the color of the unfocused running indicator when one window is "
 "running for that application"
 msgstr ""
-"Dostosuj kolor nieskupionego wskaźnika uruchomionych programów, gdy dla "
+"Dostosuj kolor wskaźnika drugoplanowych uruchomionych programów, gdy dla "
 "danej aplikacji jest uruchomione jedno okno"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:185
 msgid "Color of unfocused running indicator (2 windows)"
-msgstr "Kolor nieskupionego wskaźnika uruchomionych programów (2 okna)"
+msgstr "Kolor wskaźnika drugoplanowych uruchomionych programów (2 okna)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:186
 msgid ""
 "Customize the color of the unfocused running indicator when two windows are "
 "running for that application"
 msgstr ""
-"Dostosuj kolor nieskupionego wskaźnika uruchomionych programów, gdy dla "
-"danej aplikacji są uruchomione dwa okna"
+"Dostosuj kolor wskaźnika drugoplanowych programów, gdy dla danej aplikacji "
+"są uruchomione dwa okna"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:190
 msgid "Color of unfocused running indicator (3 windows)"
-msgstr "Kolor nieskupionego wskaźnika uruchomionych programów (3 okna)"
+msgstr "Kolor wskaźnika drugoplanowych uruchomionych programów (3 okna)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:191
 msgid ""
 "Customize the color of the unfocused running indicator when three windows "
 "are running for that application"
 msgstr ""
-"Dostosuj kolor nieskupionego wskaźnika uruchomionych programów, gdy dla "
+"Dostosuj kolor wskaźnika drugoplanowych uruchomionych programów, gdy dla "
 "danej aplikacji są uruchomione trzy okna"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:195
 msgid "Color of unfocused running indicator (4+ windows)"
-msgstr "Kolor nieskupionego wskaźnika uruchomionych programów (4+ okien)"
+msgstr "Kolor wskaźnika drugoplanowych uruchomionych programów (4+ okien)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:196
 msgid ""
 "Customize the color of the unfocused running indicator when four or more "
 "windows are running for that application"
 msgstr ""
-"Dostosuj kolor nieskupionego wskaźnika uruchomionych programów, gdy dla "
+"Dostosuj kolor wskaźnika drugoplanowych uruchomionych programów, gdy dla "
 "danej aplikacji są uruchomione cztery lub więcej okien"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:200
@@ -280,13 +282,13 @@ msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:205
 msgid "Highlight icon of focused application"
-msgstr "Podświetl ikonę skupionej aplikacji"
+msgstr "Podświetl ikonę pierwszoplanowego programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:206
 msgid ""
 "Whether to highlight the background of the currently focused application's "
 "icon"
-msgstr "Podświetlenie tła ikony aktualnie skupionej aplikacji"
+msgstr "Podświetlenie tła ikony aktualnego pierwszoplanowego programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:210
 msgid "Highlight icon dominant color"
@@ -294,23 +296,23 @@ msgstr "Podświetl dominujący kolor ikony"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:211
 msgid "Base the active window highlight color on that application's icon"
-msgstr "Oprzyj kolor podświetlenia aktywnego okna na ikonie tej aplikacji"
+msgstr "Oparcie koloru podświetlenia aktywnego okna na ikonie tego programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:215
 msgid "Color of highlight of focused application"
-msgstr "Kolor podświetlenia skupionej aplikacji"
+msgstr "Kolor podświetlenia programu pierwszoplanowego"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:216
 msgid "Customize the color of the highlight of the focused application"
-msgstr "Dostosuj kolor podświetlenia skupionej aplikacji"
+msgstr "Dostosuj kolor podświetlenia pierwszoplanowego programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:220
 msgid "Opacity of highlight of focused application"
-msgstr "Przezroczystość podświetlenia skupionej aplikacji"
+msgstr "Przezroczystość podświetlenia programu pierwszoplanowego"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:221
 msgid "Customize the opacity of the highlight of the focused application"
-msgstr "Dostosuj przezroczystość podświetlenia skupionej aplikacji"
+msgstr "Dostosuj przezroczystość podświetlenia pierwszoplanowej aplikacji"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:225
 msgid "Keep dash"
@@ -318,7 +320,7 @@ msgstr "Zachowaj panel"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:226
 msgid "Whether to keep the stock gnome-shell dash while in overview"
-msgstr "Zachowuj domyślny panel gnome-shell podczas przeglądu"
+msgstr "Zachowuj domyślny panel powłoki GNOME podczas przeglądu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:230
 msgid "Keep top panel"
@@ -326,7 +328,7 @@ msgstr "Zachowaj górny panel"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:231
 msgid "Whether to keep the stock gnome-shell top panel"
-msgstr "Zachowaj domyślny górny panel gnome-shell"
+msgstr "Zachowaj domyślny górny panel powłoki GNOME"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:235
 msgid "Panel menu buttons require click"
@@ -339,11 +341,11 @@ msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:240
 msgid "Force hot corner"
-msgstr "Wymuś aktywny róg"
+msgstr "Wymuś gorący róg"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:241
 msgid "Wheter to force having an Activities hot corner on the primary monitor"
-msgstr "Wymuszaj aktywny róg \"Czynności\" na głównym monitorze"
+msgstr "Wymuś posiadanie aktywnego rogu Aktywności na monitorze głównym"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:245
 msgid "Lock the taskbar"
@@ -363,11 +365,11 @@ msgstr "Marginesy boczne panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:258
 msgid "Panel top and bottom padding"
-msgstr "Dopełnienie górne i dolne panelu"
+msgstr "Wypełnienie górne i dolne panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:262
 msgid "Panel sides padding"
-msgstr "Dopełnienie boczne panelu"
+msgstr "Wypełnienie boków panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:266
 msgid "Override theme background color"
@@ -417,7 +419,8 @@ msgstr "Odległość zmiany przezroczystości"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:297
 msgid "The distance a window needs to be from the panel to change opacity"
-msgstr "Odległość okna od panelu dla zmienić przezroczystość"
+msgstr ""
+"Odległość, jaką okno musi osiągnąć od panelu, aby zmienić przezroczystość"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:301
 msgid "Modified panel opacity"
@@ -490,7 +493,7 @@ msgstr "Ukrywaj tylko przed oknami"
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:342
 msgid "Dictates if the dash should only hide when in conflict with windows"
 msgstr ""
-"Określ, czy panel powinien ukrywać się tylko w przypadku konfliktu z oknami"
+"Określa, czy panel powinien być ukrywany tylko w przypadku kolizji z oknami"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:346
 msgid "Intellihide behaviour"
@@ -498,7 +501,7 @@ msgstr "Zachowanie inteligentnego ukrywania"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:347
 msgid "Dictates how to intelligently hide the panel"
-msgstr "Określ, jak inteligentnie ukrywać panel"
+msgstr "Określa, jak inteligentnie ukrywać panel"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:351
 msgid "Intellihide pressure"
@@ -530,13 +533,13 @@ msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:366
 msgid "Allow revealing the panel while in fullscreen"
-msgstr "Zezwalaj na odsłanianie panelu w trybie pełnoekranowym"
+msgstr "Zezwalaj na ujawnienie panelu w trybie pełnoekranowym"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:367
 msgid ""
 "Allow the panel to be revealed while an application is in fullscreen mode"
 msgstr ""
-"Zezwalaj na odsłanianie panelu, gdy aplikacja jest w trybie pełnoekranowym"
+"Zezwalaj na ujawnienie panelu, gdy program jest w trybie pełnoekranowym"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:371
 msgid "Reveal the panel on notification"
@@ -556,7 +559,7 @@ msgstr "Czas trwania animacji inteligentnego ukrywania"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:381
 msgid "The animation time (ms) to hide and reveal the panel"
-msgstr "Czas trwania animacji (ms) ukrywania i odsłaniania panelu"
+msgstr "Czas animacji (ms) ukrywania i odkrywania panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:385
 msgid "Intellihide close delay"
@@ -601,7 +604,7 @@ msgstr "Dostosuj ikonę Pokaż programy"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:414
 msgid "Show Applications icon side padding"
-msgstr "Odstęp ikony Pokaż programy od krawędzi"
+msgstr "Wypełnienie boczne ikony Pokaż programy"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:415
 msgid "Customize the Show Applications icon side padding"
@@ -698,7 +701,7 @@ msgstr "Pokaż podgląd okna"
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:470
 msgid "Show preview of running window on hover of app icon"
 msgstr ""
-"Pokaż podgląd uruchomionego okna po najechaniu kursorem na ikonę aplikacji"
+"Pokaż podgląd uruchomionego okna po najechaniu kursorem na ikonę programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:474
 msgid "Show tooltip"
@@ -706,7 +709,7 @@ msgstr "Pokaż etykietkę"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:475
 msgid "Show tooltip on hover of app icon"
-msgstr "Pokaż etykietkę po najechaniu kursorem na ikonę aplikacji"
+msgstr "Pokaż etykietkę po najechaniu kursorem na ikonę programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:479
 msgid "Show running apps"
@@ -714,27 +717,28 @@ msgstr "Pokaż uruchomione programy"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:480
 msgid "Show or hide running application icons in the dash"
-msgstr "Pokaż lub ukryj ikony uruchomionych aplikacji w panelu"
+msgstr "Pokaż lub ukryj ikony uruchomionych programów w panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:484
 msgid "Show favorites apps"
-msgstr "Pokaż ulubione aplikacje"
+msgstr "Pokaż ulubione programy"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:485
 msgid "Show or hide favorite application icons in the dash"
-msgstr "Pokaż lub ukryj ikony ulubionych aplikacji w panelu"
+msgstr "Pokaż lub ukryj ikony ulubionych programów w panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:489
 msgid "Icon enter display time"
-msgstr "Czas wejścia wyświetlania ikony"
+msgstr "Czas wyświetlania po najechaniu na ikonę"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:490
 msgid ""
 "Amount of time after entering icon to wait before displaying window preview "
 "if icon is not clicked or mouse has not left."
 msgstr ""
-"Czas oczekiwania po najechaniu kursorem na ikonę, zanim zostanie wyświetlony "
-"podgląd okna, jeśli ikona nie zostanie kliknięta lub kursor nie opuści ikony."
+"Czas oczekiwania po najechaniu na ikonę, zanim zostanie wyświetlony podgląd "
+"okna, jeśli ikona nie zostanie kliknięta lub kursor myszy nie opuścił "
+"obszaru ikony."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:494
 msgid "Enable peek mode"
@@ -810,19 +814,19 @@ msgstr "Określa czas animacji podglądu okien."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:539
 msgid "Font weight of window preview titles"
-msgstr "Waga czcionki tytułów podglądu okien"
+msgstr "Grubość czcionki tytułów podglądu okien"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:540
 msgid ""
 "This defines the font weight of window preview titles. Supported values: "
 "inherit (from theme), normal, lighter, bold and bolder."
 msgstr ""
-"Określa wagę czcionki tytułów podglądu okien. Obsługiwane wartości: inherit "
-"(z motywu), normalna, cieńsza, gruba i grubsza."
+"Określa grubość czcionki tytułów podglądu okien. Obsługiwane wartości: "
+"dziedzicz (z motywu), normalna, cieńsza, gruba i grubsza."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:544
 msgid "Window previews size"
-msgstr "Rozmiar podglądu okien"
+msgstr "Rozmiar podglądów okien"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:545
 msgid "Preferred window previews size"
@@ -846,11 +850,11 @@ msgstr "Określa, czy podgląd okien używa stałego współczynnika proporcji Y
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:559
 msgid "Window previews padding"
-msgstr "Dopełnienie podglądu okien"
+msgstr "Wypełnienie podglądów okien"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:560
 msgid "The padding of the window previews"
-msgstr "Dopełnienie podglądu okien"
+msgstr "Wypełnienie podglądów okien"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:564
 msgid "Aspect ratio X"
@@ -906,7 +910,7 @@ msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:594
 msgid "Group applications"
-msgstr "Grupuj programy"
+msgstr "Grupa programów"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:595
 msgid "Dash groups the application instances under the same icon"
@@ -921,12 +925,12 @@ msgid ""
 "When the applications are ungrouped, this defines the application titles "
 "font size."
 msgstr ""
-"Gdy aplikacje są rozgrupowane, definiuje rozmiar czcionki tytułów programów."
+"Gdy programy są rozgrupowane, definiuje rozmiar czcionki tytułów programów."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:604
 #: ui/BoxGroupAppsOptions.ui:47
 msgid "Font weight of application titles"
-msgstr "Waga czcionki tytułów programów"
+msgstr "Grubość czcionki tytułów programów"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:605
 msgid ""
@@ -934,13 +938,13 @@ msgid ""
 "titles. Supported values: inherit (from theme), normal, lighter, bold and "
 "bolder."
 msgstr ""
-"Gdy aplikacje są rozgrupowane, definiuje wagę czcionki tytułów aplikacji. "
+"Gdy programy są rozgrupowane, definiuje grubość czcionki tytułów aplikacji. "
 "Obsługiwane wartości: dziedzicz (z motywu), normalna, cieńsza, gruba i "
 "grubsza."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:609
 msgid "Application title font color"
-msgstr "Kolor czcionki tytułu aplikacji"
+msgstr "Kolor czcionki tytułu programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:610
 msgid ""
@@ -991,7 +995,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:629
 #: ui/BoxGroupAppsOptions.ui:129
 msgid "Display running indicators on unfocused applications"
-msgstr "Pokaż wskaźnik dla otwartych nieaktywnych okien"
+msgstr "Wyświetl wskaźnik dla otwartych okien drugoplanowych"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:630
 msgid ""
@@ -1003,7 +1007,7 @@ msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:634
 msgid "Use favorite icons as application launchers"
-msgstr "Używaj ulubionych ikon jako ikon uruchamiania programów"
+msgstr "Użyj ulubionych ikon jako uruchamiających programy"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:635
 msgid ""
@@ -1060,7 +1064,7 @@ msgstr "Dostosuj działanie w przypadku różnych zdarzeń myszy"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:664
 msgid "Minimize on shift+click"
-msgstr "Minimalizuj po naciśnięciu Shift+kliknięcie"
+msgstr "Minimalizuj po naciśnięciu Shift+kliknięcie myszą"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:668
 msgid "Activate only one window"
@@ -1090,7 +1094,7 @@ msgid ""
 "Set the action that is executed when shift+clicking on the icon of a running "
 "application"
 msgstr ""
-"Ustaw akcję wykonywaną po kliknięciu ikony uruchomionego rogramu z "
+"Ustaw akcję wykonywaną po kliknięciu ikony uruchomionego programu z "
 "wciśniętym klawiszem Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:683
@@ -1106,7 +1110,7 @@ msgid ""
 "Set the action that is executed when shift+middle-clicking on the icon of a "
 "running application"
 msgstr ""
-"Ustaw akcję wykonywaną po naciśnięciu shift+środkowy przycisk myszy na "
+"Ustaw akcję wykonywaną po naciśnięciu Shift+środkowy przycisk myszy na "
 "ikonie uruchomionego programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:692
@@ -1136,65 +1140,56 @@ msgid ""
 "the panel"
 msgstr ""
 "Wyświetlaj powiadomienie o zmianie obszaru roboczego, gdy obszar jest "
-"zmieniany przez przewijanie nad panelem."
+"zmieniany przez przewijanie nad panelem"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:729
-#, fuzzy
-#| msgid "Behavior when mouse scrolling over an application icon."
 msgid "Action when scrolling over a running app"
-msgstr "Zachowanie przewijania myszą nad ikoną programu."
+msgstr "Akcja podczas przewijania kursorem nad uruchomionym programem"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:730
-#, fuzzy
-#| msgid "Behaviour when clicking on the icon of a running application."
 msgid ""
 "Set the action that is executed when scrolling over a running application"
-msgstr "Zachowanie kliknięcia ikony aktywnego programu."
+msgstr ""
+"Ustaw akcję, która jest wykonywana podczas przewijania kursorem nad "
+"uruchomionym programem"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:734
-#, fuzzy
-#| msgid "Delay between mouse scroll events (ms)"
 msgid "Delay between icon mouse scroll events"
-msgstr "Opóźnienie między przewijaniem myszą (ms)"
+msgstr "Opóźnienie między zdarzeniami przewijania myszą nad ikoną"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:735
-#, fuzzy
-#| msgid "Delay between mouse scroll events (ms)"
 msgid "Set the minimum delay between icon mouse scroll events"
-msgstr "Opóźnienie między przewijaniem myszą (ms)"
+msgstr ""
+"Ustaw minimalne opóźnienie między zdarzeniami przewijania myszą nad ikoną"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:739
 msgid "Icon leave preview timeout"
-msgstr ""
+msgstr "Limit czasu podglądu po opuszczeniu ikony"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:740
 msgid ""
 "Amount of time to leave preview windows open when the mouse has left the "
 "application's icon."
 msgstr ""
+"Czas, przez jaki okna podglądu pozostaną otwarte po opuszczeniu ikony "
+"aplikacji przez kursor myszy."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:744
-#, fuzzy
-#| msgid "Enter window peeking mode timeout (ms)"
 msgid "Enter window peeking mode timeout"
-msgstr "Opóźnienie wyświetlania (ms)"
+msgstr "Limit czasu wejścia w tryb podglądu okna"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:745
-#, fuzzy
-#| msgid ""
-#| "Time of inactivity while hovering over a window preview needed to enter "
-#| "the window peeking mode."
 msgid ""
 "Amount of time of inactivity to enter the window peeking mode when the mouse "
 "has entered a window preview."
 msgstr ""
-"Czas opóźnienia, po którym wyświetlony zostanie podgląd okien otwartych "
-"programów."
+"Czas bezczynności potrzebny do przejścia w tryb podglądu okna po najechaniu "
+"kursorem myszy na podgląd okna."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:749
 #: ui/BoxWindowPreviewOptions.ui:466
 msgid "Window peeking mode opacity"
-msgstr "Przeźroczystość podglądów"
+msgstr "Przezroczystość trybu podglądu okna"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:750
 #: ui/BoxWindowPreviewOptions.ui:467
@@ -1205,619 +1200,629 @@ msgstr ""
 "Wszystkie okna, za wyjątkiem okna głównego, mają tą samą przeźroczystość."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:754
-#, fuzzy
-#| msgid "Middle click to close window"
 msgid "Middle click preview to close window"
-msgstr "Zamknięcie okna poprzez kliknięcie środkowego przycisku"
+msgstr "Zamknięcie podglądu poprzez kliknięcie środkowego przycisku"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:755
-#, fuzzy
-#| msgid "Middle click on the preview to close the window"
 msgid "Middle click on the window preview to close that window"
 msgstr ""
-"Kliknięcie środkowego przycisku myszy na podglądzie zamyka okno programu"
+"Kliknięcie środkowym przyciskiem myszy na podglądzie okna powoduje "
+"zamknięcie tego okna"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:759
-#, fuzzy
-#| msgid "Window previews aspect ratio X (width)"
 msgid "Window previews use custom opacity"
-msgstr "Proporcje podglądu okna X (szerokość)"
+msgstr "Podglądy okien używają niestandardowej przezroczystości."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:760
-#, fuzzy
-#| msgid ""
-#| "If disabled, the previews background have the same opacity as the panel."
 msgid "Window previews background use a different opacity from the panel"
-msgstr ""
-"Jeśli wyłączone, podgląd okna będzie mieć taką samą przeźroczystość jak panel"
+msgstr "Tło podglądów okien używa innej przezroczystości niż panel"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:764
-#, fuzzy
-#| msgid "Window peeking mode opacity"
 msgid "Window previews background opacity"
-msgstr "Przeźroczystość podglądów"
+msgstr "Przezroczystość tła podglądów okien"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:765
-#, fuzzy
-#| msgid "Override panel theme background opacity"
 msgid "Window previews use this custom background opacity."
-msgstr "Zastąp przeźroczystość tła panelu"
+msgstr "Podglądy okien używają tej niestandardowej przezroczystości tła."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:769
-#, fuzzy
-#| msgid "Tray Font Size"
 msgid "Tray font size"
 msgstr "Rozmiar czcionki zasobnika"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:770
 msgid "Set the size of the tray font. (0 for default)"
-msgstr ""
+msgstr "Ustaw rozmiar czcionki zasobnika. (0 dla domyślnego)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:774
-#, fuzzy
-#| msgid "LeftBox Font Size"
 msgid "Leftbox font size"
-msgstr "Rozmiar czcionki lewej strony panelu"
+msgstr "Rozmiar czcionki lewego pola"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:775
 msgid "Set the size of the leftBox font. (0 for default)"
-msgstr ""
+msgstr "Ustaw rozmiar czcionki lewego pola. (0 dla domyślnego)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:779
 msgid "Border radius of panel elements"
-msgstr ""
+msgstr "Promień zaokrąglenia krawędzi elementów panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:783
-#, fuzzy
-#| msgid "App Icon Margin"
 msgid "App icon margin"
-msgstr "Odstęp między ikonami"
+msgstr "Margines ikony programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:784
 msgid "Set the margin for application icons in the embedded dash."
-msgstr ""
+msgstr "Ustaw margines ikon programów w osadzonym panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:788
-#, fuzzy
-#| msgid "App Icon Padding"
 msgid "App icon padding"
-msgstr "Wypełnienie ikony aplikacji"
+msgstr "Wypełnienie ikon programów"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:789
 msgid "Set the padding for application icons in the embedded dash."
-msgstr ""
+msgstr "Ustaw odstęp wewnętrzny ikon programów w osadzonym panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:793
-#, fuzzy
-#| msgid "Tray Item Padding"
 msgid "Tray item padding"
-msgstr "Odstęp elementów zasobnika"
+msgstr "Wypełnienie elementów zasobnika"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:794
 msgid "Set the size of the tray padding. (-1 for default)"
-msgstr ""
+msgstr "Ustaw odstęp wewnętrzny zasobnika. (-1 dla domyślnego)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:798
-#, fuzzy
-#| msgid "LeftBox Padding"
 msgid "Leftbox item padding"
-msgstr "Odstęp z lewej"
+msgstr "Wypełnienie elementów lewego pola"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:799
 msgid "Set the size of the leftBox padding. (-1 for default)"
-msgstr ""
+msgstr "Ustaw odstęp wewnętrzny lewego pola. (-1 dla domyślnego)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:803
-#, fuzzy
-#| msgid "Status Icon Padding"
 msgid "Status icon padding"
-msgstr "Odstęp ikon stanu"
+msgstr "Wypełnienie ikony stanu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:804
 msgid ""
 "Set the size of the aggregate (status) menu icon padding. (-1 for default)"
 msgstr ""
+"Ustaw odstęp wewnętrzny ikony menu zbiorczego (stanu). (-1 dla domyślnego)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:808
-#, fuzzy
-#| msgid "Display running indicators on unfocused applications"
 msgid "Animate running indicator when open/closing/switching applications"
-msgstr "Pokaż wskaźnik dla otwartych nieaktywnych okien"
+msgstr ""
+"Animuj wskaźnik uruchomienia podczas otwierania/zamykania/przełączania "
+"programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:812
-#, fuzzy
-#| msgid "Animate launching new windows"
 msgid "Animate when new window launched"
-msgstr "Animuj uruchamianie nowych programów"
+msgstr "Animuj przy uruchamianiu nowego okna"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:816
-#, fuzzy
-#| msgid "Animate hovering app icons"
 msgid "Animate app icon on hover"
-msgstr "Animuj podnoszenie ikon aplikacji"
+msgstr "Animuj ikonę aplikacji po najechaniu kursorem"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:820
-#, fuzzy
-#| msgid "App icon animation options"
 msgid "App icon hover animation type"
-msgstr "Opcje animowania ikon"
+msgstr "Typ animacji ikony programu po najechaniu kursorem"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:824
 msgid ""
 "App icon hover animation curve convexity (1 is linear, more is convex, less "
 "is concave)"
 msgstr ""
+"Wypukłość krzywej animacji najechania kursorem na ikonę programu (1 to "
+"liniowa, więcej to wypukła, mniej to wklęsła)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:828
-#, fuzzy
-#| msgid "App icon animation options"
 msgid "App icon hover animation duration in milliseconds"
-msgstr "Opcje animowania ikon"
+msgstr ""
+"Czas trwania animacji ikony programu po najechaniu kursorem w milisekundach"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:832
 msgid "App icon hover animation extent (maximum number of animated icons)"
 msgstr ""
+"Zasięg animacji ikony programu po najechaniu kursorem (maksymalna liczba "
+"animowanych ikon)"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:836
-#, fuzzy
-#| msgid "App icon animation options"
 msgid "App icon hover animation rotation in degrees"
-msgstr "Opcje animowania ikon"
+msgstr "Obrót ikony programu po najechaniu kursorem w stopniach"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:840
 msgid ""
 "App icon hover animation travel translation in relation to the app icon size"
 msgstr ""
+"Przesunięcie animacji najechania kursorem na ikonę programu w odniesieniu do "
+"rozmiaru ikony programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:844
 msgid "App icon hover animation zoom scale in relation to the app icon size"
 msgstr ""
+"Skala powiększenia animacji najechania kursorem na ikonę programu w "
+"odniesieniu do rozmiaru ikony programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:848
-#, fuzzy
-#| msgid "Highlight color"
 msgid "Highlight app icon on hover"
-msgstr "Kolor podświetlenia"
+msgstr "Podświetl ikonę programu po najechaniu kursorem."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:852
 msgid "Highlight color"
 msgstr "Kolor podświetlenia"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:856
-#, fuzzy
-#| msgid "Highlight color"
 msgid "Mouse down highlight color"
-msgstr "Kolor podświetlenia"
+msgstr "Kolor podświetlenia przy naciśnięciu myszy"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:860
-#, fuzzy
-#| msgid "Highlight opacity"
 msgid "Highlight border radius"
-msgstr "Przeźroczystość podświetlenia"
+msgstr "Promień zaokrąglenia obramowania podświetlenia"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:864
 msgid "Integrate items from the gnome appmenu into the right click menu"
 msgstr ""
+"Zintegruj elementy z menu programu GNOME z menu prawego przycisku myszy"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:868
 msgid "Display App Details to open Gnome Software from right click menu"
 msgstr ""
+"Wyświetlaj szczegóły programu, aby otworzyć Oprogramowanie GNOME z menu "
+"prawego przycisku myszy"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:872
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:877
 msgid "Keybinding to show the dock and the number overlay."
-msgstr ""
+msgstr "Skrót klawiszowy do wyświetlenia doku i nakładki z numerami."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:873
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:878
 msgid "Behavior depends on hotkeys-show-dock and hotkeys-overlay."
 msgstr ""
+"Zachowanie zależy od ustawień skrótów klawiszowych \"hotkeys-show-dock\" i "
+"\"hotkeys-overlay\"."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:882
 msgid ""
 "Timeout to hide the panel after showing the overlay using the shortcut, in "
 "seconds"
 msgstr ""
+"Czas oczekiwania na ukrycie panelu po wyświetleniu nakładki za pomocą skrótu "
+"klawiszowego, w sekundach"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:886
 msgid "Timeout to hide the dock, in seconds"
-msgstr ""
+msgstr "Czas oczekiwania na ukrycie doku, w sekundach"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:887
 msgid "Sets the time duration before the dock is hidden again."
-msgstr ""
+msgstr "Ustawia czas, po którym dok zostanie ponownie ukryty."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:891
 msgid "Transitivity of the number overlay"
-msgstr ""
+msgstr "Transaktywność nakładki z numerami"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:892
 msgid "You can choose between NEVER, TEMPORARILY and ALWAYS."
-msgstr ""
+msgstr "Możesz wybrać pomiędzy NIGDY, TYMCZASOWO i ZAWSZE."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:896
 msgid "Super Hot-Keys"
-msgstr ""
+msgstr "Skróty klawiszowe z Super"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:897
 msgid "Launch and switch between dash items using Super+(0-9)"
 msgstr ""
+"Uruchamiaj i przełączaj się między elementami panelu za pomocą Super+(0-9)."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:901
 msgid "Prefix to use for hotkeys"
-msgstr ""
+msgstr "Prefiks do użycia dla skrótów klawiszowych"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:902
 msgid "You can choose between Super or SuperAlt as the prefix for hotkeys."
 msgstr ""
+"Możesz wybrać pomiędzy Super lub Super+Alt jako prefiks dla skrótów "
+"klawiszowych."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:906
-#, fuzzy
-#| msgid "Show favorite applications on secondary panels"
 msgid "Show overlay on secondary monitors"
-msgstr "Pokaż ulubione programy na dodatkowym panelu"
+msgstr "Pokaż nakładkę na dodatkowym monitorze"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:910
-#, fuzzy
-#| msgid "Show window previews on hover"
 msgid "Show window previews"
-msgstr "Pokaż podgląd okna po najechaniu myszą"
+msgstr "Pokaż podglądy okien"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:911
 msgid ""
 "When multiple instances of the application are available, show their window "
 "previews"
 msgstr ""
+"Gdy dostępnych jest wiele instancji programu, wyświetl ich podglądy okien"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:915
-#, fuzzy
-#| msgid "Hotkeys prefix"
 msgid "Hotkeys number keys"
-msgstr "Prefiks dla skrótów klawiszowych"
+msgstr "Klawisze numeryczne skrótów klawiszowych"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:916
-#, fuzzy
-#| msgid "Select which keyboard number keys are used to activate the hotkeys"
 msgid "Which number keys are used for the hotkeys"
-msgstr ""
-"Zaznacz które klawisze cyfr mają być używane do aktywacji skrótów "
-"klawiszowych"
+msgstr "Klawisze numeryczne są używane do skrótów klawiszowych"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:920
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1130
 msgid "Keybinding to launch 1st dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 1. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:921
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1131
 msgid "Keybinding to launch 1st app."
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 1. programu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:927
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1137
 msgid "Keybinding to launch 2nd dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 2. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:928
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1138
 msgid "Keybinding to launch 2nd app."
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 2. programu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:934
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1144
 msgid "Keybinding to launch 3rd dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 3 programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:935
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1145
 msgid "Keybinding to launch 3rd app."
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 3. programu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:941
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1151
 msgid "Keybinding to launch 4th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 4. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:942
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1152
 msgid "Keybinding to launch 4th app."
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 4. programu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:948
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1158
 msgid "Keybinding to launch 5th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 5. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:949
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1159
 msgid "Keybinding to launch 5th app."
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 5. programu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:955
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1165
 msgid "Keybinding to launch 6th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 5. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:956
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1166
 msgid "Keybinding to launch 6th app."
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 6. programu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:962
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1172
 msgid "Keybinding to launch 7th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 7. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:963
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1173
 msgid "Keybinding to launch 7th app."
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 7. programu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:969
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1179
 msgid "Keybinding to launch 8th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 8. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:970
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1180
 msgid "Keybinding to launch 8th app."
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 8. programu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:976
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1186
 msgid "Keybinding to launch 9th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 9. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:977
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1187
 msgid "Keybinding to launch 9th app."
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 9. programu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:983
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1193
 msgid "Keybinding to launch 10th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 10. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:984
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1194
 msgid "Keybinding to launch 10th app."
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 10. programu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:990
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1200
 msgid "Keybinding to trigger 1st dash app with shift behavior"
 msgstr ""
+"Skrót klawiszowy do uruchomienia 1. programu z panelu z zachowaniem klawisza "
+"Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:991
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1201
 msgid "Keybinding to trigger 1st app with shift behavior."
 msgstr ""
+"Skrót klawiszowy do uruchomienia 1. programu z zachowaniem klawisza Shift."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:997
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1207
 msgid "Keybinding to trigger 2nd dash app with shift behavior"
 msgstr ""
+"Skrót klawiszowy do uruchomienia 2. programu z panelu z zachowaniem klawisza "
+"Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:998
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1208
 msgid "Keybinding to trigger 2nd app with shift behavior."
 msgstr ""
+"Skrót klawiszowy do uruchomienia 2. programu z zachowaniem klawisza Shift."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1004
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1214
 msgid "Keybinding to trigger 3rd dash app with shift behavior"
 msgstr ""
+"Skrót klawiszowy do uruchomienia 3. programu z panelu z zachowaniem klawisza "
+"Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1005
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1215
 msgid "Keybinding to trigger 3rd app with shift behavior."
 msgstr ""
+"Skrót klawiszowy do uruchomienia 3. programu z zachowaniem klawisza Shift."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1011
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1221
 msgid "Keybinding to trigger 4th dash app with shift behavior"
 msgstr ""
+"Skrót klawiszowy do uruchomienia 4. programu z panelu z zachowaniem klawisza "
+"Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1012
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1222
 msgid "Keybinding to trigger 4th app with shift behavior."
 msgstr ""
+"Skrót klawiszowy do uruchomienia 4. programu z zachowaniem klawisza Shift."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1018
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1228
 msgid "Keybinding to trigger 5th dash app with shift behavior"
 msgstr ""
+"Skrót klawiszowy do uruchomienia 5. programu z panelu z zachowaniem klawisza "
+"Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1019
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1229
 msgid "Keybinding to trigger 5th app with shift behavior."
 msgstr ""
+"Skrót klawiszowy do uruchomienia 5. programu z zachowaniem klawisza Shift."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1025
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1235
 msgid "Keybinding to trigger 6th dash app with shift behavior"
 msgstr ""
+"Skrót klawiszowy do uruchomienia 6. programu z panelu z zachowaniem klawisza "
+"Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1026
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1236
 msgid "Keybinding to trigger 6th app with shift behavior."
 msgstr ""
+"Skrót klawiszowy do uruchomienia 6. programu z zachowaniem klawisza Shift."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1032
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1242
 msgid "Keybinding to trigger 7th dash app with shift behavior"
 msgstr ""
+"Skrót klawiszowy do uruchomienia 7. programu z panelu z zachowaniem klawisza "
+"Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1033
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1243
 msgid "Keybinding to trigger 7th app with shift behavior."
 msgstr ""
+"Skrót klawiszowy do uruchomienia 7. programu z zachowaniem klawisza Shift."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1039
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1249
 msgid "Keybinding to trigger 8th dash app with shift behavior"
 msgstr ""
+"Skrót klawiszowy do uruchomienia 8. programu z panelu z zachowaniem klawisza "
+"Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1040
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1250
 msgid "Keybinding to trigger 8th app with shift behavior."
 msgstr ""
+"Skrót klawiszowy do uruchomienia 8. programu z zachowaniem klawisza Shift."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1046
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1256
 msgid "Keybinding to trigger 9th dash app with shift behavior"
 msgstr ""
+"Skrót klawiszowy do uruchomienia 9. programu z panelu z zachowaniem klawisza "
+"Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1047
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1257
 msgid "Keybinding to trigger 9th app with shift behavior."
 msgstr ""
+"Skrót klawiszowy do uruchomienia 9. programu z zachowaniem klawisza Shift."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1053
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1263
 msgid "Keybinding to trigger 10th dash app with shift behavior"
 msgstr ""
+"Skrót klawiszowy do uruchomienia 10. programu z panelu z zachowaniem "
+"klawisza Shift"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1054
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1264
 msgid "Keybinding to trigger 10th app with shift behavior."
 msgstr ""
+"Skrót klawiszowy do uruchomienia 10. programu z zachowaniem klawisza Shift."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1060
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1270
 msgid "Keybinding to trigger 1st dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 1. programu z panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1061
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1271
 msgid "Keybinding to either show or launch the 1st application in the dash."
 msgstr ""
+"Skrót klawiszowy do wyświetlenia lub uruchomienia 1. programu w panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1067
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1277
 msgid "Keybinding to trigger 2nd dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 2. programu z panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1068
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1278
 msgid "Keybinding to either show or launch the 2nd application in the dash."
 msgstr ""
+"Skrót klawiszowy do wyświetlenia lub uruchomienia 2. programu w panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1074
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1284
 msgid "Keybinding to trigger 3rd dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 3. programu z panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1075
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1285
 msgid "Keybinding to either show or launch the 3rd application in the dash."
 msgstr ""
+"Skrót klawiszowy do wyświetlenia lub uruchomienia 3. programu w panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1081
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1291
 msgid "Keybinding to trigger 4th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 4. programu z panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1082
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1292
 msgid "Keybinding to either show or launch the 4th application in the dash."
 msgstr ""
+"Skrót klawiszowy do wyświetlenia lub uruchomienia 4. programu w panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1088
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1298
 msgid "Keybinding to trigger 5th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 5. programu z panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1089
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1299
 msgid "Keybinding to either show or launch the 5th application in the dash."
 msgstr ""
+"Skrót klawiszowy do wyświetlenia lub uruchomienia 5. programu w panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1095
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1305
 msgid "Keybinding to trigger 6th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 6. programu z panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1096
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1306
 msgid "Keybinding to either show or launch the 6th application in the dash."
 msgstr ""
+"Skrót klawiszowy do wyświetlenia lub uruchomienia 6. programu w panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1102
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1312
 msgid "Keybinding to trigger 7th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 7. programu z panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1103
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1313
 msgid "Keybinding to either show or launch the 7th application in the dash."
 msgstr ""
+"Skrót klawiszowy do wyświetlenia lub uruchomienia 7. programu w panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1109
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1319
 msgid "Keybinding to trigger 8th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 8. programu z panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1110
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1320
 msgid "Keybinding to either show or launch the 8th application in the dash."
 msgstr ""
+"Skrót klawiszowy do wyświetlenia lub uruchomienia 8. programu w panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1116
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1326
 msgid "Keybinding to trigger 9th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 9. programu z panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1117
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1327
 msgid "Keybinding to either show or launch the 9th application in the dash."
 msgstr ""
+"Skrót klawiszowy do wyświetlenia lub uruchomienia 9. programu w panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1123
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1333
 msgid "Keybinding to trigger 10th dash app"
-msgstr ""
+msgstr "Skrót klawiszowy do uruchomienia 10. programu z panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1124
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1334
 msgid "Keybinding to either show or launch the 10th application in the dash."
 msgstr ""
+"Skrót klawiszowy do wyświetlenia lub uruchomienia 10. programu w panelu."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1340
 msgid "Show progress bar on app icon"
-msgstr ""
+msgstr "Wyświetlaj pasek postępu na ikonie programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1341
 msgid ""
 "Whether to show progress bar overlay on app icon, for supported applications."
 msgstr ""
+"Wyświetlanie nakładki paska postępu na ikonie programu dla obsługiwanych "
+"programów."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1345
-#, fuzzy
-#| msgid "Show running applications"
 msgid "Show badge count on app icon"
-msgstr "Pokaż uruchomione programy"
+msgstr "Pokaż licznik na ikonie programu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1346
 msgid ""
 "Whether to show badge count overlay on app icon, for supported applications."
 msgstr ""
+"Wyświetlanie nakładki z liczbą plakietki na ikonie programu dla "
+"obsługiwanych programów."
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1350
 msgid "The preferences page name to display"
-msgstr ""
+msgstr "Nazwa strony preferencji do wyświetlenia"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1354
 msgid "Track if the preferences window is opened"
-msgstr ""
+msgstr "Śledź, czy okno preferencji jest otwarte"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1358
 msgid "Unix time when the donate icon was hidden"
-msgstr ""
+msgstr "Czas uniksowy, kiedy ikona darowizny została ukryta"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1362
 msgid "Installed extension version"
-msgstr ""
+msgstr "Zainstalowana wersja rozszerzenia"
 
 #: src/appIcons.js:1912 src/appIcons.js:1929 ui/BoxMiddleClickOptions.ui:33
 #: ui/BoxMiddleClickOptions.ui:62 ui/BoxMiddleClickOptions.ui:91
@@ -1828,9 +1833,9 @@ msgstr "Zakończ"
 #, javascript-format
 msgid "Quit %d Window"
 msgid_plural "Quit %d Windows"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Zamknij %d okno"
+msgstr[1] "Zamknij %d okna"
+msgstr[2] "Zamknij %d okien"
 
 #: src/appIcons.js:2254
 msgid "Power options"
@@ -1861,14 +1866,12 @@ msgid "Lock taskbar"
 msgstr "Zablokuj pasek zadań"
 
 #: src/appIcons.js:2316
-#, fuzzy
-#| msgid "Settings"
 msgid "Gnome Settings"
-msgstr "Ustawienia"
+msgstr "Ustawienia GNOME"
 
 #: src/appIcons.js:2320
 msgid "Dash to Panel Settings"
-msgstr "Ustawienia panela"
+msgstr "Ustawienia panelu"
 
 #: src/appIcons.js:2327
 msgid "Restore Windows"
@@ -1879,18 +1882,16 @@ msgid "Show Desktop"
 msgstr "Pokaż pulpit"
 
 #: src/extension.js:92
-#, fuzzy
-#| msgid "Dash to Panel Settings"
 msgid "Dash to Panel has been updated!"
-msgstr "Ustawienia panela"
+msgstr "Panel został zaktualizowany!"
 
 #: src/extension.js:99
 msgid "See what's new"
-msgstr ""
+msgstr "Zobacz, co nowego"
 
 #: src/panel.js:210
 msgid "Top Bar"
-msgstr ""
+msgstr "Górny pasek"
 
 #: src/prefs.js:275
 msgid "Show Desktop button height (px)"
@@ -1936,11 +1937,11 @@ msgstr "Koniec"
 
 #: src/prefs.js:484
 msgid "Show Applications button"
-msgstr "Aplikacje"
+msgstr "Pokaż programy"
 
 #: src/prefs.js:485
 msgid "Activities button"
-msgstr "Podgląd"
+msgstr "Przycisk aktywności"
 
 #: src/prefs.js:486
 msgid "Taskbar"
@@ -1956,19 +1957,19 @@ msgstr "Menu systemowe"
 
 #: src/prefs.js:489
 msgid "Left box"
-msgstr "Elementy po lewej"
+msgstr "Lewe pole"
 
 #: src/prefs.js:490
 msgid "Center box"
-msgstr "Elementy po środku"
+msgstr "Środkowe pole"
 
 #: src/prefs.js:491
 msgid "Right box"
-msgstr "Elementy po prawej"
+msgstr "Prawe pole"
 
 #: src/prefs.js:492
 msgid "Desktop button"
-msgstr "Podgląd pulpitu"
+msgstr "Pokaż pulpit"
 
 #: src/prefs.js:502 src/prefs.js:2788
 msgid "Move up"
@@ -1984,7 +1985,7 @@ msgstr "Pokaż"
 
 #: src/prefs.js:514
 msgid "Select element position"
-msgstr "Wybierz położenie"
+msgstr "Wybierz położenie elementu"
 
 #: src/prefs.js:528
 msgid "Stacked to top"
@@ -2028,7 +2029,7 @@ msgstr "Wybierz ikonę"
 
 #: src/prefs.js:708
 msgid "Show Desktop options"
-msgstr "Pokaż opcje pulpitu"
+msgstr "Opcje Pokaż pulpit"
 
 #: src/prefs.js:800
 msgid "Primary monitor"
@@ -2064,23 +2065,23 @@ msgstr "Dostosuj działanie środkowego przycisku myszy"
 
 #: src/prefs.js:2763
 msgid "Text"
-msgstr ""
+msgstr "Tekst"
 
 #: src/prefs.js:2772
 msgid "Command"
-msgstr ""
+msgstr "Polecenie"
 
 #: src/prefs.js:2804
 msgid "Remove"
-msgstr ""
+msgstr "Usuń"
 
 #: src/prefs.js:2832
 msgid "Customize panel scroll behavior"
-msgstr "Dostosuj reakcję na przewijanie panelu"
+msgstr "Dostosuj reakcję na przewijanie nad panelem"
 
 #: src/prefs.js:2878
 msgid "Customize icon scroll behavior"
-msgstr "Dostosuj reakcję na przewijanie po ikonach"
+msgstr "Dostosuj reakcję na przewijanie nad ikoną"
 
 #: src/prefs.js:3002
 msgid "Advanced hotkeys options"
@@ -2120,13 +2121,11 @@ msgstr[2] "%d ikon"
 
 #: src/prefs.js:3387
 msgid "App icon animation options"
-msgstr "Opcje animowania ikon"
+msgstr "Opcje animowania ikony programu"
 
 #: src/prefs.js:3510
-#, fuzzy
-#| msgid "App icon animation options"
 msgid "App icon highlight options"
-msgstr "Opcje animowania ikon"
+msgstr "Opcje podświetlania ikony programu"
 
 #: src/prefs.js:3599
 msgid "Export settings"
@@ -2137,28 +2136,24 @@ msgid "Import settings"
 msgstr "Importuj ustawienia"
 
 #: src/taskbar.js:66
-#, fuzzy
-#| msgid "App icon animation options"
 msgid "Donation options"
-msgstr "Opcje animowania ikon"
+msgstr "Opcje dotacji"
 
 #: src/taskbar.js:79
 msgid "Thank you!"
-msgstr ""
+msgstr "Dziękuję!"
 
 #: src/taskbar.js:79
 msgid "Please donate :)"
-msgstr ""
+msgstr "Proszę o darowiznę :)"
 
 #: src/windowPreview.js:1130
-#, fuzzy
-#| msgid "Isolate Workspaces"
 msgid "Move to current Workspace"
-msgstr "Niezależne obszary robocze"
+msgstr "Przenieś do bieżącego obszaru roboczego"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui:62
 msgid "Animation type"
-msgstr "Typ animacji (ms)"
+msgstr "Typ animacji"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui:67
 msgid "Simple"
@@ -2174,11 +2169,11 @@ msgstr "Mała fala"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui:84
 msgid "Duration"
-msgstr "Trwająca"
+msgstr "Czas trwania"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui:101
 msgid "Rotation"
-msgstr "Położenie"
+msgstr "Obrót"
 
 #: ui/BoxAnimateAppIconHoverOptions.ui:118
 msgid "Travel"
@@ -2198,27 +2193,27 @@ msgstr "Zakres"
 
 #: ui/BoxDotOptions.ui:37
 msgid "Highlight focused application"
-msgstr "Podświetlaj ikonę aktywnego programu"
+msgstr "Podświetlaj ikonę pierwszoplanowego programu"
 
 #: ui/BoxDotOptions.ui:54
 msgid "Icon dominant color"
-msgstr "Dominujący kolor ikon"
+msgstr "Dominujący kolor ikony"
 
 #: ui/BoxDotOptions.ui:65
 msgid "Custom color"
-msgstr "Własny kolor"
+msgstr "Niestandardowy kolor"
 
 #: ui/BoxDotOptions.ui:76
 msgid "Highlight opacity"
-msgstr "Przeźroczystość podświetlenia"
+msgstr "Przezroczystość podświetlenia"
 
 #: ui/BoxDotOptions.ui:96
 msgid "Indicator size (px)"
-msgstr "Wysokość wskaźnika (px)"
+msgstr "Rozmiar wskaźnika (px)"
 
 #: ui/BoxDotOptions.ui:109
 msgid "Indicator color - Icon Dominant"
-msgstr "Kolor wskaźnika - dominujący"
+msgstr "Kolor wskaźnika - dominujący z ikony"
 
 #: ui/BoxDotOptions.ui:126
 msgid "Indicator color - Override Theme"
@@ -2246,7 +2241,7 @@ msgstr "4 i więcej otwartych okien"
 
 #: ui/BoxDotOptions.ui:198
 msgid "Use different for unfocused"
-msgstr "Użyj innego dla nieaktywnych"
+msgstr "Użyj innego dla drugoplanowych"
 
 #: ui/BoxDynamicOpacityOptions.ui:37
 msgid "The panel background opacity is affected by"
@@ -2280,7 +2275,7 @@ msgstr "0"
 
 #: ui/BoxDynamicOpacityOptions.ui:82
 msgid "Opacity change animation duration (ms)"
-msgstr "Czas trwania animacji przeźroczystości (ms)"
+msgstr "Czas trwania animacji zmiany przezroczystości (ms)"
 
 #: ui/BoxGroupAppsOptions.ui:32
 msgid "Font size (px) of the application titles (default is 14)"
@@ -2308,15 +2303,15 @@ msgstr "grubsza"
 
 #: ui/BoxGroupAppsOptions.ui:65
 msgid "Font color of the application titles"
-msgstr "Kolor czcionki tytułów aplikacji"
+msgstr "Kolor czcionki tytułów programów"
 
 #: ui/BoxGroupAppsOptions.ui:77
 msgid "Font color of the minimized application titles"
-msgstr "Kolor czcionki zminimalizowanych aplikacji"
+msgstr "Kolor czcionki zminimalizowanego programu"
 
 #: ui/BoxGroupAppsOptions.ui:95
 msgid "Maximum width (px) of the application titles"
-msgstr "Maksymalna szerokość (px) tytułów"
+msgstr "Maksymalna szerokość (px) tytułów programów"
 
 #: ui/BoxGroupAppsOptions.ui:96
 msgid "(default is 160)"
@@ -2324,27 +2319,23 @@ msgstr "(Domyślnie 160)"
 
 #: ui/BoxGroupAppsOptions.ui:140
 msgid "Use the favorite icons as application launchers"
-msgstr "Użyj ulubionych ikon jako programów uruchamiających aplikacje"
+msgstr "Użyj ulubionych ikon jako uruchamiających programy"
 
 #: ui/BoxHighlightAppIconHoverOptions.ui:26
-#, fuzzy
-#| msgid "Highlight color"
 msgid "Highlight AppIcon color"
-msgstr "Kolor podświetlenia"
+msgstr "Kolor podświetlenia ikony programu"
 
 #: ui/BoxHighlightAppIconHoverOptions.ui:38
 msgid "Pressed AppIcon color"
-msgstr ""
+msgstr "Kolor naciśniętej ikony aplikacji"
 
 #: ui/BoxHighlightAppIconHoverOptions.ui:50
-#, fuzzy
-#| msgid "Highlight color"
 msgid "Highlight AppIcon border radius"
-msgstr "Kolor podświetlenia"
+msgstr "Promień zaokrąglenia krawędzi podświetlenia ikony programu"
 
 #: ui/BoxHighlightAppIconHoverOptions.ui:51
 msgid "Overrides global border radius (default is 0)"
-msgstr ""
+msgstr "Zastępuje globalny promień zaokrąglenia krawędzi (domyślnie 0)"
 
 #: ui/BoxIntellihideOptions.ui:47
 msgid "Only hide the panel when it is obstructed by windows"
@@ -2360,11 +2351,11 @@ msgstr "Wymagaj nacisku na krawędzi ekranu, aby odsłonić panel"
 
 #: ui/BoxIntellihideOptions.ui:86
 msgid "Required pressure threshold (px)"
-msgstr "Próg nacisku (px)"
+msgstr "Wymagany próg nacisku (px)"
 
 #: ui/BoxIntellihideOptions.ui:100
 msgid "Required pressure timeout (ms)"
-msgstr "Czas nacisku (ms)"
+msgstr "Wymagany limit czasu nacisku (ms)"
 
 #: ui/BoxIntellihideOptions.ui:118
 msgid "Allow the panel to be revealed while in fullscreen mode"
@@ -2372,17 +2363,15 @@ msgstr "Pozwól, na odsłanianie panela w trybie pełnoekranowym"
 
 #: ui/BoxIntellihideOptions.ui:128
 msgid "(requires multi-monitors option)"
-msgstr "(wymaga wielu monitorów)"
+msgstr "(wymaga opcji wielu monitorów)"
 
 #: ui/BoxIntellihideOptions.ui:129
 msgid "Only hide secondary panels"
 msgstr "Ukryj wyłącznie dodatkowe panele"
 
 #: ui/BoxIntellihideOptions.ui:139 ui/BoxOverlayShortcut.ui:65
-#, fuzzy
-#| msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
 msgid "Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
-msgstr "Składnia: <Shift>, <Ctrl>, <Alt>, <Super>"
+msgstr "Składnia: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
 
 #: ui/BoxIntellihideOptions.ui:140
 msgid "Keyboard shortcut to reveal and hold the panel"
@@ -2394,15 +2383,15 @@ msgstr "np. <Super>i"
 
 #: ui/BoxIntellihideOptions.ui:152
 msgid "Persist state across restarts"
-msgstr ""
+msgstr "Zachowaj stan po ponownym uruchomieniu"
 
 #: ui/BoxIntellihideOptions.ui:163
 msgid "Reveal and hold the panel on notification"
-msgstr ""
+msgstr "Odsłoń i przytrzymaj panel przy powiadomieniu"
 
 #: ui/BoxIntellihideOptions.ui:177
 msgid "Hide and reveal animation duration (ms)"
-msgstr "Czas trwania animacji ukrywania i odsłaniania (ms)"
+msgstr "Czas trwania animacji ukrywania i odkrywania (ms)"
 
 #: ui/BoxIntellihideOptions.ui:191
 msgid "Delay before hiding the panel (ms)"
@@ -2414,7 +2403,7 @@ msgstr "Opóźnienie przed aktywacją inteligentnego ukrywania (ms)"
 
 #: ui/BoxMiddleClickOptions.ui:19
 msgid "Shift+Click action"
-msgstr "Kliknięcie lewym przyciskiem + Shift"
+msgstr "Kliknięcie myszą + Shift"
 
 #: ui/BoxMiddleClickOptions.ui:20
 msgid ""
@@ -2427,17 +2416,17 @@ msgstr ""
 #: ui/BoxMiddleClickOptions.ui:25 ui/BoxMiddleClickOptions.ui:54
 #: ui/BoxMiddleClickOptions.ui:83 ui/SettingsAction.ui:40
 msgid "Raise windows"
-msgstr "Przywróć okna"
+msgstr "Podnieś okna"
 
 #: ui/BoxMiddleClickOptions.ui:26 ui/BoxMiddleClickOptions.ui:55
 #: ui/BoxMiddleClickOptions.ui:84
 msgid "Minimize window"
-msgstr "Zminimalizowanie okna"
+msgstr "Minimalizacja okna"
 
 #: ui/BoxMiddleClickOptions.ui:27 ui/BoxMiddleClickOptions.ui:56
 #: ui/BoxMiddleClickOptions.ui:85 ui/SettingsAction.ui:41
 msgid "Launch new instance"
-msgstr "Uruchomienie nowego okna"
+msgstr "Uruchomienie nowej instancji"
 
 #: ui/BoxMiddleClickOptions.ui:28 ui/BoxMiddleClickOptions.ui:57
 #: ui/BoxMiddleClickOptions.ui:86 ui/SettingsAction.ui:35
@@ -2447,7 +2436,7 @@ msgstr "Przełączanie między oknami"
 #: ui/BoxMiddleClickOptions.ui:29 ui/BoxMiddleClickOptions.ui:58
 #: ui/BoxMiddleClickOptions.ui:87 ui/SettingsAction.ui:34
 msgid "Cycle windows + minimize"
-msgstr "Przełączanie + zminimalizowanie okien"
+msgstr "Przełączanie + minimalizowanie okien"
 
 #: ui/BoxMiddleClickOptions.ui:30 ui/BoxMiddleClickOptions.ui:59
 #: ui/BoxMiddleClickOptions.ui:88 ui/SettingsAction.ui:36
@@ -2457,14 +2446,12 @@ msgstr "Przełącz pojedyncze / Podejrzyj wiele"
 #: ui/BoxMiddleClickOptions.ui:31 ui/BoxMiddleClickOptions.ui:60
 #: ui/BoxMiddleClickOptions.ui:89 ui/SettingsAction.ui:37
 msgid "Toggle single / Cycle multiple"
-msgstr "Przełącz pojedyncze / Podejrzyj wiele"
+msgstr "Przełącz pojedyncze / Przełącz wiele"
 
 #: ui/BoxMiddleClickOptions.ui:32 ui/BoxMiddleClickOptions.ui:61
 #: ui/BoxMiddleClickOptions.ui:90 ui/SettingsAction.ui:38
-#, fuzzy
-#| msgid "Toggle single / Preview multiple"
 msgid "Toggle single / Spread multiple"
-msgstr "Przełącz pojedyncze / Podejrzyj wiele"
+msgstr "Przełącz pojedyncze / Rozłóż wiele"
 
 #: ui/BoxMiddleClickOptions.ui:48
 msgid "Middle-Click action"
@@ -2472,11 +2459,11 @@ msgstr "Akcja środkowego przycisku"
 
 #: ui/BoxMiddleClickOptions.ui:49
 msgid "Behavior for Middle-Click."
-msgstr "Konfiguruje działanie kliknięcia środkowym przyciskiem."
+msgstr "Zachowanie środkowego przycisku myszy"
 
 #: ui/BoxMiddleClickOptions.ui:77
 msgid "Shift+Middle-Click action"
-msgstr "Kliknięcie środkowym przyciskiem + Shift"
+msgstr "Kliknięcie środkowym przyciskiem myszy + Shift"
 
 #: ui/BoxMiddleClickOptions.ui:78
 msgid "Behavior for Shift+Middle-Click."
@@ -2502,11 +2489,13 @@ msgstr "Super + Alt"
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
-msgstr "Podczas używania skrótów klawiszowych wyświetlaj cyfry nad ikonami ."
+msgstr ""
+"Tymczasowo wyświetlaj numery aplikacji nad ikonami podczas korzystania ze "
+"skrótów klawiszowych"
 
 #: ui/BoxOverlayShortcut.ui:39
 msgid "Number overlay"
-msgstr "Pokazywanie cyfr"
+msgstr "Nakładka liczowa"
 
 #: ui/BoxOverlayShortcut.ui:44
 msgid "Never"
@@ -2522,11 +2511,11 @@ msgstr "Zawsze pokazuj"
 
 #: ui/BoxOverlayShortcut.ui:54
 msgid "Hide timeout (ms)"
-msgstr "Opóźnienie ukrywania (ms)"
+msgstr "Limit czasu ukrywania (ms)"
 
 #: ui/BoxOverlayShortcut.ui:66
 msgid "Shortcut to show the overlay for 2 seconds"
-msgstr "Skrót wyświetlający cyfry przez 2 sekundy"
+msgstr "Skrót do wyświetlenia nakładki na 2 sekundy"
 
 #: ui/BoxOverlayShortcut.ui:69
 msgid "e.g. <Super>q"
@@ -2536,16 +2525,16 @@ msgstr "np. <Super>q"
 msgid ""
 "On secondary monitors, show the overlay on icons matching the primary monitor"
 msgstr ""
+"Na monitorach dodatkowych wyświetlaj nakładkę na ikonach pasujących do "
+"monitora głównego"
 
 #: ui/BoxOverlayShortcut.ui:79
-#, fuzzy
-#| msgid "Display the clock on all monitors"
 msgid "Show the overlay on all monitors"
-msgstr "Zegar na wszystkich monitorach"
+msgstr "Wyświetlaj nakładkę na wszystkich monitorach"
 
 #: ui/BoxOverlayShortcut.ui:89
 msgid "Show previews when the application have multiple instances"
-msgstr "Pokaż podgląd, gdy aplikacja ma wiele okien"
+msgstr "Pokaż podgląd, gdy program ma wiele instancji"
 
 #: ui/BoxOverlayShortcut.ui:90
 msgid "Show window previews on hotkey"
@@ -2554,8 +2543,8 @@ msgstr "Pokaż podgląd okna po wciśnięciu klawisza skrótu"
 #: ui/BoxOverlayShortcut.ui:100
 msgid "Select which keyboard number keys are used to activate the hotkeys"
 msgstr ""
-"Zaznacz które klawisze cyfr mają być używane do aktywacji skrótów "
-"klawiszowych"
+"Wybierz, które klawisze numeryczne klawiatury są używane do aktywacji "
+"skrótów klawiszowych"
 
 #: ui/BoxOverlayShortcut.ui:101
 msgid "Hotkeys are activated with"
@@ -2571,11 +2560,11 @@ msgstr "Klawiatura numeryczna"
 
 #: ui/BoxOverlayShortcut.ui:108
 msgid "Both"
-msgstr "Obie"
+msgstr "Oba"
 
 #: ui/BoxScrollIconOptions.ui:25 ui/BoxScrollPanelOptions.ui:25
 msgid "Delay between mouse scroll events (ms)"
-msgstr "Opóźnienie między przewijaniem myszą (ms)"
+msgstr "Opóźnienie między zdarzeniami przewijaniem myszą (ms)"
 
 #: ui/BoxScrollIconOptions.ui:26 ui/BoxScrollPanelOptions.ui:26
 msgid "Use this value to limit the number of captured mouse scroll events."
@@ -2583,7 +2572,7 @@ msgstr "Użyj tą wartość by ograniczyć liczbę przechwyceń przewijania mysz
 
 #: ui/BoxScrollPanelOptions.ui:42
 msgid "Show popup when changing workspace"
-msgstr "Pokaż wyskakujące okno podczas zmiany przestrzeni roboczej"
+msgstr "Pokaż wyskakujące okno podczas zmiany obszaru roboczego"
 
 #: ui/BoxScrollPanelOptions.ui:43
 msgid "This affects workspace popup when scrolling on the panel only."
@@ -2594,14 +2583,14 @@ msgid "Integrate <i>AppMenu</i> items"
 msgstr "Zintegruj elementy <i>Menu programów</i>"
 
 #: ui/BoxSecondaryMenuOptions.ui:30
-#, fuzzy
-#| msgid "<i>Show Details</i> menu item"
 msgid "<i>App Details</i> menu item"
 msgstr "Element menu <i>Wyświetl szczegóły</i>"
 
 #: ui/BoxSecondaryMenuOptions.ui:31
 msgid "<i>App Details</i> is only available when Gnome Software is installed"
 msgstr ""
+"Opcja <i>Szczegóły aplikacji</i> jest dostępna tylko wtedy, gdy "
+"zainstalowane jest Oprogramowanie GNOME."
 
 #: ui/BoxShowApplicationsOptions.ui:25
 msgid "Show Applications icon"
@@ -2613,11 +2602,11 @@ msgstr "Wewnętrzny margines przycisku Pokaż programy (px)"
 
 #: ui/BoxShowApplicationsOptions.ui:73
 msgid "Override escape key and return to desktop"
-msgstr "Nadpisz przycisk wyjścia i wróć do pulpitu"
+msgstr "Zastąp przycisk ESC i wróć do pulpitu"
 
 #: ui/BoxShowDesktopOptions.ui:77
 msgid "Reveal the desktop when hovering the Show Desktop button"
-msgstr "Pokaż pulpit po najechaniu na przycisk Pokaż pulpit"
+msgstr "Odsłoń pulpit po najechaniu kursorem na przycisk Pokaż pulpit"
 
 #: ui/BoxShowDesktopOptions.ui:90
 msgid "Delay before revealing the desktop (ms)"
@@ -2625,7 +2614,7 @@ msgstr "Opóźnienie przed ujawnieniem pulpitu (ms)"
 
 #: ui/BoxShowDesktopOptions.ui:106
 msgid "Fade duration (ms)"
-msgstr "Opóźnienie ukrywania (ms)"
+msgstr "Czas trwania zanikania (ms)"
 
 #: ui/BoxWindowPreviewOptions.ui:89
 msgid "Time (ms) before showing"
@@ -2637,7 +2626,7 @@ msgstr "(Domyślnie 400)"
 
 #: ui/BoxWindowPreviewOptions.ui:105
 msgid "Time (ms) before hiding"
-msgstr "Opóźnienie ukrywania (ms)"
+msgstr "Czas (ms) przed ukryciem"
 
 #: ui/BoxWindowPreviewOptions.ui:106
 msgid "(100 is default)"
@@ -2645,16 +2634,16 @@ msgstr "(Domyślnie 100)"
 
 #: ui/BoxWindowPreviewOptions.ui:117
 msgid "Immediate on application icon click"
-msgstr "Natychmiast po kliknięciu na ikonę aplikacji"
+msgstr "Natychmiast po kliknięciu na ikonę programu"
 
 #: ui/BoxWindowPreviewOptions.ui:138
 msgid "Animation time (ms)"
-msgstr "Długość animacji (ms)"
+msgstr "Czas animacji (ms)"
 
 #: ui/BoxWindowPreviewOptions.ui:159
 msgid "Middle click on the preview to close the window"
 msgstr ""
-"Kliknięcie środkowego przycisku myszy na podglądzie zamyka okno programu"
+"Zamknij okno poprzez kliknięcie przyciskiem myszy na podglądzie"
 
 #: ui/BoxWindowPreviewOptions.ui:176
 msgid "Window previews preferred size (px)"
@@ -2759,18 +2748,18 @@ msgstr "Proporcje podglądu okna Y (wysokość)"
 
 #: ui/BoxWindowPreviewOptions.ui:274
 msgid "Window previews padding (px)"
-msgstr "Wewnętrzny odstęp w podglądzie okien (px)"
+msgstr "Wypełnienie podglądów okien (px)"
 
 #: ui/BoxWindowPreviewOptions.ui:296
 msgid "Use custom opacity for the previews background"
-msgstr "Własna przexroczystość dla tła podglądu"
+msgstr "Własna przezroczystość dla tła podglądu"
 
 #: ui/BoxWindowPreviewOptions.ui:297
 msgid ""
 "If disabled, the previews background have the same opacity as the panel."
 msgstr ""
-"Jeśli wyłączone, podglądy okien będą mieć taką samą przeźroczystość jak "
-"panel."
+"Jeśli wyłączone, tło podglądów będzie miało taką samą przezroczystość jak "
+"panel"
 
 #: ui/BoxWindowPreviewOptions.ui:322
 msgid "Close button and header position"
@@ -2787,7 +2776,8 @@ msgstr "Rozmiar ikony (px) podglądu okna"
 #: ui/BoxWindowPreviewOptions.ui:364
 msgid "If disabled, the previews icon size will be based on headerbar size"
 msgstr ""
-"Jeśli wyłączone, podgląd okna będzie mieć taką samą przeźroczystość jak panel"
+"Jeśli wyłączone, rozmiar ikony podglądu będzie oparty na rozmiarze paska "
+"nagłówka"
 
 #: ui/BoxWindowPreviewOptions.ui:385
 msgid "Font size (px) of the preview titles"
@@ -2803,7 +2793,7 @@ msgstr "Kolor czcionki tytułów podglądu"
 
 #: ui/BoxWindowPreviewOptions.ui:437
 msgid "Enable window peeking"
-msgstr "Podgląd okien otwartych programów"
+msgstr "Włącz podgląd okien."
 
 #: ui/BoxWindowPreviewOptions.ui:438
 msgid ""
@@ -2815,15 +2805,15 @@ msgstr ""
 
 #: ui/BoxWindowPreviewOptions.ui:449
 msgid "Enter window peeking mode timeout (ms)"
-msgstr "Opóźnienie wyświetlania (ms)"
+msgstr "Limit czasu wejścia w tryb podglądu okna (ms)"
 
 #: ui/BoxWindowPreviewOptions.ui:450
 msgid ""
 "Time of inactivity while hovering over a window preview needed to enter the "
 "window peeking mode."
 msgstr ""
-"Czas opóźnienia, po którym wyświetlony zostanie podgląd okien otwartych "
-"programów."
+"Czas bezczynności podczas najeżdżania kursorem na podgląd okna, potrzebny do "
+"wejścia w tryb podglądu okna."
 
 #: ui/BoxWindowPreviewOptions.ui:455
 msgid "50"
@@ -2894,7 +2884,7 @@ msgstr "Działanie kliknięcia"
 
 #: ui/SettingsAction.ui:14
 msgid "Behaviour when clicking on the icon of a running application."
-msgstr "Zachowanie kliknięcia ikony aktywnego programu."
+msgstr "Zachowanie po kliknięciu ikony uruchomionego programu."
 
 #: ui/SettingsAction.ui:39
 msgid "Toggle windows"
@@ -2902,7 +2892,7 @@ msgstr "Przełącz okna"
 
 #: ui/SettingsAction.ui:51
 msgid "Scroll action"
-msgstr "Przewijania na ikonie"
+msgstr "Akcja przewijania"
 
 #: ui/SettingsAction.ui:54
 msgid "Behavior when mouse scrolling over the panel."
@@ -2910,7 +2900,7 @@ msgstr "Zachowanie przewijania myszą nad panelem."
 
 #: ui/SettingsAction.ui:55
 msgid "Scroll panel action"
-msgstr "Przewijanie na panelu"
+msgstr "Akcja przewijania na panelu"
 
 #: ui/SettingsAction.ui:79 ui/SettingsAction.ui:112
 msgid "Do nothing"
@@ -2918,7 +2908,7 @@ msgstr "Nic nie rób"
 
 #: ui/SettingsAction.ui:80
 msgid "Switch workspace"
-msgstr "Przełącz przestrzeń roboczą"
+msgstr "Przełącz obszar roboczy"
 
 #: ui/SettingsAction.ui:81 ui/SettingsAction.ui:113
 msgid "Cycle windows"
@@ -2934,7 +2924,7 @@ msgstr "Zachowanie przewijania myszą nad ikoną programu."
 
 #: ui/SettingsAction.ui:91
 msgid "Scroll icon action"
-msgstr "Przewijania na ikonie"
+msgstr "Akcja przewijania na ikonie"
 
 #: ui/SettingsAction.ui:114
 msgid "Same as panel"
@@ -2942,15 +2932,15 @@ msgstr "Tak jak dla panela"
 
 #: ui/SettingsAction.ui:124
 msgid "Hotkey overlay"
-msgstr "Pokazywanie cyfr"
+msgstr "Nakładka skrótów klawiszowych"
 
 #: ui/SettingsAction.ui:127
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
 msgstr ""
-"Konfigurowanie skrótów uruchamiania programów\n"
-"Super+(0-9) - możliwe użycie razem z Shift i Ctrl."
+"Włącz Super+(0-9) jako skróty do aktywacji programu. Można go również używać "
+"w połączeniu z Shift i Ctrl."
 
 #: ui/SettingsAction.ui:128
 msgid "Use hotkeys to activate apps"
@@ -2961,22 +2951,20 @@ msgid "(right-click menu)"
 msgstr "(menu prawego przycisku myszy)"
 
 #: ui/SettingsAction.ui:158
-#, fuzzy
-#| msgid "Secondary Menu Options"
 msgid "Secondary menu"
-msgstr "Opcje menu kontekstowego"
+msgstr "Menu kontekstowe"
 
 #: ui/SettingsAction.ui:179
 msgid "Panel context menu entries"
-msgstr ""
+msgstr "Wpisy menu kontekstowego panelu"
 
 #: ui/SettingsAction.ui:190
 msgid "Add entry"
-msgstr ""
+msgstr "Dodaj wpis"
 
 #: ui/SettingsBehavior.ui:5
 msgid "Behavior"
-msgstr "Reakcja"
+msgstr "Zachowanie"
 
 #: ui/SettingsBehavior.ui:11
 msgid "Applications"
@@ -2996,7 +2984,7 @@ msgstr "Pokaż uruchomione programy"
 
 #: ui/SettingsBehavior.ui:48
 msgid "Ungroup applications"
-msgstr "Nie grupuj aplikacji"
+msgstr "Rozgrupuj programy"
 
 #: ui/SettingsBehavior.ui:73
 msgid "Show notification counter badge"
@@ -3004,7 +2992,7 @@ msgstr "Pokaż licznik powiadomień"
 
 #: ui/SettingsBehavior.ui:90
 msgid "Hover"
-msgstr ""
+msgstr "Najechanie kursorem"
 
 #: ui/SettingsBehavior.ui:94
 msgid "Show window previews on hover"
@@ -3012,7 +3000,7 @@ msgstr "Pokaż podgląd okna po najechaniu myszą"
 
 #: ui/SettingsBehavior.ui:119
 msgid "Show tooltip on hover"
-msgstr "Pokaż szczegóły po najechaniu myszą"
+msgstr "Pokaż etykietkę po najechaniu kursorem"
 
 #: ui/SettingsBehavior.ui:134
 msgid "Isolate"
@@ -3032,17 +3020,15 @@ msgstr "Przegląd"
 
 #: ui/SettingsBehavior.ui:168
 msgid "Click empty space to close overview"
-msgstr "Kliknij na pustą przestrzeń, aby zamknąć podgląd"
+msgstr "Kliknij na pustą przestrzeń, aby zamknąć przegląd"
 
 #: ui/SettingsBehavior.ui:179
 msgid "Disable show overview on startup"
-msgstr "Wyłącz pokazywanie podglądu przy uruchomieniu"
+msgstr "Wyłącz pokazywanie przeglądu przy uruchomieniu"
 
 #: ui/SettingsDonation.ui:10
-#, fuzzy
-#| msgid "Duration"
 msgid "Donation"
-msgstr "Trwająca"
+msgstr "Dotacja"
 
 #: ui/SettingsDonation.ui:36
 msgid ""
@@ -3050,6 +3036,10 @@ msgid ""
 "if you're like me and would never use it without the enhanced workflow that "
 "Dash to Panel provides, please support my work by making a donation.</span>"
 msgstr ""
+"<span size=\"large\">Gnome to najlepsze środowisko graficzne. Bez dwóch "
+"zdań. Ale jeśli jesteś taki jak ja i nigdy byś z niego nie korzystał bez "
+"ulepszonego przepływu pracy, jaki zapewnia Dash to Panel, proszę, wesprzyj "
+"moją pracę, dokonując darowizny.</span>"
 
 #: ui/SettingsDonation.ui:45
 msgid ""
@@ -3057,12 +3047,17 @@ msgid ""
 "I've poured countless volunteer hours into making Dash to Panel a quality "
 "extension that is useful to YOU! :)"
 msgstr ""
+"Wiem, że myślisz \"Nie mam na to czasu\", ale weź pod uwagę, że poświęciłem "
+"niezliczone godziny wolontariatu, aby Dash to Panel było wysokiej jakości "
+"rozszerzeniem, które jest przydatne DLA CIEBIE! :)"
 
 #: ui/SettingsDonation.ui:170
 msgid ""
 "<span size=\"9000\">Thanks for your time!\n"
 "If you like, you can now hide the donate icon</span>"
 msgstr ""
+"<span size=\"9000\">Dziękuję za Twój czas!\n"
+"Jeśli chcesz, możesz teraz ukryć ikonę darowizny</span>"
 
 #: ui/SettingsFineTune.ui:38
 msgid "Fine-Tune"
@@ -3082,11 +3077,11 @@ msgstr "Rozmiar czcionki zasobnika"
 
 #: ui/SettingsFineTune.ui:61
 msgid "LeftBox Font Size"
-msgstr "Rozmiar czcionki lewej strony panelu"
+msgstr "Rozmiar czcionki lewego pola"
 
 #: ui/SettingsFineTune.ui:78
 msgid "Padding"
-msgstr "Odstęp"
+msgstr "Wypełnienie"
 
 #: ui/SettingsFineTune.ui:81 ui/SettingsFineTune.ui:97
 #: ui/SettingsFineTune.ui:113
@@ -3095,15 +3090,15 @@ msgstr "(-1 - domyślne motywu)"
 
 #: ui/SettingsFineTune.ui:82
 msgid "Tray Item Padding"
-msgstr "Odstęp elementów zasobnika"
+msgstr "Wypełnienie elementów zasobnika"
 
 #: ui/SettingsFineTune.ui:98
 msgid "Status Icon Padding"
-msgstr "Odstęp ikon stanu"
+msgstr "Wypełnienie ikony stanu"
 
 #: ui/SettingsFineTune.ui:114
 msgid "LeftBox Padding"
-msgstr "Odstęp z lewej"
+msgstr "Wypełnienie lewego pola"
 
 #: ui/SettingsFineTune.ui:131
 msgid "Animate"
@@ -3123,7 +3118,7 @@ msgstr "Funkcjonalność GNOME"
 
 #: ui/SettingsFineTune.ui:159
 msgid "(overview)"
-msgstr "(podgląd)"
+msgstr "(przegląd)"
 
 #: ui/SettingsFineTune.ui:160
 msgid "Keep original gnome-shell dash"
@@ -3131,7 +3126,7 @@ msgstr "Zachowaj oryginalny panel powłoki GNOME"
 
 #: ui/SettingsFineTune.ui:170
 msgid "Keep original gnome-shell top panel"
-msgstr "Zachowaj oryginalny górny panel GNOME"
+msgstr "Zachowaj oryginalny górny panel powłoki GNOME"
 
 #: ui/SettingsFineTune.ui:180
 msgid "(e.g. date menu)"
@@ -3187,21 +3182,19 @@ msgstr "(Domyślnie 48)"
 
 #: ui/SettingsPosition.ui:153
 msgid "Panel thickness"
-msgstr "Wysokość panela"
+msgstr "Grubość panela"
 
 #: ui/SettingsPosition.ui:168
 msgid "(default is 100)"
 msgstr "(Domyślnie 100)"
 
 #: ui/SettingsPosition.ui:169
-#, fuzzy
-#| msgid "Panel length (%)"
 msgid "Panel length"
-msgstr "Długość panela (%)"
+msgstr "Długość panelu"
 
 #: ui/SettingsPosition.ui:174
 msgid "Dynamic"
-msgstr ""
+msgstr "Dynamiczny"
 
 #: ui/SettingsPosition.ui:192
 msgid "Anchor"
@@ -3216,18 +3209,16 @@ msgid "Style"
 msgstr "Wygląd"
 
 #: ui/SettingsStyle.ui:62
-#, fuzzy
-#| msgid "Panel style"
 msgid "Global style"
-msgstr "Styl panelu"
+msgstr "Styl globalny"
 
 #: ui/SettingsStyle.ui:65
 msgid "Border radius"
-msgstr ""
+msgstr "Promień zaokrąglenia krawędzi"
 
 #: ui/SettingsStyle.ui:82
 msgid "AppIcon style"
-msgstr "Styl ikon aplikacji"
+msgstr "Styl ikon programu"
 
 #: ui/SettingsStyle.ui:85
 msgid "(default is 8)"
@@ -3235,7 +3226,7 @@ msgstr "(Domyślnie 8)"
 
 #: ui/SettingsStyle.ui:86
 msgid "App Icon Margin"
-msgstr "Odstęp między ikonami"
+msgstr "Margines ikony programu"
 
 #: ui/SettingsStyle.ui:101
 msgid "(default is 4)"
@@ -3243,17 +3234,15 @@ msgstr "(Domyślnie 4)"
 
 #: ui/SettingsStyle.ui:102
 msgid "App Icon Padding"
-msgstr "Wypełnienie ikony aplikacji"
+msgstr "Wypełnienie ikony programów"
 
 #: ui/SettingsStyle.ui:117
 msgid "Animate hovering app icons"
-msgstr "Animuj podnoszenie ikon aplikacji"
+msgstr "Animuj ikony aplikacji po najechaniu kursorem"
 
 #: ui/SettingsStyle.ui:141
-#, fuzzy
-#| msgid "Animate hovering app icons"
 msgid "Highlight hovering app icons"
-msgstr "Animuj podnoszenie ikon aplikacji"
+msgstr "Podświetl ikony aplikacji po najechaniu kursorem"
 
 #: ui/SettingsStyle.ui:165
 msgid "Icon style"
@@ -3269,7 +3258,7 @@ msgstr "Symboliczna"
 
 #: ui/SettingsStyle.ui:172
 msgid "Grayscale"
-msgstr ""
+msgstr "Skala szarości"
 
 #: ui/SettingsStyle.ui:182
 msgid "Running indicator"
@@ -3321,30 +3310,24 @@ msgstr "Styl panelu"
 
 #: ui/SettingsStyle.ui:277 ui/SettingsStyle.ui:293 ui/SettingsStyle.ui:309
 #: ui/SettingsStyle.ui:325
-#, fuzzy
-#| msgid "(default is 160)"
 msgid "(default is 0)"
-msgstr "(Domyślnie 160)"
+msgstr "(Domyślnie 0)"
 
 #: ui/SettingsStyle.ui:278
 msgid "Side margins"
-msgstr ""
+msgstr "Marginesy boczne"
 
 #: ui/SettingsStyle.ui:294
 msgid "Top and bottom margins"
-msgstr ""
+msgstr "Marginesy górne i dolne"
 
 #: ui/SettingsStyle.ui:310
-#, fuzzy
-#| msgid "Padding"
 msgid "Side padding"
-msgstr "Odstęp"
+msgstr "Wypełnienie boczne"
 
 #: ui/SettingsStyle.ui:326
-#, fuzzy
-#| msgid "Tray Item Padding"
 msgid "Top and bottom padding"
-msgstr "Odstęp elementów zasobnika"
+msgstr "Wypełnienie górne i dolne"
 
 #: ui/SettingsStyle.ui:345
 msgid "Override panel theme background color"
@@ -3360,11 +3343,11 @@ msgstr "Przeźroczystość tła panelu (%)"
 
 #: ui/SettingsStyle.ui:382
 msgid "Change opacity when a window gets close to the panel"
-msgstr "Zmień nieprzezroczystość, gdy okno zbliży się do panelu"
+msgstr "Zmień przezroczystość, gdy okno zbliży się do panelu"
 
 #: ui/SettingsStyle.ui:383
 msgid "Dynamic background opacity"
-msgstr "Dynamiczna przezroczystość"
+msgstr "Dynamiczna przezroczystość tła"
 
 #: ui/SettingsStyle.ui:411
 msgid "Override panel theme gradient"
