@@ -755,7 +755,7 @@ export const Panel = GObject.registerClass(
       else if (!isVertical && panelSize - topBottomPadding * 2 < MIN_PANEL_SIZE)
         topBottomPadding = (panelSize - MIN_PANEL_SIZE) * 0.5
 
-      iconSize = innerSize = outerSize = panelSize
+      iconSize = innerSize = outerSize = panelSize * scaleFactor
 
       if (
         SETTINGS.get_boolean('stockgs-keep-top-panel') &&
