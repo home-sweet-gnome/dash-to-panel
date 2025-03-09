@@ -63,7 +63,7 @@ let donateDummyApp = {
     should_show: () => false,
     list_actions: () => ['opts'],
     get_action_name: (action) =>
-      action == 'opts' ? _('Donation options') : '',
+      action == 'opts' ? _('Hide and donation options') : '',
   },
   connect: () => [],
   disconnect: () => false,
@@ -1298,6 +1298,8 @@ export const Taskbar = class extends EventEmitter {
     if (this.dtpPanel.isPrimary) hotkeyAppNumbers = {}
 
     this._getAppIcons().forEach((icon) => {
+      if (icon.app == this._donateApp) return
+
       if (
         this.dtpPanel.isPrimary &&
         (!hotkeyAppNumbers[icon.app] || this.allowSplitApps)
