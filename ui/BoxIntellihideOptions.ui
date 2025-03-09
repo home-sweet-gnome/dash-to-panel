@@ -159,7 +159,7 @@
         </child>
         <child>
           <object class="AdwActionRow">
-            <property name="subtitle">(respects Gnome "Do Not Disturb" and requires show notification counter badge option)</property>
+            <property name="subtitle" translatable="yes">(respects Gnome "Do Not Disturb" and requires show notification counter badge option)</property>
             <property name="title" translatable="yes">Reveal and hold the panel on notification</property>
             <child>
               <object class="GtkSwitch" id="intellihide_show_on_notification_switch">
