@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash To Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-02 18:29-0500\n"
-"PO-Revision-Date: 2025-03-02 18:35-0500\n"
+"POT-Creation-Date: 2025-03-09 12:44-0400\n"
+"PO-Revision-Date: 2025-03-09 12:45-0400\n"
 "Last-Translator: Charles Gagnon <charlesg99@outlook.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -42,6 +42,10 @@ msgstr ""
 #: src/extension.js:92
 msgid "Dash to Panel has been updated!"
 msgstr "Dash to Panel a été mis à jour!"
+
+#: src/extension.js:93
+msgid "You are now running version"
+msgstr "Vous utilisez maintenant la version"
 
 #: src/extension.js:99
 msgid "See what's new"

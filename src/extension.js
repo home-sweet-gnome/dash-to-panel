@@ -90,7 +90,7 @@ export default class DashToPanelExtension extends Extension {
     if (this.metadata.version != SETTINGS.get_int('extension-version')) {
       Utils.notify(
         _('Dash to Panel has been updated!'),
-        _(`You are now running version ${this.metadata.version}.`),
+        _('You are now running version') + ` ${this.metadata.version}.`,
         'software-update-available-symbolic',
         Gio.icon_new_for_string(
           `${this.path}/img/dash-to-panel-logo-light.svg`,
