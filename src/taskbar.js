@@ -1099,12 +1099,12 @@ export const Taskbar = class extends EventEmitter {
 
     if (this._donateApp)
       appInfos = [
+        ...appInfos,
         {
           app: this._donateApp,
           isLauncher: true,
           windows: [],
         },
-        ...appInfos,
       ]
 
     return appInfos

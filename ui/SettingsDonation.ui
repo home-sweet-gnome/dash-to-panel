@@ -158,16 +158,7 @@ If you like, you can now hide the donate icon&lt;/span&gt;</property>
                 <child>
                   <object class="GtkSwitch" id="donation_icon_switch">
                     <property name="halign">end</property>
-                    <property name="sensitive">False</property>
                     <property name="valign">center</property>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkSpinner" id="donation_spinner">
-                    <property name="halign">end</property>
-                    <property name="margin-start">10</property>
-                    <property name="opacity">0.3</property>
-                    <property name="spinning">True</property>
                   </object>
                 </child>
               </object>
