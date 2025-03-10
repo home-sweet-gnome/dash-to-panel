@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash To Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-09 12:44-0400\n"
-"PO-Revision-Date: 2025-03-09 12:45-0400\n"
+"POT-Creation-Date: 2025-03-09 23:44-0400\n"
+"PO-Revision-Date: 2025-03-09 23:48-0400\n"
 "Last-Translator: Charles Gagnon <charlesg99@outlook.com>\n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -39,15 +39,15 @@ msgstr ""
 "X-Poedit-SearchPath-16: desktopIconsIntegration.js\n"
 "X-Poedit-SearchPath-17: appIcons.js\n"
 
-#: src/extension.js:92
+#: src/extension.js:96
 msgid "Dash to Panel has been updated!"
 msgstr "Dash to Panel a été mis à jour!"
 
-#: src/extension.js:93
+#: src/extension.js:97
 msgid "You are now running version"
 msgstr "Vous utilisez maintenant la version"
 
-#: src/extension.js:99
+#: src/extension.js:103
 msgid "See what's new"
 msgstr "Voir les nouveautés"
 
@@ -292,64 +292,64 @@ msgstr "Exporter les paramètres"
 msgid "Import settings"
 msgstr "Importer des paramètres"
 
-#: src/appIcons.js:1912 src/appIcons.js:1929 ui/BoxMiddleClickOptions.ui.h:11
+#: src/appIcons.js:1911 src/appIcons.js:1928 ui/BoxMiddleClickOptions.ui.h:11
 msgid "Quit"
 msgstr "Quitter"
 
-#: src/appIcons.js:1932
+#: src/appIcons.js:1931
 #, javascript-format
 msgid "Quit %d Window"
 msgid_plural "Quit %d Windows"
 msgstr[0] "Fermer %d fenêtre"
 msgstr[1] "Fermer %d fenêtres"
 
-#: src/appIcons.js:2254
+#: src/appIcons.js:2253
 msgid "Power options"
 msgstr "Options d'alimentation"
 
-#: src/appIcons.js:2259
+#: src/appIcons.js:2258
 msgid "Event logs"
 msgstr "Journaux d'évènements"
 
-#: src/appIcons.js:2264
+#: src/appIcons.js:2263
 msgid "System"
 msgstr "Système"
 
-#: src/appIcons.js:2269
+#: src/appIcons.js:2268
 msgid "Device Management"
 msgstr "Gestionnaire de périphériques"
 
-#: src/appIcons.js:2274
+#: src/appIcons.js:2273
 msgid "Disk Management"
 msgstr "Gestionnaire de disques"
 
-#: src/appIcons.js:2305
+#: src/appIcons.js:2304
 msgid "Unlock taskbar"
 msgstr "Déverrouiller la barre des tâches"
 
-#: src/appIcons.js:2306
+#: src/appIcons.js:2305
 msgid "Lock taskbar"
 msgstr "Verrouiller la barre des tâches"
 
-#: src/appIcons.js:2316
+#: src/appIcons.js:2315
 msgid "Gnome Settings"
 msgstr "Paramètres Gnome"
 
-#: src/appIcons.js:2320
+#: src/appIcons.js:2319
 msgid "Dash to Panel Settings"
 msgstr "Paramètres Dash to Panel"
 
-#: src/appIcons.js:2327
+#: src/appIcons.js:2326
 msgid "Restore Windows"
 msgstr "Restaurer les fenêtres"
 
-#: src/appIcons.js:2328
+#: src/appIcons.js:2327
 msgid "Show Desktop"
 msgstr "Afficher le bureau"
 
 #: src/taskbar.js:66
-msgid "Donation options"
-msgstr "Options de don"
+msgid "Hide and donation options"
+msgstr "Cacher et options de don"
 
 #: src/taskbar.js:79
 msgid "Thank you!"
@@ -616,18 +616,26 @@ msgid "Persist state across restarts"
 msgstr "Conserver l'état lors des redémarrages"
 
 #: ui/BoxIntellihideOptions.ui.h:16
+msgid ""
+"(respects Gnome \"Do Not Disturb\" and requires show notification counter "
+"badge option)"
+msgstr ""
+"(respecte \"Ne pas déranger\" et requiert afficher le nombre de "
+"notifications)"
+
+#: ui/BoxIntellihideOptions.ui.h:17
 msgid "Reveal and hold the panel on notification"
 msgstr "Révéler le panneau à la réception d'une notification"
 
-#: ui/BoxIntellihideOptions.ui.h:17
+#: ui/BoxIntellihideOptions.ui.h:18
 msgid "Hide and reveal animation duration (ms)"
 msgstr "Durée des animations d'affichage (ms)"
 
-#: ui/BoxIntellihideOptions.ui.h:18
+#: ui/BoxIntellihideOptions.ui.h:19
 msgid "Delay before hiding the panel (ms)"
 msgstr "Délai avant le masquage du panneau (ms)"
 
-#: ui/BoxIntellihideOptions.ui.h:19
+#: ui/BoxIntellihideOptions.ui.h:20
 msgid "Delay before enabling intellihide on start (ms)"
 msgstr "Délai avant l'activation du masquage intelligent (ms)"
 
@@ -1187,18 +1195,22 @@ msgid "Use hotkeys to activate apps"
 msgstr "Utiliser des raccourcis pour lancer les applications"
 
 #: ui/SettingsAction.ui.h:25
+msgid "Application icons context menu"
+msgstr "Menu contextuel de l'application"
+
+#: ui/SettingsAction.ui.h:26
 msgid "(right-click menu)"
 msgstr "(clic droit)"
 
-#: ui/SettingsAction.ui.h:26
+#: ui/SettingsAction.ui.h:27
 msgid "Secondary menu"
 msgstr "Options du menu secondaire"
 
-#: ui/SettingsAction.ui.h:27
+#: ui/SettingsAction.ui.h:28
 msgid "Panel context menu entries"
 msgstr "Entrées menu contextuel du panneau"
 
-#: ui/SettingsAction.ui.h:28
+#: ui/SettingsAction.ui.h:29
 msgid "Add entry"
 msgstr "Ajouter entrée"
 
@@ -1620,9 +1632,6 @@ msgstr "Couleur et opacité (%) du bas du gradient"
 
 #~ msgid "Advanced Options"
 #~ msgstr "Options avancées"
-
-#~ msgid "App icon secondary menu"
-#~ msgstr "Menu secondaire de l'application"
 
 #~ msgid "Terminal"
 #~ msgstr "Terminal"
