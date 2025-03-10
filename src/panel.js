@@ -1104,6 +1104,12 @@ export const Panel = GObject.registerClass(
 
       this._setVertical(this.panel, this.checkIfVertical())
 
+      // center the system menu popup relative to its panel button
+      if (this.statusArea.quickSettings?.menu) {
+        this.statusArea.quickSettings.menu._arrowSide = this.geom.position
+        this.statusArea.quickSettings.menu._arrowAlignment = 0.5
+      }
+
       // styles for theming
       Object.keys(St.Side).forEach((p) => {
         let cssName = 'dashtopanel' + p.charAt(0) + p.slice(1).toLowerCase()
