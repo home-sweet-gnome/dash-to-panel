@@ -531,16 +531,9 @@ export const Panel = GObject.registerClass(
         let allocationMap = this.allocationMap[pos.element]
 
         if (allocationMap.actor) {
-          let considerActor =
-            pos.visible &&
-            (pos.element == Pos.DESKTOP_BTN ||
-              allocationMap.actor.get_children().length)
+          allocationMap.actor.visible = pos.visible
 
-          allocationMap.actor.visible = considerActor
-
-          if (!considerActor) {
-            return
-          }
+          if (!pos.visible) return
 
           // if the panel length is dynamic, get all visible
           // elements as a single group
