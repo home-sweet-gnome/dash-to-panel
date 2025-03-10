@@ -138,29 +138,10 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox" id="donation_countdown">
+          <object class="GtkBox">
             <property name="halign">center</property>
-            <property name="spacing">6</property>
+            <property name="spacing">4</property>
             <child>
-              <object class="GtkSpinner" id="donation_spinner">
-                <property name="halign">end</property>
-                <property name="opacity">0.3</property>
-                <property name="spinning">True</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="donation_countdown_label">
-                <attributes>
-                  <attribute name="size" value="8000"/>
-                  <attribute name="style" value="italic"/>
-                </attributes>
-              </object>
-            </child>
-          </object>
-        </child>
-        <child>
-          <object class="GtkRevealer" id="donation_revealer">
-            <property name="child">
               <object class="GtkBox">
                 <property name="halign">center</property>
                 <property name="valign">start</property>
@@ -177,13 +158,20 @@ If you like, you can now hide the donate icon&lt;/span&gt;</property>
                 <child>
                   <object class="GtkSwitch" id="donation_icon_switch">
                     <property name="halign">end</property>
+                    <property name="sensitive">False</property>
                     <property name="valign">center</property>
                   </object>
                 </child>
+                <child>
+                  <object class="GtkSpinner" id="donation_spinner">
+                    <property name="halign">end</property>
+                    <property name="margin-start">10</property>
+                    <property name="opacity">0.3</property>
+                    <property name="spinning">True</property>
+                  </object>
+                </child>
               </object>
-            </property>
-            <property name="margin-bottom">20</property>
-            <property name="transition-type">crossfade</property>
+            </child>
           </object>
         </child>
       </object>

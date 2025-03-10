@@ -3650,11 +3650,7 @@ const Preferences = class {
 
     let revealDonateTimeout = 0
     let donationIconSwitch = this._builder.get_object('donation_icon_switch')
-    let donationRevealer = this._builder.get_object('donation_revealer')
-    let donationCountdown = this._builder.get_object('donation_countdown')
-    let donationCountdownLabel = this._builder.get_object(
-      'donation_countdown_label',
-    )
+    let donationSpinner = this._builder.get_object('donation_spinner')
     let hiddenDonateIcon = !!this._settings.get_string(
       'hide-donate-icon-unixtime',
     )
@@ -3673,8 +3669,8 @@ const Preferences = class {
       .set_from_file(`${this._path}/img/kofi.png`)
 
     donationIconSwitch.set_active(hiddenDonateIcon)
-    donationRevealer.set_reveal_child(hiddenDonateIcon)
-    donationCountdown.set_visible(!hiddenDonateIcon)
+    donationIconSwitch.set_sensitive(hiddenDonateIcon)
+    donationSpinner.set_visible(!hiddenDonateIcon)
 
     donationIconSwitch.connect('notify::active', (widget) =>
       this._settings.set_string(
@@ -3689,23 +3685,16 @@ const Preferences = class {
         revealDonateTimeout = 0
       }
 
-      if (
-        this.notebook.visible_page_name == 'donation' &&
-        !donationRevealer.get_reveal_child()
-      ) {
-        let secs = 20
-
-        donationCountdownLabel.set_label(secs.toString())
+      if (this.notebook.visible_page_name == 'donation' && !hiddenDonateIcon) {
+        let secs = 5
 
         revealDonateTimeout = GLib.timeout_add(
           GLib.PRIORITY_DEFAULT,
           1000,
           () => {
-            donationCountdownLabel.set_label((--secs).toString())
-
-            if (secs < 1) {
-              donationRevealer.set_reveal_child(true)
-              donationCountdown.set_visible(false)
+            if (--secs < 1) {
+              donationIconSwitch.set_sensitive(true)
+              donationSpinner.set_visible(false)
               revealDonateTimeout = 0
 
               return GLib.SOURCE_REMOVE
