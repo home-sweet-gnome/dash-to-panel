@@ -42,7 +42,7 @@ import * as PanelSettings from './panelSettings.js'
 import * as Pos from './panelPositions.js'
 import * as Utils from './utils.js'
 import * as WindowPreview from './windowPreview.js'
-import { DTP_EXTENSION, SETTINGS } from './extension.js'
+import { DTP_EXTENSION, SETTINGS, tracker } from './extension.js'
 
 const SearchController = Main.overview.searchController
 
@@ -1222,7 +1222,6 @@ export const Taskbar = class extends EventEmitter {
   }
 
   _getRunningApps() {
-    let tracker = Shell.WindowTracker.get_default()
     let windows = Utils.getAllMetaWindows()
     let apps = []
 
@@ -1242,7 +1241,6 @@ export const Taskbar = class extends EventEmitter {
       let separateApps = []
 
       if (apps.length) {
-        let tracker = Shell.WindowTracker.get_default()
         let windows = AppIcons.getInterestingWindows(
           null,
           this.dtpPanel.monitor,
@@ -1613,7 +1611,6 @@ export const Taskbar = class extends EventEmitter {
 
   popupFocusedAppSecondaryMenu() {
     let appIcons = this._getAppIcons()
-    let tracker = Shell.WindowTracker.get_default()
 
     for (let i in appIcons) {
       if (appIcons[i].app == tracker.focus_app) {

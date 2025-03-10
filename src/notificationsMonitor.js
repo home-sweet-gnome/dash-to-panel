@@ -16,15 +16,14 @@
  */
 
 import Gio from 'gi://Gio'
-import Shell from 'gi://Shell'
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js'
 import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
 
+import { tracker } from './extension.js'
 import * as Utils from './utils.js'
 
-const tracker = Shell.WindowTracker.get_default()
 const knownIdMappings = {
   'org.gnome.Evolution': [/^org\.gnome\.[eE]volution([.-].+)?$/g],
 }

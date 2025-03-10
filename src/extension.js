@@ -19,6 +19,7 @@
 
 import Gio from 'gi://Gio'
 import GLib from 'gi://GLib'
+import Shell from 'gi://Shell'
 
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
@@ -45,6 +46,7 @@ export let TERMINALSETTINGS = null
 export let NOTIFICATIONSSETTINGS = null
 export let PERSISTENTSTORAGE = null
 export let EXTENSION_PATH = null
+export let tracker = null
 
 export default class DashToPanelExtension extends Extension {
   constructor(metadata) {
@@ -69,6 +71,8 @@ export default class DashToPanelExtension extends Extension {
       schema_id: 'org.gnome.desktop.notifications',
     })
     EXTENSION_PATH = this.path
+
+    tracker = Shell.WindowTracker.get_default()
 
     //create a global object that can emit signals and conveniently expose functionalities to other extensions
     global.dashToPanel = new EventEmitter()

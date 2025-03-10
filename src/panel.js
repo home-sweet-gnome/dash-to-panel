@@ -49,20 +49,23 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js'
 import St from 'gi://St'
 import Meta from 'gi://Meta'
 import Pango from 'gi://Pango'
-import Shell from 'gi://Shell'
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js'
 import * as DateMenu from 'resource:///org/gnome/shell/ui/dateMenu.js'
 import * as Volume from 'resource:///org/gnome/shell/ui/status/volume.js'
 
 import * as Intellihide from './intellihide.js'
 import * as Transparency from './transparency.js'
-import { SETTINGS, DESKTOPSETTINGS, PERSISTENTSTORAGE } from './extension.js'
+import {
+  SETTINGS,
+  DESKTOPSETTINGS,
+  PERSISTENTSTORAGE,
+  tracker,
+} from './extension.js'
 import {
   gettext as _,
   InjectionManager,
 } from 'resource:///org/gnome/shell/extensions/extension.js'
 
-let tracker = Shell.WindowTracker.get_default()
 export const panelBoxes = ['_leftBox', '_centerBox', '_rightBox']
 
 //timeout names

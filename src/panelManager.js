@@ -33,7 +33,7 @@ import * as PanelSettings from './panelSettings.js'
 import * as Proximity from './proximity.js'
 import * as Utils from './utils.js'
 import * as DesktopIconsIntegration from './desktopIconsIntegration.js'
-import { DTP_EXTENSION, SETTINGS } from './extension.js'
+import { DTP_EXTENSION, SETTINGS, tracker } from './extension.js'
 
 import GLib from 'gi://GLib'
 import GObject from 'gi://GObject'
@@ -54,8 +54,6 @@ import {
   SecondaryMonitorDisplay,
   WorkspacesView,
 } from 'resource:///org/gnome/shell/ui/workspacesView.js'
-
-let tracker = Shell.WindowTracker.get_default()
 
 export const PanelManager = class {
   constructor() {

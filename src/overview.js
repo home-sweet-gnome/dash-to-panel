@@ -213,7 +213,10 @@ export const Overview = class {
     let apps = []
 
     this.taskbar._getAppIcons().forEach((appIcon) => {
-      if (!seenApps[appIcon.app] || this.taskbar.allowSplitApps) {
+      if (
+        (!appIcon.app.hideDetails && !seenApps[appIcon.app]) ||
+        this.taskbar.allowSplitApps
+      ) {
         apps.push(appIcon)
       }
 

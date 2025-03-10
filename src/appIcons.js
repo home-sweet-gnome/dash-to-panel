@@ -49,6 +49,7 @@ import {
   DESKTOPSETTINGS,
   TERMINALSETTINGS,
   EXTENSION_PATH,
+  tracker,
 } from './extension.js'
 import {
   gettext as _,
@@ -98,8 +99,6 @@ let recentlyClickedApp = null
 let recentlyClickedAppWindows = null
 let recentlyClickedAppIndex = 0
 let recentlyClickedAppMonitorIndex
-
-let tracker = Shell.WindowTracker.get_default()
 
 /**
  * Extend AppIcon
