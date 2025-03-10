@@ -81,7 +81,7 @@ export const Panel = GObject.registerClass(
   class Panel extends St.Widget {
     _init(panelManager, monitor, panelBox, isStandalone) {
       super._init({
-        name: 'dashtopanelPanel',
+        style_class: 'dashtopanelPanel',
         layout_manager: new Clutter.BinLayout(),
       })
 
