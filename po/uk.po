@@ -1265,39 +1265,6 @@ msgstr "Клацання на пустому місці закриває «Ог�
 msgid "Disable show overview on startup"
 msgstr "Не показувати «Огляд» під час запуску"
 
-#: ui/SettingsDonation.ui:10
-msgid "Donation"
-msgstr "Підтримка"
-
-#: ui/SettingsDonation.ui:36
-msgid ""
-"<span size=\"large\">Gnome is the best desktop environment. No question. But "
-"if you're like me and would never use it without the enhanced workflow that "
-"Dash to Panel provides, please support my work by making a donation.</span>"
-msgstr ""
-"<span size=\"large\">Gnome - це найкраще стільничне середовище. В цьому "
-"немає сумнівів. Проте, якщо ви, як і як, ніколи б не використовували його "
-"без покращень робочого процесу, що надає Dash to Panel, будь ласка, "
-"підтримайте фінансово мою роботу.</span>"
-
-#: ui/SettingsDonation.ui:45
-msgid ""
-"I know you're thinking \"I don't have time for this\", but consider that "
-"I've poured countless volunteer hours into making Dash to Panel a quality "
-"extension that is useful to YOU! :)"
-msgstr ""
-"Я знаю, що ви думаєте \"У мене немає часу на це\", проте зауважте, що я "
-"витратив незліченну кількість волонтерських годин задля того, щоб розширення "
-"Dash to Panel було якісним та корисним для ВАС! :)"
-
-#: ui/SettingsDonation.ui:170
-msgid ""
-"<span size=\"9000\">Thanks for your time!\n"
-"If you like, you can now hide the donate icon</span>"
-msgstr ""
-"<span size=\"9000\">Дякую за ваш час!\n"
-"Якщо бажаєте, ви можете приховати піктограму фінансової підтримки</span>"
-
 #: ui/SettingsFineTune.ui:38
 msgid "Fine-Tune"
 msgstr "Доналаштування"

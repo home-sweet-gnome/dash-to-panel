@@ -1278,39 +1278,6 @@ msgstr "Clic région vide pour fermer Activités"
 msgid "Disable show overview on startup"
 msgstr "Désactiver le démarrage en mode Activités"
 
-#: ui/SettingsDonation.ui.h:1
-msgid "Donation"
-msgstr "Don"
-
-#: ui/SettingsDonation.ui.h:2
-msgid ""
-"<span size=\"large\">Gnome is the best desktop environment. No question. But "
-"if you're like me and would never use it without the enhanced workflow that "
-"Dash to Panel provides, please support my work by making a donation.</span>"
-msgstr ""
-"<span size=\"large\">Gnome est le meilleur environnement de bureau. Aucun "
-"doute. Mais si vous êtes comme moi et que vous ne l'utiliseriez jamais sans "
-"le flux de travail amélioré offert par Dash to Panel, s'il vous plaît, "
-"soutenez mon travail en faisant un don.</span>"
-
-#: ui/SettingsDonation.ui.h:3
-msgid ""
-"I know you're thinking \"I don't have time for this\", but consider that "
-"I've poured countless volunteer hours into making Dash to Panel a quality "
-"extension that is useful to YOU! :)"
-msgstr ""
-"Vous vous dites surement « pas le temps pour ça », mais considérez que j'ai "
-"investi un nombre incalculable d'heures de bénévolat pour faire de Dash to "
-"Panel une extension de qualité qui est utile pour VOUS! :)"
-
-#: ui/SettingsDonation.ui.h:4
-msgid ""
-"<span size=\"9000\">Thanks for your time!\n"
-"If you like, you can now hide the donate icon</span>"
-msgstr ""
-"<span size=\"9000\">Merci pour votre temps!\n"
-"Si vous voulez, vous pouvez cacher l'icône de don</span>"
-
 #: ui/SettingsFineTune.ui.h:1
 msgid "Fine-Tune"
 msgstr "Personnalisation"

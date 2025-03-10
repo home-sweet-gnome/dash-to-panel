@@ -1957,10 +1957,10 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
     super.setApp(app)
 
     // set "App Details" menu item visibility
-    this._setAppDetailsVisibility(app)
+    this._setAppDetailsVisibility()
   }
 
-  _setAppDetailsVisibility(app) {
+  _setAppDetailsVisibility() {
     // This next line sets the app details menu to visible if Gnome Software is
     // installed. If it isn't, no point of showing the menu anyway because
     // its only purpose is to open Gnome Software
@@ -1970,7 +1970,6 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
 
     this._detailsItem.visible =
       gnomeSoftwareIsInstalled &&
-      !app.hideDetails &&
       SETTINGS.get_boolean('secondarymenu-contains-showdetails')
   }
 }

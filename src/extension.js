@@ -85,11 +85,6 @@ export default class DashToPanelExtension extends Extension {
     // To remove later, try to map settings using monitor indexes to monitor ids
     PanelSettings.adjustMonitorSettings(SETTINGS)
 
-    // show the donate icon every 360 days (31104000000 milliseconds)
-    let donateIconUnixtime = SETTINGS.get_string('hide-donate-icon-unixtime')
-    if (donateIconUnixtime && donateIconUnixtime < Date.now() - 31104000000)
-      SETTINGS.set_string('hide-donate-icon-unixtime', '')
-
     // if new version, display a notification linking to release notes
     if (this.metadata.version != SETTINGS.get_int('extension-version')) {
       Utils.notify(

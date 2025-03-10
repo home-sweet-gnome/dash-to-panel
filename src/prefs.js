@@ -213,10 +213,6 @@ const Preferences = class {
     let pageFineTune = this._builder.get_object('finetune')
     window.add(pageFineTune)
 
-    this._builder.add_from_file(this._path + '/ui/SettingsDonation.ui')
-    let pageDonation = this._builder.get_object('donation')
-    window.add(pageDonation)
-
     this._builder.add_from_file(this._path + '/ui/SettingsAbout.ui')
     let pageAbout = this._builder.get_object('about')
     window.add(pageAbout)
@@ -3645,35 +3641,6 @@ const Preferences = class {
           },
         )
       })
-
-    // Donation panel
-
-    let donationIconSwitch = this._builder.get_object('donation_icon_switch')
-    let hiddenDonateIcon = !!this._settings.get_string(
-      'hide-donate-icon-unixtime',
-    )
-
-    this._builder
-      .get_object('donation_logo')
-      .set_from_file(`${this._path}/img/dash-to-panel-logo-light.svg`)
-    this._builder
-      .get_object('paypal_logo')
-      .set_from_file(`${this._path}/img/paypal.png`)
-    this._builder
-      .get_object('stripe_logo')
-      .set_from_file(`${this._path}/img/stripe.png`)
-    this._builder
-      .get_object('kofi_logo')
-      .set_from_file(`${this._path}/img/kofi.png`)
-
-    donationIconSwitch.set_active(hiddenDonateIcon)
-
-    donationIconSwitch.connect('notify::active', (widget) =>
-      this._settings.set_string(
-        'hide-donate-icon-unixtime',
-        widget.get_active() ? Date.now().toString() : '',
-      ),
-    )
   }
 
   _setPreviewTitlePosition() {
