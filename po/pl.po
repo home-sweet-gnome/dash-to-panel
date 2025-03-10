@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-07 16:23+0100\n"
-"PO-Revision-Date: 2025-03-08 15:34+0100\n"
+"POT-Creation-Date: 2025-03-10 16:25+0100\n"
+"PO-Revision-Date: 2025-03-10 16:31+0100\n"
 "Last-Translator: Adam Lewicki <a.lewicki95@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -1211,7 +1211,7 @@ msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:759
 msgid "Window previews use custom opacity"
-msgstr "Podglądy okien używają niestandardowej przezroczystości."
+msgstr "Podglądy okien używają niestandardowej przezroczystości"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:760
 msgid "Window previews background use a different opacity from the panel"
@@ -1343,7 +1343,7 @@ msgstr ""
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:848
 msgid "Highlight app icon on hover"
-msgstr "Podświetl ikonę programu po najechaniu kursorem."
+msgstr "Podświetl ikonę programu po najechaniu kursorem"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:852
 msgid "Highlight color"
@@ -1679,7 +1679,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1060
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1270
 msgid "Keybinding to trigger 1st dash app"
-msgstr "Skrót klawiszowy do uruchomienia 1. programu z panelu."
+msgstr "Skrót klawiszowy do uruchomienia 1. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1061
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1271
@@ -1690,7 +1690,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1067
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1277
 msgid "Keybinding to trigger 2nd dash app"
-msgstr "Skrót klawiszowy do uruchomienia 2. programu z panelu."
+msgstr "Skrót klawiszowy do uruchomienia 2. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1068
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1278
@@ -1701,7 +1701,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1074
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1284
 msgid "Keybinding to trigger 3rd dash app"
-msgstr "Skrót klawiszowy do uruchomienia 3. programu z panelu."
+msgstr "Skrót klawiszowy do uruchomienia 3. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1075
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1285
@@ -1712,7 +1712,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1081
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1291
 msgid "Keybinding to trigger 4th dash app"
-msgstr "Skrót klawiszowy do uruchomienia 4. programu z panelu."
+msgstr "Skrót klawiszowy do uruchomienia 4. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1082
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1292
@@ -1723,7 +1723,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1088
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1298
 msgid "Keybinding to trigger 5th dash app"
-msgstr "Skrót klawiszowy do uruchomienia 5. programu z panelu."
+msgstr "Skrót klawiszowy do uruchomienia 5. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1089
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1299
@@ -1734,7 +1734,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1095
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1305
 msgid "Keybinding to trigger 6th dash app"
-msgstr "Skrót klawiszowy do uruchomienia 6. programu z panelu."
+msgstr "Skrót klawiszowy do uruchomienia 6. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1096
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1306
@@ -1745,7 +1745,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1102
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1312
 msgid "Keybinding to trigger 7th dash app"
-msgstr "Skrót klawiszowy do uruchomienia 7. programu z panelu."
+msgstr "Skrót klawiszowy do uruchomienia 7. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1103
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1313
@@ -1756,7 +1756,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1109
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1319
 msgid "Keybinding to trigger 8th dash app"
-msgstr "Skrót klawiszowy do uruchomienia 8. programu z panelu."
+msgstr "Skrót klawiszowy do uruchomienia 8. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1110
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1320
@@ -1767,7 +1767,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1116
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1326
 msgid "Keybinding to trigger 9th dash app"
-msgstr "Skrót klawiszowy do uruchomienia 9. programu z panelu."
+msgstr "Skrót klawiszowy do uruchomienia 9. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1117
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1327
@@ -1778,7 +1778,7 @@ msgstr ""
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1123
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1333
 msgid "Keybinding to trigger 10th dash app"
-msgstr "Skrót klawiszowy do uruchomienia 10. programu z panelu."
+msgstr "Skrót klawiszowy do uruchomienia 10. programu z panelu"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1124
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1334
@@ -1824,12 +1824,12 @@ msgstr "Czas uniksowy, kiedy ikona darowizny została ukryta"
 msgid "Installed extension version"
 msgstr "Zainstalowana wersja rozszerzenia"
 
-#: src/appIcons.js:1912 src/appIcons.js:1929 ui/BoxMiddleClickOptions.ui:33
+#: src/appIcons.js:1911 src/appIcons.js:1928 ui/BoxMiddleClickOptions.ui:33
 #: ui/BoxMiddleClickOptions.ui:62 ui/BoxMiddleClickOptions.ui:91
 msgid "Quit"
 msgstr "Zakończ"
 
-#: src/appIcons.js:1932
+#: src/appIcons.js:1931
 #, javascript-format
 msgid "Quit %d Window"
 msgid_plural "Quit %d Windows"
@@ -1837,59 +1837,63 @@ msgstr[0] "Zamknij %d okno"
 msgstr[1] "Zamknij %d okna"
 msgstr[2] "Zamknij %d okien"
 
-#: src/appIcons.js:2254
+#: src/appIcons.js:2253
 msgid "Power options"
 msgstr "Opcje zasilania"
 
-#: src/appIcons.js:2259
+#: src/appIcons.js:2258
 msgid "Event logs"
 msgstr "Dzinnik zdarzeń"
 
-#: src/appIcons.js:2264
+#: src/appIcons.js:2263
 msgid "System"
 msgstr "System"
 
-#: src/appIcons.js:2269
+#: src/appIcons.js:2268
 msgid "Device Management"
 msgstr "Zarządzanie urządzeniami"
 
-#: src/appIcons.js:2274
+#: src/appIcons.js:2273
 msgid "Disk Management"
 msgstr "Zarządzanie dyskami"
 
-#: src/appIcons.js:2305
+#: src/appIcons.js:2304
 msgid "Unlock taskbar"
 msgstr "Odblokuj pasek zadań"
 
-#: src/appIcons.js:2306
+#: src/appIcons.js:2305
 msgid "Lock taskbar"
 msgstr "Zablokuj pasek zadań"
 
-#: src/appIcons.js:2316
+#: src/appIcons.js:2315
 msgid "Gnome Settings"
 msgstr "Ustawienia GNOME"
 
-#: src/appIcons.js:2320
+#: src/appIcons.js:2319
 msgid "Dash to Panel Settings"
 msgstr "Ustawienia panelu"
 
-#: src/appIcons.js:2327
+#: src/appIcons.js:2326
 msgid "Restore Windows"
 msgstr "Przywróć okna"
 
-#: src/appIcons.js:2328
+#: src/appIcons.js:2327
 msgid "Show Desktop"
 msgstr "Pokaż pulpit"
 
-#: src/extension.js:92
+#: src/extension.js:96
 msgid "Dash to Panel has been updated!"
 msgstr "Panel został zaktualizowany!"
 
-#: src/extension.js:99
+#: src/extension.js:97
+msgid "You are now running version"
+msgstr "Aktualnie używasz wersji"
+
+#: src/extension.js:103
 msgid "See what's new"
 msgstr "Zobacz, co nowego"
 
-#: src/panel.js:210
+#: src/panel.js:213
 msgid "Top Bar"
 msgstr "Górny pasek"
 
@@ -1941,7 +1945,7 @@ msgstr "Pokaż programy"
 
 #: src/prefs.js:485
 msgid "Activities button"
-msgstr "Przycisk aktywności"
+msgstr "Aktywności"
 
 #: src/prefs.js:486
 msgid "Taskbar"
@@ -2136,8 +2140,8 @@ msgid "Import settings"
 msgstr "Importuj ustawienia"
 
 #: src/taskbar.js:66
-msgid "Donation options"
-msgstr "Opcje dotacji"
+msgid "Hide and donation options"
+msgstr "Opcje ukrywania i przekazywania darowizn"
 
 #: src/taskbar.js:79
 msgid "Thank you!"
@@ -2385,6 +2389,14 @@ msgstr "np. <Super>i"
 msgid "Persist state across restarts"
 msgstr "Zachowaj stan po ponownym uruchomieniu"
 
+#: ui/BoxIntellihideOptions.ui:162
+msgid ""
+"(respects Gnome \"Do Not Disturb\" and requires show notification counter "
+"badge option)"
+msgstr ""
+"(uwględnia opcję „Nie przeszkadzać” w GNOME i wymaga włączenia opcji "
+"wyświetlania licznika powiadomień)"
+
 #: ui/BoxIntellihideOptions.ui:163
 msgid "Reveal and hold the panel on notification"
 msgstr "Odsłoń i przytrzymaj panel przy powiadomieniu"
@@ -2459,7 +2471,7 @@ msgstr "Akcja środkowego przycisku"
 
 #: ui/BoxMiddleClickOptions.ui:49
 msgid "Behavior for Middle-Click."
-msgstr "Zachowanie środkowego przycisku myszy"
+msgstr "Zachowanie środkowego przycisku myszy."
 
 #: ui/BoxMiddleClickOptions.ui:77
 msgid "Shift+Middle-Click action"
@@ -2491,7 +2503,7 @@ msgid ""
 "hotkeys."
 msgstr ""
 "Tymczasowo wyświetlaj numery aplikacji nad ikonami podczas korzystania ze "
-"skrótów klawiszowych"
+"skrótów klawiszowych."
 
 #: ui/BoxOverlayShortcut.ui:39
 msgid "Number overlay"
@@ -2590,7 +2602,7 @@ msgstr "Element menu <i>Wyświetl szczegóły</i>"
 msgid "<i>App Details</i> is only available when Gnome Software is installed"
 msgstr ""
 "Opcja <i>Szczegóły aplikacji</i> jest dostępna tylko wtedy, gdy "
-"zainstalowane jest Oprogramowanie GNOME."
+"zainstalowane jest Oprogramowanie GNOME"
 
 #: ui/BoxShowApplicationsOptions.ui:25
 msgid "Show Applications icon"
@@ -2642,8 +2654,7 @@ msgstr "Czas animacji (ms)"
 
 #: ui/BoxWindowPreviewOptions.ui:159
 msgid "Middle click on the preview to close the window"
-msgstr ""
-"Zamknij okno poprzez kliknięcie przyciskiem myszy na podglądzie"
+msgstr "Zamknij okno poprzez kliknięcie przyciskiem myszy na podglądzie"
 
 #: ui/BoxWindowPreviewOptions.ui:176
 msgid "Window previews preferred size (px)"
@@ -2759,7 +2770,7 @@ msgid ""
 "If disabled, the previews background have the same opacity as the panel."
 msgstr ""
 "Jeśli wyłączone, tło podglądów będzie miało taką samą przezroczystość jak "
-"panel"
+"panel."
 
 #: ui/BoxWindowPreviewOptions.ui:322
 msgid "Close button and header position"
@@ -2793,7 +2804,7 @@ msgstr "Kolor czcionki tytułów podglądu"
 
 #: ui/BoxWindowPreviewOptions.ui:437
 msgid "Enable window peeking"
-msgstr "Włącz podgląd okien."
+msgstr "Włącz podgląd okien"
 
 #: ui/BoxWindowPreviewOptions.ui:438
 msgid ""
@@ -2946,6 +2957,10 @@ msgstr ""
 msgid "Use hotkeys to activate apps"
 msgstr "Skróty klawiszowe uruchamiania programów"
 
+#: ui/SettingsAction.ui:154
+msgid "Application icons context menu"
+msgstr "Menu kontekstowe ikon programów"
+
 #: ui/SettingsAction.ui:157
 msgid "(right-click menu)"
 msgstr "(menu prawego przycisku myszy)"
@@ -3028,7 +3043,7 @@ msgstr "Wyłącz pokazywanie przeglądu przy uruchomieniu"
 
 #: ui/SettingsDonation.ui:10
 msgid "Donation"
-msgstr "Dotacja"
+msgstr "Darowizna"
 
 #: ui/SettingsDonation.ui:36
 msgid ""
@@ -3051,7 +3066,7 @@ msgstr ""
 "niezliczone godziny wolontariatu, aby Dash to Panel było wysokiej jakości "
 "rozszerzeniem, które jest przydatne DLA CIEBIE! :)"
 
-#: ui/SettingsDonation.ui:170
+#: ui/SettingsDonation.ui:151
 msgid ""
 "<span size=\"9000\">Thanks for your time!\n"
 "If you like, you can now hide the donate icon</span>"
@@ -3194,7 +3209,7 @@ msgstr "Długość panelu"
 
 #: ui/SettingsPosition.ui:174
 msgid "Dynamic"
-msgstr "Dynamiczny"
+msgstr "Dynamiczna"
 
 #: ui/SettingsPosition.ui:192
 msgid "Anchor"
