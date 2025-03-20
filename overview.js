@@ -49,6 +49,7 @@ const DASH_MAX_HEIGHT_RATIO = 0.15;
 
 //timeout names
 const T1 = 'swipeEndTimeout';
+let gnomeVersion
 
 var dtpOverview = Utils.defineClass({
     Name: 'DashToPanel.Overview',
@@ -56,6 +57,7 @@ var dtpOverview = Utils.defineClass({
     _init: function() {
         this._numHotkeys = 10;
         this._timeoutsHandler = new Utils.TimeoutsHandler();
+        gnomeVersion = parseFloat(Config.PACKAGE_VERSION);
     },
 
     enable : function(panel) {
@@ -581,7 +583,7 @@ var dtpOverview = Utils.defineClass({
                 const workspaceAppGridBox =
                     this._cachedWorkspaceBoxes.get(OverviewControls.ControlsState.APP_GRID);
     
-                if (Config.PACKAGE_VERSION > '40.3') {
+                if (gnomeVersion > 40.03) {
                     const monitor = Main.layoutManager.findMonitorForActor(this._container);
                     const workArea = Main.layoutManager.getWorkAreaForMonitor(monitor.index);
                     const workAreaBox = new Clutter.ActorBox();
