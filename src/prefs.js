@@ -3641,6 +3641,10 @@ const Preferences = class {
           },
         )
       })
+
+    this._builder
+      .get_object('zorin_os_logo')
+      .set_filename(`${this._path}/img/zorin-os.svg`)
   }
 
   _setPreviewTitlePosition() {
