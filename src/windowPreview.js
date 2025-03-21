@@ -410,8 +410,7 @@ export const PreviewMenu = GObject.registerClass(
     _onScrollEvent(actor, event) {
       if (!event.is_pointer_emulated()) {
         let vOrh = this.isVertical ? 'v' : 'h'
-        let adjustment =
-          this._scrollView['get_' + vOrh + 'scroll_bar']().get_adjustment()
+        let adjustment = this._scrollView[`${vOrh}adjustment`]
         let increment = adjustment.step_increment
         let delta = increment
 
