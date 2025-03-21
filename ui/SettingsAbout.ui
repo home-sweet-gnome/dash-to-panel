@@ -82,5 +82,40 @@ See the &lt;a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"&gt;G
         </child>
       </object>
     </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="about_group_sponsor">
+        <child>
+          <object class="GtkBox">
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="orientation">vertical</property>
+            <property name="margin-top">64</property>
+              <child>
+                <object class="GtkLabel">
+                  <property name="justify">center</property>
+                  <property name="label" translatable="yes">Sponsored and originally developed by</property>
+                  <property name="wrap">True</property>
+                </object>
+              </child>
+              <child>
+                <object class="GtkLinkButton">
+                  <property name="child">
+                    <object class="GtkBox">
+                      <property name="halign">center</property>
+                      <property name="valign">center</property>
+                      <child>
+                        <object class="GtkPicture" id="zorin_os_logo">
+                          <property name="can-shrink">False</property>
+                        </object>
+                      </child>
+                    </object>
+                  </property>
+                  <property name="uri">https://zorin.com/os/</property>
+                </object>
+              </child>
+          </object>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>
