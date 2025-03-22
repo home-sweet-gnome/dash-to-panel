@@ -391,6 +391,13 @@ var taskbar = Utils.defineClass({
                     'notify::pageSize'
                 ],
                 () => this._onScrollSizeChange(adjustment)
+            ],
+            [
+                global.dashToPanel,
+                'changed::focus-dominant-color',
+                Lang.bind(this, function(_, color){
+                    this._updatePanelAppColor(color);
+                })
             ]
         );
 
@@ -689,9 +696,9 @@ var taskbar = Utils.defineClass({
         }
 
         appIcon.connect('menu-state-changed',
-                        Lang.bind(this, function(appIcon, opened) {
-                            this._itemMenuStateChanged(item, opened);
-                        }));
+            Lang.bind(this, function(appIcon, opened) {
+                this._itemMenuStateChanged(item, opened);
+            }));
 
         let item = new TaskbarItemContainer();
 
@@ -700,6 +707,11 @@ var taskbar = Utils.defineClass({
 
         item.setChild(appIcon.actor);
         appIcon._dashItemContainer = item;
+        this._signalsHandler.add(
+            global.dashToPanel,
+            'changed::focus-dominant-color',
+            (_, color) => appIcon.parentPanelColor = this.dtpPanel.dynamicTransparency.currentBackgroundAppColor
+        );
 
         appIcon.actor.connect('notify::hover', Lang.bind(this, function() {
             if (appIcon.actor.hover){
@@ -739,7 +751,7 @@ var taskbar = Utils.defineClass({
                     appIcon._menu._boxPointer.yOffset = -y_shift;
                 }
         }));
-        
+
         // Override default AppIcon label_actor, now the
         // accessible_name is set at DashItemContainer.setLabelText
         appIcon.actor.label_actor = null;
@@ -749,6 +761,12 @@ var taskbar = Utils.defineClass({
         this._hookUpLabel(item, appIcon);
 
         return item;
+    },
+
+    _updatePanelAppColor: function (color){
+        if (color){
+            this.dtpPanel.dynamicTransparency.setBackgroundColorToAppColor(color);
+        }
     },
 
     // Return an array with the "proper" appIcons currently in the taskbar

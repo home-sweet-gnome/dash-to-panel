@@ -4331,6 +4331,16 @@
     <property name="step_increment">5</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="trans_bg_icon_brightness_adjustment">
+    <property name="upper">100</property>
+    <property name="step_increment">5</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="trans_bg_icon_preview_brightness_adjustment">
+    <property name="upper">100</property>
+    <property name="step_increment">5</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkAdjustment" id="trans_opacity_min_adjustment">
     <property name="upper">100</property>
     <property name="step_increment">5</property>
@@ -5449,6 +5459,159 @@
                                   <property name="row">0</property>
                                   <property name="column">1</property>
                                 </layout>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkListBoxRow" id="trans_bg_icon_row">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <child>
+                          <object class="GtkBox" id="trans_bg_icon_main_box">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="orientation">vertical</property>
+                            <child>
+                              <object class="GtkGrid" id="trans_bg_icon_grid">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="margin_start">12</property>
+                                <property name="margin_end">12</property>
+                                <property name="margin_top">12</property>
+                                <property name="margin_bottom">12</property>
+                                <property name="column_spacing">32</property>
+                                <child>
+                                  <object class="GtkLabel" id="trans_bg_icon_label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="label" translatable="yes">Override panel theme background color with dominant icon color </property>
+                                    <property name="use_markup">True</property>
+                                    <property name="xalign">0</property>
+                                    <layout>
+                                      <property name="row">0</property>
+                                      <property name="column">0</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkBox" id="trans_bg_icon_box">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkSwitch" id="trans_bg_icon_switch">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="halign">end</property>
+                                        <property name="valign">center</property>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="row">0</property>
+                                      <property name="column">1</property>
+                                    </layout>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkGrid" id="trans_bg_icon_options_box">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="margin_start">12</property>
+                                    <property name="margin_top">12</property>
+                                    <property name="row_spacing">6</property>
+                                    <child>
+                                      <object class="GtkLabel" id="trans_bg_icon_brightness_label">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="label" translatable="yes">Panel dominant color brightness (%)</property>
+                                        <property name="use_markup">True</property>
+                                        <property name="xalign">0</property>
+                                        <layout>
+                                          <property name="row">0</property>
+                                          <property name="column">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkSpinButton" id="trans_bg_icon_brightness_spinbutton">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="halign">end</property>
+                                        <property name="valign">center</property>
+                                        <property name="text" translatable="yes">0</property>
+                                        <property name="adjustment">trans_bg_icon_brightness_adjustment</property>
+                                        <layout>
+                                          <property name="row">0</property>
+                                          <property name="column">1</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="trans_bg_icon_preview_label">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="label" translatable="yes">Apply to window preview</property>
+                                        <property name="use_markup">True</property>
+                                        <property name="xalign">0</property>
+                                        <layout>
+                                          <property name="row">1</property>
+                                          <property name="column">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkSwitch" id="trans_bg_icon_preview_switch">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="halign">end</property>
+                                        <property name="valign">center</property>
+                                        <layout>
+                                          <property name="row">1</property>
+                                          <property name="column">1</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkLabel" id="trans_bg_icon_preview_brightness_label">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="hexpand">True</property>
+                                        <property name="label" translatable="yes">Window preview brightness (%)</property>
+                                        <property name="use_markup">True</property>
+                                        <property name="xalign">0</property>
+                                        <layout>
+                                          <property name="row">2</property>
+                                          <property name="column">0</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <child>
+                                      <object class="GtkSpinButton" id="trans_bg_icon_preview_brightness_spinbutton">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="halign">end</property>
+                                        <property name="valign">center</property>
+                                        <property name="text" translatable="yes">0</property>
+                                        <property name="adjustment">trans_bg_icon_preview_brightness_adjustment</property>
+                                        <layout>
+                                          <property name="row">2</property>
+                                          <property name="column">1</property>
+                                        </layout>
+                                      </object>
+                                    </child>
+                                    <layout>
+                                      <property name="row">1</property>
+                                      <property name="column">0</property>
+                                      <property name="column-span">2</property>
+                                    </layout>
+                                  </object>
+                                </child>
                               </object>
                             </child>
                           </object>

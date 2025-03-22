@@ -239,6 +239,16 @@
       <summary>Override theme background color</summary>
       <description>Replace current theme background color for the panel</description>
     </key>
+    <key type="b" name="trans-use-dominant-icon-color">
+      <default>false</default>
+      <summary>Override panel theme background color with dominant icon color</summary>
+      <description>Replace current theme background color for the panel with the dominant color of the focused app icon. Falls back to overridden background color or theme color if no app is focused or if the Activities overlay is opened.</description>
+    </key>
+    <key type="b" name="trans-apply-dominant-color-to-preview">
+      <default>false</default>
+      <summary>Apply to window preview</summary>
+      <description>Apply dominant color to window preview</description>
+    </key>
     <key type="s" name="trans-bg-color">
       <default>"#000"</default>
       <summary>Custom background color</summary>
@@ -258,6 +268,16 @@
       <default>0.4</default>
       <summary>Panel opacity</summary>
       <description>Custom opacity for the panel</description>
+    </key>
+    <key type="d" name="trans-panel-dominant-color-brightness">
+      <default>0.5</default>
+      <summary>Panel dominant color brightness</summary>
+      <description>Modify brightness of dominant color of app icon used as panel background color</description>
+    </key>
+    <key type="d" name="trans-preview-dominant-color-brightness">
+      <default>0.15</default>
+      <summary>Window preview dominant color brightness</summary>
+      <description>Modify brightness of dominant color of app icon used as window preview background color</description>
     </key>
     <key name="trans-dynamic-behavior" enum="org.gnome.shell.extensions.dash-to-panel.proximityBehavior">
       <default>'ALL_WINDOWS'</default>
