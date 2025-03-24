@@ -451,6 +451,11 @@ export const Panel = GObject.registerClass(
           })
         }
 
+        if (this.statusArea.quickSettings?.menu) {
+          this.statusArea.quickSettings.menu._arrowSide = St.Side.TOP
+          this.statusArea.quickSettings.menu._arrowAlignment = 0
+        }
+
         this._setShowDesktopButton(false)
 
         delete Utils.getIndicators(
