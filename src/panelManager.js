@@ -170,19 +170,23 @@ export const PanelManager = class {
         },
     )
 
-    this._injectionManager.overrideMethod(
-      Object.getPrototypeOf(
-        // WorkspaceDot in activities button
-        Main.panel.statusArea.activities.get_first_child().get_first_child(),
-      ),
-      'vfunc_get_preferred_width',
-      (get_preferred_width) =>
-        function (forHeight) {
-          return Utils.getBoxLayoutVertical(this.get_parent())
-            ? [0, forHeight]
-            : get_preferred_width.call(this, forHeight)
-        },
-    )
+    let activitiesChild = Main.panel.statusArea.activities.get_first_child()
+
+    if (activitiesChild?.constructor.name == 'WorkspaceIndicators') {
+      this._injectionManager.overrideMethod(
+        Object.getPrototypeOf(
+          // WorkspaceDot in activities button
+          activitiesChild.get_first_child(),
+        ),
+        'vfunc_get_preferred_width',
+        (get_preferred_width) =>
+          function (forHeight) {
+            return Utils.getBoxLayoutVertical(this.get_parent())
+              ? [0, forHeight]
+              : get_preferred_width.call(this, forHeight)
+          },
+      )
+    }
 
     LookingGlass.LookingGlass.prototype._oldResize =
       LookingGlass.LookingGlass.prototype._resize
