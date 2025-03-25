@@ -447,6 +447,11 @@ export const TaskbarAppIcon = GObject.registerClass(
     _onDestroy() {
       super._onDestroy()
 
+      if (this._updateIconIdleId) {
+        GLib.source_remove(this._updateIconIdleId)
+        this._updateIconIdleId = 0
+      }
+
       this._timeoutsHandler.destroy()
       this._signalsHandler.destroy()
 
@@ -477,18 +482,25 @@ export const TaskbarAppIcon = GObject.registerClass(
       // and position are random values, which might exceeds the integer range
       // resulting in an error when assigned to the a rect. This is a more like
       // a workaround to prevent flooding the system with errors.
-      if (this.get_stage() == null) return
+      if (this.get_stage() == null || this._updateIconIdleId) return
 
-      let rect = new Mtk.Rectangle()
+      this._updateIconIdleId = GLib.idle_add(GLib.PRIORITY_LOW, () => {
+        let rect = new Mtk.Rectangle()
 
-      ;[rect.x, rect.y] = this.get_transformed_position()
-      ;[rect.width, rect.height] = this.get_transformed_size()
+        ;[rect.x, rect.y] = this.get_transformed_position()
+        ;[rect.width, rect.height] = this.get_transformed_size()
 
-      let windows = this.window
-        ? [this.window]
-        : this.getAppIconInterestingWindows(true)
-      windows.forEach(function (w) {
-        w.set_icon_geometry(rect)
+        let windows = this.window
+          ? [this.window]
+          : this.getAppIconInterestingWindows(true)
+
+        windows.forEach(function (w) {
+          w.set_icon_geometry(rect)
+        })
+
+        this._updateIconIdleId = 0
+
+        return GLib.SOURCE_REMOVE
       })
     }
 
