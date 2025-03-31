@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-10 16:25+0100\n"
-"PO-Revision-Date: 2025-03-10 16:31+0100\n"
+"POT-Creation-Date: 2025-03-25 20:14+0100\n"
+"PO-Revision-Date: 2025-03-25 20:34+0100\n"
 "Last-Translator: Adam Lewicki <a.lewicki95@gmail.com>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -1817,19 +1817,15 @@ msgid "Track if the preferences window is opened"
 msgstr "Śledź, czy okno preferencji jest otwarte"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1358
-msgid "Unix time when the donate icon was hidden"
-msgstr "Czas uniksowy, kiedy ikona darowizny została ukryta"
-
-#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1362
 msgid "Installed extension version"
 msgstr "Zainstalowana wersja rozszerzenia"
 
-#: src/appIcons.js:1911 src/appIcons.js:1928 ui/BoxMiddleClickOptions.ui:33
+#: src/appIcons.js:1923 src/appIcons.js:1940 ui/BoxMiddleClickOptions.ui:33
 #: ui/BoxMiddleClickOptions.ui:62 ui/BoxMiddleClickOptions.ui:91
 msgid "Quit"
 msgstr "Zakończ"
 
-#: src/appIcons.js:1931
+#: src/appIcons.js:1943
 #, javascript-format
 msgid "Quit %d Window"
 msgid_plural "Quit %d Windows"
@@ -1837,59 +1833,59 @@ msgstr[0] "Zamknij %d okno"
 msgstr[1] "Zamknij %d okna"
 msgstr[2] "Zamknij %d okien"
 
-#: src/appIcons.js:2253
+#: src/appIcons.js:2264
 msgid "Power options"
 msgstr "Opcje zasilania"
 
-#: src/appIcons.js:2258
+#: src/appIcons.js:2269
 msgid "Event logs"
 msgstr "Dzinnik zdarzeń"
 
-#: src/appIcons.js:2263
+#: src/appIcons.js:2274
 msgid "System"
 msgstr "System"
 
-#: src/appIcons.js:2268
+#: src/appIcons.js:2279
 msgid "Device Management"
 msgstr "Zarządzanie urządzeniami"
 
-#: src/appIcons.js:2273
+#: src/appIcons.js:2284
 msgid "Disk Management"
 msgstr "Zarządzanie dyskami"
 
-#: src/appIcons.js:2304
+#: src/appIcons.js:2315
 msgid "Unlock taskbar"
 msgstr "Odblokuj pasek zadań"
 
-#: src/appIcons.js:2305
+#: src/appIcons.js:2316
 msgid "Lock taskbar"
 msgstr "Zablokuj pasek zadań"
 
-#: src/appIcons.js:2315
+#: src/appIcons.js:2326
 msgid "Gnome Settings"
 msgstr "Ustawienia GNOME"
 
-#: src/appIcons.js:2319
+#: src/appIcons.js:2330
 msgid "Dash to Panel Settings"
 msgstr "Ustawienia panelu"
 
-#: src/appIcons.js:2326
+#: src/appIcons.js:2337
 msgid "Restore Windows"
 msgstr "Przywróć okna"
 
-#: src/appIcons.js:2327
+#: src/appIcons.js:2338
 msgid "Show Desktop"
 msgstr "Pokaż pulpit"
 
-#: src/extension.js:96
+#: src/extension.js:91
 msgid "Dash to Panel has been updated!"
 msgstr "Panel został zaktualizowany!"
 
-#: src/extension.js:97
+#: src/extension.js:92
 msgid "You are now running version"
 msgstr "Aktualnie używasz wersji"
 
-#: src/extension.js:103
+#: src/extension.js:98
 msgid "See what's new"
 msgstr "Zobacz, co nowego"
 
@@ -1897,225 +1893,225 @@ msgstr "Zobacz, co nowego"
 msgid "Top Bar"
 msgstr "Górny pasek"
 
-#: src/prefs.js:275
+#: src/prefs.js:271
 msgid "Show Desktop button height (px)"
 msgstr "Wysokość przycisku Pokaż pulpit (px)"
 
-#: src/prefs.js:276
+#: src/prefs.js:272
 msgid "Show Desktop button width (px)"
 msgstr "Szerokość przycisku Pokaż pulpit (px)"
 
-#: src/prefs.js:348 ui/SettingsPosition.ui:133 ui/SettingsStyle.ui:204
+#: src/prefs.js:344 ui/SettingsPosition.ui:133 ui/SettingsStyle.ui:204
 msgid "Left"
 msgstr "Po lewej"
 
-#: src/prefs.js:349
+#: src/prefs.js:345
 msgid "Center"
 msgstr "Wyśrodkowane"
 
-#: src/prefs.js:350 ui/SettingsPosition.ui:142 ui/SettingsStyle.ui:212
+#: src/prefs.js:346 ui/SettingsPosition.ui:142 ui/SettingsStyle.ui:212
 msgid "Right"
 msgstr "Po prawej"
 
-#: src/prefs.js:352 ui/BoxWindowPreviewOptions.ui:334
+#: src/prefs.js:348 ui/BoxWindowPreviewOptions.ui:334
 #: ui/SettingsPosition.ui:124 ui/SettingsStyle.ui:196
 msgid "Top"
 msgstr "U góry"
 
-#: src/prefs.js:353 src/prefs.js:358 ui/SettingsPosition.ui:198
+#: src/prefs.js:349 src/prefs.js:354 ui/SettingsPosition.ui:198
 msgid "Middle"
 msgstr "Po środku"
 
-#: src/prefs.js:354 ui/BoxWindowPreviewOptions.ui:325
+#: src/prefs.js:350 ui/BoxWindowPreviewOptions.ui:325
 #: ui/SettingsPosition.ui:115 ui/SettingsStyle.ui:188
 msgid "Bottom"
 msgstr "U dołu"
 
-#: src/prefs.js:357 ui/SettingsPosition.ui:197
+#: src/prefs.js:353 ui/SettingsPosition.ui:197
 msgid "Start"
 msgstr "Początek"
 
-#: src/prefs.js:359 ui/SettingsPosition.ui:199
+#: src/prefs.js:355 ui/SettingsPosition.ui:199
 msgid "End"
 msgstr "Koniec"
 
-#: src/prefs.js:484
+#: src/prefs.js:480
 msgid "Show Applications button"
 msgstr "Pokaż programy"
 
-#: src/prefs.js:485
+#: src/prefs.js:481
 msgid "Activities button"
 msgstr "Aktywności"
 
-#: src/prefs.js:486
+#: src/prefs.js:482
 msgid "Taskbar"
 msgstr "Pasek zadań"
 
-#: src/prefs.js:487
+#: src/prefs.js:483
 msgid "Date menu"
 msgstr "Menu daty"
 
-#: src/prefs.js:488
+#: src/prefs.js:484
 msgid "System menu"
 msgstr "Menu systemowe"
 
-#: src/prefs.js:489
+#: src/prefs.js:485
 msgid "Left box"
 msgstr "Lewe pole"
 
-#: src/prefs.js:490
+#: src/prefs.js:486
 msgid "Center box"
 msgstr "Środkowe pole"
 
-#: src/prefs.js:491
+#: src/prefs.js:487
 msgid "Right box"
 msgstr "Prawe pole"
 
-#: src/prefs.js:492
+#: src/prefs.js:488
 msgid "Desktop button"
 msgstr "Pokaż pulpit"
 
-#: src/prefs.js:502 src/prefs.js:2788
+#: src/prefs.js:498 src/prefs.js:2784
 msgid "Move up"
 msgstr "W górę"
 
-#: src/prefs.js:504 src/prefs.js:2796
+#: src/prefs.js:500 src/prefs.js:2792
 msgid "Move down"
 msgstr "W dół"
 
-#: src/prefs.js:510
+#: src/prefs.js:506
 msgid "Visible"
 msgstr "Pokaż"
 
-#: src/prefs.js:514
+#: src/prefs.js:510
 msgid "Select element position"
 msgstr "Wybierz położenie elementu"
 
-#: src/prefs.js:528
+#: src/prefs.js:524
 msgid "Stacked to top"
 msgstr "Przypięto do góry"
 
-#: src/prefs.js:528
+#: src/prefs.js:524
 msgid "Stacked to left"
 msgstr "Przypięto do lewej"
 
-#: src/prefs.js:532
+#: src/prefs.js:528
 msgid "Stacked to bottom"
 msgstr "Przypięto do dołu"
 
-#: src/prefs.js:532
+#: src/prefs.js:528
 msgid "Stacked to right"
 msgstr "Przypięto do prawej"
 
-#: src/prefs.js:534
+#: src/prefs.js:530
 msgid "Centered"
 msgstr "Wyśrodkowano"
 
-#: src/prefs.js:535
+#: src/prefs.js:531
 msgid "Monitor Center"
 msgstr "Wyśrodkowane zględem ekranu"
 
-#: src/prefs.js:562
+#: src/prefs.js:558
 msgid "More options"
 msgstr "Więcej opcji"
 
-#: src/prefs.js:597
+#: src/prefs.js:593
 msgid "Reset to defaults"
 msgstr "Przywróć domyślne"
 
-#: src/prefs.js:620
+#: src/prefs.js:616
 msgid "Show Applications options"
 msgstr "Pokaż opcje programów"
 
-#: src/prefs.js:643
+#: src/prefs.js:639
 msgid "Open icon"
 msgstr "Wybierz ikonę"
 
-#: src/prefs.js:708
+#: src/prefs.js:704
 msgid "Show Desktop options"
 msgstr "Opcje Pokaż pulpit"
 
-#: src/prefs.js:800
+#: src/prefs.js:796
 msgid "Primary monitor"
 msgstr "Główny monitor"
 
-#: src/prefs.js:801
+#: src/prefs.js:797
 msgid "Monitor "
 msgstr "Monitor "
 
-#: src/prefs.js:928
+#: src/prefs.js:924
 msgid "Running Indicator Options"
 msgstr "Opcje wskaźnika aktywnych programów"
 
-#: src/prefs.js:1461
+#: src/prefs.js:1457
 msgid "Dynamic opacity options"
 msgstr "Opcje dynamicznej przeźroczystości"
 
-#: src/prefs.js:1710
+#: src/prefs.js:1706
 msgid "Intellihide options"
 msgstr "Opcje inteligentnego ukrywania"
 
-#: src/prefs.js:1916
+#: src/prefs.js:1912
 msgid "Window preview options"
 msgstr "Opcje podglądu okna"
 
-#: src/prefs.js:2467
+#: src/prefs.js:2463
 msgid "Ungrouped application options"
 msgstr "Opcje niepogrupowanych aplikacji"
 
-#: src/prefs.js:2634
+#: src/prefs.js:2630
 msgid "Customize middle-click behavior"
 msgstr "Dostosuj działanie środkowego przycisku myszy"
 
-#: src/prefs.js:2763
+#: src/prefs.js:2759
 msgid "Text"
 msgstr "Tekst"
 
-#: src/prefs.js:2772
+#: src/prefs.js:2768
 msgid "Command"
 msgstr "Polecenie"
 
-#: src/prefs.js:2804
+#: src/prefs.js:2800
 msgid "Remove"
 msgstr "Usuń"
 
-#: src/prefs.js:2832
+#: src/prefs.js:2828
 msgid "Customize panel scroll behavior"
 msgstr "Dostosuj reakcję na przewijanie nad panelem"
 
-#: src/prefs.js:2878
+#: src/prefs.js:2874
 msgid "Customize icon scroll behavior"
 msgstr "Dostosuj reakcję na przewijanie nad ikoną"
 
-#: src/prefs.js:3002
+#: src/prefs.js:2998
 msgid "Advanced hotkeys options"
 msgstr "Zaawansowane opcje skrótów klawiszowych"
 
-#: src/prefs.js:3030
+#: src/prefs.js:3026
 msgid "Secondary Menu Options"
 msgstr "Opcje menu kontekstowego"
 
-#: src/prefs.js:3230
+#: src/prefs.js:3226
 #, javascript-format
 msgid "%d ms"
 msgstr "%d ms"
 
-#: src/prefs.js:3236
+#: src/prefs.js:3232
 #, javascript-format
 msgid "%d °"
 msgstr "%d °"
 
-#: src/prefs.js:3242 src/prefs.js:3248
+#: src/prefs.js:3238 src/prefs.js:3244
 #, javascript-format
 msgid "%d %%"
 msgstr "%d %%"
 
-#: src/prefs.js:3254
+#: src/prefs.js:3250
 #, javascript-format
 msgid "%.1f"
 msgstr "%.1f"
 
-#: src/prefs.js:3260
+#: src/prefs.js:3256
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
@@ -2123,35 +2119,23 @@ msgstr[0] "%d ikon"
 msgstr[1] "%d ikona"
 msgstr[2] "%d ikon"
 
-#: src/prefs.js:3387
+#: src/prefs.js:3383
 msgid "App icon animation options"
 msgstr "Opcje animowania ikony programu"
 
-#: src/prefs.js:3510
+#: src/prefs.js:3506
 msgid "App icon highlight options"
 msgstr "Opcje podświetlania ikony programu"
 
-#: src/prefs.js:3599
+#: src/prefs.js:3595
 msgid "Export settings"
 msgstr "Eksportuj ustawienia"
 
-#: src/prefs.js:3620
+#: src/prefs.js:3616
 msgid "Import settings"
 msgstr "Importuj ustawienia"
 
-#: src/taskbar.js:66
-msgid "Hide and donation options"
-msgstr "Opcje ukrywania i przekazywania darowizn"
-
-#: src/taskbar.js:79
-msgid "Thank you!"
-msgstr "Dziękuję!"
-
-#: src/taskbar.js:79
-msgid "Please donate :)"
-msgstr "Proszę o darowiznę :)"
-
-#: src/windowPreview.js:1130
+#: src/windowPreview.js:1129
 msgid "Move to current Workspace"
 msgstr "Przenieś do bieżącego obszaru roboczego"
 
@@ -2885,6 +2869,10 @@ msgstr ""
 "licenses/old-licenses/gpl-2.0.html\">GNU General Public License, wersja 2 "
 "lub nowsza</a>.</span>"
 
+#: ui/SettingsAbout.ui:96
+msgid "Sponsored and originally developed by"
+msgstr "Sponsorowane i pierwotnie opracowane przez"
+
 #: ui/SettingsAction.ui:8
 msgid "Action"
 msgstr "Działanie"
@@ -3342,3 +3330,15 @@ msgstr "Gradient górnego koloru i przeźroczystość (%)"
 #: ui/SettingsStyle.ui:439
 msgid "Gradient bottom color and opacity (%)"
 msgstr "Gradient dolnego koloru i przeźroczystość (%)"
+
+#~ msgid "Unix time when the donate icon was hidden"
+#~ msgstr "Czas uniksowy, kiedy ikona darowizny została ukryta"
+
+#~ msgid "Hide and donation options"
+#~ msgstr "Opcje ukrywania i przekazywania darowizn"
+
+#~ msgid "Thank you!"
+#~ msgstr "Dziękuję!"
+
+#~ msgid "Please donate :)"
+#~ msgstr "Proszę o darowiznę :)"
