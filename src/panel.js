@@ -1136,16 +1136,21 @@ export const Panel = GObject.registerClass(
       this._timeoutsHandler.add([
         T7,
         0,
-        () =>
+        () => {
+          let vertical = this.checkIfVertical()
+          let w = vertical ? this.geom.outerSize : this.geom.w
+          let h = vertical ? this.geom.h : this.geom.outerSize
+
           Utils.setClip(
             clipContainer,
             clipContainer.x,
             clipContainer.y,
-            this.panelBox.width,
-            this.panelBox.height,
+            w,
+            h,
             0,
             this.geom.topOffset,
-          ),
+          )
+        },
       ])
     }
 

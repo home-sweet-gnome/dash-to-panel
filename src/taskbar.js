@@ -1209,7 +1209,7 @@ export const Taskbar = class extends EventEmitter {
     this._shownInitially = false
     this._redisplay()
 
-    if (geometryChange && this.dtpPanel.checkIfVertical()) {
+    if (geometryChange) {
       this.previewMenu._updateClip()
     }
   }

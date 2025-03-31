@@ -81,6 +81,7 @@ export const Intellihide = class {
     this._monitor = this._dtpPanel.monitor
     this._animationDestination = -1
     this._pendingUpdate = false
+    this._hover = false
     this._hoveredOut = false
     this._windowOverlap = false
     this._translationProp =
@@ -131,6 +132,7 @@ export const Intellihide = class {
 
   disable(reset) {
     this.enabled = false
+    this._hover = false
 
     if (this._proximityWatchId) {
       this._proximityManager.removeWatch(this._proximityWatchId)
@@ -216,10 +218,7 @@ export const Intellihide = class {
       [
         this._dtpPanel.taskbar,
         ['menu-closed', 'end-drag'],
-        () => {
-          this._panelBox.sync_hover()
-          this._onHoverChanged()
-        },
+        () => this._queueUpdatePanelPosition(),
       ],
       [
         SETTINGS,
@@ -232,7 +231,6 @@ export const Intellihide = class {
         ],
         () => this.reset(),
       ],
-      [this._panelBox, 'notify::hover', () => this._onHoverChanged()],
       [
         this._dtpPanel.taskbar.previewMenu,
         'open-state-changed',
@@ -254,22 +252,12 @@ export const Intellihide = class {
     }
   }
 
-  _onHoverChanged() {
-    this._hoveredOut = !this._panelBox.hover
-    this._queueUpdatePanelPosition()
-  }
-
   _setTrackPanel(enable) {
     let actorData = Utils.getTrackedActorData(this._panelBox)
 
     actorData.affectsStruts = !enable
     actorData.trackFullscreen = !enable
 
-    Main.layoutManager.panelBox.reactive = enable
-    Main.layoutManager.panelBox.track_hover = enable
-
-    this._panelBox.track_hover = enable
-    this._panelBox.reactive = enable
     this._panelBox.visible = enable ? enable : this._panelBox.visible
 
     Main.layoutManager._queueUpdateRegions()
@@ -294,18 +282,16 @@ export const Intellihide = class {
         'trigger',
         () => this._queueUpdatePanelPosition(true),
       ])
-    } else {
-      this._pointerWatch = PointerWatcher.getPointerWatcher().addWatch(
-        CHECK_POINTER_MS,
-        (x, y) => this._checkMousePointer(x, y),
-      )
     }
+
+    this._pointerWatch = PointerWatcher.getPointerWatcher().addWatch(
+      CHECK_POINTER_MS,
+      (x, y) => this._checkMousePointer(x, y),
+    )
   }
 
   _removeRevealMechanism() {
-    if (this._pointerWatch) {
-      PointerWatcher.getPointerWatcher()._removeWatch(this._pointerWatch)
-    }
+    PointerWatcher.getPointerWatcher()._removeWatch(this._pointerWatch)
 
     if (this._pressureBarrier) {
       this._pressureBarrier.destroy()
@@ -347,21 +333,36 @@ export const Intellihide = class {
   _checkMousePointer(x, y) {
     let position = this._dtpPanel.geom.position
 
-    if (
-      !this._panelBox.hover &&
-      !Main.overview.visible &&
-      ((position == St.Side.TOP && y <= this._monitor.y + 1) ||
+    let pointerIn = (offset) =>
+      ((position == St.Side.TOP && y <= this._monitor.y + offset) ||
         (position == St.Side.BOTTOM &&
-          y >= this._monitor.y + this._monitor.height - 1) ||
-        (position == St.Side.LEFT && x <= this._monitor.x + 1) ||
+          y >= this._monitor.y + this._monitor.height - offset) ||
+        (position == St.Side.LEFT && x <= this._monitor.x + offset) ||
         (position == St.Side.RIGHT &&
-          x >= this._monitor.x + this._monitor.width - 1)) &&
+          x >= this._monitor.x + this._monitor.width - offset)) &&
       x >= this._monitor.x &&
       x < this._monitor.x + this._monitor.width &&
       y >= this._monitor.y &&
       y < this._monitor.y + this._monitor.height
+
+    if (
+      !this._edgeBarrier &&
+      !this._hover &&
+      !Main.overview.visible &&
+      pointerIn(1)
     ) {
+      this._hover = true
       this._queueUpdatePanelPosition(true)
+    } else if (this._panelBox.visible) {
+      let hover = pointerIn(
+        this._dtpPanel.geom.outerSize + this._dtpPanel.geom.topOffset,
+      )
+
+      if (hover == this._hover) return
+
+      this._hoveredOut = !hover
+      this._hover = hover
+      this._queueUpdatePanelPosition()
     }
   }
 
@@ -419,7 +420,7 @@ export const Intellihide = class {
     }
 
     if (!SETTINGS.get_boolean('intellihide-hide-from-windows')) {
-      return this._panelBox.hover
+      return this._hover
     }
 
     return !this._windowOverlap
