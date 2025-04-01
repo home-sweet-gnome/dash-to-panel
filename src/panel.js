@@ -166,6 +166,18 @@ export const Panel = GObject.registerClass(
         this.statusArea = Main.panel.statusArea
         this.menuManager = Main.panel.menuManager
 
+        this.panel._toggleMenu = (indicator) => {
+          if (
+            !indicator ||
+            (!this.intellihide.enabled && !indicator.mapped) ||
+            !indicator.reactive
+          )
+            return
+
+          this.intellihide.revealAndHold(0, true)
+          Object.getPrototypeOf(this.panel)._toggleMenu(indicator)
+        }
+
         panelBoxes.forEach((p) => (this[p] = Main.panel[p]))
         ;['activities', systemMenuInfo.name, 'dateMenu'].forEach((b) => {
           let container = this.statusArea[b].container
@@ -458,6 +470,7 @@ export const Panel = GObject.registerClass(
 
         this._setShowDesktopButton(false)
 
+        delete this.panel._toggleMenu
         delete Utils.getIndicators(
           this.statusArea[systemMenuName]._volumeOutput,
         )._dtpIgnoreScroll

@@ -139,13 +139,12 @@ export const Intellihide = class {
     }
 
     this._setTrackPanel(false)
-
-    this._signalsHandler.destroy()
-    this._timeoutsHandler.destroy()
-
     this._removeRevealMechanism()
 
     this._revealPanel(!reset)
+
+    this._signalsHandler.destroy()
+    this._timeoutsHandler.destroy()
   }
 
   destroy() {
@@ -163,7 +162,7 @@ export const Intellihide = class {
     )
   }
 
-  revealAndHold(holdStatus) {
+  revealAndHold(holdStatus, immediate) {
     if (
       !this.enabled ||
       (holdStatus == Hold.NOTIFY &&
@@ -172,7 +171,7 @@ export const Intellihide = class {
     )
       return
 
-    if (!this._holdStatus) this._revealPanel()
+    if (!this._holdStatus) this._revealPanel(immediate)
 
     this._holdStatus |= holdStatus
 
@@ -399,7 +398,7 @@ export const Intellihide = class {
       Main.overview.visibleTarget ||
       this._dtpPanel.taskbar.previewMenu.opened ||
       this._dtpPanel.taskbar._dragMonitor ||
-      this._panelBox.get_hover() ||
+      this._hover ||
       (this._dtpPanel.geom.position == St.Side.TOP &&
         Main.layoutManager.panelBox.get_hover()) ||
       this._checkIfGrab()
@@ -488,9 +487,17 @@ export const Intellihide = class {
     Utils.stopAnimations(this._panelBox)
     this._animationDestination = destination
 
+    let update = () =>
+      this._timeoutsHandler.add([
+        T3,
+        POST_ANIMATE_MS,
+        () => this._queueUpdatePanelPosition(),
+      ])
+
     if (immediate) {
       this._panelBox[this._translationProp] = destination
       this._panelBox.visible = !destination
+      update()
     } else if (destination !== this._panelBox[this._translationProp]) {
       let tweenOpts = {
         //when entering/leaving the overview, use its animation time instead of the one from the settings
@@ -506,11 +513,7 @@ export const Intellihide = class {
         onComplete: () => {
           this._panelBox.visible = !destination
           Main.layoutManager._queueUpdateRegions()
-          this._timeoutsHandler.add([
-            T3,
-            POST_ANIMATE_MS,
-            () => this._queueUpdatePanelPosition(),
-          ])
+          update()
         },
       }
 
