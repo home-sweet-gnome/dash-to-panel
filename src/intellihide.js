@@ -427,25 +427,16 @@ export const Intellihide = class {
 
   _checkIfGrab() {
     let isGrab
+    let grabActor = global.stage.get_grab_actor()
+    let sourceActor = grabActor?._sourceActor || grabActor
 
-    if (GrabHelper._grabHelperStack)
-      // gnome-shell < 42
-      isGrab = GrabHelper._grabHelperStack.some(
-        (gh) => gh._owner == this._dtpPanel.panel,
-      )
-    else if (global.stage.get_grab_actor) {
-      // gnome-shell >= 42
-      let grabActor = global.stage.get_grab_actor()
-      let sourceActor = grabActor?._sourceActor || grabActor
-
-      isGrab =
-        sourceActor &&
-        (sourceActor == Main.layoutManager.dummyCursor ||
-          this._dtpPanel.statusArea.quickSettings?.menu.actor.contains(
-            sourceActor,
-          ) ||
-          this._dtpPanel.panel.contains(sourceActor))
-    }
+    isGrab =
+      sourceActor &&
+      (sourceActor == Main.layoutManager.dummyCursor ||
+        this._dtpPanel.statusArea.quickSettings?.menu.actor.contains(
+          sourceActor,
+        ) ||
+        this._dtpPanel.panel.contains(sourceActor))
 
     if (isGrab)
       //there currently is a grab on a child of the panel, check again soon to catch its release
