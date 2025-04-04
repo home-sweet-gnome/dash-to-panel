@@ -35,6 +35,7 @@ import * as Utils from './utils.js'
 import * as DesktopIconsIntegration from './desktopIconsIntegration.js'
 import { DTP_EXTENSION, SETTINGS, tracker } from './extension.js'
 
+import Gio from 'gi://Gio'
 import GLib from 'gi://GLib'
 import GObject from 'gi://GObject'
 import Clutter from 'gi://Clutter'
@@ -99,6 +100,8 @@ export const PanelManager = class {
     this._updatePanelElementPositions()
 
     if (reset) return
+
+    this._syncAppSwitcherWorkspaceIsolation()
 
     this.notificationsMonitor = new NotificationsMonitor()
 
@@ -266,6 +269,11 @@ export const PanelManager = class {
         },
       ],
       [
+        SETTINGS,
+        'changed::isolate-workspaces',
+        this._syncAppSwitcherWorkspaceIsolation,
+      ],
+      [
         Utils.DisplayWrapper.getMonitorManager(),
         'monitors-changed',
         async () => {
@@ -404,6 +412,18 @@ export const PanelManager = class {
     delete Main.panel.style
     this._desktopIconsUsableArea.destroy()
     this._desktopIconsUsableArea = null
+  }
+
+  _syncAppSwitcherWorkspaceIsolation() {
+    // alt-tab menu
+    let appSwitcherSettings = new Gio.Settings({
+      schema_id: 'org.gnome.shell.app-switcher',
+    })
+
+    appSwitcherSettings.set_boolean(
+      'current-workspace-only',
+      SETTINGS.get_boolean('isolate-workspaces'),
+    )
   }
 
   _setDesktopIconsMargins() {
