@@ -20,7 +20,6 @@ import Meta from 'gi://Meta'
 import Shell from 'gi://Shell'
 import St from 'gi://St'
 
-import * as GrabHelper from 'resource:///org/gnome/shell/ui/grabHelper.js'
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as OverviewControls from 'resource:///org/gnome/shell/ui/overviewControls.js'
@@ -426,11 +425,9 @@ export const Intellihide = class {
   }
 
   _checkIfGrab() {
-    let isGrab
     let grabActor = global.stage.get_grab_actor()
     let sourceActor = grabActor?._sourceActor || grabActor
-
-    isGrab =
+    let isGrab =
       sourceActor &&
       (sourceActor == Main.layoutManager.dummyCursor ||
         this._dtpPanel.statusArea.quickSettings?.menu.actor.contains(

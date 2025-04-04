@@ -69,6 +69,7 @@ export const PreviewMenu = GObject.registerClass(
       this.currentAppIcon = null
       this._focusedPreview = null
       this._peekedWindow = null
+      this._displayWorkspaces = false
       this.allowCloseWindow = true
       this.peekInitialWorkspaceIndex = -1
       this.opened = false
@@ -308,6 +309,10 @@ export const PreviewMenu = GObject.registerClass(
       return this.currentAppIcon
     }
 
+    shouldDisplayWorkspaceNumbers() {
+      return this._displayWorkspaces
+    }
+
     _setReactive(reactive) {
       this._box.get_children().forEach((c) => (c.reactive = reactive))
       this.menu.reactive = reactive
@@ -344,6 +349,8 @@ export const PreviewMenu = GObject.registerClass(
 
       let currentPreviews = this._box.get_children()
       let l = Math.max(windows.length, currentPreviews.length)
+
+      this._setShouldDisplayWorkspaces(windows)
 
       for (let i = 0; i < l; ++i) {
         if (currentPreviews[i] && windows[i]) {
@@ -388,6 +395,19 @@ export const PreviewMenu = GObject.registerClass(
       this._box.add_child(preview)
       preview.adjustOnStage()
       preview.assignWindow(window, this.opened)
+    }
+
+    _setShouldDisplayWorkspaces(windows) {
+      if (SETTINGS.get_boolean('isolate-workspaces'))
+        return (this._displayWorkspaces = false)
+
+      let workspaces = {
+        [Utils.getCurrentWorkspace().index()]: 1,
+      }
+
+      windows.forEach((w) => (workspaces[w.get_workspace().index()] = 1))
+
+      this._displayWorkspaces = Object.keys(workspaces).length > 1
     }
 
     _addCloseTimeout() {
@@ -1179,7 +1199,7 @@ export const Preview = GObject.registerClass(
         this._iconBin.destroy_all_children()
         this._iconBin.add_child(icon)
 
-        if (!SETTINGS.get_boolean('isolate-workspaces')) {
+        if (this._previewMenu.shouldDisplayWorkspaceNumbers()) {
           workspaceIndex = (this.window.get_workspace().index() + 1).toString()
           workspaceStyle =
             'margin: 0 4px 0 ' +
