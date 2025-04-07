@@ -479,7 +479,10 @@ export const Intellihide = class {
       this._timeoutsHandler.add([
         T3,
         POST_ANIMATE_MS,
-        () => this._queueUpdatePanelPosition(),
+        () => {
+          Main.layoutManager._queueUpdateRegions()
+          this._queueUpdatePanelPosition()
+        },
       ])
 
     if (immediate) {
