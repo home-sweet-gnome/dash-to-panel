@@ -500,10 +500,6 @@ export const Intellihide = class {
         transition: 'easeOutQuad',
         onComplete: () => {
           this._panelBox.visible = !destination
-          
-          if (this._panelBox.visible)
-            Main.layoutManager._queueUpdateRegions()
-          
           update()
         },
       }
