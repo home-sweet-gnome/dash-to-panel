@@ -802,8 +802,10 @@ const Preferences = class {
       panelOptionsMonitorCombo.append_text(label)
     }
 
+    this._ignorePrimaryMonitorChange = true
     primaryCombo.set_active(dtpPrimaryMonitorIndex)
     panelOptionsMonitorCombo.set_active(dtpPrimaryMonitorIndex)
+    this._ignorePrimaryMonitorChange = false
   }
 
   _bindSettings() {
@@ -1168,7 +1170,10 @@ const Preferences = class {
     this._builder
       .get_object('multimon_primary_combo')
       .connect('changed', (widget) => {
-        if (this.monitors[widget.get_active()])
+        if (
+          this.monitors[widget.get_active()] &&
+          !this._ignorePrimaryMonitorChange
+        )
           this._settings.set_string(
             'primary-monitor',
             this.monitors[widget.get_active()].id,

@@ -278,7 +278,9 @@ export const PanelManager = class {
         'monitors-changed',
         async () => {
           if (Main.layoutManager.primaryMonitor) {
-            await PanelSettings.setMonitorsInfo(SETTINGS)
+            await PanelSettings.setMonitorsInfo(SETTINGS).catch((e) =>
+              console.log(e),
+            )
             this._reset()
           }
         },

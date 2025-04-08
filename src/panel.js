@@ -382,8 +382,10 @@ export const Panel = GObject.registerClass(
       this.set_offscreen_redirect(Clutter.OffscreenRedirect.ALWAYS)
 
       if (!Main.layoutManager._startingUp)
-        GLib.idle_add(GLib.PRIORITY_LOW, () => {
+        this._waitResetGeomId = GLib.idle_add(GLib.PRIORITY_LOW, () => {
+          this._waitResetGeomId = 0
           this._resetGeometry()
+
           return GLib.SOURCE_REMOVE
         })
     }
@@ -393,6 +395,11 @@ export const Panel = GObject.registerClass(
 
       this._timeoutsHandler.destroy()
       this._signalsHandler.destroy()
+
+      if (this._waitResetGeomId) {
+        GLib.remove_source(this._waitResetGeomId)
+        this._waitResetGeomId = 0
+      }
 
       this.panel.remove_child(this.taskbar.actor)
 
