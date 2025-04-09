@@ -17,6 +17,7 @@
 
 import Clutter from 'gi://Clutter'
 import Meta from 'gi://Meta'
+import Mtk from 'gi://Mtk'
 import Shell from 'gi://Shell'
 import St from 'gi://St'
 
@@ -92,9 +93,18 @@ export const Intellihide = class {
     this._setTrackPanel(true)
     this._bindGeneralSignals()
 
-    if (SETTINGS.get_boolean('intellihide-hide-from-windows')) {
+    if (this._hidesFromWindows()) {
+      let watched = SETTINGS.get_boolean('intellihide-hide-from-windows')
+        ? this._panelBox.get_parent()
+        : new Mtk.Rectangle({
+            x: this._monitor.x,
+            y: this._monitor.y,
+            width: this._monitor.width,
+            height: this._monitor.height,
+          })
+
       this._proximityWatchId = this._proximityManager.createWatch(
-        this._panelBox.get_parent(),
+        watched,
         this._dtpPanel.monitor.index,
         Proximity.Mode[SETTINGS.get_string('intellihide-behaviour')],
         0,
@@ -193,6 +203,13 @@ export const Intellihide = class {
     this.enable()
   }
 
+  _hidesFromWindows() {
+    return (
+      SETTINGS.get_boolean('intellihide-hide-from-windows') ||
+      SETTINGS.get_boolean('intellihide-hide-from-monitor-windows')
+    )
+  }
+
   _changeEnabledStatus() {
     let intellihide = SETTINGS.get_boolean('intellihide')
     let onlySecondary = SETTINGS.get_boolean('intellihide-only-secondary')
@@ -223,6 +240,7 @@ export const Intellihide = class {
         [
           'changed::intellihide-use-pressure',
           'changed::intellihide-hide-from-windows',
+          'changed::intellihide-hide-from-monitor-windows',
           'changed::intellihide-behaviour',
           'changed::intellihide-pressure-threshold',
           'changed::intellihide-pressure-time',
@@ -417,7 +435,7 @@ export const Intellihide = class {
       return !mouseBtnIsPressed
     }
 
-    if (!SETTINGS.get_boolean('intellihide-hide-from-windows')) {
+    if (!this._hidesFromWindows()) {
       return this._hover
     }
 

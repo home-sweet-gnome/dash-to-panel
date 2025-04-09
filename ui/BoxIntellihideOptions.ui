@@ -44,10 +44,38 @@
       <object class="AdwPreferencesGroup">
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Only hide the panel when it is obstructed by windows</property>
+            <property name="title" translatable="yes">Only hide the panel from windows</property>
             <child>
-              <object class="GtkSwitch" id="intellihide_window_hide_switch">
-                <property name="valign">center</property>
+              <object class="GtkBox">
+                <property name="margin-end">10</property>
+                <child>
+                  <object class="GtkCheckButton" id="intellihide_window_hide_button">
+                    <property name="receives-default">False</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">Overlapping</property>
+                    <property name="name">4</property>
+                    <property name="use-markup">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <child>
+                  <object class="GtkCheckButton" id="intellihide_window_monitor_hide_button">
+                    <property name="receives-default">False</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="label" translatable="yes">On same monitor</property>
+                    <property name="name">4</property>
+                    <property name="use-markup">True</property>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
@@ -73,7 +101,7 @@
       <object class="AdwPreferencesGroup">
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Require pressure at the edge of the screen to reveal the panel</property>
+            <property name="title" translatable="yes">Require pressure at the edge of the monitor to reveal the panel</property>
             <child>
               <object class="GtkSwitch" id="intellihide_use_pressure_switch">
                 <property name="valign">center</property>

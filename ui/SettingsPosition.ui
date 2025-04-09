@@ -108,7 +108,7 @@
       <object class="AdwPreferencesGroup" id="position_group_on_monitor2">
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Panel screen position</property>
+            <property name="title" translatable="yes">Panel monitor position</property>
             <child>
               <object class="GtkToggleButton" id="position_bottom_button">
                 <property name="active">True</property>

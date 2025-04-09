@@ -338,8 +338,12 @@
     </key>
     <key type="b" name="intellihide-hide-from-windows">
       <default>false</default>
-      <summary>Only hide from windows</summary>
+      <summary>Only hide from overlapping windows</summary>
       <description>Dictates if the dash should only hide when in conflict with windows</description>
+    </key>
+    <key type="b" name="intellihide-hide-from-monitor-windows">
+      <default>false</default>
+      <summary>Only hide from windows on monitor</summary>
     </key>
     <key name="intellihide-behaviour" enum="org.gnome.shell.extensions.dash-to-panel.proximityBehavior">
       <default>'FOCUSED_WINDOWS'</default>

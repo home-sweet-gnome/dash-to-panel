@@ -34,14 +34,23 @@ export const Mode = {
   MAXIMIZED_WINDOWS: 2,
 }
 
-export class ProximityWatch {
-  constructor(actor, monitorIndex, mode, xThreshold, yThreshold, handler) {
-    this.actor = actor
+class ProximityRectWatch {
+  constructor(rect, monitorIndex, mode, xThreshold, yThreshold, handler) {
+    this.rect = rect
     this.monitorIndex = monitorIndex
     this.overlap = false
     this.mode = mode
     this.threshold = [xThreshold, yThreshold]
     this.handler = handler
+  }
+
+  destroy() {}
+}
+
+class ProximityActorWatch extends ProximityRectWatch {
+  constructor(actor, monitorIndex, mode, xThreshold, yThreshold, handler) {
+    super(null, monitorIndex, mode, xThreshold, yThreshold, handler)
+    this.actor = actor
 
     this._allocationChangedId = actor.connect('notify::allocation', () =>
       this._updateWatchRect(),
@@ -79,9 +88,14 @@ export const ProximityManager = class {
     this._setFocusedWindow()
   }
 
-  createWatch(actor, monitorIndex, mode, xThreshold, yThreshold, handler) {
-    let watch = new ProximityWatch(
-      actor,
+  createWatch(watched, monitorIndex, mode, xThreshold, yThreshold, handler) {
+    let constr =
+      watched instanceof Mtk.Rectangle
+        ? ProximityRectWatch
+        : ProximityActorWatch
+
+    let watch = new constr(
+      watched,
       monitorIndex,
       mode,
       xThreshold,

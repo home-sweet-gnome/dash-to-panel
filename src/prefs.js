@@ -1542,17 +1542,48 @@ const Preferences = class {
 
     this._settings.bind(
       'intellihide-hide-from-windows',
-      this._builder.get_object('intellihide_window_hide_switch'),
+      this._builder.get_object('intellihide_window_hide_button'),
       'active',
       Gio.SettingsBindFlags.DEFAULT,
     )
 
     this._settings.bind(
-      'intellihide-hide-from-windows',
-      this._builder.get_object('intellihide_behaviour_options'),
-      'sensitive',
+      'intellihide-hide-from-monitor-windows',
+      this._builder.get_object('intellihide_window_monitor_hide_button'),
+      'active',
       Gio.SettingsBindFlags.DEFAULT,
     )
+
+    let setIntellihideBehaviorSensitivity = () => {
+      let overlappingButton = this._builder.get_object(
+        'intellihide_window_hide_button',
+      )
+      let hideFromMonitorWindows = this._settings.get_boolean(
+        'intellihide-hide-from-monitor-windows',
+      )
+
+      if (hideFromMonitorWindows) overlappingButton.set_active(false)
+
+      overlappingButton.set_sensitive(!hideFromMonitorWindows)
+
+      this._builder
+        .get_object('intellihide_behaviour_options')
+        .set_sensitive(
+          this._settings.get_boolean('intellihide-hide-from-windows') ||
+            hideFromMonitorWindows,
+        )
+    }
+
+    this._settings.connect(
+      'changed::intellihide-hide-from-windows',
+      setIntellihideBehaviorSensitivity,
+    )
+    this._settings.connect(
+      'changed::intellihide-hide-from-monitor-windows',
+      setIntellihideBehaviorSensitivity,
+    )
+
+    setIntellihideBehaviorSensitivity()
 
     this._settings.bind(
       'intellihide-behaviour',
