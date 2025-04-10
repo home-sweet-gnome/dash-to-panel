@@ -107,6 +107,16 @@
       <object class="AdwPreferencesGroup">
         <child>
           <object class="AdwActionRow">
+            <property name="title" translatable="yes">Touching the edge of the monitor with the pointer reveals the panel</property>
+            <child>
+              <object class="GtkSwitch" id="intellihide_use_pointer_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="intellihide_use_pressure_options">
             <property name="title" translatable="yes">Require pressure at the edge of the monitor to reveal the panel</property>
             <child>
               <object class="GtkSwitch" id="intellihide_use_pressure_switch">
@@ -116,7 +126,7 @@
           </object>
         </child>
         <child>
-          <object class="AdwActionRow" id="intellihide_use_pressure_options">
+          <object class="AdwActionRow" id="intellihide_use_pressure_options2">
             <property name="title" translatable="yes">Required pressure threshold (px)</property>
             <child>
               <object class="GtkSpinButton" id="intellihide_pressure_threshold_spinbutton">
@@ -130,7 +140,7 @@
           </object>
         </child>
         <child>
-          <object class="AdwActionRow" id="intellihide_use_pressure_options2">
+          <object class="AdwActionRow" id="intellihide_use_pressure_options3">
             <property name="title" translatable="yes">Required pressure timeout (ms)</property>
             <child>
               <object class="GtkSpinButton" id="intellihide_pressure_time_spinbutton">

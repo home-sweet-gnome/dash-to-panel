@@ -116,7 +116,8 @@ export const Intellihide = class {
       )
     }
 
-    this._setRevealMechanism()
+    if (SETTINGS.get_boolean('intellihide-use-pointer'))
+      this._setRevealMechanism()
 
     let lastState = SETTINGS.get_int('intellihide-persisted-state')
 
@@ -238,6 +239,7 @@ export const Intellihide = class {
       [
         SETTINGS,
         [
+          'changed::intellihide-use-pointer',
           'changed::intellihide-use-pressure',
           'changed::intellihide-hide-from-windows',
           'changed::intellihide-hide-from-monitor-windows',
@@ -307,7 +309,10 @@ export const Intellihide = class {
   }
 
   _removeRevealMechanism() {
-    PointerWatcher.getPointerWatcher()._removeWatch(this._pointerWatch)
+    if (this._pointerWatch) {
+      PointerWatcher.getPointerWatcher()._removeWatch(this._pointerWatch)
+      this._pointerWatch = 0
+    }
 
     if (this._pressureBarrier) {
       this._pressureBarrier.destroy()

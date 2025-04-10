@@ -1593,6 +1593,25 @@ const Preferences = class {
     )
 
     this._settings.bind(
+      'intellihide-use-pointer',
+      this._builder.get_object('intellihide_use_pointer_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.connect('changed::intellihide-use-pointer', () => {
+      if (!this._settings.get_boolean('intellihide-use-pointer'))
+        this._settings.set_boolean('intellihide-use-pressure', false)
+    })
+
+    this._settings.bind(
+      'intellihide-use-pointer',
+      this._builder.get_object('intellihide_use_pressure_options'),
+      'sensitive',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
       'intellihide-use-pressure',
       this._builder.get_object('intellihide_use_pressure_switch'),
       'active',
@@ -1601,14 +1620,14 @@ const Preferences = class {
 
     this._settings.bind(
       'intellihide-use-pressure',
-      this._builder.get_object('intellihide_use_pressure_options'),
+      this._builder.get_object('intellihide_use_pressure_options2'),
       'sensitive',
       Gio.SettingsBindFlags.DEFAULT,
     )
 
     this._settings.bind(
       'intellihide-use-pressure',
-      this._builder.get_object('intellihide_use_pressure_options2'),
+      this._builder.get_object('intellihide_use_pressure_options3'),
       'sensitive',
       Gio.SettingsBindFlags.DEFAULT,
     )
@@ -1765,6 +1784,10 @@ const Preferences = class {
             this._settings.set_value(
               'intellihide-behaviour',
               this._settings.get_default_value('intellihide-behaviour'),
+            )
+            this._settings.set_value(
+              'intellihide-use-pointer',
+              this._settings.get_default_value('intellihide-use-pointer'),
             )
             this._settings.set_value(
               'intellihide-use-pressure',

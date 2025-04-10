@@ -350,10 +350,15 @@
       <summary>Intellihide behaviour</summary>
       <description>Dictates how to intelligently hide the panel</description>
     </key>
+    <key type="b" name="intellihide-use-pointer">
+      <default>true</default>
+      <summary>Intellihide mouse pointer</summary>
+      <description>The mouse pointer next to the edge of the screen reveals the panel</description>
+    </key>
     <key type="b" name="intellihide-use-pressure">
       <default>false</default>
       <summary>Intellihide pressure</summary>
-      <description>To reveal the panel, pressure needs to be applied to the edege of the screen</description>
+      <description>To reveal the panel, pressure needs to be applied to the edge of the screen</description>
     </key>
     <key type="i" name="intellihide-pressure-threshold">
       <default>100</default>
