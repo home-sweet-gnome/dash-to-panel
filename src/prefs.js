@@ -1715,6 +1715,15 @@ const Preferences = class {
       })
 
     this._builder
+      .get_object('intellihide_reveal_delay_spinbutton')
+      .set_value(this._settings.get_int('intellihide-reveal-delay'))
+    this._builder
+      .get_object('intellihide_reveal_delay_spinbutton')
+      .connect('value-changed', (widget) => {
+        this._settings.set_int('intellihide-reveal-delay', widget.get_value())
+      })
+
+    this._builder
       .get_object('intellihide_close_delay_spinbutton')
       .set_value(this._settings.get_int('intellihide-close-delay'))
     this._builder
@@ -1746,6 +1755,12 @@ const Preferences = class {
             this._settings.set_value(
               'intellihide-hide-from-windows',
               this._settings.get_default_value('intellihide-hide-from-windows'),
+            )
+            this._settings.set_value(
+              'intellihide-hide-from-monitor-windows',
+              this._settings.get_default_value(
+                'intellihide-hide-from-monitor-windows',
+              ),
             )
             this._settings.set_value(
               'intellihide-behaviour',
@@ -1818,6 +1833,14 @@ const Preferences = class {
             this._builder
               .get_object('intellihide_close_delay_spinbutton')
               .set_value(this._settings.get_int('intellihide-close-delay'))
+
+            this._settings.set_value(
+              'intellihide-reveal-delay',
+              this._settings.get_default_value('intellihide-reveal-delay'),
+            )
+            this._builder
+              .get_object('intellihide_reveal_delay_spinbutton')
+              .set_value(this._settings.get_int('intellihide-reveal-delay'))
 
             this._settings.set_value(
               'intellihide-enable-start-delay',

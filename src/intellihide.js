@@ -508,16 +508,20 @@ export const Intellihide = class {
       this._panelBox.visible = !destination
       update()
     } else if (destination !== this._panelBox[this._translationProp]) {
+      let delay = 0
+
+      if (destination != 0 && this._hoveredOut)
+        delay = SETTINGS.get_int('intellihide-close-delay') * 0.001
+      else if (destination == 0)
+        delay = SETTINGS.get_int('intellihide-reveal-delay') * 0.001
+
       let tweenOpts = {
         //when entering/leaving the overview, use its animation time instead of the one from the settings
         time: Main.overview.visible
           ? SIDE_CONTROLS_ANIMATION_TIME
           : SETTINGS.get_int('intellihide-animation-time') * 0.001,
         //only delay the animation when hiding the panel after the user hovered out
-        delay:
-          destination != 0 && this._hoveredOut
-            ? SETTINGS.get_int('intellihide-close-delay') * 0.001
-            : 0,
+        delay,
         transition: 'easeOutQuad',
         onComplete: () => {
           this._panelBox.visible = !destination

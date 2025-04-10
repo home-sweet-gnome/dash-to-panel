@@ -27,6 +27,12 @@
     <property name="step-increment">10</property>
     <property name="upper">4000</property>
   </object>
+  <object class="GtkAdjustment" id="intellihide_reveal_delay_adjustment">
+    <property name="lower">0</property>
+    <property name="page-increment">100</property>
+    <property name="step-increment">10</property>
+    <property name="upper">4000</property>
+  </object>
   <object class="GtkAdjustment" id="intellihide_enable_hide_delay_adjustment">
     <property name="page-increment">100</property>
     <property name="step-increment">10</property>
@@ -220,6 +226,21 @@
             <child>
               <object class="GtkSpinButton" id="intellihide_close_delay_spinbutton">
                 <property name="adjustment">intellihide_close_delay_adjustment</property>
+                <property name="numeric">True</property>
+                <property name="text">10</property>
+                <property name="valign">center</property>
+                <property name="value">10</property>
+                <property name="width-chars">4</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Delay before revealing the panel (ms)</property>
+            <child>
+              <object class="GtkSpinButton" id="intellihide_reveal_delay_spinbutton">
+                <property name="adjustment">intellihide_reveal_delay_adjustment</property>
                 <property name="numeric">True</property>
                 <property name="text">10</property>
                 <property name="valign">center</property>
