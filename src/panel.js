@@ -397,7 +397,7 @@ export const Panel = GObject.registerClass(
       this._signalsHandler.destroy()
 
       if (this._waitResetGeomId) {
-        GLib.remove_source(this._waitResetGeomId)
+        GLib.source_remove(this._waitResetGeomId)
         this._waitResetGeomId = 0
       }
 

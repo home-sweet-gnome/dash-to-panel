@@ -146,16 +146,6 @@ function checkHotkeyPrefix(settings) {
   settings.apply()
 }
 
-function mergeObjects(main, bck) {
-  for (const prop in bck) {
-    if (!Object.hasOwn(main, prop) && Object.hasOwn(bck, prop)) {
-      main[prop] = bck[prop]
-    }
-  }
-
-  return main
-}
-
 const Preferences = class {
   constructor(window, settings, path) {
     // this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
@@ -628,25 +618,17 @@ const Preferences = class {
           'show-apps-override-escape',
           this._settings.get_default_value('show-apps-override-escape'),
         )
-        handleIconChange.call(this, null)
+        handleIconChange(null)
       },
     )
 
     let fileChooserButton = this._builder.get_object(
       'show_applications_icon_file_filebutton',
     )
-    let fileChooser = new Gtk.FileChooserNative({
-      title: _('Open icon'),
-      transient_for: dialog,
-    })
     let fileImage = this._builder.get_object(
       'show_applications_current_icon_image',
     )
-    let fileFilter = new Gtk.FileFilter()
-    fileFilter.add_pixbuf_formats()
-    fileChooser.filter = fileFilter
-
-    let handleIconChange = function (newIconPath) {
+    let handleIconChange = (newIconPath) => {
       if (newIconPath && GLib.file_test(newIconPath, GLib.FileTest.EXISTS)) {
         let file = Gio.File.new_for_path(newIconPath)
         let pixbuf = GdkPixbuf.Pixbuf.new_from_stream_at_scale(
@@ -658,15 +640,10 @@ const Preferences = class {
         )
 
         fileImage.set_from_pixbuf(pixbuf)
-        fileChooser.set_file(file)
         fileChooserButton.set_label(newIconPath)
       } else {
         newIconPath = ''
         fileImage.set_from_icon_name('view-app-grid-symbolic')
-        let picturesFolder = Gio.File.new_for_path(
-          GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES),
-        )
-        fileChooser.set_file(picturesFolder)
         fileChooserButton.set_label('(None)')
       }
 
@@ -674,24 +651,28 @@ const Preferences = class {
     }
 
     fileChooserButton.connect('clicked', () => {
-      fileChooser.show()
+      let fileFilter = new Gtk.FileFilter()
+      let filters = new Gio.ListStore({ itemType: Gtk.FileFilter })
+      let iconFile = this._settings.get_string('show-apps-icon-file')
+
+      if (!iconFile)
+        iconFile = GLib.get_user_special_dir(
+          GLib.UserDirectory.DIRECTORY_PICTURES,
+        )
+
+      fileFilter.add_pixbuf_formats()
+      filters.append(fileFilter)
+
+      this._showFileDialog(
+        _('Open icon'),
+        'open',
+        Gio.File.new_for_path(iconFile),
+        filters,
+        handleIconChange,
+      )
     })
 
-    fileChooser.connect('response', (widget) =>
-      handleIconChange.call(this, widget.get_file().get_path()),
-    )
-    handleIconChange.call(
-      this,
-      this._settings.get_string('show-apps-icon-file'),
-    )
-
-    // we have to destroy the fileChooser as well
-    dialog.connect('response', (dialog, id) => {
-      if (id != 1) {
-        fileChooser.destroy()
-      }
-      return
-    })
+    handleIconChange(this._settings.get_string('show-apps-icon-file'))
 
     dialog.show()
     dialog.set_default_size(1, 1)
@@ -3673,10 +3654,11 @@ const Preferences = class {
     this._builder
       .get_object('importexport_export_button')
       .connect('clicked', () => {
-        this._showFileChooser(
+        this._showFileDialog(
           _('Export settings'),
-          { action: Gtk.FileChooserAction.SAVE },
-          'Save',
+          'save',
+          null,
+          null,
           (filename) => {
             let file = Gio.file_new_for_path(filename)
             let raw = file.replace(null, false, Gio.FileCreateFlags.NONE, null)
@@ -3694,10 +3676,11 @@ const Preferences = class {
     this._builder
       .get_object('importexport_import_button')
       .connect('clicked', () => {
-        this._showFileChooser(
+        this._showFileDialog(
           _('Import settings'),
-          { action: Gtk.FileChooserAction.OPEN },
-          'Open',
+          'open',
+          null,
+          null,
           (filename) => {
             if (filename && GLib.file_test(filename, GLib.FileTest.EXISTS)) {
               let settingsFile = Gio.File.new_for_path(filename)
@@ -3744,24 +3727,23 @@ const Preferences = class {
     }
   }
 
-  _showFileChooser(title, params, acceptBtn, acceptHandler) {
-    let dialog = new Gtk.FileChooserDialog(
-      mergeObjects(
-        { title: title, transient_for: this.notebook.get_root() },
-        params,
-      ),
-    )
+  _showFileDialog(title, action, initialFile, filters, acceptHandler) {
+    let fileDialog = new Gtk.FileDialog({
+      title,
+    })
 
-    dialog.add_button('Cancel', Gtk.ResponseType.CANCEL)
-    dialog.add_button(acceptBtn, Gtk.ResponseType.ACCEPT)
+    if (initialFile) fileDialog.set_initial_folder(initialFile)
 
-    dialog.show()
+    if (filters) fileDialog.set_filters(filters)
 
-    dialog.connect('response', (dialog, id) => {
-      if (id == Gtk.ResponseType.ACCEPT)
-        acceptHandler.call(this, dialog.get_file().get_path())
+    fileDialog[action](this.notebook.get_root(), null, async (self, result) => {
+      try {
+        const file = self[`${action}_finish`](result)
 
-      dialog.destroy()
+        if (file) acceptHandler.call(this, file.get_path())
+      } catch {
+        // user closed without selecting a file
+      }
     })
   }
 }
