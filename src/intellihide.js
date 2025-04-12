@@ -298,7 +298,13 @@ export const Intellihide = class {
       this._signalsHandler.add([
         this._pressureBarrier,
         'trigger',
-        () => this._queueUpdatePanelPosition(true),
+        () => {
+          let [x, y] = global.get_pointer()
+
+          if (this._pointerIn(x, y, 1, 'intellihide-use-pointer-limit-size'))
+            this._queueUpdatePanelPosition(true)
+          else this._pressureBarrier._isTriggered = false
+        },
       ])
     }
 
@@ -352,31 +358,26 @@ export const Intellihide = class {
   }
 
   _checkMousePointer(x, y) {
-    let position = this._dtpPanel.geom.position
-
-    let pointerIn = (offset) =>
-      ((position == St.Side.TOP && y <= this._monitor.y + offset) ||
-        (position == St.Side.BOTTOM &&
-          y >= this._monitor.y + this._monitor.height - offset) ||
-        (position == St.Side.LEFT && x <= this._monitor.x + offset) ||
-        (position == St.Side.RIGHT &&
-          x >= this._monitor.x + this._monitor.width - offset)) &&
-      x >= this._monitor.x &&
-      x < this._monitor.x + this._monitor.width &&
-      y >= this._monitor.y &&
-      y < this._monitor.y + this._monitor.height
-
     if (
-      !this._edgeBarrier &&
+      !this._pressureBarrier &&
       !this._hover &&
       !Main.overview.visible &&
-      pointerIn(1)
+      this._pointerIn(x, y, 1, 'intellihide-use-pointer-limit-size')
     ) {
       this._hover = true
       this._queueUpdatePanelPosition(true)
     } else if (this._panelBox.visible) {
-      let hover = pointerIn(
-        this._dtpPanel.geom.outerSize + this._dtpPanel.geom.topOffset,
+      let keepRevealedOnHover = SETTINGS.get_boolean(
+        'intellihide-revealed-hover',
+      )
+      let fixedOffset = keepRevealedOnHover
+        ? this._dtpPanel.geom.outerSize + this._dtpPanel.geom.topOffset
+        : 1
+      let hover = this._pointerIn(
+        x,
+        y,
+        fixedOffset,
+        'intellihide-revealed-hover-limit-size',
       )
 
       if (hover == this._hover) return
@@ -385,6 +386,31 @@ export const Intellihide = class {
       this._hover = hover
       this._queueUpdatePanelPosition()
     }
+  }
+
+  _pointerIn(x, y, fixedOffset, limitSizeSetting) {
+    let position = this._dtpPanel.geom.position
+    let varOffset = {}
+
+    if (SETTINGS.get_boolean(limitSizeSetting)) {
+      varOffset[this._dtpPanel.varCoord.c1] =
+        this._dtpPanel.allocation[this._dtpPanel.varCoord.c1]
+      varOffset[this._dtpPanel.varCoord.c2] =
+        this._dtpPanel.allocation[this._dtpPanel.varCoord.c2]
+    }
+
+    return (
+      ((position == St.Side.TOP && y <= this._monitor.y + fixedOffset) ||
+        (position == St.Side.BOTTOM &&
+          y >= this._monitor.y + this._monitor.height - fixedOffset) ||
+        (position == St.Side.LEFT && x <= this._monitor.x + fixedOffset) ||
+        (position == St.Side.RIGHT &&
+          x >= this._monitor.x + this._monitor.width - fixedOffset)) &&
+      x >= this._monitor.x + (varOffset.x1 || 0) &&
+      x < this._monitor.x + (varOffset.x2 || this._monitor.width) &&
+      y >= this._monitor.y + (varOffset.y1 || 0) &&
+      y < this._monitor.y + (varOffset.y2 || this._monitor.height)
+    )
   }
 
   _queueUpdatePanelPosition(fromRevealMechanism) {

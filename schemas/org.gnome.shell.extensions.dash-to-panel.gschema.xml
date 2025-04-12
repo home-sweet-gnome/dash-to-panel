@@ -355,6 +355,18 @@
       <summary>Intellihide mouse pointer</summary>
       <description>The mouse pointer next to the edge of the screen reveals the panel</description>
     </key>
+    <key type="b" name="intellihide-use-pointer-limit-size">
+      <default>false</default>
+      <summary>Limit to panel length</summary>
+    </key>
+    <key type="b" name="intellihide-revealed-hover">
+      <default>true</default>
+      <summary>Panel stays revealed when hovered</summary>
+    </key>
+    <key type="b" name="intellihide-revealed-hover-limit-size">
+      <default>false</default>
+      <summary>Limit to panel length</summary>
+    </key>
     <key type="b" name="intellihide-use-pressure">
       <default>false</default>
       <summary>Intellihide pressure</summary>

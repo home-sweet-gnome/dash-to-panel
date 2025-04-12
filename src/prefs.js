@@ -1580,10 +1580,71 @@ const Preferences = class {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
+    this._settings.bind(
+      'intellihide-use-pointer-limit-size',
+      this._builder.get_object('intellihide_use_pointer_limit_button'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'intellihide-use-pointer',
+      this._builder.get_object('intellihide_use_pointer_limit_button'),
+      'sensitive',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'intellihide-revealed-hover',
+      this._builder.get_object('intellihide_revealed_hover_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'intellihide-use-pointer',
+      this._builder.get_object('intellihide_revealed_hover_switch'),
+      'sensitive',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'intellihide-revealed-hover-limit-size',
+      this._builder.get_object('intellihide_revealed_hover_limit_button'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'intellihide-revealed-hover',
+      this._builder.get_object('intellihide_revealed_hover_limit_button'),
+      'sensitive',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
     this._settings.connect('changed::intellihide-use-pointer', () => {
-      if (!this._settings.get_boolean('intellihide-use-pointer'))
+      if (!this._settings.get_boolean('intellihide-use-pointer')) {
+        this._settings.set_boolean('intellihide-revealed-hover', false)
+        this._settings.set_boolean('intellihide-use-pointer-limit-size', false)
         this._settings.set_boolean('intellihide-use-pressure', false)
+      }
     })
+
+    this._settings.connect('changed::intellihide-revealed-hover', () => {
+      if (!this._settings.get_boolean('intellihide-revealed-hover')) {
+        this._settings.set_boolean(
+          'intellihide-revealed-hover-limit-size',
+          false,
+        )
+      }
+    })
+
+    this._settings.bind(
+      'intellihide-use-pointer',
+      this._builder.get_object('intellihide_revealed_hover_options'),
+      'sensitive',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
 
     this._settings.bind(
       'intellihide-use-pointer',
@@ -1769,6 +1830,22 @@ const Preferences = class {
             this._settings.set_value(
               'intellihide-use-pointer',
               this._settings.get_default_value('intellihide-use-pointer'),
+            )
+            this._settings.set_value(
+              'intellihide-use-pointer-limit-size',
+              this._settings.get_default_value(
+                'intellihide-use-pointer-limit-size',
+              ),
+            )
+            this._settings.set_value(
+              'intellihide-revealed-hover',
+              this._settings.get_default_value('intellihide-revealed-hover'),
+            )
+            this._settings.set_value(
+              'intellihide-revealed-hover-limit-size',
+              this._settings.get_default_value(
+                'intellihide-revealed-hover-limit-size',
+              ),
             )
             this._settings.set_value(
               'intellihide-use-pressure',
