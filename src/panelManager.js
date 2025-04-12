@@ -340,7 +340,6 @@ export const PanelManager = class {
 
       Main.layoutManager._untrackActor(p)
       Main.layoutManager._untrackActor(p.panelBox)
-      Main.layoutManager.removeChrome(clipContainer)
 
       if (p.isStandalone) {
         p.panelBox.destroy()
@@ -359,6 +358,8 @@ export const PanelManager = class {
           trackFullscreen: true,
         })
       }
+
+      Main.layoutManager.removeChrome(clipContainer)
     })
 
     if (Main.layoutManager.primaryMonitor) {
