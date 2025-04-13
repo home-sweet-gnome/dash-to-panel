@@ -297,7 +297,7 @@ export const PanelManager = class {
             this._adjustPanelMenuButton(
               this._getPanelMenuButton(child.get_first_child()),
               this.primaryPanel.monitor,
-              this.primaryPanel.getPosition(),
+              this.primaryPanel.geom.position,
             )
         },
       ]),
@@ -699,11 +699,10 @@ export const PanelManager = class {
 
     panelBox._dtpIndex = monitor.index
     panelBox.set_position(0, 0)
-
-    if (panel.checkIfVertical) panelBox.set_width(-1)
+    panelBox.set_width(-1)
 
     this._findPanelMenuButtons(panelBox).forEach((pmb) =>
-      this._adjustPanelMenuButton(pmb, monitor, panel.getPosition()),
+      this._adjustPanelMenuButton(pmb, monitor, panel.geom.position),
     )
 
     panel.taskbar.iconAnimator.start()
@@ -947,7 +946,7 @@ function newUpdateHotCorners() {
       global.dashToPanel.panels,
       (p) => p.monitor.index == i,
     )
-    let panelPosition = panel ? panel.getPosition() : St.Side.BOTTOM
+    let panelPosition = panel ? panel.geom.position : St.Side.BOTTOM
     let panelTopLeft =
       panelPosition == St.Side.TOP || panelPosition == St.Side.LEFT
     let monitor = this.monitors[i]
@@ -1036,7 +1035,7 @@ function newUpdatePanelBarrier(panel) {
   let fixed1 = panel.monitor.y
   let fixed2 = panel.monitor.y + barrierSize
 
-  if (panel.checkIfVertical()) {
+  if (panel.geom.vertical) {
     barriers._rightPanelBarrier.push(
       panel.monitor.y + panel.monitor.height,
       Meta.BarrierDirection.NEGATIVE_Y,
@@ -1056,7 +1055,7 @@ function newUpdatePanelBarrier(panel) {
     )
   }
 
-  switch (panel.getPosition()) {
+  switch (panel.geom.position) {
     //values are initialized as St.Side.TOP
     case St.Side.BOTTOM:
       fixed1 = panel.monitor.y + panel.monitor.height - barrierSize
@@ -1107,7 +1106,7 @@ function _newLookingGlassResize() {
     (p) => p.monitor == Main.layoutManager.primaryMonitor,
   )
   let topOffset =
-    primaryMonitorPanel.getPosition() == St.Side.TOP
+    primaryMonitorPanel.geom.position == St.Side.TOP
       ? primaryMonitorPanel.geom.outerSize +
         (SETTINGS.get_boolean('stockgs-keep-top-panel')
           ? Main.layoutManager.panelBox.height

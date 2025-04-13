@@ -171,7 +171,7 @@ export const TaskbarAppIcon = GObject.registerClass(
       })
       this._dtpIconContainer = new St.Widget({
         layout_manager: new Clutter.BinLayout(),
-        style: getIconContainerStyle(panel.checkIfVertical()),
+        style: getIconContainerStyle(panel.geom.vertical),
       })
 
       this.remove_child(this._iconContainer)
@@ -202,7 +202,7 @@ export const TaskbarAppIcon = GObject.registerClass(
       this._container.add_child(this._dotsContainer)
       this.set_child(this._container)
 
-      if (panel.checkIfVertical()) {
+      if (panel.geom.vertical) {
         this.set_width(panel.geom.innerSize)
       }
 
@@ -729,7 +729,7 @@ export const TaskbarAppIcon = GObject.registerClass(
           SETTINGS.get_int('group-apps-label-max-width') * scaleFactor
         let variableWidth =
           !useFixedWidth ||
-          this.dtpPanel.checkIfVertical() ||
+          this.dtpPanel.geom.vertical ||
           this.dtpPanel.taskbar.fullScrollView
 
         this._windowTitle[maxLabelWidth > 0 ? 'show' : 'hide']()
@@ -809,7 +809,7 @@ export const TaskbarAppIcon = GObject.registerClass(
             let bgSvg = '/img/highlight_stacked_bg'
 
             if (pos == DOT_POSITION.LEFT || pos == DOT_POSITION.RIGHT) {
-              bgSvg += this.dtpPanel.checkIfVertical() ? '_2' : '_3'
+              bgSvg += this.dtpPanel.geom.vertical ? '_2' : '_3'
             }
 
             inlineStyle +=
@@ -858,7 +858,7 @@ export const TaskbarAppIcon = GObject.registerClass(
     _setAppIconPadding() {
       const padding = getIconPadding(this.dtpPanel)
       const margin = SETTINGS.get_int('appicon-margin')
-      let vertical = this.dtpPanel.checkIfVertical()
+      let vertical = this.dtpPanel.geom.vertical
 
       this.set_style(
         `padding: ${vertical ? margin : 0}px ${vertical ? 0 : margin}px;`,
@@ -2012,7 +2012,7 @@ export function ItemShowLabel() {
   let labelWidth = this.label.get_width()
   let labelHeight = this.label.get_height()
 
-  let position = this._dtpPanel.getPosition()
+  let position = this._dtpPanel.geom.position
   let labelOffset = node.get_length('-x-offset')
 
   // From TaskbarItemContainer
@@ -2180,7 +2180,7 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
   setShowAppsPadding() {
     let padding = getIconPadding(this.realShowAppsIcon._dtpPanel)
     let sidePadding = SETTINGS.get_int('show-apps-icon-side-padding')
-    let isVertical = this.realShowAppsIcon._dtpPanel.checkIfVertical()
+    let isVertical = this.realShowAppsIcon._dtpPanel.geom.vertical
 
     this.actor.set_style(
       'padding:' +
@@ -2254,7 +2254,7 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
  */
 export const MyShowAppsIconMenu = class extends PopupMenu.PopupMenu {
   constructor(actor, dtpPanel) {
-    super(actor, 0, dtpPanel.getPosition())
+    super(actor, 0, dtpPanel.geom.position)
 
     this._dtpPanel = dtpPanel
 

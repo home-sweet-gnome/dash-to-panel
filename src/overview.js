@@ -121,7 +121,7 @@ export const Overview = class {
             let { transitioning, finalState, progress } =
               overviewControls._stateAdjustment.getStateTransitionParams()
             let size =
-              focusedPanel.geom[focusedPanel.checkIfVertical() ? 'w' : 'h'] *
+              focusedPanel.geom[focusedPanel.geom.vertical ? 'w' : 'h'] *
               (transitioning
                 ? Math.abs((finalState != 0 ? 0 : 1) - progress)
                 : 1)

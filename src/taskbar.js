@@ -246,7 +246,7 @@ export const Taskbar = class extends EventEmitter {
     this._labelShowing = false
     this.fullScrollView = 0
 
-    let isVertical = panel.checkIfVertical()
+    let isVertical = panel.geom.vertical
 
     this._box = Utils.createBoxLayout({
       vertical: isVertical,
@@ -471,7 +471,7 @@ export const Taskbar = class extends EventEmitter {
   _updateIconAnimations(pointerX, pointerY) {
     this._iconAnimationTimestamp = Date.now()
     let type = iconAnimationSettings.type
-    let vertical = this.dtpPanel.checkIfVertical()
+    let vertical = this.dtpPanel.geom.vertical
 
     if (!pointerX || !pointerY) [pointerX, pointerY] = global.get_pointer()
 
@@ -602,7 +602,7 @@ export const Taskbar = class extends EventEmitter {
     // force a fixed label width to prevent the icons from "wiggling" when an animation runs
     // (adding or removing an icon). When the taskbar is full, revert to a dynamic label width
     // to allow them to resize and make room for new icons.
-    if (!this.dtpPanel.checkIfVertical() && !this.isGroupApps) {
+    if (!this.dtpPanel.geom.vertical && !this.isGroupApps) {
       let initial = this.fullScrollView
 
       if (
@@ -1270,7 +1270,7 @@ export const Taskbar = class extends EventEmitter {
     if (!this._settings.is_writable('favorite-apps'))
       return DND.DragMotionResult.NO_DROP
 
-    let isVertical = this.dtpPanel.checkIfVertical()
+    let isVertical = this.dtpPanel.geom.vertical
 
     if (!this._box.contains(source) && !source._dashItemContainer) {
       //not an appIcon of the taskbar, probably from the applications view
@@ -1625,7 +1625,7 @@ export const TaskbarItemContainer = GObject.registerClass(
       this._updateCloneContainerPosition(cloneContainer)
 
       // For the stretch animation
-      let boundProperty = this._dtpPanel.checkIfVertical()
+      let boundProperty = this._dtpPanel.geom.vertical
         ? 'translation_y'
         : 'translation_x'
       this.bind_property(
@@ -1637,7 +1637,7 @@ export const TaskbarItemContainer = GObject.registerClass(
 
       // The clone follows its source when the taskbar is scrolled.
       let taskbarScrollView = this.get_parent().get_parent()
-      let adjustment = this._dtpPanel.checkIfVertical()
+      let adjustment = this._dtpPanel.geom.vertical
         ? taskbarScrollView.get_vadjustment()
         : taskbarScrollView.get_hadjustment()
       let adjustmentChangedId = adjustment.connect('notify::value', () =>
@@ -1675,7 +1675,7 @@ export const TaskbarItemContainer = GObject.registerClass(
       else if (level) this._createRaisedClone()
       else return
 
-      let panelPosition = this._dtpPanel.getPosition()
+      let panelPosition = this._dtpPanel.geom.position
       let panelElementPositions = PanelSettings.getPanelElementPositions(
         SETTINGS,
         this._dtpPanel.monitor.index,
@@ -1747,7 +1747,7 @@ export const TaskbarItemContainer = GObject.registerClass(
     stretch(translation) {
       let duration = iconAnimationSettings.duration / 1000
       let zoom = iconAnimationSettings.zoom
-      let animatedProperty = this._dtpPanel.checkIfVertical()
+      let animatedProperty = this._dtpPanel.geom.vertical
         ? 'translation_y'
         : 'translation_x'
       let isShowing = this.opacity != 255 || this.child.opacity != 255

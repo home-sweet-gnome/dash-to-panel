@@ -103,7 +103,7 @@ export const DynamicTransparency = class {
     this._proximityManager.removeWatch(this._proximityWatchId)
 
     if (SETTINGS.get_boolean('trans-use-dynamic-opacity')) {
-      let isVertical = this._dtpPanel.checkIfVertical()
+      let isVertical = this._dtpPanel.geom.vertical
       let threshold = SETTINGS.get_int('trans-dynamic-distance')
 
       this._windowOverlap = false
@@ -179,7 +179,7 @@ export const DynamicTransparency = class {
     if (SETTINGS.get_boolean('trans-use-custom-gradient')) {
       this._gradientStyle +=
         'background-gradient-direction: ' +
-        (this._dtpPanel.checkIfVertical() ? 'horizontal;' : 'vertical;') +
+        (this._dtpPanel.geom.vertical ? 'horizontal;' : 'vertical;') +
         'background-gradient-start: ' +
         Utils.getrgbaColor(
           SETTINGS.get_string('trans-gradient-top-color'),

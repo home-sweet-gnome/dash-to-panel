@@ -357,7 +357,7 @@ export const Panel = GObject.registerClass(
 
       this.panelStyle.enable(this)
 
-      if (this.checkIfVertical()) {
+      if (this.geom.vertical) {
         this._signalsHandler.add([
           this.panelBox,
           'notify::visible',
@@ -527,13 +527,11 @@ export const Panel = GObject.registerClass(
     }
 
     checkIfVertical() {
-      let position = this.getPosition()
-
-      return position == St.Side.LEFT || position == St.Side.RIGHT
+      return this.geom.vertical
     }
 
     getOrientation() {
-      return this.checkIfVertical() ? 'vertical' : 'horizontal'
+      return this.geom.vertical ? 'vertical' : 'horizontal'
     }
 
     updateElementPositions() {
@@ -614,7 +612,7 @@ export const Panel = GObject.registerClass(
     }
 
     _bindSettingsChanges() {
-      let isVertical = this.checkIfVertical()
+      let isVertical = this.geom.vertical
 
       this._signalsHandler.add(
         [
@@ -732,7 +730,7 @@ export const Panel = GObject.registerClass(
       this.taskbar.resetAppIcons(true)
       this.dynamicTransparency.updateExternalStyle()
 
-      if (this.checkIfVertical()) {
+      if (this.geom.vertical) {
         this.showAppsIconWrapper.realShowAppsIcon.toggleButton.set_width(
           this.geom.innerSize,
         )
@@ -741,7 +739,8 @@ export const Panel = GObject.registerClass(
     }
 
     getGeometry() {
-      let isVertical = this.checkIfVertical()
+      let position = this.getPosition()
+      let vertical = position == St.Side.LEFT || position == St.Side.RIGHT
       let scaleFactor = Utils.getScaleFactor()
       let panelBoxTheme = this.panelBox.get_theme_node()
       let sideMargins =
@@ -752,7 +751,6 @@ export const Panel = GObject.registerClass(
         panelBoxTheme.get_padding(St.Side.BOTTOM)
       let sidePadding = SETTINGS.get_int('panel-side-padding')
       let topBottomPadding = SETTINGS.get_int('panel-top-bottom-padding')
-      let position = this.getPosition()
       let panelLength = PanelSettings.getPanelLength(
         SETTINGS,
         this.monitor.index,
@@ -774,9 +772,9 @@ export const Panel = GObject.registerClass(
       let outerSize = 0
       let panelSize = PanelSettings.getPanelSize(SETTINGS, this.monitor.index)
 
-      if (isVertical && panelSize - sidePadding * 2 < MIN_PANEL_SIZE)
+      if (vertical && panelSize - sidePadding * 2 < MIN_PANEL_SIZE)
         sidePadding = (panelSize - MIN_PANEL_SIZE) * 0.5
-      else if (!isVertical && panelSize - topBottomPadding * 2 < MIN_PANEL_SIZE)
+      else if (!vertical && panelSize - topBottomPadding * 2 < MIN_PANEL_SIZE)
         topBottomPadding = (panelSize - MIN_PANEL_SIZE) * 0.5
 
       iconSize = innerSize = outerSize = panelSize * scaleFactor
@@ -789,7 +787,7 @@ export const Panel = GObject.registerClass(
         topOffset = position == St.Side.TOP ? gsTopPanelHeight : 0
       }
 
-      if (isVertical) {
+      if (vertical) {
         if (!SETTINGS.get_boolean('group-apps')) {
           // add window title width and side padding of _dtpIconContainer when vertical
           innerSize = outerSize +=
@@ -837,13 +835,13 @@ export const Panel = GObject.registerClass(
 
       if (length < 1) {
         // fixed size, less than 100%, so adjust start coordinate
-        if (!isVertical && anchor == Pos.MIDDLE)
+        if (!vertical && anchor == Pos.MIDDLE)
           x += (this.monitor.width - w - sideMargins) * 0.5
-        else if (isVertical && anchor == Pos.MIDDLE)
+        else if (vertical && anchor == Pos.MIDDLE)
           y += (this.monitor.height - h - topBottomMargins) * 0.5
-        else if (!isVertical && anchor == Pos.END)
+        else if (!vertical && anchor == Pos.END)
           x += this.monitor.width - w - sideMargins
-        else if (isVertical && anchor == Pos.END)
+        else if (vertical && anchor == Pos.END)
           y += this.monitor.height - h - topBottomMargins
       }
 
@@ -862,6 +860,7 @@ export const Panel = GObject.registerClass(
         varPadding,
         topOffset, // only if gnome-shell top panel is present and position is TOP
         position,
+        vertical,
         dynamic,
         dockMode,
       }
@@ -1128,7 +1127,7 @@ export const Panel = GObject.registerClass(
       this.set_size(this.geom.w, this.geom.h)
       this.clipContainer.set_position(this.geom.x, this.geom.y)
 
-      this._setVertical(this.panel, this.checkIfVertical())
+      this._setVertical(this.panel, this.geom.vertical)
 
       // center the system menu popup relative to its panel button
       if (this.statusArea.quickSettings?.menu) {
@@ -1157,7 +1156,7 @@ export const Panel = GObject.registerClass(
         T7,
         0,
         () => {
-          let vertical = this.checkIfVertical()
+          let vertical = this.geom.vertical
           let w = vertical ? this.geom.outerSize : this.geom.w
           let h = vertical ? this.geom.h : this.geom.outerSize
 
@@ -1208,7 +1207,7 @@ export const Panel = GObject.registerClass(
         }
       }
 
-      let params = this.checkIfVertical()
+      let params = this.geom.vertical
         ? [stageY, 'y', 'height']
         : [stageX, 'x', 'width']
       let dragWindow = this._getDraggableWindowForPosition.apply(
@@ -1255,7 +1254,7 @@ export const Panel = GObject.registerClass(
     }
 
     _onBoxActorAdded(box) {
-      if (this.checkIfVertical()) {
+      if (this.geom.vertical) {
         this._setVertical(box, true)
       }
     }
@@ -1458,7 +1457,7 @@ export const Panel = GObject.registerClass(
 
       if (this._showDesktopButton) {
         let buttonSize = SETTINGS.get_int('showdesktop-button-width') + 'px;'
-        let isVertical = this.checkIfVertical()
+        let isVertical = this.geom.vertical
 
         let sytle = 'border: 0 solid ' + rgb + ';'
         sytle += isVertical

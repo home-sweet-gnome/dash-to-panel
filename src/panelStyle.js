@@ -66,7 +66,7 @@ export const PanelStyle = class {
     this._rightBoxOperations = []
 
     let trayPadding = SETTINGS.get_int('tray-padding')
-    let isVertical = this.panel.checkIfVertical()
+    let isVertical = this.panel.geom.vertical
     let paddingStyle = 'padding: ' + (isVertical ? '%dpx 0' : '0 %dpx')
 
     if (trayPadding >= 0) {

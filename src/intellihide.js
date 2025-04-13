@@ -85,7 +85,7 @@ export const Intellihide = class {
     this._hoveredOut = false
     this._windowOverlap = false
     this._translationProp =
-      'translation_' + (this._dtpPanel.checkIfVertical() ? 'x' : 'y')
+      'translation_' + (this._dtpPanel.geom.vertical ? 'x' : 'y')
 
     this._panelBox.translation_y = 0
     this._panelBox.translation_x = 0
@@ -332,7 +332,7 @@ export const Intellihide = class {
     let position = this._dtpPanel.geom.position
     let opts = { backend: global.backend }
 
-    if (this._dtpPanel.checkIfVertical()) {
+    if (this._dtpPanel.geom.vertical) {
       opts.y1 = this._monitor.y
       opts.y2 = this._monitor.y + this._monitor.height
       opts.x1 = opts.x2 = this._monitor.x
@@ -391,23 +391,29 @@ export const Intellihide = class {
   _pointerIn(x, y, fixedOffset, limitSizeSetting) {
     let geom = this._dtpPanel.geom
     let position = geom.position
-    let varCoordY1 = this._monitor.y
+    let varCoordX1 = this._monitor.x
+    let varCoordY1 = geom.vertical ? geom.y : this._monitor.y // if vertical, ignore the original GS panel if present
     let varOffset = {}
 
     if (geom.dockMode && SETTINGS.get_boolean(limitSizeSetting)) {
-      let refActor = geom.dynamic
-        ? this._dtpPanel
-        : this._dtpPanel.clipContainer
+      let alloc = this._dtpPanel.allocation
 
-      varOffset[this._dtpPanel.varCoord.c1] =
-        refActor.allocation[this._dtpPanel.varCoord.c1]
-      varOffset[this._dtpPanel.varCoord.c2] =
-        refActor.allocation[this._dtpPanel.varCoord.c2]
+      if (!geom.dynamic) {
+        // when fixed, use the panel clipcontainer which is positioned
+        // relative to the stage itself
+        varCoordX1 = geom.x
+        varCoordY1 = geom.y
+        varOffset[this._dtpPanel.varCoord.c2] =
+          alloc[this._dtpPanel.varCoord.c2] - alloc[this._dtpPanel.varCoord.c1]
+      } else {
+        // when dynamic, the panel clipcontainer spans the whole monitor edge
+        // and the panel is positioned relatively to the clipcontainer
+        varOffset[this._dtpPanel.varCoord.c1] =
+          alloc[this._dtpPanel.varCoord.c1]
+        varOffset[this._dtpPanel.varCoord.c2] =
+          alloc[this._dtpPanel.varCoord.c2]
+      }
     }
-
-    // if vertical, ignore the original GS panel if present
-    if (position == St.Side.LEFT || position == St.Side.RIGHT)
-      varCoordY1 = geom.y
 
     return (
       ((position == St.Side.TOP && y <= this._monitor.y + fixedOffset) ||
@@ -416,8 +422,8 @@ export const Intellihide = class {
         (position == St.Side.LEFT && x <= this._monitor.x + fixedOffset) ||
         (position == St.Side.RIGHT &&
           x >= this._monitor.x + this._monitor.width - fixedOffset)) &&
-      x >= this._monitor.x + (varOffset.x1 || 0) &&
-      x < this._monitor.x + (varOffset.x2 || this._monitor.width) &&
+      x >= varCoordX1 + (varOffset.x1 || 0) &&
+      x < varCoordX1 + (varOffset.x2 || this._monitor.width) &&
       y >= varCoordY1 + (varOffset.y1 || 0) &&
       y < varCoordY1 + (varOffset.y2 || this._monitor.height)
     )
@@ -511,24 +517,23 @@ export const Intellihide = class {
       this._dtpPanel.taskbar._shownInitially = false
     }
 
-    this._animatePanel(0, immediate)
+    this._animatePanel(
+      0,
+      immediate,
+      () => (this._dtpPanel.taskbar._shownInitially = true),
+    )
   }
 
   _hidePanel(immediate) {
     let position = this._dtpPanel.geom.position
-    let size =
-      this._panelBox[
-        position == St.Side.LEFT || position == St.Side.RIGHT
-          ? 'width'
-          : 'height'
-      ]
+    let size = this._panelBox[this._dtpPanel.geom.vertical ? 'width' : 'height']
     let coefficient =
       position == St.Side.TOP || position == St.Side.LEFT ? -1 : 1
 
     this._animatePanel(size * coefficient, immediate)
   }
 
-  _animatePanel(destination, immediate) {
+  _animatePanel(destination, immediate, onComplete) {
     if (destination === this._animationDestination) return
 
     Utils.stopAnimations(this._panelBox)
@@ -566,6 +571,7 @@ export const Intellihide = class {
         transition: 'easeOutQuad',
         onComplete: () => {
           this._panelBox.visible = !destination
+          onComplete ? onComplete() : null
           update()
         },
       }
