@@ -81,7 +81,7 @@ export const GS_PANEL_SIZE = 32
 export const Panel = GObject.registerClass(
   {},
   class Panel extends St.Widget {
-    _init(panelManager, monitor, panelBox, isStandalone) {
+    _init(panelManager, monitor, clipContainer, panelBox, isStandalone) {
       super._init({
         style_class: 'dashtopanelPanel',
         layout_manager: new Clutter.BinLayout(),
@@ -95,6 +95,7 @@ export const Panel = GObject.registerClass(
       this.panelStyle = new PanelStyle.PanelStyle()
 
       this.monitor = monitor
+      this.clipContainer = clipContainer
       this.panelBox = panelBox
 
       // when the original gnome-shell top panel is kept, all panels are "standalone",
@@ -1124,10 +1125,8 @@ export const Panel = GObject.registerClass(
     }
 
     _setPanelPosition() {
-      let clipContainer = this.panelBox.get_parent()
-
       this.set_size(this.geom.w, this.geom.h)
-      clipContainer.set_position(this.geom.x, this.geom.y)
+      this.clipContainer.set_position(this.geom.x, this.geom.y)
 
       this._setVertical(this.panel, this.checkIfVertical())
 
@@ -1147,14 +1146,13 @@ export const Panel = GObject.registerClass(
         ](cssName)
       })
 
-      this._setPanelClip(clipContainer)
+      this._setPanelClip()
 
       Main.layoutManager._updateHotCorners()
       Main.layoutManager._updatePanelBarrier(this)
     }
 
-    _setPanelClip(clipContainer) {
-      clipContainer = clipContainer || this.panelBox.get_parent()
+    _setPanelClip() {
       this._timeoutsHandler.add([
         T7,
         0,
@@ -1164,9 +1162,9 @@ export const Panel = GObject.registerClass(
           let h = vertical ? this.geom.h : this.geom.outerSize
 
           Utils.setClip(
-            clipContainer,
-            clipContainer.x,
-            clipContainer.y,
+            this.clipContainer,
+            this.clipContainer.x,
+            this.clipContainer.y,
             w,
             h,
             0,

@@ -394,11 +394,15 @@ export const Intellihide = class {
     let varCoordY1 = this._monitor.y
     let varOffset = {}
 
-    if (SETTINGS.get_boolean(limitSizeSetting)) {
+    if (geom.dockMode && SETTINGS.get_boolean(limitSizeSetting)) {
+      let refActor = geom.dynamic
+        ? this._dtpPanel
+        : this._dtpPanel.clipContainer
+
       varOffset[this._dtpPanel.varCoord.c1] =
-        this._dtpPanel.allocation[this._dtpPanel.varCoord.c1]
+        refActor.allocation[this._dtpPanel.varCoord.c1]
       varOffset[this._dtpPanel.varCoord.c2] =
-        this._dtpPanel.allocation[this._dtpPanel.varCoord.c2]
+        refActor.allocation[this._dtpPanel.varCoord.c2]
     }
 
     // if vertical, ignore the original GS panel if present
