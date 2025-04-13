@@ -389,7 +389,9 @@ export const Intellihide = class {
   }
 
   _pointerIn(x, y, fixedOffset, limitSizeSetting) {
-    let position = this._dtpPanel.geom.position
+    let geom = this._dtpPanel.geom
+    let position = geom.position
+    let varCoordY1 = this._monitor.y
     let varOffset = {}
 
     if (SETTINGS.get_boolean(limitSizeSetting)) {
@@ -398,6 +400,10 @@ export const Intellihide = class {
       varOffset[this._dtpPanel.varCoord.c2] =
         this._dtpPanel.allocation[this._dtpPanel.varCoord.c2]
     }
+
+    // if vertical, ignore the original GS panel if present
+    if (position == St.Side.LEFT || position == St.Side.RIGHT)
+      varCoordY1 = geom.y
 
     return (
       ((position == St.Side.TOP && y <= this._monitor.y + fixedOffset) ||
@@ -408,8 +414,8 @@ export const Intellihide = class {
           x >= this._monitor.x + this._monitor.width - fixedOffset)) &&
       x >= this._monitor.x + (varOffset.x1 || 0) &&
       x < this._monitor.x + (varOffset.x2 || this._monitor.width) &&
-      y >= this._monitor.y + (varOffset.y1 || 0) &&
-      y < this._monitor.y + (varOffset.y2 || this._monitor.height)
+      y >= varCoordY1 + (varOffset.y1 || 0) &&
+      y < varCoordY1 + (varOffset.y2 || this._monitor.height)
     )
   }
 

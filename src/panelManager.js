@@ -997,9 +997,9 @@ function newUpdateHotCorners() {
       corner.setBarrierSize = (size) =>
         Object.getPrototypeOf(corner).setBarrierSize.call(
           corner,
-          Math.min(size, 32),
+          Math.min(size, Panel.GS_PANEL_SIZE),
         )
-      corner.setBarrierSize(panel ? panel.geom.innerSize : 32)
+      corner.setBarrierSize(panel ? panel.geom.innerSize : Panel.GS_PANEL_SIZE)
       this.hotCorners.push(corner)
     } else {
       this.hotCorners.push(null)
@@ -1109,7 +1109,7 @@ function _newLookingGlassResize() {
           ? Main.layoutManager.panelBox.height
           : 0) +
         8
-      : 32
+      : Panel.GS_PANEL_SIZE
 
   this._oldResize()
 

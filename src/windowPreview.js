@@ -518,7 +518,11 @@ export const PreviewMenu = GObject.registerClass(
           (panelSize + previewSize) +
           panelBoxTheme.get_padding(St.Side.LEFT)
       } else if (geom.position == St.Side.TOP) {
-        y = geom.y + panelSize - panelBoxTheme.get_padding(St.Side.BOTTOM)
+        y =
+          geom.y +
+          geom.topOffset +
+          panelSize -
+          panelBoxTheme.get_padding(St.Side.BOTTOM)
       } else {
         //St.Side.BOTTOM
         y =
