@@ -905,7 +905,7 @@ export const TaskbarAppIcon = GObject.registerClass(
         Main.uiGroup.add_child(this._menu.actor)
         this._menuManager.addMenu(this._menu)
       }
-      this._menu.updateQuitText()
+      this._menu.updateQuitItems()
 
       this.emit('menu-state-changed', true)
 
@@ -1917,6 +1917,11 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
     this._enableFavorites = true
     this._showSingleWindows = true
 
+    if (source.window)
+      this._quitAllItem = this.addAction('QuitAll', () =>
+        this._quitFromTaskbar(true),
+      )
+
     // replace quit item
     delete this._quitItem
     this._quitItem = this.addAction(_('Quit'), () => this._quitFromTaskbar())
@@ -1928,31 +1933,34 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
     ])
   }
 
-  updateQuitText() {
-    let count = this.sourceActor.window
-      ? 1
-      : getInterestingWindows(this._app, this.sourceActor.dtpPanel.monitor)
-          .length
+  updateQuitItems() {
+    let ungrouped = !!this.sourceActor.window
+    let quitText = _('Quit')
+    let count = getInterestingWindows(
+      this._app,
+      this.sourceActor.dtpPanel.monitor,
+    ).length
+    let quitMultipleText = ngettext(
+      'Quit %d Window',
+      'Quit %d Windows',
+      count,
+    ).format(count)
 
-    if (count > 0) {
-      let quitFromTaskbarMenuText = ''
-      if (count == 1) quitFromTaskbarMenuText = _('Quit')
-      else
-        quitFromTaskbarMenuText = ngettext(
-          'Quit %d Window',
-          'Quit %d Windows',
-          count,
-        ).format(count)
+    if (ungrouped) {
+      this._quitAllItem.label.set_text(quitMultipleText)
+      this._quitAllItem.visible = count > 1
+    } else quitText = quitMultipleText
 
-      this._quitItem.label.set_text(quitFromTaskbarMenuText)
-    }
+    this._quitItem.visible = count > 0
+    this._quitItem.label.set_text(quitText)
   }
 
-  _quitFromTaskbar() {
+  _quitFromTaskbar(all) {
     let time = global.get_current_time()
-    let windows = this.sourceActor.window // ungrouped applications
-      ? [this.sourceActor.window]
-      : getInterestingWindows(this._app, this.sourceActor.dtpPanel.monitor)
+    let windows =
+      !all && this.sourceActor.window // ungrouped applications
+        ? [this.sourceActor.window]
+        : getInterestingWindows(this._app, this.sourceActor.dtpPanel.monitor)
 
     if (windows.length == this._app.get_windows().length)
       this._app.request_quit()
