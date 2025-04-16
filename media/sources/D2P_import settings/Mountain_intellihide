@@ -1,6 +1,8 @@
 [/]
 group-apps-label-font-color='#dddddd'
+group-apps-label-font-color-on-light='#282828'
 group-apps-label-font-color-minimized='#dddddd'
+group-apps-label-font-color-minimized-on-light='#282828'
 tray-padding=-1
 trans-min-panel-opacity=0.32000000000000001
 enter-peek-mode-timeout=500
