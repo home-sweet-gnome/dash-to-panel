@@ -392,7 +392,7 @@ export const Intellihide = class {
     let geom = this._dtpPanel.geom
     let position = geom.position
     let varCoordX1 = this._monitor.x
-    let varCoordY1 = geom.vertical ? geom.y : this._monitor.y // if vertical, ignore the original GS panel if present
+    let varCoordY1 = this._monitor.y + geom.gsTopPanelHeight // if vertical, ignore the original GS panel if present
     let varOffset = {}
 
     if (geom.dockMode && SETTINGS.get_boolean(limitSizeSetting)) {

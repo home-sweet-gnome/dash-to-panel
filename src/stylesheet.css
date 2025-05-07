@@ -171,6 +171,7 @@
 
 /* border radius, grrr no css variables in ST */
 #uiGroup.br4 .dashtopanelPanel.dock,
+#uiGroup.br4 .dashtopanelPanel.dock .dashtopanelMainPanel,
 #uiGroup.br4 .show-apps,
 #uiGroup.br4 .dtp-container,
 #uiGroup.br4 .dtp-dots-container,
@@ -186,6 +187,7 @@
 }
 
 #uiGroup.br8 .dashtopanelPanel.dock,
+#uiGroup.br8 .dashtopanelPanel.dock .dashtopanelMainPanel,
 #uiGroup.br8 .show-apps,
 #uiGroup.br8 .dtp-container,
 #uiGroup.br8 .dtp-dots-container,
@@ -201,6 +203,7 @@
 }
 
 #uiGroup.br12 .dashtopanelPanel.dock,
+#uiGroup.br12 .dashtopanelPanel.dock .dashtopanelMainPanel,
 #uiGroup.br12 .show-apps,
 #uiGroup.br12 .dtp-container,
 #uiGroup.br12 .dtp-dots-container,
@@ -216,6 +219,7 @@
 }
 
 #uiGroup.br16 .dashtopanelPanel.dock,
+#uiGroup.br16 .dashtopanelPanel.dock .dashtopanelMainPanel,
 #uiGroup.br16 .show-apps,
 #uiGroup.br16 .dtp-container,
 #uiGroup.br16 .dtp-dots-container,
@@ -231,6 +235,7 @@
 }
 
 #uiGroup.br20 .dashtopanelPanel.dock,
+#uiGroup.br20 .dashtopanelPanel.dock .dashtopanelMainPanel,
 #uiGroup.br20 .show-apps,
 #uiGroup.br20 .dtp-container,
 #uiGroup.br20 .dtp-dots-container,

@@ -859,6 +859,7 @@ export const Panel = GObject.registerClass(
         fixedPadding,
         varPadding,
         topOffset, // only if gnome-shell top panel is present and position is TOP
+        gsTopPanelHeight, // only if gnome-shell top panel is present
         position,
         vertical,
         dynamic,
@@ -1155,21 +1156,16 @@ export const Panel = GObject.registerClass(
       this._timeoutsHandler.add([
         T7,
         0,
-        () => {
-          let vertical = this.geom.vertical
-          let w = vertical ? this.geom.outerSize : this.geom.w
-          let h = vertical ? this.geom.h : this.geom.outerSize
-
+        () =>
           Utils.setClip(
             this.clipContainer,
             this.clipContainer.x,
             this.clipContainer.y,
-            w,
-            h,
+            this.panelBox.width,
+            this.panelBox.height,
             0,
             this.geom.topOffset,
-          )
-        },
+          ),
       ])
     }
 
