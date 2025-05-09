@@ -2562,6 +2562,15 @@ const Preferences = class {
       })
 
     this._builder
+      .get_object('group_apps_label_font_color_on_light_colorbutton')
+      .connect('color-set',  (button) => {
+        let rgba = button.get_rgba()
+        let css = rgba.to_string()
+        let hexString = cssHexString(css)
+        this._settings.set_string('group-apps-label-font-color-on-light', hexString)
+      })
+
+    this._builder
       .get_object('group_apps_label_font_color_minimized_colorbutton')
       .connect('color-set', (button) => {
         let rgba = button.get_rgba()
@@ -2572,6 +2581,18 @@ const Preferences = class {
           hexString,
         )
       })
+
+    this._builder
+      .get_object('group_apps_label_font_color_minimized_on_light_colorbutton')
+      .connect('color-set',  (button) => {
+        let rgba = button.get_rgba()
+        let css = rgba.to_string()
+        let hexString = cssHexString(css)
+        this._settings.set_string(
+          'group-apps-label-font-color-minimized-on',
+          hexString,
+        )
+    });
 
     this._settings.bind(
       'group-apps-use-fixed-width',
@@ -2633,6 +2654,22 @@ const Preferences = class {
               .set_rgba(rgba)
 
             this._settings.set_value(
+              'group-apps-label-font-color-on-light',
+              this._settings.get_default_value(
+                'group-apps-label-font-color-on-light'
+              )
+            )
+            let rgbaOnLight = new Gdk.RGBA()
+            rgbaOnLight.parse(this._settings.get_string(
+              'group-apps-label-font-color-on-light')
+            )
+            this._builder
+              .get_object(
+                'group_apps_label_font_color_on_light_colorbutton'
+              )
+              .set_rgba(rgbaOnLight)
+
+            this._settings.set_value(
               'group-apps-label-font-color-minimized',
               this._settings.get_default_value(
                 'group-apps-label-font-color-minimized',
@@ -2644,6 +2681,25 @@ const Preferences = class {
                 'group-apps-label-font-color-minimized',
               ),
             )
+
+            this._settings.set_value(
+              'group-apps-label-font-color-minimized-on-light',
+              this._settings.get_default_value(
+                'group-apps-label-font-color-minimized-on-light'
+              )
+            )
+            let minimizedOnLightFontColor = new Gdk.RGBA()
+            minimizedOnLightFontColor.parse(
+              this._settings.get_string(
+                'group-apps-label-font-color-minimized-on-light'
+              ),
+            )
+            this._builder
+              .get_object(
+                'group_apps_label_font_color_minimized_on_light_colorbutton'
+              )
+              .set_rgba(minimizedOnLightFontColor);
+
             this._builder
               .get_object('group_apps_label_font_color_minimized_colorbutton')
               .set_rgba(minimizedFontColor)
@@ -2705,6 +2761,17 @@ const Preferences = class {
             .get_object('group_apps_label_font_color_colorbutton')
             .set_rgba(rgba)
         }).apply(this)
+        ;(function() {
+          let rgba = new Gdk.RGBA()
+          rgba.parse(
+            this._settings.get_string('group-apps-label-font-color-on-light'),
+          )
+          this._builder
+            .get_object(
+              'group_apps_label_font_color_on_light_colorbutton'
+            )
+            .set_rgba(rgba)
+        }).apply(this)
         ;(function () {
           let rgba = new Gdk.RGBA()
           rgba.parse(
@@ -2712,6 +2779,19 @@ const Preferences = class {
           )
           this._builder
             .get_object('group_apps_label_font_color_minimized_colorbutton')
+            .set_rgba(rgba)
+        }).apply(this)
+        ;(function() {
+          let rgba = new Gdk.RGBA();
+          rgba.parse(
+            this._settings.get_string(
+              'group-apps-label-font-color-minimized-on-light'
+            ),
+          )
+          this._builder
+            .get_object(
+              'group_apps_label_font_color_minimized_on_light_colorbutton'
+            )
             .set_rgba(rgba)
         }).apply(this)
 
