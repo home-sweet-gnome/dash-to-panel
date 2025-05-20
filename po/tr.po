@@ -135,7 +135,7 @@ msgstr "Dash to Panel güncellendi!"
 
 #: src/extension.js:92
 msgid "You are now running version"
-msgstr "Şuan çalıştırdığınız sürüm"
+msgstr "Şu an çalıştırdığınız sürüm"
 
 #: src/extension.js:98
 msgid "See what's new"
