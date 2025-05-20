@@ -4,6 +4,7 @@
 #
 # Serdar Sağlam <teknomobil@yandex.com>, 2018, 2019.
 # Sabri Ünal <libreajans@gmail.com>, 2022, 2023.
+# Osman Coskun <osman.coskun@pardus.org.tr>, 2025.
 #
 # Çevirmenlere Not!
 # Bu çeviride aşırı yer kaplayan ve son kullanıcı tarafından kullanılmayan
@@ -16,16 +17,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-24 18:40+0300\n"
-"PO-Revision-Date: 2023-11-24 18:42+0300\n"
-"Last-Translator: Sabri Ünal <libreajans@gmail.com>\n"
-"Language-Team: Türkçe <takim@gnome.org.tr>\n"
+"POT-Creation-Date: 2025-05-20 14:26+0300\n"
+"PO-Revision-Date: 2025-05-20 16:00+0300\n"
+"Last-Translator: Osman Coskun <osman.coskun@pardus.org.tr>\n"
+"Language-Team: Pardus <dev@pardus.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Gtranslator 48.0\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -72,499 +73,497 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-2: img\n"
 "X-Poedit-SearchPathExcluded-3: schemas\n"
 
-#: appIcons.js:1467 appIcons.js:1477 appIcons.js:1479
-#: ui/BoxMiddleClickOptions.ui:32 ui/BoxMiddleClickOptions.ui:60
-#: ui/BoxMiddleClickOptions.ui:88
+#: src/appIcons.js:1927 src/appIcons.js:1938 ui/BoxMiddleClickOptions.ui:11
 msgid "Quit"
 msgstr "Çık"
 
-#: appIcons.js:1479
-msgid "Windows"
-msgstr "Pencere"
+#: src/appIcons.js:1944
+#, javascript-format
+msgid "Quit %d Window"
+msgid_plural "Quit %d Windows"
+msgstr[0] "%d Pencereden Çık"
 
-#: appIcons.js:1754
+#: src/appIcons.js:2271
 msgid "Power options"
 msgstr "Güç seçenekleri"
 
-#: appIcons.js:1759
+#: src/appIcons.js:2276
 msgid "Event logs"
 msgstr "Olay günlükleri"
 
-#: appIcons.js:1764
+#: src/appIcons.js:2281
 msgid "System"
 msgstr "Sistem"
 
-#: appIcons.js:1769
+#: src/appIcons.js:2286
 msgid "Device Management"
 msgstr "Aygıt Yönetimi"
 
-#: appIcons.js:1774
+#: src/appIcons.js:2291
 msgid "Disk Management"
 msgstr "Disk Yönetimi"
 
-#: appIcons.js:1787
-msgid "Terminal"
-msgstr "Uçbirim"
-
-# Uygulama Adı
-#: appIcons.js:1792
-msgid "System monitor"
-msgstr "Sistem Gözlemcisi"
-
-#: appIcons.js:1797
-msgid "Files"
-msgstr "Dosyalar"
-
-#: appIcons.js:1802
-msgid "Extensions"
-msgstr "Uzantılar"
-
-#: appIcons.js:1807
-msgid "Settings"
-msgstr "Ayarlar"
-
 # Menü olduğu için Başlık Düzeni tercih edildi
-#: appIcons.js:1818
+#: src/appIcons.js:2322
 msgid "Unlock taskbar"
 msgstr "Görev Çubuğu Kilidini Aç"
 
 # Menü olduğu için Başlık Düzeni tercih edildi
-#: appIcons.js:1818
+#: src/appIcons.js:2323
 msgid "Lock taskbar"
 msgstr "Görev Çubuğunu Kilitle"
 
-#: appIcons.js:1823
+#: src/appIcons.js:2333
+msgid "Gnome Settings"
+msgstr "Gnome Ayarları"
+
+#: src/appIcons.js:2337
 msgid "Dash to Panel Settings"
 msgstr "Dash to Panel Ayarları"
 
-#: appIcons.js:1828
+#: src/appIcons.js:2344
 msgid "Restore Windows"
 msgstr "Pencereleri Onar"
 
-#: appIcons.js:1828
+#: src/appIcons.js:2345
 msgid "Show Desktop"
 msgstr "Masaüstünü Göster"
 
-#: panel.js:168
+#: src/extension.js:91
+msgid "Dash to Panel has been updated!"
+msgstr "Dash to Panel güncellendi!"
+
+#: src/extension.js:92
+msgid "You are now running version"
+msgstr "Şuan çalıştırdığınız sürüm"
+
+#: src/extension.js:98
+msgid "See what's new"
+msgstr "Yenilikleri gör"
+
+#: src/panel.js:228
 msgid "Top Bar"
 msgstr "Tepe Çubuğu"
 
-#: prefs.js:243
+#: src/prefs.js:261
 msgid "Show Desktop button height (px)"
 msgstr "Masaüstünü Göster düğmesi yüksekliği (px)"
 
-#: prefs.js:243
+#: src/prefs.js:262
 msgid "Show Desktop button width (px)"
 msgstr "Masaüstünü Göster düğmesi genişliği (px)"
 
-#: prefs.js:255
-msgid "Unavailable when gnome-shell top panel is present"
-msgstr "Gnome-shell üst paneli varsa kullanılamaz"
-
-#: prefs.js:313 ui/SettingsPosition.ui:148 ui/SettingsStyle.ui:135
+#: src/prefs.js:334 ui/SettingsPosition.ui:13 ui/SettingsStyle.ui:19
 msgid "Left"
 msgstr "Sol"
 
-#: prefs.js:314
+#: src/prefs.js:335
 msgid "Center"
 msgstr "Orta"
 
-#: prefs.js:315 ui/SettingsPosition.ui:157 ui/SettingsStyle.ui:143
+#: src/prefs.js:336 ui/SettingsPosition.ui:14 ui/SettingsStyle.ui:20
 msgid "Right"
 msgstr "Sağ"
 
-#: prefs.js:317 ui/BoxWindowPreviewOptions.ui:330 ui/SettingsPosition.ui:139
-#: ui/SettingsStyle.ui:127
+#: src/prefs.js:338 ui/BoxWindowPreviewOptions.ui:38 ui/SettingsPosition.ui:12
+#: ui/SettingsStyle.ui:18
 msgid "Top"
 msgstr "Üst"
 
-#: prefs.js:318 prefs.js:323 ui/SettingsPosition.ui:210
+#: src/prefs.js:339 src/prefs.js:344 ui/SettingsPosition.ui:22
 msgid "Middle"
 msgstr "Orta"
 
-#: prefs.js:319 ui/BoxWindowPreviewOptions.ui:321 ui/SettingsPosition.ui:130
-#: ui/SettingsStyle.ui:120
+#: src/prefs.js:340 ui/BoxWindowPreviewOptions.ui:37 ui/SettingsPosition.ui:11
+#: ui/SettingsStyle.ui:17
 msgid "Bottom"
 msgstr "Alt"
 
-#: prefs.js:322 ui/SettingsPosition.ui:209
+#: src/prefs.js:343 ui/SettingsPosition.ui:21
 msgid "Start"
 msgstr "Başlat"
 
-#: prefs.js:324 ui/SettingsPosition.ui:211
+#: src/prefs.js:345 ui/SettingsPosition.ui:23
 msgid "End"
 msgstr "Bitiş"
 
-#: prefs.js:409
+#: src/prefs.js:470
 msgid "Show Applications button"
 msgstr "Uygulamaları Göster düğmesi"
 
-#: prefs.js:410
+#: src/prefs.js:471
 msgid "Activities button"
 msgstr "Etkinlikler düğmesi"
 
-#: prefs.js:411
+#: src/prefs.js:472
 msgid "Taskbar"
 msgstr "Görev çubuğu"
 
-#: prefs.js:412
+#: src/prefs.js:473
 msgid "Date menu"
 msgstr "Tarih menüsü"
 
-#: prefs.js:413
+#: src/prefs.js:474
 msgid "System menu"
 msgstr "Sistem menüsü"
 
-#: prefs.js:414
+#: src/prefs.js:475
 msgid "Left box"
 msgstr "Sol kutu"
 
-#: prefs.js:415
+#: src/prefs.js:476
 msgid "Center box"
 msgstr "Orta kutu"
 
-#: prefs.js:416
+#: src/prefs.js:477
 msgid "Right box"
 msgstr "Sağ kutu"
 
-#: prefs.js:417
+#: src/prefs.js:478
 msgid "Desktop button"
 msgstr "Masaüstünü düğmesi"
 
-#: prefs.js:423
+#: src/prefs.js:488 src/prefs.js:2924
 msgid "Move up"
 msgstr "Yukarı taşı"
 
-#: prefs.js:425
+#: src/prefs.js:490 src/prefs.js:2932
 msgid "Move down"
 msgstr "Aşağı taşı"
 
-#: prefs.js:427
+#: src/prefs.js:496
 msgid "Visible"
 msgstr "Görünür"
 
-#: prefs.js:428
+#: src/prefs.js:500
 msgid "Select element position"
 msgstr "Öge konumunu seç"
 
-#: prefs.js:439
+#: src/prefs.js:514
 msgid "Stacked to top"
 msgstr "Üste yığılı"
 
-#: prefs.js:439
+#: src/prefs.js:514
 msgid "Stacked to left"
 msgstr "Sola yığılı"
 
-#: prefs.js:440
+#: src/prefs.js:518
 msgid "Stacked to bottom"
 msgstr "Alta yığılı"
 
-#: prefs.js:440
+#: src/prefs.js:518
 msgid "Stacked to right"
 msgstr "Sağa yığılı"
 
-#: prefs.js:441
+#: src/prefs.js:520
 msgid "Centered"
 msgstr "Ortalanmış"
 
-#: prefs.js:442
+#: src/prefs.js:521
 msgid "Monitor Center"
 msgstr "Ekran Ortası"
 
-#: prefs.js:461
+#: src/prefs.js:548
 msgid "More options"
 msgstr "Daha fazla seçenek"
 
-#: prefs.js:493
+#: src/prefs.js:583
 msgid "Reset to defaults"
 msgstr "Varsayılanlara Dön"
 
-#: prefs.js:516
+#: src/prefs.js:606
 msgid "Show Applications options"
 msgstr "Uygulamaları Göster seçenekleri"
 
-#: prefs.js:526
+#: src/prefs.js:667
 msgid "Open icon"
 msgstr "Aç simgesi"
 
-#: prefs.js:573
+#: src/prefs.js:685
 msgid "Show Desktop options"
 msgstr "Masaüstünü Göster seçenekleri"
 
-#: prefs.js:657
+#: src/prefs.js:777
+msgid "Primary monitor"
+msgstr "Birincil ekran"
+
+#: src/prefs.js:778
+msgid "Monitor "
+msgstr "Ekran "
+
+#: src/prefs.js:907
+msgid "Running Indicator Options"
+msgstr "Çalışan Gösterge Seçenekleri"
+
+#: src/prefs.js:1443
+msgid "Dynamic opacity options"
+msgstr "Dinamik matlık seçenekleri"
+
+#: src/prefs.js:1812
+msgid "Intellihide options"
+msgstr "Akıllı gizleme seçenekleri"
+
+#: src/prefs.js:2052
+msgid "Window preview options"
+msgstr "Pencere önizleme seçenekleri"
+
+#: src/prefs.js:2603
+msgid "Ungrouped application options"
+msgstr "Gruplanmamış uygulama seçenekleri"
+
+#: src/prefs.js:2770
+msgid "Customize middle-click behavior"
+msgstr "Orta tıklama davranışını özelleştir"
+
+#: src/prefs.js:2899
+msgid "Text"
+msgstr "Yazı"
+
+#: src/prefs.js:2908
+msgid "Command"
+msgstr "Komut"
+
+#: src/prefs.js:2940
+msgid "Remove"
+msgstr "Kaldır"
+
+#: src/prefs.js:2968
+msgid "Customize panel scroll behavior"
+msgstr "Panel kaydırma davranışını özelleştir"
+
+#: src/prefs.js:3014
+msgid "Customize icon scroll behavior"
+msgstr "Simge kaydırma davranışını özelleştir"
+
+#: src/prefs.js:3138
+msgid "Advanced hotkeys options"
+msgstr "Gelişmiş kısayol tuş seçenekleri"
+
+#: src/prefs.js:3166
+msgid "Secondary Menu Options"
+msgstr "İkincil Menü Seçenekleri"
+
+#: src/prefs.js:3366
 #, javascript-format
 msgid "%d ms"
 msgstr "%d ms"
 
-#: prefs.js:662
+#: src/prefs.js:3372
 #, javascript-format
 msgid "%d °"
 msgstr "%d °"
 
-#: prefs.js:667 prefs.js:672
+#: src/prefs.js:3378 src/prefs.js:3384
 #, javascript-format
 msgid "%d %%"
 msgstr "%d %%"
 
-#: prefs.js:677
+#: src/prefs.js:3390
 #, javascript-format
 msgid "%.1f"
 msgstr "%.1f"
 
-#: prefs.js:682
+#: src/prefs.js:3396
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
 msgstr[0] "%d simge"
 
-#: prefs.js:778
-msgid "Running Indicator Options"
-msgstr "Çalışan Gösterge Seçenekleri"
-
-#: prefs.js:924
-msgid "Primary monitor"
-msgstr "Birincil ekran"
-
-#: prefs.js:924
-msgid "Monitor "
-msgstr "Ekran "
-
-#: prefs.js:1118
-msgid "Dynamic opacity options"
-msgstr "Dinamik matlık seçenekleri"
-
-#: prefs.js:1251
-msgid "Intellihide options"
-msgstr "Akıllı gizleme seçenekleri"
-
-#: prefs.js:1357
-msgid "Window preview options"
-msgstr "Pencere önizleme seçenekleri"
-
-#: prefs.js:1633
-msgid "Ungrouped application options"
-msgstr "Gruplanmamış uygulama seçenekleri"
-
-#: prefs.js:1712
-msgid "Customize middle-click behavior"
-msgstr "Orta tıklama davranışını özelleştir"
-
-#: prefs.js:1762
-msgid "Customize panel scroll behavior"
-msgstr "Panel kaydırma davranışını özelleştir"
-
-#: prefs.js:1790
-msgid "Customize icon scroll behavior"
-msgstr "Simge kaydırma davranışını özelleştir"
-
-#: prefs.js:1871
-msgid "Advanced hotkeys options"
-msgstr "Gelişmiş kısayol tuş seçenekleri"
-
-#: prefs.js:1889
-msgid "Secondary Menu Options"
-msgstr "İkincil Menü Seçenekleri"
-
-#: prefs.js:1916 ui/SettingsFineTune.ui:268
-msgid "Advanced Options"
-msgstr "Gelişmiş Seçenekler"
-
-#: prefs.js:2032
+#: src/prefs.js:3523
 msgid "App icon animation options"
 msgstr "Uygulama simgesi animasyon seçenekleri"
 
-#: prefs.js:2082
+#: src/prefs.js:3646
+msgid "App icon highlight options"
+msgstr "Uygulama simgesi vurgulama seçenekleri"
+
+#: src/prefs.js:3735
 msgid "Export settings"
 msgstr "Dışa aktarma ayarları"
 
-#: prefs.js:2098
+#: src/prefs.js:3757
 msgid "Import settings"
 msgstr "İçe aktarma ayarları"
 
-#: ui/BoxAdvancedOptions.ui:19
-msgid "Nothing yet!"
-msgstr "Henüz bir şey yok!"
+#: src/windowPreview.js:1151
+msgid "Move to current Workspace"
+msgstr "Geçerli Çalışma Alanına taşı"
 
-#: ui/BoxAdvancedOptions.ui:20
-msgid "For real..."
-msgstr "Gerçek..."
-
-#: ui/BoxAnimateAppIconHoverOptions.ui:62
+#: ui/BoxAnimateAppIconHoverOptions.ui:1
 msgid "Animation type"
 msgstr "Animasyon türü"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui:67
+#: ui/BoxAnimateAppIconHoverOptions.ui:2
 msgid "Simple"
 msgstr "Basit"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui:68
+#: ui/BoxAnimateAppIconHoverOptions.ui:3
 msgid "Ripple"
 msgstr "Dalgacık"
 
 # Uygulama adı, literal değil.
-#: ui/BoxAnimateAppIconHoverOptions.ui:69
+#: ui/BoxAnimateAppIconHoverOptions.ui:4
 msgid "Plank"
 msgstr "Plank"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui:84
+#: ui/BoxAnimateAppIconHoverOptions.ui:5
 msgid "Duration"
 msgstr "Süre"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui:101
+#: ui/BoxAnimateAppIconHoverOptions.ui:6
 msgid "Rotation"
 msgstr "Döndürme"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui:118
+#: ui/BoxAnimateAppIconHoverOptions.ui:7
 msgid "Travel"
 msgstr "Gezinti"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui:135
+#: ui/BoxAnimateAppIconHoverOptions.ui:8
 msgid "Zoom"
 msgstr "Yaklaştırma"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui:152
+#: ui/BoxAnimateAppIconHoverOptions.ui:9
 msgid "Convexity"
 msgstr "Dışbükeylik"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui:169
+#: ui/BoxAnimateAppIconHoverOptions.ui:10
 msgid "Extent"
 msgstr "Çıkıntı"
 
-#: ui/BoxDotOptions.ui:37
+#: ui/BoxDotOptions.ui:1
 msgid "Highlight focused application"
 msgstr "Odaklanmış uygulamayı vurgula"
 
-#: ui/BoxDotOptions.ui:54
+#: ui/BoxDotOptions.ui:2
 msgid "Icon dominant color"
 msgstr "Simge baskın renk"
 
-#: ui/BoxDotOptions.ui:65
+#: ui/BoxDotOptions.ui:3
 msgid "Custom color"
 msgstr "Özel renk"
 
-#: ui/BoxDotOptions.ui:76
+#: ui/BoxDotOptions.ui:4
 msgid "Highlight opacity"
 msgstr "Vurgulama matlığı"
 
-#: ui/BoxDotOptions.ui:96
+#: ui/BoxDotOptions.ui:5
 msgid "Indicator size (px)"
 msgstr "Gösterge boyutu (piksel)"
 
-#: ui/BoxDotOptions.ui:109
+#: ui/BoxDotOptions.ui:6
 msgid "Indicator color - Icon Dominant"
 msgstr "Gösterge rengi - Simge Baskın"
 
-#: ui/BoxDotOptions.ui:126
+#: ui/BoxDotOptions.ui:7
 msgid "Indicator color - Override Theme"
 msgstr "Gösterge rengi - Temayı Geçersiz Kıl"
 
-#: ui/BoxDotOptions.ui:142 ui/BoxDotOptions.ui:215
+#: ui/BoxDotOptions.ui:8
 msgid "1 window open (or ungrouped)"
 msgstr "1 pencere açık olduğunda (gruplandırılmadığında)"
 
-#: ui/BoxDotOptions.ui:146 ui/BoxDotOptions.ui:219
+#: ui/BoxDotOptions.ui:9
 msgid "Apply to all"
 msgstr "Tümüne uygula"
 
-#: ui/BoxDotOptions.ui:159 ui/BoxDotOptions.ui:232
+#: ui/BoxDotOptions.ui:10
 msgid "2 windows open"
 msgstr "2 pencere açık olduğunda"
 
-#: ui/BoxDotOptions.ui:170 ui/BoxDotOptions.ui:243
+#: ui/BoxDotOptions.ui:11
 msgid "3 windows open"
 msgstr "3 pencere açık olduğunda"
 
-#: ui/BoxDotOptions.ui:181 ui/BoxDotOptions.ui:254
+#: ui/BoxDotOptions.ui:12
 msgid "4+ windows open"
 msgstr "4+ pencere açık olduğunda"
 
-#: ui/BoxDotOptions.ui:198
+#: ui/BoxDotOptions.ui:13
 msgid "Use different for unfocused"
 msgstr "Odaklanmamış için farklı kullanın"
 
-#: ui/BoxDynamicOpacityOptions.ui:37
+#: ui/BoxDynamicOpacityOptions.ui:1
 msgid "The panel background opacity is affected by"
 msgstr "Panel arka plan matlığı şunlardan etkilenir"
 
-#: ui/BoxDynamicOpacityOptions.ui:42 ui/BoxIntellihideOptions.ui:69
+#: ui/BoxDynamicOpacityOptions.ui:2 ui/BoxIntellihideOptions.ui:5
 msgid "All windows"
 msgstr "Tüm pencereler"
 
-#: ui/BoxDynamicOpacityOptions.ui:43 ui/BoxIntellihideOptions.ui:70
+#: ui/BoxDynamicOpacityOptions.ui:3 ui/BoxIntellihideOptions.ui:6
 msgid "Focused windows"
 msgstr "Odaklanmış pencereler"
 
-#: ui/BoxDynamicOpacityOptions.ui:44 ui/BoxIntellihideOptions.ui:71
+#: ui/BoxDynamicOpacityOptions.ui:4 ui/BoxIntellihideOptions.ui:7
 msgid "Maximized windows"
 msgstr "Büyütülmüş pencereler"
 
-#: ui/BoxDynamicOpacityOptions.ui:53
+#: ui/BoxDynamicOpacityOptions.ui:5
 msgid "Change opacity when a window gets closer than (px)"
 msgstr "Bir pencere şu kadar yaklaştığında matlığı değiştir (piksel)"
 
-#: ui/BoxDynamicOpacityOptions.ui:69
+#: ui/BoxDynamicOpacityOptions.ui:7
 msgid "Change opacity to (%)"
 msgstr "Matlığı değiştir (%)"
 
-#: ui/BoxDynamicOpacityOptions.ui:72 ui/BoxShowApplicationsOptions.ui:64
-#: ui/BoxWindowPreviewOptions.ui:468 ui/SettingsStyle.ui:252
-#: ui/SettingsStyle.ui:315 ui/SettingsStyle.ui:334
+#: ui/BoxDynamicOpacityOptions.ui:8 ui/BoxShowApplicationsOptions.ui:3
+#: ui/BoxWindowPreviewOptions.ui:57 ui/SettingsStyle.ui:40
 msgid "0"
 msgstr "0"
 
-#: ui/BoxDynamicOpacityOptions.ui:82
+#: ui/BoxDynamicOpacityOptions.ui:9
 msgid "Opacity change animation duration (ms)"
 msgstr "Saydamlık değişimi canlandırma süresi (ms)"
 
-#: ui/BoxGroupAppsOptions.ui:32
+#: ui/BoxGroupAppsOptions.ui:1
 msgid "Font size (px) of the application titles (default is 14)"
 msgstr "Uygulama başlıklarının yazı tipi boyutu (piksel) (varsayılan 14)"
 
-#: ui/BoxGroupAppsOptions.ui:47
+#: ui/BoxGroupAppsOptions.ui:2
 msgid "Font weight of application titles"
 msgstr "Uygulama başlıklarının yazı tipi ağırlığı"
 
-#: ui/BoxGroupAppsOptions.ui:52 ui/BoxWindowPreviewOptions.ui:402
+#: ui/BoxGroupAppsOptions.ui:3 ui/BoxWindowPreviewOptions.ui:44
 msgid "inherit from theme"
 msgstr "temadan miras al"
 
-#: ui/BoxGroupAppsOptions.ui:53 ui/BoxWindowPreviewOptions.ui:403
+#: ui/BoxGroupAppsOptions.ui:4 ui/BoxWindowPreviewOptions.ui:45
 msgid "normal"
 msgstr "normal"
 
-#: ui/BoxGroupAppsOptions.ui:54 ui/BoxWindowPreviewOptions.ui:404
+#: ui/BoxGroupAppsOptions.ui:5 ui/BoxWindowPreviewOptions.ui:46
 msgid "lighter"
 msgstr "hafif"
 
-#: ui/BoxGroupAppsOptions.ui:55 ui/BoxWindowPreviewOptions.ui:405
+#: ui/BoxGroupAppsOptions.ui:6 ui/BoxWindowPreviewOptions.ui:47
 msgid "bold"
 msgstr "kalın"
 
-#: ui/BoxGroupAppsOptions.ui:56 ui/BoxWindowPreviewOptions.ui:406
+#: ui/BoxGroupAppsOptions.ui:7 ui/BoxWindowPreviewOptions.ui:48
 msgid "bolder"
 msgstr "çok kalın"
 
-#: ui/BoxGroupAppsOptions.ui:65
+#: ui/BoxGroupAppsOptions.ui:8
 msgid "Font color of the application titles"
 msgstr "Uygulama başlıklarının yazı tipi rengi"
 
-#: ui/BoxGroupAppsOptions.ui:77
+#: ui/BoxGroupAppsOptions.ui:9
 msgid "Font color of the minimized application titles"
 msgstr "Küçültülmüş uygulama başlıklarının yazı tipi rengi"
 
-#: ui/BoxGroupAppsOptions.ui:95
+#: ui/BoxGroupAppsOptions.ui:10
 msgid "Maximum width (px) of the application titles"
 msgstr "Uygulama başlıklarının azami genişliği (piksel)"
 
-#: ui/BoxGroupAppsOptions.ui:96
+#: ui/BoxGroupAppsOptions.ui:11
 msgid "(default is 160)"
 msgstr "(varsayılan 160)"
 
-#: ui/BoxGroupAppsOptions.ui:111
+#: ui/BoxGroupAppsOptions.ui:12
 msgid "Use a fixed width for the application titles"
 msgstr "Uygulama başlıkları için sabit genişlik kullan"
 
-#: ui/BoxGroupAppsOptions.ui:112
+#: ui/BoxGroupAppsOptions.ui:13
 msgid ""
 "The application titles all have the same width, even if their texts are "
 "shorter than the maximum width. The maximum width value is used as the fixed "
@@ -573,77 +572,133 @@ msgstr ""
 "Uygulama başlıkları, metinleri azami genişlikten daha kısa olsa bile, aynı "
 "genişliğe sahiptir. Azami genişlik değeri sabit genişlik olarak kullanılır."
 
-#: ui/BoxGroupAppsOptions.ui:129
+#: ui/BoxGroupAppsOptions.ui:14
 msgid "Display running indicators on unfocused applications"
 msgstr "Odaklanmamış uygulamalarda çalışan göstergelerini görüntüle"
 
-#: ui/BoxGroupAppsOptions.ui:140
+#: ui/BoxGroupAppsOptions.ui:15
 msgid "Use the favorite icons as application launchers"
 msgstr "Uygulama başlatıcıları olarak sık kullanılanlar simgelerini kullan"
 
-#: ui/BoxIntellihideOptions.ui:53
-msgid "Only hide the panel when it is obstructed by windows"
+#: ui/BoxHighlightAppIconHoverOptions.ui:1
+msgid "Highlight AppIcon color"
+msgstr "Vurgulanmış AppIcon rengi"
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:2
+msgid "Pressed AppIcon color"
+msgstr "Tıklanmış AppIcon rengi"
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:3
+msgid "Highlight AppIcon border radius"
+msgstr "Vurgulanmış AppIcon kenar yarıçapı"
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:4
+msgid "Overrides global border radius (default is 0)"
+msgstr "Genel kenar yarıçapının üzerine yazar (varsayılan 0)"
+
+#: ui/BoxIntellihideOptions.ui:1
+msgid "Only hide the panel from windows"
 msgstr "Sadece pencereler tarafından engellendiğinde paneli gizle"
 
+#: ui/BoxIntellihideOptions.ui:2
+msgid "Overlapping"
+msgstr "Örtüşme"
+
+#: ui/BoxIntellihideOptions.ui:3
+msgid "On same monitor"
+msgstr "Ekranları ayır"
+
 # Panel hides from "All windows, Focused windows, Maximized windows" şeklinde cümle tamamlanıyor.
-#: ui/BoxIntellihideOptions.ui:64
+#: ui/BoxIntellihideOptions.ui:4
 msgid "The panel hides from"
 msgstr "Panel şunladan gizlensin"
 
-#: ui/BoxIntellihideOptions.ui:86
-msgid "Require pressure at the edge of the screen to reveal the panel"
+#: ui/BoxIntellihideOptions.ui:8
+msgid "Touching the monitor's edge with the pointer reveals the panel"
+msgstr "İmleç ile ekran kenarlarına dokunmak paneli ortaya çıkarır."
+
+#: ui/BoxIntellihideOptions.ui:9
+msgid "Limit to panel length"
+msgstr "Panel uzunluğu"
+
+#: ui/BoxIntellihideOptions.ui:10
+msgid "Hovering the panel area keeps the panel revealed"
+msgstr "Panel alanının üzerinde durmak paneli sürekli gösterir"
+
+#: ui/BoxIntellihideOptions.ui:11
+msgid "Require pressure at the edge of the monitor to reveal the panel"
 msgstr "Paneli göstermek için ekranın kenarında basınç gerektir"
 
-#: ui/BoxIntellihideOptions.ui:97
+#: ui/BoxIntellihideOptions.ui:12
 msgid "Required pressure threshold (px)"
 msgstr "Gerekli basınç eşiği (px)"
 
-#: ui/BoxIntellihideOptions.ui:112
+#: ui/BoxIntellihideOptions.ui:13
 msgid "Required pressure timeout (ms)"
 msgstr "Gerekli basınç zaman aşımı (ms)"
 
-#: ui/BoxIntellihideOptions.ui:133
+#: ui/BoxIntellihideOptions.ui:14
 msgid "Allow the panel to be revealed while in fullscreen mode"
 msgstr "Panelin tam ekran kipinde görünmesine izin ver"
 
-#: ui/BoxIntellihideOptions.ui:144
-msgid "Only hide secondary panels"
-msgstr "Yalnızca ikincil panelleri gizle"
-
-#: ui/BoxIntellihideOptions.ui:145
+#: ui/BoxIntellihideOptions.ui:15
 msgid "(requires multi-monitors option)"
 msgstr "(çoklu ekran seçeneği gerekir)"
 
-#: ui/BoxIntellihideOptions.ui:156
+#: ui/BoxIntellihideOptions.ui:16
+msgid "Only hide secondary panels"
+msgstr "Yalnızca ikincil panelleri gizle"
+
+#: ui/BoxIntellihideOptions.ui:17 ui/BoxOverlayShortcut.ui:11
+msgid "Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
+msgstr "Sözdizimi: <Shift>, <Ctrl>, <Alt>, <Super>"
+
+#: ui/BoxIntellihideOptions.ui:18
 msgid "Keyboard shortcut to reveal and hold the panel"
 msgstr "Paneli göstermek ve tutmak için klavye kısayolu"
 
-#: ui/BoxIntellihideOptions.ui:157 ui/BoxOverlayShortcut.ui:71
-msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
-msgstr "Sözdizimi: <Shift>, <Ctrl>, <Alt>, <Super>"
-
-#: ui/BoxIntellihideOptions.ui:162
+#: ui/BoxIntellihideOptions.ui:19
 msgid "e.g. <Super>i"
 msgstr "ör: <Super>i"
 
-#: ui/BoxIntellihideOptions.ui:176
+#: ui/BoxIntellihideOptions.ui:20
+msgid "Persist state across restarts"
+msgstr "Yeniden başlatmalar arasında durumu kalıcı olarak tutar"
+
+#: ui/BoxIntellihideOptions.ui:21
+msgid ""
+"(respects Gnome \"Do Not Disturb\" and requires show notification counter "
+"badge option)"
+msgstr ""
+"(Gnome'un Rahatsız Etme özelliğini destekler ve bildirim sayacı rozeti "
+"gösterilmesi gerekir)"
+
+#: ui/BoxIntellihideOptions.ui:22
+msgid "Reveal and hold the panel on notification"
+msgstr "Bildirimlerde paneli göster ve tut"
+
+#: ui/BoxIntellihideOptions.ui:23
 msgid "Hide and reveal animation duration (ms)"
 msgstr "Gizle ve göster animasyon süresi (ms)"
 
-#: ui/BoxIntellihideOptions.ui:191
+#: ui/BoxIntellihideOptions.ui:24
 msgid "Delay before hiding the panel (ms)"
 msgstr "Paneli gizlemeden önce gecikme süresi (ms)"
 
-#: ui/BoxIntellihideOptions.ui:207
+#: ui/BoxIntellihideOptions.ui:25
+msgid "Delay before revealing the panel (ms)"
+msgstr "Paneli gizlemeden önce gecikme süresi (ms)"
+
+#: ui/BoxIntellihideOptions.ui:26
 msgid "Delay before enabling intellihide on start (ms)"
 msgstr ""
 "Başlangıçta akıllı gizlemeyi etkinleştirmeden önceki gecikme süresi (ms)"
 
-#: ui/BoxMiddleClickOptions.ui:19
+#: ui/BoxMiddleClickOptions.ui:1
 msgid "Shift+Click action"
 msgstr "Shift+Tıklama eylemi"
 
-#: ui/BoxMiddleClickOptions.ui:20
+#: ui/BoxMiddleClickOptions.ui:2
 msgid ""
 "When set to minimize, double clicking minimizes all the windows of the "
 "application."
@@ -651,78 +706,71 @@ msgstr ""
 "Küçült olarak ayarlandığında, çift tıklama uygulamanın tüm pencerelerini "
 "küçültür."
 
-#: ui/BoxMiddleClickOptions.ui:25 ui/BoxMiddleClickOptions.ui:53
-#: ui/BoxMiddleClickOptions.ui:81 ui/SettingsAction.ui:41
+#: ui/BoxMiddleClickOptions.ui:3 ui/SettingsAction.ui:10
 msgid "Raise windows"
 msgstr "Pencereleri yükselt"
 
-#: ui/BoxMiddleClickOptions.ui:26 ui/BoxMiddleClickOptions.ui:54
-#: ui/BoxMiddleClickOptions.ui:82
+#: ui/BoxMiddleClickOptions.ui:4
 msgid "Minimize window"
 msgstr "Pencereyi küçült"
 
-#: ui/BoxMiddleClickOptions.ui:27 ui/BoxMiddleClickOptions.ui:55
-#: ui/BoxMiddleClickOptions.ui:83 ui/SettingsAction.ui:42
+#: ui/BoxMiddleClickOptions.ui:5 ui/SettingsAction.ui:11
 msgid "Launch new instance"
 msgstr "Yeni örnek başlat"
 
-#: ui/BoxMiddleClickOptions.ui:28 ui/BoxMiddleClickOptions.ui:56
-#: ui/BoxMiddleClickOptions.ui:84 ui/SettingsAction.ui:37
+#: ui/BoxMiddleClickOptions.ui:6 ui/SettingsAction.ui:5
 msgid "Cycle through windows"
 msgstr "Pencereler arasında geçiş yap"
 
-#: ui/BoxMiddleClickOptions.ui:29 ui/BoxMiddleClickOptions.ui:57
-#: ui/BoxMiddleClickOptions.ui:85 ui/SettingsAction.ui:36
+#: ui/BoxMiddleClickOptions.ui:7 ui/SettingsAction.ui:4
 msgid "Cycle windows + minimize"
 msgstr "Pencere döngüsü ve küçült"
 
-#: ui/BoxMiddleClickOptions.ui:30 ui/BoxMiddleClickOptions.ui:58
-#: ui/BoxMiddleClickOptions.ui:86 ui/SettingsAction.ui:38
+#: ui/BoxMiddleClickOptions.ui:8 ui/SettingsAction.ui:6
 msgid "Toggle single / Preview multiple"
 msgstr "Tek / Çoklu önizleme arasında geçiş yap"
 
-#: ui/BoxMiddleClickOptions.ui:31 ui/BoxMiddleClickOptions.ui:59
-#: ui/BoxMiddleClickOptions.ui:87 ui/SettingsAction.ui:39
+#: ui/BoxMiddleClickOptions.ui:9 ui/SettingsAction.ui:7
 msgid "Toggle single / Cycle multiple"
 msgstr "Tek / Çoklu döngü arasında geçiş yap"
 
-#: ui/BoxMiddleClickOptions.ui:47
+#: ui/BoxMiddleClickOptions.ui:10 ui/SettingsAction.ui:8
+msgid "Toggle single / Spread multiple"
+msgstr "Tek / Çoklu önizleme arasında geçiş yap"
+
+#: ui/BoxMiddleClickOptions.ui:12
 msgid "Middle-Click action"
 msgstr "Orta tıklama eylemi"
 
-#: ui/BoxMiddleClickOptions.ui:48
+#: ui/BoxMiddleClickOptions.ui:13
 msgid "Behavior for Middle-Click."
 msgstr "Orta tıklama davranışı."
 
-#: ui/BoxMiddleClickOptions.ui:75
+#: ui/BoxMiddleClickOptions.ui:14
 msgid "Shift+Middle-Click action"
 msgstr "Shift+Orta Tıklama eylemi"
 
-#: ui/BoxMiddleClickOptions.ui:76
+#: ui/BoxMiddleClickOptions.ui:15
 msgid "Behavior for Shift+Middle-Click."
 msgstr "Shift + Orta tıklama davranışı."
 
-#: ui/BoxOverlayShortcut.ui:25
-msgid "Hotkeys prefix"
-msgstr "Kısayol tuşları öneki"
-
-#: ui/BoxOverlayShortcut.ui:26
+#: ui/BoxOverlayShortcut.ui:1
 msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
 msgstr "Kısayol tuşları Süper+Sayı veya Süper+Alt+Sayı olacaktır"
 
-#: ui/BoxOverlayShortcut.ui:31
+#: ui/BoxOverlayShortcut.ui:2
+msgid "Hotkeys prefix"
+msgstr "Kısayol tuşları öneki"
+
+#: ui/BoxOverlayShortcut.ui:3
 msgid "Super"
 msgstr "Super"
 
-#: ui/BoxOverlayShortcut.ui:32
+#: ui/BoxOverlayShortcut.ui:4
 msgid "Super + Alt"
 msgstr "Super + Alt"
 
-#: ui/BoxOverlayShortcut.ui:41
-msgid "Number overlay"
-msgstr "Numara yerleşimi"
-
-#: ui/BoxOverlayShortcut.ui:42
+#: ui/BoxOverlayShortcut.ui:5
 msgid ""
 "Temporarily show the application numbers over the icons when using the "
 "hotkeys."
@@ -730,295 +778,313 @@ msgstr ""
 "Kısayol tuşlarını kullanırken simgelerin üzerinde uygulama numaralarını "
 "geçici olarak göster."
 
-#: ui/BoxOverlayShortcut.ui:47
+#: ui/BoxOverlayShortcut.ui:6
+msgid "Number overlay"
+msgstr "Numara yerleşimi"
+
+#: ui/BoxOverlayShortcut.ui:7
 msgid "Never"
 msgstr "Asla"
 
-#: ui/BoxOverlayShortcut.ui:48
+#: ui/BoxOverlayShortcut.ui:8
 msgid "Show temporarily"
 msgstr "Geçici olarak göster"
 
-#: ui/BoxOverlayShortcut.ui:49
+#: ui/BoxOverlayShortcut.ui:9
 msgid "Always visible"
 msgstr "Sürekli görünür"
 
-#: ui/BoxOverlayShortcut.ui:58
+#: ui/BoxOverlayShortcut.ui:10
 msgid "Hide timeout (ms)"
 msgstr "Gizle zaman aşımı (ms)"
 
-#: ui/BoxOverlayShortcut.ui:70
+#: ui/BoxOverlayShortcut.ui:12
 msgid "Shortcut to show the overlay for 2 seconds"
 msgstr "Bindirmeyi 2 saniyeliğine göstermek için kısayol"
 
-#: ui/BoxOverlayShortcut.ui:76
+#: ui/BoxOverlayShortcut.ui:13
 msgid "e.g. <Super>q"
 msgstr "ör: <Super>q"
 
-#: ui/BoxOverlayShortcut.ui:84
-msgid "Show window previews on hotkey"
-msgstr "Kısayol tuşunda pencere önizlemelerini göster"
+#: ui/BoxOverlayShortcut.ui:14
+msgid ""
+"On secondary monitors, show the overlay on icons matching the primary monitor"
+msgstr ""
+"İkincil ekranlarda, birincil ekranla eşleşen simgelerin üzerindeki kaplamayı "
+"göster"
 
-#: ui/BoxOverlayShortcut.ui:85
+#: ui/BoxOverlayShortcut.ui:15
+msgid "Show the overlay on all monitors"
+msgstr "Bindirmeyi 2 saniyeliğine göstermek için kısayol"
+
+#: ui/BoxOverlayShortcut.ui:16
 msgid "Show previews when the application have multiple instances"
 msgstr "Uygulamanın birden çok örneği olduğunda önizlemeleri göster"
 
-#: ui/BoxOverlayShortcut.ui:96
-msgid "Hotkeys are activated with"
-msgstr "Kısayol tuşları ile etkin"
+#: ui/BoxOverlayShortcut.ui:17
+msgid "Show window previews on hotkey"
+msgstr "Kısayol tuşunda pencere önizlemelerini göster"
 
-#: ui/BoxOverlayShortcut.ui:97
+#: ui/BoxOverlayShortcut.ui:18
 msgid "Select which keyboard number keys are used to activate the hotkeys"
 msgstr ""
 "Kısayol tuşlarını etkinleştirmek için hangi klavye sayı tuşlarının "
 "kullanılacağını seçin"
 
-#: ui/BoxOverlayShortcut.ui:102
+#: ui/BoxOverlayShortcut.ui:19
+msgid "Hotkeys are activated with"
+msgstr "Kısayol tuşları ile etkin"
+
+#: ui/BoxOverlayShortcut.ui:20
 msgid "Number row"
 msgstr "Numara satırı"
 
-#: ui/BoxOverlayShortcut.ui:103
+#: ui/BoxOverlayShortcut.ui:21
 msgid "Numeric keypad"
 msgstr "Sayısal tuş takımı"
 
-#: ui/BoxOverlayShortcut.ui:104
+#: ui/BoxOverlayShortcut.ui:22
 msgid "Both"
 msgstr "İkiside"
 
-#: ui/BoxScrollIconOptions.ui:25 ui/BoxScrollPanelOptions.ui:25
+#: ui/BoxScrollIconOptions.ui:1 ui/BoxScrollPanelOptions.ui:1
 msgid "Delay between mouse scroll events (ms)"
 msgstr "Fare kaydırma olayları arasındaki gecikme süresi (ms)"
 
-#: ui/BoxScrollIconOptions.ui:26 ui/BoxScrollPanelOptions.ui:26
+#: ui/BoxScrollIconOptions.ui:2 ui/BoxScrollPanelOptions.ui:2
 msgid "Use this value to limit the number of captured mouse scroll events."
 msgstr ""
 "Yakalanan fare kaydırma olaylarının sayısını sınırlamak için bu değeri "
 "kullan."
 
-#: ui/BoxScrollPanelOptions.ui:42
+#: ui/BoxScrollPanelOptions.ui:3
 msgid "Show popup when changing workspace"
 msgstr "Çalışma alanını değiştirirken açılır pencereyi göster"
 
-#: ui/BoxScrollPanelOptions.ui:43
+#: ui/BoxScrollPanelOptions.ui:4
 msgid "This affects workspace popup when scrolling on the panel only."
 msgstr ""
 "Bu, yalnızca panelde kaydırma yaparken çalışma alanı açılır penceresini "
 "etkiler."
 
-#: ui/BoxSecondaryMenuOptions.ui:19
+#: ui/BoxSecondaryMenuOptions.ui:1
 msgid "Integrate <i>AppMenu</i> items"
 msgstr "<i>AppMenu</i> ögelerini tümleştir"
 
-#: ui/BoxSecondaryMenuOptions.ui:30
-msgid "<i>Show Details</i> menu item"
+#: ui/BoxSecondaryMenuOptions.ui:2
+msgid "<i>App Details</i> menu item"
 msgstr "Ayrıntıları Göster <i>menü seçeneği</i>"
 
-#: ui/BoxShowApplicationsOptions.ui:25
+#: ui/BoxSecondaryMenuOptions.ui:3
+msgid "<i>App Details</i> is only available when Gnome Software is installed"
+msgstr "<i>Uygulama Detayları</i> sadece Yazılımlar yüklüyse erişilebilir"
+
+#: ui/BoxShowApplicationsOptions.ui:1
 msgid "Show Applications icon"
 msgstr "Uygulamaları Göster simgesi"
 
-#: ui/BoxShowApplicationsOptions.ui:60
+#: ui/BoxShowApplicationsOptions.ui:2
 msgid "Show Applications icon side padding (px)"
 msgstr "Uygulamaları Göster simgesi dolgusu (px)"
 
-#: ui/BoxShowApplicationsOptions.ui:73
+#: ui/BoxShowApplicationsOptions.ui:4
 msgid "Override escape key and return to desktop"
 msgstr "Kaçış tuşunu geçersiz kıl ve masaüstüne dön"
 
-#: ui/BoxShowDesktopOptions.ui:53
+#: ui/BoxShowDesktopOptions.ui:1
 msgid "Override Show Desktop line color"
 msgstr "Masaüstünü Göster çizgi rengini geçersiz kıl"
 
-#: ui/BoxShowDesktopOptions.ui:77
+#: ui/BoxShowDesktopOptions.ui:2
 msgid "Reveal the desktop when hovering the Show Desktop button"
 msgstr "Masaüstünü Göster düğmesinin üstüne gelince masaüstünü göster"
 
-#: ui/BoxShowDesktopOptions.ui:90
+#: ui/BoxShowDesktopOptions.ui:3
 msgid "Delay before revealing the desktop (ms)"
 msgstr "Masaüstünü göstermeden önceki gecikme süresi (ms)"
 
-#: ui/BoxShowDesktopOptions.ui:106
+#: ui/BoxShowDesktopOptions.ui:4
 msgid "Fade duration (ms)"
 msgstr "Solma süresi (ms)"
 
-#: ui/BoxWindowPreviewOptions.ui:89
+#: ui/BoxWindowPreviewOptions.ui:1
 msgid "Time (ms) before showing"
 msgstr "Göstermeden önce geçen süre (ms)"
 
-#: ui/BoxWindowPreviewOptions.ui:90
+#: ui/BoxWindowPreviewOptions.ui:2
 msgid "(400 is default)"
 msgstr "(varsayılan 400)"
 
-#: ui/BoxWindowPreviewOptions.ui:105
+#: ui/BoxWindowPreviewOptions.ui:3
 msgid "Time (ms) before hiding"
 msgstr "Gizlemeden önce geçen süre (ms)"
 
-#: ui/BoxWindowPreviewOptions.ui:106
+#: ui/BoxWindowPreviewOptions.ui:4
 msgid "(100 is default)"
 msgstr "(varsayılan 100)"
 
-#: ui/BoxWindowPreviewOptions.ui:113
+#: ui/BoxWindowPreviewOptions.ui:5
 msgid "Immediate on application icon click"
 msgstr "Uygulama simgesine tıkladığınızda hemen"
 
-#: ui/BoxWindowPreviewOptions.ui:134
+#: ui/BoxWindowPreviewOptions.ui:6
 msgid "Animation time (ms)"
 msgstr "Animasyon süresi (ms)"
 
-#: ui/BoxWindowPreviewOptions.ui:155
+#: ui/BoxWindowPreviewOptions.ui:7
 msgid "Middle click on the preview to close the window"
 msgstr "Pencereyi kapatmak için önizlemeye orta tıkla"
 
-#: ui/BoxWindowPreviewOptions.ui:172
+#: ui/BoxWindowPreviewOptions.ui:8
 msgid "Window previews preferred size (px)"
 msgstr "Pencere önizlemelerinin tercih edilen boyutu (px)"
 
-#: ui/BoxWindowPreviewOptions.ui:188
+#: ui/BoxWindowPreviewOptions.ui:9
 msgid "Window previews aspect ratio X (width)"
 msgstr "Pencere önizlemeleri en boy oranı X (genişlik)"
 
-#: ui/BoxWindowPreviewOptions.ui:193 ui/BoxWindowPreviewOptions.ui:234
+#: ui/BoxWindowPreviewOptions.ui:10
 msgid "1"
 msgstr "1"
 
-#: ui/BoxWindowPreviewOptions.ui:194 ui/BoxWindowPreviewOptions.ui:235
+#: ui/BoxWindowPreviewOptions.ui:11
 msgid "2"
 msgstr "2"
 
-#: ui/BoxWindowPreviewOptions.ui:195 ui/BoxWindowPreviewOptions.ui:236
+#: ui/BoxWindowPreviewOptions.ui:12
 msgid "3"
 msgstr "3"
 
-#: ui/BoxWindowPreviewOptions.ui:196 ui/BoxWindowPreviewOptions.ui:237
+#: ui/BoxWindowPreviewOptions.ui:13
 msgid "4"
 msgstr "4"
 
-#: ui/BoxWindowPreviewOptions.ui:197 ui/BoxWindowPreviewOptions.ui:238
-#: ui/BoxWindowPreviewOptions.ui:302
+#: ui/BoxWindowPreviewOptions.ui:14
 msgid "5"
 msgstr "5"
 
-#: ui/BoxWindowPreviewOptions.ui:198 ui/BoxWindowPreviewOptions.ui:239
+#: ui/BoxWindowPreviewOptions.ui:15
 msgid "6"
 msgstr "6"
 
-#: ui/BoxWindowPreviewOptions.ui:199 ui/BoxWindowPreviewOptions.ui:240
+#: ui/BoxWindowPreviewOptions.ui:16
 msgid "7"
 msgstr "7"
 
-#: ui/BoxWindowPreviewOptions.ui:200 ui/BoxWindowPreviewOptions.ui:241
+#: ui/BoxWindowPreviewOptions.ui:17
 msgid "8"
 msgstr "8"
 
-#: ui/BoxWindowPreviewOptions.ui:201 ui/BoxWindowPreviewOptions.ui:242
+#: ui/BoxWindowPreviewOptions.ui:18
 msgid "9"
 msgstr "9"
 
-#: ui/BoxWindowPreviewOptions.ui:202 ui/BoxWindowPreviewOptions.ui:243
+#: ui/BoxWindowPreviewOptions.ui:19
 msgid "10"
 msgstr "10"
 
-#: ui/BoxWindowPreviewOptions.ui:203 ui/BoxWindowPreviewOptions.ui:244
+#: ui/BoxWindowPreviewOptions.ui:20
 msgid "11"
 msgstr "11"
 
-#: ui/BoxWindowPreviewOptions.ui:204 ui/BoxWindowPreviewOptions.ui:245
+#: ui/BoxWindowPreviewOptions.ui:21
 msgid "12"
 msgstr "12"
 
-#: ui/BoxWindowPreviewOptions.ui:205 ui/BoxWindowPreviewOptions.ui:246
+#: ui/BoxWindowPreviewOptions.ui:22
 msgid "13"
 msgstr "13"
 
-#: ui/BoxWindowPreviewOptions.ui:206 ui/BoxWindowPreviewOptions.ui:247
+#: ui/BoxWindowPreviewOptions.ui:23
 msgid "14"
 msgstr "14"
 
-#: ui/BoxWindowPreviewOptions.ui:207 ui/BoxWindowPreviewOptions.ui:248
+#: ui/BoxWindowPreviewOptions.ui:24
 msgid "15"
 msgstr "15"
 
-#: ui/BoxWindowPreviewOptions.ui:208 ui/BoxWindowPreviewOptions.ui:249
+#: ui/BoxWindowPreviewOptions.ui:25
 msgid "16"
 msgstr "16"
 
-#: ui/BoxWindowPreviewOptions.ui:209 ui/BoxWindowPreviewOptions.ui:250
+#: ui/BoxWindowPreviewOptions.ui:26
 msgid "17"
 msgstr "17"
 
-#: ui/BoxWindowPreviewOptions.ui:210 ui/BoxWindowPreviewOptions.ui:251
+#: ui/BoxWindowPreviewOptions.ui:27
 msgid "18"
 msgstr "18"
 
-#: ui/BoxWindowPreviewOptions.ui:211 ui/BoxWindowPreviewOptions.ui:252
+#: ui/BoxWindowPreviewOptions.ui:28
 msgid "19"
 msgstr "19"
 
-#: ui/BoxWindowPreviewOptions.ui:212 ui/BoxWindowPreviewOptions.ui:253
+#: ui/BoxWindowPreviewOptions.ui:29
 msgid "20"
 msgstr "20"
 
-#: ui/BoxWindowPreviewOptions.ui:213 ui/BoxWindowPreviewOptions.ui:254
+#: ui/BoxWindowPreviewOptions.ui:30
 msgid "21"
 msgstr "21"
 
-#: ui/BoxWindowPreviewOptions.ui:219 ui/BoxWindowPreviewOptions.ui:260
+#: ui/BoxWindowPreviewOptions.ui:31
 msgid "Fixed"
 msgstr "Sabit"
 
-#: ui/BoxWindowPreviewOptions.ui:229
+#: ui/BoxWindowPreviewOptions.ui:32
 msgid "Window previews aspect ratio Y (height)"
 msgstr "Pencere önizlemeleri en boy oranı Y (yükseklik)"
 
-#: ui/BoxWindowPreviewOptions.ui:270
+#: ui/BoxWindowPreviewOptions.ui:33
 msgid "Window previews padding (px)"
 msgstr "Pencere önizlemeleri dolgusu (px)"
 
-#: ui/BoxWindowPreviewOptions.ui:292
+#: ui/BoxWindowPreviewOptions.ui:34
 msgid "Use custom opacity for the previews background"
 msgstr "Önizleme arka planıları için özel matlık kullan"
 
-#: ui/BoxWindowPreviewOptions.ui:293
+#: ui/BoxWindowPreviewOptions.ui:35
 msgid ""
 "If disabled, the previews background have the same opacity as the panel."
 msgstr ""
 "Devre dışı bırakılırsa, önizleme arka planı panel ile aynı matlığa sahip "
 "olur."
 
-#: ui/BoxWindowPreviewOptions.ui:318
+#: ui/BoxWindowPreviewOptions.ui:36
 msgid "Close button and header position"
 msgstr "Kapat düğmesi ve üstbilgi konumu"
 
-#: ui/BoxWindowPreviewOptions.ui:348
+#: ui/BoxWindowPreviewOptions.ui:39
 msgid "Display window preview headers"
 msgstr "Pencere önizleme başlıklarını görüntüle"
 
-#: ui/BoxWindowPreviewOptions.ui:359
+#: ui/BoxWindowPreviewOptions.ui:40
 msgid "Icon size (px) of the window preview"
 msgstr "Pencere önizlemesinin simge boyutu (px)"
 
-#: ui/BoxWindowPreviewOptions.ui:360
+#: ui/BoxWindowPreviewOptions.ui:41
 msgid "If disabled, the previews icon size will be based on headerbar size"
 msgstr ""
 "Devre dışı bırakılırsa, önizleme simgesi boyutu başlık çubuğu boyutuna göre "
 "belirlenir"
 
-#: ui/BoxWindowPreviewOptions.ui:381
+#: ui/BoxWindowPreviewOptions.ui:42
 msgid "Font size (px) of the preview titles"
 msgstr "Önizleme başlıklarının yazı tipi boyutu (px)"
 
-#: ui/BoxWindowPreviewOptions.ui:397
+#: ui/BoxWindowPreviewOptions.ui:43
 msgid "Font weight of the preview titles"
 msgstr "Uygulama başlıklarının yazı tipi ağırlığı"
 
-#: ui/BoxWindowPreviewOptions.ui:415
+#: ui/BoxWindowPreviewOptions.ui:49
 msgid "Font color of the preview titles"
 msgstr "Önizleme başlıklarının yazı tipi rengi"
 
-#: ui/BoxWindowPreviewOptions.ui:433
+#: ui/BoxWindowPreviewOptions.ui:50
 msgid "Enable window peeking"
 msgstr "Pencereye göz atmayı etkinleştir"
 
-#: ui/BoxWindowPreviewOptions.ui:434
+#: ui/BoxWindowPreviewOptions.ui:51
 msgid ""
 "When hovering over a window preview for some time, the window gets "
 "distinguished."
@@ -1026,11 +1092,11 @@ msgstr ""
 "Bir süre boyunca bir pencere önizlemesinin üzerine gelindiğinde, pencere "
 "ayırt edilir."
 
-#: ui/BoxWindowPreviewOptions.ui:445
+#: ui/BoxWindowPreviewOptions.ui:52
 msgid "Enter window peeking mode timeout (ms)"
 msgstr "Pencere göz atma kipi zaman aşımı süresi (ms)"
 
-#: ui/BoxWindowPreviewOptions.ui:446
+#: ui/BoxWindowPreviewOptions.ui:53
 msgid ""
 "Time of inactivity while hovering over a window preview needed to enter the "
 "window peeking mode."
@@ -1038,15 +1104,15 @@ msgstr ""
 "Pencere önizlemesinin üzerine gelindiğinde, pencere göz atma kipine girmek "
 "için gerekli olan hareketsizlik süresi."
 
-#: ui/BoxWindowPreviewOptions.ui:451
+#: ui/BoxWindowPreviewOptions.ui:54
 msgid "50"
 msgstr "50"
 
-#: ui/BoxWindowPreviewOptions.ui:462
+#: ui/BoxWindowPreviewOptions.ui:55
 msgid "Window peeking mode opacity"
 msgstr "Pencere göz atma kipi matlığı"
 
-#: ui/BoxWindowPreviewOptions.ui:463
+#: ui/BoxWindowPreviewOptions.ui:56
 msgid ""
 "All windows except for the peeked one have their opacity set to the same "
 "value."
@@ -1054,35 +1120,31 @@ msgstr ""
 "Bakılan pencerenin dışındaki tüm pencerelerin matlığı aynı değere "
 "ayarlanmıştır."
 
-#: ui/SettingsAbout.ui:6
+#: ui/SettingsAbout.ui:1
 msgid "About"
 msgstr "Hakkında"
 
-#: ui/SettingsAbout.ui:12
+#: ui/SettingsAbout.ui:2
 msgid "Info"
 msgstr "Bilgi"
 
-#: ui/SettingsAbout.ui:16
+#: ui/SettingsAbout.ui:3
 msgid "Version"
 msgstr "Sürüm"
 
-#: ui/SettingsAbout.ui:27
+#: ui/SettingsAbout.ui:4
 msgid "Source"
 msgstr "Kaynak"
 
-#: ui/SettingsAbout.ui:30
+#: ui/SettingsAbout.ui:5
 msgid "GitHub"
 msgstr "GitHub"
 
-#: ui/SettingsAbout.ui:45
+#: ui/SettingsAbout.ui:6
 msgid "Export and Import"
 msgstr "İçe ve Dışa Aktar"
 
-#: ui/SettingsAbout.ui:49
-msgid "Export and import settings"
-msgstr "Ayarları içeri ve dışarı aktar"
-
-#: ui/SettingsAbout.ui:50
+#: ui/SettingsAbout.ui:7
 msgid ""
 "Use the buttons below to create a settings file from your current "
 "preferences that can be imported on a different machine."
@@ -1090,89 +1152,94 @@ msgstr ""
 "Mevcut tercihlerinizi farklı bir makineye aktarılabilecek bir ayar dosyası "
 "oluşturmak için aşağıdaki düğmeleri kullanın."
 
-#: ui/SettingsAbout.ui:66
+#: ui/SettingsAbout.ui:8
+msgid "Export and import settings"
+msgstr "Ayarları içeri ve dışarı aktar"
+
+#: ui/SettingsAbout.ui:9
 msgid "Export to file"
 msgstr "Dosyaya dışa aktar"
 
-#: ui/SettingsAbout.ui:72
+#: ui/SettingsAbout.ui:10
 msgid "Import from file"
 msgstr "Dosyadan içe aktar"
 
-#: ui/SettingsAbout.ui:89
+#: ui/SettingsAbout.ui:11
 msgid ""
 "<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
-"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html"
-"\">GNU General Public License, version 2 or later</a> for details.</span>"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/"
+"gpl-2.0.html\">GNU General Public License, version 2 or later</a> for "
+"details.</span>"
 msgstr ""
 "<span size=\"small\">Bu program KESİNLİKLE HİÇBİR GARANTİ vermez.\n"
 "Bakın <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\">GNU "
 "Genel Kamu Lisansı, sürüm 2 veya üstü</a> detaylar için.</span>"
 
-#: ui/SettingsAction.ui:6
+#: ui/SettingsAbout.ui:13
+msgid "Sponsored and originally developed by"
+msgstr "Destekleyen ve asıl geliştirici"
+
+#: ui/SettingsAction.ui:1
 msgid "Action"
 msgstr "Eylem"
 
-#: ui/SettingsAction.ui:12 ui/SettingsAction.ui:16
+#: ui/SettingsAction.ui:2
 msgid "Click action"
 msgstr "Tıklama eylemi"
 
-#: ui/SettingsAction.ui:17
+#: ui/SettingsAction.ui:3
 msgid "Behaviour when clicking on the icon of a running application."
 msgstr "Çalışan bir uygulamanın simgesine tıkladığınızda davranış."
 
-#: ui/SettingsAction.ui:40
+#: ui/SettingsAction.ui:9
 msgid "Toggle windows"
 msgstr "Pencereleri aç/kapat"
 
-#: ui/SettingsAction.ui:55
+#: ui/SettingsAction.ui:12
 msgid "Scroll action"
 msgstr "Kaydırma eylemi"
 
-#: ui/SettingsAction.ui:59
-msgid "Scroll panel action"
-msgstr "Kaydırma paneli eylemi"
-
-#: ui/SettingsAction.ui:60
+#: ui/SettingsAction.ui:13
 msgid "Behavior when mouse scrolling over the panel."
 msgstr "Panel üzerinde fare kaydırırken davranış."
 
-#: ui/SettingsAction.ui:84 ui/SettingsAction.ui:118
+#: ui/SettingsAction.ui:14
+msgid "Scroll panel action"
+msgstr "Kaydırma paneli eylemi"
+
+#: ui/SettingsAction.ui:15
 msgid "Do nothing"
 msgstr "Hiçbir şey yapma"
 
-#: ui/SettingsAction.ui:85
+#: ui/SettingsAction.ui:16
 msgid "Switch workspace"
 msgstr "Çalışma alanını değiştir"
 
-#: ui/SettingsAction.ui:86 ui/SettingsAction.ui:119
+#: ui/SettingsAction.ui:17
 msgid "Cycle windows"
 msgstr "Pencere döngüsü"
 
-#: ui/SettingsAction.ui:87
+#: ui/SettingsAction.ui:18
 msgid "Change volume"
 msgstr "Ses düzeyini ayarla"
 
-#: ui/SettingsAction.ui:96
-msgid "Scroll icon action"
-msgstr "Kaydırma simgesi eylemi"
-
-#: ui/SettingsAction.ui:97
+#: ui/SettingsAction.ui:19
 msgid "Behavior when mouse scrolling over an application icon."
 msgstr "Bir uygulama simgesi üzerinde fareyi kaydırırken davranış."
 
-#: ui/SettingsAction.ui:120
+#: ui/SettingsAction.ui:20
+msgid "Scroll icon action"
+msgstr "Kaydırma simgesi eylemi"
+
+#: ui/SettingsAction.ui:21
 msgid "Same as panel"
 msgstr "Panel ile aynı"
 
-#: ui/SettingsAction.ui:133
+#: ui/SettingsAction.ui:22
 msgid "Hotkey overlay"
 msgstr "Kısayol birleşimi"
 
-#: ui/SettingsAction.ui:137
-msgid "Use hotkeys to activate apps"
-msgstr "Uygulamaları etkinleştirmek için kısayol tuşlarını kullan"
-
-#: ui/SettingsAction.ui:138
+#: ui/SettingsAction.ui:23
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
@@ -1180,335 +1247,426 @@ msgstr ""
 "Uygulamaları etkinleştirmek için kısayol olarak Super+(0-9)ʼu etkinleştir. "
 "Shift ve Ctrl ile birlikte de kullanılabilir."
 
-#: ui/SettingsBehavior.ui:5
-msgid "Behavior"
-msgstr "Davranış"
+#: ui/SettingsAction.ui:24
+msgid "Use hotkeys to activate apps"
+msgstr "Uygulamaları etkinleştirmek için kısayol tuşlarını kullan"
 
-#: ui/SettingsBehavior.ui:11
-msgid "Applications"
-msgstr "Uygulamalar"
-
-#: ui/SettingsBehavior.ui:15
-msgid "Show favorite applications"
-msgstr "Sık kullanılan uygulamaları göster"
-
-#: ui/SettingsBehavior.ui:26
-msgid "Show favorite applications on secondary panels"
-msgstr "Sık kullanılan uygulamaları ikincil panellerde göster"
-
-#: ui/SettingsBehavior.ui:37
-msgid "Show running applications"
-msgstr "Çalışan uygulamaları göster"
-
-#: ui/SettingsBehavior.ui:48
-msgid "Ungroup applications"
-msgstr "Uygulamaların gruplama"
-
-#: ui/SettingsBehavior.ui:73
-msgid "Show notification counter badge"
-msgstr "Bildirim sayacı rozetini göster"
-
-#: ui/SettingsBehavior.ui:90
-msgid "Hover"
-msgstr "Vurgu"
-
-#: ui/SettingsBehavior.ui:94
-msgid "Show window previews on hover"
-msgstr "Üzerine gelindiğinde pencere önizlemelerini göster"
-
-#: ui/SettingsBehavior.ui:119
-msgid "Show tooltip on hover"
-msgstr "Üzerine gelindiğinde araç ipucunu göster"
-
-#: ui/SettingsBehavior.ui:134
-msgid "Isolate"
-msgstr "Ayır"
-
-#: ui/SettingsBehavior.ui:138
-msgid "Isolate Workspaces"
-msgstr "Çalışma alanlarını ayır"
-
-#: ui/SettingsBehavior.ui:149
-msgid "Isolate monitors"
-msgstr "Ekranları ayır"
-
-#: ui/SettingsBehavior.ui:164
-msgid "Overview"
-msgstr "Genel Görünüm"
-
-#: ui/SettingsBehavior.ui:168
-msgid "Click empty space to close overview"
-msgstr "Genel görünümü kapatmak için boş alana tıkla"
-
-#: ui/SettingsBehavior.ui:179
-msgid "Disable show overview on startup"
-msgstr "Başlangıçta genel görünümü göstermeyi devre dışı bırak"
-
-#: ui/SettingsFineTune.ui:41
-msgid "Fine-Tune"
-msgstr "İnce Ayarlar"
-
-#: ui/SettingsFineTune.ui:47
-msgid "Font size"
-msgstr "Yazı tipi boyutu"
-
-#: ui/SettingsFineTune.ui:51
-msgid "Tray Font Size"
-msgstr "Gösterge Yazı Tipi Boyutu"
-
-#: ui/SettingsFineTune.ui:52 ui/SettingsFineTune.ui:70
-msgid "(0 = theme default)"
-msgstr "(0 = tema varsayılanı)"
-
-#: ui/SettingsFineTune.ui:69
-msgid "LeftBox Font Size"
-msgstr "Sol Kutu Yazı Tipi Boyutu"
-
-#: ui/SettingsFineTune.ui:91
-msgid "Padding"
-msgstr "Dolgu"
-
-#: ui/SettingsFineTune.ui:95
-msgid "Tray Item Padding"
-msgstr "Tepsi Öge Dolgusu"
-
-#: ui/SettingsFineTune.ui:96 ui/SettingsFineTune.ui:114
-#: ui/SettingsFineTune.ui:132
-msgid "(-1 = theme default)"
-msgstr "(-1 = tema varsayılanı)"
-
-#: ui/SettingsFineTune.ui:113
-msgid "Status Icon Padding"
-msgstr "Durum Simgesi Dolgusu"
-
-#: ui/SettingsFineTune.ui:131
-msgid "LeftBox Padding"
-msgstr "Sol Kutu Dolgusu"
-
-#: ui/SettingsFineTune.ui:153
-msgid "Animate"
-msgstr "Canlandır"
-
-#: ui/SettingsFineTune.ui:157
-msgid "Animate switching applications"
-msgstr "Uygulama geçişlerinde animasyon kullan"
-
-#: ui/SettingsFineTune.ui:168
-msgid "Animate launching new windows"
-msgstr "Açılan pencerelerde animasyon kullan"
-
-#: ui/SettingsFineTune.ui:183
-msgid "Gnome functionality"
-msgstr "GNOME işlevi"
-
-#: ui/SettingsFineTune.ui:187
-msgid "Keep original gnome-shell dash"
-msgstr "Özgün gnome-shell rıhtımını koru"
-
-#: ui/SettingsFineTune.ui:188
-msgid "(overview)"
-msgstr "(genel görünüm)"
-
-#: ui/SettingsFineTune.ui:199
-msgid "Keep original gnome-shell top panel"
-msgstr "Özgün gnome-shell üst panelini koru"
-
-#: ui/SettingsFineTune.ui:210
-msgid "Activate panel menu buttons on click only"
-msgstr "Sadece tıklandığında panel menü düğmelerini etkinleştir"
-
-#: ui/SettingsFineTune.ui:211
-msgid "(e.g. date menu)"
-msgstr "(ör: tarih menüsü)"
-
-#: ui/SettingsFineTune.ui:222
-msgid "Force Activities hot corner on primary monitor"
-msgstr "Birincil ekranda Etkinlikler sıcak köşesini zorla"
-
-#: ui/SettingsFineTune.ui:240
-msgid "App icon secondary menu"
+#: ui/SettingsAction.ui:25
+msgid "Application icons context menu"
 msgstr "Uygulama simgesi ikincil menüsü"
 
-#: ui/SettingsFineTune.ui:241
+#: ui/SettingsAction.ui:26
 msgid "(right-click menu)"
 msgstr "(sağ tık menüsü)"
 
-#: ui/SettingsPosition.ui:19
+#: ui/SettingsAction.ui:27
+msgid "Secondary menu"
+msgstr "İkincil Menü Seçenekleri"
+
+#: ui/SettingsAction.ui:28
+msgid "Panel context menu entries"
+msgstr "Panel bağlam menü girişleri"
+
+#: ui/SettingsAction.ui:29
+msgid "Add entry"
+msgstr "Giriş ekle"
+
+#: ui/SettingsBehavior.ui:1
+msgid "Behavior"
+msgstr "Davranış"
+
+#: ui/SettingsBehavior.ui:2
+msgid "Applications"
+msgstr "Uygulamalar"
+
+#: ui/SettingsBehavior.ui:3
+msgid "Show favorite applications"
+msgstr "Sık kullanılan uygulamaları göster"
+
+#: ui/SettingsBehavior.ui:4
+msgid "Show favorite applications on secondary panels"
+msgstr "Sık kullanılan uygulamaları ikincil panellerde göster"
+
+#: ui/SettingsBehavior.ui:5
+msgid "Show running applications"
+msgstr "Çalışan uygulamaları göster"
+
+#: ui/SettingsBehavior.ui:6
+msgid "Ungroup applications"
+msgstr "Uygulamaların gruplama"
+
+#: ui/SettingsBehavior.ui:7
+msgid "Show notification counter badge"
+msgstr "Bildirim sayacı rozetini göster"
+
+#: ui/SettingsBehavior.ui:8
+msgid "Hover"
+msgstr "Vurgu"
+
+#: ui/SettingsBehavior.ui:9
+msgid "Show window previews on hover"
+msgstr "Üzerine gelindiğinde pencere önizlemelerini göster"
+
+#: ui/SettingsBehavior.ui:10
+msgid "Show tooltip on hover"
+msgstr "Üzerine gelindiğinde araç ipucunu göster"
+
+#: ui/SettingsBehavior.ui:11
+msgid "Isolate"
+msgstr "Ayır"
+
+#: ui/SettingsBehavior.ui:12
+msgid "Isolate Workspaces"
+msgstr "Çalışma alanlarını ayır"
+
+#: ui/SettingsBehavior.ui:13
+msgid "Isolate monitors"
+msgstr "Ekranları ayır"
+
+#: ui/SettingsBehavior.ui:14
+msgid "Overview"
+msgstr "Genel Görünüm"
+
+#: ui/SettingsBehavior.ui:15
+msgid "Click empty space to close overview"
+msgstr "Genel görünümü kapatmak için boş alana tıkla"
+
+#: ui/SettingsBehavior.ui:16
+msgid "Disable show overview on startup"
+msgstr "Başlangıçta genel görünümü göstermeyi devre dışı bırak"
+
+#: ui/SettingsFineTune.ui:1
+msgid "Fine-Tune"
+msgstr "İnce Ayarlar"
+
+#: ui/SettingsFineTune.ui:2
+msgid "Font size"
+msgstr "Yazı tipi boyutu"
+
+#: ui/SettingsFineTune.ui:3
+msgid "(0 = theme default)"
+msgstr "(0 = tema varsayılanı)"
+
+#: ui/SettingsFineTune.ui:4
+msgid "Tray Font Size"
+msgstr "Gösterge Yazı Tipi Boyutu"
+
+#: ui/SettingsFineTune.ui:5
+msgid "LeftBox Font Size"
+msgstr "Sol Kutu Yazı Tipi Boyutu"
+
+#: ui/SettingsFineTune.ui:6
+msgid "Padding"
+msgstr "Dolgu"
+
+#: ui/SettingsFineTune.ui:7
+msgid "(-1 = theme default)"
+msgstr "(-1 = tema varsayılanı)"
+
+#: ui/SettingsFineTune.ui:8
+msgid "Tray Item Padding"
+msgstr "Tepsi Öge Dolgusu"
+
+#: ui/SettingsFineTune.ui:9
+msgid "Status Icon Padding"
+msgstr "Durum Simgesi Dolgusu"
+
+#: ui/SettingsFineTune.ui:10
+msgid "LeftBox Padding"
+msgstr "Sol Kutu Dolgusu"
+
+#: ui/SettingsFineTune.ui:11
+msgid "Animate"
+msgstr "Canlandır"
+
+#: ui/SettingsFineTune.ui:12
+msgid "Animate switching applications"
+msgstr "Uygulama geçişlerinde animasyon kullan"
+
+#: ui/SettingsFineTune.ui:13
+msgid "Animate launching new windows"
+msgstr "Açılan pencerelerde animasyon kullan"
+
+#: ui/SettingsFineTune.ui:14
+msgid "Gnome functionality"
+msgstr "GNOME işlevi"
+
+#: ui/SettingsFineTune.ui:15
+msgid "(overview)"
+msgstr "(genel görünüm)"
+
+#: ui/SettingsFineTune.ui:16
+msgid "Keep original gnome-shell dash"
+msgstr "Özgün gnome-shell rıhtımını koru"
+
+#: ui/SettingsFineTune.ui:17
+msgid "Keep original gnome-shell top panel"
+msgstr "Özgün gnome-shell üst panelini koru"
+
+#: ui/SettingsFineTune.ui:18
+msgid "(e.g. date menu)"
+msgstr "(ör: tarih menüsü)"
+
+#: ui/SettingsFineTune.ui:19
+msgid "Activate panel menu buttons on click only"
+msgstr "Sadece tıklandığında panel menü düğmelerini etkinleştir"
+
+#: ui/SettingsFineTune.ui:20
+msgid "Force Activities hot corner on primary monitor"
+msgstr "Birincil ekranda Etkinlikler sıcak köşesini zorla"
+
+#: ui/SettingsPosition.ui:1
 msgid "Position"
 msgstr "Konum"
 
-#: ui/SettingsPosition.ui:25
+#: ui/SettingsPosition.ui:2
 msgid "Panel"
 msgstr "Panel"
 
-#: ui/SettingsPosition.ui:29
+#: ui/SettingsPosition.ui:3
 msgid "Display the main panel on"
 msgstr "Ana paneli şurada göster"
 
-#: ui/SettingsPosition.ui:40
+#: ui/SettingsPosition.ui:4
 msgid "Display panels on all monitors"
 msgstr "Paneli tüm ekranlarda göster"
 
-#: ui/SettingsPosition.ui:56
-msgid "Panel Intellihide"
-msgstr "Paneli Akıllı Gizle"
-
-#: ui/SettingsPosition.ui:57
+#: ui/SettingsPosition.ui:5
 msgid "Hide and reveal the panel according to preferences"
 msgstr "Paneli tercihlere göre gizle ve göster"
 
-#: ui/SettingsPosition.ui:86
+#: ui/SettingsPosition.ui:6
+msgid "Panel Intellihide"
+msgstr "Paneli Akıllı Gizle"
+
+#: ui/SettingsPosition.ui:7
 msgid "Order and Position on monitors"
 msgstr "Ekrandaki Sıra ve Konumlar"
 
-#: ui/SettingsPosition.ui:91
+#: ui/SettingsPosition.ui:8
 msgid "Monitor"
 msgstr "Ekran"
 
-#: ui/SettingsPosition.ui:100
+#: ui/SettingsPosition.ui:9
 msgid "Apply changes to all monitors"
 msgstr "Değişiklikleri tüm ekranlara uygula"
 
-#: ui/SettingsPosition.ui:127
-msgid "Panel screen position"
+#: ui/SettingsPosition.ui:10
+msgid "Panel monitor position"
 msgstr "Panelin ekrandaki konumu"
 
-#: ui/SettingsPosition.ui:169
-msgid "Panel thickness"
-msgstr "Panel kalınlığı"
-
-#: ui/SettingsPosition.ui:170
+#: ui/SettingsPosition.ui:15
 msgid "(default is 48)"
 msgstr "(varsayılan 48)"
 
-#: ui/SettingsPosition.ui:187
-msgid "Panel length (%)"
-msgstr "Panel uzunluğu (%)"
+#: ui/SettingsPosition.ui:16
+msgid "Panel thickness"
+msgstr "Panel kalınlığı"
 
-#: ui/SettingsPosition.ui:188
+#: ui/SettingsPosition.ui:17
 msgid "(default is 100)"
 msgstr "(varsayılan 100)"
 
+#: ui/SettingsPosition.ui:18
+msgid "Panel length"
+msgstr "Panel uzunluğu"
+
+#: ui/SettingsPosition.ui:19
+msgid "Dynamic"
+msgstr "Dinamik"
+
 # Çapala diye de çevirebilirdik fakat daha net anlaşılması için sabitle diye tercih ettim.
-#: ui/SettingsPosition.ui:204
+#: ui/SettingsPosition.ui:20
 msgid "Anchor"
 msgstr "Sabitle"
 
-#: ui/SettingsPosition.ui:227
+#: ui/SettingsPosition.ui:24
 msgid "Taskbar Display"
 msgstr "Görev Çubuğu Görünümü"
 
-#: ui/SettingsStyle.ui:38
+#: ui/SettingsStyle.ui:1
 msgid "Style"
 msgstr "Biçim"
 
-#: ui/SettingsStyle.ui:44
+#: ui/SettingsStyle.ui:2
+msgid "Global style"
+msgstr "Panel biçemi"
+
+#: ui/SettingsStyle.ui:3
+msgid "Border radius"
+msgstr "Kenar yarıçapı"
+
+#: ui/SettingsStyle.ui:4
 msgid "AppIcon style"
-msgstr "UygulamaSimgesi biçemi"
+msgstr "AppIcon biçemi"
 
-#: ui/SettingsStyle.ui:48
-msgid "App Icon Margin"
-msgstr "Uygulama Simge Marjı"
-
-#: ui/SettingsStyle.ui:49
+#: ui/SettingsStyle.ui:5
 msgid "(default is 8)"
 msgstr "(varsayılan 8)"
 
-#: ui/SettingsStyle.ui:66
-msgid "App Icon Padding"
-msgstr "Uygulama Simge Dolgusu"
+#: ui/SettingsStyle.ui:6
+msgid "App Icon Margin"
+msgstr "Uygulama Simge Marjı"
 
-#: ui/SettingsStyle.ui:67
+#: ui/SettingsStyle.ui:7
 msgid "(default is 4)"
 msgstr "(varsayılan 4)"
 
-#: ui/SettingsStyle.ui:84
+#: ui/SettingsStyle.ui:8
+msgid "App Icon Padding"
+msgstr "Uygulama Simge Dolgusu"
+
+#: ui/SettingsStyle.ui:9
 msgid "Animate hovering app icons"
 msgstr "Uygulama simgelerinin üzerine gelişleri canlandır"
 
-#: ui/SettingsStyle.ui:113
+#: ui/SettingsStyle.ui:10
+msgid "Highlight hovering app icons"
+msgstr "Uygulama simgelerinin üzerine gelişleri canlandır"
+
+#: ui/SettingsStyle.ui:11
+msgid "Icon style"
+msgstr "Simge biçemi"
+
+#: ui/SettingsStyle.ui:12
+msgid "Normal"
+msgstr "Normal"
+
+#: ui/SettingsStyle.ui:13
+msgid "Symbolic"
+msgstr "Sembolik"
+
+#: ui/SettingsStyle.ui:14
+msgid "Grayscale"
+msgstr "Gri tonlama"
+
+#: ui/SettingsStyle.ui:15
 msgid "Running indicator"
 msgstr "Çalışan gösterge"
 
-#: ui/SettingsStyle.ui:117
+#: ui/SettingsStyle.ui:16
 msgid "Running indicator position"
 msgstr "Çalışan gösterge konumu"
 
-#: ui/SettingsStyle.ui:154
+#: ui/SettingsStyle.ui:21
 msgid "Running indicator style (Focused app)"
 msgstr "Çalışan gösterge biçimi (Odaklanmış uygulama)"
 
-#: ui/SettingsStyle.ui:172 ui/SettingsStyle.ui:192
+#: ui/SettingsStyle.ui:22
 msgid "Dots"
 msgstr "Noktalar"
 
-#: ui/SettingsStyle.ui:173 ui/SettingsStyle.ui:193
+#: ui/SettingsStyle.ui:23
 msgid "Squares"
 msgstr "Kareler"
 
-#: ui/SettingsStyle.ui:174 ui/SettingsStyle.ui:194
+#: ui/SettingsStyle.ui:24
 msgid "Dashes"
 msgstr "Tireler"
 
-#: ui/SettingsStyle.ui:175 ui/SettingsStyle.ui:195
+#: ui/SettingsStyle.ui:25
 msgid "Segmented"
 msgstr "Segmentler"
 
-#: ui/SettingsStyle.ui:176 ui/SettingsStyle.ui:196
+#: ui/SettingsStyle.ui:26
 msgid "Solid"
 msgstr "Kalın çizgi"
 
-#: ui/SettingsStyle.ui:177 ui/SettingsStyle.ui:197
+#: ui/SettingsStyle.ui:27
 msgid "Ciliora"
 msgstr "Nokta ve çizgi"
 
-#: ui/SettingsStyle.ui:178 ui/SettingsStyle.ui:198
+#: ui/SettingsStyle.ui:28
 msgid "Metro"
 msgstr "Metro"
 
-#: ui/SettingsStyle.ui:187
+#: ui/SettingsStyle.ui:29
 msgid "Running indicator style (Unfocused apps)"
 msgstr "Çalışan gösterge biçimi (Odaklanmamış uygulamalar)"
 
-#: ui/SettingsStyle.ui:211
+#: ui/SettingsStyle.ui:30
 msgid "Panel style"
 msgstr "Panel biçemi"
 
-#: ui/SettingsStyle.ui:215
+#: ui/SettingsStyle.ui:31
+msgid "(default is 0)"
+msgstr "(varsayılan 0)"
+
+#: ui/SettingsStyle.ui:32
+msgid "Side margins"
+msgstr "Kenar payları"
+
+#: ui/SettingsStyle.ui:33
+msgid "Top and bottom margins"
+msgstr "Üst ve alt paylar"
+
+#: ui/SettingsStyle.ui:34
+msgid "Side padding"
+msgstr "Kenar dolguları"
+
+#: ui/SettingsStyle.ui:35
+msgid "Top and bottom padding"
+msgstr "Üst ve alt dolgular"
+
+#: ui/SettingsStyle.ui:36
 msgid "Override panel theme background color"
 msgstr "Panel tema arka plan rengini geçersiz kıl"
 
-#: ui/SettingsStyle.ui:237
+#: ui/SettingsStyle.ui:37
 msgid "Override panel theme background opacity"
 msgstr "Panel tema arka plan saydamlığını geçersiz kıl"
 
-#: ui/SettingsStyle.ui:248
+#: ui/SettingsStyle.ui:39
 msgid "Panel background opacity (%)"
 msgstr "Panel arka plan matlığı (%)"
 
-#: ui/SettingsStyle.ui:261
-msgid "Dynamic background opacity"
-msgstr "Dinamik arka plan matlığı"
-
-#: ui/SettingsStyle.ui:262
+#: ui/SettingsStyle.ui:41
 msgid "Change opacity when a window gets close to the panel"
 msgstr "Bir pencere panele yaklaştığında matlığı değişir"
 
-#: ui/SettingsStyle.ui:294
+#: ui/SettingsStyle.ui:42
+msgid "Dynamic background opacity"
+msgstr "Dinamik arka plan matlığı"
+
+#: ui/SettingsStyle.ui:43
 msgid "Override panel theme gradient"
 msgstr "Panel tema renk geçişini geçersiz kıl"
 
-#: ui/SettingsStyle.ui:305
+#: ui/SettingsStyle.ui:45
 msgid "Gradient top color and opacity (%)"
 msgstr "Renk geçişi üst renk ve matlık (%)"
 
-#: ui/SettingsStyle.ui:324
+#: ui/SettingsStyle.ui:47
 msgid "Gradient bottom color and opacity (%)"
 msgstr "Renk geçişi alt renk ve matlık (%)"
 
-#: windowPreview.js:938
-msgid "Move to current Workspace"
-msgstr "Geçerli Çalışma Alanına taşı"
+#~ msgid "Windows"
+#~ msgstr "Pencere"
+
+#~ msgid "Terminal"
+#~ msgstr "Uçbirim"
+
+# Uygulama Adı
+#~ msgid "System monitor"
+#~ msgstr "Sistem Gözlemcisi"
+
+#~ msgid "Files"
+#~ msgstr "Dosyalar"
+
+#~ msgid "Extensions"
+#~ msgstr "Uzantılar"
+
+#~ msgid "Unavailable when gnome-shell top panel is present"
+#~ msgstr "Gnome-shell üst paneli varsa kullanılamaz"
+
+#~ msgid "Advanced Options"
+#~ msgstr "Gelişmiş Seçenekler"
+
+#~ msgid "Nothing yet!"
+#~ msgstr "Henüz bir şey yok!"
+
+#~ msgid "For real..."
+#~ msgstr "Gerçek..."
 
 #~ msgid "Show <i>AppMenu</i> button"
 #~ msgstr "<i>AppMenu</i> düğmesini göster"
