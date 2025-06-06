@@ -60,6 +60,7 @@ export const PanelManager = class {
   constructor() {
     this.overview = new Overview.Overview(this)
     this._injectionManager = new InjectionManager()
+    this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass()
   }
 
   enable(reset) {
@@ -370,6 +371,8 @@ export const PanelManager = class {
         -1,
       )
     }
+
+    this._desktopIconsUsableArea.resetMargins()
 
     if (reset) return
 
