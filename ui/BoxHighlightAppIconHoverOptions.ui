@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+
+  <!-- adjustments -->
+  <object class="GtkAdjustment" id="highlight_appicon_borderradius_adjustment">
+    <property name="lower">0</property>
+    <property name="upper">10</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">2</property>
+  </object>
+
+  <object class="GtkBox" id="highlight_appicon_hover_options">
+      <property name="orientation">vertical</property>
+      <property name="width-request">600</property>
+      <property name="spacing">24</property>
+      <property name="margin-top">32</property>
+      <property name="margin-bottom">32</property>
+      <property name="margin-start">32</property>
+      <property name="margin-end">32</property>
+
+      <child>
+        <object class="AdwPreferencesGroup">
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Highlight AppIcon color</property>
+              <child>
+                <object class="GtkColorButton" id="highlight_appicon_color">
+                  <property name="receives_default">True</property>
+                  <property name="valign">center</property>
+                  <property name="use_alpha">True</property>
+                </object>
+              </child>
+            </object>
+          </child>
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Pressed AppIcon color</property>
+              <child>
+                <object class="GtkColorButton" id="pressed_appicon_color">
+                  <property name="receives_default">True</property>
+                  <property name="valign">center</property>
+                  <property name="use_alpha">True</property>
+                </object>
+              </child>
+            </object>
+          </child>
+          <child>
+            <object class="AdwActionRow">
+              <property name="title" translatable="yes">Highlight AppIcon border radius</property>
+              <property name="subtitle" translatable="yes">Overrides global border radius (default is 0)</property>
+              <child>
+                <object class="GtkScale" id="highlight_appicon_borderradius">
+                  <property name="width-request">300</property>
+                  <property name="adjustment">highlight_appicon_borderradius_adjustment</property>
+                  <property name="round_digits">0</property>
+                  <property name="digits">0</property>
+                  <property name="value_pos">right</property>
+                  <property name="draw_value">True</property>
+                </object>
+              </child>
+            </object>
+          </child>
+        </object>
+      </child>
+
+
+  </object>
+
+</interface>

@@ -23,6 +23,7 @@
     <value value='5' nick='QUIT'/>
     <value value='6' nick='TOGGLE-SHOWPREVIEW'/>
     <value value='7' nick='TOGGLE-CYCLE'/>
+    <value value='8' nick='TOGGLE-SPREAD'/>
   </enum>
   <enum id='org.gnome.shell.extensions.dash-to-panel.scrollAction'>
     <value value='0' nick='NOTHING'/>
@@ -91,7 +92,7 @@
     </key>
     <key type="s" name="panel-lengths">
       <default>'{}'</default>
-      <summary>Percentages of screen edge for panel to span</summary>
+      <summary>Percentages of screen edge for panel to span, -1 for dynamic length (dock mode)</summary>
       <description>Length of the panels, in percent (JSON).</description>
     </key>
     <key type="s" name="panel-anchors">
@@ -244,6 +245,22 @@
       <summary>Lock the taskbar</summary>
       <description>Specifies if the user can modify the taskbar</description>
     </key>
+    <key type="i" name="panel-top-bottom-margins">
+        <default>0</default>
+        <summary>Panel top and bottom margins</summary>
+    </key>
+    <key type="i" name="panel-side-margins">
+        <default>0</default>
+        <summary>Panel side margins</summary>
+    </key>
+      <key type="i" name="panel-top-bottom-padding">
+        <default>0</default>
+        <summary>Panel top and bottom padding</summary>
+    </key>
+    <key type="i" name="panel-side-padding">
+        <default>0</default>
+        <summary>Panel sides padding</summary>
+    </key>
     <key type="b" name="trans-use-custom-bg">
       <default>false</default>
       <summary>Override theme background color</summary>
@@ -341,18 +358,39 @@
     </key>
     <key type="b" name="intellihide-hide-from-windows">
       <default>false</default>
-      <summary>Only hide from windows</summary>
+      <summary>Only hide from overlapping windows</summary>
       <description>Dictates if the dash should only hide when in conflict with windows</description>
+    </key>
+    <key type="b" name="intellihide-hide-from-monitor-windows">
+      <default>false</default>
+      <summary>Only hide from windows on monitor</summary>
     </key>
     <key name="intellihide-behaviour" enum="org.gnome.shell.extensions.dash-to-panel.proximityBehavior">
       <default>'FOCUSED_WINDOWS'</default>
       <summary>Intellihide behaviour</summary>
       <description>Dictates how to intelligently hide the panel</description>
     </key>
+    <key type="b" name="intellihide-use-pointer">
+      <default>true</default>
+      <summary>Intellihide mouse pointer</summary>
+      <description>The mouse pointer next to the edge of the screen reveals the panel</description>
+    </key>
+    <key type="b" name="intellihide-use-pointer-limit-size">
+      <default>false</default>
+      <summary>Limit to panel length</summary>
+    </key>
+    <key type="b" name="intellihide-revealed-hover">
+      <default>true</default>
+      <summary>Panel stays revealed when hovered</summary>
+    </key>
+    <key type="b" name="intellihide-revealed-hover-limit-size">
+      <default>false</default>
+      <summary>Limit to panel length</summary>
+    </key>
     <key type="b" name="intellihide-use-pressure">
       <default>false</default>
       <summary>Intellihide pressure</summary>
-      <description>To reveal the panel, pressure needs to be applied to the edege of the screen</description>
+      <description>To reveal the panel, pressure needs to be applied to the edge of the screen</description>
     </key>
     <key type="i" name="intellihide-pressure-threshold">
       <default>100</default>
@@ -366,8 +404,12 @@
     </key>
     <key type="b" name="intellihide-show-in-fullscreen">
       <default>false</default>
-      <summary>Intellihide pressure</summary>
+      <summary>Allow revealing the panel while in fullscreen</summary>
       <description>Allow the panel to be revealed while an application is in fullscreen mode</description>
+    </key>
+    <key type="b" name="intellihide-show-on-notification">
+      <default>false</default>
+      <summary>Reveal the panel on notification</summary>
     </key>
     <key type="b" name="intellihide-only-secondary">
       <default>false</default>
@@ -384,6 +426,11 @@
       <summary>Intellihide close delay</summary>
       <description>The delay (ms) before hiding the panel</description>
     </key>
+    <key type="i" name="intellihide-reveal-delay">
+      <default>0</default>
+      <summary>Intellihide reveal delay</summary>
+      <description>The delay (ms) before revealing the panel</description>
+    </key>
     <key type="s" name="intellihide-key-toggle-text">
       <default>"&lt;Super&gt;i"</default>
       <summary>Keybinding toggle intellihide</summary>
@@ -393,6 +440,10 @@
       <default><![CDATA[['<Super>i']]]></default>
       <summary>Keybinding toggle intellihide</summary>
       <description>Keybinding to reveal the panel while in intellihide mode</description>
+    </key>
+    <key type="i" name="intellihide-persisted-state">
+      <default>-1</default>
+      <summary>Persisted intellihide hold status. -1 means the option is disabled</summary>
     </key>
     <key type="i" name="intellihide-enable-start-delay">
       <default>2000</default>
@@ -629,20 +680,15 @@
       <summary>Use favorite icons as application launchers</summary>
       <description>When the applications are ungrouped, this defines if running applications stay separate from the favorite icons.</description>
     </key>
-    <key type="i" name="primary-monitor">
-      <default>0</default>
+    <key type="s" name="primary-monitor">
+      <default>''</default>
       <summary>Primary monitor index</summary>
-      <description>Specifies the index of the primary monitor.</description>
+      <description>Specifies the id of the primary monitor.</description>
     </key>
     <key type="b" name="multi-monitors">
       <default>true</default>
       <summary>Display panels on all monitors</summary>
       <description>Specifies if a panel is shown on every monitors</description>
-    </key>
-    <key type="ai" name="available-monitors">
-     <default>[]</default>
-     <summary>Available monitors</summary>
-     <description>Available gnome-shell (Mutter) monitors, internal use</description>
     </key>
     <key type="b" name="isolate-monitors">
       <default>false</default>
@@ -691,6 +737,29 @@
       <default>'SWITCH_WORKSPACE'</default>
       <summary>Action when scrolling over the panel</summary>
       <description>Set the action that is executed when scrolling over the panel</description>
+    </key>
+    <key type="s" name="context-menu-entries">
+      <default>'
+        [
+          {
+            "title": "Terminal",
+            "cmd": "TERMINALSETTINGS"
+          },
+          {
+            "title": "System monitor",
+            "cmd": "gnome-system-monitor"
+          },
+          {
+            "title": "Files",
+            "cmd": "nautilus"
+          },
+          {
+            "title": "Extensions",
+            "cmd": "gnome-extensions-app"
+          }
+        ]'
+      </default>
+      <summary>User defined context menu entries</summary>
     </key>
     <key type="i" name="scroll-panel-delay">
       <default>0</default>
@@ -750,6 +819,10 @@
         <default>0</default>
         <summary>Leftbox font size</summary>
         <description>Set the size of the leftBox font. (0 for default)</description>
+    </key>
+    <key type="i" name="global-border-radius">
+        <default>0</default>
+        <summary>Border radius of panel elements</summary>
     </key>
     <key type="i" name="appicon-margin">
         <default>8</default>
@@ -816,13 +889,29 @@
       <default>{'SIMPLE':1,'RIPPLE':1.25,'PLANK':2}</default>
       <summary>App icon hover animation zoom scale in relation to the app icon size</summary>
     </key>
+    <key type="b" name="highlight-appicon-hover">
+      <default>true</default>
+      <summary>Highlight app icon on hover</summary>
+    </key>
+    <key type="s" name="highlight-appicon-hover-background-color">
+      <default>"rgba(238, 238, 236, 0.1)"</default>
+      <summary>Highlight color</summary>
+    </key>
+    <key type="s" name="highlight-appicon-pressed-background-color">
+      <default>"rgba(238, 238, 236, 0.18)"</default>
+      <summary>Mouse down highlight color</summary>
+    </key>
+    <key type="i" name="highlight-appicon-hover-border-radius">
+      <default>0</default>
+      <summary>Highlight border radius</summary>
+    </key>
     <key type="b" name="secondarymenu-contains-appmenu">
       <default>true</default>
       <summary>Integrate items from the gnome appmenu into the right click menu</summary>
     </key>
     <key type="b" name="secondarymenu-contains-showdetails">
       <default>false</default>
-      <summary>Display Show Details to open Gnome Software from right click menu</summary>
+      <summary>Display App Details to open Gnome Software from right click menu</summary>
     </key>
     <key type="s" name="shortcut-text">
       <default>"&lt;Super&gt;q"</default>
@@ -836,8 +925,7 @@
     </key>
     <key type="i" name="shortcut-timeout">
       <default>2000</default>
-      <summary>Timeout to hide the dock, in seconds</summary>
-      <description>Sets the time duration before the dock is hidden again.</description>
+      <summary>Timeout to hide the panel after showing the overlay using the shortcut, in seconds</summary>
     </key>
     <key type="i" name="overlay-timeout">
       <default>750</default>
@@ -858,6 +946,10 @@
       <default>'Super'</default>
       <summary>Prefix to use for hotkeys</summary>
       <description>You can choose between Super or SuperAlt as the prefix for hotkeys.</description>
+    </key>
+    <key type="b" name="shortcut-overlay-on-secondary">
+      <default>false</default>
+      <summary>Show overlay on secondary monitors</summary>
     </key>
     <key type="b" name="shortcut-previews">
       <default>false</default>
@@ -1303,9 +1395,13 @@
       <default>''</default>
       <summary>The preferences page name to display</summary>
     </key>
-    <key type="s" name="hide-donate-icon-unixtime">
-      <default>''</default>
-      <summary>Unix time when the donate icon was hidden</summary>
+    <key type="b" name="prefs-opened">
+      <default>false</default>
+      <summary>Track if the preferences window is opened</summary>
+    </key>
+    <key type="i" name="extension-version">
+      <default>65</default>
+      <summary>Installed extension version</summary>
     </key>
   </schema>
 </schemalist>

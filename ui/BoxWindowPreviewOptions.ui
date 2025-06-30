@@ -105,8 +105,12 @@
                 <property name="title" translatable="yes">Time (ms) before hiding</property>
                 <property name="subtitle" translatable="yes">(100 is default)</property>
                 <child>
-                  <object class="GtkCheckButton" id="preview_immediate_click_button">
-                    <property name="receives_default">False</property>
+                  <object class="GtkBox">
+                    <child>
+                      <object class="GtkCheckButton" id="preview_immediate_click_button">
+                        <property name="receives_default">False</property>
+                      </object>
+                    </child>
                     <child>
                       <object class="GtkLabel" id="preview_immediate_click_label">
                         <property name="name">4</property>

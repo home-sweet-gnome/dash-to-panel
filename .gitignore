@@ -5,3 +5,4 @@ dash-to-panel@jderose9.github.com*.zip
 *.mo
 po/dash-to-panel.pot
 ui/*.ui.h
+node_modules/

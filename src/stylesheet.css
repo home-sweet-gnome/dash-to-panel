@@ -39,19 +39,30 @@
 }
 
 #dashtopanelScrollview .overview-tile:hover .dtp-container,
-#dashtopanelScrollview .overview-tile:focus .dtp-container,
+#dashtopanelScrollview .overview-tile:focus .dtp-container {
+	background-color: rgba(238, 238, 236, 0.1);
+	border-radius: 0px;
+}
+
+#dashtopanelScrollview .overview-tile:hover .dtp-container > .dtp-dots-container,
+#dashtopanelScrollview .overview-tile:focus .dtp-container > .dtp-dots-container {
+	border-radius: 0px;
+}
+
 .dashtopanelMainPanel .dash-item-container .show-apps:hover {
 	background-color: rgba(238, 238, 238, 0.1);
 }
-
 .dashtopanelMainPanel .dash-item-container .show-apps .overview-icon {
 	color: #FFF;
+}
+.dashtopanelMainPanel .dash-item-container .show-apps:hover .overview-icon {
+	background: none;
 }
 
 #dashtopanelTaskbar .dash-item-container .overview-tile:hover,
 #dashtopanelTaskbar .dash-item-container .overview-tile .dtp-container .overview-icon,
-#dashtopanelScrollview .overview-tile:hover .dtp-container.animate-appicon-hover,
-.dashtopanelMainPanel .dash-item-container .show-apps:hover .overview-icon {
+#dashtopanelScrollview .overview-tile:hover .dtp-container.no-highlight,
+#dashtopanelScrollview .overview-tile:focus .dtp-container.no-highlight {
 	background: none;
 }
 
@@ -132,8 +143,11 @@
 
 #dashtopanelScrollview .badge {
 	color: rgba(255, 255, 255, 1);
+	padding: 0.2em 0.5em;
+	border-radius: 1em;
 	font-weight: bold;
 	text-align: center;
+	margin: 0 0 0 2px;
 }
 
 #dashtopanelScrollview .number-overlay {
@@ -141,7 +155,7 @@
 }
 
 #dashtopanelScrollview .notification-badge {
-	background-color: rgba(255,0,0,0.8);
+	background-color: rgba(214, 0, 0, 0.8);
 }
 
 #dashtopanelScrollview .progress-bar {
@@ -152,4 +166,86 @@
 
 .symbolic-icon-style {
 	-st-icon-style: symbolic;
+}
+
+
+/* border radius, grrr no css variables in ST */
+#uiGroup.br4 .dashtopanelPanel.dock,
+#uiGroup.br4 .dashtopanelPanel.dock .dashtopanelMainPanel,
+#uiGroup.br4 .show-apps,
+#uiGroup.br4 .dtp-container,
+#uiGroup.br4 .dtp-dots-container,
+#uiGroup.br4 #preview-menu, 
+#uiGroup.br4 #preview-menu .preview-header-box,
+#uiGroup.br4 #preview-menu .preview-container,
+#uiGroup.br4 #preview-menu .preview-close-btn-container { 
+	border-radius: 4px !important;
+	overflow: hidden !important;
+}
+#uiGroup.br4 .dashtopanelPanel.dock .showdesktop-button { 
+	border-radius: 0 4px 4px 0 !important;
+}
+
+#uiGroup.br8 .dashtopanelPanel.dock,
+#uiGroup.br8 .dashtopanelPanel.dock .dashtopanelMainPanel,
+#uiGroup.br8 .show-apps,
+#uiGroup.br8 .dtp-container,
+#uiGroup.br8 .dtp-dots-container,
+#uiGroup.br8 #preview-menu, 
+#uiGroup.br8 #preview-menu .preview-header-box,
+#uiGroup.br8 #preview-menu .preview-container,
+#uiGroup.br8 #preview-menu .preview-close-btn-container { 
+	border-radius: 8px !important;
+	overflow: hidden !important;
+}
+#uiGroup.br8 .dashtopanelPanel.dock .showdesktop-button { 
+	border-radius: 0 8px 8px 0 !important;
+}
+
+#uiGroup.br12 .dashtopanelPanel.dock,
+#uiGroup.br12 .dashtopanelPanel.dock .dashtopanelMainPanel,
+#uiGroup.br12 .show-apps,
+#uiGroup.br12 .dtp-container,
+#uiGroup.br12 .dtp-dots-container,
+#uiGroup.br12 #preview-menu, 
+#uiGroup.br12 #preview-menu .preview-header-box,
+#uiGroup.br12 #preview-menu .preview-container,
+#uiGroup.br12 #preview-menu .preview-close-btn-container { 
+	border-radius: 12px !important;
+	overflow: hidden !important;
+}
+#uiGroup.br12 .dashtopanelPanel.dock .showdesktop-button { 
+	border-radius: 0 12px 12px 0 !important;
+}
+
+#uiGroup.br16 .dashtopanelPanel.dock,
+#uiGroup.br16 .dashtopanelPanel.dock .dashtopanelMainPanel,
+#uiGroup.br16 .show-apps,
+#uiGroup.br16 .dtp-container,
+#uiGroup.br16 .dtp-dots-container,
+#uiGroup.br16 #preview-menu, 
+#uiGroup.br16 #preview-menu .preview-header-box,
+#uiGroup.br16 #preview-menu .preview-container,
+#uiGroup.br16 #preview-menu .preview-close-btn-container { 
+	border-radius: 16px !important;
+	overflow: hidden !important;
+}
+#uiGroup.br16 .dashtopanelPanel.dock .showdesktop-button { 
+	border-radius: 0 16px 16px 0 !important;
+}
+
+#uiGroup.br20 .dashtopanelPanel.dock,
+#uiGroup.br20 .dashtopanelPanel.dock .dashtopanelMainPanel,
+#uiGroup.br20 .show-apps,
+#uiGroup.br20 .dtp-container,
+#uiGroup.br20 .dtp-dots-container,
+#uiGroup.br20 #preview-menu, 
+#uiGroup.br20 #preview-menu .preview-header-box,
+#uiGroup.br20 #preview-menu .preview-container,
+#uiGroup.br20 #preview-menu .preview-close-btn-container { 
+	border-radius: 20px !important;
+	overflow: hidden !important;
+}
+#uiGroup.br20 .dashtopanelPanel.dock .showdesktop-button { 
+	border-radius: 0 20px 20px 0 !important;
 }
