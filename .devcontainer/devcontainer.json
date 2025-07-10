@@ -1,0 +1,13 @@
+{
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "../"
+    },
+    "postStartCommand": "yarn install",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+            ]
+        }
+    }
+}
