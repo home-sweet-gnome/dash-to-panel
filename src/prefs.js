@@ -1086,13 +1086,13 @@ const Preferences = class {
           'sensitive',
           Gio.SettingsBindFlags.INVERT_BOOLEAN,
         )
-          ; (function () {
-            let rgba = new Gdk.RGBA()
-            rgba.parse(this._settings.get_string('focus-highlight-color'))
-            this._builder
-              .get_object('focus_highlight_color_colorbutton')
-              .set_rgba(rgba)
-          }).apply(this)
+        ;(function () {
+          let rgba = new Gdk.RGBA()
+          rgba.parse(this._settings.get_string('focus-highlight-color'))
+          this._builder
+            .get_object('focus_highlight_color_colorbutton')
+            .set_rgba(rgba)
+        }).apply(this)
 
         this._builder
           .get_object('focus_highlight_opacity_spinbutton')
@@ -1481,46 +1481,60 @@ const Preferences = class {
         dialog.set_default_size(1, 1)
       })
 
-
     // Panel border
-    this._settings.bind('trans-use-border',
+    this._settings.bind(
+      'trans-use-border',
       this._builder.get_object('trans_border_switch'),
       'active',
-      Gio.SettingsBindFlags.DEFAULT)
+      Gio.SettingsBindFlags.DEFAULT,
+    )
 
-    this._settings.bind('trans-use-border',
+    this._settings.bind(
+      'trans-use-border',
       this._builder.get_object('trans_border_color_box'),
       'sensitive',
-      Gio.SettingsBindFlags.DEFAULT)
+      Gio.SettingsBindFlags.DEFAULT,
+    )
 
-    this._settings.bind('trans-use-border',
+    this._settings.bind(
+      'trans-use-border',
       this._builder.get_object('trans_border_width_box'),
       'sensitive',
-      Gio.SettingsBindFlags.DEFAULT)
+      Gio.SettingsBindFlags.DEFAULT,
+    )
 
-    this._settings.bind('trans-border-use-custom-color',
+    this._settings.bind(
+      'trans-border-use-custom-color',
       this._builder.get_object('trans_border_color_switch'),
       'active',
-      Gio.SettingsBindFlags.DEFAULT)
+      Gio.SettingsBindFlags.DEFAULT,
+    )
 
-    this._settings.bind('trans-border-use-custom-color',
+    this._settings.bind(
+      'trans-border-use-custom-color',
       this._builder.get_object('trans_border_color_colorbutton'),
       'sensitive',
-      Gio.SettingsBindFlags.DEFAULT)
+      Gio.SettingsBindFlags.DEFAULT,
+    )
 
     rgba.parse(this._settings.get_string('trans-border-custom-color'))
     this._builder.get_object('trans_border_color_colorbutton').set_rgba(rgba)
-    this._builder.get_object('trans_border_color_colorbutton').connect('color-set', (button) => {
-      let rgba = button.get_rgba()
-      let css = rgba.to_string()
-      this._settings.set_string('trans-border-custom-color', css)
-    })
+    this._builder
+      .get_object('trans_border_color_colorbutton')
+      .connect('color-set', (button) => {
+        let rgba = button.get_rgba()
+        let css = rgba.to_string()
+        this._settings.set_string('trans-border-custom-color', css)
+      })
 
-    this._builder.get_object('trans_border_width_spinbutton').set_value(this._settings.get_int('trans-border-width'))
-    this._builder.get_object('trans_border_width_spinbutton').connect('value-changed', (widget) => {
-      this._settings.set_int('trans-border-width', widget.get_value())
-    })
-
+    this._builder
+      .get_object('trans_border_width_spinbutton')
+      .set_value(this._settings.get_int('trans-border-width'))
+    this._builder
+      .get_object('trans_border_width_spinbutton')
+      .connect('value-changed', (widget) => {
+        this._settings.set_int('trans-border-width', widget.get_value())
+      })
 
     this._settings.bind(
       'desktop-line-use-custom-color',
@@ -1592,7 +1606,7 @@ const Preferences = class {
         .get_object('intellihide_behaviour_options')
         .set_sensitive(
           this._settings.get_boolean('intellihide-hide-from-windows') ||
-          hideFromMonitorWindows,
+            hideFromMonitorWindows,
         )
     }
 
@@ -2531,15 +2545,15 @@ const Preferences = class {
               widget.get_active_id(),
             )
           })
-          ; (function () {
-            let rgba = new Gdk.RGBA()
-            rgba.parse(
-              this._settings.get_string('window-preview-title-font-color'),
-            )
-            this._builder
-              .get_object('grid_preview_title_font_color_colorbutton')
-              .set_rgba(rgba)
-          }).apply(this)
+        ;(function () {
+          let rgba = new Gdk.RGBA()
+          rgba.parse(
+            this._settings.get_string('window-preview-title-font-color'),
+          )
+          this._builder
+            .get_object('grid_preview_title_font_color_colorbutton')
+            .set_rgba(rgba)
+        }).apply(this)
 
         dialog.show()
       })
@@ -2739,22 +2753,22 @@ const Preferences = class {
               widget.get_active_id(),
             )
           })
-          ; (function () {
-            let rgba = new Gdk.RGBA()
-            rgba.parse(this._settings.get_string('group-apps-label-font-color'))
-            this._builder
-              .get_object('group_apps_label_font_color_colorbutton')
-              .set_rgba(rgba)
-          }).apply(this)
-          ; (function () {
-            let rgba = new Gdk.RGBA()
-            rgba.parse(
-              this._settings.get_string('group-apps-label-font-color-minimized'),
-            )
-            this._builder
-              .get_object('group_apps_label_font_color_minimized_colorbutton')
-              .set_rgba(rgba)
-          }).apply(this)
+        ;(function () {
+          let rgba = new Gdk.RGBA()
+          rgba.parse(this._settings.get_string('group-apps-label-font-color'))
+          this._builder
+            .get_object('group_apps_label_font_color_colorbutton')
+            .set_rgba(rgba)
+        }).apply(this)
+        ;(function () {
+          let rgba = new Gdk.RGBA()
+          rgba.parse(
+            this._settings.get_string('group-apps-label-font-color-minimized'),
+          )
+          this._builder
+            .get_object('group_apps_label_font_color_minimized_colorbutton')
+            .set_rgba(rgba)
+        }).apply(this)
 
         this._builder
           .get_object('group_apps_label_max_width_spinbutton')
@@ -3763,7 +3777,7 @@ const Preferences = class {
 
     versionLinkButton.set_label(
       this._metadata.version.toString() +
-      (this._metadata.commit ? ' (' + this._metadata.commit + ')' : ''),
+        (this._metadata.commit ? ' (' + this._metadata.commit + ')' : ''),
     )
     versionLinkButton.set_uri(
       `${this._metadata.url}/${this._metadata.commit ? `commit/${this._metadata.commit}` : `releases/tag/v${this._metadata.version}`}`,
@@ -3817,7 +3831,7 @@ const Preferences = class {
               stdin.splice(
                 settingsFile.read(null),
                 Gio.OutputStreamSpliceFlags.CLOSE_SOURCE |
-                Gio.OutputStreamSpliceFlags.CLOSE_TARGET,
+                  Gio.OutputStreamSpliceFlags.CLOSE_TARGET,
                 null,
               )
             }

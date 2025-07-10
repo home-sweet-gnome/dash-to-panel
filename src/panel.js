@@ -182,18 +182,18 @@ export const Panel = GObject.registerClass(
         }
 
         panelBoxes.forEach((p) => (this[p] = Main.panel[p]))
-          ;['activities', systemMenuInfo.name, 'dateMenu'].forEach((b) => {
-            let container = this.statusArea[b].container
-            let parent = container.get_parent()
-            let siblings = parent.get_children()
-            let index = siblings.indexOf(container)
+        ;['activities', systemMenuInfo.name, 'dateMenu'].forEach((b) => {
+          let container = this.statusArea[b].container
+          let parent = container.get_parent()
+          let siblings = parent.get_children()
+          let index = siblings.indexOf(container)
 
-            container._dtpOriginalParent = parent
-            container._dtpOriginalIndex =
-              index && index == siblings.length - 1 ? -1 : index
-            parent ? parent.remove_child(container) : null
-            this.panel.add_child(container)
-          })
+          container._dtpOriginalParent = parent
+          container._dtpOriginalIndex =
+            index && index == siblings.length - 1 ? -1 : index
+          parent ? parent.remove_child(container) : null
+          this.panel.add_child(container)
+        })
       }
 
       this.geom = this.getGeometry()
@@ -870,10 +870,10 @@ export const Panel = GObject.registerClass(
     _setAllocationMap() {
       this.allocationMap = {}
       let setMap = (name, actor) =>
-      (this.allocationMap[name] = {
-        actor: actor,
-        box: new Clutter.ActorBox(),
-      })
+        (this.allocationMap[name] = {
+          actor: actor,
+          box: new Clutter.ActorBox(),
+        })
 
       setMap(Pos.SHOW_APPS_BTN, this.showAppsIconWrapper.realShowAppsIcon)
       setMap(
@@ -1142,7 +1142,7 @@ export const Panel = GObject.registerClass(
 
         this.panel[
           (St.Side[p] == this.geom.position ? 'add' : 'remove') +
-          '_style_class_name'
+            '_style_class_name'
         ](cssName)
       })
 
@@ -1442,9 +1442,11 @@ export const Panel = GObject.registerClass(
     }
 
     _getDefaultLineColor(isBrightOverride) {
-      return (typeof isBrightOverride === 'undefined' && this._getBackgroundBrightness()) || isBrightOverride
-        ? "rgba(55, 55, 55, .2)"
-        : "rgba(200, 200, 200, .2)"
+      return (typeof isBrightOverride === 'undefined' &&
+        this._getBackgroundBrightness()) ||
+        isBrightOverride
+        ? 'rgba(55, 55, 55, .2)'
+        : 'rgba(200, 200, 200, .2)'
     }
 
     _setShowDesktopButtonStyle() {
@@ -1561,7 +1563,7 @@ export const Panel = GObject.registerClass(
           let showWsPopup = SETTINGS.get_boolean('scroll-panel-show-ws-popup')
           showWsPopup
             ? 0
-            : (Main.wm._workspaceSwitcherPopup = { display: () => { } })
+            : (Main.wm._workspaceSwitcherPopup = { display: () => {} })
 
           Main.wm._showWorkspaceSwitcher.call(Main.wm, ...args, {
             get_name: () => 'switch---' + direction,
@@ -1596,7 +1598,7 @@ export const Panel = GObject.registerClass(
         const scrollDelay = SETTINGS.get_int('scroll-panel-delay')
 
         if (scrollDelay) {
-          this._timeoutsHandler.add([T6, scrollDelay, () => { }])
+          this._timeoutsHandler.add([T6, scrollDelay, () => {}])
         }
       }
     }
