@@ -459,6 +459,13 @@ export const Intellihide = class {
 
   _checkIfShouldBeVisible(fromRevealMechanism) {
     if (
+        Main.overview.visibleTarget && 
+        SETTINGS.get_boolean('hide-panel-in-overview') &&
+        Main.overview.dash?.visible
+    ){
+        return false
+    }
+    if (
       Main.overview.visibleTarget ||
       this._dtpPanel.taskbar.previewMenu.opened ||
       this._dtpPanel.taskbar._dragMonitor ||
