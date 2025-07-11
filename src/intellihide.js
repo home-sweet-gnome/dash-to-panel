@@ -460,8 +460,7 @@ export const Intellihide = class {
   _checkIfShouldBeVisible(fromRevealMechanism) {
     if (
         Main.overview.visibleTarget && 
-        SETTINGS.get_boolean('hide-panel-in-overview') &&
-        Main.overview.dash?.visible
+        SETTINGS.get_boolean('hide-panel-in-overview')
     ){
         return false
     }
