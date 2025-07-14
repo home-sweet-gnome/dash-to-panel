@@ -114,8 +114,9 @@ export const Overview = class {
         if (focusedPanel) {
           let position = focusedPanel.geom.position
           let isBottom = position == St.Side.BOTTOM
+          const hideInOverview = SETTINGS.get_boolean('hide-panel-in-overview')
 
-          if (focusedPanel.intellihide?.enabled) {
+          if (focusedPanel.intellihide?.enabled && !hideInOverview) {
             // Panel intellihide is enabled (struts aren't taken into account on overview allocation),
             // dynamically modify the overview box to follow the reveal/hide animation
             let { transitioning, finalState, progress } =
@@ -129,7 +130,7 @@ export const Overview = class {
             if (isBottom || position == St.Side.RIGHT)
               box[focusedPanel.fixedCoord.c2] -= size
             else box[focusedPanel.fixedCoord.c1] += size
-          } else if (isBottom)
+          } else if (isBottom && !hideInOverview)
             // The default overview allocation takes into account external
             // struts, everywhere but the bottom where the dash is usually fixed anyway.
             // If there is a bottom panel under the dash location, give it some space here
