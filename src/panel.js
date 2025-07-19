@@ -1357,7 +1357,7 @@ export const Panel = GObject.registerClass(
           !setClockText(datetimeParts) &&
           !setClockText(time)
         ) {
-          let timeParts = time.split('∶')
+          let timeParts = time.split(':')
 
           if (!this._clockFormat) {
             this._clockFormat = DESKTOPSETTINGS.get_string('clock-format')
