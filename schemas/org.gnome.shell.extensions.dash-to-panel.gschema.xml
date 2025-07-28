@@ -331,6 +331,26 @@
       <summary>Custom gradient bottom opacity</summary>
       <description>Custom gradient bottom opacity for the panel</description>
     </key>
+    <key type="b" name="trans-use-border">
+      <default>false</default>
+      <summary>Display border</summary>
+      <description>Display a border between panel and the rest of the desktop</description>
+    </key>
+    <key type="i" name="trans-border-width">
+      <default>1</default>
+      <summary>Width of panel border</summary>
+      <description>Customize the width of the panel border</description>
+    </key>
+    <key type="b" name="trans-border-use-custom-color">
+      <default>false</default>
+      <summary>Override panel border color</summary>
+      <description>Replace current panel border color</description>
+    </key>
+    <key type="s" name="trans-border-custom-color">
+      <default>"rgba(200,200,200,0.2)"</default>
+      <summary>Custom panel border color</summary>
+      <description>Custom panel border color</description>
+    </key>
     <key type="b" name="intellihide">
       <default>false</default>
       <summary>Intellihide</summary>

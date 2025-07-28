@@ -1441,10 +1441,16 @@ export const Panel = GObject.registerClass(
       }
     }
 
-    _setShowDesktopButtonStyle() {
-      let rgb = this._getBackgroundBrightness()
+    _getDefaultLineColor(isBrightOverride) {
+      return (typeof isBrightOverride === 'undefined' &&
+        this._getBackgroundBrightness()) ||
+        isBrightOverride
         ? 'rgba(55, 55, 55, .2)'
         : 'rgba(200, 200, 200, .2)'
+    }
+
+    _setShowDesktopButtonStyle() {
+      let rgb = this._getDefaultLineColor()
 
       let isLineCustom = SETTINGS.get_boolean('desktop-line-use-custom-color')
       rgb = isLineCustom
