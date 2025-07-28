@@ -186,7 +186,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 @BoQsc, @zakkak, @dandv, @elliotwutingfeng
 
 #### Translations: 
-@frnogueira / @victorwpbastos / @vagkaefer (pt_BR), @zeten30 / @Amereyeu (cs), @franglais125 / @calotam / @oeramirez / @jhonatanseminario / @oscfdezdz (es), @LaurentTreguier / @SolarLiner / @DelphinPETER (fr), @elsieholmes / @xalt7x (uk), @hosiet / @zhmars (zh\_CN), @jonnius / @linuxr01 / @Etamuk / @daPhipz (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / @MartinPL / @alex4401 / @konradmb / @alewicki95 / @0rzech (pl), @AlexGluck / @GoodNike / @rjapolov / @vantu5z / @Keleth / @code-ascend (ru), @sicklylife-jp / @ryonakano / @nexryai / @Umoxfo (ja), @oltulu / @TeknoMobil / @daenney (tr), @sbadux / @kowalski7cc / @l3nn4rt / @albanobattistella (it), @OriginCode / @pan93412 (zh\_TW), @ojn (sv), @frandieguez (gl), @kuroehanako / @MarongHappy (ko), @jose1711 / @dodog (sk), @eshagh79 (fa)
+@frnogueira / @victorwpbastos / @vagkaefer (pt_BR), @zeten30 / @Amereyeu (cs), @franglais125 / @calotam / @oeramirez / @jhonatanseminario / @oscfdezdz (es), @LaurentTreguier / @SolarLiner / @DelphinPETER (fr), @elsieholmes / @xalt7x (uk), @hosiet / @zhmars (zh\_CN), @jonnius / @linuxr01 / @Etamuk / @daPhipz (de), @urbalazs / @pappfer (hu), @crayxt (kk), @pkomur / @MartinPL / @alex4401 / @konradmb / @alewicki95 / @0rzech (pl), @AlexGluck / @GoodNike / @rjapolov / @vantu5z / @Keleth / @code-ascend (ru), @sicklylife-jp / @ryonakano / @nexryai / @Umoxfo (ja), @oltulu / @TeknoMobil / @daenney / @osmancoskun (tr), @sbadux / @kowalski7cc / @l3nn4rt / @albanobattistella (it), @OriginCode / @pan93412 (zh\_TW), @ojn (sv), @frandieguez (gl), @kuroehanako / @MarongHappy (ko), @jose1711 / @dodog (sk), @eshagh79 (fa)
 
 
 ## 
