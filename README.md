@@ -176,11 +176,11 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @HaselLoyance for toggle for notification counter badge
 - @rastersoft for Desktop Icons NG integration
 - @max-dw-i for symbolic icons
-- @Hirnmoder for Beautify DTP
+- @Hirnmoder for Beautify DTP and panel border
 - @JimBroad for grayscale icons
 
 #### Bug Fixes: 
-@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan, @Zkdc, @leebickmtu, @l3nn4rt, @Melix19, @Aikatsui, @melix99, @kyrillzorin, @oneshadab, @CorvetteCole, @vantu5z, @spectreseven1138, @aperezdc, @smedir, @lucaxvi, @andyholmes, @vowstar, @T99Rots, @City-busz, @guoqiyi, @gcrabbe, @Anduin2017, @xalt7x, @Survolog
+@imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan, @Zkdc, @leebickmtu, @l3nn4rt, @Melix19, @Aikatsui, @melix99, @kyrillzorin, @oneshadab, @CorvetteCole, @vantu5z, @spectreseven1138, @aperezdc, @smedir, @lucaxvi, @andyholmes, @vowstar, @T99Rots, @City-busz, @guoqiyi, @gcrabbe, @Anduin2017, @xalt7x, @Survolog, @TorosFanny
 
 #### Documentation Improvements:
 @BoQsc, @zakkak, @dandv, @elliotwutingfeng

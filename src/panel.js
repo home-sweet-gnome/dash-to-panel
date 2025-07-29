@@ -1357,7 +1357,9 @@ export const Panel = GObject.registerClass(
           !setClockText(datetimeParts) &&
           !setClockText(time)
         ) {
-          let timeParts = time.split(':')
+          // https://gitlab.gnome.org/GNOME/gnome-desktop/-/merge_requests/176
+          let timeSeparator = time.indexOf('∶') > 0 ? '∶' : ':'
+          let timeParts = time.split(timeSeparator)
 
           if (!this._clockFormat) {
             this._clockFormat = DESKTOPSETTINGS.get_string('clock-format')
