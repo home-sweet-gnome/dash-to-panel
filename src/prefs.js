@@ -1481,6 +1481,61 @@ const Preferences = class {
         dialog.set_default_size(1, 1)
       })
 
+    // Panel border
+    this._settings.bind(
+      'trans-use-border',
+      this._builder.get_object('trans_border_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'trans-use-border',
+      this._builder.get_object('trans_border_color_box'),
+      'sensitive',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'trans-use-border',
+      this._builder.get_object('trans_border_width_box'),
+      'sensitive',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'trans-border-use-custom-color',
+      this._builder.get_object('trans_border_color_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'trans-border-use-custom-color',
+      this._builder.get_object('trans_border_color_colorbutton'),
+      'sensitive',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    rgba.parse(this._settings.get_string('trans-border-custom-color'))
+    this._builder.get_object('trans_border_color_colorbutton').set_rgba(rgba)
+    this._builder
+      .get_object('trans_border_color_colorbutton')
+      .connect('color-set', (button) => {
+        let rgba = button.get_rgba()
+        let css = rgba.to_string()
+        this._settings.set_string('trans-border-custom-color', css)
+      })
+
+    this._builder
+      .get_object('trans_border_width_spinbutton')
+      .set_value(this._settings.get_int('trans-border-width'))
+    this._builder
+      .get_object('trans_border_width_spinbutton')
+      .connect('value-changed', (widget) => {
+        this._settings.set_int('trans-border-width', widget.get_value())
+      })
+
     this._settings.bind(
       'desktop-line-use-custom-color',
       this._builder.get_object('override_show_desktop_line_color_switch'),

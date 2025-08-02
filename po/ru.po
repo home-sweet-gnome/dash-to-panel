@@ -430,7 +430,7 @@ msgstr "Когда четыре+ окна открыто"
 
 #: ui/BoxDotOptions.ui.h:13
 msgid "Use different for unfocused"
-msgstr "Использовать другой когда не в фокусе"
+msgstr "Использовать другой, когда не в фокусе"
 
 #: ui/BoxDynamicOpacityOptions.ui.h:1
 msgid "The panel background opacity is affected by"
@@ -679,7 +679,7 @@ msgstr "Переключение между окнами + Свернуть"
 
 #: ui/BoxMiddleClickOptions.ui.h:8 ui/SettingsAction.ui.h:6
 msgid "Toggle single / Preview multiple"
-msgstr "Переключить одно / Просмотр нескольких"
+msgstr "Переключить одно / Предпросмотр нескольких"
 
 #: ui/BoxMiddleClickOptions.ui.h:9 ui/SettingsAction.ui.h:7
 msgid "Toggle single / Cycle multiple"
@@ -687,7 +687,7 @@ msgstr "Переключить одно / Переключение между н
 
 #: ui/BoxMiddleClickOptions.ui.h:10 ui/SettingsAction.ui.h:8
 msgid "Toggle single / Spread multiple"
-msgstr "Переключить одно / Просмотр нескольких"
+msgstr "Переключить одно / Разложить на несколько"
 
 #: ui/BoxMiddleClickOptions.ui.h:12
 msgid "Middle-Click action"
@@ -1174,7 +1174,7 @@ msgstr "При прокрутке над значком приложения"
 
 #: ui/SettingsAction.ui.h:21
 msgid "Same as panel"
-msgstr "Как на панеле"
+msgstr "Как на панели"
 
 #: ui/SettingsAction.ui.h:22
 msgid "Hotkey overlay"
