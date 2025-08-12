@@ -46,6 +46,7 @@ export var availableMonitors = []
 
 export async function init(settings) {
   useCache = true
+  cache = {}
   prefsOpenedId = settings.connect(
     'changed::prefs-opened',
     () => (useCache = !settings.get_boolean('prefs-opened')),
