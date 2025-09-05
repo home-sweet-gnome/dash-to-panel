@@ -68,16 +68,16 @@ export const PanelManager = class {
       SETTINGS.get_string('primary-monitor'),
     )
 
-    // g-s version 49 switched to clutter gestures
-    if (!AppDisplay.AppIcon.prototype._removeMenuTimeout)
-      AppDisplay.AppIcon.prototype._setPopupTimeout =
-        AppDisplay.AppIcon.prototype._removeMenuTimeout = () => {}
-
     this.allPanels = []
     this.dtpPrimaryMonitor =
       Main.layoutManager.monitors[dtpPrimaryIndex] ||
       Main.layoutManager.primaryMonitor
     this.proximityManager = new Proximity.ProximityManager()
+
+    // g-s version 49 switched to clutter gestures
+    if (!AppDisplay.AppIcon.prototype._removeMenuTimeout)
+      AppDisplay.AppIcon.prototype._setPopupTimeout =
+        AppDisplay.AppIcon.prototype._removeMenuTimeout = this._emptyFunc
 
     if (this.dtpPrimaryMonitor) {
       this.primaryPanel = this._createPanel(
@@ -323,6 +323,11 @@ export const PanelManager = class {
     this.primaryPanel && this.overview.disable()
     this.proximityManager.destroy()
 
+    if (AppDisplay.AppIcon.prototype._removeMenuTimeout == this._emptyFunc) {
+      delete AppDisplay.AppIcon.prototype._setPopupTimeout
+      delete AppDisplay.AppIcon.prototype._removeMenuTimeout
+    }
+
     this.allPanels.forEach((p) => {
       p.taskbar.iconAnimator.pause()
 
@@ -432,6 +437,8 @@ export const PanelManager = class {
       SETTINGS.get_boolean('isolate-workspaces'),
     )
   }
+
+  _emptyFunc() {}
 
   _setDesktopIconsMargins() {
     this._desktopIconsUsableArea?.resetMargins()
