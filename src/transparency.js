@@ -264,7 +264,6 @@ export const DynamicTransparency = class {
         this._gradientStyle +
         this._borderStyle,
     )
-    console.log('Set DTP Panel style to', this._dtpPanel.panel.get_style())
   }
 
   _getThemeBackground(reload) {

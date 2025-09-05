@@ -43,6 +43,7 @@ import Meta from 'gi://Meta'
 import Shell from 'gi://Shell'
 import St from 'gi://St'
 
+import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js'
 import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js'
 import * as LookingGlass from 'resource:///org/gnome/shell/ui/lookingGlass.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
@@ -66,6 +67,11 @@ export const PanelManager = class {
     let dtpPrimaryIndex = PanelSettings.getPrimaryIndex(
       SETTINGS.get_string('primary-monitor'),
     )
+
+    // g-s version 49 switched to clutter gestures
+    if (!AppDisplay.AppIcon.prototype._removeMenuTimeout)
+      AppDisplay.AppIcon.prototype._setPopupTimeout =
+        AppDisplay.AppIcon.prototype._removeMenuTimeout = () => {}
 
     this.allPanels = []
     this.dtpPrimaryMonitor =
