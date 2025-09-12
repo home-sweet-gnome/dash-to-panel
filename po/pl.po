@@ -1899,7 +1899,7 @@ msgstr "Opcje zasilania"
 
 #: src/appIcons.js:2276
 msgid "Event logs"
-msgstr "Dzinnik zdarzeń"
+msgstr "Dziennik zdarzeń"
 
 #: src/appIcons.js:2281
 msgid "System"
