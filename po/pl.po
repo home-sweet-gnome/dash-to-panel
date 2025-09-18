@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-29 20:09+0200\n"
-"PO-Revision-Date: 2025-07-29 20:14+0200\n"
+"POT-Creation-Date: 2025-09-18 19:38+0200\n"
+"PO-Revision-Date: 2025-09-18 19:40+0200\n"
 "Last-Translator: Piotr Orzechowski <orzechowski.tech>\n"
 "Language-Team: Polish\n"
 "Language: pl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.7\n"
 
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:75
 msgid "Panel position (Deprecated)"
@@ -1953,225 +1953,229 @@ msgstr "Zobacz, co nowego"
 msgid "Top Bar"
 msgstr "Górny pasek"
 
-#: src/prefs.js:261
+#: src/prefs.js:264
 msgid "Show Desktop button height (px)"
 msgstr "Wysokość przycisku Pokaż pulpit (px)"
 
-#: src/prefs.js:262
+#: src/prefs.js:265
 msgid "Show Desktop button width (px)"
 msgstr "Szerokość przycisku Pokaż pulpit (px)"
 
-#: src/prefs.js:334 ui/SettingsPosition.ui:133 ui/SettingsStyle.ui:218
+#: src/prefs.js:337 ui/SettingsPosition.ui:133 ui/SettingsStyle.ui:218
 msgid "Left"
 msgstr "Po lewej"
 
-#: src/prefs.js:335
+#: src/prefs.js:338
 msgid "Center"
 msgstr "Wyśrodkowane"
 
-#: src/prefs.js:336 ui/SettingsPosition.ui:142 ui/SettingsStyle.ui:226
+#: src/prefs.js:339 ui/SettingsPosition.ui:142 ui/SettingsStyle.ui:226
 msgid "Right"
 msgstr "Po prawej"
 
-#: src/prefs.js:338 ui/BoxWindowPreviewOptions.ui:334
+#: src/prefs.js:341 ui/BoxWindowPreviewOptions.ui:334
 #: ui/SettingsPosition.ui:124 ui/SettingsStyle.ui:210
 msgid "Top"
 msgstr "U góry"
 
-#: src/prefs.js:339 src/prefs.js:344 ui/SettingsPosition.ui:198
+#: src/prefs.js:342 src/prefs.js:347 ui/SettingsPosition.ui:198
 msgid "Middle"
 msgstr "Po środku"
 
-#: src/prefs.js:340 ui/BoxWindowPreviewOptions.ui:325
+#: src/prefs.js:343 ui/BoxWindowPreviewOptions.ui:325
 #: ui/SettingsPosition.ui:115 ui/SettingsStyle.ui:202
 msgid "Bottom"
 msgstr "U dołu"
 
-#: src/prefs.js:343 ui/SettingsPosition.ui:197
+#: src/prefs.js:346 ui/SettingsPosition.ui:197
 msgid "Start"
 msgstr "Początek"
 
-#: src/prefs.js:345 ui/SettingsPosition.ui:199
+#: src/prefs.js:348 ui/SettingsPosition.ui:199
 msgid "End"
 msgstr "Koniec"
 
-#: src/prefs.js:470
+#: src/prefs.js:473
 msgid "Show Applications button"
 msgstr "Pokaż programy"
 
-#: src/prefs.js:471
+#: src/prefs.js:474
 msgid "Activities button"
 msgstr "Aktywności"
 
-#: src/prefs.js:472
+#: src/prefs.js:475
 msgid "Taskbar"
 msgstr "Pasek zadań"
 
-#: src/prefs.js:473
+#: src/prefs.js:476
 msgid "Date menu"
 msgstr "Menu daty"
 
-#: src/prefs.js:474
+#: src/prefs.js:477
 msgid "System menu"
 msgstr "Menu systemowe"
 
-#: src/prefs.js:475
+#: src/prefs.js:478
 msgid "Left box"
 msgstr "Lewe pole"
 
-#: src/prefs.js:476
+#: src/prefs.js:479
 msgid "Center box"
 msgstr "Środkowe pole"
 
-#: src/prefs.js:477
+#: src/prefs.js:480
 msgid "Right box"
 msgstr "Prawe pole"
 
-#: src/prefs.js:478
+#: src/prefs.js:481
 msgid "Desktop button"
 msgstr "Pokaż pulpit"
 
-#: src/prefs.js:488 src/prefs.js:2979
+#: src/prefs.js:491 src/prefs.js:3015
 msgid "Move up"
 msgstr "W górę"
 
-#: src/prefs.js:490 src/prefs.js:2987
+#: src/prefs.js:493 src/prefs.js:3023
 msgid "Move down"
 msgstr "W dół"
 
-#: src/prefs.js:496
+#: src/prefs.js:499
 msgid "Visible"
 msgstr "Pokaż"
 
-#: src/prefs.js:500
+#: src/prefs.js:503
 msgid "Select element position"
 msgstr "Wybierz położenie elementu"
 
-#: src/prefs.js:514
+#: src/prefs.js:517
 msgid "Stacked to top"
 msgstr "Przypięto do góry"
 
-#: src/prefs.js:514
+#: src/prefs.js:517
 msgid "Stacked to left"
 msgstr "Przypięto do lewej"
 
-#: src/prefs.js:518
+#: src/prefs.js:521
 msgid "Stacked to bottom"
 msgstr "Przypięto do dołu"
 
-#: src/prefs.js:518
+#: src/prefs.js:521
 msgid "Stacked to right"
 msgstr "Przypięto do prawej"
 
-#: src/prefs.js:520
+#: src/prefs.js:523
 msgid "Centered"
 msgstr "Wyśrodkowano"
 
-#: src/prefs.js:521
+#: src/prefs.js:524
 msgid "Monitor Center"
 msgstr "Wyśrodkowane zględem ekranu"
 
-#: src/prefs.js:548
+#: src/prefs.js:551
 msgid "More options"
 msgstr "Więcej opcji"
 
-#: src/prefs.js:583
+#: src/prefs.js:586
 msgid "Reset to defaults"
 msgstr "Przywróć domyślne"
 
-#: src/prefs.js:606
+#: src/prefs.js:609
 msgid "Show Applications options"
 msgstr "Pokaż opcje programów"
 
-#: src/prefs.js:667
+#: src/prefs.js:670
 msgid "Open icon"
 msgstr "Wybierz ikonę"
 
-#: src/prefs.js:685
+#: src/prefs.js:688
 msgid "Show Desktop options"
 msgstr "Opcje Pokaż pulpit"
 
-#: src/prefs.js:777
+#: src/prefs.js:780
 msgid "Primary monitor"
 msgstr "Główny monitor"
 
-#: src/prefs.js:778
+#: src/prefs.js:781
 msgid "Monitor "
 msgstr "Monitor "
 
-#: src/prefs.js:907
+#: src/prefs.js:910
 msgid "Running Indicator Options"
 msgstr "Opcje wskaźnika aktywnych programów"
 
-#: src/prefs.js:1443
+#: src/prefs.js:1446
 msgid "Dynamic opacity options"
 msgstr "Opcje dynamicznej przeźroczystości"
 
-#: src/prefs.js:1867
+#: src/prefs.js:1870
 msgid "Intellihide options"
 msgstr "Opcje inteligentnego ukrywania"
 
-#: src/prefs.js:2107
+#: src/prefs.js:2110
 msgid "Window preview options"
 msgstr "Opcje podglądu okna"
 
-#: src/prefs.js:2658
+#: src/prefs.js:2590
+msgid "Isolate Workspaces options"
+msgstr "Opcje niezależnych obszarów roboczych"
+
+#: src/prefs.js:2694
 msgid "Ungrouped application options"
 msgstr "Opcje niepogrupowanych aplikacji"
 
-#: src/prefs.js:2825
+#: src/prefs.js:2861
 msgid "Customize middle-click behavior"
 msgstr "Dostosuj działanie środkowego przycisku myszy"
 
-#: src/prefs.js:2954
+#: src/prefs.js:2990
 msgid "Text"
 msgstr "Tekst"
 
-#: src/prefs.js:2963
+#: src/prefs.js:2999
 msgid "Command"
 msgstr "Polecenie"
 
-#: src/prefs.js:2995
+#: src/prefs.js:3031
 msgid "Remove"
 msgstr "Usuń"
 
-#: src/prefs.js:3023
+#: src/prefs.js:3059
 msgid "Customize panel scroll behavior"
 msgstr "Dostosuj reakcję na przewijanie nad panelem"
 
-#: src/prefs.js:3069
+#: src/prefs.js:3105
 msgid "Customize icon scroll behavior"
 msgstr "Dostosuj reakcję na przewijanie nad ikoną"
 
-#: src/prefs.js:3193
+#: src/prefs.js:3229
 msgid "Advanced hotkeys options"
 msgstr "Zaawansowane opcje skrótów klawiszowych"
 
-#: src/prefs.js:3221
+#: src/prefs.js:3257
 msgid "Secondary Menu Options"
 msgstr "Opcje menu kontekstowego"
 
-#: src/prefs.js:3421
+#: src/prefs.js:3457
 #, javascript-format
 msgid "%d ms"
 msgstr "%d ms"
 
-#: src/prefs.js:3427
+#: src/prefs.js:3463
 #, javascript-format
 msgid "%d °"
 msgstr "%d °"
 
-#: src/prefs.js:3433 src/prefs.js:3439
+#: src/prefs.js:3469 src/prefs.js:3475
 #, javascript-format
 msgid "%d %%"
 msgstr "%d %%"
 
-#: src/prefs.js:3445
+#: src/prefs.js:3481
 #, javascript-format
 msgid "%.1f"
 msgstr "%.1f"
 
-#: src/prefs.js:3451
+#: src/prefs.js:3487
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
@@ -2179,19 +2183,19 @@ msgstr[0] "%d ikon"
 msgstr[1] "%d ikona"
 msgstr[2] "%d ikon"
 
-#: src/prefs.js:3578
+#: src/prefs.js:3614
 msgid "App icon animation options"
 msgstr "Opcje animowania ikony programu"
 
-#: src/prefs.js:3701
+#: src/prefs.js:3737
 msgid "App icon highlight options"
 msgstr "Opcje podświetlania ikony programu"
 
-#: src/prefs.js:3790
+#: src/prefs.js:3826
 msgid "Export settings"
 msgstr "Eksportuj ustawienia"
 
-#: src/prefs.js:3812
+#: src/prefs.js:3848
 msgid "Import settings"
 msgstr "Importuj ustawienia"
 
@@ -2476,6 +2480,10 @@ msgstr "Opóźnienie przed pokazaniem panelu (ms)"
 #: ui/BoxIntellihideOptions.ui:309
 msgid "Delay before enabling intellihide on start (ms)"
 msgstr "Opóźnienie przed aktywacją inteligentnego ukrywania (ms)"
+
+#: ui/BoxIsolateWorkspacesOptions.ui:22
+msgid "Isolate workspaces in gnome-shell Application Switcher"
+msgstr "Izolowanie obszarów roboczych w przełączniku programów GNOME Shell"
 
 #: ui/BoxMiddleClickOptions.ui:19
 msgid "Shift+Click action"
@@ -3047,67 +3055,67 @@ msgstr "Wpisy menu kontekstowego panelu"
 msgid "Add entry"
 msgstr "Dodaj wpis"
 
-#: ui/SettingsBehavior.ui:5
+#: ui/SettingsBehavior.ui:7
 msgid "Behavior"
 msgstr "Zachowanie"
 
-#: ui/SettingsBehavior.ui:11
+#: ui/SettingsBehavior.ui:10
 msgid "Applications"
 msgstr "Aplikacje"
 
-#: ui/SettingsBehavior.ui:15
+#: ui/SettingsBehavior.ui:13
 msgid "Show favorite applications"
 msgstr "Pokaż ulubione programy"
 
-#: ui/SettingsBehavior.ui:26
+#: ui/SettingsBehavior.ui:23
 msgid "Show favorite applications on secondary panels"
 msgstr "Pokaż ulubione programy na dodatkowym panelu"
 
-#: ui/SettingsBehavior.ui:37
+#: ui/SettingsBehavior.ui:33
 msgid "Show running applications"
 msgstr "Pokaż uruchomione programy"
 
-#: ui/SettingsBehavior.ui:48
+#: ui/SettingsBehavior.ui:43
 msgid "Ungroup applications"
 msgstr "Rozgrupuj programy"
 
-#: ui/SettingsBehavior.ui:73
+#: ui/SettingsBehavior.ui:67
 msgid "Show notification counter badge"
 msgstr "Pokaż licznik powiadomień"
 
-#: ui/SettingsBehavior.ui:90
+#: ui/SettingsBehavior.ui:81
 msgid "Hover"
 msgstr "Najechanie kursorem"
 
-#: ui/SettingsBehavior.ui:94
+#: ui/SettingsBehavior.ui:84
 msgid "Show window previews on hover"
 msgstr "Pokaż podgląd okna po najechaniu myszą"
 
-#: ui/SettingsBehavior.ui:119
+#: ui/SettingsBehavior.ui:108
 msgid "Show tooltip on hover"
 msgstr "Pokaż etykietkę po najechaniu kursorem"
 
-#: ui/SettingsBehavior.ui:134
+#: ui/SettingsBehavior.ui:120
 msgid "Isolate"
 msgstr "Niezależne"
 
-#: ui/SettingsBehavior.ui:138
+#: ui/SettingsBehavior.ui:123
 msgid "Isolate Workspaces"
 msgstr "Niezależne obszary robocze"
 
-#: ui/SettingsBehavior.ui:149
+#: ui/SettingsBehavior.ui:147
 msgid "Isolate monitors"
 msgstr "Niezależne ekrany"
 
-#: ui/SettingsBehavior.ui:164
+#: ui/SettingsBehavior.ui:159
 msgid "Overview"
 msgstr "Przegląd"
 
-#: ui/SettingsBehavior.ui:168
+#: ui/SettingsBehavior.ui:162
 msgid "Click empty space to close overview"
 msgstr "Kliknij na pustą przestrzeń, aby zamknąć przegląd"
 
-#: ui/SettingsBehavior.ui:179
+#: ui/SettingsBehavior.ui:172
 msgid "Disable show overview on startup"
 msgstr "Wyłącz pokazywanie przeglądu przy uruchomieniu"
 
