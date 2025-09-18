@@ -181,6 +181,9 @@ const Preferences = class {
     this._builder.add_from_file(this._path + '/ui/BoxSecondaryMenuOptions.ui')
     this._builder.add_from_file(this._path + '/ui/BoxScrollPanelOptions.ui')
     this._builder.add_from_file(this._path + '/ui/BoxScrollIconOptions.ui')
+    this._builder.add_from_file(
+      this._path + '/ui/BoxIsolateWorkspacesOptions.ui',
+    )
 
     // pages
     this._builder.add_from_file(this._path + '/ui/SettingsPosition.ui')
@@ -2564,6 +2567,39 @@ const Preferences = class {
       'active',
       Gio.SettingsBindFlags.DEFAULT,
     )
+
+    let appSwitcherSettings = new Gio.Settings({
+      schema_id: 'org.gnome.shell.app-switcher',
+    })
+
+    appSwitcherSettings.bind(
+      'current-workspace-only',
+      this._builder.get_object('isolate_workspaces_app_switcher_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._builder
+      .get_object('isolate_workspaces_button')
+      .connect('clicked', () => {
+        let scrolledWindow = this._builder.get_object(
+          'box_isolate_workspaces_options',
+        )
+
+        let dialog = this._createPreferencesDialog(
+          _('Isolate Workspaces options'),
+          scrolledWindow,
+          () => {
+            // restore default settings
+            appSwitcherSettings.set_value(
+              'current-workspace-only',
+              appSwitcherSettings.get_default_value('current-workspace-only'),
+            )
+          },
+        )
+
+        dialog.show()
+      })
 
     this._settings.bind(
       'isolate-monitors',
