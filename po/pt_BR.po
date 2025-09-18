@@ -709,7 +709,7 @@ msgstr "p.e. <Super>i"
 #: ui/BoxOverlayShortcut.ui.h:14
 #, fuzzy
 msgid "Show window previews on hotkey"
-msgstr "Mostrar pré-visulização da janela ao pairar"
+msgstr "Mostrar pré-visualização da janela ao pairar"
 
 #: ui/BoxOverlayShortcut.ui.h:15
 msgid "Show previews when the application have multiple instances"
@@ -824,11 +824,11 @@ msgstr "Usar o botão do meio na visualização para fechar a janela "
 
 #: ui/BoxWindowPreviewOptions.ui.h:8
 msgid "Window previews preferred size (px)"
-msgstr "Tamanho preferido da pré-visulização da janela (px)"
+msgstr "Tamanho preferido da pré-visualização da janela (px)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:9
 msgid "Window previews aspect ratio X (width)"
-msgstr "Proporção da pré-visulização da janela no eixto X (comprimento)"
+msgstr "Proporção da pré-visualização da janela no eixto X (comprimento)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:10
 msgid "1"
@@ -920,11 +920,11 @@ msgstr "Fixo"
 
 #: ui/BoxWindowPreviewOptions.ui.h:32
 msgid "Window previews aspect ratio Y (height)"
-msgstr "Proporção da pré-visulização da janela no eixto Y (altura)"
+msgstr "Proporção da pré-visualização da janela no eixto Y (altura)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:33
 msgid "Window previews padding (px)"
-msgstr "Preenchimento da pré-visulização de janela (px)"
+msgstr "Preenchimento da pré-visualização de janela (px)"
 
 #: ui/BoxWindowPreviewOptions.ui.h:34
 msgid "Use custom opacity for the previews background"
@@ -1167,12 +1167,12 @@ msgstr ""
 
 #: ui/SettingsBehavior.ui.h:8
 msgid "Show window previews on hover"
-msgstr "Mostrar pré-visulização da janela ao pairar"
+msgstr "Mostrar pré-visualização da janela ao pairar"
 
 #: ui/SettingsBehavior.ui.h:9
 #, fuzzy
 msgid "Show tooltip on hover"
-msgstr "Mostrar pré-visulização da janela ao pairar"
+msgstr "Mostrar pré-visualização da janela ao pairar"
 
 #: ui/SettingsBehavior.ui.h:10
 msgid "Isolate"
