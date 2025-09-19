@@ -194,4 +194,4 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 
 Dash to Panel is available under the terms of the GPL-v2 or later license See [`COPYING`](https://github.com/home-sweet-gnome/dash-to-panel/blob/master/COPYING) for details.
 
-![](https://img.shields.io/badge/Language-JavaScript-yellow.svg) ![](https://img.shields.io/badge/Licence-GPL--2.0-blue.svg)
+![](https://img.shields.io/badge/Language-JavaScript-yellow.svg) [![](https://img.shields.io/badge/Licence-GPL--2.0-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0)
