@@ -1369,7 +1369,7 @@ export const Preview = GObject.registerClass(
       let size = SETTINGS.get_int('window-preview-size') * scaleFactor
       let w, h
 
-      if (this._previewMenu.isVertical) {
+      if (this._previewMenu.panel.geom.vertical) {
         w = size
         h = (w * aspectRatio.y.size) / aspectRatio.x.size
       } else {
