@@ -38,6 +38,7 @@ all: extension
 
 clean:
 	rm -f ./schemas/gschemas.compiled
+	-rm -fR _build
 
 extension: ./schemas/gschemas.compiled $(MSGSRC:.po=.mo)
 
@@ -111,3 +112,19 @@ ifneq ($(and $(COMMIT),$(VERSION)),)
 else ifneq ($(VERSION),)
 	sed -i 's/"version": [[:digit:]][[:digit:]]*/"version": $(VERSION)/'  _build/metadata.json;
 endif
+
+# Intended use-case: having a second extension called "dash-to-panel-dev" installed
+# that can be tested with wayland's support for nested sessions
+# Setup (once):
+# 	cd ~/.local/share/gnome-shell/extensions
+#	ln -s <path/to/cloned/d2p/repo>/_build dash-to-panel-dev@jderose9.github.com
+# Build & Debug:
+#	make devbuild
+#	env MUTTER_DEBUG_DUMMY_MODE_SPECS=1600x900 dbus-run-session -- gnome-shell --nested --wayland
+# NOTE: disable original Dash to Panel extension within the nested session BEFORE enabling the devlopment extension!
+devbuild: _build
+	sed -i \
+		-e 's/"extension-id": "dash-to-panel"/"extension-id": "dash-to-panel-dev"/' \
+		-e 's/"uuid": "dash-to-panel@jderose9.github.com"/"uuid": "dash-to-panel-dev@jderose9.github.com"/' \
+		-e 's/"name": "Dash to Panel"/"name": "Dash to Panel Dev"/' \
+		_build/metadata.json
