@@ -695,6 +695,9 @@ export const PanelManager = class {
       affectsStruts: true,
     })
 
+    // intellihide changes the chrome when enabled, so init after setting initial chrome params
+    panel.intellihide.init()
+
     this._findPanelMenuButtons(panelBox).forEach((pmb) =>
       this._adjustPanelMenuButton(pmb, monitor, panel.geom.position),
     )
