@@ -313,7 +313,6 @@ export const PreviewMenu = GObject.registerClass(
 
     _setReactive(reactive) {
       this._box.get_children().forEach((c) => (c.reactive = reactive))
-      this.menu.reactive = reactive
     }
 
     _setOpenedState(opened) {
