@@ -313,7 +313,6 @@ export const PreviewMenu = GObject.registerClass(
 
     _setReactive(reactive) {
       this._box.get_children().forEach((c) => (c.reactive = reactive))
-      this.menu.reactive = reactive
     }
 
     _setOpenedState(opened) {
@@ -419,7 +418,7 @@ export const PreviewMenu = GObject.registerClass(
     _onHoverChanged() {
       this._endOpenCloseTimeouts()
 
-      if (this.currentAppIcon && !this.menu.hover) {
+      if (this.currentAppIcon && !this.menu.hover && !this.hasGrab) {
         this._addCloseTimeout()
         this._endPeek()
       }
@@ -1132,6 +1131,8 @@ export const Preview = GObject.registerClass(
               this._previewMenu.peekInitialWorkspaceIndex,
             )
 
+      this._previewMenu.hasGrab = true
+
       Main.wm._showWindowMenu(null, this.window, Meta.WindowMenuType.WM, {
         x: coords[0],
         y: coords[1],
@@ -1141,10 +1142,13 @@ export const Preview = GObject.registerClass(
 
       let menu = Main.wm._windowMenuManager._manager._menus[0]
 
-      menu.connect('open-state-changed', () =>
-        this._previewMenu.menu.sync_hover(),
-      )
-      this._previewMenu.menu.sync_hover()
+      menu.connect('open-state-changed', (menu, opened) => {
+        if (!opened) {
+          delete this._previewMenu.hasGrab
+
+          if (!this._previewMenu.menu.hover) this._previewMenu.close()
+        }
+      })
 
       if (this.window.get_workspace() != currentWorkspace) {
         let menuItem = new PopupMenu.PopupMenuItem(

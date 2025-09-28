@@ -730,6 +730,8 @@ export const Panel = GObject.registerClass(
       this.taskbar.resetAppIcons(true)
       this.dynamicTransparency.updateExternalStyle()
 
+      if (this.intellihide?.enabled) this.intellihide.reset()
+
       if (this.geom.vertical) {
         this.showAppsIconWrapper.realShowAppsIcon.toggleButton.set_width(
           this.geom.innerSize,
