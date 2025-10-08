@@ -305,28 +305,24 @@ export const Overview = class {
   }
 
   _switchToWindow(direction) {
-    // Get all windows from the taskbar in order
+    // Get all windows from taskbar in order
     let windows = []
     this.taskbar._getAppIcons().forEach((appIcon) => {
       if (appIcon.window) {
-        // Single window or window-based icon
         windows.push(appIcon.window)
       } else if (appIcon._nWindows > 0) {
-        // App with multiple windows - get them in order
-        let appWindows = appIcon.getInterestingWindows()
-        windows.push(...appWindows)
+        windows.push(...appIcon.getInterestingWindows())
       }
     })
 
     if (windows.length === 0) return
 
-    // Get the currently focused window
-    let focusedWindow = global.display.focus_window
-    let currentIndex = -1
+    // Find current window index
+    let currentIndex = global.display.focus_window
+      ? windows.indexOf(global.display.focus_window)
+      : -1
 
-    if (focusedWindow) {
-      currentIndex = windows.indexOf(focusedWindow)
-    }
+    // Calculate next index with wrapping
 
     // Calculate the next window index
     let nextIndex
@@ -338,10 +334,7 @@ export const Overview = class {
     }
 
     // Activate the next window
-    let nextWindow = windows[nextIndex]
-    if (nextWindow) {
-      Main.activateWindow(nextWindow)
-    }
+    Main.activateWindow(windows[nextIndex])
   }
 
   _switchToNextWindow() {
