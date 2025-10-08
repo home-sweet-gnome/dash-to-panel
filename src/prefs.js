@@ -3247,6 +3247,39 @@ const Preferences = class {
       dialog.set_default_size(600, 1)
     })
 
+    // Setup window switching keybindings
+    const setupKeybindingEntry = (entryId, settingKey) => {
+      const entry = this._builder.get_object(entryId)
+
+      // Load current keybinding
+      const currentBindings = this._settings.get_strv(settingKey)
+      if (currentBindings.length > 0) {
+        entry.set_text(currentBindings[0])
+      }
+
+      // Save on change
+      entry.connect('changed', () => {
+        const text = entry.get_text()
+        const [success, key, mods] = Gtk.accelerator_parse(text)
+
+        if (success && Gtk.accelerator_valid(key, mods)) {
+          const shortcut = Gtk.accelerator_name(key, mods)
+          this._settings.set_strv(settingKey, [shortcut])
+        } else if (text === '') {
+          this._settings.set_strv(settingKey, [])
+        }
+      })
+
+      // Update entry when settings change
+      this._settings.connect(`changed::${settingKey}`, () => {
+        const bindings = this._settings.get_strv(settingKey)
+        entry.set_text(bindings.length > 0 ? bindings[0] : '')
+      })
+    }
+
+    setupKeybindingEntry('switch_to_next_window_entry', 'switch-to-next-window')
+    setupKeybindingEntry('switch_to_previous_window_entry', 'switch-to-previous-window')
+
     // setup dialog for secondary menu options
     this._builder
       .get_object('secondarymenu_options_button')
