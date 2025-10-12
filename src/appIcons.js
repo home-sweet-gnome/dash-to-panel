@@ -1870,7 +1870,9 @@ export function getInterestingWindows(app, monitor, isolateMonitors) {
 
   if (
     monitor &&
-    (isolateMonitors || SETTINGS.get_boolean('isolate-monitors'))
+    (isolateMonitors || SETTINGS.get_boolean('isolate-monitors')) &&
+    (SETTINGS.get_boolean('multi-monitors') ||
+      SETTINGS.get_boolean('isolate-monitors-with-single-panel'))
   ) {
     windows = windows.filter(function (w) {
       return w.get_monitor() == monitor.index

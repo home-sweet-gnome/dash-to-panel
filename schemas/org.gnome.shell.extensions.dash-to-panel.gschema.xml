@@ -695,6 +695,10 @@
       <summary>Provide monitor isolation</summary>
       <description>Dash shows only windows from the current monitor</description>
     </key>
+    <key type="b" name="isolate-monitors-with-single-panel">
+      <default>false</default>
+      <summary>Isolate monitors even with a single panel</summary>
+    </key>
     <key type="b" name="show-favorites-all-monitors">
       <default>true</default>
       <summary>Display the favorites on all monitors</summary>

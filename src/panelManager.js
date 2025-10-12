@@ -495,7 +495,9 @@ export const PanelManager = class {
     }
 
     let isolateWorkspaces = SETTINGS.get_boolean('isolate-workspaces')
-    let isolateMonitors = SETTINGS.get_boolean('isolate-monitors')
+    let isolateMonitors =
+      !SETTINGS.get_boolean('multi-monitors') ||
+      SETTINGS.get_boolean('isolate-monitors')
 
     this.focusedApp = app
 

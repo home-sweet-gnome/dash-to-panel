@@ -146,6 +146,20 @@
           <object class="AdwActionRow">
             <property name="title" translatable="yes">Isolate monitors</property>
             <child>
+              <object class="GtkButton" id="isolate_monitors_button">
+                <property name="receives-default">True</property>
+                <property name="valign">center</property>
+                <child>
+                  <object class="GtkImage" id="image_isolate_monitors_options">
+                    <property name="icon-name">emblem-system-symbolic</property>
+                  </object>
+                </child>
+                <style>
+                  <class name="circular"/>
+                </style>
+              </object>
+            </child>
+            <child>
               <object class="GtkSwitch" id="multimon_multi_isolate_monitor_switch">
                 <property name="valign">center</property>
               </object>

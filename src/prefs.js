@@ -184,6 +184,7 @@ const Preferences = class {
     this._builder.add_from_file(
       this._path + '/ui/BoxIsolateWorkspacesOptions.ui',
     )
+    this._builder.add_from_file(this._path + '/ui/BoxIsolateMonitorsOptions.ui')
 
     // pages
     this._builder.add_from_file(this._path + '/ui/SettingsPosition.ui')
@@ -2607,6 +2608,37 @@ const Preferences = class {
       'active',
       Gio.SettingsBindFlags.DEFAULT,
     )
+
+    this._settings.bind(
+      'isolate-monitors-with-single-panel',
+      this._builder.get_object('isolate_monitors_with_single_panel_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._builder
+      .get_object('isolate_monitors_button')
+      .connect('clicked', () => {
+        let scrolledWindow = this._builder.get_object(
+          'box_isolate_monitors_options',
+        )
+
+        let dialog = this._createPreferencesDialog(
+          _('Isolate monitors options'),
+          scrolledWindow,
+          () => {
+            // restore default settings
+            this._settings.set_value(
+              'isolate-monitors-with-single-panel',
+              this._settings.get_default_value(
+                'isolate-monitors-with-single-panel',
+              ),
+            )
+          },
+        )
+
+        dialog.show()
+      })
 
     this._settings.bind(
       'overview-click-to-exit',
