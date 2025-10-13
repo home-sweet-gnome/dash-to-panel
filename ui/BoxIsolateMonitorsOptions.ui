@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <interface>
-  <requires lib="gtk" version="4.18"/>
+  <requires lib="gtk" version="4.0"/>
   <requires lib="libadwaita" version="1.2"/>
   <object class="GtkScrolledWindow" id="box_isolate_monitors_options">
     <property name="height-request">300</property>
