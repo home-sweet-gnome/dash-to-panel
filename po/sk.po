@@ -2,14 +2,14 @@
 # Copyright (C) 2018
 # This file is distributed under the same license as the dash-to-panel  package.
 # Jose Riha <jose1711 gmail com>, 2021.
-# Jozef Gaal <preklady@mayday.sk>, 2024.
+# Jozef Gaal <preklady@mayday.sk>, 2024, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Dash to Panel v67\n"
+"Project-Id-Version: Dash to Panel v70\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-08 08:31-0500\n"
-"PO-Revision-Date: 2024-12-07 02:10+0100\n"
+"POT-Creation-Date: 2025-09-28 21:13+0200\n"
+"PO-Revision-Date: 2025-09-28 22:52+0200\n"
 "Last-Translator: Jozef Gaal <preklady@mayday.sk>\n"
 "Language-Team: Jozef Gaal <preklady@mayday.sk>\n"
 "Language: sk\n"
@@ -17,171 +17,291 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.6\n"
 
-#: prefs.js:247
+#: appIcons.js:1927 appIcons.js:1938 ui/BoxMiddleClickOptions.ui:33
+#: ui/BoxMiddleClickOptions.ui:62 ui/BoxMiddleClickOptions.ui:91
+msgid "Quit"
+msgstr "Ukončiť"
+
+#: appIcons.js:1944
+#, javascript-format
+msgid "Quit %d Window"
+msgid_plural "Quit %d Windows"
+msgstr[0] "Ukončiť %d okno"
+msgstr[1] "Ukončiť %d okná"
+msgstr[2] "Ukončiť %d okien"
+
+#: appIcons.js:2271
+msgid "Power options"
+msgstr "Možnosti napájania"
+
+#: appIcons.js:2276
+msgid "Event logs"
+msgstr "Záznamy udalostí"
+
+#: appIcons.js:2281
+msgid "System"
+msgstr "Systém"
+
+#: appIcons.js:2286
+msgid "Device Management"
+msgstr "Správa zariadení"
+
+#: appIcons.js:2291
+msgid "Disk Management"
+msgstr "Správa diskov"
+
+#: appIcons.js:2322
+msgid "Unlock taskbar"
+msgstr "Odomknúť panel úloh"
+
+#: appIcons.js:2323
+msgid "Lock taskbar"
+msgstr "Zamknúť panel úloh"
+
+#: appIcons.js:2333
+msgid "Gnome Settings"
+msgstr "Nastavenia Gnome"
+
+#: appIcons.js:2337
+msgid "Dash to Panel Settings"
+msgstr "Nastavenia Dash to Panel"
+
+#: appIcons.js:2344
+msgid "Restore Windows"
+msgstr "Obnoviť okná"
+
+#: appIcons.js:2345
+msgid "Show Desktop"
+msgstr "Zobraziť plochu"
+
+#: prefs.js:264
 msgid "Show Desktop button height (px)"
 msgstr "Výška tlačidla zobrazenia plochy (px)"
 
-#: prefs.js:247
+#: prefs.js:265
 msgid "Show Desktop button width (px)"
 msgstr "Šírka tlačidla zobrazenia plochy (px)"
 
-#: prefs.js:259
-msgid "Unavailable when gnome-shell top panel is present"
-msgstr "Nedostupné, ak je aktívny horný panel gnome-shell"
-
-#: prefs.js:317 ui/SettingsPosition.ui.h:12 ui/SettingsStyle.ui.h:11
+#: prefs.js:337 ui/SettingsStyle.ui:218 ui/SettingsPosition.ui:133
 msgid "Left"
 msgstr "Vľavo"
 
-#: prefs.js:318
+#: prefs.js:338
 msgid "Center"
 msgstr "Stred"
 
-#: prefs.js:319 ui/SettingsPosition.ui.h:13 ui/SettingsStyle.ui.h:12
+#: prefs.js:339 ui/SettingsStyle.ui:226 ui/SettingsPosition.ui:142
 msgid "Right"
 msgstr "Vpravo"
 
-#: prefs.js:321 ui/BoxWindowPreviewOptions.ui.h:38 ui/SettingsPosition.ui.h:11
-#: ui/SettingsStyle.ui.h:10
+#: prefs.js:341 ui/SettingsStyle.ui:210 ui/SettingsPosition.ui:124
+#: ui/BoxWindowPreviewOptions.ui:334
 msgid "Top"
 msgstr "Hore"
 
-#: prefs.js:322 prefs.js:327 ui/SettingsPosition.ui.h:21
+#: prefs.js:342 prefs.js:347 ui/SettingsPosition.ui:198
 msgid "Middle"
 msgstr "V strede"
 
-#: prefs.js:323 ui/BoxWindowPreviewOptions.ui.h:37 ui/SettingsPosition.ui.h:10
-#: ui/SettingsStyle.ui.h:9
+#: prefs.js:343 ui/SettingsStyle.ui:202 ui/SettingsPosition.ui:115
+#: ui/BoxWindowPreviewOptions.ui:325
 msgid "Bottom"
 msgstr "Dole"
 
-#: prefs.js:326 ui/SettingsPosition.ui.h:20
+#. Setting for a mix of horizontal and vertical panels on different monitors.
+#: prefs.js:346 ui/SettingsPosition.ui:197
 msgid "Start"
 msgstr "Začiatok"
 
-#: prefs.js:328 ui/SettingsPosition.ui.h:22
+#: prefs.js:348 ui/SettingsPosition.ui:199
 msgid "End"
 msgstr "Koniec"
 
-#: prefs.js:413
+#: prefs.js:473
 msgid "Show Applications button"
 msgstr "Tlačidlo aplikácií"
 
-#: prefs.js:414
+#: prefs.js:474
 msgid "Activities button"
 msgstr "Tlačidlo aktivít"
 
-#: prefs.js:415
+#: prefs.js:475
 msgid "Taskbar"
 msgstr "Zoznam úloh"
 
-#: prefs.js:416
+#: prefs.js:476
 msgid "Date menu"
 msgstr "Ponuka dátumu"
 
-#: prefs.js:417
+#: prefs.js:477
 msgid "System menu"
 msgstr "Ponuka systému"
 
-#: prefs.js:418
+#: prefs.js:478
 msgid "Left box"
 msgstr "Ľavý blok"
 
-#: prefs.js:419
+#: prefs.js:479
 msgid "Center box"
 msgstr "Prostredný blok"
 
-#: prefs.js:420
+#: prefs.js:480
 msgid "Right box"
 msgstr "Pravý blok"
 
-#: prefs.js:421
+#: prefs.js:481
 msgid "Desktop button"
 msgstr "Tlačidlo plochy"
 
-#: prefs.js:427
+#: prefs.js:491 prefs.js:3015
 msgid "Move up"
 msgstr "Presunúť hore"
 
-#: prefs.js:429
+#: prefs.js:493 prefs.js:3023
 msgid "Move down"
 msgstr "Presunúť dole"
 
-#: prefs.js:431
+#: prefs.js:499
 msgid "Visible"
-msgstr "Viditeľný"
+msgstr "Viditeľné"
 
-#: prefs.js:432
+#: prefs.js:503
 msgid "Select element position"
 msgstr "Vyberte umiestnenie prvku"
 
-#: prefs.js:443
+#: prefs.js:517
 msgid "Stacked to top"
 msgstr "Hore"
 
-#: prefs.js:443
+#: prefs.js:517
 msgid "Stacked to left"
 msgstr "Vľavo"
 
-#: prefs.js:444
+#: prefs.js:521
 msgid "Stacked to bottom"
 msgstr "Dole"
 
-#: prefs.js:444
+#: prefs.js:521
 msgid "Stacked to right"
 msgstr "Vpravo"
 
-#: prefs.js:445
+#: prefs.js:523
 msgid "Centered"
 msgstr "Na stred"
 
-#: prefs.js:446
+#: prefs.js:524
 msgid "Monitor Center"
 msgstr "Stred monitora"
 
-#: prefs.js:465
+#: prefs.js:551
 msgid "More options"
 msgstr "Viac možností"
 
-#: prefs.js:497
+#. GTK+ leaves positive values for application-defined response ids.
+#. Use +1 for the reset action
+#: prefs.js:586
 msgid "Reset to defaults"
 msgstr "Nastaviť na predvolené"
 
-#: prefs.js:520
+#: prefs.js:609
 msgid "Show Applications options"
 msgstr "Zobraziť ikonu <i>aplikácií</i>"
 
-#: prefs.js:530
+#: prefs.js:670
 msgid "Open icon"
 msgstr "Otvoriť ikonu"
 
-#: prefs.js:577
+#: prefs.js:688
 msgid "Show Desktop options"
 msgstr "Nastavenia tlačidla zobrazenia plochy"
 
-#: prefs.js:661
+#: prefs.js:780
+msgid "Primary monitor"
+msgstr "Primárny monitor"
+
+#: prefs.js:781
+msgid "Monitor "
+msgstr "Monitor "
+
+#: prefs.js:910
+msgid "Running Indicator Options"
+msgstr "Možnosti indikátora činnosti"
+
+#: prefs.js:1446
+msgid "Dynamic opacity options"
+msgstr "Voľby dynamickej priehľadnosti"
+
+#: prefs.js:1870
+msgid "Intellihide options"
+msgstr "Nastavenie inteligentného skrývania (Intellihide)"
+
+#: prefs.js:2110
+msgid "Window preview options"
+msgstr "Nastavenia náhľadu okien"
+
+#: prefs.js:2590
+msgid "Isolate Workspaces options"
+msgstr "Možnosti izolovaných pracovných priestorov"
+
+#: prefs.js:2694
+msgid "Ungrouped application options"
+msgstr "Nastavenia nezoskupených aplikácií"
+
+#: prefs.js:2861
+msgid "Customize middle-click behavior"
+msgstr "Správanie prostredného tlačidla myši"
+
+#: prefs.js:2990
+msgid "Text"
+msgstr "Text"
+
+#: prefs.js:2999
+msgid "Command"
+msgstr "Príkaz"
+
+#: prefs.js:3031
+msgid "Remove"
+msgstr "Odstrániť"
+
+#: prefs.js:3059
+msgid "Customize panel scroll behavior"
+msgstr "Správanie prostredného tlačidla myši nad panelom"
+
+#: prefs.js:3105
+msgid "Customize icon scroll behavior"
+msgstr "Upraviť správanie prostredného tlačidla myši"
+
+#: prefs.js:3229
+msgid "Advanced hotkeys options"
+msgstr "Nastavenie ďalších klávesových skratiek"
+
+#: prefs.js:3257
+msgid "Secondary Menu Options"
+msgstr "Možnosti sekundárnej ponuky"
+
+#: prefs.js:3457
 #, javascript-format
 msgid "%d ms"
 msgstr "%d ms"
 
-#: prefs.js:666
+#: prefs.js:3463
 #, javascript-format
 msgid "%d °"
 msgstr "%d °"
 
-#: prefs.js:671 prefs.js:676
+#: prefs.js:3469 prefs.js:3475
 #, javascript-format
 msgid "%d %%"
 msgstr "%d %%"
 
-#: prefs.js:681
+#: prefs.js:3481
 #, javascript-format
 msgid "%.1f"
 msgstr "%.1f"
 
-#: prefs.js:686
+#: prefs.js:3487
 #, javascript-format
 msgid "%d icon"
 msgid_plural "%d icons"
@@ -189,322 +309,172 @@ msgstr[0] "%d ikona"
 msgstr[1] "%d ikony"
 msgstr[2] "%d ikon"
 
-#: prefs.js:782
-msgid "Running Indicator Options"
-msgstr "Možnosti indikátora činnosti"
-
-#: prefs.js:928
-msgid "Primary monitor"
-msgstr "Primárny monitor"
-
-#: prefs.js:928
-msgid "Monitor "
-msgstr "Monitor "
-
-#: prefs.js:1122
-msgid "Dynamic opacity options"
-msgstr "Voľby dynamickej priehľadnosti"
-
-#: prefs.js:1255
-msgid "Intellihide options"
-msgstr "Nastavenie inteligentného skrývania (Intellihide)"
-
-#: prefs.js:1366
-msgid "Window preview options"
-msgstr "Nastavenia náhľadu okien"
-
-#: prefs.js:1642
-msgid "Ungrouped application options"
-msgstr "Nastavenia nezoskupených aplikácií"
-
-#: prefs.js:1721
-msgid "Customize middle-click behavior"
-msgstr "Správanie prostredného tlačidla myši"
-
-#: prefs.js:1771
-msgid "Customize panel scroll behavior"
-msgstr "Správanie prostredného tlačidla myši nad panelom"
-
-#: prefs.js:1799
-msgid "Customize icon scroll behavior"
-msgstr "Upraviť správanie prostredného tlačidla myši"
-
-#: prefs.js:1880
-msgid "Advanced hotkeys options"
-msgstr "Nastavenie ďalších klávesových skratiek"
-
-#: prefs.js:1898
-msgid "Secondary Menu Options"
-msgstr "Možnosti sekundárnej ponuky"
-
-#: prefs.js:1924 ui/SettingsFineTune.ui.h:22
-msgid "Advanced Options"
-msgstr "Pokročilé nastavenia"
-
-#: prefs.js:2040
+#: prefs.js:3614
 msgid "App icon animation options"
 msgstr "Možnosti animácie ikony aplikácie"
 
-#: prefs.js:2088
+#: prefs.js:3737
+msgid "App icon highlight options"
+msgstr "Možnosti zvýraznenia ikony aplikácie"
+
+#: prefs.js:3826
 msgid "Export settings"
 msgstr "Exportovať nastavenia"
 
-#: prefs.js:2104
+#: prefs.js:3848
 msgid "Import settings"
 msgstr "Importovať nastavenia"
 
-#: appIcons.js:1503 appIcons.js:1513 appIcons.js:1515
-#: ui/BoxMiddleClickOptions.ui.h:10
-msgid "Quit"
-msgstr "Ukončiť"
+#: windowPreview.js:1155
+msgid "Move to current Workspace"
+msgstr "Presunúť do aktuálneho pracovného priestoru"
 
-#: appIcons.js:1515
-msgid "Windows"
-msgstr "Okná"
+#: panel.js:228
+msgid "Top Bar"
+msgstr "Horný panel"
 
-#: appIcons.js:1786
-msgid "Power options"
-msgstr "Možnosti napájania"
+#: extension.js:91
+msgid "Dash to Panel has been updated!"
+msgstr "Dash to Panel bol aktualizovaný!"
 
-#: appIcons.js:1791
-msgid "Event logs"
-msgstr "Udalosti"
+#: extension.js:92
+msgid "You are now running version"
+msgstr "Teraz používate verziu"
 
-#: appIcons.js:1796
-msgid "System"
-msgstr "Systém"
+#: extension.js:98
+msgid "See what's new"
+msgstr "Pozrite sa, čo je nové"
 
-#: appIcons.js:1801
-msgid "Device Management"
-msgstr "Správa zariadení"
+#: ui/SettingsFineTune.ui:38
+msgid "Fine-Tune"
+msgstr "Jemné doladenia"
 
-#: appIcons.js:1806
-msgid "Disk Management"
-msgstr "Správa diskov"
+#: ui/SettingsFineTune.ui:41
+msgid "Font size"
+msgstr "Veľkosť písma"
 
-#: appIcons.js:1819
-msgid "Terminal"
-msgstr "Terminál"
+#: ui/SettingsFineTune.ui:44 ui/SettingsFineTune.ui:60
+msgid "(0 = theme default)"
+msgstr "(0 = predvolené témou)"
 
-#: appIcons.js:1824
-msgid "System monitor"
-msgstr "Sledovanie systému"
+#: ui/SettingsFineTune.ui:45
+msgid "Tray Font Size"
+msgstr "Veľkosť písma v systémovom paneli"
 
-#: appIcons.js:1829
-msgid "Files"
-msgstr "Súbory"
+#: ui/SettingsFineTune.ui:61
+msgid "LeftBox Font Size"
+msgstr "Veľkosť písma ľavého bloku"
 
-#: appIcons.js:1834
-msgid "Extensions"
-msgstr "Rozšírenia"
+#: ui/SettingsFineTune.ui:78
+msgid "Padding"
+msgstr "Odsadenie"
 
-#: appIcons.js:1839
-msgid "Settings"
-msgstr "Nastavenia"
+#: ui/SettingsFineTune.ui:81 ui/SettingsFineTune.ui:97
+#: ui/SettingsFineTune.ui:113
+msgid "(-1 = theme default)"
+msgstr "(-1 = predvolené témou)"
 
-#: appIcons.js:1850
-msgid "Unlock taskbar"
-msgstr "Odomknúť panel úloh"
+#: ui/SettingsFineTune.ui:82
+msgid "Tray Item Padding"
+msgstr "Odsadenie položky v systémovom paneli"
 
-#: appIcons.js:1850
-msgid "Lock taskbar"
-msgstr "Zamknúť panel úloh"
+#: ui/SettingsFineTune.ui:98
+msgid "Status Icon Padding"
+msgstr "Odsadenie stavových ikon"
 
-#: appIcons.js:1855
-msgid "Dash to Panel Settings"
-msgstr "Nastavenia Dash to Panel"
+#: ui/SettingsFineTune.ui:114
+msgid "LeftBox Padding"
+msgstr "Odsadenie ľavého bloku"
 
-#: appIcons.js:1860
-msgid "Restore Windows"
-msgstr "Obnoviť okná"
+#: ui/SettingsFineTune.ui:131
+msgid "Animate"
+msgstr "Animovať"
 
-#: appIcons.js:1860
-msgid "Show Desktop"
-msgstr "Zobraziť plochu"
+#: ui/SettingsFineTune.ui:134
+msgid "Animate switching applications"
+msgstr "Animovať prepínanie okien"
 
-#: ui/BoxAdvancedOptions.ui.h:1
-msgid "Nothing yet!"
-msgstr "Zatiaľ nedostupné!"
+#: ui/SettingsFineTune.ui:144
+msgid "Animate launching new windows"
+msgstr "Animovať vytváranie nových okien"
 
-#: ui/BoxAdvancedOptions.ui.h:2
-msgid "For real..."
-msgstr "Naozaj..."
+#: ui/SettingsFineTune.ui:156
+msgid "Gnome functionality"
+msgstr "Funkcie Gnome"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:1
-msgid "Animation type"
-msgstr "Typ animácie"
+#: ui/SettingsFineTune.ui:159
+msgid "(overview)"
+msgstr "(prehľad)"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:2
-msgid "Simple"
-msgstr "Jednoduchá"
+#: ui/SettingsFineTune.ui:160
+msgid "Keep original gnome-shell dash"
+msgstr "Ponechať pôvodný gnome-shell dash"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:3
-msgid "Ripple"
-msgstr "Vlnenie"
+#: ui/SettingsFineTune.ui:170
+msgid "Keep original gnome-shell top panel"
+msgstr "Ponechať pôvodný horný panel gnome-shell"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:4
-msgid "Plank"
-msgstr "Doska"
+#: ui/SettingsFineTune.ui:180
+msgid "(e.g. date menu)"
+msgstr "(napr. ponuka s dátumom)"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:5
-msgid "Duration"
-msgstr "Trvanie"
+#: ui/SettingsFineTune.ui:181
+msgid "Activate panel menu buttons on click only"
+msgstr "Aktivovať tlačidlá ponuky na paneli iba pri kliknutí"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:6
-msgid "Rotation"
-msgstr "Otáčanie"
+#: ui/SettingsFineTune.ui:191
+msgid "Force Activities hot corner on primary monitor"
+msgstr "Vynútiť aktívny roh na primárnom monitore"
 
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:7
-msgid "Travel"
-msgstr "Cestovanie"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:8
-msgid "Zoom"
-msgstr "Priblíženie"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:9
-msgid "Convexity"
-msgstr "Vypuklosť"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:10
-msgid "Extent"
-msgstr "Rozsah"
-
-#: ui/BoxDotOptions.ui.h:1
-msgid "Highlight focused application"
-msgstr "Zvýrazniť aplikáciu na popredí"
-
-#: ui/BoxDotOptions.ui.h:2
-msgid "Icon dominant color"
-msgstr "Hlavná farba ikony"
-
-#: ui/BoxDotOptions.ui.h:3
-msgid "Custom color"
-msgstr "Vlastná farba"
-
-#: ui/BoxDotOptions.ui.h:4
-msgid "Highlight opacity"
-msgstr "Priehľadnosť zvýraznenia"
-
-#: ui/BoxDotOptions.ui.h:5
-msgid "Indicator size (px)"
-msgstr "Veľkosť indikátora (px)"
-
-#: ui/BoxDotOptions.ui.h:6
-msgid "Indicator color - Icon Dominant"
-msgstr "Hlavná farba ikony - ignorovať nastavenie vzhľadu"
-
-#: ui/BoxDotOptions.ui.h:7
-msgid "Indicator color - Override Theme"
-msgstr "Farba indikátorá - ignorovať nastavenie vzhľadu"
-
-#: ui/BoxDotOptions.ui.h:8
-msgid "1 window open (or ungrouped)"
-msgstr "1 otvorené okno (alebo nezoskupené)"
-
-#: ui/BoxDotOptions.ui.h:9
-msgid "Apply to all"
-msgstr "Nastaviť pre všetky"
-
-#: ui/BoxDotOptions.ui.h:10
-msgid "2 windows open"
-msgstr "2 otvorené okná"
-
-#: ui/BoxDotOptions.ui.h:11
-msgid "3 windows open"
-msgstr "3 otvorené okná"
-
-#: ui/BoxDotOptions.ui.h:12
-msgid "4+ windows open"
-msgstr "4 a viac otvorených okien"
-
-#: ui/BoxDotOptions.ui.h:13
-msgid "Use different for unfocused"
-msgstr "Použiť inú pre okná na pozadí"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:1
-msgid "The panel background opacity is affected by"
-msgstr "Nastavenie priehľadnosti panela je ovplyvnené"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:2 ui/BoxIntellihideOptions.ui.h:3
-msgid "All windows"
-msgstr "Všetky okná"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:3 ui/BoxIntellihideOptions.ui.h:4
-msgid "Focused windows"
-msgstr "Okna v popredí"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:4 ui/BoxIntellihideOptions.ui.h:5
-msgid "Maximized windows"
-msgstr "Maximalizované okna"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:5
-msgid "Change opacity when a window gets closer than (px)"
-msgstr "Zmeniť priehľadnosť pri priblížení okna (px)"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:7
-#, no-c-format
-msgid "Change opacity to (%)"
-msgstr "Zmeniť priehľadnosť na (%)"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:8 ui/BoxShowApplicationsOptions.ui.h:3
-#: ui/BoxWindowPreviewOptions.ui.h:57 ui/SettingsStyle.ui.h:27
-msgid "0"
-msgstr "0"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:9
-msgid "Opacity change animation duration (ms)"
-msgstr "Dĺžka animácie zmeny priehľadnosti (ms)"
-
-#: ui/BoxGroupAppsOptions.ui.h:1
+#: ui/BoxGroupAppsOptions.ui:32
 msgid "Font size (px) of the application titles (default is 14)"
-msgstr "Veľkosť písma (px) názvu aplikácie (predvolená: 14)"
+msgstr "Veľkosť písma názvu aplikácie (predvolená je 14 px)"
 
-#: ui/BoxGroupAppsOptions.ui.h:2
+#: ui/BoxGroupAppsOptions.ui:47
 msgid "Font weight of application titles"
-msgstr "Veľkosť písma názvu aplikácie"
+msgstr "Hrúbka písma názvov aplikácií"
 
-#: ui/BoxGroupAppsOptions.ui.h:3 ui/BoxWindowPreviewOptions.ui.h:44
+#: ui/BoxGroupAppsOptions.ui:52 ui/BoxWindowPreviewOptions.ui:406
 msgid "inherit from theme"
-msgstr "zdediť z nastavenia motívu"
+msgstr "zdediť z nastavenia témy"
 
-#: ui/BoxGroupAppsOptions.ui.h:4 ui/BoxWindowPreviewOptions.ui.h:45
+#: ui/BoxGroupAppsOptions.ui:53 ui/BoxWindowPreviewOptions.ui:407
 msgid "normal"
 msgstr "normálne"
 
-#: ui/BoxGroupAppsOptions.ui.h:5 ui/BoxWindowPreviewOptions.ui.h:46
+#: ui/BoxGroupAppsOptions.ui:54 ui/BoxWindowPreviewOptions.ui:408
 msgid "lighter"
 msgstr "tenšie"
 
-#: ui/BoxGroupAppsOptions.ui.h:6 ui/BoxWindowPreviewOptions.ui.h:47
+#: ui/BoxGroupAppsOptions.ui:55 ui/BoxWindowPreviewOptions.ui:409
 msgid "bold"
 msgstr "tučné"
 
-#: ui/BoxGroupAppsOptions.ui.h:7 ui/BoxWindowPreviewOptions.ui.h:48
+#: ui/BoxGroupAppsOptions.ui:56 ui/BoxWindowPreviewOptions.ui:410
 msgid "bolder"
 msgstr "tučnejšie"
 
-#: ui/BoxGroupAppsOptions.ui.h:8
+#: ui/BoxGroupAppsOptions.ui:65
 msgid "Font color of the application titles"
 msgstr "Farba písma názvu aplikácie"
 
-#: ui/BoxGroupAppsOptions.ui.h:9
+#: ui/BoxGroupAppsOptions.ui:77
 msgid "Font color of the minimized application titles"
 msgstr "Farba písma názvu minimalizovanej aplikácie"
 
-#: ui/BoxGroupAppsOptions.ui.h:10
+#: ui/BoxGroupAppsOptions.ui:95
 msgid "Maximum width (px) of the application titles"
 msgstr "Maximálna šírka (px) pre názov aplikácie"
 
-#: ui/BoxGroupAppsOptions.ui.h:11
+#: ui/BoxGroupAppsOptions.ui:96
 msgid "(default is 160)"
 msgstr "(predvolená je 160)"
 
-#: ui/BoxGroupAppsOptions.ui.h:12
+#: ui/BoxGroupAppsOptions.ui:111
 msgid "Use a fixed width for the application titles"
 msgstr "Použiť pevnú šírku pre názov aplikácie"
 
-#: ui/BoxGroupAppsOptions.ui.h:13
+#: ui/BoxGroupAppsOptions.ui:112
 msgid ""
 "The application titles all have the same width, even if their texts are "
 "shorter than the maximum width. The maximum width value is used as the fixed "
@@ -513,572 +483,375 @@ msgstr ""
 "Názvy aplikácií majú rovnakú šírku aj keď je text kratší. Maximálna hodnota "
 "sa použije pre všetky aplikácie."
 
-#: ui/BoxGroupAppsOptions.ui.h:14
+#: ui/BoxGroupAppsOptions.ui:129
 msgid "Display running indicators on unfocused applications"
-msgstr "Zobraziť indikátor aplikácií bežiacich na pozadí"
+msgstr "Zobraziť indikátor aplikácií spustených na pozadí"
 
-#: ui/BoxGroupAppsOptions.ui.h:15
+#: ui/BoxGroupAppsOptions.ui:140
 msgid "Use the favorite icons as application launchers"
 msgstr "Použiť ikony obľúbených aplikácií ako spúšťače"
 
-#: ui/BoxIntellihideOptions.ui.h:1
-msgid "Only hide the panel when it is obstructed by windows"
-msgstr "Skryť panel len vtedy, keď je prekrytý oknami"
-
-#: ui/BoxIntellihideOptions.ui.h:2
-msgid "The panel hides from"
-msgstr "Skrývanie panela pre"
-
-#: ui/BoxIntellihideOptions.ui.h:6
-msgid "Require pressure at the edge of the screen to reveal the panel"
-msgstr "Zobrazenie panela vyžaduje podržanie myši pri okraji obrazovky"
-
-#: ui/BoxIntellihideOptions.ui.h:7
-msgid "Required pressure threshold (px)"
-msgstr "Citlivosť okraja obrazovky pri držaní myši (px)"
-
-#: ui/BoxIntellihideOptions.ui.h:8
-msgid "Required pressure timeout (ms)"
-msgstr "Doba držania myši (ms)"
-
-#: ui/BoxIntellihideOptions.ui.h:9
-msgid "Allow the panel to be revealed while in fullscreen mode"
-msgstr "Povoliť zobrazenie panela v režime celej obrazovky"
-
-#: ui/BoxIntellihideOptions.ui.h:10
-msgid "Only hide secondary panels"
-msgstr "Skryť iba sekundárne panely"
-
-#: ui/BoxIntellihideOptions.ui.h:11
-msgid "(requires multi-monitors option)"
-msgstr "(vyžaduje možnosť viacerých monitorov)"
-
-#: ui/BoxIntellihideOptions.ui.h:12
-msgid "Keyboard shortcut to reveal and hold the panel"
-msgstr "Klávesová skratka pro zobrazenie panela"
-
-#: ui/BoxIntellihideOptions.ui.h:13 ui/BoxOverlayShortcut.ui.h:12
-msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
-msgstr "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
-
-#: ui/BoxIntellihideOptions.ui.h:14
-msgid "e.g. <Super>i"
-msgstr "napr. <Super>i"
-
-#: ui/BoxIntellihideOptions.ui.h:15
-msgid "Hide and reveal animation duration (ms)"
-msgstr "Rýchlosť animácie zobrazenia/skrytia panela (ms)"
-
-#: ui/BoxIntellihideOptions.ui.h:16
-msgid "Delay before hiding the panel (ms)"
-msgstr "Oneskorenie pred skrytím panela (ms)"
-
-#: ui/BoxIntellihideOptions.ui.h:17
-msgid "Delay before enabling intellihide on start (ms)"
-msgstr "Oneskorenie pred skrytím pri štarte (ms)"
-
-#: ui/BoxMiddleClickOptions.ui.h:1
-msgid "Shift+Click action"
-msgstr "Akcia pri Shift+Kliknutie"
-
-#: ui/BoxMiddleClickOptions.ui.h:2
-msgid ""
-"When set to minimize, double clicking minimizes all the windows of the "
-"application."
-msgstr ""
-"Ak je nastavená minimalizácia, dvojklik minimalizuje všetky okná aplikácie."
-
-#: ui/BoxMiddleClickOptions.ui.h:3 ui/SettingsAction.ui.h:8
-msgid "Raise windows"
-msgstr "Presunúť okno do popredia"
-
-#: ui/BoxMiddleClickOptions.ui.h:4
-msgid "Minimize window"
-msgstr "Minimalizovať okno"
-
-#: ui/BoxMiddleClickOptions.ui.h:5 ui/SettingsAction.ui.h:9
-msgid "Launch new instance"
-msgstr "Spustiť nové okno aplikácie"
-
-#: ui/BoxMiddleClickOptions.ui.h:6 ui/SettingsAction.ui.h:4
-msgid "Cycle through windows"
-msgstr "Prepínať okná"
-
-#: ui/BoxMiddleClickOptions.ui.h:7 ui/SettingsAction.ui.h:3
-msgid "Cycle windows + minimize"
-msgstr "Prepínať okná + minimalizovať"
-
-#: ui/BoxMiddleClickOptions.ui.h:8 ui/SettingsAction.ui.h:5
-msgid "Toggle single / Preview multiple"
-msgstr "Náhľad jeden/viacero"
-
-#: ui/BoxMiddleClickOptions.ui.h:9 ui/SettingsAction.ui.h:6
-msgid "Toggle single / Cycle multiple"
-msgstr "Prepínanie jedného/viacerých"
-
-#: ui/BoxMiddleClickOptions.ui.h:11
-msgid "Middle-Click action"
-msgstr "Prostredné tlačidlo myši"
-
-#: ui/BoxMiddleClickOptions.ui.h:12
-msgid "Behavior for Middle-Click."
-msgstr "Správanie pri stlačení prostredného tlačidla."
-
-#: ui/BoxMiddleClickOptions.ui.h:13
-msgid "Shift+Middle-Click action"
-msgstr "Akcia pri Shift + prostredné tlačidlo myši"
-
-#: ui/BoxMiddleClickOptions.ui.h:14
-msgid "Behavior for Shift+Middle-Click."
-msgstr "Shift + prostredné tlačidlo myši."
-
-#: ui/BoxOverlayShortcut.ui.h:1
-msgid "Hotkeys prefix"
-msgstr "Predpona klávesových skratiek"
-
-#: ui/BoxOverlayShortcut.ui.h:2
-msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
-msgstr "Skratky budú buď Super+číslo alebo Super+Alt+číslo"
-
-#: ui/BoxOverlayShortcut.ui.h:3
-msgid "Super"
-msgstr "Super"
-
-#: ui/BoxOverlayShortcut.ui.h:4
-msgid "Super + Alt"
-msgstr "Super + Alt"
-
-#: ui/BoxOverlayShortcut.ui.h:5
-msgid "Number overlay"
-msgstr "Zobraziť číslo"
-
-#: ui/BoxOverlayShortcut.ui.h:6
-msgid ""
-"Temporarily show the application numbers over the icons when using the "
-"hotkeys."
-msgstr "Dočasne zobraziť čísla aplikácií pri použití klávesových skratiek."
-
-#: ui/BoxOverlayShortcut.ui.h:7
-msgid "Never"
-msgstr "Nikdy"
-
-#: ui/BoxOverlayShortcut.ui.h:8
-msgid "Show temporarily"
-msgstr "Zobraziť dočasne"
-
-#: ui/BoxOverlayShortcut.ui.h:9
-msgid "Always visible"
-msgstr "Vždy viditeľné"
-
-#: ui/BoxOverlayShortcut.ui.h:10
-msgid "Hide timeout (ms)"
-msgstr "Skryť po (ms)"
-
-#: ui/BoxOverlayShortcut.ui.h:11
-msgid "Shortcut to show the overlay for 2 seconds"
-msgstr "Skratka pre zobrazenie prehľadu na 2 sekundy"
-
-#: ui/BoxOverlayShortcut.ui.h:13
-msgid "e.g. <Super>q"
-msgstr "napr. <Super>q"
-
-#: ui/BoxOverlayShortcut.ui.h:14
-msgid "Show window previews on hotkey"
-msgstr "Zobraziť náhľad okna po aktivovaní skratky"
-
-#: ui/BoxOverlayShortcut.ui.h:15
-msgid "Show previews when the application have multiple instances"
-msgstr "Zobraziť náhľady, ak ma aplikácia viacero otvorených okien"
-
-#: ui/BoxOverlayShortcut.ui.h:16
-msgid "Hotkeys are activated with"
-msgstr "Aktivovať klávesové skratky pomocou"
-
-#: ui/BoxOverlayShortcut.ui.h:17
-msgid "Select which keyboard number keys are used to activate the hotkeys"
-msgstr "Vyberte klávesy, ktoré sa použijú na aktiváciu klávesových skratiek"
-
-#: ui/BoxOverlayShortcut.ui.h:18
-msgid "Number row"
-msgstr "Číslo riadka"
-
-#: ui/BoxOverlayShortcut.ui.h:19
-msgid "Numeric keypad"
-msgstr "Numerická klávesnica"
-
-#: ui/BoxOverlayShortcut.ui.h:20
-msgid "Both"
-msgstr "Obidva"
-
-#: ui/BoxScrollIconOptions.ui.h:1 ui/BoxScrollPanelOptions.ui.h:1
+#: ui/BoxScrollPanelOptions.ui:25 ui/BoxScrollIconOptions.ui:25
 msgid "Delay between mouse scroll events (ms)"
 msgstr "Oneskorenie (ms) medzi udalosťami skrolovania"
 
-#: ui/BoxScrollIconOptions.ui.h:2 ui/BoxScrollPanelOptions.ui.h:2
+#: ui/BoxScrollPanelOptions.ui:26 ui/BoxScrollIconOptions.ui:26
 msgid "Use this value to limit the number of captured mouse scroll events."
 msgstr "Obmedziť počet udalostí skrolovania myši."
 
-#: ui/BoxScrollPanelOptions.ui.h:3
+#: ui/BoxScrollPanelOptions.ui:42
 msgid "Show popup when changing workspace"
 msgstr "Zobraziť upozornenie pri zmene pracovného priestoru"
 
-#: ui/BoxScrollPanelOptions.ui.h:4
+#: ui/BoxScrollPanelOptions.ui:43
 msgid "This affects workspace popup when scrolling on the panel only."
 msgstr ""
 "Toto ovplyvní upozornenie pracovného priestoru iba pri skrolovaní na paneli."
 
-#: ui/BoxSecondaryMenuOptions.ui.h:1
-msgid "Integrate <i>AppMenu</i> items"
-msgstr "Integrovať položky <i>ponuky aplikácií</i>"
+#: ui/SettingsStyle.ui:73
+msgid "Style"
+msgstr "Štýl"
 
-#: ui/BoxSecondaryMenuOptions.ui.h:2
-msgid "<i>Show Details</i> menu item"
-msgstr "Položka ponuky <i>Zobraziť podrobnosti</i>"
+#: ui/SettingsStyle.ui:76
+msgid "Global style"
+msgstr "Globálny štýl"
 
-#: ui/BoxShowApplicationsOptions.ui.h:1
-msgid "Show Applications icon"
-msgstr "Zobraziť ikonu aplikácií"
+#: ui/SettingsStyle.ui:79
+msgid "Border radius"
+msgstr "Polomer orámovania"
 
-#: ui/BoxShowApplicationsOptions.ui.h:2
-msgid "Show Applications icon side padding (px)"
-msgstr "Zobraziť ikony aplikácií s odsadením (px)"
+#: ui/SettingsStyle.ui:96
+msgid "AppIcon style"
+msgstr "Štýl ikony aplikácií"
 
-#: ui/BoxShowApplicationsOptions.ui.h:4
-msgid "Override escape key and return to desktop"
-msgstr "Zmeniť správanie klávesu Esc a vrátiť sa na plochu"
+#: ui/SettingsStyle.ui:99
+msgid "(default is 8)"
+msgstr "(predvolené je 8)"
 
-#: ui/BoxShowDesktopOptions.ui.h:1
-msgid "Override Show Desktop line color"
-msgstr "Prepísať farbu čiary tlačidla zobrazenia plochy"
+#: ui/SettingsStyle.ui:100
+msgid "App Icon Margin"
+msgstr "Rozostup ikon aplikácií"
 
-#: ui/BoxShowDesktopOptions.ui.h:2
-msgid "Reveal the desktop when hovering the Show Desktop button"
-msgstr "Zobraziť pracovnú plochu pri podržaní myši nad tlačidlom plochy"
+#: ui/SettingsStyle.ui:115
+msgid "(default is 4)"
+msgstr "(predvolené je 4)"
 
-#: ui/BoxShowDesktopOptions.ui.h:3
-msgid "Delay before revealing the desktop (ms)"
-msgstr "Oneskorenie pred zobrazením plochy (ms)"
+#: ui/SettingsStyle.ui:116
+msgid "App Icon Padding"
+msgstr "Odsadenie ikon aplikácií"
 
-#: ui/BoxShowDesktopOptions.ui.h:4
-msgid "Fade duration (ms)"
-msgstr "Skryť po (ms)"
+#: ui/SettingsStyle.ui:131
+msgid "Animate hovering app icons"
+msgstr "Animovať prepínanie medzi ikonami aplikácií"
 
-#: ui/BoxWindowPreviewOptions.ui.h:1
-msgid "Time (ms) before showing"
-msgstr "Čas (ms) pred zobrazením"
+#: ui/SettingsStyle.ui:155
+msgid "Highlight hovering app icons"
+msgstr "Zvýrazniť ikony aplikácií pri prechádzaní kurzorom"
 
-#: ui/BoxWindowPreviewOptions.ui.h:2
-msgid "(400 is default)"
-msgstr "(400 is predvolené)"
+#: ui/SettingsStyle.ui:179
+msgid "Icon style"
+msgstr "Štýl ikony"
 
-#: ui/BoxWindowPreviewOptions.ui.h:3
-msgid "Time (ms) before hiding"
-msgstr "Čas (ms) pred skrytím"
+#: ui/SettingsStyle.ui:184
+msgid "Normal"
+msgstr "Normálne"
 
-#: ui/BoxWindowPreviewOptions.ui.h:4
-msgid "(100 is default)"
-msgstr "(100 is predvolené)"
+#: ui/SettingsStyle.ui:185
+msgid "Symbolic"
+msgstr "Symbolické"
 
-#: ui/BoxWindowPreviewOptions.ui.h:5
-msgid "Immediate on application icon click"
-msgstr "Ihneď po kliknutí na ikonu aplikácie"
+#: ui/SettingsStyle.ui:186
+msgid "Grayscale"
+msgstr "Odtiene sivej"
 
-#: ui/BoxWindowPreviewOptions.ui.h:6
-msgid "Animation time (ms)"
-msgstr "Trvanie animácie (ms)"
+#: ui/SettingsStyle.ui:196
+msgid "Running indicator"
+msgstr "Indikátor činnosti"
 
-#: ui/BoxWindowPreviewOptions.ui.h:7
-msgid "Middle click on the preview to close the window"
-msgstr "Prostredné tlačidlo myši zavrie okno v režime náhľadu"
+#: ui/SettingsStyle.ui:199
+msgid "Running indicator position"
+msgstr "Pozícia indikátora činnosti"
 
-#: ui/BoxWindowPreviewOptions.ui.h:8
-msgid "Window previews preferred size (px)"
-msgstr "Veľkosť náhľadu okna (px)"
+#: ui/SettingsStyle.ui:235
+msgid "Running indicator style (Focused app)"
+msgstr "Štýl indikátora spustenej aplikácie (v popredí)"
 
-#: ui/BoxWindowPreviewOptions.ui.h:9
-msgid "Window previews aspect ratio X (width)"
-msgstr "Pomer strán náhľadu okna (šírka)"
+#: ui/SettingsStyle.ui:253 ui/SettingsStyle.ui:272
+msgid "Dots"
+msgstr "Bodky"
 
-#: ui/BoxWindowPreviewOptions.ui.h:10
+#: ui/SettingsStyle.ui:254 ui/SettingsStyle.ui:273
+msgid "Squares"
+msgstr "Štvorce"
+
+#: ui/SettingsStyle.ui:255 ui/SettingsStyle.ui:274
+msgid "Dashes"
+msgstr "Čiarky"
+
+#: ui/SettingsStyle.ui:256 ui/SettingsStyle.ui:275
+msgid "Segmented"
+msgstr "Segmentovaný"
+
+#: ui/SettingsStyle.ui:257 ui/SettingsStyle.ui:276
+msgid "Solid"
+msgstr "Pevný"
+
+#: ui/SettingsStyle.ui:258 ui/SettingsStyle.ui:277
+msgid "Ciliora"
+msgstr "Ciliora"
+
+#: ui/SettingsStyle.ui:259 ui/SettingsStyle.ui:278
+msgid "Metro"
+msgstr "Metro"
+
+#: ui/SettingsStyle.ui:267
+msgid "Running indicator style (Unfocused apps)"
+msgstr "Štýl indikátora spustenej aplikácie (na pozadí)"
+
+#: ui/SettingsStyle.ui:288
+msgid "Panel style"
+msgstr "Štýl panela"
+
+#: ui/SettingsStyle.ui:291 ui/SettingsStyle.ui:307 ui/SettingsStyle.ui:323
+#: ui/SettingsStyle.ui:339
+msgid "(default is 0)"
+msgstr "(predvolená je 0)"
+
+#: ui/SettingsStyle.ui:292
+msgid "Side margins"
+msgstr "Bočné okraje"
+
+#: ui/SettingsStyle.ui:308
+msgid "Top and bottom margins"
+msgstr "Horné a dolné okraje"
+
+#: ui/SettingsStyle.ui:324
+msgid "Side padding"
+msgstr "Bočné odsadenie"
+
+#: ui/SettingsStyle.ui:340
+msgid "Top and bottom padding"
+msgstr "Horné a dolné odsadenie"
+
+#: ui/SettingsStyle.ui:359
+msgid "Override panel theme background color"
+msgstr "Prepísať farbu pozadia témy panela"
+
+#: ui/SettingsStyle.ui:374
+msgid "Override panel theme background opacity"
+msgstr "Prepísať nepriehľadnosť pozadia témy panela"
+
+#: ui/SettingsStyle.ui:384
+msgid "Panel background opacity (%)"
+msgstr "Priehľadnosť panela (%)"
+
+#: ui/SettingsStyle.ui:388 ui/SettingsStyle.ui:445 ui/SettingsStyle.ui:463
+#: ui/BoxShowApplicationsOptions.ui:64 ui/BoxWindowPreviewOptions.ui:472
+#: ui/BoxDynamicOpacityOptions.ui:72
+msgid "0"
+msgstr "0"
+
+#: ui/SettingsStyle.ui:396
+msgid "Change opacity when a window gets close to the panel"
+msgstr "Zmeniť priehľadnosť pri priblížení okna"
+
+#: ui/SettingsStyle.ui:397
+msgid "Dynamic background opacity"
+msgstr "Dynamická priehľadnosť"
+
+#: ui/SettingsStyle.ui:425
+msgid "Override panel theme gradient"
+msgstr "Prepísať gradient témy panela"
+
+#: ui/SettingsStyle.ui:435
+msgid "Gradient top color and opacity (%)"
+msgstr "Horná farba farebného prechodu a priehľadnosť (%)"
+
+#: ui/SettingsStyle.ui:453
+msgid "Gradient bottom color and opacity (%)"
+msgstr "Spodná farba farebného prechodu a priehľadnosť (%)"
+
+#: ui/SettingsStyle.ui:477
+msgid "Panel border"
+msgstr "Orámovanie panela"
+
+#: ui/SettingsStyle.ui:487
+msgid "Override border color"
+msgstr "Prepísať farbu orámovania"
+
+#: ui/SettingsStyle.ui:504
+msgid "Border thickness"
+msgstr "Hrúbka orámovania"
+
+#: ui/SettingsStyle.ui:508 ui/BoxWindowPreviewOptions.ui:197
+#: ui/BoxWindowPreviewOptions.ui:238
 msgid "1"
 msgstr "1"
 
-#: ui/BoxWindowPreviewOptions.ui.h:11
-msgid "2"
-msgstr "2"
+#: ui/SettingsPosition.ui:19
+msgid "Position"
+msgstr "Umiestnenie"
 
-#: ui/BoxWindowPreviewOptions.ui.h:12
-msgid "3"
-msgstr "3"
+#: ui/SettingsPosition.ui:22
+msgid "Panel"
+msgstr "Panel"
 
-#: ui/BoxWindowPreviewOptions.ui.h:13
-msgid "4"
-msgstr "4"
+#: ui/SettingsPosition.ui:25
+msgid "Display the main panel on"
+msgstr "Hlavný panel zobraziť na"
 
-#: ui/BoxWindowPreviewOptions.ui.h:14
-msgid "5"
-msgstr "5"
+#: ui/SettingsPosition.ui:35
+msgid "Display panels on all monitors"
+msgstr "Zobraziť panel na všetkých monitoroch"
 
-#: ui/BoxWindowPreviewOptions.ui.h:15
-msgid "6"
-msgstr "6"
+#: ui/SettingsPosition.ui:49
+msgid "Hide and reveal the panel according to preferences"
+msgstr "Zobraziť/skryť panel podľa nastavení"
 
-#: ui/BoxWindowPreviewOptions.ui.h:16
-msgid "7"
-msgstr "7"
+#: ui/SettingsPosition.ui:50
+msgid "Panel Intellihide"
+msgstr "Inteligentné skrývanie (Intellihide)"
 
-#: ui/BoxWindowPreviewOptions.ui.h:17
-msgid "8"
-msgstr "8"
+#: ui/SettingsPosition.ui:76
+msgid "Order and Position on monitors"
+msgstr "Poradie a pozícia na monitoroch"
 
-#: ui/BoxWindowPreviewOptions.ui.h:18
-msgid "9"
-msgstr "9"
+#: ui/SettingsPosition.ui:79
+msgid "Monitor"
+msgstr "Monitor"
 
-#: ui/BoxWindowPreviewOptions.ui.h:19
-msgid "10"
-msgstr "10"
+#: ui/SettingsPosition.ui:90
+msgid "Apply changes to all monitors"
+msgstr "Použiť zmeny na všetkých monitoroch"
 
-#: ui/BoxWindowPreviewOptions.ui.h:20
-msgid "11"
-msgstr "11"
+#: ui/SettingsPosition.ui:111
+msgid "Panel monitor position"
+msgstr "Poloha panela na obrazovke"
 
-#: ui/BoxWindowPreviewOptions.ui.h:21
-msgid "12"
-msgstr "12"
+#: ui/SettingsPosition.ui:152
+msgid "(default is 48)"
+msgstr "(predvolená je 48)"
 
-#: ui/BoxWindowPreviewOptions.ui.h:22
-msgid "13"
-msgstr "13"
+#: ui/SettingsPosition.ui:153
+msgid "Panel thickness"
+msgstr "Šírka panela"
 
-#: ui/BoxWindowPreviewOptions.ui.h:23
-msgid "14"
-msgstr "14"
+#: ui/SettingsPosition.ui:168
+msgid "(default is 100)"
+msgstr "(predvolená je 100)"
 
-#: ui/BoxWindowPreviewOptions.ui.h:24
-msgid "15"
-msgstr "15"
+#: ui/SettingsPosition.ui:169
+msgid "Panel length"
+msgstr "Dĺžka panela"
 
-#: ui/BoxWindowPreviewOptions.ui.h:25
-msgid "16"
-msgstr "16"
+#: ui/SettingsPosition.ui:174
+msgid "Dynamic"
+msgstr "Dynamická"
 
-#: ui/BoxWindowPreviewOptions.ui.h:26
-msgid "17"
-msgstr "17"
+#: ui/SettingsPosition.ui:192
+msgid "Anchor"
+msgstr "Ukotvenie"
 
-#: ui/BoxWindowPreviewOptions.ui.h:27
-msgid "18"
-msgstr "18"
+#: ui/SettingsPosition.ui:211
+msgid "Taskbar Display"
+msgstr "Zobrazenie panela úloh"
 
-#: ui/BoxWindowPreviewOptions.ui.h:28
-msgid "19"
-msgstr "19"
+#: ui/SettingsAction.ui:8
+msgid "Action"
+msgstr "Akcie"
 
-#: ui/BoxWindowPreviewOptions.ui.h:29
-msgid "20"
-msgstr "20"
-
-#: ui/BoxWindowPreviewOptions.ui.h:30
-msgid "21"
-msgstr "21"
-
-#: ui/BoxWindowPreviewOptions.ui.h:31
-msgid "Fixed"
-msgstr "Pevný"
-
-#: ui/BoxWindowPreviewOptions.ui.h:32
-msgid "Window previews aspect ratio Y (height)"
-msgstr "Pomer strán náhľadu okna (výška)"
-
-#: ui/BoxWindowPreviewOptions.ui.h:33
-msgid "Window previews padding (px)"
-msgstr "Okraje náhľadu okien (px)"
-
-#: ui/BoxWindowPreviewOptions.ui.h:34
-msgid "Use custom opacity for the previews background"
-msgstr "Použiť vlastné nastavenie priehľadnosti náhľadov"
-
-#: ui/BoxWindowPreviewOptions.ui.h:35
-msgid ""
-"If disabled, the previews background have the same opacity as the panel."
-msgstr ""
-"Ak je vypnuté, pozadie náhľadov bude mať rovnakú nepriehľadnosť ako panel."
-
-#: ui/BoxWindowPreviewOptions.ui.h:36
-msgid "Close button and header position"
-msgstr "Pozícia záhlavia a tlačidla na zavretie"
-
-#: ui/BoxWindowPreviewOptions.ui.h:39
-msgid "Display window preview headers"
-msgstr "Zobraziť názov okna v náhľadoch"
-
-#: ui/BoxWindowPreviewOptions.ui.h:40
-msgid "Icon size (px) of the window preview"
-msgstr "Veľkosť náhľadu (px) aplikácie"
-
-#: ui/BoxWindowPreviewOptions.ui.h:41
-msgid "If disabled, the previews icon size will be based on headerbar size"
-msgstr "Ak je vypnuté, veľkosť náhľadu bude závisieť ť od veľkosti záhlavia"
-
-#: ui/BoxWindowPreviewOptions.ui.h:42
-msgid "Font size (px) of the preview titles"
-msgstr "Veľkosť písma (px) názvu aplikácie"
-
-#: ui/BoxWindowPreviewOptions.ui.h:43
-msgid "Font weight of the preview titles"
-msgstr "Veľkosť písma názvu aplikácie"
-
-#: ui/BoxWindowPreviewOptions.ui.h:49
-msgid "Font color of the preview titles"
-msgstr "Farba písma názvu aplikácie"
-
-#: ui/BoxWindowPreviewOptions.ui.h:50
-msgid "Enable window peeking"
-msgstr "Povoliť režim náhľadu okna"
-
-#: ui/BoxWindowPreviewOptions.ui.h:51
-msgid ""
-"When hovering over a window preview for some time, the window gets "
-"distinguished."
-msgstr "Rozlíšiť okná pri podržaní myši nad tlačidlom náhľadu."
-
-#: ui/BoxWindowPreviewOptions.ui.h:52
-msgid "Enter window peeking mode timeout (ms)"
-msgstr "Povoliť režim náhľadu okna po (ms)"
-
-#: ui/BoxWindowPreviewOptions.ui.h:53
-msgid ""
-"Time of inactivity while hovering over a window preview needed to enter the "
-"window peeking mode."
-msgstr ""
-"Čas nečinnosti nad ikonou potrebného na prepnutie do režimu náhľadu okna."
-
-#: ui/BoxWindowPreviewOptions.ui.h:54
-msgid "50"
-msgstr "50"
-
-#: ui/BoxWindowPreviewOptions.ui.h:55
-msgid "Window peeking mode opacity"
-msgstr "Priehľadnosť v režime náhľadu okna"
-
-#: ui/BoxWindowPreviewOptions.ui.h:56
-msgid ""
-"All windows except for the peeked one have their opacity set to the same "
-"value."
-msgstr "Všetky okna, okrem aktívneho, majú rovnaké nastavenie priehľadnosti."
-
-#: ui/SettingsAbout.ui.h:1
-msgid "Info"
-msgstr "Informácie"
-
-#: ui/SettingsAbout.ui.h:2
-msgid "Version"
-msgstr "Verzia"
-
-#: ui/SettingsAbout.ui.h:3
-msgid "Source"
-msgstr "Zdroj"
-
-#: ui/SettingsAbout.ui.h:4
-msgid "GitHub"
-msgstr "GitHub"
-
-#: ui/SettingsAbout.ui.h:5
-msgid "Export and Import"
-msgstr "Export a import"
-
-#: ui/SettingsAbout.ui.h:6
-msgid "Export and import settings"
-msgstr "Export a import nastavení"
-
-#: ui/SettingsAbout.ui.h:7
-msgid ""
-"Use the buttons below to create a settings file from your current "
-"preferences that can be imported on a different machine."
-msgstr ""
-"Pomocou tlačidiel nižšie exportujete vaše aktuálne nastavenia do súboru. "
-"Tento súbor potom môžete importovať na inom počítači."
-
-#: ui/SettingsAbout.ui.h:8
-msgid "Export to file"
-msgstr "Exportovať do súboru"
-
-#: ui/SettingsAbout.ui.h:9
-msgid "Import from file"
-msgstr "Importovať zo súboru"
-
-#: ui/SettingsAbout.ui.h:10
-msgid ""
-"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
-"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0."
-"html\">GNU General Public License, version 2 or later</a> for details.</span>"
-msgstr ""
-"<span size=\"small\">Tento program je ponúkaný BEZ AKÝCHKOĽVEK ZÁRUK.\n"
-"Prečítajte si <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0."
-"html\">GNU General Public License, verziu 2 alebo novšiu</a>.</span>"
-
-#: ui/SettingsAction.ui.h:1
+#: ui/SettingsAction.ui:11 ui/SettingsAction.ui:15
 msgid "Click action"
 msgstr "Akcia myši"
 
-#: ui/SettingsAction.ui.h:2
+#: ui/SettingsAction.ui:14
 msgid "Behaviour when clicking on the icon of a running application."
-msgstr "Správanie pri kliknutí na ikonu bežiacej aplikácie."
+msgstr "Správanie pri kliknutí na ikonu spustenej aplikácie."
 
-#: ui/SettingsAction.ui.h:7
+#: ui/SettingsAction.ui:34 ui/BoxMiddleClickOptions.ui:29
+#: ui/BoxMiddleClickOptions.ui:58 ui/BoxMiddleClickOptions.ui:87
+msgid "Cycle windows + minimize"
+msgstr "Prepínať okná + minimalizovať"
+
+#: ui/SettingsAction.ui:35 ui/BoxMiddleClickOptions.ui:28
+#: ui/BoxMiddleClickOptions.ui:57 ui/BoxMiddleClickOptions.ui:86
+msgid "Cycle through windows"
+msgstr "Prepínať okná"
+
+#: ui/SettingsAction.ui:36 ui/BoxMiddleClickOptions.ui:30
+#: ui/BoxMiddleClickOptions.ui:59 ui/BoxMiddleClickOptions.ui:88
+msgid "Toggle single / Preview multiple"
+msgstr "Náhľad jeden/viacero"
+
+#: ui/SettingsAction.ui:37 ui/BoxMiddleClickOptions.ui:31
+#: ui/BoxMiddleClickOptions.ui:60 ui/BoxMiddleClickOptions.ui:89
+msgid "Toggle single / Cycle multiple"
+msgstr "Prepínanie jedného/viacerých"
+
+#: ui/SettingsAction.ui:38 ui/BoxMiddleClickOptions.ui:32
+#: ui/BoxMiddleClickOptions.ui:61 ui/BoxMiddleClickOptions.ui:90
+msgid "Toggle single / Spread multiple"
+msgstr "Prepnúť na jeden / Rozložiť viacero"
+
+#: ui/SettingsAction.ui:39
 msgid "Toggle windows"
 msgstr "Prepínanie okien"
 
-#: ui/SettingsAction.ui.h:10
+#: ui/SettingsAction.ui:40 ui/BoxMiddleClickOptions.ui:25
+#: ui/BoxMiddleClickOptions.ui:54 ui/BoxMiddleClickOptions.ui:83
+msgid "Raise windows"
+msgstr "Presunúť okno do popredia"
+
+#: ui/SettingsAction.ui:41 ui/BoxMiddleClickOptions.ui:27
+#: ui/BoxMiddleClickOptions.ui:56 ui/BoxMiddleClickOptions.ui:85
+msgid "Launch new instance"
+msgstr "Spustiť nové okno aplikácie"
+
+#: ui/SettingsAction.ui:51
 msgid "Scroll action"
 msgstr "Akcia kolieska myši"
 
-#: ui/SettingsAction.ui.h:11
-msgid "Scroll panel action"
-msgstr "Akcia kolieska myši na paneli"
-
-#: ui/SettingsAction.ui.h:12
+#: ui/SettingsAction.ui:54
 msgid "Behavior when mouse scrolling over the panel."
 msgstr "Správanie prostredného tlačidla myši nad panelom."
 
-#: ui/SettingsAction.ui.h:13
+#: ui/SettingsAction.ui:55
+msgid "Scroll panel action"
+msgstr "Akcia kolieska myši na paneli"
+
+#: ui/SettingsAction.ui:79 ui/SettingsAction.ui:112
 msgid "Do nothing"
 msgstr "Nerobiť nič"
 
-#: ui/SettingsAction.ui.h:14
+#: ui/SettingsAction.ui:80
 msgid "Switch workspace"
 msgstr "Prepnúť pracovný priestor"
 
-#: ui/SettingsAction.ui.h:15
+#: ui/SettingsAction.ui:81 ui/SettingsAction.ui:113
 msgid "Cycle windows"
 msgstr "Prepínať okná"
 
-#: ui/SettingsAction.ui.h:16
+#: ui/SettingsAction.ui:82
 msgid "Change volume"
 msgstr "Upraviť hlasitosť"
 
-#: ui/SettingsAction.ui.h:17
+#: ui/SettingsAction.ui:90
+msgid "Behavior when mouse scrolling over an application icon."
+msgstr "Správanie kolieska myši nad ikonu spustenej aplikácie."
+
+#: ui/SettingsAction.ui:91
 msgid "Scroll icon action"
 msgstr "Akcia kolieska myši na ikone"
 
-#: ui/SettingsAction.ui.h:18
-msgid "Behavior when mouse scrolling over an application icon."
-msgstr "Správanie kolieska myši nad ikonu bežiacej aplikácie."
-
-#: ui/SettingsAction.ui.h:19
+#: ui/SettingsAction.ui:114
 msgid "Same as panel"
 msgstr "Rovnaké ako panel"
 
-#: ui/SettingsAction.ui.h:20
+#: ui/SettingsAction.ui:124
 msgid "Hotkey overlay"
 msgstr "Klávesové skratky"
 
-#: ui/SettingsAction.ui.h:21
-msgid "Use hotkeys to activate apps"
-msgstr "Použiť klávesové skratky pre spúšťanie aplikácií"
-
-#: ui/SettingsAction.ui.h:22
+#: ui/SettingsAction.ui:127
 msgid ""
 "Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
 "together with Shift and Ctrl."
@@ -1086,317 +859,784 @@ msgstr ""
 "Povoliť klávesové skratky Super+(0-9) pre spúšťanie aplikácií. Dajú sa "
 "použiť v kombinácií s Shift a Ctrl."
 
-#: ui/SettingsBehavior.ui.h:1
-msgid "Applications"
-msgstr "Aplikácie"
+#: ui/SettingsAction.ui:128
+msgid "Use hotkeys to activate apps"
+msgstr "Použiť klávesové skratky pre spúšťanie aplikácií"
 
-#: ui/SettingsBehavior.ui.h:2
-msgid "Show favorite applications"
-msgstr "Zobraziť obľúbené aplikácie"
+#: ui/SettingsAction.ui:154
+msgid "Application icons context menu"
+msgstr "Kontextové menu ikon aplikácií"
 
-#: ui/SettingsBehavior.ui.h:3
-msgid "Show favorite applications on secondary panels"
-msgstr "Zobraziť obľúbené aplikácie na sekundárnych paneloch"
-
-#: ui/SettingsBehavior.ui.h:4
-msgid "Show running applications"
-msgstr "Zobraziť bežiace aplikácie"
-
-#: ui/SettingsBehavior.ui.h:5
-msgid "Show <i>AppMenu</i> button"
-msgstr "Zobraziť tlačidlo <i>ponuky aplikácií</i>"
-
-#: ui/SettingsBehavior.ui.h:6
-msgid "Ungroup applications"
-msgstr "Nezoskupené aplikácie"
-
-#: ui/SettingsBehavior.ui.h:7
-msgid "Show notification counter badge"
-msgstr "Zobraziť znak počítadla oznámení"
-
-#: ui/SettingsBehavior.ui.h:8
-msgid "Show window previews on hover"
-msgstr "Zobraziť náhľad okna pri podržaní myši"
-
-#: ui/SettingsBehavior.ui.h:9
-msgid "Show tooltip on hover"
-msgstr "Zobraziť tip okna pri podržaní myši"
-
-#: ui/SettingsBehavior.ui.h:10
-msgid "Isolate"
-msgstr "Oddeliť"
-
-#: ui/SettingsBehavior.ui.h:11
-msgid "Isolate Workspaces"
-msgstr "Oddeliť pracovné priestory"
-
-#: ui/SettingsBehavior.ui.h:12
-msgid "Isolate monitors"
-msgstr "Oddeliť monitory"
-
-#: ui/SettingsBehavior.ui.h:13
-msgid "Overview"
-msgstr "Prehľad"
-
-#: ui/SettingsBehavior.ui.h:14
-msgid "Click empty space to close overview"
-msgstr "Kliknutím do prázdneho priestoru zavrieť prehľad"
-
-#: ui/SettingsBehavior.ui.h:15
-msgid "Disable show overview on startup"
-msgstr "Vypnúť zobrazenie prehľadu po štarte"
-
-#: ui/SettingsFineTune.ui.h:1
-msgid "Font size"
-msgstr "Veľkosť písma"
-
-#: ui/SettingsFineTune.ui.h:2
-msgid "Tray Font Size"
-msgstr "Veľkosť písma systémového bloku"
-
-#: ui/SettingsFineTune.ui.h:3
-msgid "(0 = theme default)"
-msgstr "(0 = predvolené témou)"
-
-#: ui/SettingsFineTune.ui.h:4
-msgid "LeftBox Font Size"
-msgstr "Veľkosť písma ľavého bloku"
-
-#: ui/SettingsFineTune.ui.h:5
-msgid "Padding"
-msgstr "Odsadenie"
-
-#: ui/SettingsFineTune.ui.h:6
-msgid "Tray Item Padding"
-msgstr "Odsadenie položky v systémovom bloku"
-
-#: ui/SettingsFineTune.ui.h:7
-msgid "(-1 = theme default)"
-msgstr "(-1 = predvolené témou)"
-
-#: ui/SettingsFineTune.ui.h:8
-msgid "Status Icon Padding"
-msgstr "Odsadenie stavových ikon"
-
-#: ui/SettingsFineTune.ui.h:9
-msgid "LeftBox Padding"
-msgstr "Odsadenie ľavého bloku"
-
-#: ui/SettingsFineTune.ui.h:10
-msgid "Animate"
-msgstr "Animovať"
-
-#: ui/SettingsFineTune.ui.h:11
-msgid "Animate switching applications"
-msgstr "Animovať prepínanie okien"
-
-#: ui/SettingsFineTune.ui.h:12
-msgid "Animate launching new windows"
-msgstr "Animovať vytváranie nových okien"
-
-#: ui/SettingsFineTune.ui.h:13
-msgid "Gnome functionality"
-msgstr "Funkcionalita Gnome"
-
-#: ui/SettingsFineTune.ui.h:14
-msgid "Keep original gnome-shell dash"
-msgstr "Ponechať pôvodný gnome-shell dash"
-
-#: ui/SettingsFineTune.ui.h:15
-msgid "(overview)"
-msgstr "(prehľad)"
-
-#: ui/SettingsFineTune.ui.h:16
-msgid "Keep original gnome-shell top panel"
-msgstr "Ponechať pôvodný horný panel gnome-shell"
-
-#: ui/SettingsFineTune.ui.h:17
-msgid "Activate panel menu buttons on click only"
-msgstr "Aktivovať tlačidlá ponuky na paneli iba pri kliknutí"
-
-#: ui/SettingsFineTune.ui.h:18
-msgid "(e.g. date menu)"
-msgstr "(napr. ponuka s dátumom)"
-
-#: ui/SettingsFineTune.ui.h:19
-msgid "Force Activities hot corner on primary monitor"
-msgstr "Vynútiť aktívny roh na primárnom monitore"
-
-#: ui/SettingsFineTune.ui.h:20
-msgid "App icon secondary menu"
-msgstr "Sekundárna ponuka ikony aplikácie"
-
-#: ui/SettingsFineTune.ui.h:21
+#: ui/SettingsAction.ui:157
 msgid "(right-click menu)"
 msgstr "(ponuka pravého tlačidla myši)"
 
-#: ui/SettingsPosition.ui.h:1
-msgid "Panel"
-msgstr "Panel"
+#: ui/SettingsAction.ui:158
+msgid "Secondary menu"
+msgstr "Sekundárna ponuka"
 
-#: ui/SettingsPosition.ui.h:2
-msgid "Display the main panel on"
-msgstr "Hlavný panel zobraziť na"
+#: ui/SettingsAction.ui:179
+msgid "Panel context menu entries"
+msgstr "Položky kontextovej ponuky panela"
 
-#: ui/SettingsPosition.ui.h:3
-msgid "Display panels on all monitors"
-msgstr "Zobraziť panel na všetkých monitoroch"
+#: ui/SettingsAction.ui:190
+msgid "Add entry"
+msgstr "Pridať položku"
 
-#: ui/SettingsPosition.ui.h:4
-msgid "Panel Intellihide"
-msgstr "Inteligentné skrývanie (Intellihide)"
+#: ui/BoxShowDesktopOptions.ui:53
+msgid "Override Show Desktop line color"
+msgstr "Prepísať farbu čiary tlačidla zobrazenia plochy"
 
-#: ui/SettingsPosition.ui.h:5
-msgid "Hide and reveal the panel according to preferences"
-msgstr "Zobraziť/skryť panel podľa nastavení"
+#: ui/BoxShowDesktopOptions.ui:77
+msgid "Reveal the desktop when hovering the Show Desktop button"
+msgstr "Zobraziť pracovnú plochu pri podržaní myši nad tlačidlom plochy"
 
-#: ui/SettingsPosition.ui.h:6
-msgid "Order and Position on monitors"
-msgstr "Poradie a pozícia na monitoroch"
+#: ui/BoxShowDesktopOptions.ui:90
+msgid "Delay before revealing the desktop (ms)"
+msgstr "Oneskorenie pred zobrazením plochy (ms)"
 
-#: ui/SettingsPosition.ui.h:7
-msgid "Monitor"
-msgstr "Monitor"
+#: ui/BoxShowDesktopOptions.ui:106
+msgid "Fade duration (ms)"
+msgstr "Skryť po (ms)"
 
-#: ui/SettingsPosition.ui.h:8
-msgid "Apply changes to all monitors"
-msgstr "Použiť zmeny na všetkých monitoroch"
+#: ui/SettingsAbout.ui:8
+msgid "About"
+msgstr "O rozšírení"
 
-#: ui/SettingsPosition.ui.h:9
-msgid "Panel screen position"
-msgstr "Pozícia panela na obrazovke"
+#: ui/SettingsAbout.ui:11
+msgid "Info"
+msgstr "Informácie"
 
-#: ui/SettingsPosition.ui.h:14
-msgid "Panel thickness"
-msgstr "Šírka panela"
+#: ui/SettingsAbout.ui:14
+msgid "Version"
+msgstr "Verzia"
 
-#: ui/SettingsPosition.ui.h:15
-msgid "(default is 48)"
-msgstr "(predvolená je 48)"
+#: ui/SettingsAbout.ui:22
+msgid "Source"
+msgstr "Zdroj"
 
-#: ui/SettingsPosition.ui.h:17
-#, no-c-format
-msgid "Panel length (%)"
-msgstr "Dĺžka panela (%)"
+#: ui/SettingsAbout.ui:26
+msgid "GitHub"
+msgstr "GitHub"
 
-#: ui/SettingsPosition.ui.h:18
-msgid "(default is 100)"
-msgstr "(predvolená je 100)"
+#: ui/SettingsAbout.ui:37
+msgid "Export and Import"
+msgstr "Export a import"
 
-#: ui/SettingsPosition.ui.h:19
-msgid "Anchor"
-msgstr "Ukotvenie"
+#: ui/SettingsAbout.ui:40
+msgid ""
+"Use the buttons below to create a settings file from your current "
+"preferences that can be imported on a different machine."
+msgstr ""
+"Pomocou tlačidiel nižšie exportujete vaše aktuálne nastavenia do súboru. "
+"Tento súbor potom môžete importovať na inom počítači."
 
-#: ui/SettingsPosition.ui.h:23
-msgid "Taskbar Display"
-msgstr "Zobrazenie panela úloh"
+#: ui/SettingsAbout.ui:41
+msgid "Export and import settings"
+msgstr "Export a import nastavení"
 
-#: ui/SettingsStyle.ui.h:1
-msgid "AppIcon style"
-msgstr "Štýl ikony aplikácií"
+#: ui/SettingsAbout.ui:56
+msgid "Export to file"
+msgstr "Exportovať do súboru"
 
-#: ui/SettingsStyle.ui.h:2
-msgid "App Icon Margin"
-msgstr "Rozostup ikon aplikácií"
+#: ui/SettingsAbout.ui:62
+msgid "Import from file"
+msgstr "Importovať zo súboru"
 
-#: ui/SettingsStyle.ui.h:3
-msgid "(default is 8)"
-msgstr "(predvolené je 8)"
+#: ui/SettingsAbout.ui:77
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/"
+"gpl-2.0.html\">GNU General Public License, version 2 or later</a> for "
+"details.</span>"
+msgstr ""
+"<span size=\"small\">Tento program je ponúkaný BEZ AKÝCHKOĽVEK ZÁRUK.\n"
+"Prečítajte si <a href=\"https://www.gnu.org/licenses/old-licenses/"
+"gpl-2.0.html\">GNU General Public License, verziu 2 alebo novšiu</a>.</span>"
 
-#: ui/SettingsStyle.ui.h:4
-msgid "App Icon Padding"
-msgstr "Odsadenie ikon aplikácií"
+#: ui/SettingsAbout.ui:96
+msgid "Sponsored and originally developed by"
+msgstr "Sponzorované a pôvodne vyvinuté spoločnosťou"
 
-#: ui/SettingsStyle.ui.h:5
-msgid "(default is 4)"
-msgstr "(predvolené je 4)"
+#: ui/BoxIsolateWorkspacesOptions.ui:22
+msgid "Isolate workspaces in gnome-shell Application Switcher"
+msgstr "Izolovať pracovné priestory v prepínači aplikácií gnome-shell"
 
-#: ui/SettingsStyle.ui.h:6
-msgid "Animate hovering app icons"
-msgstr "Animovať prepínanie medzi ikonami aplikácií"
+#: ui/BoxDotOptions.ui:37
+msgid "Highlight focused application"
+msgstr "Zvýrazniť aplikáciu na popredí"
 
-#: ui/SettingsStyle.ui.h:7
-msgid "Running indicator"
-msgstr "Indikátor činnosti"
+#: ui/BoxDotOptions.ui:54
+msgid "Icon dominant color"
+msgstr "Hlavná farba ikony"
 
-#: ui/SettingsStyle.ui.h:8
-msgid "Running indicator position"
-msgstr "Pozícia indikátora činnosti"
+#: ui/BoxDotOptions.ui:65
+msgid "Custom color"
+msgstr "Vlastná farba"
 
-#: ui/SettingsStyle.ui.h:13
-msgid "Running indicator style (Focused app)"
-msgstr "Štýl indikátora bežiacich aplikácií (na popredí)činnosti"
+#: ui/BoxDotOptions.ui:76
+msgid "Highlight opacity"
+msgstr "Priehľadnosť zvýraznenia"
 
-#: ui/SettingsStyle.ui.h:14
-msgid "Dots"
-msgstr "Bodky"
+#: ui/BoxDotOptions.ui:96
+msgid "Indicator size (px)"
+msgstr "Veľkosť indikátora (px)"
 
-#: ui/SettingsStyle.ui.h:15
-msgid "Squares"
-msgstr "Štvorce"
+#: ui/BoxDotOptions.ui:109
+msgid "Indicator color - Icon Dominant"
+msgstr "Farba indikátora – Dominantná ikona"
 
-#: ui/SettingsStyle.ui.h:16
-msgid "Dashes"
-msgstr "Čiarky"
+#: ui/BoxDotOptions.ui:126
+msgid "Indicator color - Override Theme"
+msgstr "Farba indikátora – Nahradiť tému"
 
-#: ui/SettingsStyle.ui.h:17
-msgid "Segmented"
-msgstr "Segmentované"
+#: ui/BoxDotOptions.ui:142 ui/BoxDotOptions.ui:215
+msgid "1 window open (or ungrouped)"
+msgstr "1 otvorené okno (alebo nezoskupené)"
 
-#: ui/SettingsStyle.ui.h:18
-msgid "Solid"
+#: ui/BoxDotOptions.ui:146 ui/BoxDotOptions.ui:219
+msgid "Apply to all"
+msgstr "Nastaviť pre všetky"
+
+#: ui/BoxDotOptions.ui:159 ui/BoxDotOptions.ui:232
+msgid "2 windows open"
+msgstr "2 otvorené okná"
+
+#: ui/BoxDotOptions.ui:170 ui/BoxDotOptions.ui:243
+msgid "3 windows open"
+msgstr "3 otvorené okná"
+
+#: ui/BoxDotOptions.ui:181 ui/BoxDotOptions.ui:254
+msgid "4+ windows open"
+msgstr "4 a viac otvorených okien"
+
+#: ui/BoxDotOptions.ui:198
+msgid "Use different for unfocused"
+msgstr "Použiť inú pre okná na pozadí"
+
+#: ui/SettingsBehavior.ui:7
+msgid "Behavior"
+msgstr "Správanie"
+
+#: ui/SettingsBehavior.ui:10
+msgid "Applications"
+msgstr "Aplikácie"
+
+#: ui/SettingsBehavior.ui:13
+msgid "Show favorite applications"
+msgstr "Zobraziť obľúbené aplikácie"
+
+#: ui/SettingsBehavior.ui:23
+msgid "Show favorite applications on secondary panels"
+msgstr "Zobraziť obľúbené aplikácie na sekundárnych paneloch"
+
+#: ui/SettingsBehavior.ui:33
+msgid "Show running applications"
+msgstr "Zobraziť spustené aplikácie"
+
+#: ui/SettingsBehavior.ui:43
+msgid "Ungroup applications"
+msgstr "Zrušiť zoskupenie aplikácií"
+
+#: ui/SettingsBehavior.ui:67
+msgid "Show notification counter badge"
+msgstr "Zobraziť znak počítadla oznámení"
+
+#: ui/SettingsBehavior.ui:81
+msgid "Hover"
+msgstr "Po prechode myšou"
+
+#: ui/SettingsBehavior.ui:84
+msgid "Show window previews on hover"
+msgstr "Zobraziť náhľad okna pri podržaní myši"
+
+#: ui/SettingsBehavior.ui:108
+msgid "Show tooltip on hover"
+msgstr "Zobraziť tip okna pri podržaní myši"
+
+#: ui/SettingsBehavior.ui:120
+msgid "Isolate"
+msgstr "Izolovanie"
+
+#: ui/SettingsBehavior.ui:123
+msgid "Isolate Workspaces"
+msgstr "Izolovať pracovné priestory"
+
+#: ui/SettingsBehavior.ui:147
+msgid "Isolate monitors"
+msgstr "Izolovať monitory"
+
+#: ui/SettingsBehavior.ui:159
+msgid "Overview"
+msgstr "Prehľad"
+
+#: ui/SettingsBehavior.ui:162
+msgid "Click empty space to close overview"
+msgstr "Kliknutím do prázdneho priestoru zavrieť prehľad"
+
+#: ui/SettingsBehavior.ui:172
+msgid "Disable show overview on startup"
+msgstr "Vypnúť zobrazenie prehľadu po štarte"
+
+#: ui/BoxShowApplicationsOptions.ui:25
+msgid "Show Applications icon"
+msgstr "Zobraziť ikonu aplikácií"
+
+#: ui/BoxShowApplicationsOptions.ui:60
+msgid "Show Applications icon side padding (px)"
+msgstr "Zobraziť ikony aplikácií s odsadením (px)"
+
+#: ui/BoxShowApplicationsOptions.ui:73
+msgid "Override escape key and return to desktop"
+msgstr "Zmeniť správanie klávesu Esc a vrátiť sa na plochu"
+
+#: ui/BoxWindowPreviewOptions.ui:89
+msgid "Time (ms) before showing"
+msgstr "Čas (ms) pred zobrazením"
+
+#: ui/BoxWindowPreviewOptions.ui:90
+msgid "(400 is default)"
+msgstr "(400 is predvolené)"
+
+#: ui/BoxWindowPreviewOptions.ui:105
+msgid "Time (ms) before hiding"
+msgstr "Čas (ms) pred skrytím"
+
+#: ui/BoxWindowPreviewOptions.ui:106
+msgid "(100 is default)"
+msgstr "(100 is predvolené)"
+
+#: ui/BoxWindowPreviewOptions.ui:117
+msgid "Immediate on application icon click"
+msgstr "Ihneď po kliknutí na ikonu aplikácie"
+
+#: ui/BoxWindowPreviewOptions.ui:138
+msgid "Animation time (ms)"
+msgstr "Trvanie animácie (ms)"
+
+#: ui/BoxWindowPreviewOptions.ui:159
+msgid "Middle click on the preview to close the window"
+msgstr "Prostredné tlačidlo myši zavrie okno v režime náhľadu"
+
+#: ui/BoxWindowPreviewOptions.ui:176
+msgid "Window previews preferred size (px)"
+msgstr "Veľkosť náhľadu okna (px)"
+
+#: ui/BoxWindowPreviewOptions.ui:192
+msgid "Window previews aspect ratio X (width)"
+msgstr "Pomer strán náhľadu okna (šírka)"
+
+#: ui/BoxWindowPreviewOptions.ui:198 ui/BoxWindowPreviewOptions.ui:239
+msgid "2"
+msgstr "2"
+
+#: ui/BoxWindowPreviewOptions.ui:199 ui/BoxWindowPreviewOptions.ui:240
+msgid "3"
+msgstr "3"
+
+#: ui/BoxWindowPreviewOptions.ui:200 ui/BoxWindowPreviewOptions.ui:241
+msgid "4"
+msgstr "4"
+
+#: ui/BoxWindowPreviewOptions.ui:201 ui/BoxWindowPreviewOptions.ui:242
+#: ui/BoxWindowPreviewOptions.ui:306
+msgid "5"
+msgstr "5"
+
+#: ui/BoxWindowPreviewOptions.ui:202 ui/BoxWindowPreviewOptions.ui:243
+msgid "6"
+msgstr "6"
+
+#: ui/BoxWindowPreviewOptions.ui:203 ui/BoxWindowPreviewOptions.ui:244
+msgid "7"
+msgstr "7"
+
+#: ui/BoxWindowPreviewOptions.ui:204 ui/BoxWindowPreviewOptions.ui:245
+msgid "8"
+msgstr "8"
+
+#: ui/BoxWindowPreviewOptions.ui:205 ui/BoxWindowPreviewOptions.ui:246
+msgid "9"
+msgstr "9"
+
+#: ui/BoxWindowPreviewOptions.ui:206 ui/BoxWindowPreviewOptions.ui:247
+msgid "10"
+msgstr "10"
+
+#: ui/BoxWindowPreviewOptions.ui:207 ui/BoxWindowPreviewOptions.ui:248
+msgid "11"
+msgstr "11"
+
+#: ui/BoxWindowPreviewOptions.ui:208 ui/BoxWindowPreviewOptions.ui:249
+msgid "12"
+msgstr "12"
+
+#: ui/BoxWindowPreviewOptions.ui:209 ui/BoxWindowPreviewOptions.ui:250
+msgid "13"
+msgstr "13"
+
+#: ui/BoxWindowPreviewOptions.ui:210 ui/BoxWindowPreviewOptions.ui:251
+msgid "14"
+msgstr "14"
+
+#: ui/BoxWindowPreviewOptions.ui:211 ui/BoxWindowPreviewOptions.ui:252
+msgid "15"
+msgstr "15"
+
+#: ui/BoxWindowPreviewOptions.ui:212 ui/BoxWindowPreviewOptions.ui:253
+msgid "16"
+msgstr "16"
+
+#: ui/BoxWindowPreviewOptions.ui:213 ui/BoxWindowPreviewOptions.ui:254
+msgid "17"
+msgstr "17"
+
+#: ui/BoxWindowPreviewOptions.ui:214 ui/BoxWindowPreviewOptions.ui:255
+msgid "18"
+msgstr "18"
+
+#: ui/BoxWindowPreviewOptions.ui:215 ui/BoxWindowPreviewOptions.ui:256
+msgid "19"
+msgstr "19"
+
+#: ui/BoxWindowPreviewOptions.ui:216 ui/BoxWindowPreviewOptions.ui:257
+msgid "20"
+msgstr "20"
+
+#: ui/BoxWindowPreviewOptions.ui:217 ui/BoxWindowPreviewOptions.ui:258
+msgid "21"
+msgstr "21"
+
+#: ui/BoxWindowPreviewOptions.ui:223 ui/BoxWindowPreviewOptions.ui:264
+msgid "Fixed"
 msgstr "Pevný"
 
-#: ui/SettingsStyle.ui.h:19
-msgid "Ciliora"
-msgstr "Ciliora"
+#: ui/BoxWindowPreviewOptions.ui:233
+msgid "Window previews aspect ratio Y (height)"
+msgstr "Pomer strán náhľadu okna (výška)"
 
-#: ui/SettingsStyle.ui.h:20
-msgid "Metro"
-msgstr "Metro"
+#: ui/BoxWindowPreviewOptions.ui:274
+msgid "Window previews padding (px)"
+msgstr "Okraje náhľadu okien (px)"
 
-#: ui/SettingsStyle.ui.h:21
-msgid "Running indicator style (Unfocused apps)"
-msgstr "Štýl indikátora bežiacich aplikácií (na pozadí)"
+#: ui/BoxWindowPreviewOptions.ui:296
+msgid "Use custom opacity for the previews background"
+msgstr "Použiť vlastné nastavenie priehľadnosti náhľadov"
 
-#: ui/SettingsStyle.ui.h:22
-msgid "Panel style"
-msgstr "Štýl panelu"
+#: ui/BoxWindowPreviewOptions.ui:297
+msgid ""
+"If disabled, the previews background have the same opacity as the panel."
+msgstr ""
+"Ak je vypnuté, pozadie náhľadov bude mať rovnakú nepriehľadnosť ako panel."
 
-#: ui/SettingsStyle.ui.h:23
-msgid "Override panel theme background color"
-msgstr "Prepísať farbu pozadia témy panela"
+#: ui/BoxWindowPreviewOptions.ui:322
+msgid "Close button and header position"
+msgstr "Pozícia záhlavia a tlačidla na zavretie"
 
-#: ui/SettingsStyle.ui.h:24
-msgid "Override panel theme background opacity"
-msgstr "Prepísať nepriehľadnosť pozadia témy panela"
+#: ui/BoxWindowPreviewOptions.ui:352
+msgid "Display window preview headers"
+msgstr "Zobraziť názov okna v náhľadoch"
 
-#: ui/SettingsStyle.ui.h:26
-#, no-c-format
-msgid "Panel background opacity (%)"
-msgstr "Priehľadnosť panela (%)"
+#: ui/BoxWindowPreviewOptions.ui:363
+msgid "Icon size (px) of the window preview"
+msgstr "Veľkosť náhľadu (px) aplikácie"
 
-#: ui/SettingsStyle.ui.h:28
-msgid "Dynamic background opacity"
-msgstr "Dynamická priehľadnosť"
+#: ui/BoxWindowPreviewOptions.ui:364
+msgid "If disabled, the previews icon size will be based on headerbar size"
+msgstr "Ak je vypnuté, veľkosť náhľadu bude závisieť ť od veľkosti záhlavia"
 
-#: ui/SettingsStyle.ui.h:29
-msgid "Change opacity when a window gets close to the panel"
-msgstr "Zmeniť priehľadnosť pri priblížení okna"
+#: ui/BoxWindowPreviewOptions.ui:385
+msgid "Font size (px) of the preview titles"
+msgstr "Veľkosť písma (px) názvov náhľadov"
 
-#: ui/SettingsStyle.ui.h:30
-msgid "Override panel theme gradient"
-msgstr "Prepísať gradient témy panela"
+#: ui/BoxWindowPreviewOptions.ui:401
+msgid "Font weight of the preview titles"
+msgstr "Hrúbka písma názvov náhľadov"
 
-#: ui/SettingsStyle.ui.h:32
-#, no-c-format
-msgid "Gradient top color and opacity (%)"
-msgstr "Horná farba farebného prechodu a priehľadnosť (%)"
+#: ui/BoxWindowPreviewOptions.ui:419
+msgid "Font color of the preview titles"
+msgstr "Farba písma názvov náhľadov"
 
-#: ui/SettingsStyle.ui.h:34
-#, no-c-format
-msgid "Gradient bottom color and opacity (%)"
-msgstr "Spodná farba farebného prechodu a priehľadnosť (%)"
+#: ui/BoxWindowPreviewOptions.ui:437
+msgid "Enable window peeking"
+msgstr "Povoliť režim náhľadu okna"
+
+#: ui/BoxWindowPreviewOptions.ui:438
+msgid ""
+"When hovering over a window preview for some time, the window gets "
+"distinguished."
+msgstr "Rozlíšiť okná pri podržaní myši nad tlačidlom náhľadu."
+
+#: ui/BoxWindowPreviewOptions.ui:449
+msgid "Enter window peeking mode timeout (ms)"
+msgstr "Povoliť režim náhľadu okna po (ms)"
+
+#: ui/BoxWindowPreviewOptions.ui:450
+msgid ""
+"Time of inactivity while hovering over a window preview needed to enter the "
+"window peeking mode."
+msgstr ""
+"Čas nečinnosti nad ikonou potrebného na prepnutie do režimu náhľadu okna."
+
+#: ui/BoxWindowPreviewOptions.ui:455
+msgid "50"
+msgstr "50"
+
+#: ui/BoxWindowPreviewOptions.ui:466
+msgid "Window peeking mode opacity"
+msgstr "Priehľadnosť v režime náhľadu okna"
+
+#: ui/BoxWindowPreviewOptions.ui:467
+msgid ""
+"All windows except for the peeked one have their opacity set to the same "
+"value."
+msgstr "Všetky okna, okrem aktívneho, majú rovnaké nastavenie priehľadnosti."
+
+#: ui/BoxDynamicOpacityOptions.ui:37
+msgid "The panel background opacity is affected by"
+msgstr "Nastavenie priehľadnosti panela ovplyvňuje"
+
+#: ui/BoxDynamicOpacityOptions.ui:42 ui/BoxIntellihideOptions.ui:96
+msgid "All windows"
+msgstr "Všetky okná"
+
+#: ui/BoxDynamicOpacityOptions.ui:43 ui/BoxIntellihideOptions.ui:97
+msgid "Focused windows"
+msgstr "Okna v popredí"
+
+#: ui/BoxDynamicOpacityOptions.ui:44 ui/BoxIntellihideOptions.ui:98
+msgid "Maximized windows"
+msgstr "Maximalizované okna"
+
+#: ui/BoxDynamicOpacityOptions.ui:53
+msgid "Change opacity when a window gets closer than (px)"
+msgstr ""
+"Zmeniť priehľadnosť, keď sa okno priblíži na vzdialenosť menšiu ako (px)"
+
+#: ui/BoxDynamicOpacityOptions.ui:69
+msgid "Change opacity to (%)"
+msgstr "Zmeniť priehľadnosť na (%)"
+
+#: ui/BoxDynamicOpacityOptions.ui:82
+msgid "Opacity change animation duration (ms)"
+msgstr "Dĺžka animácie zmeny priehľadnosti (ms)"
+
+#: ui/BoxOverlayShortcut.ui:23
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr "Skratky budú buď Super+číslo alebo Super+Alt+číslo"
+
+#: ui/BoxOverlayShortcut.ui:24
+msgid "Hotkeys prefix"
+msgstr "Predpona klávesových skratiek"
+
+#: ui/BoxOverlayShortcut.ui:29
+msgid "Super"
+msgstr "Super"
+
+#: ui/BoxOverlayShortcut.ui:30
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+#: ui/BoxOverlayShortcut.ui:38
+msgid ""
+"Temporarily show the application numbers over the icons when using the "
+"hotkeys."
+msgstr "Dočasne zobraziť čísla aplikácií pri použití klávesových skratiek."
+
+#: ui/BoxOverlayShortcut.ui:39
+msgid "Number overlay"
+msgstr "Zobraziť číslo"
+
+#: ui/BoxOverlayShortcut.ui:44
+msgid "Never"
+msgstr "Nikdy"
+
+#: ui/BoxOverlayShortcut.ui:45
+msgid "Show temporarily"
+msgstr "Zobraziť dočasne"
+
+#: ui/BoxOverlayShortcut.ui:46
+msgid "Always visible"
+msgstr "Vždy viditeľné"
+
+#: ui/BoxOverlayShortcut.ui:54
+msgid "Hide timeout (ms)"
+msgstr "Skryť po (ms)"
+
+#: ui/BoxOverlayShortcut.ui:65 ui/BoxIntellihideOptions.ui:227
+msgid "Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
+msgstr "Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
+
+#: ui/BoxOverlayShortcut.ui:66
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr "Skratka pre zobrazenie prehľadu na 2 sekundy"
+
+#: ui/BoxOverlayShortcut.ui:69
+msgid "e.g. <Super>q"
+msgstr "napr. <Super>q"
+
+#: ui/BoxOverlayShortcut.ui:78
+msgid ""
+"On secondary monitors, show the overlay on icons matching the primary monitor"
+msgstr ""
+"Na sekundárnych monitoroch zobrazovať prekrytie na ikonách zodpovedajúcich "
+"primárnemu monitoru"
+
+#: ui/BoxOverlayShortcut.ui:79
+msgid "Show the overlay on all monitors"
+msgstr "Zobraziť prehľad na všetkých monitoroch"
+
+#: ui/BoxOverlayShortcut.ui:89
+msgid "Show previews when the application have multiple instances"
+msgstr "Zobraziť náhľady, ak ma aplikácia viacero otvorených okien"
+
+#: ui/BoxOverlayShortcut.ui:90
+msgid "Show window previews on hotkey"
+msgstr "Zobraziť náhľad okna po aktivovaní skratky"
+
+#: ui/BoxOverlayShortcut.ui:100
+msgid "Select which keyboard number keys are used to activate the hotkeys"
+msgstr "Vyberte klávesy, ktoré sa použijú na aktiváciu klávesových skratiek"
+
+#: ui/BoxOverlayShortcut.ui:101
+msgid "Hotkeys are activated with"
+msgstr "Aktivovať klávesové skratky pomocou"
+
+#: ui/BoxOverlayShortcut.ui:106
+msgid "Number row"
+msgstr "Číslo riadka"
+
+#: ui/BoxOverlayShortcut.ui:107
+msgid "Numeric keypad"
+msgstr "Numerická klávesnica"
+
+#: ui/BoxOverlayShortcut.ui:108
+msgid "Both"
+msgstr "Obidva"
+
+#: ui/BoxSecondaryMenuOptions.ui:19
+msgid "Integrate <i>AppMenu</i> items"
+msgstr "Integrovať položky <i>ponuky aplikácií</i>"
+
+#: ui/BoxSecondaryMenuOptions.ui:30
+msgid "<i>App Details</i> menu item"
+msgstr "Položka ponuky <i>Podrobnosti o aplikácii</i>"
+
+#: ui/BoxSecondaryMenuOptions.ui:31
+msgid "<i>App Details</i> is only available when Gnome Software is installed"
+msgstr ""
+"<i>Podrobnosti o aplikácii</i> sú k dispozícii len v prípade, že je "
+"nainštalovaný Gnome Software"
+
+#: ui/BoxIntellihideOptions.ui:53
+msgid "Only hide the panel from windows"
+msgstr "Skryť panel iba z okien"
+
+#: ui/BoxIntellihideOptions.ui:64
+msgid "Overlapping"
+msgstr "Prekrývajúce"
+
+#: ui/BoxIntellihideOptions.ui:80
+msgid "On same monitor"
+msgstr "Na rovnakom monitore"
+
+#: ui/BoxIntellihideOptions.ui:91
+msgid "The panel hides from"
+msgstr "Skrývanie panela pre"
+
+#: ui/BoxIntellihideOptions.ui:110
+msgid "Touching the monitor's edge with the pointer reveals the panel"
+msgstr "Dotknutím sa okraja monitora ukazovateľom sa zobrazí panel"
+
+#: ui/BoxIntellihideOptions.ui:126 ui/BoxIntellihideOptions.ui:153
+msgid "Limit to panel length"
+msgstr "Obmedziť na dĺžku panela"
+
+#: ui/BoxIntellihideOptions.ui:137
+msgid "Hovering the panel area keeps the panel revealed"
+msgstr "Podržaním kurzora nad oblasťou panela zostane panel zobrazený"
+
+#: ui/BoxIntellihideOptions.ui:164
+msgid "Require pressure at the edge of the monitor to reveal the panel"
+msgstr "Na zobrazenie panela je potrebné zatlačiť úplne na okraj monitora"
+
+#: ui/BoxIntellihideOptions.ui:174
+msgid "Required pressure threshold (px)"
+msgstr "Požadovaná prahová hodnota tlaku (px)"
+
+#: ui/BoxIntellihideOptions.ui:188
+msgid "Required pressure timeout (ms)"
+msgstr "Požadovaný časový limit tlaku (ms)"
+
+#: ui/BoxIntellihideOptions.ui:206
+msgid "Allow the panel to be revealed while in fullscreen mode"
+msgstr "Povoliť zobrazenie panela v režime celej obrazovky"
+
+#: ui/BoxIntellihideOptions.ui:216
+msgid "(requires multi-monitors option)"
+msgstr "(vyžaduje možnosť viacerých monitorov)"
+
+#: ui/BoxIntellihideOptions.ui:217
+msgid "Only hide secondary panels"
+msgstr "Skryť iba sekundárne panely"
+
+#: ui/BoxIntellihideOptions.ui:228
+msgid "Keyboard shortcut to reveal and hold the panel"
+msgstr "Klávesová skratka pro zobrazenie panela"
+
+#: ui/BoxIntellihideOptions.ui:231
+msgid "e.g. <Super>i"
+msgstr "napr. <Super>i"
+
+#: ui/BoxIntellihideOptions.ui:240
+msgid "Persist state across restarts"
+msgstr "Zachovať stav po reštartovaní"
+
+#: ui/BoxIntellihideOptions.ui:250
+msgid ""
+"(respects Gnome \"Do Not Disturb\" and requires show notification counter "
+"badge option)"
+msgstr ""
+"(rešpektuje funkciu Gnome „Nerušiť“ a vyžaduje možnosť zobrazenia odznaku s "
+"počtom upozornení)"
+
+#: ui/BoxIntellihideOptions.ui:251
+msgid "Reveal and hold the panel on notification"
+msgstr "Zobraziť a ponechať panel pri oznámení"
+
+#: ui/BoxIntellihideOptions.ui:265
+msgid "Hide and reveal animation duration (ms)"
+msgstr "Rýchlosť animácie zobrazenia/skrytia panela (ms)"
+
+#: ui/BoxIntellihideOptions.ui:279
+msgid "Delay before hiding the panel (ms)"
+msgstr "Oneskorenie pred skrytím panela (ms)"
+
+#: ui/BoxIntellihideOptions.ui:294
+msgid "Delay before revealing the panel (ms)"
+msgstr "Oneskorenie pred zobrazením panela (ms)"
+
+#: ui/BoxIntellihideOptions.ui:309
+msgid "Delay before enabling intellihide on start (ms)"
+msgstr "Oneskorenie pred skrytím pri štarte (ms)"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:62
+msgid "Animation type"
+msgstr "Typ animácie"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:67
+msgid "Simple"
+msgstr "Jednoduchá"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:68
+msgid "Ripple"
+msgstr "Vlnenie"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:69
+msgid "Plank"
+msgstr "Doska"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:84
+msgid "Duration"
+msgstr "Trvanie"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:101
+msgid "Rotation"
+msgstr "Otáčanie"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:118
+msgid "Travel"
+msgstr "Pohyb"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:135
+msgid "Zoom"
+msgstr "Priblíženie"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:152
+msgid "Convexity"
+msgstr "Vypuklosť"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:169
+msgid "Extent"
+msgstr "Rozsah"
+
+#: ui/BoxMiddleClickOptions.ui:19
+msgid "Shift+Click action"
+msgstr "Akcia pri Shift+Kliknutie"
+
+#: ui/BoxMiddleClickOptions.ui:20
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr ""
+"Ak je nastavená minimalizácia, dvojklik minimalizuje všetky okná aplikácie."
+
+#: ui/BoxMiddleClickOptions.ui:26 ui/BoxMiddleClickOptions.ui:55
+#: ui/BoxMiddleClickOptions.ui:84
+msgid "Minimize window"
+msgstr "Minimalizovať okno"
+
+#: ui/BoxMiddleClickOptions.ui:48
+msgid "Middle-Click action"
+msgstr "Prostredné tlačidlo myši"
+
+#: ui/BoxMiddleClickOptions.ui:49
+msgid "Behavior for Middle-Click."
+msgstr "Správanie pri stlačení prostredného tlačidla."
+
+#: ui/BoxMiddleClickOptions.ui:77
+msgid "Shift+Middle-Click action"
+msgstr "Akcia pri Shift + prostredné tlačidlo myši"
+
+#: ui/BoxMiddleClickOptions.ui:78
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Shift + prostredné tlačidlo myši."
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:26
+msgid "Highlight AppIcon color"
+msgstr "Farba zvýraznenia ikony aplikácie"
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:38
+msgid "Pressed AppIcon color"
+msgstr "Farba stlačenej ikony aplikácie"
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:50
+msgid "Highlight AppIcon border radius"
+msgstr "Zvýraznenie polomeru orámovania ikony aplikácie"
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:51
+msgid "Overrides global border radius (default is 0)"
+msgstr "Nahradí globálny polomer orámovania (predvolená hodnota je 0)"
+
+#~ msgid "Unavailable when gnome-shell top panel is present"
+#~ msgstr "Nedostupné, ak je aktívny horný panel gnome-shell"
+
+#~ msgid "Advanced Options"
+#~ msgstr "Pokročilé nastavenia"
+
+#~ msgid "Windows"
+#~ msgstr "Okná"
+
+#~ msgid "Terminal"
+#~ msgstr "Terminál"
+
+#~ msgid "System monitor"
+#~ msgstr "Sledovanie systému"
+
+#~ msgid "Files"
+#~ msgstr "Súbory"
+
+#~ msgid "Extensions"
+#~ msgstr "Rozšírenia"
+
+#~ msgid "Nothing yet!"
+#~ msgstr "Zatiaľ nedostupné!"
+
+#~ msgid "For real..."
+#~ msgstr "Naozaj..."
+
+#~ msgid "Show <i>AppMenu</i> button"
+#~ msgstr "Zobraziť tlačidlo <i>ponuky aplikácií</i>"
 
 #, javascript-format
 #~ msgid "%d ."
@@ -1414,28 +1654,10 @@ msgstr "Spodná farba farebného prechodu a priehľadnosť (%)"
 #~ msgid "Custom Show Applications image icon"
 #~ msgstr "Vlastné nastavenie zobrazenia ikony aplikácie"
 
-#~ msgid "Position"
-#~ msgstr "Umiestnenie"
-
-#~ msgid "Style"
-#~ msgstr "Štýl"
-
 #~ msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
 #~ msgstr ""
 #~ "V nástroji <i>Vyladenia</i> musíte aktivovať Horná lišta > Aktívny roh "
 #~ "prehľadu aktivít"
-
-#~ msgid "Behavior"
-#~ msgstr "Správanie"
-
-#~ msgid "Action"
-#~ msgstr "Akcia"
-
-#~ msgid "Fine-Tune"
-#~ msgstr "Detailné nastavenia"
-
-#~ msgid "About"
-#~ msgstr "O rozšírení"
 
 #~ msgid "Preview timeout on icon leave (ms)"
 #~ msgstr "Časový limit náhľadu pri opustení kurzora (ms)"

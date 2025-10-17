@@ -48,7 +48,7 @@ export const DynamicTransparency = class {
   }
 
   updateExternalStyle() {
-    this._setStyle()
+    this._setBackground()
   }
 
   _bindSignals() {
@@ -144,31 +144,29 @@ export const DynamicTransparency = class {
     this._updateColor(themeBackground)
     this._updateAlpha(themeBackground)
     this._updateBorder()
-    this._updateBackground()
     this._updateGradient()
-    this._setStyle()
+    this._setBackground()
+    this._setGradientAndBorder()
   }
 
   _updateColorAndSet() {
     this._updateColor()
-    this._updateBackground()
-    this._setStyle()
+    this._setBackground()
   }
 
   _updateAlphaAndSet() {
     this._updateAlpha()
-    this._updateBackground()
-    this._setStyle()
+    this._setBackground()
   }
 
   _updateBorderAndSet() {
     this._updateBorder()
-    this._setStyle()
+    this._setGradientAndBorder()
   }
 
   _updateGradientAndSet() {
     this._updateGradient()
-    this._setStyle()
+    this._setGradientAndBorder()
   }
 
   _updateColor(themeBackground) {
@@ -218,7 +216,7 @@ export const DynamicTransparency = class {
       borderPosition = 'top'
     }
 
-    const style = `border: 0 solid ${rgba}; border-${borderPosition}-width:${borderWidth}px; `
+    const style = `border: 0 solid ${rgba}; border-${borderPosition}-width:${borderWidth}px;`
     this._borderStyle = showBorder ? style : ''
   }
 
@@ -226,8 +224,6 @@ export const DynamicTransparency = class {
     this._gradientStyle = ''
 
     if (SETTINGS.get_boolean('trans-use-custom-gradient')) {
-      this._backgroundStyle =
-        'background: none; border-image: none; background-image: none;'
       this._gradientStyle +=
         'background-gradient-direction: ' +
         (this._dtpPanel.geom.vertical ? 'horizontal;' : 'vertical;') +
@@ -241,30 +237,32 @@ export const DynamicTransparency = class {
           SETTINGS.get_string('trans-gradient-bottom-color'),
           SETTINGS.get_double('trans-gradient-bottom-opacity'),
         )
-    } else {
-      this._updateBackground()
     }
   }
 
-  _updateBackground() {
+  _setBackground() {
     this.currentBackgroundColor = Utils.getrgbaColor(
       this.backgroundColorRgb,
       this.alpha,
     )
 
-    this._backgroundStyle = `background-color: ${this.currentBackgroundColor}`
+    let transition = 'transition-duration:' + this.animationDuration
+
+    this._dtpPanel.set_style(
+      'background-color: ' + this.currentBackgroundColor + transition,
+    )
   }
 
-  _setStyle() {
-    const transition = 'transition-duration:' + this.animationDuration
-
+  _setGradientAndBorder() {
     this._dtpPanel.panel.set_style(
-      transition +
-        this._backgroundStyle +
+      'background: none; ' +
+        'border-image: none; ' +
+        'background-image: none; ' +
         this._gradientStyle +
-        this._borderStyle,
+        this._borderStyle +
+        'transition-duration:' +
+        this.animationDuration,
     )
-    console.log('Set DTP Panel style to', this._dtpPanel.panel.get_style())
   }
 
   _getThemeBackground(reload) {

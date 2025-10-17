@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.2"/>
+  <object class="GtkScrolledWindow" id="box_isolate_monitors_options">
+    <property name="height-request">300</property>
+    <property name="vexpand">True</property>
+    <property name="width-request">600</property>
+    <child>
+      <object class="GtkBox">
+        <property name="margin-bottom">32</property>
+        <property name="margin-end">32</property>
+        <property name="margin-start">32</property>
+        <property name="margin-top">32</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">24</property>
+        <child>
+          <object class="AdwPreferencesGroup">
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Isolate monitors even when using a single panel</property>
+                <child>
+                  <object class="GtkSwitch" id="isolate_monitors_with_single_panel_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
