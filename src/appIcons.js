@@ -1870,7 +1870,9 @@ export function getInterestingWindows(app, monitor, isolateMonitors) {
 
   if (
     monitor &&
-    (isolateMonitors || SETTINGS.get_boolean('isolate-monitors'))
+    (isolateMonitors || SETTINGS.get_boolean('isolate-monitors')) &&
+    (SETTINGS.get_boolean('multi-monitors') ||
+      SETTINGS.get_boolean('isolate-monitors-with-single-panel'))
   ) {
     windows = windows.filter(function (w) {
       return w.get_monitor() == monitor.index
@@ -1956,20 +1958,15 @@ export class TaskbarSecondaryMenu extends AppMenu.AppMenu {
   }
 
   _quitFromTaskbar(all) {
-    let time = global.get_current_time()
     let windows =
       !all && this.sourceActor.window // ungrouped applications
         ? [this.sourceActor.window]
         : getInterestingWindows(this._app, this.sourceActor.dtpPanel.monitor)
 
-    if (windows.length == this._app.get_windows().length)
-      this._app.request_quit()
-
-    GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
-      windows.forEach((w) => !!w.get_compositor_private() && w.delete(time++))
-
-      return GLib.SOURCE_REMOVE
-    })
+    windows.forEach(
+      (w) =>
+        !!w.get_compositor_private() && w.delete(global.get_current_time()),
+    )
   }
 
   setApp(app) {

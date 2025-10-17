@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Dash to Panel package.
 # Enrico Bella <enricobe@hotmail.com>, 2018.
 # Kowalski7cc <kowalski.7cc@gmail.com>, 2020.
-# Albano Battistella <albanobattistella@gmail.com>, 2023.
+# Albano Battistella <albanobattistella@gmail.com>, 2023,2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-02-08 08:31-0500\n"
-"PO-Revision-Date: 2023-12-22 20:38+0200\n"
+"PO-Revision-Date: 2025-09-14 13:38+0200\n"
 "Last-Translator: Albano Battistella <albanoattistella@gmail.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -262,9 +262,8 @@ msgid "Windows"
 msgstr "Finestre"
 
 #: appIcons.js:1786
-#, fuzzy
 msgid "Power options"
-msgstr "Altre opzioni"
+msgstr "Opzioni di alimentazione"
 
 #: appIcons.js:1791
 msgid "Event logs"

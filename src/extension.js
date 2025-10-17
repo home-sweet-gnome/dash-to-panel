@@ -155,6 +155,7 @@ export default class DashToPanelExtension extends Extension {
 
     PanelSettings.disable(SETTINGS)
     panelManager.disable()
+    PanelSettings.clearCache()
 
     DTP_EXTENSION = null
     SETTINGS = null
