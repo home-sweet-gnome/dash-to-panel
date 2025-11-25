@@ -1108,16 +1108,23 @@ export const Panel = GObject.registerClass(
     }
 
     _setPanelBoxStyle(disable) {
-      let style = ''
+      this.panelBox.set_style('')
 
       if (!disable) {
         let topBottomMargins = SETTINGS.get_int('panel-top-bottom-margins')
         let sideMargins = SETTINGS.get_int('panel-side-margins')
+        let panelBoxTheme = this.panelBox.get_theme_node()
+        let getPadding = (side) => panelBoxTheme.get_padding(side)
 
-        style = `padding: ${this.geom.topOffset + topBottomMargins}px ${sideMargins}px ${topBottomMargins}px;`
+        // add existing theme padding to dtp panel margins
+        this.panelBox.set_style(
+          `padding: 
+              ${this.geom.topOffset + topBottomMargins + getPadding(St.Side.TOP)}px 
+              ${sideMargins + getPadding(St.Side.RIGHT)}px 
+              ${topBottomMargins + getPadding(St.Side.BOTTOM)}px 
+              ${sideMargins + getPadding(St.Side.LEFT)}px;`,
+        )
       }
-
-      this.panelBox.set_style(style)
     }
 
     _maybeSetDockCss(disable) {
