@@ -1109,8 +1109,11 @@ export const Panel = GObject.registerClass(
 
     _setPanelBoxStyle(disable) {
       this.panelBox.set_style('')
+      this.panelBox.remove_style_class_name('dashtopanel')
 
       if (!disable) {
+        this.panelBox.add_style_class_name('dashtopanel')
+
         let topBottomMargins = SETTINGS.get_int('panel-top-bottom-margins')
         let sideMargins = SETTINGS.get_int('panel-side-margins')
         let panelBoxTheme = this.panelBox.get_theme_node()
