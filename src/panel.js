@@ -310,6 +310,23 @@ export const Panel = GObject.registerClass(
           () => (this._resetGeometry(), this._setShowDesktopButtonStyle()),
         ],
         [
+          this.panelBox,
+          'style-changed',
+          () => {
+            if (this._externalStyleChangeHandled) return
+
+            this._externalStyleChangeHandled = true
+
+            if (
+              JSON.stringify(this._relevantPanelBoxStyles) !=
+              JSON.stringify(this._getRelevantPanelBoxStyles())
+            )
+              this._resetGeometry()
+
+            delete this._externalStyleChangeHandled
+          },
+        ],
+        [
           // sync hover after a popupmenu is closed
           this.taskbar,
           'menu-closed',
@@ -1113,21 +1130,42 @@ export const Panel = GObject.registerClass(
 
       if (!disable) {
         this.panelBox.add_style_class_name('dashtopanel')
+        this._relevantPanelBoxStyles = this._getRelevantPanelBoxStyles()
 
         let topBottomMargins = SETTINGS.get_int('panel-top-bottom-margins')
         let sideMargins = SETTINGS.get_int('panel-side-margins')
-        let panelBoxTheme = this.panelBox.get_theme_node()
-        let getPadding = (side) => panelBoxTheme.get_padding(side)
+        let { padding } = this._relevantPanelBoxStyles
 
         // add existing theme padding to dtp panel margins
         this.panelBox.set_style(
           `padding: 
-              ${this.geom.topOffset + topBottomMargins + getPadding(St.Side.TOP)}px 
-              ${sideMargins + getPadding(St.Side.RIGHT)}px 
-              ${topBottomMargins + getPadding(St.Side.BOTTOM)}px 
-              ${sideMargins + getPadding(St.Side.LEFT)}px;`,
+              ${this.geom.topOffset + topBottomMargins + padding[St.Side.TOP]}px 
+              ${sideMargins + padding[St.Side.RIGHT]}px 
+              ${topBottomMargins + padding[St.Side.BOTTOM]}px 
+              ${sideMargins + padding[St.Side.LEFT]}px;`,
         )
       }
+    }
+
+    _getRelevantPanelBoxStyles() {
+      // Get unaffected panelbox styles that, if changed externally, would require a
+      // geometry reset (e.g. other extensions css classes).
+      // This is needed as dtp sets its panelbox margins using the style property, effectively
+      // overriding any css classes that could be added after dtp is enabled
+      let relevantStyles = { padding: {} }
+      let currentStyle = this.panelBox.get_style()
+
+      this.panelBox.set_style('')
+
+      let panelBoxTheme = this.panelBox.get_theme_node()
+
+      Object.values(St.Side).forEach(
+        (v) => (relevantStyles.padding[v] = panelBoxTheme.get_padding(v)),
+      )
+
+      this.panelBox.set_style(currentStyle)
+
+      return relevantStyles
     }
 
     _maybeSetDockCss(disable) {
