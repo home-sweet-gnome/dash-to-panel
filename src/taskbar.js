@@ -60,8 +60,8 @@ const T3 = 'resetHoverTimeout'
  *
  * - set label position based on taskbar orientation
  *
- *  I can't subclass the original object because of this: https://bugzilla.gnome.org/show_bug.cgi?id=688973.
- *  thus use this ugly pattern.
+ * I can't subclass the original object because of this: https://bugzilla.gnome.org/show_bug.cgi?id=688973.
+ * thus use this ugly pattern.
  */
 
 export function extendDashItemContainer(dashItemContainer) {
@@ -224,7 +224,7 @@ export const TaskbarActor = GObject.registerClass(
  * - show running and/or favorite applications
  * - emit a custom signal when an app icon is added
  * - Add scrollview
- *   Ensure actor is visible on keyfocus inside the scrollview
+ * Ensure actor is visible on keyfocus inside the scrollview
  * - add 128px icon size, might be useful for hidpi display
  * - Sync minimization application target position.
  */
@@ -364,6 +364,8 @@ export const Taskbar = class extends EventEmitter {
         'switch-workspace',
         () => this._connectWorkspaceSignals(),
       ],
+      // ADICIONADO: Força redesenho quando uma janela entra no monitor/workspace (move-se via atalho)
+      [global.window_manager, 'window-entered-monitor', () => this._queueRedisplay()],
       [
         Utils.DisplayWrapper.getScreen(),
         ['window-entered-monitor', 'window-left-monitor'],
@@ -993,12 +995,43 @@ export const Taskbar = class extends EventEmitter {
     }
   }
 
+  // --- MODIFICAÇÃO: Lógica de ordenação por Workspace ---
   sortAppsCompareFunction(appA, appB) {
+    // Função auxiliar para descobrir o menor índice de workspace das janelas do app
+    const getAppWorkspaceIndex = (app) => {
+      // Usa a função auxiliar existente no AppIcons para pegar janelas deste monitor
+      let windows = AppIcons.getInterestingWindows(app, this.dtpPanel.monitor)
+
+      // Se não houver janelas (ex: app favorito fechado), definimos uma prioridade.
+      // -1 garante que favoritos fechados fiquem sempre à esquerda (antes do Workspace 1).
+      if (!windows || windows.length === 0) return -1
+
+      // Mapeia os índices dos workspaces de todas as janelas
+      let indexes = windows.map((w) => {
+        let ws = w.get_workspace()
+        // Fallback caso ws seja nulo (raro, mas possível em janelas "sticky")
+        return ws ? ws.index() : -1
+      })
+
+      // Retorna o menor índice
+      return Math.min(...indexes)
+    }
+
+    let wsA = getAppWorkspaceIndex(appA)
+    let wsB = getAppWorkspaceIndex(appB)
+
+    // 1. Critério Principal: Ordem do Workspace
+    if (wsA !== wsB) {
+      return wsA - wsB
+    }
+
+    // 2. Critério de Desempate: Ordem de estabilidade original
     return (
       getAppStableSequence(appA, this.dtpPanel.monitor) -
       getAppStableSequence(appB, this.dtpPanel.monitor)
     )
   }
+  // --- FIM DA MODIFICAÇÃO ---
 
   getAppInfos() {
     //get the user's favorite apps
