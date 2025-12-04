@@ -1072,7 +1072,7 @@ export const Preview = GObject.registerClass(
     }
 
     _onHoverChanged() {
-      this.setFocus(this.hover)
+      if (this.reactive) this.setFocus(this.hover)
     }
 
     _onCloseBtnClick() {
