@@ -725,13 +725,15 @@ export const Panel = GObject.registerClass(
     }
 
     _adjustForOverview() {
-      let isFocusedMonitor = this.panelManager.checkIfFocusedMonitor(
+      const isFocusedMonitor = this.panelManager.checkIfFocusedMonitor(
         this.monitor,
       )
-      let isOverview = !!Main.overview.visibleTarget
-      let isOverviewFocusedMonitor = isOverview && isFocusedMonitor
-      let isShown = !isOverview || isOverviewFocusedMonitor
-      let actorData = Utils.getTrackedActorData(this.panelBox)
+      const isOverview = !!Main.overview.visibleTarget
+      const isOverviewFocusedMonitor = isOverview && isFocusedMonitor
+      const hideInOverview = SETTINGS.get_boolean('hide-panel-in-overview')
+      const isShown =
+        !isOverview || (isOverviewFocusedMonitor && !hideInOverview)
+      const actorData = Utils.getTrackedActorData(this.panelBox)
 
       // prevent the "chrome" to update the panelbox visibility while in overview
       actorData.trackFullscreen = !isOverview

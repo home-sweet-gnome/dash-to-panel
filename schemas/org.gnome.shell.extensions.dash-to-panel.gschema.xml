@@ -635,6 +635,11 @@
       <summary>Hide overview on startup</summary>
       <description>Hide overview on startup, which would be shown by default at gnome startup.</description>
     </key>
+    <key type="b" name="hide-panel-in-overview">
+      <default>false</default>
+      <summary>Hide panel in overview</summary>
+      <description>Hide panel in overview, which avoids functionality duplication when also showing the original gnome dash.</description>
+    </key>
     <key type="b" name="group-apps">
       <default>true</default>
       <summary>Group applications</summary>
