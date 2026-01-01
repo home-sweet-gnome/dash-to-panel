@@ -60,8 +60,9 @@ export const NotificationsMonitor = class extends EventEmitter {
         let appId = tracker.focus_app?.id
 
         // reset notifications from message tray on app focus
-        if (tracker.focus_app && this._state[appId])
-          this._updateState(tracker.focus_app.id, this._getDefaultState(), true)
+        // disabled to maintain notifications even when focused the windows mistakenly
+        // if (tracker.focus_app && this._state[appId])
+        //   this._updateState(tracker.focus_app.id, this._getDefaultState(), true)
       },
     ])
     this._acquireUnityDBus()
@@ -115,10 +116,17 @@ export const NotificationsMonitor = class extends EventEmitter {
 
     this._state[appId] = Object.assign(this._state[appId], state)
 
-    if (tracker.focus_app?.id == appId) {
-      this._state[appId].count = 0
-      this._state[appId].trayCount = 0
-    }
+    // Disabled to not reset notifications when focused app mistakenly
+    // if (tracker.focus_app?.id == appId) {
+    //   this._state[appId].count = 0
+    //   this._state[appId].trayCount = 0
+    // }
+
+    // Checking if the app is closed
+    // We check if the app is running, and that the # of windows is > 0 in
+    // case we use workspace isolation,
+    // let appIsRunning =
+    //   this.app.state == Shell.AppState.RUNNING && appCount > 0
 
     this._state[appId].urgent =
       state.urgent ||

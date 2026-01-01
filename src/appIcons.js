@@ -462,6 +462,10 @@ export const TaskbarAppIcon = GObject.registerClass(
       this._updateWindows()
       this.updateIcon()
 
+      // Update notification badge when windows changed to avoid showing badge when closed all app's windows
+      this._maybeUpdateNumberOverlay()
+      // this._handleNotifications();
+
       if (this._isGroupApps) this._setIconStyle()
     }
 
@@ -1658,13 +1662,48 @@ export const TaskbarAppIcon = GObject.registerClass(
         `${showNotifications ? 'add' : 'remove'}_style_class_name`
       ]('notification-badge')
 
+
+      // We check if the app is running, and that the # of windows is > 0 in
+      // case we use workspace isolation,
+      let appCount = this.getAppIconInterestingWindows().length
+      let appIsRunning =
+        this.app.state == Shell.AppState.RUNNING 
+          && appCount > 0
+        // this.app.state == 1 // looks like stopped
+        // this.app.state == 0
+        // this.app.state == 2
+        // appCount > 0
+
+      console.warn("appIsRunning = " + appIsRunning)
+
       if (shouldBeVisible && label !== this._numberOverlayLabel.get_text()) {
         this._numberOverlayLabel.set_text(label.toString())
         this._updateNumberOverlay()
       }
+      
 
-      if (visible && !shouldBeVisible) this._numberOverlayBin.hide()
+      // if (appIsRunning)
+      if (visible && !shouldBeVisible) {
+        this._numberOverlayBin.hide()
+        console.warn("entered if (visible && !shouldBeVisible)")
+      }
       else if (!visible && shouldBeVisible) this._numberOverlayBin.show()
+      // else if (visible && shouldBeVisible) this._numberOverlayBin.show()
+      // else
+      //    this._numberOverlayBin.hide()
+
+      if (!appIsRunning) {
+
+        this._notificationsCount = 0
+        this._numberOverlayLabel.set_text("0")
+        this._updateNumberOverlay()
+        this._numberOverlayBin.hide()
+      }
+
+      console.warn("visible = " + visible)
+      console.warn("shouldBeVisible = " + shouldBeVisible)
+      console.warn("this._notificationsCount = " + this._notificationsCount)
+      console.warn("_numberOverlayLabel = " + this._numberOverlayLabel.get_text())
     }
 
     _numberOverlay() {
