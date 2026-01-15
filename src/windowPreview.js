@@ -110,8 +110,8 @@ export const PreviewMenu = GObject.registerClass(
       this._timeoutsHandler = new Utils.TimeoutsHandler()
       this._signalsHandler = new Utils.GlobalSignalsHandler()
 
-      Main.layoutManager.addChrome(this, { affectsInputRegion: false })
-      Main.layoutManager.trackChrome(this.menu, { affectsInputRegion: true })
+      Main.layoutManager.addChrome(this)
+      Main.layoutManager.trackChrome(this.menu)
 
       this._resetHiddenState()
       this._refreshGlobals()
