@@ -309,9 +309,16 @@ export const PanelManager = class {
         configurable: true,
         set() {},
       })
+
+      this._shutdownId = global.connect('shutdown', () => {
+        this.allPanels.forEach(p => {
+          this._removePanelBarriers(p);
+        });
+      });
   }
 
   disable(reset) {
+    global.disconnect(this._shutdownId);
     this.primaryPanel && this.overview.disable()
     this.proximityManager.destroy()
 
