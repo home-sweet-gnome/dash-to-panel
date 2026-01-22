@@ -2144,6 +2144,22 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
     )
 
     this.setShowAppsPadding()
+    this._updateIconColor()
+
+    this._panelStyleChangedId = dtpPanel.panel.connect('style-changed', () =>
+      this._updateIconColor(),
+    )
+  }
+
+  _updateIconColor() {
+    if (!this.realShowAppsIcon._dtpPanel.dynamicTransparency) return
+
+    let isBright = this.realShowAppsIcon._dtpPanel._getBackgroundBrightness()
+    if (isBright) {
+      this.actor.add_style_class_name('bright-panel')
+    } else {
+      this.actor.remove_style_class_name('bright-panel')
+    }
   }
 
   _onButtonPress(_actor, event) {
@@ -2241,6 +2257,12 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
     SETTINGS.disconnect(this._changedShowAppsIconId)
     SETTINGS.disconnect(this._changedAppIconSidePaddingId)
     SETTINGS.disconnect(this._changedAppIconPaddingId)
+
+    if (this._panelStyleChangedId) {
+      this.realShowAppsIcon._dtpPanel.panel.disconnect(
+        this._panelStyleChangedId,
+      )
+    }
 
     this.realShowAppsIcon.destroy()
   }
