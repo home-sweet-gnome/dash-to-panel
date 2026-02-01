@@ -1,0 +1,3261 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2026-02-01 10:55+0100\n"
+"PO-Revision-Date: 2026-02-01 10:55+0100\n"
+"Last-Translator: Adam Lewicki <a.lewicki95@gmail.com>\n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 "
+"|| n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-Basepath: dash-to-panel-master\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:75
+msgid "Panel position (Deprecated)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:76
+msgid "Panel is shown on the Bottom or Top of the screen."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:80
+msgid "Sync element positions"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:81
+msgid "Sync panel element positions on all monitors."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:85
+msgid "Panel positions"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:86
+msgid "Panel positions (JSON)."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:90
+msgid "Panel element positions"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:91
+msgid "Panel element positions (JSON)."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:95
+msgid ""
+"Percentages of screen edge for panel to span, -1 for dynamic length (dock "
+"mode)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:96
+msgid "Length of the panels, in percent (JSON)."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:100
+msgid "Positions along screen edge"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:101
+msgid ""
+"Where to show the panels if it is not the full length of the screen edge "
+"(JSON)."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:105
+msgid "Panel sizes"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:106
+msgid "Sizes of panels, in pixels."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:110
+msgid "Panel size (Deprecated)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:111
+msgid "Set the size of the panel."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:115
+#: ui/BoxShowDesktopOptions.ui:53
+msgid "Override Show Desktop line color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:116
+msgid "Replace current Show Desktop button line color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:120
+msgid "Custom Show Desktop line color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:121
+msgid "Custom Show Desktop button line color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:125
+msgid "Dot position"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:126
+msgid "Running indicators are shown on the Bottom or Top of the screen."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:130
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:131
+msgid "Style of Appicons"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:135
+msgid "Style of the running indicator (focused)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:136
+msgid ""
+"Style of the running indicator for the icon for the currently focused "
+"application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:140
+msgid "Style of the running indicator (unfocused)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:141
+msgid ""
+"Style of the running indicator for the icon for applications which are not "
+"currently focused"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:145
+msgid "Running indicator dominant color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:146
+msgid "Whether to use the app icon's dominant color for .app-well-running-dot"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:150
+msgid "Running indicator color override"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:151
+msgid ""
+"Whether to override the theme background color for .app-well-running-dot"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:155
+msgid "Color of running indicator (1 window)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:156
+msgid ""
+"Customize the color of the running indicator when one window is running for "
+"that application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:160
+msgid "Color of running indicator (2 windows)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:161
+msgid ""
+"Customize the color of the running indicator when two windows are running "
+"for that application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:165
+msgid "Color of running indicator (3 windows)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:166
+msgid ""
+"Customize the color of the running indicator when three windows are running "
+"for that application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:170
+msgid "Color of running indicator (4+ windows)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:171
+msgid ""
+"Customize the color of the running indicator when four or more windows are "
+"running for that application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:175
+msgid "Unfocused color is different than focused"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:176
+msgid ""
+"Whether to apply a 2nd color scheme to the indicator when the app is not "
+"focused"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:180
+msgid "Color of unfocused running indicator (1 window)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:181
+msgid ""
+"Customize the color of the unfocused running indicator when one window is "
+"running for that application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:185
+msgid "Color of unfocused running indicator (2 windows)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:186
+msgid ""
+"Customize the color of the unfocused running indicator when two windows are "
+"running for that application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:190
+msgid "Color of unfocused running indicator (3 windows)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:191
+msgid ""
+"Customize the color of the unfocused running indicator when three windows "
+"are running for that application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:195
+msgid "Color of unfocused running indicator (4+ windows)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:196
+msgid ""
+"Customize the color of the unfocused running indicator when four or more "
+"windows are running for that application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:200
+msgid "Running indicator height"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:201
+msgid "Height of the running indicator line/diameter of window indicator dots"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:205
+msgid "Highlight icon of focused application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:206
+msgid ""
+"Whether to highlight the background of the currently focused application's "
+"icon"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:210
+msgid "Highlight icon dominant color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:211
+msgid "Base the active window highlight color on that application's icon"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:215
+msgid "Color of highlight of focused application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:216
+msgid "Customize the color of the highlight of the focused application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:220
+msgid "Opacity of highlight of focused application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:221
+msgid "Customize the opacity of the highlight of the focused application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:225
+msgid "Keep dash"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:226
+msgid "Whether to keep the stock gnome-shell dash while in overview"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:230
+msgid "Keep top panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:231
+msgid "Whether to keep the stock gnome-shell top panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:235
+msgid "Panel menu buttons require click"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:236
+msgid "Whether to activate the panel menu buttons on hover or on click"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:240
+msgid "Force hot corner"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:241
+msgid "Wheter to force having an Activities hot corner on the primary monitor"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:245
+msgid "Lock the taskbar"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:246
+msgid "Specifies if the user can modify the taskbar"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:250
+msgid "Panel top and bottom margins"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:254
+msgid "Panel side margins"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:258
+msgid "Panel top and bottom padding"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:262
+msgid "Panel sides padding"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:266
+msgid "Override theme background color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:267
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:277
+msgid "Replace current theme background color for the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:271
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:276
+msgid "Custom background color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:272
+msgid "Custom background color for the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:281
+msgid "Dynamic opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:282
+msgid "Enable dynamic opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:286
+msgid "Panel opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:287
+msgid "Custom opacity for the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:291
+msgid "Dynamic opacity behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:292
+msgid "Dictates which window type affects the panel opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:296
+msgid "Distance to change opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:297
+msgid "The distance a window needs to be from the panel to change opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:301
+msgid "Modified panel opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:302
+msgid "Modified opacity for the panel when a window is near"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:306
+msgid "Opacity change duration"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:307
+msgid "The duration of the animation when the opacity changes"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:311
+msgid "Custom gradient"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:312
+msgid "Replace current theme gradient for the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:316
+msgid "Custom gradient top color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:317
+msgid "Custom gradient top color for the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:321
+msgid "Custom gradient top opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:322
+msgid "Custom gradient top opacity for the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:326
+msgid "Custom gradient bottom color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:327
+msgid "Custom gradient bottom color for the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:331
+msgid "Custom gradient bottom opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:332
+msgid "Custom gradient bottom opacity for the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:336
+msgid "Display border"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:337
+msgid "Display a border between panel and the rest of the desktop"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:341
+msgid "Width of panel border"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:342
+msgid "Customize the width of the panel border"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:346
+msgid "Override panel border color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:347
+msgid "Replace current panel border color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:351
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:352
+msgid "Custom panel border color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:356
+msgid "Intellihide"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:357
+msgid "Whether to intelligently hide the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:361
+msgid "Only hide from overlapping windows"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:362
+msgid "Dictates if the dash should only hide when in conflict with windows"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:366
+msgid "Only hide from windows on monitor"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:370
+msgid "Intellihide behaviour"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:371
+msgid "Dictates how to intelligently hide the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:375
+msgid "Intellihide mouse pointer"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:376
+msgid "The mouse pointer next to the edge of the screen reveals the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:380
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:388
+#: ui/BoxIntellihideOptions.ui:126 ui/BoxIntellihideOptions.ui:153
+msgid "Limit to panel length"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:384
+msgid "Panel stays revealed when hovered"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:392
+msgid "Intellihide pressure"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:393
+msgid ""
+"To reveal the panel, pressure needs to be applied to the edge of the screen"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:397
+msgid "Intellihide pressure threshold"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:398
+msgid "The pressure needed to reveal the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:402
+msgid "Intellihide pressure time"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:403
+msgid ""
+"The numer of milliseconds that the pressure needs to be applied to reveal "
+"the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:407
+msgid "Allow revealing the panel while in fullscreen"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:408
+msgid ""
+"Allow the panel to be revealed while an application is in fullscreen mode"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:412
+msgid "Reveal the panel on notification"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:416
+msgid "Intellihide only secondary"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:417
+msgid "Whether to only hide secondary panels"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:421
+msgid "Intellihide animation time"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:422
+msgid "The animation time (ms) to hide and reveal the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:426
+msgid "Intellihide close delay"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:427
+msgid "The delay (ms) before hiding the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:431
+msgid "Intellihide reveal delay"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:432
+msgid "The delay (ms) before revealing the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:436
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:441
+msgid "Keybinding toggle intellihide"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:437
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:442
+msgid "Keybinding to reveal the panel while in intellihide mode"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:446
+msgid "Persisted intellihide hold status. -1 means the option is disabled"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:450
+msgid "Intellihide enable start delay"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:451
+msgid "The delay before enabling intellihide on start"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:455
+msgid "Custom Show Applications icon"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:456
+msgid "Customize the Show Applications icon"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:460
+msgid "Show Applications icon side padding"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:461
+msgid "Customize the Show Applications icon side padding"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:465
+msgid "Override escape key"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:466
+msgid ""
+"Override the escape key to return to the desktop when entering the overview "
+"using the Show Applications button"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:470
+msgid "Show Apps button context menu commands"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:471
+msgid "Commands to add to the Show Apps button right click menu"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:475
+msgid "Show Apps button context menu titles"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:476
+msgid "Titles for commands added to Show Apps button right click menu"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:480
+msgid "Panel context menu commands"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:481
+msgid "Commands to add to the panel right click menu"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:485
+msgid "Panel context menu titles"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:486
+msgid "Titles for commands added to panel right click menu"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:490
+msgid "Show activities button"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:491
+msgid "Show activities button on the left hand side of the taskbar"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:495
+msgid "Width of show Desktop button"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:496
+msgid "Customize the width of the show Desktop button"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:500
+msgid "Show desktop on hover"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:501
+msgid "Show the desktop on mouse hover"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:505
+msgid "Delay show desktop"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:506
+msgid "Delay before showing the desktop"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:510
+msgid "Show desktop animation time"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:511
+msgid "Window fade animation time when showing the destop"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:515
+msgid "Show window preview"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:516
+msgid "Show preview of running window on hover of app icon"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:520
+msgid "Show tooltip"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:521
+msgid "Show tooltip on hover of app icon"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:525
+msgid "Show running apps"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:526
+msgid "Show or hide running application icons in the dash"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:530
+msgid "Show favorites apps"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:531
+msgid "Show or hide favorite application icons in the dash"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:535
+msgid "Icon enter display time"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:536
+msgid ""
+"Amount of time after entering icon to wait before displaying window preview "
+"if icon is not clicked or mouse has not left."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:540
+msgid "Enable peek mode"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:541
+msgid "Peek a window upon hover for some time"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:545
+msgid "Display title in preview"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:546
+msgid "Display window title in preview"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:550
+msgid "Window previews manual styling"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:551
+msgid "This defines if the default window previews styling should be applied"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:555
+msgid "Title position"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:556
+msgid "Position of the window title, close button and icon in preview."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:560
+msgid "Window previews title font color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:561
+msgid "This defines the window preview titles font color."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:565
+msgid "Window previews title font size"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:566
+msgid "This defines the window preview titles font size."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:570
+msgid "Window previews use custom icon size"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:571
+msgid "Window previews use custom application icon size."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:575
+msgid "Window previews custom icon size"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:576
+msgid "Window previews custom application icon size."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:580
+msgid "Window previews animation time"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:581
+msgid "This defines the window previews animation time."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:585
+msgid "Font weight of window preview titles"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:586
+msgid ""
+"This defines the font weight of window preview titles. Supported values: "
+"inherit (from theme), normal, lighter, bold and bolder."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:590
+msgid "Window previews size"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:591
+msgid "Preferred window previews size"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:595
+msgid "Fixed aspect ratio X"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:596
+msgid "This defines if the window previews use a fixed aspect ratio X."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:600
+msgid "Fixed aspect ratio Y"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:601
+msgid "This defines if the window previews use a fixed aspect ratio Y."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:605
+msgid "Window previews padding"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:606
+msgid "The padding of the window previews"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:610
+msgid "Aspect ratio X"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:611
+msgid "The window previews respected aspect ratio X."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:615
+msgid "Aspect ratio Y"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:616
+msgid "The window previews respected aspect ratio Y."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:620
+msgid "Immediate hide on icon click"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:621
+msgid ""
+"The window previews immediately hide when an application icon is clicked."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:625
+msgid "Provide workspace isolation"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:626
+msgid "Dash shows only windows from the current workspace"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:630
+msgid "Close overview by clicking in empty space"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:631
+msgid "Close overview or app grid by clicking in empty space"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:635
+msgid "Hide overview on startup"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:636
+msgid ""
+"Hide overview on startup, which would be shown by default at gnome startup."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:640
+msgid "Group applications"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:641
+msgid "Dash groups the application instances under the same icon"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:645
+msgid "Application title font size"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:646
+msgid ""
+"When the applications are ungrouped, this defines the application titles "
+"font size."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:650
+#: ui/BoxGroupAppsOptions.ui:47
+msgid "Font weight of application titles"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:651
+msgid ""
+"When the applications are ungrouped, this defines font weight of application "
+"titles. Supported values: inherit (from theme), normal, lighter, bold and "
+"bolder."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:655
+msgid "Application title font color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:656
+msgid ""
+"When the applications are ungrouped, this defines the application titles "
+"font color."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:660
+msgid "Minimized application title font color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:661
+msgid ""
+"When the applications are ungrouped, this defines the titles font color for "
+"minimized applications."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:665
+msgid "Application title max width"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:666
+msgid ""
+"When the applications are ungrouped, this defines the application titles "
+"maximum width."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:670
+#: ui/BoxGroupAppsOptions.ui:111
+msgid "Use a fixed width for the application titles"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:671
+#: ui/BoxGroupAppsOptions.ui:112
+msgid ""
+"The application titles all have the same width, even if their texts are "
+"shorter than the maximum width. The maximum width value is used as the fixed "
+"width."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:675
+#: ui/BoxGroupAppsOptions.ui:129
+msgid "Display running indicators on unfocused applications"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:676
+msgid ""
+"When the applications are ungrouped, this defines if running applications "
+"should display an indicator."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:680
+msgid "Use favorite icons as application launchers"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:681
+msgid ""
+"When the applications are ungrouped, this defines if running applications "
+"stay separate from the favorite icons."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:685
+msgid "Primary monitor index"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:686
+msgid "Specifies the id of the primary monitor."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:690
+#: ui/SettingsPosition.ui:35
+msgid "Display panels on all monitors"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:691
+msgid "Specifies if a panel is shown on every monitors"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:695
+msgid "Provide monitor isolation"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:696
+msgid "Dash shows only windows from the current monitor"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:700
+msgid "Isolate monitors even with a single panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:704
+msgid "Display the favorites on all monitors"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:705
+msgid ""
+"Specifies if every panel should display the favorite applications. If false, "
+"the favorite appplications are only displayed on the primary monitor."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:709
+msgid "Customize click behaviour"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:710
+msgid "Customize action on various mouse events"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:714
+msgid "Minimize on shift+click"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:718
+msgid "Activate only one window"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:722
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:732
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:737
+msgid "Action when clicking on a running app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:723
+msgid ""
+"Set the action that is executed when clicking on the icon of a running "
+"application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:727
+msgid "Action when shift+clicking on a running app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:728
+msgid ""
+"Set the action that is executed when shift+clicking on the icon of a running "
+"application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:733
+msgid ""
+"Set the action that is executed when middle-clicking on the icon of a "
+"running application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:738
+msgid ""
+"Set the action that is executed when shift+middle-clicking on the icon of a "
+"running application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:742
+msgid "Action when scrolling over the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:743
+msgid "Set the action that is executed when scrolling over the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:766
+msgid "User defined context menu entries"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:770
+msgid "Delay between panel mouse scroll events"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:771
+msgid "Set the minimum delay between panel mouse scroll events"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:775
+msgid ""
+"Show the workspace switch head-up when workspace is changed by scrolling on "
+"the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:779
+msgid "Action when scrolling over a running app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:780
+msgid ""
+"Set the action that is executed when scrolling over a running application"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:784
+msgid "Delay between icon mouse scroll events"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:785
+msgid "Set the minimum delay between icon mouse scroll events"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:789
+msgid "Icon leave preview timeout"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:790
+msgid ""
+"Amount of time to leave preview windows open when the mouse has left the "
+"application's icon."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:794
+msgid "Enter window peeking mode timeout"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:795
+msgid ""
+"Amount of time of inactivity to enter the window peeking mode when the mouse "
+"has entered a window preview."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:799
+#: ui/BoxWindowPreviewOptions.ui:466
+msgid "Window peeking mode opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:800
+#: ui/BoxWindowPreviewOptions.ui:467
+msgid ""
+"All windows except for the peeked one have their opacity set to the same "
+"value."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:804
+msgid "Middle click preview to close window"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:805
+msgid "Middle click on the window preview to close that window"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:809
+msgid "Window previews use custom opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:810
+msgid "Window previews background use a different opacity from the panel"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:814
+msgid "Window previews background opacity"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:815
+msgid "Window previews use this custom background opacity."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:819
+msgid "Tray font size"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:820
+msgid "Set the size of the tray font. (0 for default)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:824
+msgid "Leftbox font size"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:825
+msgid "Set the size of the leftBox font. (0 for default)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:829
+msgid "Border radius of panel elements"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:833
+msgid "App icon margin"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:834
+msgid "Set the margin for application icons in the embedded dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:838
+msgid "App icon padding"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:839
+msgid "Set the padding for application icons in the embedded dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:843
+msgid "Tray item padding"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:844
+msgid "Set the size of the tray padding. (-1 for default)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:848
+msgid "Leftbox item padding"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:849
+msgid "Set the size of the leftBox padding. (-1 for default)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:853
+msgid "Status icon padding"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:854
+msgid ""
+"Set the size of the aggregate (status) menu icon padding. (-1 for default)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:858
+msgid "Animate running indicator when open/closing/switching applications"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:862
+msgid "Animate when new window launched"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:866
+msgid "Animate app icon on hover"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:870
+msgid "App icon hover animation type"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:874
+msgid ""
+"App icon hover animation curve convexity (1 is linear, more is convex, less "
+"is concave)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:878
+msgid "App icon hover animation duration in milliseconds"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:882
+msgid "App icon hover animation extent (maximum number of animated icons)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:886
+msgid "App icon hover animation rotation in degrees"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:890
+msgid ""
+"App icon hover animation travel translation in relation to the app icon size"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:894
+msgid "App icon hover animation zoom scale in relation to the app icon size"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:898
+msgid "Highlight app icon on hover"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:902
+msgid "Highlight color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:906
+msgid "Mouse down highlight color"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:910
+msgid "Highlight border radius"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:914
+msgid "Integrate items from the gnome appmenu into the right click menu"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:918
+msgid "Display App Details to open Gnome Software from right click menu"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:922
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:927
+msgid "Keybinding to show the dock and the number overlay."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:923
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:928
+msgid "Behavior depends on hotkeys-show-dock and hotkeys-overlay."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:932
+msgid ""
+"Timeout to hide the panel after showing the overlay using the shortcut, in "
+"seconds"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:936
+msgid "Timeout to hide the dock, in seconds"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:937
+msgid "Sets the time duration before the dock is hidden again."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:941
+msgid "Transitivity of the number overlay"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:942
+msgid "You can choose between NEVER, TEMPORARILY and ALWAYS."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:946
+msgid "Super Hot-Keys"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:947
+msgid "Launch and switch between dash items using Super+(0-9)"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:951
+msgid "Prefix to use for hotkeys"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:952
+msgid "You can choose between Super or SuperAlt as the prefix for hotkeys."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:956
+msgid "Show overlay on secondary monitors"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:960
+msgid "Show window previews"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:961
+msgid ""
+"When multiple instances of the application are available, show their window "
+"previews"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:965
+msgid "Hotkeys number keys"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:966
+msgid "Which number keys are used for the hotkeys"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:970
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1180
+msgid "Keybinding to launch 1st dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:971
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1181
+msgid "Keybinding to launch 1st app."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:977
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1187
+msgid "Keybinding to launch 2nd dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:978
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1188
+msgid "Keybinding to launch 2nd app."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:984
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1194
+msgid "Keybinding to launch 3rd dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:985
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1195
+msgid "Keybinding to launch 3rd app."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:991
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1201
+msgid "Keybinding to launch 4th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:992
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1202
+msgid "Keybinding to launch 4th app."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:998
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1208
+msgid "Keybinding to launch 5th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:999
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1209
+msgid "Keybinding to launch 5th app."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1005
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1215
+msgid "Keybinding to launch 6th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1006
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1216
+msgid "Keybinding to launch 6th app."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1012
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1222
+msgid "Keybinding to launch 7th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1013
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1223
+msgid "Keybinding to launch 7th app."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1019
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1229
+msgid "Keybinding to launch 8th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1020
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1230
+msgid "Keybinding to launch 8th app."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1026
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1236
+msgid "Keybinding to launch 9th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1027
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1237
+msgid "Keybinding to launch 9th app."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1033
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1243
+msgid "Keybinding to launch 10th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1034
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1244
+msgid "Keybinding to launch 10th app."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1040
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1250
+msgid "Keybinding to trigger 1st dash app with shift behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1041
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1251
+msgid "Keybinding to trigger 1st app with shift behavior."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1047
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1257
+msgid "Keybinding to trigger 2nd dash app with shift behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1048
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1258
+msgid "Keybinding to trigger 2nd app with shift behavior."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1054
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1264
+msgid "Keybinding to trigger 3rd dash app with shift behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1055
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1265
+msgid "Keybinding to trigger 3rd app with shift behavior."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1061
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1271
+msgid "Keybinding to trigger 4th dash app with shift behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1062
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1272
+msgid "Keybinding to trigger 4th app with shift behavior."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1068
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1278
+msgid "Keybinding to trigger 5th dash app with shift behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1069
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1279
+msgid "Keybinding to trigger 5th app with shift behavior."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1075
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1285
+msgid "Keybinding to trigger 6th dash app with shift behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1076
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1286
+msgid "Keybinding to trigger 6th app with shift behavior."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1082
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1292
+msgid "Keybinding to trigger 7th dash app with shift behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1083
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1293
+msgid "Keybinding to trigger 7th app with shift behavior."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1089
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1299
+msgid "Keybinding to trigger 8th dash app with shift behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1090
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1300
+msgid "Keybinding to trigger 8th app with shift behavior."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1096
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1306
+msgid "Keybinding to trigger 9th dash app with shift behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1097
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1307
+msgid "Keybinding to trigger 9th app with shift behavior."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1103
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1313
+msgid "Keybinding to trigger 10th dash app with shift behavior"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1104
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1314
+msgid "Keybinding to trigger 10th app with shift behavior."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1110
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1320
+msgid "Keybinding to trigger 1st dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1111
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1321
+msgid "Keybinding to either show or launch the 1st application in the dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1117
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1327
+msgid "Keybinding to trigger 2nd dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1118
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1328
+msgid "Keybinding to either show or launch the 2nd application in the dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1124
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1334
+msgid "Keybinding to trigger 3rd dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1125
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1335
+msgid "Keybinding to either show or launch the 3rd application in the dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1131
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1341
+msgid "Keybinding to trigger 4th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1132
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1342
+msgid "Keybinding to either show or launch the 4th application in the dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1138
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1348
+msgid "Keybinding to trigger 5th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1139
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1349
+msgid "Keybinding to either show or launch the 5th application in the dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1145
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1355
+msgid "Keybinding to trigger 6th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1146
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1356
+msgid "Keybinding to either show or launch the 6th application in the dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1152
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1362
+msgid "Keybinding to trigger 7th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1153
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1363
+msgid "Keybinding to either show or launch the 7th application in the dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1159
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1369
+msgid "Keybinding to trigger 8th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1160
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1370
+msgid "Keybinding to either show or launch the 8th application in the dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1166
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1376
+msgid "Keybinding to trigger 9th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1167
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1377
+msgid "Keybinding to either show or launch the 9th application in the dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1173
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1383
+msgid "Keybinding to trigger 10th dash app"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1174
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1384
+msgid "Keybinding to either show or launch the 10th application in the dash."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1390
+msgid "Show progress bar on app icon"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1391
+msgid ""
+"Whether to show progress bar overlay on app icon, for supported applications."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1395
+msgid "Show badge count on app icon"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1396
+msgid ""
+"Whether to show badge count overlay on app icon, for supported applications."
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1400
+msgid "The preferences page name to display"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1404
+msgid "Track if the preferences window is opened"
+msgstr ""
+
+#: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:1408
+msgid "Installed extension version"
+msgstr ""
+
+#: src/appIcons.js:1929 src/appIcons.js:1940 ui/BoxMiddleClickOptions.ui:33
+#: ui/BoxMiddleClickOptions.ui:62 ui/BoxMiddleClickOptions.ui:91
+msgid "Quit"
+msgstr ""
+
+#: src/appIcons.js:1946
+#, javascript-format
+msgid "Quit %d Window"
+msgid_plural "Quit %d Windows"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/appIcons.js:2268
+msgid "Power options"
+msgstr ""
+
+#: src/appIcons.js:2273
+msgid "Event logs"
+msgstr ""
+
+#: src/appIcons.js:2278
+msgid "System"
+msgstr ""
+
+#: src/appIcons.js:2283
+msgid "Device Management"
+msgstr ""
+
+#: src/appIcons.js:2288
+msgid "Disk Management"
+msgstr ""
+
+#: src/appIcons.js:2319
+msgid "Unlock taskbar"
+msgstr ""
+
+#: src/appIcons.js:2320
+msgid "Lock taskbar"
+msgstr ""
+
+#: src/appIcons.js:2330
+msgid "Gnome Settings"
+msgstr ""
+
+#: src/appIcons.js:2334
+msgid "Dash to Panel Settings"
+msgstr ""
+
+#: src/appIcons.js:2341
+msgid "Restore Windows"
+msgstr ""
+
+#: src/appIcons.js:2342
+msgid "Show Desktop"
+msgstr ""
+
+#: src/extension.js:91
+msgid "Dash to Panel has been updated!"
+msgstr ""
+
+#: src/extension.js:92
+msgid "You are now running version"
+msgstr ""
+
+#: src/extension.js:98
+msgid "See what's new"
+msgstr ""
+
+#: src/panel.js:228
+msgid "Top Bar"
+msgstr ""
+
+#: src/prefs.js:265
+msgid "Show Desktop button height (px)"
+msgstr ""
+
+#: src/prefs.js:266
+msgid "Show Desktop button width (px)"
+msgstr ""
+
+#: src/prefs.js:338 ui/SettingsPosition.ui:133 ui/SettingsStyle.ui:218
+msgid "Left"
+msgstr ""
+
+#: src/prefs.js:339
+msgid "Center"
+msgstr ""
+
+#: src/prefs.js:340 ui/SettingsPosition.ui:142 ui/SettingsStyle.ui:226
+msgid "Right"
+msgstr ""
+
+#: src/prefs.js:342 ui/BoxWindowPreviewOptions.ui:334
+#: ui/SettingsPosition.ui:124 ui/SettingsStyle.ui:210
+msgid "Top"
+msgstr ""
+
+#: src/prefs.js:343 src/prefs.js:348 ui/SettingsPosition.ui:198
+msgid "Middle"
+msgstr ""
+
+#: src/prefs.js:344 ui/BoxWindowPreviewOptions.ui:325
+#: ui/SettingsPosition.ui:115 ui/SettingsStyle.ui:202
+msgid "Bottom"
+msgstr ""
+
+#: src/prefs.js:347 ui/SettingsPosition.ui:197
+msgid "Start"
+msgstr ""
+
+#: src/prefs.js:349 ui/SettingsPosition.ui:199
+msgid "End"
+msgstr ""
+
+#: src/prefs.js:474
+msgid "Show Applications button"
+msgstr ""
+
+#: src/prefs.js:475
+msgid "Activities button"
+msgstr ""
+
+#: src/prefs.js:476
+msgid "Taskbar"
+msgstr ""
+
+#: src/prefs.js:477
+msgid "Date menu"
+msgstr ""
+
+#: src/prefs.js:478
+msgid "System menu"
+msgstr ""
+
+#: src/prefs.js:479
+msgid "Left box"
+msgstr ""
+
+#: src/prefs.js:480
+msgid "Center box"
+msgstr ""
+
+#: src/prefs.js:481
+msgid "Right box"
+msgstr ""
+
+#: src/prefs.js:482
+msgid "Desktop button"
+msgstr ""
+
+#: src/prefs.js:492 src/prefs.js:3047
+msgid "Move up"
+msgstr ""
+
+#: src/prefs.js:494 src/prefs.js:3055
+msgid "Move down"
+msgstr ""
+
+#: src/prefs.js:500
+msgid "Visible"
+msgstr ""
+
+#: src/prefs.js:504
+msgid "Select element position"
+msgstr ""
+
+#: src/prefs.js:518
+msgid "Stacked to top"
+msgstr ""
+
+#: src/prefs.js:518
+msgid "Stacked to left"
+msgstr ""
+
+#: src/prefs.js:522
+msgid "Stacked to bottom"
+msgstr ""
+
+#: src/prefs.js:522
+msgid "Stacked to right"
+msgstr ""
+
+#: src/prefs.js:524
+msgid "Centered"
+msgstr ""
+
+#: src/prefs.js:525
+msgid "Monitor Center"
+msgstr ""
+
+#: src/prefs.js:552
+msgid "More options"
+msgstr ""
+
+#: src/prefs.js:587
+msgid "Reset to defaults"
+msgstr ""
+
+#: src/prefs.js:610
+msgid "Show Applications options"
+msgstr ""
+
+#: src/prefs.js:671
+msgid "Open icon"
+msgstr ""
+
+#: src/prefs.js:689
+msgid "Show Desktop options"
+msgstr ""
+
+#: src/prefs.js:781
+msgid "Primary monitor"
+msgstr ""
+
+#: src/prefs.js:782
+msgid "Monitor "
+msgstr ""
+
+#: src/prefs.js:911
+msgid "Running Indicator Options"
+msgstr ""
+
+#: src/prefs.js:1447
+msgid "Dynamic opacity options"
+msgstr ""
+
+#: src/prefs.js:1871
+msgid "Intellihide options"
+msgstr ""
+
+#: src/prefs.js:2111
+msgid "Window preview options"
+msgstr ""
+
+#: src/prefs.js:2591
+msgid "Isolate Workspaces options"
+msgstr ""
+
+#: src/prefs.js:2627
+msgid "Isolate monitors options"
+msgstr ""
+
+#: src/prefs.js:2726
+msgid "Ungrouped application options"
+msgstr ""
+
+#: src/prefs.js:2893
+msgid "Customize middle-click behavior"
+msgstr ""
+
+#: src/prefs.js:3022
+msgid "Text"
+msgstr ""
+
+#: src/prefs.js:3031
+msgid "Command"
+msgstr ""
+
+#: src/prefs.js:3063
+msgid "Remove"
+msgstr ""
+
+#: src/prefs.js:3091
+msgid "Customize panel scroll behavior"
+msgstr ""
+
+#: src/prefs.js:3137
+msgid "Customize icon scroll behavior"
+msgstr ""
+
+#: src/prefs.js:3261
+msgid "Advanced hotkeys options"
+msgstr ""
+
+#: src/prefs.js:3289
+msgid "Secondary Menu Options"
+msgstr ""
+
+#: src/prefs.js:3489
+#, javascript-format
+msgid "%d ms"
+msgstr ""
+
+#: src/prefs.js:3495
+#, javascript-format
+msgid "%d °"
+msgstr ""
+
+#: src/prefs.js:3501 src/prefs.js:3507
+#, javascript-format
+msgid "%d %%"
+msgstr ""
+
+#: src/prefs.js:3513
+#, javascript-format
+msgid "%.1f"
+msgstr ""
+
+#: src/prefs.js:3519
+#, javascript-format
+msgid "%d icon"
+msgid_plural "%d icons"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: src/prefs.js:3646
+msgid "App icon animation options"
+msgstr ""
+
+#: src/prefs.js:3769
+msgid "App icon highlight options"
+msgstr ""
+
+#: src/prefs.js:3858
+msgid "Export settings"
+msgstr ""
+
+#: src/prefs.js:3880
+msgid "Import settings"
+msgstr ""
+
+#: src/windowPreview.js:1155
+msgid "Move to current Workspace"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:62
+msgid "Animation type"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:67
+msgid "Simple"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:68
+msgid "Ripple"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:69
+msgid "Plank"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:84
+msgid "Duration"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:101
+msgid "Rotation"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:118
+msgid "Travel"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:135
+msgid "Zoom"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:152
+msgid "Convexity"
+msgstr ""
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:169
+msgid "Extent"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:37
+msgid "Highlight focused application"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:54
+msgid "Icon dominant color"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:65
+msgid "Custom color"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:76
+msgid "Highlight opacity"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:96
+msgid "Indicator size (px)"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:109
+msgid "Indicator color - Icon Dominant"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:126
+msgid "Indicator color - Override Theme"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:142 ui/BoxDotOptions.ui:215
+msgid "1 window open (or ungrouped)"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:146 ui/BoxDotOptions.ui:219
+msgid "Apply to all"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:159 ui/BoxDotOptions.ui:232
+msgid "2 windows open"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:170 ui/BoxDotOptions.ui:243
+msgid "3 windows open"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:181 ui/BoxDotOptions.ui:254
+msgid "4+ windows open"
+msgstr ""
+
+#: ui/BoxDotOptions.ui:198
+msgid "Use different for unfocused"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui:37
+msgid "The panel background opacity is affected by"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui:42 ui/BoxIntellihideOptions.ui:96
+msgid "All windows"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui:43 ui/BoxIntellihideOptions.ui:97
+msgid "Focused windows"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui:44 ui/BoxIntellihideOptions.ui:98
+msgid "Maximized windows"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui:53
+msgid "Change opacity when a window gets closer than (px)"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui:69
+msgid "Change opacity to (%)"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui:72 ui/BoxShowApplicationsOptions.ui:64
+#: ui/BoxWindowPreviewOptions.ui:472 ui/SettingsStyle.ui:388
+#: ui/SettingsStyle.ui:445 ui/SettingsStyle.ui:463
+msgid "0"
+msgstr ""
+
+#: ui/BoxDynamicOpacityOptions.ui:82
+msgid "Opacity change animation duration (ms)"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:32
+msgid "Font size (px) of the application titles (default is 14)"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:52 ui/BoxWindowPreviewOptions.ui:406
+msgid "inherit from theme"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:53 ui/BoxWindowPreviewOptions.ui:407
+msgid "normal"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:54 ui/BoxWindowPreviewOptions.ui:408
+msgid "lighter"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:55 ui/BoxWindowPreviewOptions.ui:409
+msgid "bold"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:56 ui/BoxWindowPreviewOptions.ui:410
+msgid "bolder"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:65
+msgid "Font color of the application titles"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:77
+msgid "Font color of the minimized application titles"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:95
+msgid "Maximum width (px) of the application titles"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:96
+msgid "(default is 160)"
+msgstr ""
+
+#: ui/BoxGroupAppsOptions.ui:140
+msgid "Use the favorite icons as application launchers"
+msgstr ""
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:26
+msgid "Highlight AppIcon color"
+msgstr ""
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:38
+msgid "Pressed AppIcon color"
+msgstr ""
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:50
+msgid "Highlight AppIcon border radius"
+msgstr ""
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:51
+msgid "Overrides global border radius (default is 0)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:53
+msgid "Only hide the panel from windows"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:64
+msgid "Overlapping"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:80
+msgid "On same monitor"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:91
+msgid "The panel hides from"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:110
+msgid "Touching the monitor's edge with the pointer reveals the panel"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:137
+msgid "Hovering the panel area keeps the panel revealed"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:164
+msgid "Require pressure at the edge of the monitor to reveal the panel"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:174
+msgid "Required pressure threshold (px)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:188
+msgid "Required pressure timeout (ms)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:206
+msgid "Allow the panel to be revealed while in fullscreen mode"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:216
+msgid "(requires multi-monitors option)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:217
+msgid "Only hide secondary panels"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:227 ui/BoxOverlayShortcut.ui:65
+msgid "Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:228
+msgid "Keyboard shortcut to reveal and hold the panel"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:231
+msgid "e.g. <Super>i"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:240
+msgid "Persist state across restarts"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:250
+msgid ""
+"(respects Gnome \"Do Not Disturb\" and requires show notification counter "
+"badge option)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:251
+msgid "Reveal and hold the panel on notification"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:265
+msgid "Hide and reveal animation duration (ms)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:279
+msgid "Delay before hiding the panel (ms)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:294
+msgid "Delay before revealing the panel (ms)"
+msgstr ""
+
+#: ui/BoxIntellihideOptions.ui:309
+msgid "Delay before enabling intellihide on start (ms)"
+msgstr ""
+
+#: ui/BoxIsolateMonitorsOptions.ui:21
+msgid "Isolate monitors even when using a single panel"
+msgstr ""
+
+#: ui/BoxIsolateWorkspacesOptions.ui:22
+msgid "Isolate workspaces in gnome-shell Application Switcher"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:19
+msgid "Shift+Click action"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:20
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:25 ui/BoxMiddleClickOptions.ui:54
+#: ui/BoxMiddleClickOptions.ui:83 ui/SettingsAction.ui:40
+msgid "Raise windows"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:26 ui/BoxMiddleClickOptions.ui:55
+#: ui/BoxMiddleClickOptions.ui:84
+msgid "Minimize window"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:27 ui/BoxMiddleClickOptions.ui:56
+#: ui/BoxMiddleClickOptions.ui:85 ui/SettingsAction.ui:41
+msgid "Launch new instance"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:28 ui/BoxMiddleClickOptions.ui:57
+#: ui/BoxMiddleClickOptions.ui:86 ui/SettingsAction.ui:35
+msgid "Cycle through windows"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:29 ui/BoxMiddleClickOptions.ui:58
+#: ui/BoxMiddleClickOptions.ui:87 ui/SettingsAction.ui:34
+msgid "Cycle windows + minimize"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:30 ui/BoxMiddleClickOptions.ui:59
+#: ui/BoxMiddleClickOptions.ui:88 ui/SettingsAction.ui:36
+msgid "Toggle single / Preview multiple"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:31 ui/BoxMiddleClickOptions.ui:60
+#: ui/BoxMiddleClickOptions.ui:89 ui/SettingsAction.ui:37
+msgid "Toggle single / Cycle multiple"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:32 ui/BoxMiddleClickOptions.ui:61
+#: ui/BoxMiddleClickOptions.ui:90 ui/SettingsAction.ui:38
+msgid "Toggle single / Spread multiple"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:48
+msgid "Middle-Click action"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:49
+msgid "Behavior for Middle-Click."
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:77
+msgid "Shift+Middle-Click action"
+msgstr ""
+
+#: ui/BoxMiddleClickOptions.ui:78
+msgid "Behavior for Shift+Middle-Click."
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:23
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:24
+msgid "Hotkeys prefix"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:29
+msgid "Super"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:30
+msgid "Super + Alt"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:38
+msgid ""
+"Temporarily show the application numbers over the icons when using the "
+"hotkeys."
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:39
+msgid "Number overlay"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:44
+msgid "Never"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:45
+msgid "Show temporarily"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:46
+msgid "Always visible"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:54
+msgid "Hide timeout (ms)"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:66
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:69
+msgid "e.g. <Super>q"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:78
+msgid ""
+"On secondary monitors, show the overlay on icons matching the primary monitor"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:79
+msgid "Show the overlay on all monitors"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:89
+msgid "Show previews when the application have multiple instances"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:90
+msgid "Show window previews on hotkey"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:100
+msgid "Select which keyboard number keys are used to activate the hotkeys"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:101
+msgid "Hotkeys are activated with"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:106
+msgid "Number row"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:107
+msgid "Numeric keypad"
+msgstr ""
+
+#: ui/BoxOverlayShortcut.ui:108
+msgid "Both"
+msgstr ""
+
+#: ui/BoxScrollIconOptions.ui:25 ui/BoxScrollPanelOptions.ui:25
+msgid "Delay between mouse scroll events (ms)"
+msgstr ""
+
+#: ui/BoxScrollIconOptions.ui:26 ui/BoxScrollPanelOptions.ui:26
+msgid "Use this value to limit the number of captured mouse scroll events."
+msgstr ""
+
+#: ui/BoxScrollPanelOptions.ui:42
+msgid "Show popup when changing workspace"
+msgstr ""
+
+#: ui/BoxScrollPanelOptions.ui:43
+msgid "This affects workspace popup when scrolling on the panel only."
+msgstr ""
+
+#: ui/BoxSecondaryMenuOptions.ui:19
+msgid "Integrate <i>AppMenu</i> items"
+msgstr ""
+
+#: ui/BoxSecondaryMenuOptions.ui:30
+msgid "<i>App Details</i> menu item"
+msgstr ""
+
+#: ui/BoxSecondaryMenuOptions.ui:31
+msgid "<i>App Details</i> is only available when Gnome Software is installed"
+msgstr ""
+
+#: ui/BoxShowApplicationsOptions.ui:25
+msgid "Show Applications icon"
+msgstr ""
+
+#: ui/BoxShowApplicationsOptions.ui:60
+msgid "Show Applications icon side padding (px)"
+msgstr ""
+
+#: ui/BoxShowApplicationsOptions.ui:73
+msgid "Override escape key and return to desktop"
+msgstr ""
+
+#: ui/BoxShowDesktopOptions.ui:77
+msgid "Reveal the desktop when hovering the Show Desktop button"
+msgstr ""
+
+#: ui/BoxShowDesktopOptions.ui:90
+msgid "Delay before revealing the desktop (ms)"
+msgstr ""
+
+#: ui/BoxShowDesktopOptions.ui:106
+msgid "Fade duration (ms)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:89
+msgid "Time (ms) before showing"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:90
+msgid "(400 is default)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:105
+msgid "Time (ms) before hiding"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:106
+msgid "(100 is default)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:117
+msgid "Immediate on application icon click"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:138
+msgid "Animation time (ms)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:159
+msgid "Middle click on the preview to close the window"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:176
+msgid "Window previews preferred size (px)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:192
+msgid "Window previews aspect ratio X (width)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:197 ui/BoxWindowPreviewOptions.ui:238
+#: ui/SettingsStyle.ui:508
+msgid "1"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:198 ui/BoxWindowPreviewOptions.ui:239
+msgid "2"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:199 ui/BoxWindowPreviewOptions.ui:240
+msgid "3"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:200 ui/BoxWindowPreviewOptions.ui:241
+msgid "4"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:201 ui/BoxWindowPreviewOptions.ui:242
+#: ui/BoxWindowPreviewOptions.ui:306
+msgid "5"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:202 ui/BoxWindowPreviewOptions.ui:243
+msgid "6"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:203 ui/BoxWindowPreviewOptions.ui:244
+msgid "7"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:204 ui/BoxWindowPreviewOptions.ui:245
+msgid "8"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:205 ui/BoxWindowPreviewOptions.ui:246
+msgid "9"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:206 ui/BoxWindowPreviewOptions.ui:247
+msgid "10"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:207 ui/BoxWindowPreviewOptions.ui:248
+msgid "11"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:208 ui/BoxWindowPreviewOptions.ui:249
+msgid "12"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:209 ui/BoxWindowPreviewOptions.ui:250
+msgid "13"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:210 ui/BoxWindowPreviewOptions.ui:251
+msgid "14"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:211 ui/BoxWindowPreviewOptions.ui:252
+msgid "15"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:212 ui/BoxWindowPreviewOptions.ui:253
+msgid "16"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:213 ui/BoxWindowPreviewOptions.ui:254
+msgid "17"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:214 ui/BoxWindowPreviewOptions.ui:255
+msgid "18"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:215 ui/BoxWindowPreviewOptions.ui:256
+msgid "19"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:216 ui/BoxWindowPreviewOptions.ui:257
+msgid "20"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:217 ui/BoxWindowPreviewOptions.ui:258
+msgid "21"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:223 ui/BoxWindowPreviewOptions.ui:264
+msgid "Fixed"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:233
+msgid "Window previews aspect ratio Y (height)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:274
+msgid "Window previews padding (px)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:296
+msgid "Use custom opacity for the previews background"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:297
+msgid ""
+"If disabled, the previews background have the same opacity as the panel."
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:322
+msgid "Close button and header position"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:352
+msgid "Display window preview headers"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:363
+msgid "Icon size (px) of the window preview"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:364
+msgid "If disabled, the previews icon size will be based on headerbar size"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:385
+msgid "Font size (px) of the preview titles"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:401
+msgid "Font weight of the preview titles"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:419
+msgid "Font color of the preview titles"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:437
+msgid "Enable window peeking"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:438
+msgid ""
+"When hovering over a window preview for some time, the window gets "
+"distinguished."
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:449
+msgid "Enter window peeking mode timeout (ms)"
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:450
+msgid ""
+"Time of inactivity while hovering over a window preview needed to enter the "
+"window peeking mode."
+msgstr ""
+
+#: ui/BoxWindowPreviewOptions.ui:455
+msgid "50"
+msgstr ""
+
+#: ui/SettingsAbout.ui:8
+msgid "About"
+msgstr ""
+
+#: ui/SettingsAbout.ui:11
+msgid "Info"
+msgstr ""
+
+#: ui/SettingsAbout.ui:14
+msgid "Version"
+msgstr ""
+
+#: ui/SettingsAbout.ui:22
+msgid "Source"
+msgstr ""
+
+#: ui/SettingsAbout.ui:26
+msgid "GitHub"
+msgstr ""
+
+#: ui/SettingsAbout.ui:37
+msgid "Export and Import"
+msgstr ""
+
+#: ui/SettingsAbout.ui:40
+msgid ""
+"Use the buttons below to create a settings file from your current "
+"preferences that can be imported on a different machine."
+msgstr ""
+
+#: ui/SettingsAbout.ui:41
+msgid "Export and import settings"
+msgstr ""
+
+#: ui/SettingsAbout.ui:56
+msgid "Export to file"
+msgstr ""
+
+#: ui/SettingsAbout.ui:62
+msgid "Import from file"
+msgstr ""
+
+#: ui/SettingsAbout.ui:77
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/"
+"gpl-2.0.html\">GNU General Public License, version 2 or later</a> for "
+"details.</span>"
+msgstr ""
+
+#: ui/SettingsAbout.ui:96
+msgid "Sponsored and originally developed by"
+msgstr ""
+
+#: ui/SettingsAction.ui:8
+msgid "Action"
+msgstr ""
+
+#: ui/SettingsAction.ui:11 ui/SettingsAction.ui:15
+msgid "Click action"
+msgstr ""
+
+#: ui/SettingsAction.ui:14
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr ""
+
+#: ui/SettingsAction.ui:39
+msgid "Toggle windows"
+msgstr ""
+
+#: ui/SettingsAction.ui:51
+msgid "Scroll action"
+msgstr ""
+
+#: ui/SettingsAction.ui:54
+msgid "Behavior when mouse scrolling over the panel."
+msgstr ""
+
+#: ui/SettingsAction.ui:55
+msgid "Scroll panel action"
+msgstr ""
+
+#: ui/SettingsAction.ui:79 ui/SettingsAction.ui:112
+msgid "Do nothing"
+msgstr ""
+
+#: ui/SettingsAction.ui:80
+msgid "Switch workspace"
+msgstr ""
+
+#: ui/SettingsAction.ui:81 ui/SettingsAction.ui:113
+msgid "Cycle windows"
+msgstr ""
+
+#: ui/SettingsAction.ui:82
+msgid "Change volume"
+msgstr ""
+
+#: ui/SettingsAction.ui:90
+msgid "Behavior when mouse scrolling over an application icon."
+msgstr ""
+
+#: ui/SettingsAction.ui:91
+msgid "Scroll icon action"
+msgstr ""
+
+#: ui/SettingsAction.ui:114
+msgid "Same as panel"
+msgstr ""
+
+#: ui/SettingsAction.ui:124
+msgid "Hotkey overlay"
+msgstr ""
+
+#: ui/SettingsAction.ui:127
+msgid ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
+"together with Shift and Ctrl."
+msgstr ""
+
+#: ui/SettingsAction.ui:128
+msgid "Use hotkeys to activate apps"
+msgstr ""
+
+#: ui/SettingsAction.ui:154
+msgid "Application icons context menu"
+msgstr ""
+
+#: ui/SettingsAction.ui:157
+msgid "(right-click menu)"
+msgstr ""
+
+#: ui/SettingsAction.ui:158
+msgid "Secondary menu"
+msgstr ""
+
+#: ui/SettingsAction.ui:179
+msgid "Panel context menu entries"
+msgstr ""
+
+#: ui/SettingsAction.ui:190
+msgid "Add entry"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:7
+msgid "Behavior"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:10
+msgid "Applications"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:13
+msgid "Show favorite applications"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:23
+msgid "Show favorite applications on secondary panels"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:33
+msgid "Show running applications"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:43
+msgid "Ungroup applications"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:67
+msgid "Show notification counter badge"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:81
+msgid "Hover"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:84
+msgid "Show window previews on hover"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:108
+msgid "Show tooltip on hover"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:120
+msgid "Isolate"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:123
+msgid "Isolate Workspaces"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:147
+msgid "Isolate monitors"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:173
+msgid "Overview"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:176
+msgid "Click empty space to close overview"
+msgstr ""
+
+#: ui/SettingsBehavior.ui:186
+msgid "Disable show overview on startup"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:38
+msgid "Fine-Tune"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:41
+msgid "Font size"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:44 ui/SettingsFineTune.ui:60
+msgid "(0 = theme default)"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:45
+msgid "Tray Font Size"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:61
+msgid "LeftBox Font Size"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:78
+msgid "Padding"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:81 ui/SettingsFineTune.ui:97
+#: ui/SettingsFineTune.ui:113
+msgid "(-1 = theme default)"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:82
+msgid "Tray Item Padding"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:98
+msgid "Status Icon Padding"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:114
+msgid "LeftBox Padding"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:131
+msgid "Animate"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:134
+msgid "Animate switching applications"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:144
+msgid "Animate launching new windows"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:156
+msgid "Gnome functionality"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:159
+msgid "(overview)"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:160
+msgid "Keep original gnome-shell dash"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:170
+msgid "Keep original gnome-shell top panel"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:180
+msgid "(e.g. date menu)"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:181
+msgid "Activate panel menu buttons on click only"
+msgstr ""
+
+#: ui/SettingsFineTune.ui:191
+msgid "Force Activities hot corner on primary monitor"
+msgstr ""
+
+#: ui/SettingsPosition.ui:19
+msgid "Position"
+msgstr ""
+
+#: ui/SettingsPosition.ui:22
+msgid "Panel"
+msgstr ""
+
+#: ui/SettingsPosition.ui:25
+msgid "Display the main panel on"
+msgstr ""
+
+#: ui/SettingsPosition.ui:49
+msgid "Hide and reveal the panel according to preferences"
+msgstr ""
+
+#: ui/SettingsPosition.ui:50
+msgid "Panel Intellihide"
+msgstr ""
+
+#: ui/SettingsPosition.ui:76
+msgid "Order and Position on monitors"
+msgstr ""
+
+#: ui/SettingsPosition.ui:79
+msgid "Monitor"
+msgstr ""
+
+#: ui/SettingsPosition.ui:90
+msgid "Apply changes to all monitors"
+msgstr ""
+
+#: ui/SettingsPosition.ui:111
+msgid "Panel monitor position"
+msgstr ""
+
+#: ui/SettingsPosition.ui:152
+msgid "(default is 48)"
+msgstr ""
+
+#: ui/SettingsPosition.ui:153
+msgid "Panel thickness"
+msgstr ""
+
+#: ui/SettingsPosition.ui:168
+msgid "(default is 100)"
+msgstr ""
+
+#: ui/SettingsPosition.ui:169
+msgid "Panel length"
+msgstr ""
+
+#: ui/SettingsPosition.ui:174
+msgid "Dynamic"
+msgstr ""
+
+#: ui/SettingsPosition.ui:192
+msgid "Anchor"
+msgstr ""
+
+#: ui/SettingsPosition.ui:211
+msgid "Taskbar Display"
+msgstr ""
+
+#: ui/SettingsStyle.ui:73
+msgid "Style"
+msgstr ""
+
+#: ui/SettingsStyle.ui:76
+msgid "Global style"
+msgstr ""
+
+#: ui/SettingsStyle.ui:79
+msgid "Border radius"
+msgstr ""
+
+#: ui/SettingsStyle.ui:96
+msgid "AppIcon style"
+msgstr ""
+
+#: ui/SettingsStyle.ui:99
+msgid "(default is 8)"
+msgstr ""
+
+#: ui/SettingsStyle.ui:100
+msgid "App Icon Margin"
+msgstr ""
+
+#: ui/SettingsStyle.ui:115
+msgid "(default is 4)"
+msgstr ""
+
+#: ui/SettingsStyle.ui:116
+msgid "App Icon Padding"
+msgstr ""
+
+#: ui/SettingsStyle.ui:131
+msgid "Animate hovering app icons"
+msgstr ""
+
+#: ui/SettingsStyle.ui:155
+msgid "Highlight hovering app icons"
+msgstr ""
+
+#: ui/SettingsStyle.ui:179
+msgid "Icon style"
+msgstr ""
+
+#: ui/SettingsStyle.ui:184
+msgid "Normal"
+msgstr ""
+
+#: ui/SettingsStyle.ui:185
+msgid "Symbolic"
+msgstr ""
+
+#: ui/SettingsStyle.ui:186
+msgid "Grayscale"
+msgstr ""
+
+#: ui/SettingsStyle.ui:196
+msgid "Running indicator"
+msgstr ""
+
+#: ui/SettingsStyle.ui:199
+msgid "Running indicator position"
+msgstr ""
+
+#: ui/SettingsStyle.ui:235
+msgid "Running indicator style (Focused app)"
+msgstr ""
+
+#: ui/SettingsStyle.ui:253 ui/SettingsStyle.ui:272
+msgid "Dots"
+msgstr ""
+
+#: ui/SettingsStyle.ui:254 ui/SettingsStyle.ui:273
+msgid "Squares"
+msgstr ""
+
+#: ui/SettingsStyle.ui:255 ui/SettingsStyle.ui:274
+msgid "Dashes"
+msgstr ""
+
+#: ui/SettingsStyle.ui:256 ui/SettingsStyle.ui:275
+msgid "Segmented"
+msgstr ""
+
+#: ui/SettingsStyle.ui:257 ui/SettingsStyle.ui:276
+msgid "Solid"
+msgstr ""
+
+#: ui/SettingsStyle.ui:258 ui/SettingsStyle.ui:277
+msgid "Ciliora"
+msgstr ""
+
+#: ui/SettingsStyle.ui:259 ui/SettingsStyle.ui:278
+msgid "Metro"
+msgstr ""
+
+#: ui/SettingsStyle.ui:267
+msgid "Running indicator style (Unfocused apps)"
+msgstr ""
+
+#: ui/SettingsStyle.ui:288
+msgid "Panel style"
+msgstr ""
+
+#: ui/SettingsStyle.ui:291 ui/SettingsStyle.ui:307 ui/SettingsStyle.ui:323
+#: ui/SettingsStyle.ui:339
+msgid "(default is 0)"
+msgstr ""
+
+#: ui/SettingsStyle.ui:292
+msgid "Side margins"
+msgstr ""
+
+#: ui/SettingsStyle.ui:308
+msgid "Top and bottom margins"
+msgstr ""
+
+#: ui/SettingsStyle.ui:324
+msgid "Side padding"
+msgstr ""
+
+#: ui/SettingsStyle.ui:340
+msgid "Top and bottom padding"
+msgstr ""
+
+#: ui/SettingsStyle.ui:359
+msgid "Override panel theme background color"
+msgstr ""
+
+#: ui/SettingsStyle.ui:374
+msgid "Override panel theme background opacity"
+msgstr ""
+
+#: ui/SettingsStyle.ui:384
+msgid "Panel background opacity (%)"
+msgstr ""
+
+#: ui/SettingsStyle.ui:396
+msgid "Change opacity when a window gets close to the panel"
+msgstr ""
+
+#: ui/SettingsStyle.ui:397
+msgid "Dynamic background opacity"
+msgstr ""
+
+#: ui/SettingsStyle.ui:425
+msgid "Override panel theme gradient"
+msgstr ""
+
+#: ui/SettingsStyle.ui:435
+msgid "Gradient top color and opacity (%)"
+msgstr ""
+
+#: ui/SettingsStyle.ui:453
+msgid "Gradient bottom color and opacity (%)"
+msgstr ""
+
+#: ui/SettingsStyle.ui:477
+msgid "Panel border"
+msgstr ""
+
+#: ui/SettingsStyle.ui:487
+msgid "Override border color"
+msgstr ""
+
+#: ui/SettingsStyle.ui:504
+msgid "Border thickness"
+msgstr ""
