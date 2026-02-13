@@ -207,7 +207,9 @@ export const Panel = GObject.registerClass(
 
       this.add_child(this.panel)
 
-      if (Main.panel._onButtonPress || Main.panel._tryDragWindow) {
+      if (Main.panel._onButtonPress || Main.panel._tryDragWindow || Main.panel._clickGesture) {
+        if (Main.panel._clickGesture) Main.panel._clickGesture.set_enabled(false)
+
         this._signalsHandler.add([
           this.panel,
           ['button-press-event', 'touch-event'],
