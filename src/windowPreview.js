@@ -28,6 +28,7 @@ import * as Taskbar from './taskbar.js'
 import * as Utils from './utils.js'
 import { SETTINGS, DESKTOPSETTINGS } from './extension.js'
 import { gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js'
+import * as Config from 'resource:///org/gnome/shell/misc/config.js'
 
 //timeout intervals
 const ENSURE_VISIBLE_MS = 200
@@ -110,8 +111,16 @@ export const PreviewMenu = GObject.registerClass(
       this._timeoutsHandler = new Utils.TimeoutsHandler()
       this._signalsHandler = new Utils.GlobalSignalsHandler()
 
-      Main.layoutManager.addChrome(this, { affectsInputRegion: false })
-      Main.layoutManager.trackChrome(this.menu, { affectsInputRegion: true })
+      let addOptions = {}
+      if (Config.PACKAGE_VERSION < '50') {
+        addOptions.affectsInputRegion = false
+      }
+      Main.layoutManager.addChrome(this, addOptions)
+      let trackOptions = {}
+      if (Config.PACKAGE_VERSION < '50') {
+        trackOptions.affectsInputRegion = true
+      }
+      Main.layoutManager.trackChrome(this.menu, trackOptions)
 
       this._resetHiddenState()
       this._refreshGlobals()

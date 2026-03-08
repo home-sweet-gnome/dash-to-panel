@@ -55,6 +55,7 @@ import {
   SecondaryMonitorDisplay,
   WorkspacesView,
 } from 'resource:///org/gnome/shell/ui/workspacesView.js'
+import * as Config from 'resource:///org/gnome/shell/misc/config.js'
 
 export const PanelManager = class {
   constructor() {
@@ -670,7 +671,11 @@ export const PanelManager = class {
       Main.layoutManager.removeChrome(panelBox)
     }
 
-    Main.layoutManager.addChrome(clipContainer, { affectsInputRegion: false })
+    let chromeOptions = {}
+    if (Config.PACKAGE_VERSION < '50') {
+      chromeOptions.affectsInputRegion = false
+    }
+    Main.layoutManager.addChrome(clipContainer, chromeOptions)
     clipContainer.add_child(panelBox)
 
     panel = new Panel.Panel(
@@ -687,10 +692,13 @@ export const PanelManager = class {
     panelBox.set_position(0, 0)
     panelBox.set_width(-1)
 
-    Main.layoutManager.trackChrome(panel, {
-      affectsInputRegion: true,
+    let trackOptions = {
       affectsStruts: false,
-    })
+    }
+    if (Config.PACKAGE_VERSION < '50') {
+      trackOptions.affectsInputRegion = true
+    }
+    Main.layoutManager.trackChrome(panel, trackOptions)
 
     Main.layoutManager.trackChrome(panelBox, {
       trackFullscreen: true,

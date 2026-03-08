@@ -98,8 +98,10 @@ export const Overview = class {
     let height = visible ? -1 : LABEL_MARGIN * Utils.getScaleFactor()
     let overviewControls = Main.overview._overview._controls
 
-    overviewControls.dash[visibilityFunc]()
-    overviewControls.dash.set_height(height)
+    if (overviewControls && overviewControls.dash) {
+      overviewControls.dash[visibilityFunc]()
+      overviewControls.dash.set_height(height)
+    }
   }
 
   _adaptAlloc() {
