@@ -1068,7 +1068,15 @@ export const Preview = GObject.registerClass(
         this._waitWindowId = 0
       }
 
-      this._removeWindowSignals()
+      if (this._menuStateChangedId && this._contextMenu) {
+        this._contextMenu.disconnect(this._menuStateChangedId)
+        this._menuStateChangedId = 0
+        this._contextMenu = null
+      }
+
+      if (this.window) {
+        this._removeWindowSignals()
+      }
     }
 
     _onHoverChanged() {
@@ -1142,7 +1150,8 @@ export const Preview = GObject.registerClass(
 
       let menu = Main.wm._windowMenuManager._manager._menus[0]
 
-      menu.connect('open-state-changed', (menu, opened) => {
+      this._contextMenu = menu
+      this._menuStateChangedId = menu.connect('open-state-changed', (menu, opened) => {
         if (!opened) {
           delete this._previewMenu.hasGrab
 
