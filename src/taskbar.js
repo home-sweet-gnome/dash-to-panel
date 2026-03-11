@@ -263,18 +263,21 @@ export const Taskbar = class extends EventEmitter {
       enable_mouse_scrolling: true,
     })
 
-    this._scrollView.connect('leave-event', this._onLeaveEvent.bind(this))
-    this._scrollView.connect('motion-event', this._onMotionEvent.bind(this))
-    this._scrollView.connect('scroll-event', this._onScrollEvent.bind(this))
+    this._signalsHandler.add(
+      [this._scrollView, 'leave-event', this._onLeaveEvent.bind(this)],
+      [this._scrollView, 'motion-event', this._onMotionEvent.bind(this)],
+      [this._scrollView, 'scroll-event', this._onScrollEvent.bind(this)],
+    )
     this._scrollView.add_child(this._box)
 
     this._showAppsIconWrapper = panel.showAppsIconWrapper
-    this._showAppsIconWrapper.connect(
+    this._signalsHandler.add([
+      this._showAppsIconWrapper,
       'menu-state-changed',
       (showAppsIconWrapper, opened) => {
         this._itemMenuStateChanged(showAppsIconWrapper, opened)
       },
-    )
+    ])
     // an instance of the showAppsIcon class is encapsulated in the wrapper
     this._showAppsIcon = this._showAppsIconWrapper.realShowAppsIcon
     this.showAppsButton = this._showAppsIcon.toggleButton
@@ -283,10 +286,11 @@ export const Taskbar = class extends EventEmitter {
       this.showAppsButton.set_width(panel.geom.w)
     }
 
-    this.showAppsButton.connect(
+    this._signalsHandler.add([
+      this.showAppsButton,
       'notify::checked',
       this._onShowAppsButtonToggled.bind(this),
-    )
+    ])
 
     this.showAppsButton.checked = SearchController._showAppsButton
       ? SearchController._showAppsButton.checked
@@ -743,12 +747,18 @@ export const Taskbar = class extends EventEmitter {
   }
 
   _hookUpLabel(item, syncHandler) {
-    item.child.connect('notify::hover', () => {
+    let hoverId = item.child.connect('notify::hover', () => {
       this._syncLabel(item, syncHandler)
     })
 
-    syncHandler.connect('sync-tooltip', () => {
+    let syncId = syncHandler.connect('sync-tooltip', () => {
       this._syncLabel(item, syncHandler)
+    })
+
+    let child = item.child
+    child.connect('destroy', () => {
+      child.disconnect(hoverId)
+      syncHandler.disconnect(syncId)
     })
   }
 
@@ -769,23 +779,6 @@ export const Taskbar = class extends EventEmitter {
       this.iconAnimator,
     )
 
-    if (appIcon._draggable) {
-      appIcon._draggable.connect('drag-begin', () => {
-        appIcon.opacity = 0
-        appIcon.isDragged = 1
-        this._dropIconAnimations()
-      })
-      appIcon._draggable.connect('drag-end', () => {
-        appIcon.opacity = 255
-        delete appIcon.isDragged
-        this._updateAppIcons()
-      })
-    }
-
-    appIcon.connect('menu-state-changed', (appIcon, opened) => {
-      this._itemMenuStateChanged(item, opened)
-    })
-
     let item = new TaskbarItemContainer()
 
     item._dtpPanel = this.dtpPanel
@@ -794,7 +787,27 @@ export const Taskbar = class extends EventEmitter {
     item.setChild(appIcon)
     appIcon._dashItemContainer = item
 
-    appIcon.connect('notify::hover', () => {
+    let appIconSignalIds = []
+    let draggableSignalIds = []
+
+    appIconSignalIds.push(appIcon.connect('menu-state-changed', (appIcon, opened) => {
+      this._itemMenuStateChanged(item, opened)
+    }))
+
+    if (appIcon._draggable) {
+      draggableSignalIds.push(appIcon._draggable.connect('drag-begin', () => {
+        appIcon.opacity = 0
+        appIcon.isDragged = 1
+        this._dropIconAnimations()
+      }))
+      draggableSignalIds.push(appIcon._draggable.connect('drag-end', () => {
+        appIcon.opacity = 255
+        delete appIcon.isDragged
+        this._updateAppIcons()
+      }))
+    }
+
+    appIconSignalIds.push(appIcon.connect('notify::hover', () => {
       if (appIcon.hover) {
         this._timeoutsHandler.add([
           T1,
@@ -821,17 +834,17 @@ export const Taskbar = class extends EventEmitter {
         if (!appIcon.isDragged && iconAnimationSettings.type == 'SIMPLE')
           appIcon.get_parent().raise(0)
       }
-    })
+    }))
 
-    appIcon.connect('clicked', (actor) => {
+    appIconSignalIds.push(appIcon.connect('clicked', (actor) => {
       Utils.ensureActorVisibleInScrollView(
         this._scrollView,
         actor,
         this._scrollView._dtpFadeSize,
       )
-    })
+    }))
 
-    appIcon.connect('key-focus-in', (actor) => {
+    appIconSignalIds.push(appIcon.connect('key-focus-in', (actor) => {
       let [x_shift, y_shift] = Utils.ensureActorVisibleInScrollView(
         this._scrollView,
         actor,
@@ -843,6 +856,13 @@ export const Taskbar = class extends EventEmitter {
       if (appIcon._menu) {
         appIcon._menu._boxPointer.xOffset = -x_shift
         appIcon._menu._boxPointer.yOffset = -y_shift
+      }
+    }))
+
+    appIcon.connect('destroy', () => {
+      appIconSignalIds.forEach(id => appIcon.disconnect(id))
+      if (appIcon._draggable) {
+        draggableSignalIds.forEach(id => appIcon._draggable.disconnect(id))
       }
     })
 
@@ -1628,7 +1648,7 @@ export const TaskbarItemContainer = GObject.registerClass(
       let boundProperty = this._dtpPanel.geom.vertical
         ? 'translation_y'
         : 'translation_x'
-      this.bind_property(
+      let propertyBinding = this.bind_property(
         boundProperty,
         cloneContainer,
         boundProperty,
@@ -1654,6 +1674,7 @@ export const TaskbarItemContainer = GObject.registerClass(
       // The clone itself
       this._raisedClone = cloneButton.child
       this._raisedClone.connect('destroy', () => {
+        propertyBinding.unbind()
         adjustment.disconnect(adjustmentChangedId)
         taskbarBox.disconnect(taskbarBoxAllocationChangedId)
         GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
