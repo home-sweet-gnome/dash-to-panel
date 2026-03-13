@@ -478,7 +478,9 @@ export const Overview = class {
     if (temporarily || overlayFromShortcut)
       this._toggleHotkeysNumberOverlay(true)
 
-    this._panel.intellihide.revealAndHold(Intellihide.Hold.TEMPORARY)
+    this._panelManager.allPanels.forEach((p) => {
+      p.intellihide.revealAndHold(Intellihide.Hold.TEMPORARY)
+    })
 
     // Hide the overlay/dock after the timeout
     this._timeoutsHandler.add([
@@ -489,7 +491,9 @@ export const Overview = class {
           this._toggleHotkeysNumberOverlay(false)
         }
 
-        this._panel.intellihide.release(Intellihide.Hold.TEMPORARY)
+        this._panelManager.allPanels.forEach((p) => {
+          p.intellihide.release(Intellihide.Hold.TEMPORARY)
+        })
       },
     ])
   }
