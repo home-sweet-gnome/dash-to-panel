@@ -266,7 +266,7 @@ export const Intellihide = class {
         this._panelBox,
         'notify::visible',
         () => Utils.setDisplayUnredirect(!this._panelBox.visible),
-      ]
+      ],
     )
   }
 
