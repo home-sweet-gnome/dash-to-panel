@@ -178,6 +178,7 @@ Ideas for recursing child actors and assigning inline styles are based on code f
 - @max-dw-i for symbolic icons
 - @Hirnmoder for Beautify DTP and panel border
 - @JimBroad for grayscale icons
+- @lufog for Gnome 50 support
 
 #### Bug Fixes: 
 @imrvelj, @Teslator, @bil-elmoussaoui, @brandon-schumann, @sw9, @rockon999 , @lexruee, @3v1n0, @freeroot, @moqmar, @ArtyomZorin, @lkc0987, @saibotk, @vanillajonathan, @Zkdc, @leebickmtu, @l3nn4rt, @Melix19, @Aikatsui, @melix99, @kyrillzorin, @oneshadab, @CorvetteCole, @vantu5z, @spectreseven1138, @aperezdc, @smedir, @lucaxvi, @andyholmes, @vowstar, @T99Rots, @City-busz, @guoqiyi, @gcrabbe, @Anduin2017, @xalt7x, @Survolog, @TorosFanny
