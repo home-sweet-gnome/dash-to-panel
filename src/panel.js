@@ -207,7 +207,11 @@ export const Panel = GObject.registerClass(
 
       this.add_child(this.panel)
 
-      if (Main.panel._onButtonPress || Main.panel._tryDragWindow) {
+      if (
+        Main.panel._onButtonPress ||
+        Main.panel._tryDragWindow ||
+        Main.panel._clickGesture
+      ) {
         this._signalsHandler.add([
           this.panel,
           ['button-press-event', 'touch-event'],
@@ -1263,10 +1267,20 @@ export const Panel = GObject.registerClass(
 
       if (!dragWindow) return Clutter.EVENT_PROPAGATE
 
+      let dragOpArgs = [Meta.GrabOp.MOVING]
+
+      if (Config.PACKAGE_VERSION < '50')
+        dragOpArgs.push(event.get_device(), event.get_event_sequence())
+      else
+        dragOpArgs.push(
+          global.stage
+            .get_context()
+            .get_backend()
+            .get_sprite(global.stage, event),
+        )
+
       dragWindow.begin_grab_op(
-        Meta.GrabOp.MOVING,
-        event.get_device(),
-        event.get_event_sequence(),
+        ...dragOpArgs,
         event.get_time(),
         new Graphene.Point({ x: stageX, y: stageY }),
       )

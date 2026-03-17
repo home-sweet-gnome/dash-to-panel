@@ -194,6 +194,8 @@ export const PanelManager = class {
       )
     }
 
+    if (Main.panel._clickGesture) Main.panel._clickGesture.set_enabled(false)
+
     LookingGlass.LookingGlass.prototype._oldResize =
       LookingGlass.LookingGlass.prototype._resize
     LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize
@@ -354,7 +356,7 @@ export const PanelManager = class {
         delete p.panelBox._dtpIndex
 
         p.clipContainer.remove_child(p.panelBox)
-        Main.layoutManager.addChrome(p.panelBox, {
+        Utils.addChrome(p.panelBox, {
           affectsStruts: true,
           trackFullscreen: true,
         })
@@ -402,6 +404,8 @@ export const PanelManager = class {
       this._oldUpdateWorkspacesViews
     Main.overview._overview._controls._workspacesDisplay.setPrimaryWorkspaceVisible =
       this._oldSetPrimaryWorkspaceVisible
+
+    if (Main.panel._clickGesture) Main.panel._clickGesture.set_enabled(true)
 
     LookingGlass.LookingGlass.prototype._resize =
       LookingGlass.LookingGlass.prototype._oldResize
@@ -670,7 +674,7 @@ export const PanelManager = class {
       Main.layoutManager.removeChrome(panelBox)
     }
 
-    Main.layoutManager.addChrome(clipContainer, { affectsInputRegion: false })
+    Utils.addChrome(clipContainer, { affectsInputRegion: false })
     clipContainer.add_child(panelBox)
 
     panel = new Panel.Panel(
@@ -687,12 +691,12 @@ export const PanelManager = class {
     panelBox.set_position(0, 0)
     panelBox.set_width(-1)
 
-    Main.layoutManager.trackChrome(panel, {
+    Utils.trackChrome(panel, {
       affectsInputRegion: true,
       affectsStruts: false,
     })
 
-    Main.layoutManager.trackChrome(panelBox, {
+    Utils.trackChrome(panelBox, {
       trackFullscreen: true,
       affectsStruts: true,
     })
