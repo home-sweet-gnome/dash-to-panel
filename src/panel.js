@@ -441,7 +441,13 @@ export const Panel = GObject.registerClass(
 
       this.menuManager._changeMenu = this.menuManager._oldChangeMenu
 
-      this._unmappedButtons.forEach((a) => this._disconnectVisibleId(a))
+      this._unmappedButtons.forEach((a) => {
+        try {
+          this._disconnectVisibleId(a)
+        } catch (e) {
+          // actor may have already been destroyed
+        }
+      })
 
       if (this.statusArea.dateMenu) {
         this.statusArea.dateMenu._clockDisplay.text =
@@ -1453,53 +1459,70 @@ export const Panel = GObject.registerClass(
 
         this._setShowDesktopButtonStyle()
 
-        this._showDesktopButton.connect('touch-event', (actor, event) => {
-          if (event.type() == Clutter.EventType.TOUCH_BEGIN) {
-            this._onShowDesktopButtonPress()
-          }
-        })
-        this._showDesktopButton.connect('button-press-event', () =>
-          this._onShowDesktopButtonPress(),
-        )
-        this._showDesktopButton.connect('enter-event', () => {
-          this._showDesktopButton.add_style_class_name(
-            this._getBackgroundBrightness()
-              ? 'showdesktop-button-light-hovered'
-              : 'showdesktop-button-dark-hovered',
-          )
+        this._showDesktopButtonSignalIds = []
 
-          if (SETTINGS.get_boolean('show-showdesktop-hover')) {
-            this._timeoutsHandler.add([
-              T4,
-              SETTINGS.get_int('show-showdesktop-delay'),
-              () => {
-                this._hiddenDesktopWorkspace =
-                  Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace()
-                this._toggleWorkspaceWindows(true, this._hiddenDesktopWorkspace)
-              },
-            ])
-          }
-        })
-
-        this._showDesktopButton.connect('leave-event', () => {
-          this._showDesktopButton.remove_style_class_name(
-            this._getBackgroundBrightness()
-              ? 'showdesktop-button-light-hovered'
-              : 'showdesktop-button-dark-hovered',
-          )
-
-          if (SETTINGS.get_boolean('show-showdesktop-hover')) {
-            if (this._timeoutsHandler.getId(T4)) {
-              this._timeoutsHandler.remove(T4)
-            } else if (this._hiddenDesktopWorkspace) {
-              this._toggleWorkspaceWindows(false, this._hiddenDesktopWorkspace)
+        this._showDesktopButtonSignalIds.push(
+          this._showDesktopButton.connect('touch-event', (actor, event) => {
+            if (event.type() == Clutter.EventType.TOUCH_BEGIN) {
+              this._onShowDesktopButtonPress()
             }
-          }
-        })
+          }),
+        )
+        this._showDesktopButtonSignalIds.push(
+          this._showDesktopButton.connect('button-press-event', () =>
+            this._onShowDesktopButtonPress(),
+          ),
+        )
+        this._showDesktopButtonSignalIds.push(
+          this._showDesktopButton.connect('enter-event', () => {
+            this._showDesktopButton.add_style_class_name(
+              this._getBackgroundBrightness()
+                ? 'showdesktop-button-light-hovered'
+                : 'showdesktop-button-dark-hovered',
+            )
+
+            if (SETTINGS.get_boolean('show-showdesktop-hover')) {
+              this._timeoutsHandler.add([
+                T4,
+                SETTINGS.get_int('show-showdesktop-delay'),
+                () => {
+                  this._hiddenDesktopWorkspace =
+                    Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace()
+                  this._toggleWorkspaceWindows(true, this._hiddenDesktopWorkspace)
+                },
+              ])
+            }
+          }),
+        )
+
+        this._showDesktopButtonSignalIds.push(
+          this._showDesktopButton.connect('leave-event', () => {
+            this._showDesktopButton.remove_style_class_name(
+              this._getBackgroundBrightness()
+                ? 'showdesktop-button-light-hovered'
+                : 'showdesktop-button-dark-hovered',
+            )
+
+            if (SETTINGS.get_boolean('show-showdesktop-hover')) {
+              if (this._timeoutsHandler.getId(T4)) {
+                this._timeoutsHandler.remove(T4)
+              } else if (this._hiddenDesktopWorkspace) {
+                this._toggleWorkspaceWindows(false, this._hiddenDesktopWorkspace)
+              }
+            }
+          }),
+        )
 
         this.panel.add_child(this._showDesktopButton)
       } else {
         if (!this._showDesktopButton) return
+
+        if (this._showDesktopButtonSignalIds) {
+          this._showDesktopButtonSignalIds.forEach((id) =>
+            this._showDesktopButton.disconnect(id),
+          )
+          this._showDesktopButtonSignalIds = null
+        }
 
         this.panel.remove_child(this._showDesktopButton)
         this._showDesktopButton.destroy()
