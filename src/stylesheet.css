@@ -55,6 +55,9 @@
 .dashtopanelMainPanel .dash-item-container .show-apps .overview-icon {
 	color: #FFF;
 }
+.dashtopanelMainPanel .dash-item-container .show-apps.bright-panel .overview-icon {
+	color: #000;
+}
 .dashtopanelMainPanel .dash-item-container .show-apps:hover .overview-icon {
 	background: none;
 }
