@@ -116,6 +116,52 @@
       </object>
     </child>
     <child>
+      <object class="AdwPreferencesGroup" id="behavior_group_drag">
+        <property name="title" translatable="yes">Drag</property>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Show overview or previews when dragging over panel</property>
+            <property name="subtitle" translatable="yes">Disable to prevent accidental activation while dragging across the panel</property>
+            <child>
+              <object class="GtkSwitch" id="drag_to_overview_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="drag_to_overview_delay_row">
+            <property name="title" translatable="yes">Drag hover delay (ms)</property>
+            <property name="subtitle" translatable="yes">Milliseconds the pointer must remain over the panel before the overview or previews open</property>
+            <child>
+              <object class="GtkSpinButton" id="drag_to_overview_delay_spinbutton">
+                <property name="valign">center</property>
+                <property name="adjustment">
+                  <object class="GtkAdjustment">
+                    <property name="lower">0</property>
+                    <property name="upper">5000</property>
+                    <property name="step-increment">50</property>
+                    <property name="page-increment">250</property>
+                  </object>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow" id="drag_to_overview_preview_row">
+            <property name="title" translatable="yes">Show window previews when dragging over app icons</property>
+            <property name="subtitle" translatable="yes">Show the window preview popup instead of opening the overview when dragging over an app icon</property>
+            <child>
+              <object class="GtkSwitch" id="drag_to_overview_preview_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
       <object class="AdwPreferencesGroup" id="behavior_group_isolate">
         <property name="title" translatable="yes">Isolate</property>
         <child>
