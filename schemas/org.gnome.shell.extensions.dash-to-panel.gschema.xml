@@ -635,6 +635,16 @@
       <summary>Hide overview on startup</summary>
       <description>Hide overview on startup, which would be shown by default at gnome startup.</description>
     </key>
+    <key type="i" name="drag-to-overview-delay">
+      <default>-1</default>
+      <summary>Delay before showing overview or previews when dragging over panel</summary>
+      <description>Number of milliseconds the pointer must hover over the panel while dragging before the overview or window previews are shown. Set to -1 to disable this behaviour entirely.</description>
+    </key>
+    <key type="b" name="drag-to-overview-preview">
+      <default>false</default>
+      <summary>Show window previews when dragging over app icons</summary>
+      <description>When dragging over an app icon, show the window preview popup instead of opening the overview.</description>
+    </key>
     <key type="b" name="group-apps">
       <default>true</default>
       <summary>Group applications</summary>

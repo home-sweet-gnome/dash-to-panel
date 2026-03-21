@@ -62,6 +62,7 @@ const T3 = 'showDotsTimeout'
 const T4 = 'overviewWindowDragEndTimeout'
 const T5 = 'switchWorkspaceTimeout'
 const T6 = 'displayProperIndicatorTimeout'
+const T7 = 'xdndDragOverTimeout'
 
 //right padding defined for .overview-label in stylesheet.css
 const TITLE_RIGHT_PADDING = 8
@@ -432,7 +433,8 @@ export const TaskbarAppIcon = GObject.registerClass(
     _onAppIconHoverChanged() {
       if (
         !SETTINGS.get_boolean('show-window-previews') ||
-        (!this.window && !this._nWindows)
+        (!this.window && !this._nWindows) ||
+        this._inXdndDrag
       ) {
         return
       }
@@ -1710,24 +1712,103 @@ export const TaskbarAppIcon = GObject.registerClass(
       this._maybeUpdateNumberOverlay()
     }
 
+    cancelXdndDragTimeout() {
+      this._timeoutsHandler.remove(T7)
+      this._xdndActionFired = false
+      this._inXdndDrag = false
+      this.set_hover(false)
+    }
+
     handleDragOver(source) {
       if (source == Main.xdndHandler) {
-        this._previewMenu.close(true)
+        let delay = SETTINGS.get_int('drag-to-overview-delay')
 
-        if (!this._nWindows && !this.window)
-          return DND.DragMotionResult.MOVE_DROP
+        if (delay < 0) {
+          // Feature disabled: do nothing on drag, just let the drag pass through
+          return DND.DragMotionResult.CONTINUE
+        }
 
-        if (this._nWindows == 1 || this.window) {
-          this.window
-            ? Main.activateWindow(this.window)
-            : activateFirstWindow(this.app, this.monitor)
-        } else
-          this.dtpPanel.panelManager.showFocusedAppInOverview(this.app, true)
+        // Cancel any pending panel-level xdnd timeout since the cursor is now
+        // over this icon
+        this.dtpPanel.cancelXdndOverviewTimeout()
+
+        // Clear state on all other icons (hover highlight, timers, fired flags).
+        // The xdnd walk stops at the first MOVE_DROP result so the panel's
+        // cancelXdndDragTimeouts() is never reached when moving between icons.
+        // Pass `this` so our own fired flag and timer are not disturbed.
+        this.dtpPanel.taskbar.cancelXdndDragTimeouts(this)
+
+        // Simulate hover highlight as if the cursor were normally over the icon
+        // (XDnD grabs the pointer so Clutter never sets hover automatically).
+        // Set _inXdndDrag before set_hover so that _onAppIconHoverChanged
+        // doesn't call requestOpen — preview opening is managed by T7 below.
+        if (!this.hover) {
+          this._inXdndDrag = true
+          this.set_hover(true)
+        }
+
+        // Guard against re-firing when delay=0: once the action has run for
+        // this icon hover, don't restart it on every subsequent mouse-move event
+        if (!this._timeoutsHandler.getId(T7) && !this._xdndActionFired) {
+          this._timeoutsHandler.add([
+            T7,
+            delay,
+            () => {
+              this._xdndActionFired = true
+
+              if (!this._nWindows && !this.window) return
+
+              const usePreview = SETTINGS.get_boolean('drag-to-overview-preview')
+
+              if (usePreview) {
+                // If the preview is already open for a different icon, close it
+                // first. If it's already showing this icon, just enable drag
+                // mode, no need to close and re-open (which would cause a
+                // flicker animation).
+                if (this._previewMenu.currentAppIcon === this) {
+                  this._previewMenu._setDragMode(true)
+                } else {
+                  this._previewMenu.close(true)
+                  this._previewMenu.open(this, true)
+                }
+              } else {
+                // Not using preview: close any open preview popup first
+                this._previewMenu.close(true)
+
+                if (this._nWindows == 1 || this.window) {
+                  // No preview: activate the single window directly
+                  this.window
+                    ? Main.activateWindow(this.window)
+                    : activateFirstWindow(this.app, this.monitor)
+                } else {
+                  // No preview, multi-window: fall back to overview
+                  this.dtpPanel.panelManager.showFocusedAppInOverview(
+                    this.app,
+                    true,
+                  )
+                }
+              }
+            },
+          ])
+        }
 
         return DND.DragMotionResult.MOVE_DROP
       }
 
+      this._timeoutsHandler.remove(T7)
+      this._xdndActionFired = false
+      this._inXdndDrag = false
+      this.set_hover(false)
       return DND.DragMotionResult.CONTINUE
+    }
+
+    acceptDrop() {
+      // Cancel any pending xdnd drag timeout when a drop occurs on the icon
+      this._timeoutsHandler.remove(T7)
+      this._xdndActionFired = false
+      this._inXdndDrag = false
+      this.set_hover(false)
+      return false
     }
 
     getAppIconInterestingWindows(isolateMonitors) {
