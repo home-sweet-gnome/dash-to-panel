@@ -2654,6 +2654,57 @@ const Preferences = class {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
+    let dragToOverviewSwitch = this._builder.get_object('drag_to_overview_switch')
+    let dragToOverviewDelayRow = this._builder.get_object('drag_to_overview_delay_row')
+    let dragToOverviewDelaySpin = this._builder.get_object(
+      'drag_to_overview_delay_spinbutton',
+    )
+    let dragToOverviewPreviewRow = this._builder.get_object(
+      'drag_to_overview_preview_row',
+    )
+
+    let updateDragToOverviewUi = () => {
+      let delay = this._settings.get_int('drag-to-overview-delay')
+      let enabled = delay >= 0
+
+      dragToOverviewSwitch.set_active(enabled)
+      dragToOverviewDelayRow.set_sensitive(enabled)
+      dragToOverviewPreviewRow.set_sensitive(enabled)
+
+      if (enabled) dragToOverviewDelaySpin.set_value(delay)
+    }
+
+    updateDragToOverviewUi()
+
+    dragToOverviewSwitch.connect('notify::active', () => {
+      if (dragToOverviewSwitch.get_active()) {
+        // Restore last positive delay (or default 300ms)
+        let current = this._settings.get_int('drag-to-overview-delay')
+        this._settings.set_int(
+          'drag-to-overview-delay',
+          current >= 0 ? current : 300,
+        )
+      } else {
+        this._settings.set_int('drag-to-overview-delay', -1)
+      }
+      updateDragToOverviewUi()
+    })
+
+    dragToOverviewDelaySpin.connect('value-changed', () => {
+      if (dragToOverviewSwitch.get_active())
+        this._settings.set_int(
+          'drag-to-overview-delay',
+          dragToOverviewDelaySpin.get_value_as_int(),
+        )
+    })
+
+    this._settings.bind(
+      'drag-to-overview-preview',
+      this._builder.get_object('drag_to_overview_preview_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
     this._settings.bind(
       'group-apps',
       this._builder.get_object('group_apps_switch'),

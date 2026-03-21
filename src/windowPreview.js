@@ -20,6 +20,7 @@ import Clutter from 'gi://Clutter'
 import GLib from 'gi://GLib'
 import Graphene from 'gi://Graphene'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
+import * as DND from 'resource:///org/gnome/shell/ui/dnd.js'
 import Meta from 'gi://Meta'
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js'
 import St from 'gi://St'
@@ -207,6 +208,7 @@ export const PreviewMenu = GObject.registerClass(
 
         this._setReactive(true)
         this._setOpenedState(true)
+        this._setDragMode(preventCloseWindow)
       }
     }
 
@@ -223,6 +225,7 @@ export const PreviewMenu = GObject.registerClass(
       }
 
       this._setReactive(false)
+      this._setDragMode(false)
       this.currentAppIcon = null
     }
 
@@ -392,6 +395,15 @@ export const PreviewMenu = GObject.registerClass(
       this._box.add_child(preview)
       preview.adjustOnStage()
       preview.assignWindow(window, this.opened)
+
+      if (this._dragMode) preview._setXdndDelegate(true)
+    }
+
+    _setDragMode(enabled) {
+      this._dragMode = !!enabled
+      this._box
+        .get_children()
+        .forEach((preview) => preview._setXdndDelegate(this._dragMode))
     }
 
     _setShouldDisplayWorkspaces(windows) {
@@ -1060,6 +1072,26 @@ export const Preview = GObject.registerClass(
       this._previewMenu.endPeekHere()
       this._previewMenu.close()
       Main.activateWindow(this.window)
+    }
+
+    _setXdndDelegate(enabled) {
+      if (enabled) {
+        // Expose handleDragOver and acceptDrop so the GNOME Shell DND system
+        // can find this preview as a drop target when an external (XDnD) drag
+        // passes over it
+        this._delegate = {
+          handleDragOver: (source) => {
+            if (source === Main.xdndHandler && this.window) {
+              Main.activateWindow(this.window)
+              return DND.DragMotionResult.MOVE_DROP
+            }
+            return DND.DragMotionResult.CONTINUE
+          },
+          acceptDrop: () => false,
+        }
+      } else {
+        delete this._delegate
+      }
     }
 
     _onDestroy() {
