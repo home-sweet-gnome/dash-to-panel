@@ -544,13 +544,17 @@ export const TaskbarAppIcon = GObject.registerClass(
             if (this.icon._iconBin.child.mapped) {
               this.icon._iconBin.child.set_size(size, size)
             } else {
-              let iconMappedId = this.icon._iconBin.child.connect(
-                'notify::mapped',
-                () => {
-                  this.icon._iconBin.child.set_size(size, size)
-                  this.icon._iconBin.child.disconnect(iconMappedId)
-                },
-              )
+              // Capture the specific child reference: _iconBin.child can be
+              // swapped before notify::mapped fires, which would make the
+              // live-lookup disconnect target the wrong object and produce
+              // "instance has no handler with id" GObject errors.
+              const child = this.icon._iconBin.child
+              let iconMappedId = child.connect('notify::mapped', () => {
+                if (!iconMappedId) return
+                child.set_size(size, size)
+                child.disconnect(iconMappedId)
+                iconMappedId = 0
+              })
             }
           },
         )
@@ -2218,14 +2222,24 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
         this.realShowAppsIcon,
         this.realShowAppsIcon._dtpPanel,
       )
-      this._menu.connect('open-state-changed', (menu, isPoppedUp) => {
-        if (!isPoppedUp) this._onMenuPoppedDown()
-      })
-      let id = Main.overview.connect('hiding', () => {
+      // Track handler ids on properties so destroy() can clean them up.
+      // The menu outlives MyShowAppsIcon when the extension is disabled
+      // (menu.actor is parented to Main.uiGroup), so without explicit
+      // disconnect the Main.overview handler pins the whole icon tree.
+      this._menuOpenStateId = this._menu.connect(
+        'open-state-changed',
+        (menu, isPoppedUp) => {
+          if (!isPoppedUp) this._onMenuPoppedDown()
+        },
+      )
+      this._overviewHidingId = Main.overview.connect('hiding', () => {
         this._menu.close()
       })
       this._menu.actor.connect('destroy', () => {
-        Main.overview.disconnect(id)
+        if (this._overviewHidingId) {
+          Main.overview.disconnect(this._overviewHidingId)
+          this._overviewHidingId = 0
+        }
       })
 
       // We want to keep the item hovered while the menu is up
@@ -2270,6 +2284,19 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
     this.actor.disconnect(this._actorTouchEventId)
     this.actor.disconnect(this._actorClickedId)
     this.actor.disconnect(this._actorPopupMenuId)
+
+    if (this._menu) {
+      if (this._menuOpenStateId) {
+        this._menu.disconnect(this._menuOpenStateId)
+        this._menuOpenStateId = 0
+      }
+      if (this._overviewHidingId) {
+        Main.overview.disconnect(this._overviewHidingId)
+        this._overviewHidingId = 0
+      }
+      this._menu.destroy()
+      this._menu = null
+    }
 
     this.realShowAppsIcon.destroy()
   }
