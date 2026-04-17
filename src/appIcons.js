@@ -447,6 +447,7 @@ export const TaskbarAppIcon = GObject.registerClass(
     }
 
     _onDestroy() {
+      this._disposed = true
       super._onDestroy()
 
       if (this._updateIconIdleId) {
@@ -1713,6 +1714,8 @@ export const TaskbarAppIcon = GObject.registerClass(
     }
 
     cancelXdndDragTimeout() {
+      if (this._disposed) return
+
       this._timeoutsHandler.remove(T7)
       this._xdndActionFired = false
       this._inXdndDrag = false
@@ -1728,21 +1731,21 @@ export const TaskbarAppIcon = GObject.registerClass(
           return DND.DragMotionResult.CONTINUE
         }
 
-        // Cancel any pending panel-level xdnd timeout since the cursor is now
-        // over this icon
-        this.dtpPanel.cancelXdndOverviewTimeout()
-
-        // Clear state on all other icons (hover highlight, timers, fired flags).
-        // The xdnd walk stops at the first MOVE_DROP result so the panel's
-        // cancelXdndDragTimeouts() is never reached when moving between icons.
-        // Pass `this` so our own fired flag and timer are not disturbed.
-        this.dtpPanel.taskbar.cancelXdndDragTimeouts(this)
-
         // Simulate hover highlight as if the cursor were normally over the icon
         // (XDnD grabs the pointer so Clutter never sets hover automatically).
         // Set _inXdndDrag before set_hover so that _onAppIconHoverChanged
         // doesn't call requestOpen — preview opening is managed by T7 below.
         if (!this.hover) {
+          // Cancel any pending panel-level xdnd timeout since the cursor is now
+          // over this icon
+          this.dtpPanel.cancelXdndOverviewTimeout()
+
+          // Clear state on all other icons (hover highlight, timers, fired flags).
+          // The xdnd walk stops at the first MOVE_DROP result so the panel's
+          // cancelXdndDragTimeouts() is never reached when moving between icons.
+          // Pass `this` so our own fired flag and timer are not disturbed.
+          this.dtpPanel.taskbar.cancelXdndDragTimeouts(this)
+
           this._inXdndDrag = true
           this.set_hover(true)
         }
