@@ -141,7 +141,7 @@ export default class DashToPanelExtension extends Extension {
     }
 
     // disable ubuntu dock if present
-    if (Main.extensionManager._extensionOrder.indexOf(UBUNTU_DOCK_UUID) >= 0) {
+    if (Main.extensionManager._extensionOrder.indexOf(UBUNTU_DOCK_UUID) >= 0 && !SETTINGS.get_boolean('stockgs-keep-dash')) {
       let disabled = global.settings.get_strv('disabled-extensions')
 
       if (disabled.indexOf(UBUNTU_DOCK_UUID) < 0) {
