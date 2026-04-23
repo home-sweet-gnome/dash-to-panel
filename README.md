@@ -122,6 +122,8 @@ How do I display Minimize & Maximize buttons? In the Tweak Tool application, tur
 
 How do I reset the extension to its default settings? `dconf reset -f /org/gnome/shell/extensions/dash-to-panel/`.
 
+Why isn't Dash-to-Panel loading when I restart? Try disabling the dock via _**Launcher > Desktop > Dock > Enable Dock > Uncheck**_.
+
 ## 
 ### Themes
 While this extension works well with most popular Gnome Shell themes, the following themes are known to have explicitly added custom styles for this extension:
