@@ -38,6 +38,7 @@ const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com'
 
 let panelManager
 let startupCompleteHandler
+let startupPreparedHandler
 let ubuntuDockDelayId = 0
 
 export let DTP_EXTENSION = null
@@ -117,15 +118,54 @@ export default class DashToPanelExtension extends Extension {
       Main.layoutManager._startingUp
     ) {
       Main.sessionMode.hasOverview = false
+
+      // GNOME 50 removed the GLib.idle_add(PRIORITY_LOW) deferral that
+      // previously delayed the startup animation until after extensions
+      // had loaded. As a result, _startupAnimationSession() may read
+      // Main.sessionMode.hasOverview before our synchronous assignment
+      // above takes effect (the animation chain and extension-enable
+      // chain are concurrent promises, with no guaranteed order).
+      //
+      // 'startup-prepared' is emitted at the end of
+      // _prepareStartupAnimation, synchronously, BEFORE _startupAnimation
+      // reads hasOverview. Re-asserting the value in this handler closes
+      // the race window. This is harmless on older versions where the
+      // synchronous assignment was already enough.
+      startupPreparedHandler = Main.layoutManager.connect(
+        'startup-prepared',
+        () => {
+          Main.sessionMode.hasOverview = false
+        },
+      )
+
       startupCompleteHandler = Main.layoutManager.connect(
         'startup-complete',
         () => {
           Main.sessionMode.hasOverview = this._realHasOverview
 
-          // the extension initialization timing changed in g-s version 50 and the startup animation
-          // is already running when the extension init code is executed. Since there is no way to
-          // prevent the animation from running, hide the overview when it completes
-          if (Config.PACKAGE_VERSION >= '50') Main.overview.hide()
+          // Defensive fallback: if the overview did get shown despite
+          // our efforts (e.g. _startupAnimation already read hasOverview
+          // as true before we could intervene), force it closed. We use
+          // the controls' state adjustment to skip the hide animation
+          // and avoid a visible flash. See dash-to-dock for the same
+          // technique against the same race.
+          if (Config.PACKAGE_VERSION >= '50' && Main.overview.visible) {
+            try {
+              const controls = Main.overview._overview?.controls
+              if (controls?._stateAdjustment) {
+                // 0 == OverviewControls.ControlsState.HIDDEN
+                controls._stateAdjustment.value = 0
+              }
+              Main.overview._shown = false
+              Main.overview._visible = false
+              Main.overview._visibleTarget = false
+              Main.layoutManager.hideOverview()
+            } catch (e) {
+              // Last resort: animated hide, which produces the visible
+              // flash but is better than a stuck overview.
+              Main.overview.hide()
+            }
+          }
         },
       )
     }
@@ -176,6 +216,11 @@ export default class DashToPanelExtension extends Extension {
     this.disableGlobalStyles()
 
     AppIcons.resetRecentlyClickedApp()
+
+    if (startupPreparedHandler) {
+      Main.layoutManager.disconnect(startupPreparedHandler)
+      startupPreparedHandler = null
+    }
 
     if (startupCompleteHandler) {
       Main.layoutManager.disconnect(startupCompleteHandler)
