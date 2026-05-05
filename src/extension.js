@@ -38,7 +38,6 @@ const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com'
 
 let panelManager
 let startupCompleteHandler
-let originalPrepareStartupAnimation
 let ubuntuDockDelayId = 0
 
 export let DTP_EXTENSION = null
@@ -55,40 +54,6 @@ export default class DashToPanelExtension extends Extension {
     super(metadata)
 
     this._realHasOverview = Main.sessionMode.hasOverview
-
-    // Install the startup-overview override as early as possible.
-    // GNOME 50's _doStartupAnimation runs concurrently with extension
-    // load; if we wait until enable() (which has awaits before any of
-    // its real work), _prepareStartupAnimation may already have fired
-    // and the overview will be visible at login.
-    //
-    // The constructor runs synchronously the moment GNOME Shell loads
-    // the extension module, before any await yields control back to
-    // _doStartupAnimation. Doing it here is the earliest hook we get.
-    if (
-      Config.PACKAGE_VERSION >= '50' &&
-      Main.layoutManager._startingUp &&
-      this.getSettings('org.gnome.shell.extensions.dash-to-panel').get_boolean(
-        'hide-overview-on-startup',
-      )
-    ) {
-      Main.sessionMode.hasOverview = false
-
-      if (
-        !originalPrepareStartupAnimation &&
-        typeof Main.layoutManager._prepareStartupAnimation === 'function'
-      ) {
-        originalPrepareStartupAnimation =
-          Main.layoutManager._prepareStartupAnimation
-        Main.layoutManager._prepareStartupAnimation = function (...args) {
-          Main.sessionMode.hasOverview = false
-          Main.layoutManager._prepareStartupAnimation =
-            originalPrepareStartupAnimation
-          originalPrepareStartupAnimation = null
-          return Main.layoutManager._prepareStartupAnimation.apply(this, args)
-        }
-      }
-    }
 
     //create an object that persists until gnome-shell is restarted, even if the extension is disabled
     PERSISTENTSTORAGE = {}
@@ -147,20 +112,35 @@ export default class DashToPanelExtension extends Extension {
       'hide-overview-on-startup',
     )
 
-    if (
-      SETTINGS.get_boolean('hide-overview-on-startup') &&
-      Main.layoutManager._startingUp
-    ) {
-      // Restore hasOverview to its real value once startup completes.
-      // (The wrapper installed in the constructor handles forcing
-      // hasOverview=false during _prepareStartupAnimation; this handler
-      // just undoes our temporary override afterwards.)
-      startupCompleteHandler = Main.layoutManager.connect(
-        'startup-complete',
-        () => {
-          Main.sessionMode.hasOverview = this._realHasOverview
-        },
-      )
+    if (SETTINGS.get_boolean('hide-overview-on-startup')) {
+      Main.sessionMode.hasOverview = false
+
+      // GNOME 50 changed extension load timing - on at least some
+      // hardware, dash-to-panel's enable() runs after the shell startup
+      // animation has fully completed (Main.layoutManager._startingUp
+      // is already false and Main.overview._shownState is already
+      // SHOWN). The previous gate on _startingUp meant this branch did
+      // nothing in that case. Drop the gate and act on actual state:
+      // if the overview is showing when we load, hide it.
+      if (Main.layoutManager._startingUp) {
+        // Still in startup - hide on completion as before. The shell's
+        // _startupAnimationComplete fires startup-complete after the
+        // cover pane is destroyed, so a normal hide() runs cleanly.
+        startupCompleteHandler = Main.layoutManager.connect(
+          'startup-complete',
+          () => {
+            Main.sessionMode.hasOverview = this._realHasOverview
+            if (Config.PACKAGE_VERSION >= '50') Main.overview.hide()
+          },
+        )
+      } else {
+        // Startup is already done. Restore hasOverview and hide if
+        // currently shown.
+        Main.sessionMode.hasOverview = this._realHasOverview
+        if (Main.overview.visible || Main.overview._shown) {
+          Main.overview.hide()
+        }
+      }
     }
 
     this.enableGlobalStyles()
@@ -209,14 +189,6 @@ export default class DashToPanelExtension extends Extension {
     this.disableGlobalStyles()
 
     AppIcons.resetRecentlyClickedApp()
-
-    // Restore the wrapper if _prepareStartupAnimation never ran (i.e.
-    // extension disabled before login finished, unusual but possible).
-    if (originalPrepareStartupAnimation) {
-      Main.layoutManager._prepareStartupAnimation =
-        originalPrepareStartupAnimation
-      originalPrepareStartupAnimation = null
-    }
 
     if (startupCompleteHandler) {
       Main.layoutManager.disconnect(startupCompleteHandler)
