@@ -38,7 +38,7 @@ const UBUNTU_DOCK_UUID = 'ubuntu-dock@ubuntu.com'
 
 let panelManager
 let startupCompleteHandler
-let startupPreparedHandler
+let originalPrepareStartupAnimation
 let ubuntuDockDelayId = 0
 
 export let DTP_EXTENSION = null
@@ -121,32 +121,31 @@ export default class DashToPanelExtension extends Extension {
 
       // GNOME 50 removed the GLib.idle_add(PRIORITY_LOW) deferral in
       // Layout._loadBackground that previously held _prepareStartupAnimation
-      // until after the extension-enable chain had run. Without it, the
-      // startup-animation chain and the extension-enable chain are
-      // independent promise chains with no guaranteed ordering.
+      // until the extension-enable chain had run. _doStartupAnimation now
+      // reads Main.sessionMode.hasOverview at two awaits with no ordering
+      // guarantee against extension init - first in _prepareStartupAnimation
+      // (decides uiGroup pre-scale), then in _startupAnimationSession
+      // (decides the animation branch).
       //
-      // _doStartupAnimation reads Main.sessionMode.hasOverview twice:
-      //   1. layout.js _prepareStartupAnimation (decides whether to
-      //      pre-scale uiGroup for the grow-out animation)
-      //   2. layout.js _startupAnimationSession (decides whether to call
-      //      Main.overview.runStartupAnimation)
-      //
-      // 'startup-prepared' fires synchronously between those two reads.
-      // The synchronous assignment above often wins both races on faster
-      // hardware, but on slower setups it can lose the first one. The
-      // handler below is a second line of defense for the second read.
-      //
-      // Defensive: disconnect any previous handler before reconnecting,
-      // in case enable() runs again before startup-complete fired.
-      if (startupPreparedHandler) {
-        Main.layoutManager.disconnect(startupPreparedHandler)
-      }
-      startupPreparedHandler = Main.layoutManager.connect(
-        'startup-prepared',
-        () => {
+      // Wrapping _prepareStartupAnimation lets us re-assert hasOverview
+      // synchronously, before either read happens. The wrapper restores
+      // itself on first call so we don't keep monkey-patching shell
+      // internals longer than necessary.
+      if (
+        Config.PACKAGE_VERSION >= '50' &&
+        !originalPrepareStartupAnimation &&
+        typeof Main.layoutManager._prepareStartupAnimation === 'function'
+      ) {
+        originalPrepareStartupAnimation =
+          Main.layoutManager._prepareStartupAnimation
+        Main.layoutManager._prepareStartupAnimation = function (...args) {
           Main.sessionMode.hasOverview = false
-        },
-      )
+          Main.layoutManager._prepareStartupAnimation =
+            originalPrepareStartupAnimation
+          originalPrepareStartupAnimation = null
+          return Main.layoutManager._prepareStartupAnimation.apply(this, args)
+        }
+      }
 
       startupCompleteHandler = Main.layoutManager.connect(
         'startup-complete',
@@ -203,9 +202,12 @@ export default class DashToPanelExtension extends Extension {
 
     AppIcons.resetRecentlyClickedApp()
 
-    if (startupPreparedHandler) {
-      Main.layoutManager.disconnect(startupPreparedHandler)
-      startupPreparedHandler = null
+    // Restore the wrapper if _prepareStartupAnimation never ran (i.e.
+    // extension disabled before login finished, unusual but possible).
+    if (originalPrepareStartupAnimation) {
+      Main.layoutManager._prepareStartupAnimation =
+        originalPrepareStartupAnimation
+      originalPrepareStartupAnimation = null
     }
 
     if (startupCompleteHandler) {
