@@ -134,9 +134,7 @@ export default class DashToPanelExtension extends Extension {
       // 'startup-prepared' fires synchronously between those two reads.
       // The synchronous assignment above often wins both races on faster
       // hardware, but on slower setups it can lose the first one. The
-      // handler below is a second line of defense for the second read,
-      // and also catches the case where the overview animation has
-      // already started.
+      // handler below is a second line of defense for the second read.
       //
       // Defensive: disconnect any previous handler before reconnecting,
       // in case enable() runs again before startup-complete fired.
@@ -147,21 +145,6 @@ export default class DashToPanelExtension extends Extension {
         'startup-prepared',
         () => {
           Main.sessionMode.hasOverview = false
-
-          // If we lost the first race and Overview.runStartupAnimation
-          // is already in flight, request a hide now. The shell's own
-          // bail-out path in OverviewControls.runStartupAnimation
-          // (overview.js, gnome-shell 50: "Overview got hidden during
-          // startup animation") will short-circuit cleanly when it sees
-          // _shownState != SHOWING after its inner await resolves. This
-          // is preferable to mutating _stateAdjustment / _shown / etc.
-          // directly, which couples us to private overview internals.
-          if (
-            Config.PACKAGE_VERSION >= '50' &&
-            (Main.overview.visible || Main.overview._shown)
-          ) {
-            Main.overview.hide()
-          }
         },
       )
 
