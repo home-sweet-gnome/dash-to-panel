@@ -56,6 +56,40 @@ export default class DashToPanelExtension extends Extension {
 
     this._realHasOverview = Main.sessionMode.hasOverview
 
+    // Install the startup-overview override as early as possible.
+    // GNOME 50's _doStartupAnimation runs concurrently with extension
+    // load; if we wait until enable() (which has awaits before any of
+    // its real work), _prepareStartupAnimation may already have fired
+    // and the overview will be visible at login.
+    //
+    // The constructor runs synchronously the moment GNOME Shell loads
+    // the extension module, before any await yields control back to
+    // _doStartupAnimation. Doing it here is the earliest hook we get.
+    if (
+      Config.PACKAGE_VERSION >= '50' &&
+      Main.layoutManager._startingUp &&
+      this.getSettings('org.gnome.shell.extensions.dash-to-panel').get_boolean(
+        'hide-overview-on-startup',
+      )
+    ) {
+      Main.sessionMode.hasOverview = false
+
+      if (
+        !originalPrepareStartupAnimation &&
+        typeof Main.layoutManager._prepareStartupAnimation === 'function'
+      ) {
+        originalPrepareStartupAnimation =
+          Main.layoutManager._prepareStartupAnimation
+        Main.layoutManager._prepareStartupAnimation = function (...args) {
+          Main.sessionMode.hasOverview = false
+          Main.layoutManager._prepareStartupAnimation =
+            originalPrepareStartupAnimation
+          originalPrepareStartupAnimation = null
+          return Main.layoutManager._prepareStartupAnimation.apply(this, args)
+        }
+      }
+    }
+
     //create an object that persists until gnome-shell is restarted, even if the extension is disabled
     PERSISTENTSTORAGE = {}
   }
@@ -117,36 +151,10 @@ export default class DashToPanelExtension extends Extension {
       SETTINGS.get_boolean('hide-overview-on-startup') &&
       Main.layoutManager._startingUp
     ) {
-      Main.sessionMode.hasOverview = false
-
-      // GNOME 50 removed the GLib.idle_add(PRIORITY_LOW) deferral in
-      // Layout._loadBackground that previously held _prepareStartupAnimation
-      // until the extension-enable chain had run. _doStartupAnimation now
-      // reads Main.sessionMode.hasOverview at two awaits with no ordering
-      // guarantee against extension init - first in _prepareStartupAnimation
-      // (decides uiGroup pre-scale), then in _startupAnimationSession
-      // (decides the animation branch).
-      //
-      // Wrapping _prepareStartupAnimation lets us re-assert hasOverview
-      // synchronously, before either read happens. The wrapper restores
-      // itself on first call so we don't keep monkey-patching shell
-      // internals longer than necessary.
-      if (
-        Config.PACKAGE_VERSION >= '50' &&
-        !originalPrepareStartupAnimation &&
-        typeof Main.layoutManager._prepareStartupAnimation === 'function'
-      ) {
-        originalPrepareStartupAnimation =
-          Main.layoutManager._prepareStartupAnimation
-        Main.layoutManager._prepareStartupAnimation = function (...args) {
-          Main.sessionMode.hasOverview = false
-          Main.layoutManager._prepareStartupAnimation =
-            originalPrepareStartupAnimation
-          originalPrepareStartupAnimation = null
-          return Main.layoutManager._prepareStartupAnimation.apply(this, args)
-        }
-      }
-
+      // Restore hasOverview to its real value once startup completes.
+      // (The wrapper installed in the constructor handles forcing
+      // hasOverview=false during _prepareStartupAnimation; this handler
+      // just undoes our temporary override afterwards.)
       startupCompleteHandler = Main.layoutManager.connect(
         'startup-complete',
         () => {
