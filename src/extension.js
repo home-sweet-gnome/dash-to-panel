@@ -119,22 +119,49 @@ export default class DashToPanelExtension extends Extension {
     ) {
       Main.sessionMode.hasOverview = false
 
-      // GNOME 50 removed the GLib.idle_add(PRIORITY_LOW) deferral that
-      // previously delayed the startup animation until after extensions
-      // had loaded. As a result, _startupAnimationSession() may read
-      // Main.sessionMode.hasOverview before our synchronous assignment
-      // above takes effect (the animation chain and extension-enable
-      // chain are concurrent promises, with no guaranteed order).
+      // GNOME 50 removed the GLib.idle_add(PRIORITY_LOW) deferral in
+      // Layout._loadBackground that previously held _prepareStartupAnimation
+      // until after the extension-enable chain had run. Without it, the
+      // startup-animation chain and the extension-enable chain are
+      // independent promise chains with no guaranteed ordering.
       //
-      // 'startup-prepared' is emitted at the end of
-      // _prepareStartupAnimation, synchronously, BEFORE _startupAnimation
-      // reads hasOverview. Re-asserting the value in this handler closes
-      // the race window. This is harmless on older versions where the
-      // synchronous assignment was already enough.
+      // _doStartupAnimation reads Main.sessionMode.hasOverview twice:
+      //   1. layout.js _prepareStartupAnimation (decides whether to
+      //      pre-scale uiGroup for the grow-out animation)
+      //   2. layout.js _startupAnimationSession (decides whether to call
+      //      Main.overview.runStartupAnimation)
+      //
+      // 'startup-prepared' fires synchronously between those two reads.
+      // The synchronous assignment above often wins both races on faster
+      // hardware, but on slower setups it can lose the first one. The
+      // handler below is a second line of defense for the second read,
+      // and also catches the case where the overview animation has
+      // already started.
+      //
+      // Defensive: disconnect any previous handler before reconnecting,
+      // in case enable() runs again before startup-complete fired.
+      if (startupPreparedHandler) {
+        Main.layoutManager.disconnect(startupPreparedHandler)
+      }
       startupPreparedHandler = Main.layoutManager.connect(
         'startup-prepared',
         () => {
           Main.sessionMode.hasOverview = false
+
+          // If we lost the first race and Overview.runStartupAnimation
+          // is already in flight, request a hide now. The shell's own
+          // bail-out path in OverviewControls.runStartupAnimation
+          // (overview.js, gnome-shell 50: "Overview got hidden during
+          // startup animation") will short-circuit cleanly when it sees
+          // _shownState != SHOWING after its inner await resolves. This
+          // is preferable to mutating _stateAdjustment / _shown / etc.
+          // directly, which couples us to private overview internals.
+          if (
+            Config.PACKAGE_VERSION >= '50' &&
+            (Main.overview.visible || Main.overview._shown)
+          ) {
+            Main.overview.hide()
+          }
         },
       )
 
@@ -142,30 +169,6 @@ export default class DashToPanelExtension extends Extension {
         'startup-complete',
         () => {
           Main.sessionMode.hasOverview = this._realHasOverview
-
-          // Defensive fallback: if the overview did get shown despite
-          // our efforts (e.g. _startupAnimation already read hasOverview
-          // as true before we could intervene), force it closed. We use
-          // the controls' state adjustment to skip the hide animation
-          // and avoid a visible flash. See dash-to-dock for the same
-          // technique against the same race.
-          if (Config.PACKAGE_VERSION >= '50' && Main.overview.visible) {
-            try {
-              const controls = Main.overview._overview?.controls
-              if (controls?._stateAdjustment) {
-                // 0 == OverviewControls.ControlsState.HIDDEN
-                controls._stateAdjustment.value = 0
-              }
-              Main.overview._shown = false
-              Main.overview._visible = false
-              Main.overview._visibleTarget = false
-              Main.layoutManager.hideOverview()
-            } catch (e) {
-              // Last resort: animated hide, which produces the visible
-              // flash but is better than a stuck overview.
-              Main.overview.hide()
-            }
-          }
         },
       )
     }
