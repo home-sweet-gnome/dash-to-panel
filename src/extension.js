@@ -112,22 +112,35 @@ export default class DashToPanelExtension extends Extension {
       'hide-overview-on-startup',
     )
 
-    if (
-      SETTINGS.get_boolean('hide-overview-on-startup') &&
-      Main.layoutManager._startingUp
-    ) {
+    if (SETTINGS.get_boolean('hide-overview-on-startup')) {
       Main.sessionMode.hasOverview = false
-      startupCompleteHandler = Main.layoutManager.connect(
-        'startup-complete',
-        () => {
-          Main.sessionMode.hasOverview = this._realHasOverview
 
-          // the extension initialization timing changed in g-s version 50 and the startup animation
-          // is already running when the extension init code is executed. Since there is no way to
-          // prevent the animation from running, hide the overview when it completes
-          if (Config.PACKAGE_VERSION >= '50') Main.overview.hide()
-        },
-      )
+      // GNOME 50 changed extension load timing - on at least some
+      // hardware, dash-to-panel's enable() runs after the shell startup
+      // animation has fully completed (Main.layoutManager._startingUp
+      // is already false and Main.overview._shownState is already
+      // SHOWN). The previous gate on _startingUp meant this branch did
+      // nothing in that case. Drop the gate and act on actual state:
+      // if the overview is showing when we load, hide it.
+      if (Main.layoutManager._startingUp) {
+        // Still in startup - hide on completion as before. The shell's
+        // _startupAnimationComplete fires startup-complete after the
+        // cover pane is destroyed, so a normal hide() runs cleanly.
+        startupCompleteHandler = Main.layoutManager.connect(
+          'startup-complete',
+          () => {
+            Main.sessionMode.hasOverview = this._realHasOverview
+            if (Config.PACKAGE_VERSION >= '50') Main.overview.hide()
+          },
+        )
+      } else {
+        // Startup is already done. Restore hasOverview and hide if
+        // currently shown.
+        Main.sessionMode.hasOverview = this._realHasOverview
+        if (Main.overview.visible || Main.overview._shown) {
+          Main.overview.hide()
+        }
+      }
     }
 
     this.enableGlobalStyles()
