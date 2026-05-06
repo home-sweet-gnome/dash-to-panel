@@ -63,6 +63,7 @@ export const PanelManager = class {
   }
 
   enable(reset) {
+    let keepGsTopPanel = SETTINGS.get_boolean('stockgs-keep-top-panel')
     let dtpPrimaryIndex = PanelSettings.getPrimaryIndex(
       SETTINGS.get_string('primary-monitor'),
     )
@@ -89,7 +90,7 @@ export const PanelManager = class {
     if (this.dtpPrimaryMonitor) {
       this.primaryPanel = this._createPanel(
         this.dtpPrimaryMonitor,
-        SETTINGS.get_boolean('stockgs-keep-top-panel'),
+        keepGsTopPanel,
       )
       this.allPanels.push(this.primaryPanel)
       this.overview.enable(this.primaryPanel)
@@ -111,6 +112,9 @@ export const PanelManager = class {
     this._setDesktopIconsMargins()
 
     this._updatePanelElementPositions()
+
+    if (Main.panel._clickGesture && !keepGsTopPanel)
+      Main.panel._clickGesture.set_enabled(false)
 
     if (reset) return
 
@@ -193,8 +197,6 @@ export const PanelManager = class {
           },
       )
     }
-
-    if (Main.panel._clickGesture) Main.panel._clickGesture.set_enabled(false)
 
     LookingGlass.LookingGlass.prototype._oldResize =
       LookingGlass.LookingGlass.prototype._resize
@@ -306,7 +308,7 @@ export const PanelManager = class {
     this._setKeyBindings(true)
 
     // keep GS overview.js from blowing away custom panel styles
-    if (!SETTINGS.get_boolean('stockgs-keep-top-panel'))
+    if (!keepGsTopPanel)
       Object.defineProperty(Main.panel, 'style', {
         configurable: true,
         set() {},
@@ -376,6 +378,8 @@ export const PanelManager = class {
       )
     }
 
+    if (Main.panel._clickGesture) Main.panel._clickGesture.set_enabled(true)
+
     if (reset) return
 
     this._injectionManager.clear()
@@ -404,8 +408,6 @@ export const PanelManager = class {
       this._oldUpdateWorkspacesViews
     Main.overview._overview._controls._workspacesDisplay.setPrimaryWorkspaceVisible =
       this._oldSetPrimaryWorkspaceVisible
-
-    if (Main.panel._clickGesture) Main.panel._clickGesture.set_enabled(true)
 
     LookingGlass.LookingGlass.prototype._resize =
       LookingGlass.LookingGlass.prototype._oldResize
