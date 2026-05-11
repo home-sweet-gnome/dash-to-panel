@@ -2655,6 +2655,13 @@ const Preferences = class {
     )
 
     this._settings.bind(
+      'hide-panel-in-overview',
+      this._builder.get_object('hide_panel_in_overview_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
       'group-apps',
       this._builder.get_object('group_apps_switch'),
       'active',
