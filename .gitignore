@@ -6,3 +6,4 @@ dash-to-panel@jderose9.github.com*.zip
 po/dash-to-panel.pot
 ui/*.ui.h
 node_modules/
+dash-to-panel.code-workspace
