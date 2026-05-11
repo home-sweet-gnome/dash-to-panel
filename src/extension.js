@@ -154,7 +154,7 @@ export default class DashToPanelExtension extends Extension {
           200,
           completeEnable,
         )
-      }
+      } else completeEnable()
     } else completeEnable()
   }
 
