@@ -452,10 +452,34 @@ export const TaskbarAppIcon = GObject.registerClass(
         this._updateIconIdleId = 0
       }
 
+      if (this._iconIconBinActorAddedId) {
+        this.icon._iconBin.disconnect(this._iconIconBinActorAddedId)
+        this._iconIconBinActorAddedId = 0
+      }
+
+      if (this._mappedId) {
+        this.disconnect(this._mappedId)
+        this._mappedId = 0
+      }
+
+      if (this._focusedDotsRepaintId) {
+        this._focusedDots.disconnect(this._focusedDotsRepaintId)
+        this._focusedDotsRepaintId = 0
+      }
+
+      if (this._unfocusedDotsRepaintId) {
+        this._unfocusedDots.disconnect(this._unfocusedDotsRepaintId)
+        this._unfocusedDotsRepaintId = 0
+      }
+
       this._timeoutsHandler.destroy()
       this._signalsHandler.destroy()
 
       this._previewMenu.close(true)
+
+      this._previewMenu = null
+      this.iconAnimator = null
+      this.dtpPanel = null
     }
 
     onWindowsChanged() {
@@ -520,13 +544,17 @@ export const TaskbarAppIcon = GObject.registerClass(
             if (this.icon._iconBin.child.mapped) {
               this.icon._iconBin.child.set_size(size, size)
             } else {
-              let iconMappedId = this.icon._iconBin.child.connect(
-                'notify::mapped',
-                () => {
-                  this.icon._iconBin.child.set_size(size, size)
-                  this.icon._iconBin.child.disconnect(iconMappedId)
-                },
-              )
+              // Capture the specific child reference: _iconBin.child can be
+              // swapped before notify::mapped fires, which would make the
+              // live-lookup disconnect target the wrong object and produce
+              // "instance has no handler with id" GObject errors.
+              const child = this.icon._iconBin.child
+              let iconMappedId = child.connect('notify::mapped', () => {
+                if (!iconMappedId) return
+                child.set_size(size, size)
+                child.disconnect(iconMappedId)
+                iconMappedId = 0
+              })
             }
           },
         )
@@ -636,15 +664,16 @@ export const TaskbarAppIcon = GObject.registerClass(
           visible: false,
         })
 
-        let mappedId = this.connect('notify::mapped', () => {
+        this._mappedId = this.connect('notify::mapped', () => {
           this._displayProperIndicator()
-          this.disconnect(mappedId)
+          this.disconnect(this._mappedId)
+          this._mappedId = 0
         })
       } else {
         ;(this._focusedDots = new St.DrawingArea()),
           (this._unfocusedDots = new St.DrawingArea())
 
-        this._focusedDots.connect('repaint', () => {
+        this._focusedDotsRepaintId = this._focusedDots.connect('repaint', () => {
           if (!this._dashItemContainer.animatingOut)
             // don't draw and trigger more animations if the icon is in the middle of
             // being removed from the panel
@@ -655,7 +684,7 @@ export const TaskbarAppIcon = GObject.registerClass(
             )
         })
 
-        this._unfocusedDots.connect('repaint', () => {
+        this._unfocusedDotsRepaintId = this._unfocusedDots.connect('repaint', () => {
           if (!this._dashItemContainer.animatingOut)
             this._drawRunningIndicator(
               this._unfocusedDots,
@@ -2091,11 +2120,11 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
     // No action on clicked (showing of the appsview is controlled elsewhere)
     this._onClicked = () => this._removeMenuTimeout()
 
-    this.actor.connect('leave-event', this._onLeaveEvent.bind(this))
-    this.actor.connect('button-press-event', this._onButtonPress.bind(this))
-    this.actor.connect('touch-event', this._onTouchEvent.bind(this))
-    this.actor.connect('clicked', this._onClicked.bind(this))
-    this.actor.connect('popup-menu', this._onKeyboardPopupMenu.bind(this))
+    this._actorLeaveEventId = this.actor.connect('leave-event', this._onLeaveEvent.bind(this))
+    this._actorButtonPressEventId = this.actor.connect('button-press-event', this._onButtonPress.bind(this))
+    this._actorTouchEventId = this.actor.connect('touch-event', this._onTouchEvent.bind(this))
+    this._actorClickedId = this.actor.connect('clicked', this._onClicked.bind(this))
+    this._actorPopupMenuId = this.actor.connect('popup-menu', this._onKeyboardPopupMenu.bind(this))
 
     this._menu = null
     this._menuManager = new PopupMenu.PopupMenuManager(this.actor)
@@ -2193,14 +2222,24 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
         this.realShowAppsIcon,
         this.realShowAppsIcon._dtpPanel,
       )
-      this._menu.connect('open-state-changed', (menu, isPoppedUp) => {
-        if (!isPoppedUp) this._onMenuPoppedDown()
-      })
-      let id = Main.overview.connect('hiding', () => {
+      // Track handler ids on properties so destroy() can clean them up.
+      // The menu outlives MyShowAppsIcon when the extension is disabled
+      // (menu.actor is parented to Main.uiGroup), so without explicit
+      // disconnect the Main.overview handler pins the whole icon tree.
+      this._menuOpenStateId = this._menu.connect(
+        'open-state-changed',
+        (menu, isPoppedUp) => {
+          if (!isPoppedUp) this._onMenuPoppedDown()
+        },
+      )
+      this._overviewHidingId = Main.overview.connect('hiding', () => {
         this._menu.close()
       })
       this._menu.actor.connect('destroy', () => {
-        Main.overview.disconnect(id)
+        if (this._overviewHidingId) {
+          Main.overview.disconnect(this._overviewHidingId)
+          this._overviewHidingId = 0
+        }
       })
 
       // We want to keep the item hovered while the menu is up
@@ -2239,6 +2278,25 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
     SETTINGS.disconnect(this._changedShowAppsIconId)
     SETTINGS.disconnect(this._changedAppIconSidePaddingId)
     SETTINGS.disconnect(this._changedAppIconPaddingId)
+
+    this.actor.disconnect(this._actorLeaveEventId)
+    this.actor.disconnect(this._actorButtonPressEventId)
+    this.actor.disconnect(this._actorTouchEventId)
+    this.actor.disconnect(this._actorClickedId)
+    this.actor.disconnect(this._actorPopupMenuId)
+
+    if (this._menu) {
+      if (this._menuOpenStateId) {
+        this._menu.disconnect(this._menuOpenStateId)
+        this._menuOpenStateId = 0
+      }
+      if (this._overviewHidingId) {
+        Main.overview.disconnect(this._overviewHidingId)
+        this._overviewHidingId = 0
+      }
+      this._menu.destroy()
+      this._menu = null
+    }
 
     this.realShowAppsIcon.destroy()
   }
