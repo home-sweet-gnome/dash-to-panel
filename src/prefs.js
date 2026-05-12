@@ -3347,6 +3347,11 @@ const Preferences = class {
       },
       panelLengthScale,
       {
+        objectName: 'panel_vertical_width_scale',
+        valueName: 'panel-vertical-width',
+        range: [800, 0],
+      },
+      {
         objectName: 'tray_size_scale',
         valueName: 'tray-size',
         range: DEFAULT_FONT_SIZES,

@@ -683,7 +683,7 @@ export const Panel = GObject.registerClass(
       if (isVertical) {
         this._signalsHandler.add([
           SETTINGS,
-          'changed::group-apps-label-max-width',
+          ['changed::group-apps-label-max-width', 'changed::panel-vertical-width'],
           () => this._resetGeometry(),
         ])
       }
@@ -822,6 +822,10 @@ export const Panel = GObject.registerClass(
         this.fixedCoord = { c1: 'x1', c2: 'x2' }
         this.varCoord = { c1: 'y1', c2: 'y2' }
 
+        const panelVerticalWidth = SETTINGS.get_int('panel-vertical-width')
+        if (panelVerticalWidth > 0) {
+          innerSize = outerSize = panelVerticalWidth * scaleFactor
+        }
         w = innerSize
         h = this.monitor.height * length - topBottomMargins - gsTopPanelHeight
         dockMode = !!dynamic || topBottomMargins > 0 || h < this.monitor.height
@@ -1142,10 +1146,10 @@ export const Panel = GObject.registerClass(
 
         // add existing theme padding to dtp panel margins
         this.panelBox.set_style(
-          `padding: 
-              ${this.geom.topOffset + topBottomMargins + padding[St.Side.TOP]}px 
-              ${sideMargins + padding[St.Side.RIGHT]}px 
-              ${topBottomMargins + padding[St.Side.BOTTOM]}px 
+          `padding:
+              ${this.geom.topOffset + topBottomMargins + padding[St.Side.TOP]}px
+              ${sideMargins + padding[St.Side.RIGHT]}px
+              ${topBottomMargins + padding[St.Side.BOTTOM]}px
               ${sideMargins + padding[St.Side.LEFT]}px;`,
         )
       }

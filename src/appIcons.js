@@ -164,10 +164,12 @@ export const TaskbarAppIcon = GObject.registerClass(
       this._container = new St.Widget({
         style_class: 'dtp-container',
         layout_manager: new Clutter.BinLayout(),
+        x_expand: true,
       })
       this._dotsContainer = new St.Widget({
         style_class: 'dtp-dots-container',
         layout_manager: new Clutter.BinLayout(),
+        x_expand: true,
       })
       this._dtpIconContainer = new St.Widget({
         layout_manager: new Clutter.BinLayout(),
@@ -180,11 +182,12 @@ export const TaskbarAppIcon = GObject.registerClass(
       this._dtpIconContainer.add_child(this._iconContainer)
 
       if (appInfo.window) {
-        let box = Utils.createBoxLayout()
+        let box = Utils.createBoxLayout({ x_expand: true })
 
         this._windowTitle = new St.Label({
           y_align: Clutter.ActorAlign.CENTER,
-          x_align: Clutter.ActorAlign.START,
+          x_align: Clutter.ActorAlign.FILL,
+          x_expand: true,
           style_class: 'overview-label',
         })
 
@@ -751,7 +754,7 @@ export const TaskbarAppIcon = GObject.registerClass(
             'font-weight: ' +
             fontWeight +
             ';' +
-            (useFixedWidth ? '' : 'max-width: ' + maxLabelWidth + 'px;') +
+            (useFixedWidth || this.dtpPanel.geom.vertical ? '' : 'max-width: ' + maxLabelWidth + 'px;') +
             'color: ' +
             fontColor,
         )
