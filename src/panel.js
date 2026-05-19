@@ -73,6 +73,7 @@ const T4 = 'showDesktopTimeout'
 const T5 = 'trackerFocusAppTimeout'
 const T6 = 'scrollPanelDelayTimeout'
 const T7 = 'waitPanelBoxAllocation'
+const T8 = 'dragToOverviewDelay'
 
 const MIN_PANEL_SIZE = 22
 
@@ -372,6 +373,39 @@ export const Panel = GObject.registerClass(
         ],
         [this.panel, 'scroll-event', this._onPanelMouseScroll.bind(this)],
         [Main.layoutManager, 'startup-complete', () => this._resetGeometry()],
+        [
+          Main.xdndHandler,
+          'drag-begin',
+          () => {
+            if (!this._xdndDragMonitor) {
+              this._xdndDragMonitor = {
+                dragMotion: (dragEvent) => {
+                  this._onXdndDragMotion(dragEvent)
+                  return DND.DragMotionResult.CONTINUE
+                },
+              }
+              DND.addDragMonitor(this._xdndDragMonitor)
+            }
+          },
+        ],
+        [
+          Main.xdndHandler,
+          'drag-end',
+          () => {
+            // Fires on both cursor-leave and button-release.
+            // Cancel any pending timeout and close any drag-opened preview,
+            // but do NOT reset _xdndPanelActionFired. Once the overview has
+            // been triggered for this drag it should not trigger again on
+            // re-entry (drag-end/drag-begin fire on every leave/enter, not
+            // just on a genuine new drag starting).
+            this._removeXdndDragMonitor()
+            this._timeoutsHandler.remove(T8)
+            // Clear simulated hover on all icons when the drag leaves/ends
+            this.taskbar.cancelXdndDragTimeouts()
+            let previewMenu = this.taskbar.previewMenu
+            if (previewMenu._dragMode) previewMenu.close(true)
+          },
+        ],
       )
 
       this._bindSettingsChanges()
@@ -417,6 +451,7 @@ export const Panel = GObject.registerClass(
     disable() {
       this.panelStyle.disable()
 
+      this._removeXdndDragMonitor()
       this._timeoutsHandler.destroy()
       this._signalsHandler.destroy()
 
@@ -523,11 +558,97 @@ export const Panel = GObject.registerClass(
         source == Main.xdndHandler &&
         Main.overview.shouldToggleByCornerOrButton()
       ) {
-        this.panelManager.showFocusedAppInOverview(null, true)
-        Main.overview.show()
+        let delay = SETTINGS.get_int('drag-to-overview-delay')
+
+        if (delay < 0) {
+          // Feature disabled: never open overview on drag
+          return DND.DragMotionResult.CONTINUE
+        }
+
+        // Only react when the cursor is over the taskbar area itself.
+        // Dragging over other panel elements (clock, system tray, activities
+        // button, padding, etc.) should not trigger the overview or previews.
+        const [x, y] = global.get_pointer()
+        const pickedActor = global.stage.get_actor_at_pos(
+          Clutter.PickMode.REACTIVE,
+          x,
+          y,
+        )
+        if (!this.taskbar.actor.contains(pickedActor)) {
+          // We're outside the taskbar (clock, system tray, etc.); cancel any
+          // pending T8 and icon-level timeouts but keep _xdndPanelActionFired
+          // so re-entering the taskbar does not re-trigger the overview.
+          this._timeoutsHandler.remove(T8)
+          this.taskbar.cancelXdndDragTimeouts()
+          return DND.DragMotionResult.CONTINUE
+        }
+
+        // Cancel any pending icon-level xdnd timeouts since the cursor is now
+        // over empty panel space
+        this.taskbar.cancelXdndDragTimeouts()
+
+        if (!this._timeoutsHandler.getId(T8) && !this._xdndPanelActionFired) {
+          this._timeoutsHandler.add([
+            T8,
+            delay,
+            () => {
+              this._xdndPanelActionFired = true
+              this.panelManager.showFocusedAppInOverview(null, true)
+              Main.overview.show()
+            },
+          ])
+        }
+      } else {
+        this._timeoutsHandler.remove(T8)
+        this._xdndPanelActionFired = false
       }
 
       return DND.DragMotionResult.CONTINUE
+    }
+
+    acceptDrop() {
+      // Cancel any pending drag-to-overview timeout when a drop occurs on the panel
+      this._timeoutsHandler.remove(T8)
+      this._xdndPanelActionFired = false
+      return false
+    }
+
+    _onXdndDragMotion(dragEvent) {
+      let previewMenu = this.taskbar.previewMenu
+      let pickedActor = global.stage.get_actor_at_pos(
+        Clutter.PickMode.REACTIVE,
+        dragEvent.x,
+        dragEvent.y,
+      )
+
+      // Check if the cursor is over any of our managed areas:
+      // the taskbar (which contains app icons), or the preview popup menu.
+      let isOverTaskbar = this.taskbar.actor.contains(pickedActor)
+      let isOverPreview =
+        previewMenu._dragMode && previewMenu.menu.contains(pickedActor)
+
+      if (!isOverTaskbar && !isOverPreview) {
+        // Cursor has moved away from both the taskbar and any drag-opened
+        // preview popup. Clear simulated hover on all icons.
+        this.taskbar.cancelXdndDragTimeouts()
+
+        // Also cancel any pending panel-level overview timeout
+        this._timeoutsHandler.remove(T8)
+
+        // Close any drag-opened preview popup
+        if (previewMenu._dragMode) previewMenu.close(true)
+      }
+    }
+
+    cancelXdndOverviewTimeout() {
+      this._timeoutsHandler.remove(T8)
+    }
+
+    _removeXdndDragMonitor() {
+      if (this._xdndDragMonitor) {
+        DND.removeDragMonitor(this._xdndDragMonitor)
+        this._xdndDragMonitor = null
+      }
     }
 
     getPosition() {

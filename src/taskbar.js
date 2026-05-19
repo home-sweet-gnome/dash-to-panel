@@ -708,6 +708,14 @@ export const Taskbar = class extends EventEmitter {
         .forEach((fav) => fav._container[cssFuncName]('favorite'))
   }
 
+  cancelXdndDragTimeouts(exceptIcon) {
+    this._getAppIcons().forEach((icon) => {
+      if (icon && icon !== exceptIcon && !icon._disposed) {
+        icon.cancelXdndDragTimeout()
+      }
+    })
+  }
+
   handleIsolatedWorkspaceSwitch() {
     this._shownInitially = this.isGroupApps
     this._queueRedisplay()
