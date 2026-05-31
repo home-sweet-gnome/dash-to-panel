@@ -291,7 +291,7 @@ export const PanelManager = class {
 
     Panel.panelBoxes.forEach((c) =>
       this._signalsHandler.add([
-        Main.panel[c],
+        this.primaryPanel[c],
         'child-added',
         (parent, child) => {
           this.primaryPanel &&
