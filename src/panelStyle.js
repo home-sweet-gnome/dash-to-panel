@@ -278,6 +278,10 @@ export const PanelStyle = class {
   }
 
   _recursiveApply(actor, operations, restore) {
+    // actor may belong to another extension (e.g. appindicators) and already be
+    // disposed if that extension was disabled before us — skip it safely
+    if (!Utils.isValidActor(actor)) return
+
     for (let i in operations) {
       let o = operations[i]
       if (o.compareFn(actor))
@@ -326,6 +330,10 @@ export const PanelStyle = class {
     if (actor.visible) {
       //force gnome 3.34+ to refresh (having problem with the -natural-hpadding)
       let parent = actor.get_parent()
+
+      // actor may have been detached/disposed by its owning extension
+      if (!parent) return
+
       let children = parent.get_children()
       let actorIndex = 0
 
