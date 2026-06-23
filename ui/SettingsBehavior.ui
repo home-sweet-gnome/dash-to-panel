@@ -74,6 +74,18 @@
             </child>
           </object>
         </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Application counter overrides notifications</property>
+            <child>
+              <object class="GtkSwitch" id="application_counter_overrides_notifications_switch">
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
     <child>

@@ -21,7 +21,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js'
 import { EventEmitter } from 'resource:///org/gnome/shell/misc/signals.js'
 
-import { tracker } from './extension.js'
+import { SETTINGS, tracker } from './extension.js'
 import * as Utils from './utils.js'
 
 const knownIdMappings = {
@@ -63,6 +63,11 @@ export const NotificationsMonitor = class extends EventEmitter {
         if (tracker.focus_app && this._state[appId])
           this._updateState(tracker.focus_app.id, this._getDefaultState(), true)
       },
+    ])
+    this._signalsHandler.add([
+      SETTINGS,
+      'changed::application-counter-overrides-notifications',
+      () => this._refreshState(),
     ])
     this._acquireUnityDBus()
 
@@ -110,6 +115,12 @@ export const NotificationsMonitor = class extends EventEmitter {
     return this._state[app.id]
   }
 
+  _refreshState() {
+    Object.keys(this._state).forEach((appId) => {
+      if (this._mergeState(appId, {})) this.emit(`update-${appId}`)
+    })
+  }
+
   _mergeState(appId, state) {
     let currenState = JSON.stringify(this._state[appId])
 
@@ -125,9 +136,18 @@ export const NotificationsMonitor = class extends EventEmitter {
       (this._state[appId].trayUrgent && this._state[appId].trayCount) ||
       false
 
-    this._state[appId].total =
-      ((this._state[appId]['count-visible'] || 0) &&
-        (this._state[appId].count || 0)) + (this._state[appId].trayCount || 0)
+    // If the app sets a counter-badge already, just trust it by default,
+    // but fall back to the notification count.
+    // application-counter-overrides-notifications can be used to count both.
+    const appProvided =
+      (this._state[appId]['count-visible'] || 0) &&
+      (this._state[appId].count || 0)
+    const trayCount = this._state[appId].trayCount || 0
+    this._state[appId].total = SETTINGS.get_boolean(
+      'application-counter-overrides-notifications',
+    )
+      ? appProvided || trayCount
+      : appProvided + trayCount
 
     return currenState != JSON.stringify(this._state[appId])
   }

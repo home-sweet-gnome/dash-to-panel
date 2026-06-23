@@ -1395,6 +1395,11 @@
       <summary>Show badge count on app icon</summary>
       <description>Whether to show badge count overlay on app icon, for supported applications.</description>
     </key>
+    <key type="b" name="application-counter-overrides-notifications">
+      <default>true</default>
+      <summary>Application counter overrides notifications</summary>
+      <description>Whether application-provided counters override notification counters.</description>
+    </key>
     <key type="s" name="target-prefs-page">
       <default>''</default>
       <summary>The preferences page name to display</summary>

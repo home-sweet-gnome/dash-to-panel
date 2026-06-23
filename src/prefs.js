@@ -2675,6 +2675,24 @@ const Preferences = class {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
+    this._settings.bind(
+      'application-counter-overrides-notifications',
+      this._builder.get_object(
+        'application_counter_overrides_notifications_switch',
+      ),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'progress-show-count',
+      this._builder.get_object(
+        'application_counter_overrides_notifications_switch',
+      ),
+      'sensitive',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
     this._builder
       .get_object('group_apps_label_font_color_colorbutton')
       .connect('color-set', (button) => {
