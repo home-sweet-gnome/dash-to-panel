@@ -1590,7 +1590,7 @@ export const TaskbarItemContainer = GObject.registerClass(
     // restore opacity before dashItemContainer.animateOutAndDestroy does the destroy animation.
     animateOutAndDestroy() {
       if (this._raisedClone) {
-        this._raisedClone.source.opacity = 255
+        this._raisedClone.source?.set_opacity(255)
         this._raisedClone.destroy()
       }
 
@@ -1740,7 +1740,7 @@ export const TaskbarItemContainer = GObject.registerClass(
         transition: 'easeOutQuad',
         onComplete: () => {
           if (!level) {
-            this._raisedClone.source.opacity = 255
+            this._raisedClone.source?.set_opacity(255)
             this._raisedClone.destroy()
             delete this._raisedClone
           }
