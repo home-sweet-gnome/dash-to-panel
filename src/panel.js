@@ -653,7 +653,11 @@ export const Panel = GObject.registerClass(
         ],
         [
           SETTINGS,
-          ['changed::appicon-margin', 'changed::appicon-padding'],
+          [
+            'changed::appicon-margin',
+            'changed::appicon-padding',
+            'changed::appicon-size',
+          ],
           () => this.taskbar.resetAppIcons(),
         ],
         [

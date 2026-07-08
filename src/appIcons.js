@@ -857,13 +857,22 @@ export const TaskbarAppIcon = GObject.registerClass(
 
     _setAppIconPadding() {
       const padding = getIconPadding(this.dtpPanel)
+      const crossPadding = getIconCrossPadding(this.dtpPanel)
       const margin = SETTINGS.get_int('appicon-margin')
       let vertical = this.dtpPanel.geom.vertical
 
       this.set_style(
         `padding: ${vertical ? margin : 0}px ${vertical ? 0 : margin}px;`,
       )
-      this._iconContainer.set_style('padding: ' + padding + 'px;')
+
+      // If a smaller icon size is set, the container will shrink to the icon,
+      // so we need to add padding on the cross axis to compensate or else the
+      // other elements will be misaligned.
+      this._iconContainer.set_style(
+        vertical
+          ? `padding: ${padding}px ${crossPadding}px;`
+          : `padding: ${crossPadding}px ${padding}px;`,
+      )
     }
 
     _setAppIconStyle() {
@@ -1902,6 +1911,24 @@ export function getIconPadding(dtpPanel) {
   return padding
 }
 
+export function getIconCrossPadding(dtpPanel) {
+  let padding = getIconPadding(dtpPanel)
+  let customIconSize = SETTINGS.get_int('appicon-size')
+
+  if (customIconSize <= 0) {
+    return padding
+  }
+
+  let panelSize = dtpPanel.geom.iconSize / Utils.getScaleFactor()
+  let availSize = panelSize - SETTINGS.get_int('appicon-padding') * 2
+
+  if (customIconSize >= availSize) {
+    return padding
+  }
+
+  return (panelSize - customIconSize) * 0.5
+}
+
 /**
  * Extend AppMenu (AppIconMenu for pre gnome 41)
  *
@@ -2137,6 +2164,11 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
       'changed::appicon-padding',
       () => this.setShowAppsPadding(),
     )
+
+    this._changedAppIconSizeId = SETTINGS.connect('changed::appicon-size', () =>
+      this.setShowAppsPadding(),
+    )
+
     this._changedAppIconSidePaddingId = SETTINGS.connect(
       'changed::show-apps-icon-side-padding',
       () => this.setShowAppsPadding(),
@@ -2175,14 +2207,15 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
 
   setShowAppsPadding() {
     let padding = getIconPadding(this.realShowAppsIcon._dtpPanel)
+    let crossPadding = getIconCrossPadding(this.realShowAppsIcon._dtpPanel)
     let sidePadding = SETTINGS.get_int('show-apps-icon-side-padding')
     let isVertical = this.realShowAppsIcon._dtpPanel.geom.vertical
 
     this.actor.set_style(
       'padding:' +
-        (padding + (isVertical ? sidePadding : 0)) +
+        (isVertical ? padding + sidePadding : crossPadding) +
         'px ' +
-        (padding + (isVertical ? 0 : sidePadding)) +
+        (isVertical ? crossPadding : padding + sidePadding) +
         'px;',
     )
   }
@@ -2239,6 +2272,7 @@ export const ShowAppsIconWrapper = class extends EventEmitter {
     SETTINGS.disconnect(this._changedShowAppsIconId)
     SETTINGS.disconnect(this._changedAppIconSidePaddingId)
     SETTINGS.disconnect(this._changedAppIconPaddingId)
+    SETTINGS.disconnect(this._changedAppIconSizeId)
 
     this.realShowAppsIcon.destroy()
   }
