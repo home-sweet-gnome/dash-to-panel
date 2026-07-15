@@ -63,6 +63,7 @@ export const PanelManager = class {
   }
 
   enable(reset) {
+    let keepGsTopPanel = SETTINGS.get_boolean('stockgs-keep-top-panel')
     let dtpPrimaryIndex = PanelSettings.getPrimaryIndex(
       SETTINGS.get_string('primary-monitor'),
     )
@@ -89,7 +90,7 @@ export const PanelManager = class {
     if (this.dtpPrimaryMonitor) {
       this.primaryPanel = this._createPanel(
         this.dtpPrimaryMonitor,
-        SETTINGS.get_boolean('stockgs-keep-top-panel'),
+        keepGsTopPanel,
       )
       this.allPanels.push(this.primaryPanel)
       this.overview.enable(this.primaryPanel)
@@ -111,6 +112,9 @@ export const PanelManager = class {
     this._setDesktopIconsMargins()
 
     this._updatePanelElementPositions()
+
+    if (Main.panel._clickGesture && !keepGsTopPanel)
+      Main.panel._clickGesture.set_enabled(false)
 
     if (reset) return
 
@@ -304,7 +308,7 @@ export const PanelManager = class {
     this._setKeyBindings(true)
 
     // keep GS overview.js from blowing away custom panel styles
-    if (!SETTINGS.get_boolean('stockgs-keep-top-panel'))
+    if (!keepGsTopPanel)
       Object.defineProperty(Main.panel, 'style', {
         configurable: true,
         set() {},
@@ -354,7 +358,7 @@ export const PanelManager = class {
         delete p.panelBox._dtpIndex
 
         p.clipContainer.remove_child(p.panelBox)
-        Main.layoutManager.addChrome(p.panelBox, {
+        Utils.addChrome(p.panelBox, {
           affectsStruts: true,
           trackFullscreen: true,
         })
@@ -373,6 +377,8 @@ export const PanelManager = class {
         -1,
       )
     }
+
+    if (Main.panel._clickGesture) Main.panel._clickGesture.set_enabled(true)
 
     if (reset) return
 
@@ -670,7 +676,7 @@ export const PanelManager = class {
       Main.layoutManager.removeChrome(panelBox)
     }
 
-    Main.layoutManager.addChrome(clipContainer, { affectsInputRegion: false })
+    Utils.addChrome(clipContainer, { affectsInputRegion: false })
     clipContainer.add_child(panelBox)
 
     panel = new Panel.Panel(
@@ -687,12 +693,12 @@ export const PanelManager = class {
     panelBox.set_position(0, 0)
     panelBox.set_width(-1)
 
-    Main.layoutManager.trackChrome(panel, {
+    Utils.trackChrome(panel, {
       affectsInputRegion: true,
       affectsStruts: false,
     })
 
-    Main.layoutManager.trackChrome(panelBox, {
+    Utils.trackChrome(panelBox, {
       trackFullscreen: true,
       affectsStruts: true,
     })

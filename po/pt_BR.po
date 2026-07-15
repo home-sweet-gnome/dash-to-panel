@@ -1310,7 +1310,7 @@ msgstr ""
 
 #: ui/SettingsPosition.ui.h:2
 msgid "Display the main panel on"
-msgstr "Exibir o menu princial em"
+msgstr "Exibir o menu principal em"
 
 #: ui/SettingsPosition.ui.h:3
 msgid "Display panels on all monitors"

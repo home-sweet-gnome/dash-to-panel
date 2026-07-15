@@ -225,7 +225,11 @@ export const DisplayWrapper = {
 
 let unredirectEnabled = true
 export const setDisplayUnredirect = (enable) => {
-  let v48 = Config.PACKAGE_VERSION >= '48'
+  let gsVersion = Config.PACKAGE_VERSION
+
+  if (gsVersion < '50' && !Meta.is_wayland_compositor()) return
+
+  let v48 = gsVersion >= '48'
 
   if (enable && !unredirectEnabled)
     v48
@@ -316,6 +320,20 @@ export const mergeObjects = function (main, bck) {
   }
 
   return main
+}
+
+export const addChrome = (actor, params) => {
+  Main.layoutManager.addChrome(actor, getChromeParams(params))
+}
+
+export const trackChrome = (actor, params) => {
+  Main.layoutManager.trackChrome(actor, getChromeParams(params))
+}
+
+function getChromeParams(params) {
+  if (Config.PACKAGE_VERSION >= '50') delete params.affectsInputRegion
+
+  return params
 }
 
 export const getTrackedActorData = (actor) => {

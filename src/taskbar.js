@@ -650,7 +650,7 @@ export const Taskbar = class extends EventEmitter {
     DND.addDragMonitor(this._dragMonitor)
 
     if (this._box.get_n_children() == 0) {
-      this._emptyDropTarget = new Dash.EmptyDropTargetItem()
+      this._emptyDropTarget = new EmptyDropTargetItem()
       this._box.insert_child_at_index(this._emptyDropTarget, 0)
       this._emptyDropTarget.show(true)
     }
@@ -1615,6 +1615,15 @@ export const Taskbar = class extends EventEmitter {
     }
   }
 }
+
+const EmptyDropTargetItem = GObject.registerClass(
+  class EmptyDropTargetItem extends Dash.DashItemContainer {
+    _init() {
+      super._init()
+      this.setChild(new St.Bin({ style_class: 'empty-dash-drop-target' }))
+    }
+  },
+)
 
 export const TaskbarItemContainer = GObject.registerClass(
   {},
