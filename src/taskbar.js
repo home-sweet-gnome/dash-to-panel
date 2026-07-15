@@ -1011,47 +1011,59 @@ export const Taskbar = class extends EventEmitter {
   }
 
   sortAppsCompareFunction(appA, appB) {
+    let appFavorites = AppFavorites.getAppFavorites()
+    let favIndexA = appFavorites.getFavorites().indexOf(appA.get_id())
+    let favIndexB = appFavorites.getFavorites().indexOf(appB.get_id())
+
+    // Keep favorite apps in their global stable positions
+    if (favIndexA >= 0 && favIndexB >= 0) {
+      return favIndexA - favIndexB
+    }
+    if (favIndexA >= 0) return -1
+    if (favIndexB >= 0) return 1
+
     if (SETTINGS.get_boolean('reorder-by-workspace')) {
-      let currentWs = Utils.getCurrentWorkspace().index()
+      let mutterSettings = new Gio.Settings({ schema_id: 'org.gnome.mutter' })
+      let workspacesOnlyOnPrimary = mutterSettings.get_boolean('workspaces-only-on-primary')
+      if (!workspacesOnlyOnPrimary || this.dtpPanel.isPrimary) {
+        const getAppWorkspaceIndex = (app) => {
+          let windows = AppIcons.getInterestingWindows(app, this.dtpPanel.monitor)
+          if (!windows || windows.length === 0) return -1
 
-      const getAppWsGroup = (app) => {
-        let windows = AppIcons.getInterestingWindows(app, this.dtpPanel.monitor)
-        if (!windows || windows.length === 0) return { group: 0, seq: -1 }
-
-        let minIdx = Infinity
-        let hasCurrent = false
-        for (let w of windows) {
-          let ws = w.get_workspace()
-          if (!ws) continue
-          let idx = ws.index()
-          if (idx === currentWs) hasCurrent = true
-          if (idx < minIdx) minIdx = idx
+          let minIdx = Infinity
+          for (let w of windows) {
+            if (w.is_on_all_workspaces()) {
+              return 0
+            }
+            let ws = w.get_workspace()
+            if (!ws) continue
+            let idx = ws.index()
+            if (idx < minIdx) minIdx = idx
+          }
+          return minIdx === Infinity ? -1 : minIdx
         }
 
-        return {
-          group: hasCurrent ? 0 : 1,
-          seq: hasCurrent ? 0 : minIdx,
+        let wsA = getAppWorkspaceIndex(appA)
+        let wsB = getAppWorkspaceIndex(appB)
+
+        if (wsA !== wsB) {
+          return wsA - wsB
+        }
+
+        let wsIndex = wsA
+        if (wsIndex !== -1) {
+          let positions = this._workspacePositions ? this._workspacePositions[wsIndex] : null
+          if (positions) {
+            let posA = positions.get(appA.get_id())
+            let posB = positions.get(appB.get_id())
+            if (posA !== undefined || posB !== undefined) {
+              let pA = posA !== undefined ? posA : Infinity
+              let pB = posB !== undefined ? posB : Infinity
+              if (pA !== pB) return pA - pB
+            }
+          }
         }
       }
-
-      let a = getAppWsGroup(appA)
-      let b = getAppWsGroup(appB)
-
-      if (a.group !== b.group) return a.group - b.group
-      if (a.group === 0 && b.group === 0) {
-        let positions = this._workspacePositions[currentWs]
-        if (positions) {
-          let posA = positions.get(appA.get_id())
-          let posB = positions.get(appB.get_id())
-          if (posA !== undefined && posB !== undefined) return posA - posB
-        }
-      }
-      if (a.group === 1 && a.seq !== b.seq) return a.seq - b.seq
-
-      return (
-        getAppStableSequence(appA, this.dtpPanel.monitor) -
-        getAppStableSequence(appB, this.dtpPanel.monitor)
-      )
     }
 
     return (
@@ -1512,6 +1524,8 @@ export const Taskbar = class extends EventEmitter {
     appFavorites.emit('changed')
 
     if (SETTINGS.get_boolean('reorder-by-workspace')) {
+      if (!this._workspacePositions)
+        this._workspacePositions = {}
       let wsIndex = Utils.getCurrentWorkspace().index()
       if (!this._workspacePositions[wsIndex])
         this._workspacePositions[wsIndex] = new Map()

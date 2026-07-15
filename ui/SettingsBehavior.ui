@@ -144,6 +144,16 @@
         </child>
         <child>
           <object class="AdwActionRow">
+            <property name="title" translatable="yes">Auto-rearrange apps by workspace</property>
+            <child>
+              <object class="GtkSwitch" id="reorder_by_workspace_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
             <property name="title" translatable="yes">Isolate monitors</property>
             <child>
               <object class="GtkButton" id="isolate_monitors_button">

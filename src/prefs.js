@@ -2603,7 +2603,6 @@ const Preferences = class {
               'current-workspace-only',
               appSwitcherSettings.get_default_value('current-workspace-only'),
             )
-            this._settings.reset('reorder-by-workspace')
           },
         )
 
