@@ -2569,6 +2569,13 @@ const Preferences = class {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
+    this._settings.bind(
+      'reorder-by-workspace',
+      this._builder.get_object('reorder_by_workspace_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
     let appSwitcherSettings = new Gio.Settings({
       schema_id: 'org.gnome.shell.app-switcher',
     })
@@ -2596,6 +2603,7 @@ const Preferences = class {
               'current-workspace-only',
               appSwitcherSettings.get_default_value('current-workspace-only'),
             )
+            this._settings.reset('reorder-by-workspace')
           },
         )
 

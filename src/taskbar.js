@@ -240,6 +240,8 @@ export const Taskbar = class extends EventEmitter {
 
     this._shownInitially = false
 
+    this._workspacePositions = {}
+
     this._signalsHandler = new Utils.GlobalSignalsHandler()
     this._timeoutsHandler = new Utils.TimeoutsHandler()
 
@@ -364,8 +366,18 @@ export const Taskbar = class extends EventEmitter {
         'switch-workspace',
         () => this._connectWorkspaceSignals(),
       ],
-      // ADICIONADO: Força redesenho quando uma janela entra no monitor/workspace (move-se via atalho)
-      [global.window_manager, 'window-entered-monitor', () => this._queueRedisplay()],
+      [
+        global.window_manager,
+        'window-entered-monitor',
+        () => {
+          if (
+            SETTINGS.get_boolean('isolate-monitors') ||
+            SETTINGS.get_boolean('reorder-by-workspace')
+          ) {
+            this._queueRedisplay()
+          }
+        },
+      ],
       [
         Utils.DisplayWrapper.getScreen(),
         ['window-entered-monitor', 'window-left-monitor'],
@@ -405,6 +417,7 @@ export const Taskbar = class extends EventEmitter {
           this._connectWorkspaceSignals()
         },
       ],
+      [SETTINGS, 'changed::reorder-by-workspace', () => this.resetAppIcons()],
       [
         SETTINGS,
         [
@@ -448,6 +461,8 @@ export const Taskbar = class extends EventEmitter {
       GLib.source_remove(this._waitIdleId)
       this._waitIdleId = 0
     }
+
+    this._workspacePositions = null
 
     this._timeoutsHandler.destroy()
     this.iconAnimator.destroy()
@@ -995,43 +1010,55 @@ export const Taskbar = class extends EventEmitter {
     }
   }
 
-  // --- MODIFICAÇÃO: Lógica de ordenação por Workspace ---
   sortAppsCompareFunction(appA, appB) {
-    // Função auxiliar para descobrir o menor índice de workspace das janelas do app
-    const getAppWorkspaceIndex = (app) => {
-      // Usa a função auxiliar existente no AppIcons para pegar janelas deste monitor
-      let windows = AppIcons.getInterestingWindows(app, this.dtpPanel.monitor)
+    if (SETTINGS.get_boolean('reorder-by-workspace')) {
+      let currentWs = Utils.getCurrentWorkspace().index()
 
-      // Se não houver janelas (ex: app favorito fechado), definimos uma prioridade.
-      // -1 garante que favoritos fechados fiquem sempre à esquerda (antes do Workspace 1).
-      if (!windows || windows.length === 0) return -1
+      const getAppWsGroup = (app) => {
+        let windows = AppIcons.getInterestingWindows(app, this.dtpPanel.monitor)
+        if (!windows || windows.length === 0) return { group: 0, seq: -1 }
 
-      // Mapeia os índices dos workspaces de todas as janelas
-      let indexes = windows.map((w) => {
-        let ws = w.get_workspace()
-        // Fallback caso ws seja nulo (raro, mas possível em janelas "sticky")
-        return ws ? ws.index() : -1
-      })
+        let minIdx = Infinity
+        let hasCurrent = false
+        for (let w of windows) {
+          let ws = w.get_workspace()
+          if (!ws) continue
+          let idx = ws.index()
+          if (idx === currentWs) hasCurrent = true
+          if (idx < minIdx) minIdx = idx
+        }
 
-      // Retorna o menor índice
-      return Math.min(...indexes)
+        return {
+          group: hasCurrent ? 0 : 1,
+          seq: hasCurrent ? 0 : minIdx,
+        }
+      }
+
+      let a = getAppWsGroup(appA)
+      let b = getAppWsGroup(appB)
+
+      if (a.group !== b.group) return a.group - b.group
+      if (a.group === 0 && b.group === 0) {
+        let positions = this._workspacePositions[currentWs]
+        if (positions) {
+          let posA = positions.get(appA.get_id())
+          let posB = positions.get(appB.get_id())
+          if (posA !== undefined && posB !== undefined) return posA - posB
+        }
+      }
+      if (a.group === 1 && a.seq !== b.seq) return a.seq - b.seq
+
+      return (
+        getAppStableSequence(appA, this.dtpPanel.monitor) -
+        getAppStableSequence(appB, this.dtpPanel.monitor)
+      )
     }
 
-    let wsA = getAppWorkspaceIndex(appA)
-    let wsB = getAppWorkspaceIndex(appB)
-
-    // 1. Critério Principal: Ordem do Workspace
-    if (wsA !== wsB) {
-      return wsA - wsB
-    }
-
-    // 2. Critério de Desempate: Ordem de estabilidade original
     return (
       getAppStableSequence(appA, this.dtpPanel.monitor) -
       getAppStableSequence(appB, this.dtpPanel.monitor)
     )
   }
-  // --- FIM DA MODIFICAÇÃO ---
 
   getAppInfos() {
     //get the user's favorite apps
@@ -1483,6 +1510,15 @@ export const Taskbar = class extends EventEmitter {
     }
 
     appFavorites.emit('changed')
+
+    if (SETTINGS.get_boolean('reorder-by-workspace')) {
+      let wsIndex = Utils.getCurrentWorkspace().index()
+      if (!this._workspacePositions[wsIndex])
+        this._workspacePositions[wsIndex] = new Map()
+      for (let i = 0; i < appIcons.length; i++) {
+        this._workspacePositions[wsIndex].set(appIcons[i].app.get_id(), i)
+      }
+    }
 
     return true
   }

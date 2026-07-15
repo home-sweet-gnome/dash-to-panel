@@ -625,6 +625,11 @@
       <summary>Provide workspace isolation</summary>
       <description>Dash shows only windows from the current workspace</description>
     </key>
+    <key type="b" name="reorder-by-workspace">
+      <default>false</default>
+      <summary>Auto-rearrange apps by workspace</summary>
+      <description>Automatically prioritize application icons from the current workspace in the taskbar</description>
+    </key>
      <key type="b" name="overview-click-to-exit">
       <default>false</default>
       <summary>Close overview by clicking in empty space</summary>

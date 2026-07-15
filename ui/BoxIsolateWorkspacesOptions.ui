@@ -27,6 +27,17 @@
                 </child>
               </object>
             </child>
+            <child>
+              <object class="AdwActionRow">
+                <property name="subtitle">Taskbar</property>
+                <property name="title" translatable="yes">Auto-rearrange apps based on current workspace</property>
+                <child>
+                  <object class="GtkSwitch" id="reorder_by_workspace_switch">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
           </object>
         </child>
       </object>
