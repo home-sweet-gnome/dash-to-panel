@@ -113,8 +113,6 @@ export default class DashToPanelExtension extends Extension {
     )
 
     if (SETTINGS.get_boolean('hide-overview-on-startup')) {
-      Main.sessionMode.hasOverview = false
-
       // GNOME 50 changed extension load timing - on at least some
       // hardware, dash-to-panel's enable() runs after the shell startup
       // animation has fully completed (Main.layoutManager._startingUp
@@ -123,6 +121,8 @@ export default class DashToPanelExtension extends Extension {
       // nothing in that case. Drop the gate and act on actual state:
       // if the overview is showing when we load, hide it.
       if (Main.layoutManager._startingUp) {
+        Main.sessionMode.hasOverview = false
+
         // Still in startup - hide on completion as before. The shell's
         // _startupAnimationComplete fires startup-complete after the
         // cover pane is destroyed, so a normal hide() runs cleanly.
@@ -134,9 +134,9 @@ export default class DashToPanelExtension extends Extension {
           },
         )
       } else {
-        // Startup is already done. Restore hasOverview and hide if
-        // currently shown.
-        Main.sessionMode.hasOverview = this._realHasOverview
+        // Startup is already done, so there is nothing to suppress and
+        // hasOverview was never changed - just hide the overview if the
+        // shell brought us up with it already showing.
         if (Main.overview.visible || Main.overview._shown) {
           Main.overview.hide()
         }
