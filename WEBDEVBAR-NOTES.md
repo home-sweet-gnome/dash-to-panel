@@ -63,6 +63,32 @@ pre-existing unread total never comes back.
 - `trayCount` comes from MessageTray banners with **no decrement signal**. Persisting it would
   produce a badge that can never clear, which is a worse bug than the one being fixed.
 
+## ⚠ THE TRAP THAT COST AN AFTERNOON — GNOME caches extension modules
+
+**`grep` on the installed file proves NOTHING about what the shell is running.** GNOME imports
+extension ES modules once per shell process; `disable`/`enable` does **not** reload changed code —
+only a full shell restart (logout/login on Wayland) does.
+
+On 2026-07-30 this produced a completely false conclusion. The badge fix was installed at 14:10, the
+shell had been running since 13:31, and the windowless badge therefore still failed. A `grep -c` on
+the installed `appIcons.js` returned 0 occurrences of the guard, which "confirmed" the fix was
+active — so the failure looked like proof that PR #2509 does not work on GNOME 50. Two independent
+code reviews then reasoned correctly about a checkout that **was not the running code**.
+
+After a verified relogin (`ps -o lstart -C gnome-shell` postdating the install), the identical test
+passed: **the windowless badge appears, and #2509 works.**
+
+**Before concluding any patch does not work:**
+
+```bash
+ps -o lstart= -C gnome-shell          # when did the running shell start?
+stat -c '%y' ~/.local/share/gnome-shell/extensions/<uuid>/<file>.js
+journalctl --user -b | grep -i "GNOME Shell started" | tail -1
+```
+
+If the shell predates the file, you are testing old code. This belongs in the "verify, don't assume"
+column: a file on disk is not a loaded module, and a passing `grep` is not a passing test.
+
 ## Verified facts about the badge path (measured, not inferred)
 
 Useful when writing either PR comment.
