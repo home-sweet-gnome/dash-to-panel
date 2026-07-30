@@ -48,6 +48,7 @@ export const PanelStyle = class {
       'tray-padding',
       'leftbox-padding',
       'status-icon-padding',
+      'status-group-padding',
     ]
 
     this._dtpSettingsSignalIds = []
@@ -120,6 +121,39 @@ export const PanelStyle = class {
       }
       operation.applyFn = (actor, operationIdx) => {
         this._overrideStyle(actor, statusIconPaddingStyleLine, operationIdx)
+      }
+      this._rightBoxOperations.push(operation)
+    }
+
+    // Pads INSIDE the status indicators box (the quick-settings pill), so the
+    // first/last icon is not flush against the group's hover background.
+    // status-icon-padding spaces the icons from each other; this pads the group.
+    let statusGroupPadding = SETTINGS.get_int('status-group-padding')
+    if (statusGroupPadding >= 0) {
+      let statusGroupPaddingStyleLine = (
+        isVertical ? 'padding: %dpx 0' : 'padding: 0 %dpx'
+      ).format(statusGroupPadding)
+      let operation = {}
+      operation.compareFn = function (actor) {
+        // Every SystemIndicator is itself a 'panel-status-indicators-box', so
+        // matching the class alone pads each icon and spaces them apart. Only
+        // the OUTER box - the direct child of the panel button - is the group
+        // container we want to pad.
+        if (
+          !actor.has_style_class_name ||
+          !actor.has_style_class_name('panel-status-indicators-box')
+        )
+          return false
+
+        let parent = actor.get_parent()
+        return !!(
+          parent &&
+          parent.has_style_class_name &&
+          parent.has_style_class_name('panel-button')
+        )
+      }
+      operation.applyFn = (actor, operationIdx) => {
+        this._overrideStyle(actor, statusGroupPaddingStyleLine, operationIdx)
       }
       this._rightBoxOperations.push(operation)
     }
