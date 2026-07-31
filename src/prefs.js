@@ -3839,6 +3839,13 @@ const Preferences = class {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
+    this._settings.bind(
+      'overview-on-panel-drag',
+      this._builder.get_object('overview_on_panel_drag_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
     // About Panel
 
     let versionLinkButton = this._builder.get_object('extension_version')
