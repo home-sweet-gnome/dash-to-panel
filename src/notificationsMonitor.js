@@ -102,7 +102,7 @@ export const NotificationsMonitor = class extends EventEmitter {
       trayCount: 0, // MessageTray
       trayUrgent: false, // MessageTray
       urgent: false, // Unity add MessageTray combined
-      total: 0, // Unity add MessageTray combined
+      total: 0, // Unity and MessageTray combined
     }
   }
 
@@ -125,9 +125,18 @@ export const NotificationsMonitor = class extends EventEmitter {
       (this._state[appId].trayUrgent && this._state[appId].trayCount) ||
       false
 
-    this._state[appId].total =
-      ((this._state[appId]['count-visible'] || 0) &&
-        (this._state[appId].count || 0)) + (this._state[appId].trayCount || 0)
+    // An app that publishes its own count through LauncherEntry is
+    // authoritative about how much is unread, so that count wins outright
+    // rather than being added to the tray count. Apps doing both otherwise
+    // have every item counted twice: one new message reads as 2. Falling back
+    // to the tray count when the app publishes nothing keeps the old result
+    // for every app that uses only one of the two. Same precedence as
+    // dash-to-dock's applicationCounterOverridesNotifications.
+    let unityCount =
+      (this._state[appId]['count-visible'] || 0) &&
+      (this._state[appId].count || 0)
+
+    this._state[appId].total = unityCount || this._state[appId].trayCount || 0
 
     return currenState != JSON.stringify(this._state[appId])
   }
