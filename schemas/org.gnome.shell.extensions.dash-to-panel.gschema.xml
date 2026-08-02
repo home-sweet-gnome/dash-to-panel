@@ -765,6 +765,11 @@
       </default>
       <summary>User defined context menu entries</summary>
     </key>
+    <key type="s" name="hide-from-panel-apps">
+      <default>'[]'</default>
+      <summary>Apps whose windows never appear in the panel</summary>
+      <description>JSON array of desktop file ids. Windows belonging to these apps are not shown in the taskbar. A pinned favourite for such an app still appears and still launches.</description>
+    </key>
     <key type="i" name="scroll-panel-delay">
       <default>0</default>
       <summary>Delay between panel mouse scroll events</summary>
