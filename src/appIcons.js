@@ -842,7 +842,7 @@ export const TaskbarAppIcon = GObject.registerClass(
     }
 
     _checkIfFocusedApp() {
-      return tracker.focus_app == this.app
+      return !isHiddenFromPanel(this.app) && tracker.focus_app == this.app
     }
 
     _checkIfMonitorHasFocus() {
