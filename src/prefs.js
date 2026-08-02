@@ -3094,6 +3094,8 @@ const Preferences = class {
       hiddenApps = []
     }
 
+    if (!Array.isArray(hiddenApps)) hiddenApps = []
+
     let saveHiddenApps = () => {
       this._settings.set_string(
         'hide-from-panel-apps',
@@ -3118,13 +3120,12 @@ const Preferences = class {
           subtitle: info ? id : _('Not installed'),
         })
 
-        row.add_prefix(
-          new Gtk.Image({
-            gicon: info ? info.get_icon() : null,
-            icon_name: info ? null : 'application-x-executable-symbolic',
-            pixel_size: 32,
-          }),
-        )
+        let image = new Gtk.Image({ pixel_size: 32 })
+
+        if (info) image.set_from_gicon(info.get_icon())
+        else image.set_from_icon_name('application-x-executable-symbolic')
+
+        row.add_prefix(image)
 
         row.add_suffix(
           createButton('user-trash-symbolic', _('Remove'), () => {
@@ -3167,8 +3168,14 @@ const Preferences = class {
       factory.connect('bind', (f, item) => {
         let app = item.get_item()
         let box = item.get_child()
+        let icon = app.get_icon()
 
-        box.get_first_child().set_from_gicon(app.get_icon())
+        if (icon) box.get_first_child().set_from_gicon(icon)
+        else
+          box
+            .get_first_child()
+            .set_from_icon_name('application-x-executable-symbolic')
+
         box.get_last_child().set_label(app.get_display_name())
       })
 
