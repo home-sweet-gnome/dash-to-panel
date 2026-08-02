@@ -403,6 +403,7 @@ export const Taskbar = class extends EventEmitter {
           this._connectWorkspaceSignals()
         },
       ],
+      [SETTINGS, 'changed::hide-from-panel-apps', () => this._redisplay()],
       [
         SETTINGS,
         [
