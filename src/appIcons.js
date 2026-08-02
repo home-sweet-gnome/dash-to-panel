@@ -1851,11 +1851,48 @@ export function closeAllWindows(app, monitor) {
     windows[i].delete(global.get_current_time())
 }
 
+// The parsed set is cached against the RAW setting string rather than
+// invalidated by a signal. A module-level cache outlives the extension - GNOME
+// keeps imported modules for the life of the shell process, while
+// Taskbar.destroy() disconnects the setting handlers - so a list edited while
+// the extension is disabled would otherwise be read stale forever.
+let hiddenAppsRaw = null
+let hiddenApps = new Set()
+
+export function isHiddenFromPanel(app) {
+  let raw = SETTINGS.get_string('hide-from-panel-apps')
+
+  if (raw !== hiddenAppsRaw) {
+    hiddenAppsRaw = raw
+
+    try {
+      hiddenApps = new Set(JSON.parse(raw))
+    } catch {
+      // A hand-edited value must not take the panel down with it.
+      hiddenApps = new Set()
+    }
+  }
+
+  // An unresolved window has no stable identity, so it can never have been
+  // added to the list. Keeping it is the safe direction: filtering it would
+  // hide a window the user never excluded.
+  return !!app && hiddenApps.has(app.get_id())
+}
+
 // Filter out unnecessary windows, for instance
 // nautilus desktop window.
 export function getInterestingWindows(app, monitor, isolateMonitors) {
+  let hidden = app ? isHiddenFromPanel(app) : null
+
   let windows = (app ? app.get_windows() : Utils.getAllMetaWindows()).filter(
-    (w) => !w.skip_taskbar,
+    (w) =>
+      !w.skip_taskbar &&
+      // `app` is null on the split-app path (taskbar.js), where each window
+      // must be resolved individually. get_window_app() can itself return
+      // null - guarded inside isHiddenFromPanel.
+      !(hidden === null
+        ? isHiddenFromPanel(tracker.get_window_app(w))
+        : hidden),
   )
 
   // When using workspace or monitor isolation, we filter out windows
