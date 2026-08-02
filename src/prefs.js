@@ -3081,6 +3081,146 @@ const Preferences = class {
 
     createContextMenuEntries()
 
+    // Every callback below is an arrow function, so `this` stays the prefs
+    // object and `this._settings` resolves. prefs.js has no SETTINGS global.
+    let hideAppsRows = []
+    let hideAppsGroup = this._builder.get_object('hide_apps_group')
+    let hideAppsAddButton = this._builder.get_object('hide_apps_add_button')
+    let hiddenApps = []
+
+    try {
+      hiddenApps = JSON.parse(this._settings.get_string('hide-from-panel-apps'))
+    } catch {
+      hiddenApps = []
+    }
+
+    if (!Array.isArray(hiddenApps)) hiddenApps = []
+
+    let saveHiddenApps = () => {
+      this._settings.set_string(
+        'hide-from-panel-apps',
+        JSON.stringify(hiddenApps),
+      )
+      createHiddenAppRows()
+    }
+
+    // A stored id whose app has been uninstalled still gets a row, showing the
+    // raw id and a fallback icon, so it can be seen and removed rather than
+    // silently occupying the list.
+    let createHiddenAppRows = () => {
+      hideAppsRows.forEach((r) => hideAppsGroup.remove(r))
+      hideAppsRows = []
+
+      hiddenApps.forEach((id, i) => {
+        // GioUnix, not Gio - Gio.DesktopAppInfo is deprecated and prefs.js
+        // already imports GioUnix.
+        let info = GioUnix.DesktopAppInfo.new(id)
+        let row = new Adw.ActionRow({
+          title: info ? info.get_display_name() : id,
+          subtitle: info ? id : _('Not installed'),
+        })
+
+        let image = new Gtk.Image({ pixel_size: 32 })
+
+        if (info) image.set_from_gicon(info.get_icon())
+        else image.set_from_icon_name('application-x-executable-symbolic')
+
+        row.add_prefix(image)
+
+        row.add_suffix(
+          createButton('user-trash-symbolic', _('Remove'), () => {
+            hiddenApps.splice(i, 1)
+            saveHiddenApps()
+          }),
+        )
+
+        hideAppsGroup.add(row)
+        hideAppsRows.push(row)
+      })
+    }
+
+    hideAppsAddButton.connect('clicked', () => {
+      // Only apps the user could see in the app grid, minus those already
+      // listed, so the same app cannot be added twice.
+      let apps = Gio.AppInfo.get_all()
+        .filter((a) => a.should_show() && hiddenApps.indexOf(a.get_id()) < 0)
+        .sort((a, b) =>
+          a.get_display_name().localeCompare(b.get_display_name()),
+        )
+
+      if (!apps.length) return
+
+      let model = new Gio.ListStore({ item_type: Gio.AppInfo })
+      apps.forEach((a) => model.append(a))
+
+      // One factory renders BOTH the selected value and the popup rows.
+      // list-factory is deliberately left unset so the two cannot drift.
+      let factory = new Gtk.SignalListItemFactory()
+
+      factory.connect('setup', (f, item) => {
+        let box = new Gtk.Box({ spacing: 8 })
+
+        box.append(new Gtk.Image({ pixel_size: 16 }))
+        box.append(new Gtk.Label({ xalign: 0 }))
+        item.set_child(box)
+      })
+
+      factory.connect('bind', (f, item) => {
+        let app = item.get_item()
+        let box = item.get_child()
+        let icon = app.get_icon()
+
+        if (icon) box.get_first_child().set_from_gicon(icon)
+        else
+          box
+            .get_first_child()
+            .set_from_icon_name('application-x-executable-symbolic')
+
+        box.get_last_child().set_label(app.get_display_name())
+      })
+
+      let combo = new Adw.ComboRow({
+        title: _('Add app'),
+        model,
+        factory,
+        // enable-search alone has no search key when the model holds objects
+        // rather than strings; the expression is what supplies it.
+        expression: Gtk.ClosureExpression.new(
+          GObject.TYPE_STRING,
+          (app) => app.get_display_name(),
+          null,
+        ),
+        enable_search: true,
+      })
+
+      const ADD_RESPONSE = 'add'
+      let dialog = new Adw.AlertDialog({
+        heading: _('Hide an app from the panel'),
+      })
+      let list = new Gtk.ListBox({ selection_mode: Gtk.SelectionMode.NONE })
+
+      list.add_css_class('boxed-list')
+      list.append(combo)
+      dialog.set_extra_child(list)
+      dialog.add_response('cancel', _('Cancel'))
+      dialog.add_response(ADD_RESPONSE, _('Add'))
+      dialog.set_response_appearance(
+        ADD_RESPONSE,
+        Adw.ResponseAppearance.SUGGESTED,
+      )
+
+      dialog.connect('response', (d, response) => {
+        if (response != ADD_RESPONSE) return
+
+        hiddenApps.push(model.get_item(combo.get_selected()).get_id())
+        saveHiddenApps()
+      })
+
+      dialog.present(hideAppsAddButton.get_root())
+    })
+
+    createHiddenAppRows()
+
     // Create dialog for panel scroll options
     this._builder
       .get_object('scroll_panel_options_button')
