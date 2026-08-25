@@ -374,6 +374,20 @@ export const Panel = GObject.registerClass(
         [Main.layoutManager, 'startup-complete', () => this._resetGeometry()],
       )
 
+      if (this.isStandalone && this.statusArea.dateMenu) {
+        // A cloned DateMenuButton constructed while org.gnome.Shell.CalendarServer
+        // isn't responsive yet (e.g. at login) gets an event source whose
+        // HasCalendars property never loads, so its events section stays hidden.
+        // The primary panel reuses gnome-shell's own working date menu, so repair
+        // the clone's event source the next time the menu opens, by which point
+        // the service is available.
+        this._signalsHandler.add([
+          this.statusArea.dateMenu.menu,
+          'open-state-changed',
+          (menu, isOpen) => isOpen && this._repairDateMenuEventSource(),
+        ])
+      }
+
       this._bindSettingsChanges()
 
       this.panelStyle.enable(this)
@@ -726,6 +740,22 @@ export const Panel = GObject.registerClass(
       }
 
       return PERSISTENTSTORAGE[propName].pop()
+    }
+
+    _repairDateMenuEventSource() {
+      let dateMenu = this.statusArea.dateMenu
+      let primarySource = Main.panel.statusArea.dateMenu._eventSource
+
+      // Only recreate when the primary date menu has calendars but this clone
+      // doesn't: that's the stuck-proxy state. Once recreated (with the service
+      // now up) hasCalendars becomes true, so this turns into a no-op.
+      if (
+        dateMenu._eventSource &&
+        primarySource &&
+        primarySource.hasCalendars &&
+        !dateMenu._eventSource.hasCalendars
+      )
+        dateMenu._setEventSource(dateMenu._getEventSource())
     }
 
     _adjustForOverview() {
