@@ -334,6 +334,11 @@ export const PanelManager = class {
           )
         }
 
+        if (pmb.menu._dtpMaxHeightId) {
+          pmb.menu.disconnect(pmb.menu._dtpMaxHeightId)
+          delete pmb.menu._dtpMaxHeightId
+        }
+
         pmb.menu._boxPointer.sourceActor = pmb.menu._boxPointer._dtpSourceActor
         delete pmb.menu._boxPointer._dtpSourceActor
         pmb.menu._boxPointer._userArrowSide = St.Side.TOP
@@ -746,7 +751,29 @@ export const PanelManager = class {
             },
           )
       }
+
+      // PanelMenu.Button._onOpenStateChanged sizes the menu from the primary
+      // monitor's work area, which is wrong when this panel lives on another
+      // monitor. Re-apply max-height after the upstream handler, using this
+      // panel's own monitor.
+      button.menu._dtpMaxHeightId = button.menu.connect(
+        'open-state-changed',
+        (menu, isOpen) =>
+          isOpen && this._setPanelMenuMaxHeight(button, monitor),
+      )
     }
+  }
+
+  _setPanelMenuMaxHeight(button, monitor) {
+    let workArea = Main.layoutManager.getWorkAreaForMonitor(monitor.index)
+    let scaleFactor = St.ThemeContext.get_for_stage(global.stage).scale_factor
+    let verticalMargins =
+      button.menu.actor.margin_top + button.menu.actor.margin_bottom
+    let maxHeight = Math.round(
+      (workArea.height - verticalMargins) / scaleFactor,
+    )
+
+    button.menu.actor.style = `max-height: ${maxHeight}px;`
   }
 
   _getBoxPointerPreferredHeight(boxPointer, alloc, monitor) {
