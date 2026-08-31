@@ -439,9 +439,14 @@ export const Intellihide = class {
       //of updates, but remember to update again when the limit timeout is reached
       this._pendingUpdate = true
     } else if (!this._holdStatus) {
-      this._checkIfShouldBeVisible(fromRevealMechanism)
-        ? this._revealPanel()
-        : this._hidePanel()
+      let shouldBeVisible = this._checkIfShouldBeVisible(fromRevealMechanism)
+      let isVisible = this._animationDestination == 0
+
+      if (shouldBeVisible && !isVisible)
+        this._revealPanel()
+      else if (!shouldBeVisible && isVisible)
+        this._hidePanel()
+      
       this._timeoutsHandler.add([
         T2,
         MIN_UPDATE_MS,
@@ -458,18 +463,6 @@ export const Intellihide = class {
   }
 
   _checkIfShouldBeVisible(fromRevealMechanism) {
-    if (
-      Main.overview.visibleTarget ||
-      this._dtpPanel.taskbar.previewMenu.opened ||
-      this._dtpPanel.taskbar._dragMonitor ||
-      this._hover ||
-      (this._dtpPanel.geom.position == St.Side.TOP &&
-        Main.layoutManager.panelBox.get_hover()) ||
-      this._checkIfGrab()
-    ) {
-      return true
-    }
-
     if (fromRevealMechanism) {
       let mouseBtnIsPressed =
         global.get_pointer()[2] & Clutter.ModifierType.BUTTON1_MASK
@@ -480,6 +473,18 @@ export const Intellihide = class {
       }
 
       return !mouseBtnIsPressed
+    }
+
+    if (
+      Main.overview.visibleTarget ||
+      this._dtpPanel.taskbar.previewMenu.opened ||
+      this._dtpPanel.taskbar._dragMonitor ||
+      this._hover ||
+      (this._dtpPanel.geom.position == St.Side.TOP &&
+        Main.layoutManager.panelBox.get_hover()) ||
+      this._checkIfGrab()
+    ) {
+      return true
     }
 
     if (!this._hidesFromWindows()) {
