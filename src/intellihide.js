@@ -24,8 +24,8 @@ import St from 'gi://St'
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as OverviewControls from 'resource:///org/gnome/shell/ui/overviewControls.js'
-import * as PointerWatcher from 'resource:///org/gnome/shell/ui/pointerWatcher.js'
 
+import * as PointerWatcher from './pointerWatcher.js'
 import * as Proximity from './proximity.js'
 import * as Utils from './utils.js'
 import { SETTINGS, NOTIFICATIONSSETTINGS } from './extension.js'
@@ -308,16 +308,20 @@ export const Intellihide = class {
       ])
     }
 
-    this._pointerWatch = PointerWatcher.getPointerWatcher().addWatch(
-      CHECK_POINTER_MS,
-      (x, y) => this._checkMousePointer(x, y),
+    PointerWatcher.getPointerWatcher().then(
+      (w) =>
+        (this._pointerWatch = w.addWatch(CHECK_POINTER_MS, (x, y) =>
+          this._checkMousePointer(x, y),
+        )),
     )
   }
 
   _removeRevealMechanism() {
     if (this._pointerWatch) {
-      PointerWatcher.getPointerWatcher()._removeWatch(this._pointerWatch)
-      this._pointerWatch = 0
+      PointerWatcher.getPointerWatcher().then((w) => {
+        w._removeWatch(this._pointerWatch)
+        this._pointerWatch = 0
+      })
     }
 
     if (this._pressureBarrier) {
@@ -440,13 +444,11 @@ export const Intellihide = class {
       this._pendingUpdate = true
     } else if (!this._holdStatus) {
       let shouldBeVisible = this._checkIfShouldBeVisible(fromRevealMechanism)
-      let isVisible = this._animationDestination == 0
+      let isVisible = this._animationDestination <= 0
 
-      if (shouldBeVisible && !isVisible)
-        this._revealPanel()
-      else if (!shouldBeVisible && isVisible)
-        this._hidePanel()
-      
+      if (shouldBeVisible && !isVisible) this._revealPanel()
+      else if (!shouldBeVisible && isVisible) this._hidePanel()
+
       this._timeoutsHandler.add([
         T2,
         MIN_UPDATE_MS,
