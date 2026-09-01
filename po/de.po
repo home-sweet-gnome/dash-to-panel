@@ -1144,38 +1144,42 @@ msgid "Show notification counter badge"
 msgstr "Banner mit Anzahl der Benachrichtigungen anzeigen"
 
 #: ui/SettingsBehavior.ui.h:8
+msgid "Application counter overrides notification count"
+msgstr "Anwendungszähler überschreibt Benachrichtigungen"
+
+#: ui/SettingsBehavior.ui.h:9
 msgid "Hover"
 msgstr "Überfahren"
 
-#: ui/SettingsBehavior.ui.h:9
+#: ui/SettingsBehavior.ui.h:10
 msgid "Show window previews on hover"
 msgstr "Fenstervorschau bei Berührung einblenden"
 
-#: ui/SettingsBehavior.ui.h:10
+#: ui/SettingsBehavior.ui.h:11
 msgid "Show tooltip on hover"
 msgstr "Kurzinfo bei Berührung"
 
-#: ui/SettingsBehavior.ui.h:11
+#: ui/SettingsBehavior.ui.h:12
 msgid "Isolate"
 msgstr "Isolieren"
 
-#: ui/SettingsBehavior.ui.h:12
+#: ui/SettingsBehavior.ui.h:13
 msgid "Isolate Workspaces"
 msgstr "Arbeitsflächen isolieren"
 
-#: ui/SettingsBehavior.ui.h:13
+#: ui/SettingsBehavior.ui.h:14
 msgid "Isolate monitors"
 msgstr "Bildschirme isolieren"
 
-#: ui/SettingsBehavior.ui.h:14
+#: ui/SettingsBehavior.ui.h:15
 msgid "Overview"
 msgstr "Übersicht"
 
-#: ui/SettingsBehavior.ui.h:15
+#: ui/SettingsBehavior.ui.h:16
 msgid "Click empty space to close overview"
 msgstr "In leeren Bereich klicken, um Übersicht zu schließen"
 
-#: ui/SettingsBehavior.ui.h:16
+#: ui/SettingsBehavior.ui.h:17
 msgid "Disable show overview on startup"
 msgstr "Übersicht beim Start nicht anzeigen"
 
