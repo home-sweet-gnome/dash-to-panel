@@ -186,6 +186,10 @@
 	border-radius: 0 4px 4px 0 !important;
 }
 
+#uiGroup.br4 .dashtopanelPanel.dock .showdesktop-button-vertical {
+	border-radius: 0 0 4px 4px !important;
+}
+
 #uiGroup.br8 .dashtopanelPanel.dock,
 #uiGroup.br8 .dashtopanelPanel.dock .dashtopanelMainPanel,
 #uiGroup.br8 .show-apps,
@@ -200,6 +204,10 @@
 }
 #uiGroup.br8 .dashtopanelPanel.dock .showdesktop-button { 
 	border-radius: 0 8px 8px 0 !important;
+}
+
+#uiGroup.br8 .dashtopanelPanel.dock .showdesktop-button-vertical {
+	border-radius: 0 0 8px 8px !important;
 }
 
 #uiGroup.br12 .dashtopanelPanel.dock,
@@ -218,6 +226,10 @@
 	border-radius: 0 12px 12px 0 !important;
 }
 
+#uiGroup.br12 .dashtopanelPanel.dock .showdesktop-button-vertical {
+	border-radius: 0 0 12px 12px !important;
+}
+
 #uiGroup.br16 .dashtopanelPanel.dock,
 #uiGroup.br16 .dashtopanelPanel.dock .dashtopanelMainPanel,
 #uiGroup.br16 .show-apps,
@@ -234,6 +246,10 @@
 	border-radius: 0 16px 16px 0 !important;
 }
 
+#uiGroup.br16 .dashtopanelPanel.dock .showdesktop-button-vertical {
+	border-radius: 0 0 16px 16px !important;
+}
+
 #uiGroup.br20 .dashtopanelPanel.dock,
 #uiGroup.br20 .dashtopanelPanel.dock .dashtopanelMainPanel,
 #uiGroup.br20 .show-apps,
@@ -248,4 +264,8 @@
 }
 #uiGroup.br20 .dashtopanelPanel.dock .showdesktop-button { 
 	border-radius: 0 20px 20px 0 !important;
+}
+
+#uiGroup.br20 .dashtopanelPanel.dock .showdesktop-button-vertical {
+	border-radius: 0 0 20px 20px !important;
 }
