@@ -1,0 +1,1399 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: dashtopanel\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n==1) ? 0 : 1;\n"
+"X-Generator: Poedit 3.9\n"
+
+#: prefs.js:680
+#, javascript-format
+msgid "%.1f"
+msgstr "%.1f"
+
+#: prefs.js:670 prefs.js:675
+#, javascript-format
+msgid "%d %%"
+msgstr "%d %%"
+
+#: prefs.js:660
+#, javascript-format
+msgid "%d ms"
+msgstr "%d ms"
+
+#: prefs.js:665
+#, javascript-format
+msgid "%d °"
+msgstr "%d °"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:8 ui/BoxShowApplicationsOptions.ui.h:3
+#: ui/BoxWindowPreviewOptions.ui.h:57 ui/SettingsStyle.ui.h:31
+msgid "0"
+msgstr "0"
+
+#: ui/BoxWindowPreviewOptions.ui.h:10
+msgid "1"
+msgstr "1"
+
+#: ui/BoxWindowPreviewOptions.ui.h:19
+msgid "10"
+msgstr "10"
+
+#: ui/BoxWindowPreviewOptions.ui.h:20
+msgid "11"
+msgstr "11"
+
+#: ui/BoxWindowPreviewOptions.ui.h:21
+msgid "12"
+msgstr "12"
+
+#: ui/BoxWindowPreviewOptions.ui.h:22
+msgid "13"
+msgstr "13"
+
+#: ui/BoxWindowPreviewOptions.ui.h:23
+msgid "14"
+msgstr "14"
+
+#: ui/BoxWindowPreviewOptions.ui.h:24
+msgid "15"
+msgstr "15"
+
+#: ui/BoxWindowPreviewOptions.ui.h:25
+msgid "16"
+msgstr "16"
+
+#: ui/BoxWindowPreviewOptions.ui.h:26
+msgid "17"
+msgstr "17"
+
+#: ui/BoxWindowPreviewOptions.ui.h:27
+msgid "18"
+msgstr "18"
+
+#: ui/BoxWindowPreviewOptions.ui.h:28
+msgid "19"
+msgstr "19"
+
+#: ui/BoxDotOptions.ui.h:8
+msgid "1 window open (or ungrouped)"
+msgstr "1 παράθυρο ανοιχτό (ή μη ομαδοποιημένο)"
+
+#: ui/BoxWindowPreviewOptions.ui.h:11
+msgid "2"
+msgstr "2"
+
+#: ui/BoxWindowPreviewOptions.ui.h:29
+msgid "20"
+msgstr "20"
+
+#: ui/BoxWindowPreviewOptions.ui.h:30
+msgid "21"
+msgstr "21"
+
+#: ui/BoxDotOptions.ui.h:10
+msgid "2 windows open"
+msgstr "2 παράθυρα ανοιχτά"
+
+#: ui/BoxWindowPreviewOptions.ui.h:12
+msgid "3"
+msgstr "3"
+
+#: ui/BoxDotOptions.ui.h:11
+msgid "3 windows open"
+msgstr "3 παράθυρα ανοιχτά"
+
+#: ui/BoxWindowPreviewOptions.ui.h:13
+msgid "4"
+msgstr "4"
+
+#: ui/BoxDotOptions.ui.h:12
+msgid "4+ windows open"
+msgstr "4+ παράθυρα ανοιχτά"
+
+#: ui/BoxWindowPreviewOptions.ui.h:14
+msgid "5"
+msgstr "5"
+
+#: ui/BoxWindowPreviewOptions.ui.h:54
+msgid "50"
+msgstr "50"
+
+#: ui/BoxWindowPreviewOptions.ui.h:15
+msgid "6"
+msgstr "6"
+
+#: ui/BoxWindowPreviewOptions.ui.h:16
+msgid "7"
+msgstr "7"
+
+#: ui/BoxWindowPreviewOptions.ui.h:17
+msgid "8"
+msgstr "8"
+
+#: ui/BoxWindowPreviewOptions.ui.h:18
+msgid "9"
+msgstr "9"
+
+#: ui/BoxSecondaryMenuOptions.ui.h:2
+msgid "<i>Show Details</i> menu item"
+msgstr "Στοιχείο μενού <i>Εμφάνηση Λεπτομεριών</i>"
+
+#: ui/SettingsAbout.ui.h:11
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\">GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">Αυτό το πρόγραμμα δεν παρέχεται ΑΠΟΛΥΤΩΣ ΚΑΜΙΑ ΕΓΓΥΗΣΗ.\n"
+"Ανατρέξτε στο <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\"> GNU General Public License, έκδοση 2 ή νεότερη </a> για λεπτομέρειες.</span>"
+
+#: ui/SettingsAbout.ui.h:1
+msgid "About"
+msgstr "Σχετικά"
+
+#: ui/SettingsAction.ui.h:1
+msgid "Action"
+msgstr "Ενέργεια"
+
+#: ui/SettingsFineTune.ui.h:18
+msgid "Activate panel menu buttons on click only"
+msgstr "Ενεργοποίηση κουμπιών σε μενού του πάνελ μόνο με κλικ"
+
+#: prefs.js:413
+msgid "Activities button"
+msgstr "Κουμπί «Δραστηριότητες»"
+
+#: prefs.js:1925 ui/SettingsFineTune.ui.h:23
+msgid "Advanced Options"
+msgstr "Προηγμένες επιλογές"
+
+#: prefs.js:1880
+msgid "Advanced hotkeys options"
+msgstr "Προηγμένες επιλογές συντομεύσεων"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:2 ui/BoxIntellihideOptions.ui.h:3
+msgid "All windows"
+msgstr "Όλα τα παράθυρα"
+
+#: ui/BoxWindowPreviewOptions.ui.h:56
+msgid "All windows except for the peeked one have their opacity set to the same value."
+msgstr "Όλα τα παράθυρα, εκτός από αυτό στην ματιά, έχουν την αδιαφάνεια τους στην ίδια τιμή."
+
+#: ui/BoxIntellihideOptions.ui.h:9
+msgid "Allow the panel to be revealed while in fullscreen mode"
+msgstr "Να επιτρέπεται η εμφάνιση του πάνελ στην πλήρη οθόνη"
+
+#: ui/BoxOverlayShortcut.ui.h:9
+msgid "Always visible"
+msgstr "Πάντα ορατό"
+
+#: ui/SettingsPosition.ui.h:20
+msgid "Anchor"
+msgstr "Αγκυρα"
+
+#: ui/SettingsFineTune.ui.h:11
+msgid "Animate"
+msgstr "Κίνηση"
+
+#: ui/SettingsStyle.ui.h:7
+msgid "Animate hovering app icons"
+msgstr "Κίνηση εικονιδίων εφαρμογών κατα το πέρασμα του δείκτη ποντικιού"
+
+#: ui/SettingsFineTune.ui.h:13
+msgid "Animate launching new windows"
+msgstr "Κινούμενα εφέ κατά την εκκίνηση νέων παραθύρων"
+
+#: ui/SettingsFineTune.ui.h:12
+msgid "Animate switching applications"
+msgstr "Κινούμενα εφέ κατά την εναλλαγή εφαρμογών"
+
+#: ui/BoxWindowPreviewOptions.ui.h:6
+msgid "Animation time (ms)"
+msgstr "Χρόνος κίνησης (ms)"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:1
+msgid "Animation type"
+msgstr "Στυλ κίνησης"
+
+#: ui/SettingsStyle.ui.h:2
+msgid "AppIcon style"
+msgstr "Στυλ εικονιδίων εφαρμογών"
+
+#: ui/SettingsStyle.ui.h:3
+msgid "App Icon Margin"
+msgstr "Περιθώριο εικονιδίων εφαρμογών"
+
+#: ui/SettingsStyle.ui.h:5
+msgid "App Icon Padding"
+msgstr "Περιθώριο εικονιδίων εφαρμογών"
+
+#: prefs.js:2041
+msgid "App icon animation options"
+msgstr "Επιλογές κίνησης εικονιδίων"
+
+#: ui/SettingsFineTune.ui.h:21
+msgid "App icon secondary menu"
+msgstr "Δευτερεύον μενού στα εικονίδια εφαρμογών"
+
+#: ui/SettingsBehavior.ui.h:2
+msgid "Applications"
+msgstr "Εφαρμογές"
+
+#: ui/SettingsPosition.ui.h:9
+msgid "Apply changes to all monitors"
+msgstr "Εφαρμογή αλλαγών σε όλες τις οθόνες"
+
+#: ui/BoxDotOptions.ui.h:9
+msgid "Apply to all"
+msgstr "Εφαρμογή σε όλα"
+
+#: ui/SettingsBehavior.ui.h:1
+msgid "Behavior"
+msgstr "Συμπεριφορά"
+
+#: ui/BoxMiddleClickOptions.ui.h:12
+msgid "Behavior for Middle-Click."
+msgstr "Συμπεριφορά του μεσαίου κλικ."
+
+#: ui/BoxMiddleClickOptions.ui.h:14
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Συμπεριφορά του Shift+Μεσαίου κλικ."
+
+#: ui/SettingsAction.ui.h:19
+msgid "Behavior when mouse scrolling over an application icon."
+msgstr "Συμπεριφορά κατά την κύλιση του ποντικιού πάνω από το εικονίδιο μιας εφαρμογής."
+
+#: ui/SettingsAction.ui.h:13
+msgid "Behavior when mouse scrolling over the panel."
+msgstr "Συμπεριφορά κατά την κύλιση του ποντικιού πάνω από το πάνελ."
+
+#: ui/SettingsAction.ui.h:3
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr "Συμπεριφορά κατά το κλικ στο εικονίδιο μιας εφαρμογής που εκτελείται."
+
+#: ui/BoxOverlayShortcut.ui.h:20
+msgid "Both"
+msgstr "Και τα δύο"
+
+#: prefs.js:322 ui/BoxWindowPreviewOptions.ui.h:37 ui/SettingsPosition.ui.h:11
+#: ui/SettingsStyle.ui.h:13
+msgid "Bottom"
+msgstr "Κάτω"
+
+#: prefs.js:317
+msgid "Center"
+msgstr "Κέντρο"
+
+#: prefs.js:418
+msgid "Center box"
+msgstr "Κεντρικό πλαίσιο"
+
+#: prefs.js:444
+msgid "Centered"
+msgstr "Κεντραρισμένο"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:7
+#, no-c-format
+msgid "Change opacity to (%)"
+msgstr "Αλλαγή διαφάνειας σε (%)"
+
+#: ui/SettingsStyle.ui.h:33
+msgid "Change opacity when a window gets close to the panel"
+msgstr "Αλλαγή της διαφάνειας όταν ένα παράθυρο πλησιάζει το πάνελ"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:5
+msgid "Change opacity when a window gets closer than (px)"
+msgstr "Αλλαγή διαφάνειας όταν ένα παράθυρο είναι πιο κοντά από (px)"
+
+#: ui/SettingsAction.ui.h:17
+msgid "Change volume"
+msgstr "Αλλαγή έντασης ήχου"
+
+#: ui/SettingsStyle.ui.h:23
+msgid "Ciliora"
+msgstr "Ciliora"
+
+#: ui/SettingsAction.ui.h:2
+msgid "Click action"
+msgstr "Ενέργεια κατά το κλικ"
+
+#: ui/SettingsBehavior.ui.h:15
+msgid "Click empty space to close overview"
+msgstr "Κάντε κλικ σε κενό χώρο για να κλείσετε την επισκόπηση"
+
+#: ui/BoxWindowPreviewOptions.ui.h:36
+msgid "Close button and header position"
+msgstr "Κουμπί κλεισίματος και θέση κεφαλίδας"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:9
+msgid "Convexity"
+msgstr "Κυρτότητα"
+
+#: ui/BoxDotOptions.ui.h:3
+msgid "Custom color"
+msgstr "Προσαρμοσμένο χρώμα"
+
+#: prefs.js:1799
+msgid "Customize icon scroll behavior"
+msgstr "Προσαρμογή της συμπεριφοράς κύλισης στα εικονίδια"
+
+#: prefs.js:1721
+msgid "Customize middle-click behavior"
+msgstr "Προσαρμογή συμπεριφοράς του μεσαίου κλικ"
+
+#: prefs.js:1771
+msgid "Customize panel scroll behavior"
+msgstr "Μη διαθέσιμο όταν υπάρχει η πάνω γραμμή του gnome-shell"
+
+#: ui/BoxMiddleClickOptions.ui.h:6 ui/SettingsAction.ui.h:5
+msgid "Cycle through windows"
+msgstr "Εναλλαγή παραθύρων"
+
+#: ui/SettingsAction.ui.h:16
+msgid "Cycle windows"
+msgstr "Εναλλαγή παραθύρων"
+
+#: ui/BoxMiddleClickOptions.ui.h:7 ui/SettingsAction.ui.h:4
+msgid "Cycle windows + minimize"
+msgstr "Εναλλαγή παραθύρων + ελαχιστοποίηση"
+
+#: appIcons.js:1841
+msgid "Dash to Panel Settings"
+msgstr "Ρυθμίσεις Dash σε Panel"
+
+#: ui/SettingsStyle.ui.h:20
+msgid "Dashes"
+msgstr "Παύλες"
+
+#: prefs.js:415
+msgid "Date menu"
+msgstr "Μενού ημερομηνίας"
+
+#: ui/BoxIntellihideOptions.ui.h:17
+msgid "Delay before enabling intellihide on start (ms)"
+msgstr "Καθυστέρηση ενεργοποίησης αυτόματης απόκρυψης κατά την εκκίνηση (ms)"
+
+#: ui/BoxIntellihideOptions.ui.h:16
+msgid "Delay before hiding the panel (ms)"
+msgstr "Καθυστέρηση πριν την απόκρυψη του πάνελ (ms)"
+
+#: ui/BoxShowDesktopOptions.ui.h:3
+msgid "Delay before revealing the desktop (ms)"
+msgstr "Καθυστέρηση πριν την αποκάλυψη της επιφάνειας εργασίας (ms)"
+
+#: ui/BoxScrollIconOptions.ui.h:1 ui/BoxScrollPanelOptions.ui.h:1
+msgid "Delay between mouse scroll events (ms)"
+msgstr "Καθυστέρηση μεταξύ συμβάντων κύλισης ποντικιού (ms)"
+
+#: prefs.js:420
+msgid "Desktop button"
+msgstr "Κουμπί επιφάνειας εργασίας"
+
+#: appIcons.js:1787
+msgid "Device Management"
+msgstr "Διαχείριση συσκευών"
+
+#: ui/SettingsBehavior.ui.h:16
+msgid "Disable show overview on startup"
+msgstr "Να μην εμφανίζεται η επισκόπηση κατα την εκκίνηση"
+
+#: appIcons.js:1792
+msgid "Disk Management"
+msgstr "Διαχείριση δίσκων"
+
+#: ui/SettingsPosition.ui.h:4
+msgid "Display panels on all monitors"
+msgstr "Εμφάνιση πάνελ σε όλες τις οθόνες"
+
+#: ui/BoxGroupAppsOptions.ui.h:14
+msgid "Display running indicators on unfocused applications"
+msgstr "Εμφάνιση ένδειξης λειτουργίας σε μη ενεργές εφαρμογές"
+
+#: ui/SettingsPosition.ui.h:3
+msgid "Display the main panel on"
+msgstr "Εμφάνιση του κύριου πάνελ στο"
+
+#: ui/BoxWindowPreviewOptions.ui.h:39
+msgid "Display window preview headers"
+msgstr "Εμφάνιση κεφαλίδων προεπισκόπησης παραθύρου"
+
+#: ui/SettingsAction.ui.h:14
+msgid "Do nothing"
+msgstr "Να μην κάνει τίποτα"
+
+#: ui/SettingsStyle.ui.h:18
+msgid "Dots"
+msgstr "Κουκκίδες"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:5
+msgid "Duration"
+msgstr "Διάρκεια"
+
+#: ui/SettingsStyle.ui.h:32
+msgid "Dynamic background opacity"
+msgstr "Δυναμική διαφάνεια φόντου"
+
+#: prefs.js:1127
+msgid "Dynamic opacity options"
+msgstr "Επιλογές δυναμικής διαφάνειας"
+
+#: ui/SettingsAction.ui.h:23
+msgid "Enable Super+(0-9) as shortcuts to activate apps. It can also be used together with Shift and Ctrl."
+msgstr "Ενεργοποιήστε το Super+(0-9) ως συντομεύσεις για την ενεργοποίηση εφαρμογών. Μπορεί επίσης να χρησιμοποιηθεί σε συνδυασμό με Shift και Ctrl."
+
+#: ui/BoxWindowPreviewOptions.ui.h:50
+msgid "Enable window peeking"
+msgstr "Ενεργοποίηση ματιάς παραθύρων"
+
+#: prefs.js:327 ui/SettingsPosition.ui.h:23
+msgid "End"
+msgstr "Τέλος"
+
+#: ui/BoxWindowPreviewOptions.ui.h:52
+msgid "Enter window peeking mode timeout (ms)"
+msgstr "Χρόνος για είσωδο σε λειτουργεία ματιάς παραθύρου (ms)"
+
+#: appIcons.js:1777
+msgid "Event logs"
+msgstr "Καταγραφές συμβάντων"
+
+#: ui/SettingsAbout.ui.h:6
+msgid "Export and Import"
+msgstr "Εξαγωγή και Εισαγωγή"
+
+#: ui/SettingsAbout.ui.h:7
+msgid "Export and import settings"
+msgstr "Ρυθμίσεις εξαγωγής και εισαγωγής"
+
+#: prefs.js:2089
+msgid "Export settings"
+msgstr "Εξαγωγή ρυθμίσεων"
+
+#: ui/SettingsAbout.ui.h:9
+msgid "Export to file"
+msgstr "Εξαγωγή σε αρχείο"
+
+#: appIcons.js:1820
+msgid "Extensions"
+msgstr "Επεκτάσεις"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:10
+msgid "Extent"
+msgstr "Έκταση"
+
+#: ui/BoxShowDesktopOptions.ui.h:4
+msgid "Fade duration (ms)"
+msgstr "Διάρκεια απόκρυψης (ms)"
+
+#: appIcons.js:1815
+msgid "Files"
+msgstr "Αρχεία"
+
+#: ui/SettingsFineTune.ui.h:1
+msgid "Fine-Tune"
+msgstr "Μικρορύθμιση"
+
+#: ui/BoxWindowPreviewOptions.ui.h:31
+msgid "Fixed"
+msgstr "Σταθερό"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:3 ui/BoxIntellihideOptions.ui.h:4
+msgid "Focused windows"
+msgstr "Εστιασμένα παράθυρα"
+
+#: ui/BoxGroupAppsOptions.ui.h:8
+msgid "Font color of the application titles"
+msgstr "Χρώμα γραμματοσειράς των τίτλων εφαρμογών"
+
+#: ui/BoxGroupAppsOptions.ui.h:9
+msgid "Font color of the minimized application titles"
+msgstr "Χρώμα γραμματοσειράς των τίτλων ελαχιστοποιημένων εφαρμογών"
+
+#: ui/BoxWindowPreviewOptions.ui.h:49
+msgid "Font color of the preview titles"
+msgstr "Χρώμα γραμματοσειράς των τίτλων στην προεπισκόπηση"
+
+#: ui/SettingsFineTune.ui.h:2
+msgid "Font size"
+msgstr "Μέγεθος γραμματοσειράς"
+
+#: ui/BoxGroupAppsOptions.ui.h:1
+msgid "Font size (px) of the application titles (default is 14)"
+msgstr "Μέγεθος γραμματοσειράς (px) των τίτλων εφαρμογών (προεπιλογή 14)"
+
+#: ui/BoxWindowPreviewOptions.ui.h:42
+msgid "Font size (px) of the preview titles"
+msgstr "Μέγεθος γραμματοσειράς (px) των τίτλων στην προεπισκόπηση"
+
+#: ui/BoxGroupAppsOptions.ui.h:2
+msgid "Font weight of application titles"
+msgstr "Πάχος γραμματοσειράς των τίτλων εφαρμογών"
+
+#: ui/BoxWindowPreviewOptions.ui.h:43
+msgid "Font weight of the preview titles"
+msgstr "Πάχος γραμματοσειράς των τίτλων στην προεπισκόπηση"
+
+#: ui/BoxAdvancedOptions.ui.h:2
+msgid "For real..."
+msgstr "Σοβαρά τώρα..."
+
+#: ui/SettingsFineTune.ui.h:20
+msgid "Force Activities hot corner on primary monitor"
+msgstr "Επιβολή ενεργής γωνίας δραστηριοτήτων στην κύρια οθόνη"
+
+#: ui/SettingsAbout.ui.h:5
+msgid "GitHub"
+msgstr "GitHub"
+
+#: ui/SettingsFineTune.ui.h:14
+msgid "Gnome functionality"
+msgstr "Λειτουργίες του Gnome"
+
+#: ui/SettingsStyle.ui.h:38
+#, no-c-format
+msgid "Gradient bottom color and opacity (%)"
+msgstr "Χρώμα βάσης διαβάθμισης και αδιαφάνεια (%)"
+
+#: ui/SettingsStyle.ui.h:36
+#, no-c-format
+msgid "Gradient top color and opacity (%)"
+msgstr "Μη διαθέσιμο όταν υπάρχει η πάνω γραμμή του gnome-shell"
+
+#: ui/BoxIntellihideOptions.ui.h:15
+msgid "Hide and reveal animation duration (ms)"
+msgstr "Διάρκεια κίνησης απόκρυψης και εμφάνισης (ms)"
+
+#: ui/SettingsPosition.ui.h:6
+msgid "Hide and reveal the panel according to preferences"
+msgstr "Απόκρυψη και εμφάνιση του πάνελ ανάλογα με τις προτιμήσεις"
+
+#: ui/BoxOverlayShortcut.ui.h:10
+msgid "Hide timeout (ms)"
+msgstr "Χρονικό όριο απόκρυψης (ms)"
+
+#: ui/BoxDotOptions.ui.h:1
+msgid "Highlight focused application"
+msgstr "Επισήμανση ενεργής εφαρμογής"
+
+#: ui/BoxDotOptions.ui.h:4
+msgid "Highlight opacity"
+msgstr "Διαφάνεια επισήμανσης"
+
+#: ui/SettingsAction.ui.h:21
+msgid "Hotkey overlay"
+msgstr "Ενδείξεις συντομεύσεων"
+
+#: ui/BoxOverlayShortcut.ui.h:16
+msgid "Hotkeys are activated with"
+msgstr "Οι συντομεύσεις ενεργοποιούνται με"
+
+#: ui/BoxOverlayShortcut.ui.h:1
+msgid "Hotkeys prefix"
+msgstr "Πρόθεμα συντομεύσεων"
+
+#: ui/BoxOverlayShortcut.ui.h:2
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr "Οι συντομεύσεις θα είναι είτε Super+Αριθμός είτε Super+Alt+Num"
+
+#: ui/SettingsBehavior.ui.h:8
+msgid "Hover"
+msgstr "Πέρασμα ποντικιού"
+
+#: ui/BoxDotOptions.ui.h:2
+msgid "Icon dominant color"
+msgstr "Κυρίαρχο χρώμα εικονιδίου"
+
+#: ui/BoxWindowPreviewOptions.ui.h:40
+msgid "Icon size (px) of the window preview"
+msgstr "Μέγεθος εικονιδίου (px) της προεπισκόπησης παραθύρου"
+
+#: ui/SettingsStyle.ui.h:8
+msgid "Icon style"
+msgstr "Στυλ εικονίδιων"
+
+#: ui/BoxWindowPreviewOptions.ui.h:35
+msgid "If disabled, the previews background have the same opacity as the panel."
+msgstr "Εάν είναι απενεργοποιημένο, το φόντο της προεπισκόπησης έχει την ίδια διαφάνεια με το πάνελ."
+
+#: ui/BoxWindowPreviewOptions.ui.h:41
+msgid "If disabled, the previews icon size will be based on headerbar size"
+msgstr "Εάν είναι απενεργοποιημένο, το μέγεθος των εικονιδίων προεπισκόπησης θα βασίζεται στο μέγεθος της κεφαλίδας"
+
+#: ui/BoxWindowPreviewOptions.ui.h:5
+msgid "Immediate on application icon click"
+msgstr "Άμεσα στο κλικ του εικονιδίου εφαρμογής"
+
+#: ui/SettingsAbout.ui.h:10
+msgid "Import from file"
+msgstr "Εισαγωγή από αρχείο"
+
+#: prefs.js:2105
+msgid "Import settings"
+msgstr "Εισαγωγή ρυθμίσεων"
+
+#: ui/BoxDotOptions.ui.h:6
+msgid "Indicator color - Icon Dominant"
+msgstr "Χρώμα ένδειξης - Κυρίαρχο εικονίδιο"
+
+#: ui/BoxDotOptions.ui.h:7
+msgid "Indicator color - Override Theme"
+msgstr "Χρώμα ένδειξης - Παράκαμψη Θέματος"
+
+#: ui/BoxDotOptions.ui.h:5
+msgid "Indicator size (px)"
+msgstr "Μέγεθος ένδειξης (px)"
+
+#: ui/SettingsAbout.ui.h:2
+msgid "Info"
+msgstr "Πληροφορίες"
+
+#: ui/BoxSecondaryMenuOptions.ui.h:1
+msgid "Integrate <i>AppMenu</i> items"
+msgstr "Ενσωμάτωση στοιχείων <i>AppMenu</i>"
+
+#: prefs.js:1260
+msgid "Intellihide options"
+msgstr "Επιλογές αυτόματης απόκρυψης"
+
+#: ui/SettingsBehavior.ui.h:11
+msgid "Isolate"
+msgstr "Απομόνωση"
+
+#: ui/SettingsBehavior.ui.h:12
+msgid "Isolate Workspaces"
+msgstr "Απομόνωση χώρων εργασίας"
+
+#: ui/SettingsBehavior.ui.h:13
+msgid "Isolate monitors"
+msgstr "Απομόνωση οθονών"
+
+#: ui/SettingsFineTune.ui.h:15
+msgid "Keep original gnome-shell dash"
+msgstr "Μη διαθέσιμο όταν υπάρχει η πάνω γραμμή του gnome-shell"
+
+#: ui/SettingsFineTune.ui.h:17
+msgid "Keep original gnome-shell top panel"
+msgstr "Μη διαθέσιμο όταν υπάρχει η πάνω γραμμή του gnome-shell"
+
+#: ui/BoxIntellihideOptions.ui.h:12
+msgid "Keyboard shortcut to reveal and hold the panel"
+msgstr "Συντόμευση για την εμφάνιση και τη διατήρηση του πάνελ"
+
+#: ui/BoxMiddleClickOptions.ui.h:5 ui/SettingsAction.ui.h:10
+msgid "Launch new instance"
+msgstr "Εκκίνηση νέου παραθύρου"
+
+#: prefs.js:316 ui/SettingsPosition.ui.h:13 ui/SettingsStyle.ui.h:15
+msgid "Left"
+msgstr "Αριστερά"
+
+#: ui/SettingsFineTune.ui.h:5
+msgid "LeftBox Font Size"
+msgstr "Μέγεθος γραμματοσειράς αριστερού πλεσίου"
+
+#: ui/SettingsFineTune.ui.h:10
+msgid "LeftBox Padding"
+msgstr "Περιθώριο αριστερού πλαισίου"
+
+#: prefs.js:417
+msgid "Left box"
+msgstr "Αριστερό πλαίσιο"
+
+#: appIcons.js:1836
+msgid "Lock taskbar"
+msgstr "Κλείδωμα γραμμής εργασιών"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:4 ui/BoxIntellihideOptions.ui.h:5
+msgid "Maximized windows"
+msgstr "Μεγιστοποιημένα παράθυρα"
+
+#: ui/BoxGroupAppsOptions.ui.h:10
+msgid "Maximum width (px) of the application titles"
+msgstr "Μέγιστο πλάτος (px) των τίτλων εφαρμογών"
+
+#: ui/SettingsStyle.ui.h:24
+msgid "Metro"
+msgstr "Metro"
+
+#: prefs.js:321 prefs.js:326 ui/SettingsPosition.ui.h:22
+msgid "Middle"
+msgstr "Μέση"
+
+#: ui/BoxMiddleClickOptions.ui.h:11
+msgid "Middle-Click action"
+msgstr "Ενέργεια μεσαίου κλικ"
+
+#: ui/BoxWindowPreviewOptions.ui.h:7
+msgid "Middle click on the preview to close the window"
+msgstr "Μεσαίο κλικ στην προεπισκόπηση για κλείσιμο του παράθυρο"
+
+#: ui/BoxMiddleClickOptions.ui.h:4
+msgid "Minimize window"
+msgstr "Ελαχιστοποίηση παραθύρου"
+
+#: ui/SettingsPosition.ui.h:8
+msgid "Monitor"
+msgstr "Οθόνη"
+
+#: prefs.js:933
+msgid "Monitor "
+msgstr "Οθόνη "
+
+#: prefs.js:445
+msgid "Monitor Center"
+msgstr "Κέντρο της Οθόνης"
+
+#: prefs.js:464
+msgid "More options"
+msgstr "Περισσότερες επιλογές"
+
+#: prefs.js:428
+msgid "Move down"
+msgstr "Μετακίνηση προς τα κάτω"
+
+#: prefs.js:426
+msgid "Move up"
+msgstr "Μετακίνηση προς τα επάνω"
+
+#: ui/BoxOverlayShortcut.ui.h:7
+msgid "Never"
+msgstr "Ποτέ"
+
+#: ui/SettingsStyle.ui.h:9
+msgid "Normal"
+msgstr "Κανονικό"
+
+#: ui/BoxAdvancedOptions.ui.h:1
+msgid "Nothing yet!"
+msgstr "Τίποτα προς το παρόν!"
+
+#: ui/BoxOverlayShortcut.ui.h:5
+msgid "Number overlay"
+msgstr "Ενδείξεις αριθμών"
+
+#: ui/BoxOverlayShortcut.ui.h:18
+msgid "Number row"
+msgstr "Σειρά αριθμών"
+
+#: ui/BoxOverlayShortcut.ui.h:19
+msgid "Numeric keypad"
+msgstr "Numeric keypad"
+
+#: ui/BoxIntellihideOptions.ui.h:10
+msgid "Only hide secondary panels"
+msgstr "Απόκρυψη μόνο δευτερευόντων πάνελ"
+
+#: ui/BoxIntellihideOptions.ui.h:1
+msgid "Only hide the panel when it is obstructed by windows"
+msgstr "Να αποκρύπτεται το πάνελ μόνο όταν καλύπτεται από παράθυρα"
+
+#: ui/BoxDynamicOpacityOptions.ui.h:9
+msgid "Opacity change animation duration (ms)"
+msgstr "Διάρκεια αλλαγής της διαφάνειας (ms)"
+
+#: prefs.js:529
+msgid "Open icon"
+msgstr "Εικονίδιο «Άνοιγμα»"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Order and Position on monitors"
+msgstr "Σειρά και Θέση στις οθόνες"
+
+#: ui/BoxShowDesktopOptions.ui.h:1
+msgid "Override Show Desktop line color"
+msgstr "Προσαρμογή χρώματος της γραμμής του κουμπιού επιφάνειας εργασίας"
+
+#: ui/BoxShowApplicationsOptions.ui.h:4
+msgid "Override escape key and return to desktop"
+msgstr "Παράκαμψη του πλήκτρου Escape και επιστροφή στην επιφάνεια εργασίας"
+
+#: ui/SettingsStyle.ui.h:27
+msgid "Override panel theme background color"
+msgstr "Παράκαμψη χρώματος φόντου του θέματος για το πάνελ"
+
+#: ui/SettingsStyle.ui.h:28
+msgid "Override panel theme background opacity"
+msgstr "Παράκαμψη διαφάνειας φόντου του θέματος για το πάνελ"
+
+#: ui/SettingsStyle.ui.h:34
+msgid "Override panel theme gradient"
+msgstr "Μη διαθέσιμο όταν υπάρχει η πάνω γραμμή του gnome-shell"
+
+#: ui/SettingsBehavior.ui.h:14
+msgid "Overview"
+msgstr "Επισκόπηση"
+
+#: ui/SettingsFineTune.ui.h:6
+msgid "Padding"
+msgstr "Περιθώριο"
+
+#: ui/SettingsPosition.ui.h:2
+msgid "Panel"
+msgstr "Πάνελ"
+
+#: ui/SettingsPosition.ui.h:5
+msgid "Panel Intellihide"
+msgstr "Αυτόματη απόκρυψη πάνελ"
+
+#: ui/SettingsStyle.ui.h:30
+#, no-c-format
+msgid "Panel background opacity (%)"
+msgstr "Διαφάνεια φόντου πάνελ (%)"
+
+#: ui/SettingsPosition.ui.h:18
+#, no-c-format
+msgid "Panel length (%)"
+msgstr "Μήκος πάνελ (%)"
+
+#: ui/SettingsPosition.ui.h:10
+msgid "Panel screen position"
+msgstr "Θέση οθόνης πάνελ"
+
+#: ui/SettingsStyle.ui.h:26
+msgid "Panel style"
+msgstr "Στυλ πάνελ"
+
+#: ui/SettingsPosition.ui.h:15
+msgid "Panel thickness"
+msgstr "Πάχος πάνελ"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:4
+msgid "Plank"
+msgstr "Plank"
+
+#: ui/SettingsPosition.ui.h:1
+msgid "Position"
+msgstr "Θέση"
+
+#: appIcons.js:1772
+msgid "Power options"
+msgstr "Επιλογές ενέργειας"
+
+#: prefs.js:933
+msgid "Primary monitor"
+msgstr "Κύρια οθόνη"
+
+#: appIcons.js:1485 appIcons.js:1495 ui/BoxMiddleClickOptions.ui.h:10
+msgid "Quit"
+msgstr "Έξοδος"
+
+#: ui/BoxMiddleClickOptions.ui.h:3 ui/SettingsAction.ui.h:9
+msgid "Raise windows"
+msgstr "Ανύψωση παραθύρων"
+
+#: ui/BoxIntellihideOptions.ui.h:6
+msgid "Require pressure at the edge of the screen to reveal the panel"
+msgstr "Να απαιτείται πίεση στην άκρη της οθόνης για να εμφανιστεί το πάνελ"
+
+#: ui/BoxIntellihideOptions.ui.h:7
+msgid "Required pressure threshold (px)"
+msgstr "Απαιτούμενη πίεση (px)"
+
+#: ui/BoxIntellihideOptions.ui.h:8
+msgid "Required pressure timeout (ms)"
+msgstr "Χρονικό όριο απαιτούμενης πίεσης (ms)"
+
+#: prefs.js:496
+msgid "Reset to defaults"
+msgstr "Επαναφορά προεπιλογών"
+
+#: appIcons.js:1846
+msgid "Restore Windows"
+msgstr "Επαναφορά Παραθύρων"
+
+#: ui/BoxShowDesktopOptions.ui.h:2
+msgid "Reveal the desktop when hovering the Show Desktop button"
+msgstr "Εμφάνιση της επιφάνειας εργασίας όταν το ποντίκι βρίσκεται πάνω από το κουμπί επιφάνειας εργασίας"
+
+#: prefs.js:318 ui/SettingsPosition.ui.h:14 ui/SettingsStyle.ui.h:16
+msgid "Right"
+msgstr "Σωστά"
+
+#: prefs.js:419
+msgid "Right box"
+msgstr "Δεξί πλαίσιο"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:3
+msgid "Ripple"
+msgstr "Κυματιστό"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:6
+msgid "Rotation"
+msgstr "Περιστροφή"
+
+#: prefs.js:787
+msgid "Running Indicator Options"
+msgstr "Επιλογές ένδειξης διεργασίας"
+
+#: ui/SettingsStyle.ui.h:11
+msgid "Running indicator"
+msgstr "Ένδειξη λειτουργίας"
+
+#: ui/SettingsStyle.ui.h:12
+msgid "Running indicator position"
+msgstr "Θέση ένδειξης λειτουργίας"
+
+#: ui/SettingsStyle.ui.h:17
+msgid "Running indicator style (Focused app)"
+msgstr "Στυλ ένδειξης λειτουργίας (Ενεργή εφαρμογή)"
+
+#: ui/SettingsStyle.ui.h:25
+msgid "Running indicator style (Unfocused apps)"
+msgstr "Στυλ ένδειξης λειτουργίας (μη ενεργές εφαρμογές)"
+
+#: ui/SettingsAction.ui.h:20
+msgid "Same as panel"
+msgstr "Όπως και στο πάνελ"
+
+#: ui/SettingsAction.ui.h:11
+msgid "Scroll action"
+msgstr "Ενέργεια κύλισης"
+
+#: ui/SettingsAction.ui.h:18
+msgid "Scroll icon action"
+msgstr "Ενέργεια κύλισης εικονιδίου"
+
+#: ui/SettingsAction.ui.h:12
+msgid "Scroll panel action"
+msgstr "Ενέργεια κύλισης πάνελ"
+
+#: prefs.js:1898
+msgid "Secondary Menu Options"
+msgstr "Επιλογές δευτερεύοντος μενού"
+
+#: ui/SettingsStyle.ui.h:21
+msgid "Segmented"
+msgstr "Τμηματοποιημένα"
+
+#: prefs.js:431
+msgid "Select element position"
+msgstr "Επιλογή θέσης στοιχείου"
+
+#: ui/BoxOverlayShortcut.ui.h:17
+msgid "Select which keyboard number keys are used to activate the hotkeys"
+msgstr "Επιλέξτε ποια αριθμητικά πλήκτρα θα χρησιμοποιούνται για την ενεργοποίηση συντομεύσεων"
+
+#: appIcons.js:1825
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: ui/BoxMiddleClickOptions.ui.h:1
+msgid "Shift+Click action"
+msgstr "Ενέργεια Shift+Κλικ"
+
+#: ui/BoxMiddleClickOptions.ui.h:13
+msgid "Shift+Middle-Click action"
+msgstr "Ενέργεια Shift+Μεσαίο κλικ"
+
+#: ui/BoxOverlayShortcut.ui.h:11
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr "Συντόμευση εμφάνισης της ένδειξης για 2 δευτερόλεπτα"
+
+#: prefs.js:412
+msgid "Show Applications button"
+msgstr "Κουμπί Εφαρμογών"
+
+#: ui/BoxShowApplicationsOptions.ui.h:1
+msgid "Show Applications icon"
+msgstr "Εικονίδιο «Εμφάνηση Εφαρμογών»"
+
+#: ui/BoxShowApplicationsOptions.ui.h:2
+msgid "Show Applications icon side padding (px)"
+msgstr "Περιθώριο εικονιδίου «Εμφάνηση Εφαρμογών» (px)"
+
+#: prefs.js:519
+msgid "Show Applications options"
+msgstr "Επιλογές κουμπιού «Εφαρμογές»"
+
+#: appIcons.js:1846
+msgid "Show Desktop"
+msgstr "Εμφάνιση επιφάνειας εργασίας"
+
+#: prefs.js:246
+msgid "Show Desktop button height (px)"
+msgstr "Ύψος κουμπιού «Εμφάνιση επιφάνειας εργασίας» (px)"
+
+#: prefs.js:246
+msgid "Show Desktop button width (px)"
+msgstr "Πλάτος κουμπιού «Εμφάνιση επιφάνειας εργασίας» (px)"
+
+#: prefs.js:576
+msgid "Show Desktop options"
+msgstr "Επιλογές κουμπιού «Επιφάνεια Εργασίας»"
+
+#: ui/SettingsBehavior.ui.h:3
+msgid "Show favorite applications"
+msgstr "Εμφάνιση αγαπημένων εφαρμογών"
+
+#: ui/SettingsBehavior.ui.h:4
+msgid "Show favorite applications on secondary panels"
+msgstr "Εμφάνιση αγαπημένων εφαρμογών σε δευτερεύοντα πάνελ"
+
+#: ui/SettingsBehavior.ui.h:7
+msgid "Show notification counter badge"
+msgstr "Εμφάνιση ένδειξη αριθμού ειδοποιήσεων"
+
+#: ui/BoxScrollPanelOptions.ui.h:3
+msgid "Show popup when changing workspace"
+msgstr "Εμφάνιση αναδυόμενου παραθύρου κατά την αλλαγή χώρου εργασίας"
+
+#: ui/BoxOverlayShortcut.ui.h:15
+msgid "Show previews when the application have multiple instances"
+msgstr "Εμφάνιση προεπισκοπήσεων όταν η εφαρμογή έχει πολλά παράθυρα"
+
+#: ui/SettingsBehavior.ui.h:5
+msgid "Show running applications"
+msgstr "Εμφάνιση εφαρμογών που εκτελούνται"
+
+#: ui/BoxOverlayShortcut.ui.h:8
+msgid "Show temporarily"
+msgstr "Εμφάνιση προσωρινά"
+
+#: ui/SettingsBehavior.ui.h:10
+msgid "Show tooltip on hover"
+msgstr "Εμφάνιση λεζάντας κατά το πέρασμα του ποντικιού"
+
+#: ui/BoxOverlayShortcut.ui.h:14
+msgid "Show window previews on hotkey"
+msgstr "Εμφάνιση προεπισκόπησης παραθύρων με συντόμευση"
+
+#: ui/SettingsBehavior.ui.h:9
+msgid "Show window previews on hover"
+msgstr "Εμφάνιση προεπισκόπησης παραθύρων κατά το πέρασμα του δείκτη ποντικιού"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:2
+msgid "Simple"
+msgstr "Απλό"
+
+#: ui/SettingsStyle.ui.h:22
+msgid "Solid"
+msgstr "Συμπαγές"
+
+#: ui/SettingsAbout.ui.h:4
+msgid "Source"
+msgstr "Πηγή"
+
+#: ui/SettingsStyle.ui.h:19
+msgid "Squares"
+msgstr "Τετράγωνα"
+
+#: prefs.js:443
+msgid "Stacked to bottom"
+msgstr "Στοιβαγμένο κάτω"
+
+#: prefs.js:442
+msgid "Stacked to left"
+msgstr "Στοιβαγμένο αριστερά"
+
+#: prefs.js:443
+msgid "Stacked to right"
+msgstr "Στοιβαγμένο δεξιά"
+
+#: prefs.js:442
+msgid "Stacked to top"
+msgstr "Στοιβαγμένο πάνω"
+
+#: prefs.js:325 ui/SettingsPosition.ui.h:21
+msgid "Start"
+msgstr "Αρχή"
+
+#: ui/SettingsFineTune.ui.h:9
+msgid "Status Icon Padding"
+msgstr "Περιθώριο εικονιδίων κατάστασης"
+
+#: ui/SettingsStyle.ui.h:1
+msgid "Style"
+msgstr "Στυλ"
+
+#: ui/BoxOverlayShortcut.ui.h:3
+msgid "Super"
+msgstr "Super"
+
+#: ui/BoxOverlayShortcut.ui.h:4
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+#: ui/SettingsAction.ui.h:15
+msgid "Switch workspace"
+msgstr "Αλλαγή χώρου εργασίας"
+
+#: ui/SettingsStyle.ui.h:10
+msgid "Symbolic"
+msgstr "Συμβολικό"
+
+#: ui/BoxIntellihideOptions.ui.h:13 ui/BoxOverlayShortcut.ui.h:12
+msgid "Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
+msgstr "Συντακτηκή: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
+
+#: appIcons.js:1782
+msgid "System"
+msgstr "Σύστημα"
+
+#: prefs.js:416
+msgid "System menu"
+msgstr "Μενού συστήματος"
+
+#: appIcons.js:1810
+msgid "System monitor"
+msgstr "Παρακολούθηση συστήματος"
+
+#: prefs.js:414
+msgid "Taskbar"
+msgstr "Γραμμή εργασιών"
+
+#: ui/SettingsPosition.ui.h:24
+msgid "Taskbar Display"
+msgstr "Οθόνη γραμμής εργασιών"
+
+#: ui/BoxOverlayShortcut.ui.h:6
+msgid "Temporarily show the application numbers over the icons when using the hotkeys."
+msgstr "Δείξε προσωρινά τους αριθμούς των εφαρμογών πάνω από τα εικονίδια τους κατά τη χρήση συντομεύσεων."
+
+#: appIcons.js:1805
+msgid "Terminal"
+msgstr "Τερματικό"
+
+#: ui/BoxGroupAppsOptions.ui.h:13
+msgid "The application titles all have the same width, even if their texts are shorter than the maximum width. The maximum width value is used as the fixed width."
+msgstr "Όλοι οι τίτλοι εφαρμογών έχουν το ίδιο πλάτος, ακόμη και αν και οι λεζάντες τους είναι μικρότερες από το μέγιστο πλάτος. Η τιμή του μέγιστου πλάτους χρησιμοποιείται ως σταθερό πλάτος."
+
+#: ui/BoxDynamicOpacityOptions.ui.h:1
+msgid "The panel background opacity is affected by"
+msgstr "Μη διαθέσιμο όταν υπάρχει η πάνω γραμμή του gnome-shell"
+
+#: ui/BoxIntellihideOptions.ui.h:2
+msgid "The panel hides from"
+msgstr "Το πάνελ κρύβεται από"
+
+#: ui/BoxScrollPanelOptions.ui.h:4
+msgid "This affects workspace popup when scrolling on the panel only."
+msgstr "Αυτό επηρεάζει το αναδυόμενο παράθυρο του χώρου εργασίας μόνο κατά την κύλιση στο πάνελ."
+
+#: ui/BoxWindowPreviewOptions.ui.h:3
+msgid "Time (ms) before hiding"
+msgstr "Χρόνος (ms) πριν την απόκρυψη"
+
+#: ui/BoxWindowPreviewOptions.ui.h:1
+msgid "Time (ms) before showing"
+msgstr "Χρόνος (ms) πριν την εμφάνιση"
+
+#: ui/BoxWindowPreviewOptions.ui.h:53
+msgid "Time of inactivity while hovering over a window preview needed to enter the window peeking mode."
+msgstr "Χρόνος αδράνειας κατά την τοποθέτηση του δείκτη πάνω από την προεπισκόπηση ενός παραθύρου που απαιτείται για την είσοδο στη λειτουργία ματιάς παραθύρου."
+
+#: ui/BoxMiddleClickOptions.ui.h:9 ui/SettingsAction.ui.h:7
+msgid "Toggle single / Cycle multiple"
+msgstr "Ελαχιστοποίηση/Επαναφορά ενός / Εναλλαγή πολλών"
+
+#: ui/BoxMiddleClickOptions.ui.h:8 ui/SettingsAction.ui.h:6
+msgid "Toggle single / Preview multiple"
+msgstr "Εναλλαγή ενός / Προεπισκόπηση πολλών"
+
+#: ui/SettingsAction.ui.h:8
+msgid "Toggle windows"
+msgstr "Ελαχιστοποίηση/Επαναφορά παραθύρων"
+
+#: prefs.js:320 ui/BoxWindowPreviewOptions.ui.h:38 ui/SettingsPosition.ui.h:12
+#: ui/SettingsStyle.ui.h:14
+msgid "Top"
+msgstr "Πάνω"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:7
+msgid "Travel"
+msgstr "Μετακίνηση"
+
+#: ui/SettingsFineTune.ui.h:3
+msgid "Tray Font Size"
+msgstr "Μέγεθος γραμματοσειράς στην περιοχή συστήματος"
+
+#: ui/SettingsFineTune.ui.h:7
+msgid "Tray Item Padding"
+msgstr "Περιθώρια στοιχείων στην περιοχή συστήματος"
+
+#: prefs.js:258
+msgid "Unavailable when gnome-shell top panel is present"
+msgstr "Μη διαθέσιμο όταν υπάρχει η πάνω γραμμή του gnome-shell"
+
+#: ui/SettingsBehavior.ui.h:6
+msgid "Ungroup applications"
+msgstr "Αποομαδοποίηση εφαρμογών"
+
+#: prefs.js:1642
+msgid "Ungrouped application options"
+msgstr "Επιλογές μη ομαδοποιημένων εφαρμογών"
+
+#: appIcons.js:1836
+msgid "Unlock taskbar"
+msgstr "Ξεκλείδωμα γραμμής εργασιών"
+
+#: ui/BoxGroupAppsOptions.ui.h:12
+msgid "Use a fixed width for the application titles"
+msgstr "Χρήση σταθερού πλάτους για τους τίτλους εφαρμογών"
+
+#: ui/BoxWindowPreviewOptions.ui.h:34
+msgid "Use custom opacity for the previews background"
+msgstr "Χρήση προσαρμοσμένης διαφάνειας για το φόντο των προεπισκοπήσεων"
+
+#: ui/BoxDotOptions.ui.h:13
+msgid "Use different for unfocused"
+msgstr "Χρήση διαφορετικού για μη ενεργά"
+
+#: ui/SettingsAction.ui.h:22
+msgid "Use hotkeys to activate apps"
+msgstr "Χρήση συντομεύσεων για ενεργοποίηση εφαρμογών"
+
+#: ui/SettingsAbout.ui.h:8
+msgid "Use the buttons below to create a settings file from your current preferences that can be imported on a different machine."
+msgstr "Χρησιμοποιήστε τα παρακάτω κουμπιά για να δημιουργήσετε ένα αρχείο ρυθμίσεων από τις τρέχουσες προτιμήσεις σας, το οποίο μπορεί να εισαχθεί σε διαφορετική συσκευή."
+
+#: ui/BoxGroupAppsOptions.ui.h:15
+msgid "Use the favorite icons as application launchers"
+msgstr "Χρησιμοποιήστε τα εικονίδια αγαπημένων ως εικονίδια εκκίνησης εφαρμογών"
+
+#: ui/BoxScrollIconOptions.ui.h:2 ui/BoxScrollPanelOptions.ui.h:2
+msgid "Use this value to limit the number of captured mouse scroll events."
+msgstr "Χρησιμοποιήστε αυτήν την τιμή για να περιορίσετε τον αριθμό των συμβάντων κύλισης του ποντικιού που καταγράφονται."
+
+#: ui/SettingsAbout.ui.h:3
+msgid "Version"
+msgstr "Έκδοση"
+
+#: prefs.js:430
+msgid "Visible"
+msgstr "Ορατό"
+
+#: ui/BoxWindowPreviewOptions.ui.h:51
+msgid "When hovering over a window preview for some time, the window gets distinguished."
+msgstr "Όταν το ποντίκι παραμένει για κάποιο χρονικό διάστημα πάνω από την προεπισκόπηση ενός παραθύρου, το παράθυρο ξεχωρίζεται."
+
+#: ui/BoxMiddleClickOptions.ui.h:2
+msgid "When set to minimize, double clicking minimizes all the windows of the application."
+msgstr "Όταν έχει οριστεί η ελαχιστοποίηση, το διπλό κλικ ελαχιστοποιεί όλα τα παράθυρα της εφαρμογής."
+
+#: ui/BoxWindowPreviewOptions.ui.h:55
+msgid "Window peeking mode opacity"
+msgstr "Αδιαφάνεια της λειτουργίας ματιάς παραθύρου"
+
+#: prefs.js:1366
+msgid "Window preview options"
+msgstr "Επιλογές προεπισκόπησης παραθύρου"
+
+#: ui/BoxWindowPreviewOptions.ui.h:9
+msgid "Window previews aspect ratio X (width)"
+msgstr "Αναλογία διαστάσεων προεπισκόπησης παραθύρου X (πλάτος)"
+
+#: ui/BoxWindowPreviewOptions.ui.h:32
+msgid "Window previews aspect ratio Y (height)"
+msgstr "Αναλογία διαστάσεων προεπισκόπησης παραθύρου Y (ύψος)"
+
+#: ui/BoxWindowPreviewOptions.ui.h:33
+msgid "Window previews padding (px)"
+msgstr "Περιθώρια προεπισκόπησης παραθύρου (px)"
+
+#: ui/BoxWindowPreviewOptions.ui.h:8
+msgid "Window previews preferred size (px)"
+msgstr "Προτιμώμενο μέγεθος προεπισκόπησης παραθύρου (px)"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui.h:8
+msgid "Zoom"
+msgstr "Ζουμ"
+
+#: ui/SettingsFineTune.ui.h:8
+msgid "(-1 = theme default)"
+msgstr "(-1 = προεπιλογή θέματος)"
+
+#: ui/SettingsFineTune.ui.h:4
+msgid "(0 = theme default)"
+msgstr "(0 = προεπιλογή θέματος)"
+
+#: ui/BoxWindowPreviewOptions.ui.h:4
+msgid "(100 is default)"
+msgstr "(προεπιλογή 100)"
+
+#: ui/BoxWindowPreviewOptions.ui.h:2
+msgid "(400 is default)"
+msgstr "(προεπιλογή 400)"
+
+#: ui/SettingsPosition.ui.h:19
+msgid "(default is 100)"
+msgstr "(προεπιλογή 100)"
+
+#: ui/BoxGroupAppsOptions.ui.h:11
+msgid "(default is 160)"
+msgstr "(προεπιλογή 160)"
+
+#: ui/SettingsPosition.ui.h:16
+msgid "(default is 48)"
+msgstr "(προεπιλογή 48)"
+
+#: ui/SettingsStyle.ui.h:6
+msgid "(default is 4)"
+msgstr "(προεπιλογή 4)"
+
+#: ui/SettingsStyle.ui.h:4
+msgid "(default is 8)"
+msgstr "(προεπιλογή 8)"
+
+#: ui/SettingsFineTune.ui.h:19
+msgid "(e.g. date menu)"
+msgstr "(π.χ. μενού ημερομηνίας)"
+
+#: ui/SettingsFineTune.ui.h:16
+msgid "(overview)"
+msgstr "(επισκόπηση)"
+
+#: ui/BoxIntellihideOptions.ui.h:11
+msgid "(requires multi-monitors option)"
+msgstr "(χρειάζεται επιλογές πολλαπλών οθονών)"
+
+#: ui/SettingsFineTune.ui.h:22
+msgid "(right-click menu)"
+msgstr "(μενού του δεξί κλικ)"
+
+#: ui/BoxGroupAppsOptions.ui.h:6 ui/BoxWindowPreviewOptions.ui.h:47
+msgid "bold"
+msgstr "έντονο"
+
+#: ui/BoxGroupAppsOptions.ui.h:7 ui/BoxWindowPreviewOptions.ui.h:48
+msgid "bolder"
+msgstr "πιο έντονο"
+
+#: ui/BoxIntellihideOptions.ui.h:14
+msgid "e.g. <Super>i"
+msgstr "π.χ. <Super>i"
+
+#: ui/BoxOverlayShortcut.ui.h:13
+msgid "e.g. <Super>q"
+msgstr "π.χ. <Super>q"
+
+#: ui/BoxGroupAppsOptions.ui.h:3 ui/BoxWindowPreviewOptions.ui.h:44
+msgid "inherit from theme"
+msgstr "από το θέμα"
+
+#: ui/BoxGroupAppsOptions.ui.h:5 ui/BoxWindowPreviewOptions.ui.h:46
+msgid "lighter"
+msgstr "πιο λεπτό"
+
+#: ui/BoxGroupAppsOptions.ui.h:4 ui/BoxWindowPreviewOptions.ui.h:45
+msgid "normal"
+msgstr "κανονικό"
+
+#: prefs.js:685
+#, javascript-format
+msgid "%d icon"
+msgid_plural "%d icons"
+msgstr[0] "%d εικονίδιο"
+msgstr[1] "%d εικονίδια"
+
+#: appIcons.js:1497
+#, javascript-format
+msgid "Quit %d Window"
+msgid_plural "Quit %d Windows"
+msgstr[0] "Κλείσιμο %d Παράθυρου"
+msgstr[1] "Κλείσιμο %d Παραθύρων"

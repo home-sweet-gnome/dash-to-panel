@@ -24,8 +24,8 @@ import St from 'gi://St'
 import * as Layout from 'resource:///org/gnome/shell/ui/layout.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
 import * as OverviewControls from 'resource:///org/gnome/shell/ui/overviewControls.js'
-import * as PointerWatcher from 'resource:///org/gnome/shell/ui/pointerWatcher.js'
 
+import * as PointerWatcher from './pointerWatcher.js'
 import * as Proximity from './proximity.js'
 import * as Utils from './utils.js'
 import { SETTINGS, NOTIFICATIONSSETTINGS } from './extension.js'
@@ -308,16 +308,20 @@ export const Intellihide = class {
       ])
     }
 
-    this._pointerWatch = PointerWatcher.getPointerWatcher().addWatch(
-      CHECK_POINTER_MS,
-      (x, y) => this._checkMousePointer(x, y),
+    PointerWatcher.getPointerWatcher().then(
+      (w) =>
+        (this._pointerWatch = w.addWatch(CHECK_POINTER_MS, (x, y) =>
+          this._checkMousePointer(x, y),
+        )),
     )
   }
 
   _removeRevealMechanism() {
     if (this._pointerWatch) {
-      PointerWatcher.getPointerWatcher()._removeWatch(this._pointerWatch)
-      this._pointerWatch = 0
+      PointerWatcher.getPointerWatcher().then((w) => {
+        w._removeWatch(this._pointerWatch)
+        this._pointerWatch = 0
+      })
     }
 
     if (this._pressureBarrier) {
@@ -439,9 +443,12 @@ export const Intellihide = class {
       //of updates, but remember to update again when the limit timeout is reached
       this._pendingUpdate = true
     } else if (!this._holdStatus) {
-      this._checkIfShouldBeVisible(fromRevealMechanism)
-        ? this._revealPanel()
-        : this._hidePanel()
+      let shouldBeVisible = this._checkIfShouldBeVisible(fromRevealMechanism)
+      let isVisible = this._animationDestination <= 0
+
+      if (shouldBeVisible && !isVisible) this._revealPanel()
+      else if (!shouldBeVisible && isVisible) this._hidePanel()
+
       this._timeoutsHandler.add([
         T2,
         MIN_UPDATE_MS,
@@ -458,18 +465,6 @@ export const Intellihide = class {
   }
 
   _checkIfShouldBeVisible(fromRevealMechanism) {
-    if (
-      Main.overview.visibleTarget ||
-      this._dtpPanel.taskbar.previewMenu.opened ||
-      this._dtpPanel.taskbar._dragMonitor ||
-      this._hover ||
-      (this._dtpPanel.geom.position == St.Side.TOP &&
-        Main.layoutManager.panelBox.get_hover()) ||
-      this._checkIfGrab()
-    ) {
-      return true
-    }
-
     if (fromRevealMechanism) {
       let mouseBtnIsPressed =
         global.get_pointer()[2] & Clutter.ModifierType.BUTTON1_MASK
@@ -480,6 +475,18 @@ export const Intellihide = class {
       }
 
       return !mouseBtnIsPressed
+    }
+
+    if (
+      Main.overview.visibleTarget ||
+      this._dtpPanel.taskbar.previewMenu.opened ||
+      this._dtpPanel.taskbar._dragMonitor ||
+      this._hover ||
+      (this._dtpPanel.geom.position == St.Side.TOP &&
+        Main.layoutManager.panelBox.get_hover()) ||
+      this._checkIfGrab()
+    ) {
+      return true
     }
 
     if (!this._hidesFromWindows()) {
