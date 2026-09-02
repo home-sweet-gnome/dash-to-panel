@@ -40,6 +40,7 @@ let useCache = false
 let cache = {}
 let monitorIdToIndex = {}
 let monitorIndexToId = {}
+let monitorSerialToConnector = {}
 
 export var displayConfigProxy = null
 export var availableMonitors = []
@@ -95,7 +96,7 @@ export function setSettingsJson(settings, setting, value) {
 
 // Previously, the monitor index was used as an id to persist per monitor
 // settings. Since these indexes are unreliable AF, switch to use the monitor
-// serial as its id while keeping it backward compatible.
+// connector as its id while keeping it backward compatible.
 function getMonitorSetting(settings, settingName, monitorIndex, fallback) {
   let monitorId = monitorIndexToId[monitorIndex]
 
@@ -230,20 +231,11 @@ export function setMonitorsInfo(settings) {
         proxy.GetCurrentStateRemote((displayInfo, e) => {
           if (e) return reject(`Error getting display state: ${e}`)
 
-          let ids = {}
-
           //https://gitlab.gnome.org/GNOME/mutter/-/blob/main/data/dbus-interfaces/org.gnome.Mutter.DisplayConfig.xml#L347
           displayInfo[2].forEach((logicalMonitor, i) => {
             let [connector, vendor, product, serial] = logicalMonitor[5][0]
-            let id = i
+            let id = connector
             let primary = logicalMonitor[4]
-
-            // if by any chance 2 monitors have the same id, use the connector string
-            // instead, which should be unique but varies between x11 and wayland :(
-            // worst case scenario, resort to using the dumbass index
-            if (vendor && serial) id = `${vendor}-${serial}`
-
-            if (ids[id]) id = connector && !ids[connector] ? connector : i
 
             monitorInfos.push({
               id,
@@ -253,7 +245,10 @@ export function setMonitorsInfo(settings) {
 
             monitorIdToIndex[id] = i
             monitorIndexToId[i] = id
-            ids[id] = 1
+
+            // previously, the monitor serial was used as its id since it was the only reliable way to persist
+            // settings across X11 and Wayland. Now that Gnome >= 50 dropped X11, use the connectors as ids
+            monitorSerialToConnector[`${vendor}-${serial}`] = connector
           })
 
           _saveMonitors(settings, monitorInfos)
@@ -284,9 +279,12 @@ function _saveMonitors(settings, monitorInfos) {
   let keyPrimary = 'primary-monitor'
   let dtpPrimaryMonitor = settings.get_string(keyPrimary)
 
-  // convert previously saved index to monitor id
-  if (dtpPrimaryMonitor.match(/^\d{1,2}$/) && monitorInfos[dtpPrimaryMonitor])
-    settings.set_string(keyPrimary, monitorInfos[dtpPrimaryMonitor].id)
+  // convert previously saved primary serial to connector
+  if (
+    monitorSerialToConnector[dtpPrimaryMonitor] &&
+    monitorInfos[monitorSerialToConnector[dtpPrimaryMonitor]]
+  )
+    settings.set_string(keyPrimary, monitorSerialToConnector[dtpPrimaryMonitor])
 
   availableMonitors = Object.freeze(monitorInfos)
 }
@@ -300,7 +298,16 @@ export function adjustMonitorSettings(settings) {
     Object.keys(monitorSettings).forEach((key) => {
       let initialKey = key
 
-      if (key.match(/^\d{1,2}$/)) key = monitorIndexToId[key] || key
+      if (monitorSerialToConnector[key])
+        key = monitorSerialToConnector[key] || key
+
+      // exclude old keys that aren't connectors
+      if (
+        !/^(DP|eDP|HDMI-[AB]|DVI-[IDA]|VGA|TV|VIRTUAL|LVDS|DisplayPort|SPI|DSI|Writeback)-\d+$/.test(
+          key,
+        )
+      )
+        return
 
       updatedSettings[key] = monitorSettings[initialKey]
     })
