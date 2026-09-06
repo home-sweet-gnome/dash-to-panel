@@ -1443,9 +1443,9 @@ export const Panel = GObject.registerClass(
         if (this._showDesktopButton) return
 
         this._showDesktopButton = new St.Bin({
-	  style_class: this.geom.vertical
-		? 'showdesktop-button-vertical'
-		: 'showdesktop-button',
+          style_class: this.geom.vertical
+            ? 'showdesktop-button-vertical'
+            : 'showdesktop-button',
           reactive: true,
           can_focus: true,
           // x_fill: true,

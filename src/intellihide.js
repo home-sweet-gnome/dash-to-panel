@@ -82,7 +82,7 @@ export const Intellihide = class {
   enable() {
     this.enabled = true
     this._monitor = this._dtpPanel.monitor
-    this._animationDestination = -1
+    this._animationDestination = 0
     this._pendingUpdate = false
     this._hover = false
     this._hoveredOut = false
@@ -444,7 +444,7 @@ export const Intellihide = class {
       this._pendingUpdate = true
     } else if (!this._holdStatus) {
       let shouldBeVisible = this._checkIfShouldBeVisible(fromRevealMechanism)
-      let isVisible = this._animationDestination <= 0
+      let isVisible = this._animationDestination == 0
 
       if (shouldBeVisible && !isVisible) this._revealPanel()
       else if (!shouldBeVisible && isVisible) this._hidePanel()
