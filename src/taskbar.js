@@ -354,6 +354,11 @@ export const Taskbar = class extends EventEmitter {
         },
       ],
       [this._appSystem, 'app-state-changed', this._queueRedisplay.bind(this)],
+      // The shell's window tracker is the authoritative source for which
+      // windows exist. Redisplay whenever the tracked window set changes so
+      // stale taskbar buttons are dropped and new windows are shown even if
+      // workspace-level window signals are missed.
+      [tracker, 'tracked-windows-changed', () => this._queueRedisplay()],
       [
         AppFavorites.getAppFavorites(),
         'changed',

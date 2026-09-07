@@ -1180,8 +1180,14 @@ export const TaskbarAppIcon = GObject.registerClass(
                       modifiers & Clutter.ModifierType.SHIFT_MASK)))
               ) {
                 this.window.minimize()
-              } else {
+              } else if (this.window.get_workspace()) {
                 Main.activateWindow(this.window)
+              } else {
+                // The window this icon references is stale (the window was
+                // closed already): refresh the taskbar so the button is
+                // dropped, and fall back to activating the app normally.
+                this.dtpPanel.taskbar._queueRedisplay()
+                this.app.activate()
               }
           }
         } else {
@@ -1310,7 +1316,10 @@ export const TaskbarAppIcon = GObject.registerClass(
         maybeAnimate()
         this.app.open_new_window(-1)
       } else {
-        let windows = this.window ? [this.window] : this.app.get_windows()
+        let windows =
+          this.window && this.window.get_workspace()
+            ? [this.window]
+            : this.app.get_windows()
 
         if (windows.length) {
           Main.activateWindow(windows[0])
@@ -1723,7 +1732,7 @@ export const TaskbarAppIcon = GObject.registerClass(
           return DND.DragMotionResult.MOVE_DROP
 
         if (this._nWindows == 1 || this.window) {
-          this.window
+          this.window && this.window.get_workspace()
             ? Main.activateWindow(this.window)
             : activateFirstWindow(this.app, this.monitor)
         } else
@@ -1774,15 +1783,18 @@ export function activateAllWindows(app, monitor) {
   // First activate first window so workspace is switched if needed,
   // then activate all other app windows in the current workspace.
   let windows = getInterestingWindows(app, monitor)
-  let w = windows[0]
-  Main.activateWindow(w)
-  let activeWorkspace =
-    Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index()
 
   if (windows.length <= 0) return
 
+  let w = windows[0]
+  if (w.get_workspace()) Main.activateWindow(w)
+
+  let activeWorkspace =
+    Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index()
+
   for (let i = windows.length - 1; i >= 0; i--) {
-    if (windows[i].get_workspace().index() == activeWorkspace) {
+    let workspace = windows[i].get_workspace()
+    if (workspace && workspace.index() == activeWorkspace) {
       Main.activateWindow(windows[i])
     }
   }
@@ -1790,7 +1802,7 @@ export function activateAllWindows(app, monitor) {
 
 export function activateFirstWindow(app, monitor) {
   let windows = getInterestingWindows(app, monitor)
-  Main.activateWindow(windows[0])
+  if (windows.length) Main.activateWindow(windows[0])
 }
 
 export function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
@@ -1833,9 +1845,10 @@ export function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
   }
   let index = recentlyClickedAppIndex % recentlyClickedAppWindows.length
 
-  if (recentlyClickedAppWindows[index] === 'MINIMIZE')
-    minimizeWindow(app, true, monitor)
-  else Main.activateWindow(recentlyClickedAppWindows[index])
+  let target = recentlyClickedAppWindows[index]
+
+  if (target === 'MINIMIZE') minimizeWindow(app, true, monitor)
+  else if (target && target.get_workspace()) Main.activateWindow(target)
 }
 
 export function resetRecentlyClickedApp() {
