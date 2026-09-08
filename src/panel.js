@@ -521,6 +521,7 @@ export const Panel = GObject.registerClass(
     handleDragOver(source) {
       if (
         source == Main.xdndHandler &&
+        SETTINGS.get_boolean('overview-on-panel-drag') &&
         Main.overview.shouldToggleByCornerOrButton()
       ) {
         this.panelManager.showFocusedAppInOverview(null, true)
