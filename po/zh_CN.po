@@ -1,1646 +1,1476 @@
-# Dash to Panel Simplified Chinese Translation.
-# This file is distributed under the same license as the Dash to Panel package.
-# Boyuan Yang <073plan@gmail.com>, 2017, 2018, 2019.
+# Dash to panel 中文翻译
+# Copyright (c) 2017 Dash to Panel authors.
+# This file is distributed under the same license as the Dash to Panel package. 
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dash-to-panel 24\n"
+"Project-Id-Version: Dash to Panel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-08 08:31-0500\n"
-"PO-Revision-Date: 2021-07-11 12:04+0800\n"
-"Last-Translator: mars <18466397+zhmars@users.noreply.github.com>\n"
-"Language-Team: Chinese (Simplified) <debian-l10n-chinese@lists.debian.org>\n"
+"POT-Creation-Date: 2026-03-18 01:37+0200\n"
+"PO-Revision-Date: 2026-03-18 01:37+0800\n"
+"Last-Translator: luck668 <luck668@qq.com>\n"
+"Language-Team: Chinese (Simplified)\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.4.2\n"
 
-#: prefs.js:247
-msgid "Show Desktop button height (px)"
-msgstr "“显示桌面”按钮图标高度（像素）"
+#: ui/BoxShowDesktopOptions.ui:53
+msgid "Override Show Desktop line color"
+msgstr "覆盖“显示桌面”线条颜色"
 
-#: prefs.js:247
-msgid "Show Desktop button width (px)"
-msgstr "“显示桌面”按钮图标宽度（像素）"
+#: ui/BoxIntellihideOptions.ui:126 ui/BoxIntellihideOptions.ui:153
+msgid "Limit to panel length"
+msgstr "限制在面板长度内"
 
-#: prefs.js:259
-msgid "Unavailable when gnome-shell top panel is present"
-msgstr "GNOME-Shell 顶部面板存在时不可用"
-
-#: prefs.js:317 ui/SettingsPosition.ui.h:12 ui/SettingsStyle.ui.h:11
-msgid "Left"
-msgstr "左侧"
-
-#: prefs.js:318
-msgid "Center"
-msgstr "中间"
-
-#: prefs.js:319 ui/SettingsPosition.ui.h:13 ui/SettingsStyle.ui.h:12
-msgid "Right"
-msgstr "右侧"
-
-#: prefs.js:321 ui/BoxWindowPreviewOptions.ui.h:38 ui/SettingsPosition.ui.h:11
-#: ui/SettingsStyle.ui.h:10
-msgid "Top"
-msgstr "顶部"
-
-#: prefs.js:322 prefs.js:327 ui/SettingsPosition.ui.h:21
-msgid "Middle"
-msgstr "中部"
-
-#: prefs.js:323 ui/BoxWindowPreviewOptions.ui.h:37 ui/SettingsPosition.ui.h:10
-#: ui/SettingsStyle.ui.h:9
-msgid "Bottom"
-msgstr "底部"
-
-#: prefs.js:326 ui/SettingsPosition.ui.h:20
-msgid "Start"
-msgstr "首部"
-
-#: prefs.js:328 ui/SettingsPosition.ui.h:22
-msgid "End"
-msgstr "尾部"
-
-#: prefs.js:413
-msgid "Show Applications button"
-msgstr "“显示应用程序”按钮"
-
-#: prefs.js:414
-msgid "Activities button"
-msgstr "“活动”按钮"
-
-#: prefs.js:415
-msgid "Taskbar"
-msgstr "任务栏"
-
-#: prefs.js:416
-msgid "Date menu"
-msgstr "日期菜单"
-
-#: prefs.js:417
-msgid "System menu"
-msgstr "系统菜单"
-
-#: prefs.js:418
-msgid "Left box"
-msgstr "Left box"
-
-#: prefs.js:419
-msgid "Center box"
-msgstr "Center box"
-
-#: prefs.js:420
-msgid "Right box"
-msgstr "Right box"
-
-#: prefs.js:421
-msgid "Desktop button"
-msgstr "“桌面”按钮"
-
-#: prefs.js:427
-msgid "Move up"
-msgstr "上移"
-
-#: prefs.js:429
-msgid "Move down"
-msgstr "下移"
-
-#: prefs.js:431
-msgid "Visible"
-msgstr "显示"
-
-#: prefs.js:432
-msgid "Select element position"
-msgstr "选择元素位置"
-
-#: prefs.js:443
-msgid "Stacked to top"
-msgstr "堆叠到顶部"
-
-#: prefs.js:443
-msgid "Stacked to left"
-msgstr "堆叠到左侧"
-
-#: prefs.js:444
-msgid "Stacked to bottom"
-msgstr "堆叠到底部"
-
-#: prefs.js:444
-msgid "Stacked to right"
-msgstr "堆叠到右侧"
-
-#: prefs.js:445
-msgid "Centered"
-msgstr "居中"
-
-#: prefs.js:446
-msgid "Monitor Center"
-msgstr "显示器中间"
-
-#: prefs.js:465
-msgid "More options"
-msgstr "更多选项"
-
-#: prefs.js:497
-msgid "Reset to defaults"
-msgstr "恢复默认值"
-
-#: prefs.js:520
-msgid "Show Applications options"
-msgstr "“显示应用程序”选项"
-
-#: prefs.js:530
-msgid "Open icon"
-msgstr "打开图标"
-
-#: prefs.js:577
-msgid "Show Desktop options"
-msgstr "“显示桌面”选项"
-
-#: prefs.js:661
-#, javascript-format
-msgid "%d ms"
-msgstr "%d ms"
-
-#: prefs.js:666
-#, javascript-format
-msgid "%d °"
-msgstr ""
-
-#: prefs.js:671 prefs.js:676
-#, javascript-format
-msgid "%d %%"
-msgstr "%d %%"
-
-#: prefs.js:681
-#, javascript-format
-msgid "%.1f"
-msgstr "%.1f"
-
-#: prefs.js:686
-#, javascript-format
-msgid "%d icon"
-msgid_plural "%d icons"
-msgstr[0] "%d icon"
-
-#: prefs.js:782
-msgid "Running Indicator Options"
-msgstr "运行指示器选项"
-
-#: prefs.js:928
-msgid "Primary monitor"
-msgstr "主显示器"
-
-#: prefs.js:928
-msgid "Monitor "
-msgstr "显示器 "
-
-#: prefs.js:1122
-msgid "Dynamic opacity options"
-msgstr "动态半透明选项"
-
-#: prefs.js:1255
-msgid "Intellihide options"
-msgstr "智能隐藏选项"
-
-#: prefs.js:1366
-msgid "Window preview options"
-msgstr "窗口预览选项"
-
-#: prefs.js:1642
-msgid "Ungrouped application options"
-msgstr "未分组的应用程序选项"
-
-#: prefs.js:1721
-msgid "Customize middle-click behavior"
-msgstr "自定义中键点击行为"
-
-#: prefs.js:1771
-msgid "Customize panel scroll behavior"
-msgstr "自定义面板滚动行为"
-
-#: prefs.js:1799
-msgid "Customize icon scroll behavior"
-msgstr "自定义图标滚动行为"
-
-#: prefs.js:1880
-msgid "Advanced hotkeys options"
-msgstr "高级热键选项"
-
-#: prefs.js:1898
-msgid "Secondary Menu Options"
-msgstr "次级菜单选项"
-
-#: prefs.js:1924 ui/SettingsFineTune.ui.h:22
-msgid "Advanced Options"
-msgstr "高级选项"
-
-#: prefs.js:2040
-msgid "App icon animation options"
-msgstr "应用图标动画选项"
-
-#: prefs.js:2088
-msgid "Export settings"
-msgstr "导出设置"
-
-#: prefs.js:2104
-msgid "Import settings"
-msgstr "导入设置"
-
-#: appIcons.js:1503 appIcons.js:1513 appIcons.js:1515
-#: ui/BoxMiddleClickOptions.ui.h:10
-msgid "Quit"
-msgstr "退出"
-
-# 上面的 Quit 和 这里的 Windows 组合，实际显示成“Quit %d Windows”，为更符合中文习惯，这里加了“个”
-#: appIcons.js:1515
-msgid "Windows"
-msgstr "个窗口"
-
-#: appIcons.js:1786
-msgid "Power options"
-msgstr "电源选项"
-
-#: appIcons.js:1791
-msgid "Event logs"
-msgstr "事件日志"
-
-#: appIcons.js:1796
-msgid "System"
-msgstr "系统信息"
-
-#: appIcons.js:1801
-msgid "Device Management"
-msgstr "设备管理"
-
-#: appIcons.js:1806
-msgid "Disk Management"
-msgstr "磁盘管理"
-
-#: appIcons.js:1819
-msgid "Terminal"
-msgstr "终端"
-
-#: appIcons.js:1824
-msgid "System monitor"
-msgstr "系统监视器"
-
-#: appIcons.js:1829
-msgid "Files"
-msgstr "文件"
-
-#: appIcons.js:1834
-msgid "Extensions"
-msgstr "扩展"
-
-#: appIcons.js:1839
-msgid "Settings"
-msgstr "设置"
-
-#: appIcons.js:1850
-msgid "Unlock taskbar"
-msgstr "解锁任务栏"
-
-#: appIcons.js:1850
-msgid "Lock taskbar"
-msgstr "锁定任务栏"
-
-#: appIcons.js:1855
-msgid "Dash to Panel Settings"
-msgstr "Dash to Panel 设置"
-
-#: appIcons.js:1860
-msgid "Restore Windows"
-msgstr "恢复窗口"
-
-#: appIcons.js:1860
-msgid "Show Desktop"
-msgstr "显示桌面"
-
-#: ui/BoxAdvancedOptions.ui.h:1
-msgid "Nothing yet!"
-msgstr "暂时什么都没有！"
-
-#: ui/BoxAdvancedOptions.ui.h:2
-msgid "For real..."
-msgstr ""
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:1
-msgid "Animation type"
-msgstr "动画类型"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:2
-msgid "Simple"
-msgstr "简单"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:3
-msgid "Ripple"
-msgstr "波纹"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:4
-msgid "Plank"
-msgstr "木板"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:5
-msgid "Duration"
-msgstr "Duration"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:6
-msgid "Rotation"
-msgstr "Rotation"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:7
-msgid "Travel"
-msgstr "Travel"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:8
-msgid "Zoom"
-msgstr "Zoom"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:9
-msgid "Convexity"
-msgstr "Convexity"
-
-#: ui/BoxAnimateAppIconHoverOptions.ui.h:10
-msgid "Extent"
-msgstr "Extent"
-
-#: ui/BoxDotOptions.ui.h:1
-msgid "Highlight focused application"
-msgstr "高亮显示取得焦点的应用程序"
-
-#: ui/BoxDotOptions.ui.h:2
-msgid "Icon dominant color"
-msgstr "图标主颜色"
-
-#: ui/BoxDotOptions.ui.h:3
-msgid "Custom color"
-msgstr "自定义颜色"
-
-#: ui/BoxDotOptions.ui.h:4
-msgid "Highlight opacity"
-msgstr "高亮不透明度"
-
-#: ui/BoxDotOptions.ui.h:5
-msgid "Indicator size (px)"
-msgstr "指示器大小（像素）"
-
-#: ui/BoxDotOptions.ui.h:6
-msgid "Indicator color - Icon Dominant"
-msgstr "指示器颜色 - 图标主色"
-
-#: ui/BoxDotOptions.ui.h:7
-msgid "Indicator color - Override Theme"
-msgstr "指示器颜色 - 覆盖主题"
-
-#: ui/BoxDotOptions.ui.h:8
-msgid "1 window open (or ungrouped)"
-msgstr "1 窗口开启（或未分组）"
-
-#: ui/BoxDotOptions.ui.h:9
-msgid "Apply to all"
-msgstr "应用至全部"
-
-#: ui/BoxDotOptions.ui.h:10
-msgid "2 windows open"
-msgstr "2 窗口开启"
-
-#: ui/BoxDotOptions.ui.h:11
-msgid "3 windows open"
-msgstr "3 窗口开启"
-
-#: ui/BoxDotOptions.ui.h:12
-msgid "4+ windows open"
-msgstr "4+ 窗口开启"
-
-#: ui/BoxDotOptions.ui.h:13
-msgid "Use different for unfocused"
-msgstr "为未取得焦点的程序使用不同方案"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:1
-msgid "The panel background opacity is affected by"
-msgstr "面板背景不透明度的影响因素"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:2 ui/BoxIntellihideOptions.ui.h:3
-msgid "All windows"
-msgstr "所有窗口"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:3 ui/BoxIntellihideOptions.ui.h:4
-msgid "Focused windows"
-msgstr "获得焦点的窗口"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:4 ui/BoxIntellihideOptions.ui.h:5
-msgid "Maximized windows"
-msgstr "最大化窗口"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:5
-msgid "Change opacity when a window gets closer than (px)"
-msgstr "在窗口多靠近时修改不透明度（像素 px）"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:7
-#, no-c-format
-msgid "Change opacity to (%)"
-msgstr "将不透明度修改为（%）"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:8 ui/BoxShowApplicationsOptions.ui.h:3
-#: ui/BoxWindowPreviewOptions.ui.h:57 ui/SettingsStyle.ui.h:27
-msgid "0"
-msgstr "0"
-
-#: ui/BoxDynamicOpacityOptions.ui.h:9
-msgid "Opacity change animation duration (ms)"
-msgstr "不透明度变更动画持续时间（毫秒）"
-
-#: ui/BoxGroupAppsOptions.ui.h:1
-msgid "Font size (px) of the application titles (default is 14)"
-msgstr "应用程序标题字体大小（像素）（默认值为 14）"
-
-#: ui/BoxGroupAppsOptions.ui.h:2
+#: ui/BoxGroupAppsOptions.ui:47
 msgid "Font weight of application titles"
-msgstr "应用程序标题字体粗细"
+msgstr "应用标题字体粗细"
 
-#: ui/BoxGroupAppsOptions.ui.h:3 ui/BoxWindowPreviewOptions.ui.h:44
-msgid "inherit from theme"
-msgstr "继承自主题"
-
-#: ui/BoxGroupAppsOptions.ui.h:4 ui/BoxWindowPreviewOptions.ui.h:45
-msgid "normal"
-msgstr "正常"
-
-#: ui/BoxGroupAppsOptions.ui.h:5 ui/BoxWindowPreviewOptions.ui.h:46
-msgid "lighter"
-msgstr "较细"
-
-#: ui/BoxGroupAppsOptions.ui.h:6 ui/BoxWindowPreviewOptions.ui.h:47
-msgid "bold"
-msgstr "粗体"
-
-#: ui/BoxGroupAppsOptions.ui.h:7 ui/BoxWindowPreviewOptions.ui.h:48
-msgid "bolder"
-msgstr "更粗"
-
-#: ui/BoxGroupAppsOptions.ui.h:8
-msgid "Font color of the application titles"
-msgstr "应用程序标题字体颜色"
-
-#: ui/BoxGroupAppsOptions.ui.h:9
-msgid "Font color of the minimized application titles"
-msgstr "最小化应用程序标题字体颜色"
-
-#: ui/BoxGroupAppsOptions.ui.h:10
-#, fuzzy
-msgid "Maximum width (px) of the application titles"
-msgstr "应用程序标题最大宽度（像素）（默认值为 160）"
-
-#: ui/BoxGroupAppsOptions.ui.h:11
-msgid "(default is 160)"
-msgstr ""
-
-#: ui/BoxGroupAppsOptions.ui.h:12
+#: ui/BoxGroupAppsOptions.ui:111
 msgid "Use a fixed width for the application titles"
-msgstr "应用程序标题使用固定宽度"
+msgstr "为应用标题使用固定宽度"
 
-#: ui/BoxGroupAppsOptions.ui.h:13
+#: ui/BoxGroupAppsOptions.ui:112
 msgid ""
 "The application titles all have the same width, even if their texts are "
 "shorter than the maximum width. The maximum width value is used as the fixed "
 "width."
 msgstr ""
-"应用程序标题都将使用相同宽度，即使其文本宽度无法达到最大宽度。最大宽度值将被"
-"用于固定宽度值。"
+"所有应用标题具有相同宽度，即使文本短于最大宽度。最大宽度值用作固定宽度。"
 
-#: ui/BoxGroupAppsOptions.ui.h:14
+#: ui/BoxGroupAppsOptions.ui:129
 msgid "Display running indicators on unfocused applications"
-msgstr "在未取得焦点的应用上显示运行指示器"
+msgstr "在未聚焦应用上显示运行指示器"
 
-#: ui/BoxGroupAppsOptions.ui.h:15
-msgid "Use the favorite icons as application launchers"
-msgstr "使用收藏的图标作为应用程序启动器"
-
-#: ui/BoxIntellihideOptions.ui.h:1
-#, fuzzy
-msgid "Only hide the panel when it is obstructed by windows"
-msgstr "仅在面板被窗口阻挡时隐藏 "
-
-#: ui/BoxIntellihideOptions.ui.h:2
-msgid "The panel hides from"
-msgstr "触发面板隐藏的对象"
-
-#: ui/BoxIntellihideOptions.ui.h:6
-msgid "Require pressure at the edge of the screen to reveal the panel"
-msgstr "在屏幕边缘受到一定光标压力时显示面板"
-
-#: ui/BoxIntellihideOptions.ui.h:7
-msgid "Required pressure threshold (px)"
-msgstr "所需压力阈值（像素）"
-
-#: ui/BoxIntellihideOptions.ui.h:8
-msgid "Required pressure timeout (ms)"
-msgstr "所需压力超时（毫秒）"
-
-#: ui/BoxIntellihideOptions.ui.h:9
-msgid "Allow the panel to be revealed while in fullscreen mode"
-msgstr "允许面板在全屏幕模式下显示"
-
-#: ui/BoxIntellihideOptions.ui.h:10
-#, fuzzy
-msgid "Only hide secondary panels"
-msgstr "仅隐藏次要面板（需要多显示器选项）"
-
-#: ui/BoxIntellihideOptions.ui.h:11
-#, fuzzy
-msgid "(requires multi-monitors option)"
-msgstr "多显示器选项"
-
-#: ui/BoxIntellihideOptions.ui.h:12
-msgid "Keyboard shortcut to reveal and hold the panel"
-msgstr "显示并保持面板的键盘快捷键"
-
-#: ui/BoxIntellihideOptions.ui.h:13 ui/BoxOverlayShortcut.ui.h:12
-msgid "Syntax: <Shift>, <Ctrl>, <Alt>, <Super>"
-msgstr "语法：<Shift>, <Ctrl>, <Alt>, <Super>"
-
-#: ui/BoxIntellihideOptions.ui.h:14
-msgid "e.g. <Super>i"
-msgstr "例如 <Super>i"
-
-#: ui/BoxIntellihideOptions.ui.h:15
-msgid "Hide and reveal animation duration (ms)"
-msgstr "隐藏与显示动画持续时间（毫秒）"
-
-#: ui/BoxIntellihideOptions.ui.h:16
-msgid "Delay before hiding the panel (ms)"
-msgstr "隐藏面板之前的延时（毫秒）"
-
-#: ui/BoxIntellihideOptions.ui.h:17
-msgid "Delay before enabling intellihide on start (ms)"
-msgstr "启动后到启用智能隐藏之间的延时（毫秒）"
-
-#: ui/BoxMiddleClickOptions.ui.h:1
-msgid "Shift+Click action"
-msgstr "Shift+点击动作"
-
-#: ui/BoxMiddleClickOptions.ui.h:2
-msgid ""
-"When set to minimize, double clicking minimizes all the windows of the "
-"application."
-msgstr "设置为最小化时，双击将最小化该应用程序的所有窗口。"
-
-#: ui/BoxMiddleClickOptions.ui.h:3 ui/SettingsAction.ui.h:8
-msgid "Raise windows"
-msgstr "提升窗口"
-
-#: ui/BoxMiddleClickOptions.ui.h:4
-msgid "Minimize window"
-msgstr "最小化窗口"
-
-#: ui/BoxMiddleClickOptions.ui.h:5 ui/SettingsAction.ui.h:9
-msgid "Launch new instance"
-msgstr "启动新实例"
-
-#: ui/BoxMiddleClickOptions.ui.h:6 ui/SettingsAction.ui.h:4
-msgid "Cycle through windows"
-msgstr "在窗口间循环切换"
-
-#: ui/BoxMiddleClickOptions.ui.h:7 ui/SettingsAction.ui.h:3
-msgid "Cycle windows + minimize"
-msgstr "循环窗口 + 最小化"
-
-#: ui/BoxMiddleClickOptions.ui.h:8 ui/SettingsAction.ui.h:5
-msgid "Toggle single / Preview multiple"
-msgstr "切换单个 / 预览多个"
-
-#: ui/BoxMiddleClickOptions.ui.h:9 ui/SettingsAction.ui.h:6
-msgid "Toggle single / Cycle multiple"
-msgstr "切换单个 / 循环多个"
-
-#: ui/BoxMiddleClickOptions.ui.h:11
-msgid "Middle-Click action"
-msgstr "中键点击动作"
-
-#: ui/BoxMiddleClickOptions.ui.h:12
-msgid "Behavior for Middle-Click."
-msgstr "中键点击行为。"
-
-#: ui/BoxMiddleClickOptions.ui.h:13
-msgid "Shift+Middle-Click action"
-msgstr "Shift+中键点击动作"
-
-#: ui/BoxMiddleClickOptions.ui.h:14
-msgid "Behavior for Shift+Middle-Click."
-msgstr "Shift+中键点击的行为。"
-
-#: ui/BoxOverlayShortcut.ui.h:1
-msgid "Hotkeys prefix"
-msgstr "热键前缀"
-
-#: ui/BoxOverlayShortcut.ui.h:2
-msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
-msgstr "热键可以是 Super+数字 或者 Super+Alt+数字"
-
-#: ui/BoxOverlayShortcut.ui.h:3
-msgid "Super"
-msgstr "Super"
-
-#: ui/BoxOverlayShortcut.ui.h:4
-msgid "Super + Alt"
-msgstr "Super + Alt"
-
-#: ui/BoxOverlayShortcut.ui.h:5
-msgid "Number overlay"
-msgstr "数字附加显示"
-
-#: ui/BoxOverlayShortcut.ui.h:6
-msgid ""
-"Temporarily show the application numbers over the icons when using the "
-"hotkeys."
-msgstr "使用热键时在应用图标上临时显示其对应数字。"
-
-#: ui/BoxOverlayShortcut.ui.h:7
-msgid "Never"
-msgstr "从不"
-
-#: ui/BoxOverlayShortcut.ui.h:8
-msgid "Show temporarily"
-msgstr "暂时显示"
-
-#: ui/BoxOverlayShortcut.ui.h:9
-msgid "Always visible"
-msgstr "总是可见"
-
-#: ui/BoxOverlayShortcut.ui.h:10
-msgid "Hide timeout (ms)"
-msgstr "隐藏延时（毫秒）"
-
-#: ui/BoxOverlayShortcut.ui.h:11
-msgid "Shortcut to show the overlay for 2 seconds"
-msgstr "显示两秒钟附加数字的快捷键"
-
-#: ui/BoxOverlayShortcut.ui.h:13
-msgid "e.g. <Super>q"
-msgstr "例如 <Super>q"
-
-#: ui/BoxOverlayShortcut.ui.h:14
-msgid "Show window previews on hotkey"
-msgstr "按下热键时显示窗口预览"
-
-#: ui/BoxOverlayShortcut.ui.h:15
-msgid "Show previews when the application have multiple instances"
-msgstr "应用程序有多个实例时显示预览"
-
-#: ui/BoxOverlayShortcut.ui.h:16
-msgid "Hotkeys are activated with"
-msgstr "热键激活来源"
-
-#: ui/BoxOverlayShortcut.ui.h:17
-msgid "Select which keyboard number keys are used to activate the hotkeys"
-msgstr "选择用于激活热键的键盘数字键"
-
-#: ui/BoxOverlayShortcut.ui.h:18
-msgid "Number row"
-msgstr "键盘主数字行"
-
-#: ui/BoxOverlayShortcut.ui.h:19
-msgid "Numeric keypad"
-msgstr "数字小键盘"
-
-#: ui/BoxOverlayShortcut.ui.h:20
-msgid "Both"
-msgstr "两者"
-
-#: ui/BoxScrollIconOptions.ui.h:1 ui/BoxScrollPanelOptions.ui.h:1
-msgid "Delay between mouse scroll events (ms)"
-msgstr "鼠标滚动事件之间的延迟（毫秒）"
-
-#: ui/BoxScrollIconOptions.ui.h:2 ui/BoxScrollPanelOptions.ui.h:2
-msgid "Use this value to limit the number of captured mouse scroll events."
-msgstr "使用这个值来限制对鼠标滚动事件捕捉的频率。"
-
-#: ui/BoxScrollPanelOptions.ui.h:3
-msgid "Show popup when changing workspace"
-msgstr "切换工作区时显示弹窗"
-
-#: ui/BoxScrollPanelOptions.ui.h:4
-msgid "This affects workspace popup when scrolling on the panel only."
-msgstr "仅影响在面板上滚动时的工作区弹窗。"
-
-#: ui/BoxSecondaryMenuOptions.ui.h:1
-msgid "Integrate <i>AppMenu</i> items"
-msgstr "集成 <b>应用菜单</b> 项"
-
-#: ui/BoxSecondaryMenuOptions.ui.h:2
-msgid "<i>Show Details</i> menu item"
-msgstr "<b>显示细节</b> 菜单项"
-
-#: ui/BoxShowApplicationsOptions.ui.h:1
-#, fuzzy
-msgid "Show Applications icon"
-msgstr "“显示应用程序”选项"
-
-#: ui/BoxShowApplicationsOptions.ui.h:2
-msgid "Show Applications icon side padding (px)"
-msgstr "“显示应用程序”图标侧边距（像素）"
-
-#: ui/BoxShowApplicationsOptions.ui.h:4
-msgid "Override escape key and return to desktop"
-msgstr "覆盖 Esc 键并返回桌面"
-
-#: ui/BoxShowDesktopOptions.ui.h:1
-msgid "Override Show Desktop line color"
-msgstr "覆盖“显示桌面”线条颜色"
-
-#: ui/BoxShowDesktopOptions.ui.h:2
-msgid "Reveal the desktop when hovering the Show Desktop button"
-msgstr "悬停在“显示桌面”按钮时展示桌面预览"
-
-#: ui/BoxShowDesktopOptions.ui.h:3
-msgid "Delay before revealing the desktop (ms)"
-msgstr "展示桌面预览之前的延时（毫秒）"
-
-#: ui/BoxShowDesktopOptions.ui.h:4
-msgid "Fade duration (ms)"
-msgstr "淡出延时（毫秒）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:1
-#, fuzzy
-msgid "Time (ms) before showing"
-msgstr "显示前的延时（毫秒，默认为 400）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:2
-msgid "(400 is default)"
-msgstr ""
-
-#: ui/BoxWindowPreviewOptions.ui.h:3
-#, fuzzy
-msgid "Time (ms) before hiding"
-msgstr "隐藏前的延时（毫秒，默认为 100）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:4
-msgid "(100 is default)"
-msgstr ""
-
-#: ui/BoxWindowPreviewOptions.ui.h:5
-msgid "Immediate on application icon click"
-msgstr "点击应用程序图标后立即触发"
-
-#: ui/BoxWindowPreviewOptions.ui.h:6
-msgid "Animation time (ms)"
-msgstr "动画时间（毫秒）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:7
-msgid "Middle click on the preview to close the window"
-msgstr "在预览上中键点击以关闭窗口"
-
-#: ui/BoxWindowPreviewOptions.ui.h:8
-msgid "Window previews preferred size (px)"
-msgstr "窗口预览偏好大小（像素）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:9
-msgid "Window previews aspect ratio X (width)"
-msgstr "窗口预览长宽比 X（宽度）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:10
-msgid "1"
-msgstr "1"
-
-#: ui/BoxWindowPreviewOptions.ui.h:11
-msgid "2"
-msgstr "2"
-
-#: ui/BoxWindowPreviewOptions.ui.h:12
-msgid "3"
-msgstr "3"
-
-#: ui/BoxWindowPreviewOptions.ui.h:13
-msgid "4"
-msgstr "4"
-
-#: ui/BoxWindowPreviewOptions.ui.h:14
-msgid "5"
-msgstr "5"
-
-#: ui/BoxWindowPreviewOptions.ui.h:15
-msgid "6"
-msgstr "6"
-
-#: ui/BoxWindowPreviewOptions.ui.h:16
-msgid "7"
-msgstr "7"
-
-#: ui/BoxWindowPreviewOptions.ui.h:17
-msgid "8"
-msgstr "8"
-
-#: ui/BoxWindowPreviewOptions.ui.h:18
-msgid "9"
-msgstr "9"
-
-#: ui/BoxWindowPreviewOptions.ui.h:19
-msgid "10"
-msgstr "10"
-
-#: ui/BoxWindowPreviewOptions.ui.h:20
-msgid "11"
-msgstr "11"
-
-#: ui/BoxWindowPreviewOptions.ui.h:21
-msgid "12"
-msgstr "12"
-
-#: ui/BoxWindowPreviewOptions.ui.h:22
-msgid "13"
-msgstr "13"
-
-#: ui/BoxWindowPreviewOptions.ui.h:23
-msgid "14"
-msgstr "14"
-
-#: ui/BoxWindowPreviewOptions.ui.h:24
-msgid "15"
-msgstr "15"
-
-#: ui/BoxWindowPreviewOptions.ui.h:25
-msgid "16"
-msgstr "16"
-
-#: ui/BoxWindowPreviewOptions.ui.h:26
-msgid "17"
-msgstr "17"
-
-#: ui/BoxWindowPreviewOptions.ui.h:27
-msgid "18"
-msgstr "18"
-
-#: ui/BoxWindowPreviewOptions.ui.h:28
-msgid "19"
-msgstr "19"
-
-#: ui/BoxWindowPreviewOptions.ui.h:29
-msgid "20"
-msgstr "20"
-
-#: ui/BoxWindowPreviewOptions.ui.h:30
-msgid "21"
-msgstr "21"
-
-#: ui/BoxWindowPreviewOptions.ui.h:31
-msgid "Fixed"
-msgstr "固定"
-
-#: ui/BoxWindowPreviewOptions.ui.h:32
-msgid "Window previews aspect ratio Y (height)"
-msgstr "窗口预览长宽比 X（高度）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:33
-msgid "Window previews padding (px)"
-msgstr "窗口预览填充距离（像素）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:34
-msgid "Use custom opacity for the previews background"
-msgstr "为预览背景使用自定义不透明度"
-
-#: ui/BoxWindowPreviewOptions.ui.h:35
-#, fuzzy
-msgid ""
-"If disabled, the previews background have the same opacity as the panel."
-msgstr "如果禁用，预览的背景与面板的不透明度将保持一致"
-
-#: ui/BoxWindowPreviewOptions.ui.h:36
-msgid "Close button and header position"
-msgstr "关闭按钮和头部的位置"
-
-#: ui/BoxWindowPreviewOptions.ui.h:39
-msgid "Display window preview headers"
-msgstr "显示窗口预览头部"
-
-#: ui/BoxWindowPreviewOptions.ui.h:40
-msgid "Icon size (px) of the window preview"
-msgstr "预览窗口的图标大小（像素）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:41
-msgid "If disabled, the previews icon size will be based on headerbar size"
-msgstr "如果禁用，预览图标将基于标题栏的大小"
-
-#: ui/BoxWindowPreviewOptions.ui.h:42
-msgid "Font size (px) of the preview titles"
-msgstr "预览标题的字体大小（像素）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:43
-msgid "Font weight of the preview titles"
-msgstr "预览标题的字重"
-
-#: ui/BoxWindowPreviewOptions.ui.h:49
-msgid "Font color of the preview titles"
-msgstr "预览标题的字体颜色"
-
-#: ui/BoxWindowPreviewOptions.ui.h:50
-msgid "Enable window peeking"
-msgstr "启用窗口概览功能"
-
-#: ui/BoxWindowPreviewOptions.ui.h:51
-msgid ""
-"When hovering over a window preview for some time, the window gets "
-"distinguished."
-msgstr "在窗口预览上悬浮一定时间后，该窗口将被区别显示。"
-
-#: ui/BoxWindowPreviewOptions.ui.h:52
-msgid "Enter window peeking mode timeout (ms)"
-msgstr "进入窗口概览模式延时（毫秒）"
-
-#: ui/BoxWindowPreviewOptions.ui.h:53
-msgid ""
-"Time of inactivity while hovering over a window preview needed to enter the "
-"window peeking mode."
-msgstr "为进入窗口概览模式，需要光标悬浮在预览窗口上不活动的时间。"
-
-#: ui/BoxWindowPreviewOptions.ui.h:54
-msgid "50"
-msgstr "50"
-
-#: ui/BoxWindowPreviewOptions.ui.h:55
-msgid "Window peeking mode opacity"
-msgstr "窗口概览模式不透明度"
-
-#: ui/BoxWindowPreviewOptions.ui.h:56
-msgid ""
-"All windows except for the peeked one have their opacity set to the same "
-"value."
-msgstr "除正在处于概览状态的窗口外，其它所有窗口的不透明度将被设置为同一个值。"
-
-#: ui/SettingsAbout.ui.h:1
-msgid "Info"
-msgstr ""
-
-#: ui/SettingsAbout.ui.h:2
-#, fuzzy
-msgid "Version"
-msgstr "版本： "
-
-#: ui/SettingsAbout.ui.h:3
-msgid "Source"
-msgstr ""
-
-#: ui/SettingsAbout.ui.h:4
-msgid "GitHub"
-msgstr "GitHub"
-
-#: ui/SettingsAbout.ui.h:5
-#, fuzzy
-msgid "Export and Import"
-msgstr "导入导出设置"
-
-#: ui/SettingsAbout.ui.h:6
-msgid "Export and import settings"
-msgstr "导入导出设置"
-
-#: ui/SettingsAbout.ui.h:7
-msgid ""
-"Use the buttons below to create a settings file from your current "
-"preferences that can be imported on a different machine."
-msgstr ""
-"使用下面的按钮以基于您当前的首选项创建一个设置文件；您稍后可使用该文件在其他"
-"机器上导入设置。"
-
-#: ui/SettingsAbout.ui.h:8
-msgid "Export to file"
-msgstr "导出至文件"
-
-#: ui/SettingsAbout.ui.h:9
-msgid "Import from file"
-msgstr "从文件导入"
-
-#: ui/SettingsAbout.ui.h:10
-#, fuzzy
-msgid ""
-"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
-"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0."
-"html\">GNU General Public License, version 2 or later</a> for details.</span>"
-msgstr ""
-"<span size=\"small\">本程序不提供任何担保。&#10;请查看 <a href=\"https://www."
-"gnu.org/licenses/old-licenses/gpl-2.0.html\">GNU 通用公共许可证，第二版或更新"
-"版本</a> 以了解详情。</span>"
-
-#: ui/SettingsAction.ui.h:1
-msgid "Click action"
-msgstr "点击行为"
-
-#: ui/SettingsAction.ui.h:2
-msgid "Behaviour when clicking on the icon of a running application."
-msgstr "点击正在运行应用程序图标时的行为。"
-
-#: ui/SettingsAction.ui.h:7
-msgid "Toggle windows"
-msgstr "切换窗口"
-
-#: ui/SettingsAction.ui.h:10
-#, fuzzy
-msgid "Scroll action"
-msgstr "滚动行为"
-
-#: ui/SettingsAction.ui.h:11
-msgid "Scroll panel action"
-msgstr "滚动面板行为"
-
-#: ui/SettingsAction.ui.h:12
-msgid "Behavior when mouse scrolling over the panel."
-msgstr "在面板上滚动鼠标滚轮时的行为。"
-
-#: ui/SettingsAction.ui.h:13
-msgid "Do nothing"
-msgstr "什么也不做"
-
-#: ui/SettingsAction.ui.h:14
-msgid "Switch workspace"
-msgstr "切换工作区"
-
-#: ui/SettingsAction.ui.h:15
-msgid "Cycle windows"
-msgstr "循环窗口"
-
-#: ui/SettingsAction.ui.h:16
-msgid "Change volume"
-msgstr "改变音量"
-
-#: ui/SettingsAction.ui.h:17
-msgid "Scroll icon action"
-msgstr "滚动行为"
-
-#: ui/SettingsAction.ui.h:18
-msgid "Behavior when mouse scrolling over an application icon."
-msgstr "在正在运行应用程序图标上滚动鼠标滚轮时的行为。"
-
-#: ui/SettingsAction.ui.h:19
-msgid "Same as panel"
-msgstr "与面板保持一致"
-
-#: ui/SettingsAction.ui.h:20
-#, fuzzy
-msgid "Hotkey overlay"
-msgstr "数字附加显示"
-
-#: ui/SettingsAction.ui.h:21
-msgid "Use hotkeys to activate apps"
-msgstr "使用热键激活应用"
-
-#: ui/SettingsAction.ui.h:22
-msgid ""
-"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
-"together with Shift and Ctrl."
-msgstr ""
-"将 Super+(0-9) 作为激活应用程序的快捷键。它也可以和 Shift 或 Ctrl 共同使用。"
-
-#: ui/SettingsBehavior.ui.h:1
-#, fuzzy
-msgid "Applications"
-msgstr "取消应用程序分组"
-
-#: ui/SettingsBehavior.ui.h:2
-msgid "Show favorite applications"
-msgstr "显示收藏的应用程序"
-
-#: ui/SettingsBehavior.ui.h:3
-msgid "Show favorite applications on secondary panels"
-msgstr "次要面板显示收藏的应用程序"
-
-#: ui/SettingsBehavior.ui.h:4
-msgid "Show running applications"
-msgstr "显示正在运行的应用程序"
-
-#: ui/SettingsBehavior.ui.h:5
-msgid "Show <i>AppMenu</i> button"
-msgstr "显示 <b>应用菜单</b> 按钮"
-
-#: ui/SettingsBehavior.ui.h:6
-msgid "Ungroup applications"
-msgstr "取消应用程序分组"
-
-#: ui/SettingsBehavior.ui.h:7
-msgid "Show notification counter badge"
-msgstr ""
-
-#: ui/SettingsBehavior.ui.h:8
-msgid "Show window previews on hover"
-msgstr "悬停时显示窗口预览"
-
-#: ui/SettingsBehavior.ui.h:9
-msgid "Show tooltip on hover"
-msgstr "悬停时显示文字提示"
-
-#: ui/SettingsBehavior.ui.h:10
-#, fuzzy
-msgid "Isolate"
-msgstr "隔离显示器"
-
-#: ui/SettingsBehavior.ui.h:11
-msgid "Isolate Workspaces"
-msgstr "隔离工作区"
-
-#: ui/SettingsBehavior.ui.h:12
-msgid "Isolate monitors"
-msgstr "隔离显示器"
-
-#: ui/SettingsBehavior.ui.h:13
-msgid "Overview"
-msgstr ""
-
-#: ui/SettingsBehavior.ui.h:14
-msgid "Click empty space to close overview"
-msgstr "点击空白区域时关闭概览"
-
-#: ui/SettingsBehavior.ui.h:15
-msgid "Disable show overview on startup"
-msgstr "取消启动时显示概览"
-
-#: ui/SettingsFineTune.ui.h:1
-msgid "Font size"
-msgstr ""
-
-#: ui/SettingsFineTune.ui.h:2
-msgid "Tray Font Size"
-msgstr ""
-
-#: ui/SettingsFineTune.ui.h:3
-#, fuzzy
-msgid "(0 = theme default)"
-msgstr "托盘字体大小&#10;（0 = 主题默认）"
-
-#: ui/SettingsFineTune.ui.h:4
-msgid "LeftBox Font Size"
-msgstr ""
-
-#: ui/SettingsFineTune.ui.h:5
-msgid "Padding"
-msgstr ""
-
-#: ui/SettingsFineTune.ui.h:6
-msgid "Tray Item Padding"
-msgstr ""
-
-#: ui/SettingsFineTune.ui.h:7
-#, fuzzy
-msgid "(-1 = theme default)"
-msgstr "LeftBox 边缘空白&#10;（-1 = 主题默认）"
-
-#: ui/SettingsFineTune.ui.h:8
-#, fuzzy
-msgid "Status Icon Padding"
-msgstr "状态图标边缘空白&#10;（-1 = 主题默认）"
-
-#: ui/SettingsFineTune.ui.h:9
-msgid "LeftBox Padding"
-msgstr ""
-
-#: ui/SettingsFineTune.ui.h:10
-#, fuzzy
-msgid "Animate"
-msgstr "动画类型"
-
-#: ui/SettingsFineTune.ui.h:11
-msgid "Animate switching applications"
-msgstr "动画切换应用程序"
-
-#: ui/SettingsFineTune.ui.h:12
-msgid "Animate launching new windows"
-msgstr "动画启动新窗口"
-
-#: ui/SettingsFineTune.ui.h:13
-msgid "Gnome functionality"
-msgstr ""
-
-#: ui/SettingsFineTune.ui.h:14
-#, fuzzy
-msgid "Keep original gnome-shell dash"
-msgstr "保留原始 GNOME-Shell Dash（概览）"
-
-#: ui/SettingsFineTune.ui.h:15
-msgid "(overview)"
-msgstr ""
-
-#: ui/SettingsFineTune.ui.h:16
-msgid "Keep original gnome-shell top panel"
-msgstr "保留原始 GNOME-Shell 顶部面板"
-
-#: ui/SettingsFineTune.ui.h:17
-#, fuzzy
-msgid "Activate panel menu buttons on click only"
-msgstr "仅在点击时激活面板菜单按钮（例如：日期菜单）"
-
-#: ui/SettingsFineTune.ui.h:18
-#, fuzzy
-msgid "(e.g. date menu)"
-msgstr "日期菜单"
-
-#: ui/SettingsFineTune.ui.h:19
-msgid "Force Activities hot corner on primary monitor"
-msgstr "主显示器强制活动热区"
-
-#: ui/SettingsFineTune.ui.h:20
-#, fuzzy
-msgid "App icon secondary menu"
-msgstr "应用图标次级（右键点击）菜单"
-
-#: ui/SettingsFineTune.ui.h:21
-#, fuzzy
-msgid "(right-click menu)"
-msgstr "应用图标次级（右键点击）菜单"
-
-#: ui/SettingsPosition.ui.h:1
-msgid "Panel"
-msgstr ""
-
-#: ui/SettingsPosition.ui.h:2
-msgid "Display the main panel on"
-msgstr "将主面板显示于"
-
-#: ui/SettingsPosition.ui.h:3
+#: ui/SettingsPosition.ui:35
 msgid "Display panels on all monitors"
 msgstr "在所有显示器上显示面板"
 
-#: ui/SettingsPosition.ui.h:4
+#: ui/BoxWindowPreviewOptions.ui:466
+msgid "Window peeking mode opacity"
+msgstr "窗口速览模式透明度"
+
+#: ui/BoxWindowPreviewOptions.ui:467
+msgid ""
+"All windows except for the peeked one have their opacity set to the same "
+"value."
+msgstr "除速览窗口外，所有窗口都设置为相同的透明度。"
+
+#: src/appIcons.js:1928 src/appIcons.js:1939 ui/BoxMiddleClickOptions.ui:33
+#: ui/BoxMiddleClickOptions.ui:62 ui/BoxMiddleClickOptions.ui:91
+msgid "Quit"
+msgstr "退出"
+
+#: src/appIcons.js:2266
+msgid "Power options"
+msgstr "电源选项"
+
+#: src/appIcons.js:2271
+msgid "Event logs"
+msgstr "事件日志"
+
+#: src/appIcons.js:2276
+msgid "System"
+msgstr "系统"
+
+#: src/appIcons.js:2281
+msgid "Device Management"
+msgstr "设备管理"
+
+#: src/appIcons.js:2286
+msgid "Disk Management"
+msgstr "磁盘管理"
+
+#: src/appIcons.js:2317
+msgid "Unlock taskbar"
+msgstr "解锁任务栏"
+
+#: src/appIcons.js:2318
+msgid "Lock taskbar"
+msgstr "锁定任务栏"
+
+#: src/appIcons.js:2328
+msgid "Gnome Settings"
+msgstr "GNOME设置"
+
+#: src/appIcons.js:2332
+msgid "Dash to Panel Settings"
+msgstr "Dash to Panel设置"
+
+#: src/appIcons.js:2339
+msgid "Restore Windows"
+msgstr "恢复窗口"
+
+#: src/appIcons.js:2340
+msgid "Show Desktop"
+msgstr "显示桌面"
+
+#: src/extension.js:91
+msgid "Dash to Panel has been updated!"
+msgstr "Dash to Panel已更新！"
+
+#: src/extension.js:92
+msgid "You are now running version"
+msgstr "当前运行版本"
+
+#: src/panel.js:232
+msgid "Top Bar"
+msgstr "顶栏"
+
+#: src/prefs.js:265
+msgid "Show Desktop button height (px)"
+msgstr "“显示桌面”按钮高度（像素）"
+
+#: src/prefs.js:266
+msgid "Show Desktop button width (px)"
+msgstr "“显示桌面”按钮宽度（像素）"
+
+#: src/prefs.js:338 ui/SettingsPosition.ui:133 ui/SettingsStyle.ui:218
+msgid "Left"
+msgstr "左侧"
+
+#: src/prefs.js:339
+msgid "Center"
+msgstr "居中"
+
+#: src/prefs.js:340 ui/SettingsPosition.ui:142 ui/SettingsStyle.ui:226
+msgid "Right"
+msgstr "右侧"
+
+#: src/prefs.js:342 ui/BoxWindowPreviewOptions.ui:334 ui/SettingsPosition.ui:124
+#: ui/SettingsStyle.ui:210
+msgid "Top"
+msgstr "顶部"
+
+#: src/prefs.js:343 src/prefs.js:348 ui/SettingsPosition.ui:198
+msgid "Middle"
+msgstr "中间"
+
+#: src/prefs.js:344 ui/BoxWindowPreviewOptions.ui:325 ui/SettingsPosition.ui:115
+#: ui/SettingsStyle.ui:202
+msgid "Bottom"
+msgstr "底部"
+
+#: src/prefs.js:347 ui/SettingsPosition.ui:197
+msgid "Start"
+msgstr "起始"
+
+#: src/prefs.js:349 ui/SettingsPosition.ui:199
+msgid "End"
+msgstr "结束"
+
+#: src/prefs.js:474
+msgid "Show Applications button"
+msgstr "“显示应用程序”按钮"
+
+#: src/prefs.js:475
+msgid "Activities button"
+msgstr "“活动”按钮"
+
+#: src/prefs.js:476
+msgid "Taskbar"
+msgstr "任务栏"
+
+#: src/prefs.js:477
+msgid "Date menu"
+msgstr "日期菜单"
+
+#: src/prefs.js:478
+msgid "System menu"
+msgstr "系统菜单"
+
+#: src/prefs.js:479
+msgid "Left box"
+msgstr "左侧框"
+
+#: src/prefs.js:480
+msgid "Center box"
+msgstr "中间框"
+
+#: src/prefs.js:481
+msgid "Right box"
+msgstr "右侧框"
+
+#: src/prefs.js:482
+msgid "Desktop button"
+msgstr "“显示桌面”按钮"
+
+#: src/prefs.js:492 src/prefs.js:3047
+msgid "Move up"
+msgstr "上移"
+
+#: src/prefs.js:494 src/prefs.js:3055
+msgid "Move down"
+msgstr "下移"
+
+#: src/prefs.js:500
+msgid "Visible"
+msgstr "可见"
+
+#: src/prefs.js:504
+msgid "Select element position"
+msgstr "选择元素位置"
+
+#: src/prefs.js:518
+msgid "Stacked to top"
+msgstr "顶部堆叠"
+
+#: src/prefs.js:518
+msgid "Stacked to left"
+msgstr "左侧堆叠"
+
+#: src/prefs.js:522
+msgid "Stacked to bottom"
+msgstr "底部堆叠"
+
+#: src/prefs.js:522
+msgid "Stacked to right"
+msgstr "右侧堆叠"
+
+#: src/prefs.js:524
+msgid "Centered"
+msgstr "居中"
+
+#: src/prefs.js:525
+msgid "Monitor Center"
+msgstr "显示器中央"
+
+#: src/prefs.js:552
+msgid "More options"
+msgstr "更多选项"
+
+#: src/prefs.js:587
+msgid "Reset to defaults"
+msgstr "恢复默认"
+
+#: src/prefs.js:610
+msgid "Show Applications options"
+msgstr "“显示应用程序”选项"
+
+#: src/prefs.js:671
+msgid "Open icon"
+msgstr "打开图标"
+
+#: src/prefs.js:689
+msgid "Show Desktop options"
+msgstr "“显示桌面”选项"
+
+#: src/prefs.js:781
+msgid "Primary monitor"
+msgstr "主显示器"
+
+#: src/prefs.js:782 ui/SettingsPosition.ui:79
+msgid "Monitor "
+msgstr "显示器 "
+
+#: src/prefs.js:911
+msgid "Running Indicator Options"
+msgstr "运行指示器选项"
+
+#: src/prefs.js:1447
+msgid "Dynamic opacity options"
+msgstr "动态透明度选项"
+
+#: src/prefs.js:1871
+msgid "Intellihide options"
+msgstr "智能隐藏选项"
+
+#: src/prefs.js:2111
+msgid "Window preview options"
+msgstr "窗口预览选项"
+
+#: src/prefs.js:2591
+msgid "Isolate Workspaces options"
+msgstr "工作区隔离选项"
+
+#: src/prefs.js:2726
+msgid "Ungrouped application options"
+msgstr "未分组应用选项"
+
+#: src/prefs.js:2893
+msgid "Customize middle-click behavior"
+msgstr "自定义中键点击行为"
+
+#: src/prefs.js:3022
+msgid "Text"
+msgstr "文本"
+
+#: src/prefs.js:3031
+msgid "Command"
+msgstr "命令"
+
+#: src/prefs.js:3063
+msgid "Remove"
+msgstr "移除"
+
+#: src/prefs.js:3091
+msgid "Customize panel scroll behavior"
+msgstr "自定义面板滚动行为"
+
+#: src/prefs.js:3137
+msgid "Customize icon scroll behavior"
+msgstr "自定义图标滚动行为"
+
+#: src/prefs.js:3261
+msgid "Advanced hotkeys options"
+msgstr "高级热键选项"
+
+#: src/prefs.js:3289
+msgid "Secondary Menu Options"
+msgstr "右键菜单选项"
+
+#: src/prefs.js:3489
+#, javascript-format
+msgid "%d ms"
+msgstr "%d 毫秒"
+
+#: src/prefs.js:3495
+#, javascript-format
+msgid "%d °"
+msgstr "%d 度"
+
+#: src/prefs.js:3501 src/prefs.js:3507
+#, javascript-format
+msgid "%d %%"
+msgstr "%d%%"
+
+#: src/prefs.js:3513
+#, javascript-format
+msgid "%.1f"
+msgstr "%.1f"
+
+#: src/prefs.js:3646
+msgid "App icon animation options"
+msgstr "应用图标动画选项"
+
+#: src/prefs.js:3769
+msgid "App icon highlight options"
+msgstr "应用图标高亮选项"
+
+#: src/prefs.js:3858
+msgid "Export settings"
+msgstr "导出设置"
+
+#: src/prefs.js:3880
+msgid "Import settings"
+msgstr "导入设置"
+
+#: src/windowPreview.js:1155
+msgid "Move to current Workspace"
+msgstr "移动到当前工作区"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:62
+msgid "Animation type"
+msgstr "动画类型"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:67
+msgid "Simple"
+msgstr "简单"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:68
+msgid "Ripple"
+msgstr "涟漪"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:69
+msgid "Plank"
+msgstr "轻微弹动"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:84
+msgid "Duration"
+msgstr "持续时间"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:101
+msgid "Rotation"
+msgstr "旋转"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:118
+msgid "Travel"
+msgstr "移动"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:135
+msgid "Zoom"
+msgstr "缩放"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:152
+msgid "Convexity"
+msgstr "凸度"
+
+#: ui/BoxAnimateAppIconHoverOptions.ui:169
+msgid "Extent"
+msgstr "范围"
+
+#: ui/BoxDotOptions.ui:37
+msgid "Highlight focused application"
+msgstr "高亮聚焦应用"
+
+#: ui/BoxDotOptions.ui:54
+msgid "Icon dominant color"
+msgstr "图标主色"
+
+#: ui/BoxDotOptions.ui:65
+msgid "Custom color"
+msgstr "自定义颜色"
+
+#: ui/BoxDotOptions.ui:76
+msgid "Highlight opacity"
+msgstr "高亮透明度"
+
+#: ui/BoxDotOptions.ui:96
+msgid "Indicator size (px)"
+msgstr "指示器大小（像素）"
+
+#: ui/BoxDotOptions.ui:109
+msgid "Indicator color - Icon Dominant"
+msgstr "指示器颜色 - 图标主色"
+
+#: ui/BoxDotOptions.ui:126
+msgid "Indicator color - Override Theme"
+msgstr "指示器颜色 - 覆盖主题"
+
+#: ui/BoxDotOptions.ui:142 ui/BoxDotOptions.ui:215
+msgid "1 window open (or ungrouped)"
+msgstr "1个窗口打开（或未分组）"
+
+#: ui/BoxDotOptions.ui:146 ui/BoxDotOptions.ui:219
+msgid "Apply to all"
+msgstr "全部应用"
+
+#: ui/BoxDotOptions.ui:159 ui/BoxDotOptions.ui:232
+msgid "2 windows open"
+msgstr "2个窗口打开"
+
+#: ui/BoxDotOptions.ui:170 ui/BoxDotOptions.ui:243
+msgid "3 windows open"
+msgstr "3个窗口打开"
+
+#: ui/BoxDotOptions.ui:181 ui/BoxDotOptions.ui:254
+msgid "4+ windows open"
+msgstr "4个及以上窗口打开"
+
+#: ui/BoxDotOptions.ui:198
+msgid "Use different for unfocused"
+msgstr "为未聚焦使用不同颜色"
+
+#: ui/BoxDynamicOpacityOptions.ui:37
+msgid "The panel background opacity is affected by"
+msgstr "面板背景透明度受以下因素影响"
+
+#: ui/BoxIntellihideOptions.ui:96 ui/BoxDynamicOpacityOptions.ui:42
+msgid "All windows"
+msgstr "所有窗口"
+
+#: ui/BoxIntellihideOptions.ui:97 ui/BoxDynamicOpacityOptions.ui:43
+msgid "Focused windows"
+msgstr "聚焦窗口"
+
+#: ui/BoxIntellihideOptions.ui:98 ui/BoxDynamicOpacityOptions.ui:44
+msgid "Maximized windows"
+msgstr "最大化窗口"
+
+#: ui/BoxDynamicOpacityOptions.ui:53
+msgid "Change opacity when a window gets closer than (px)"
+msgstr "当窗口距离小于（像素）时改变透明度"
+
+#: ui/BoxDynamicOpacityOptions.ui:69
+msgid "Change opacity to (%)"
+msgstr "透明度改为（%）"
+
+#: ui/BoxDynamicOpacityOptions.ui:82
+msgid "Opacity change animation duration (ms)"
+msgstr "透明度变化动画持续时间（毫秒）"
+
+#: ui/BoxGroupAppsOptions.ui:32
+msgid "Font size (px) of the application titles (default is 14)"
+msgstr "应用标题字体大小（像素）（默认为14）"
+
+#: ui/BoxWindowPreviewOptions.ui:406 ui/BoxGroupAppsOptions.ui:52
+msgid "inherit from theme"
+msgstr "从主题继承"
+
+#: ui/BoxWindowPreviewOptions.ui:407 ui/BoxGroupAppsOptions.ui:53
+msgid "normal"
+msgstr "正常"
+
+#: ui/BoxWindowPreviewOptions.ui:408 ui/BoxGroupAppsOptions.ui:54
+msgid "lighter"
+msgstr "较细"
+
+#: ui/BoxWindowPreviewOptions.ui:409 ui/BoxGroupAppsOptions.ui:55
+msgid "bold"
+msgstr "粗体"
+
+#: ui/BoxWindowPreviewOptions.ui:410 ui/BoxGroupAppsOptions.ui:56
+msgid "bolder"
+msgstr "更粗"
+
+#: ui/BoxGroupAppsOptions.ui:65
+msgid "Font color of the application titles"
+msgstr "应用标题字体颜色"
+
+#: ui/BoxGroupAppsOptions.ui:77
+msgid "Font color of the minimized application titles"
+msgstr "最小化应用标题字体颜色"
+
+#: ui/BoxGroupAppsOptions.ui:95
+msgid "Maximum width (px) of the application titles"
+msgstr "应用标题最大宽度（像素）"
+
+#: ui/BoxGroupAppsOptions.ui:96
+msgid "(default is 160)"
+msgstr "（默认为160）"
+
+#: ui/BoxGroupAppsOptions.ui:140
+msgid "Use the favorite icons as application launchers"
+msgstr "将收藏图标用作应用启动器"
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:26
+msgid "Highlight AppIcon color"
+msgstr "应用图标高亮颜色"
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:38
+msgid "Pressed AppIcon color"
+msgstr "按下时应用图标颜色"
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:50
+msgid "Highlight AppIcon border radius"
+msgstr "应用图标高亮圆角半径"
+
+#: ui/BoxHighlightAppIconHoverOptions.ui:51
+msgid "Overrides global border radius (default is 0)"
+msgstr "覆盖全局圆角半径（默认为0）"
+
+#: ui/BoxIntellihideOptions.ui:53
+msgid "Only hide the panel from windows"
+msgstr "仅在窗口遮挡时隐藏面板"
+
+#: ui/BoxIntellihideOptions.ui:64
+msgid "Overlapping"
+msgstr "重叠"
+
+#: ui/BoxIntellihideOptions.ui:80
+msgid "On same monitor"
+msgstr "在同一显示器上"
+
+#: ui/BoxIntellihideOptions.ui:91
+msgid "The panel hides from"
+msgstr "面板隐藏条件"
+
+#: ui/BoxIntellihideOptions.ui:110
+msgid "Touching the monitor's edge with the pointer reveals the panel"
+msgstr "鼠标指针触及显示器边缘时显示面板"
+
+#: ui/BoxIntellihideOptions.ui:137
+msgid "Hovering the panel area keeps the panel revealed"
+msgstr "悬停在面板区域时保持面板显示"
+
+#: ui/BoxIntellihideOptions.ui:164
+msgid "Require pressure at the edge of the monitor to reveal the panel"
+msgstr "需要向显示器边缘施加压力才能显示面板"
+
+#: ui/BoxIntellihideOptions.ui:174
+msgid "Required pressure threshold (px)"
+msgstr "所需压力阈值（像素）"
+
+#: ui/BoxIntellihideOptions.ui:188
+msgid "Required pressure timeout (ms)"
+msgstr "所需压力超时时间（毫秒）"
+
+#: ui/BoxIntellihideOptions.ui:206
+msgid "Allow the panel to be revealed while in fullscreen mode"
+msgstr "允许在全屏模式下显示面板"
+
+#: ui/BoxIntellihideOptions.ui:216
+msgid "(requires multi-monitors option)"
+msgstr "（需要多显示器选项）"
+
+#: ui/BoxIntellihideOptions.ui:217
+msgid "Only hide secondary panels"
+msgstr "仅隐藏副显示器面板"
+
+#: ui/BoxIntellihideOptions.ui:228
+msgid "Keyboard shortcut to reveal and hold the panel"
+msgstr "显示并保持面板的键盘快捷键"
+
+#: ui/BoxIntellihideOptions.ui:227 ui/BoxOverlayShortcut.ui:65
+msgid "Syntax: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
+msgstr "语法: &lt;Shift&gt;, &lt;Ctrl&gt;, &lt;Alt&gt;, &lt;Super&gt;"
+
+#: ui/BoxIntellihideOptions.ui:240
+msgid "Persist state across restarts"
+msgstr "重启后保持状态"
+
+#: ui/BoxIntellihideOptions.ui:250
+msgid ""
+"(respects Gnome \"Do Not Disturb\" and requires show notification counter "
+"badge option)"
+msgstr "（遵循GNOME的“请勿打扰”设置，需要启用显示通知计数角标选项）"
+
+#: ui/BoxIntellihideOptions.ui:251
+msgid "Reveal and hold the panel on notification"
+msgstr "收到通知时显示并保持面板"
+
+#: ui/BoxIntellihideOptions.ui:265
+msgid "Hide and reveal animation duration (ms)"
+msgstr "隐藏和显示动画持续时间（毫秒）"
+
+#: ui/BoxIntellihideOptions.ui:279
+msgid "Delay before hiding the panel (ms)"
+msgstr "隐藏面板前的延迟（毫秒）"
+
+#: ui/BoxIntellihideOptions.ui:294
+msgid "Delay before revealing the panel (ms)"
+msgstr "显示面板前的延迟（毫秒）"
+
+#: ui/BoxIntellihideOptions.ui:309
+msgid "Delay before enabling intellihide on start (ms)"
+msgstr "启动时启用智能隐藏前的延迟（毫秒）"
+
+#: ui/BoxIsolateWorkspacesOptions.ui:22
+msgid "Isolate workspaces in gnome-shell Application Switcher"
+msgstr "在GNOME Shell应用切换器中隔离工作区"
+
+#: ui/BoxMiddleClickOptions.ui:19
+msgid "Shift+Click action"
+msgstr "Shift+点击操作"
+
+#: ui/BoxMiddleClickOptions.ui:20
+msgid ""
+"When set to minimize, double clicking minimizes all the windows of the "
+"application."
+msgstr "当设置为最小化时，双击可最小化应用的所有窗口。"
+
+#: ui/BoxMiddleClickOptions.ui:25 ui/BoxMiddleClickOptions.ui:54
+#: ui/BoxMiddleClickOptions.ui:83 ui/SettingsAction.ui:40
+msgid "Raise windows"
+msgstr "升起窗口"
+
+#: ui/BoxMiddleClickOptions.ui:26 ui/BoxMiddleClickOptions.ui:55
+#: ui/BoxMiddleClickOptions.ui:84
+msgid "Minimize window"
+msgstr "最小化窗口"
+
+#: ui/BoxMiddleClickOptions.ui:27 ui/BoxMiddleClickOptions.ui:56
+#: ui/BoxMiddleClickOptions.ui:85 ui/SettingsAction.ui:41
+msgid "Launch new instance"
+msgstr "启动新实例"
+
+#: ui/BoxMiddleClickOptions.ui:28 ui/BoxMiddleClickOptions.ui:57
+#: ui/BoxMiddleClickOptions.ui:86 ui/SettingsAction.ui:35
+msgid "Cycle through windows"
+msgstr "循环切换窗口"
+
+#: ui/BoxMiddleClickOptions.ui:29 ui/BoxMiddleClickOptions.ui:58
+#: ui/BoxMiddleClickOptions.ui:87 ui/SettingsAction.ui:34
+msgid "Cycle windows + minimize"
+msgstr "循环窗口 + 最小化"
+
+#: ui/BoxMiddleClickOptions.ui:30 ui/BoxMiddleClickOptions.ui:59
+#: ui/BoxMiddleClickOptions.ui:88 ui/SettingsAction.ui:36
+msgid "Toggle single / Preview multiple"
+msgstr "切换单个 / 预览多个"
+
+#: ui/BoxMiddleClickOptions.ui:31 ui/BoxMiddleClickOptions.ui:60
+#: ui/BoxMiddleClickOptions.ui:89 ui/SettingsAction.ui:37
+msgid "Toggle single / Cycle multiple"
+msgstr "切换单个 / 循环多个"
+
+#: ui/BoxMiddleClickOptions.ui:32 ui/BoxMiddleClickOptions.ui:61
+#: ui/BoxMiddleClickOptions.ui:90 ui/SettingsAction.ui:38
+msgid "Toggle single / Spread multiple"
+msgstr "切换单个 / 展开多个"
+
+#: ui/BoxMiddleClickOptions.ui:48
+msgid "Middle-Click action"
+msgstr "中键点击操作"
+
+#: ui/BoxMiddleClickOptions.ui:49
+msgid "Behavior for Middle-Click."
+msgstr "中键点击的行为。"
+
+#: ui/BoxMiddleClickOptions.ui:77
+msgid "Shift+Middle-Click action"
+msgstr "Shift+中键点击操作"
+
+#: ui/BoxMiddleClickOptions.ui:78
+msgid "Behavior for Shift+Middle-Click."
+msgstr "Shift+中键点击的行为。"
+
+#: ui/BoxOverlayShortcut.ui:23
+msgid "Hotkeys will either be Super+Number or Super+Alt+Num"
+msgstr "热键可以是Super+数字或Super+Alt+数字"
+
+#: ui/BoxOverlayShortcut.ui:24
+msgid "Hotkeys prefix"
+msgstr "热键前缀"
+
+#: ui/BoxOverlayShortcut.ui:29
+msgid "Super"
+msgstr "Super"
+
+#: ui/BoxOverlayShortcut.ui:30
+msgid "Super + Alt"
+msgstr "Super + Alt"
+
+#: ui/BoxOverlayShortcut.ui:38
+msgid ""
+"Temporarily show the application numbers over the icons when using the "
+"hotkeys."
+msgstr "使用热键时，临时在图标上显示应用数字。"
+
+#: ui/BoxOverlayShortcut.ui:39
+msgid "Number overlay"
+msgstr "数字覆盖层"
+
+#: ui/BoxOverlayShortcut.ui:44
+msgid "Never"
+msgstr "从不"
+
+#: ui/BoxOverlayShortcut.ui:45
+msgid "Show temporarily"
+msgstr "临时显示"
+
+#: ui/BoxOverlayShortcut.ui:46
+msgid "Always visible"
+msgstr "始终显示"
+
+#: ui/BoxOverlayShortcut.ui:54
+msgid "Hide timeout (ms)"
+msgstr "隐藏超时（毫秒）"
+
+#: ui/BoxOverlayShortcut.ui:66
+msgid "Shortcut to show the overlay for 2 seconds"
+msgstr "显示覆盖层2秒的快捷键"
+
+#: ui/BoxOverlayShortcut.ui:78
+msgid ""
+"On secondary monitors, show the overlay on icons matching the primary "
+"monitor"
+msgstr "在副显示器上，在主显示器匹配的图标上显示覆盖层"
+
+#: ui/BoxOverlayShortcut.ui:79
+msgid "Show the overlay on all monitors"
+msgstr "在所有显示器上显示覆盖层"
+
+#: ui/BoxOverlayShortcut.ui:89
+msgid "Show previews when the application have multiple instances"
+msgstr "应用有多个实例时显示预览"
+
+#: ui/BoxOverlayShortcut.ui:90
+msgid "Show window previews on hotkey"
+msgstr "热键触发时显示窗口预览"
+
+#: ui/BoxOverlayShortcut.ui:100
+msgid "Select which keyboard number keys are used to activate the hotkeys"
+msgstr "选择使用哪些键盘数字键激活热键"
+
+#: ui/BoxOverlayShortcut.ui:101
+msgid "Hotkeys are activated with"
+msgstr "热键激活方式"
+
+#: ui/BoxOverlayShortcut.ui:106
+msgid "Number row"
+msgstr "数字行"
+
+#: ui/BoxOverlayShortcut.ui:107
+msgid "Numeric keypad"
+msgstr "数字键盘"
+
+#: ui/BoxOverlayShortcut.ui:108
+msgid "Both"
+msgstr "两者"
+
+#: ui/BoxScrollPanelOptions.ui:25 ui/BoxScrollIconOptions.ui:25
+msgid "Delay between mouse scroll events (ms)"
+msgstr "鼠标滚动事件间隔（毫秒）"
+
+#: ui/BoxScrollPanelOptions.ui:26 ui/BoxScrollIconOptions.ui:26
+msgid "Use this value to limit the number of captured mouse scroll events."
+msgstr "使用此值限制捕获的鼠标滚动事件数量。"
+
+#: ui/BoxScrollPanelOptions.ui:42
+msgid "Show popup when changing workspace"
+msgstr "切换工作区时显示弹出提示"
+
+#: ui/BoxScrollPanelOptions.ui:43
+msgid "This affects workspace popup when scrolling on the panel only."
+msgstr "这仅影响在面板上滚动时的工作区弹出提示。"
+
+#: ui/BoxSecondaryMenuOptions.ui:19
+msgid "Integrate <i>AppMenu</i> items"
+msgstr "集成<i>应用菜单</i>项"
+
+#: ui/BoxSecondaryMenuOptions.ui:30
+msgid "<i>App Details</i> menu item"
+msgstr "<i>应用详情</i>菜单项"
+
+#: ui/BoxSecondaryMenuOptions.ui:31
+msgid ""
+"<i>App Details</i> is only available when Gnome Software is installed"
+msgstr "<i>应用详情</i>仅在安装GNOME软件中心时可用"
+
+#: ui/BoxShowApplicationsOptions.ui:25
+msgid "Show Applications icon"
+msgstr "“显示应用程序”图标"
+
+#: ui/BoxShowApplicationsOptions.ui:60
+msgid "Show Applications icon side padding (px)"
+msgstr "“显示应用程序”图标左右内边距（像素）"
+
+#: ui/BoxShowApplicationsOptions.ui:73
+msgid "Override escape key and return to desktop"
+msgstr "覆盖ESC键并返回桌面"
+
+#: ui/BoxShowDesktopOptions.ui:77
+msgid "Reveal the desktop when hovering the Show Desktop button"
+msgstr "悬停“显示桌面”按钮时显示桌面"
+
+#: ui/BoxShowDesktopOptions.ui:90
+msgid "Delay before revealing the desktop (ms)"
+msgstr "显示桌面前的延迟（毫秒）"
+
+#: ui/BoxShowDesktopOptions.ui:106
+msgid "Fade duration (ms)"
+msgstr "淡入淡出持续时间（毫秒）"
+
+#: ui/BoxWindowPreviewOptions.ui:89
+msgid "Time (ms) before showing"
+msgstr "显示前等待时间（毫秒）"
+
+#: ui/BoxWindowPreviewOptions.ui:90
+msgid "(400 is default)"
+msgstr "（默认为400）"
+
+#: ui/BoxWindowPreviewOptions.ui:105
+msgid "Time (ms) before hiding"
+msgstr "隐藏前等待时间（毫秒）"
+
+#: ui/BoxWindowPreviewOptions.ui:106
+msgid "(100 is default)"
+msgstr "（默认为100）"
+
+#: ui/BoxWindowPreviewOptions.ui:117
+msgid "Immediate on application icon click"
+msgstr "点击应用图标时立即隐藏"
+
+#: ui/BoxWindowPreviewOptions.ui:138
+msgid "Animation time (ms)"
+msgstr "动画时间（毫秒）"
+
+#: ui/BoxWindowPreviewOptions.ui:159
+msgid "Middle click on the preview to close the window"
+msgstr "在预览上中键点击关闭窗口"
+
+#: ui/BoxWindowPreviewOptions.ui:176
+msgid "Window previews preferred size (px)"
+msgstr "窗口预览首选大小（像素）"
+
+#: ui/BoxWindowPreviewOptions.ui:192
+msgid "Window previews aspect ratio X (width)"
+msgstr "窗口预览宽高比 X（宽度）"
+
+#: ui/BoxWindowPreviewOptions.ui:223 ui/BoxWindowPreviewOptions.ui:264
+msgid "Fixed"
+msgstr "固定"
+
+#: ui/BoxWindowPreviewOptions.ui:233
+msgid "Window previews aspect ratio Y (height)"
+msgstr "窗口预览宽高比 Y（高度）"
+
+#: ui/BoxWindowPreviewOptions.ui:274
+msgid "Window previews padding (px)"
+msgstr "窗口预览内边距（像素）"
+
+#: ui/BoxWindowPreviewOptions.ui:296
+msgid "Use custom opacity for the previews background"
+msgstr "为预览背景使用自定义透明度"
+
+#: ui/BoxWindowPreviewOptions.ui:297
+msgid ""
+"If disabled, the previews background have the same opacity as the panel."
+msgstr "如果禁用，预览背景将具有与面板相同的透明度。"
+
+#: ui/BoxWindowPreviewOptions.ui:322
+msgid "Close button and header position"
+msgstr "关闭按钮和标题位置"
+
+#: ui/BoxWindowPreviewOptions.ui:352
+msgid "Display window preview headers"
+msgstr "显示窗口预览标题栏"
+
+#: ui/BoxWindowPreviewOptions.ui:363
+msgid "Icon size (px) of the window preview"
+msgstr "窗口预览图标大小（像素）"
+
+#: ui/BoxWindowPreviewOptions.ui:364
+msgid "If disabled, the previews icon size will be based on headerbar size"
+msgstr "如果禁用，预览图标大小将基于标题栏大小"
+
+#: ui/BoxWindowPreviewOptions.ui:385
+msgid "Font size (px) of the preview titles"
+msgstr "预览标题字体大小（像素）"
+
+#: ui/BoxWindowPreviewOptions.ui:401
+msgid "Font weight of the preview titles"
+msgstr "预览标题字体粗细"
+
+#: ui/BoxWindowPreviewOptions.ui:419
+msgid "Font color of the preview titles"
+msgstr "预览标题字体颜色"
+
+#: ui/BoxWindowPreviewOptions.ui:437
+msgid "Enable window peeking"
+msgstr "启用窗口速览"
+
+#: ui/BoxWindowPreviewOptions.ui:438
+msgid ""
+"When hovering over a window preview for some time, the window gets "
+"distinguished."
+msgstr "悬停窗口预览一段时间后，该窗口会突出显示。"
+
+#: ui/BoxWindowPreviewOptions.ui:449
+msgid "Enter window peeking mode timeout (ms)"
+msgstr "进入窗口速览模式超时时间（毫秒）"
+
+#: ui/BoxWindowPreviewOptions.ui:450
+msgid ""
+"Time of inactivity while hovering over a window preview needed to enter the "
+"window peeking mode."
+msgstr "在窗口预览上悬停无操作，进入速览模式所需的时间。"
+
+#: ui/BoxWindowPreviewOptions.ui:455
+msgid "50"
+msgstr "50"
+
+#: ui/SettingsAbout.ui:8
+msgid "About"
+msgstr "关于"
+
+#: ui/SettingsAbout.ui:11
+msgid "Info"
+msgstr "信息"
+
+#: ui/SettingsAbout.ui:14
+msgid "Version"
+msgstr "版本"
+
+#: ui/SettingsAbout.ui:22
+msgid "Source"
+msgstr "源代码"
+
+#: ui/SettingsAbout.ui:26
+msgid "GitHub"
+msgstr "GitHub"
+
+#: ui/SettingsAbout.ui:37
+msgid "Export and Import"
+msgstr "导出和导入"
+
+#: ui/SettingsAbout.ui:40
+msgid ""
+"Use the buttons below to create a settings file from your current "
+"preferences that can be imported on a different machine."
+msgstr "使用下面的按钮从当前首选项创建设置文件，可在另一台机器上导入。"
+
+#: ui/SettingsAbout.ui:41
+msgid "Export and import settings"
+msgstr "导出和导入设置"
+
+#: ui/SettingsAbout.ui:56
+msgid "Export to file"
+msgstr "导出到文件"
+
+#: ui/SettingsAbout.ui:62
+msgid "Import from file"
+msgstr "从文件导入"
+
+#: ui/SettingsAbout.ui:77
+msgid ""
+"<span size=\"small\">This program comes with ABSOLUTELY NO WARRANTY.\n"
+"See the <a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\">"
+"GNU General Public License, version 2 or later</a> for details.</span>"
+msgstr ""
+"<span size=\"small\">本程序绝对不提供任何担保。\n"
+"详情请参阅<a href=\"https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\">"
+"GNU通用公共许可证第二版或更高版本</a>。</span>"
+
+#: ui/SettingsAbout.ui:96
+msgid "Sponsored and originally developed by"
+msgstr "赞助及原始开发者"
+
+#: ui/SettingsAction.ui:8
+msgid "Action"
+msgstr "操作"
+
+#: ui/SettingsAction.ui:11 ui/SettingsAction.ui:15
+msgid "Click action"
+msgstr "点击操作"
+
+#: ui/SettingsAction.ui:14
+msgid "Behaviour when clicking on the icon of a running application."
+msgstr "点击运行中应用图标时的行为。"
+
+#: ui/SettingsAction.ui:39
+msgid "Toggle windows"
+msgstr "切换窗口"
+
+#: ui/SettingsAction.ui:51
+msgid "Scroll action"
+msgstr "滚动操作"
+
+#: ui/SettingsAction.ui:54
+msgid "Behavior when mouse scrolling over the panel."
+msgstr "鼠标在面板上滚动时的行为。"
+
+#: ui/SettingsAction.ui:55
+msgid "Scroll panel action"
+msgstr "面板滚动操作"
+
+#: ui/SettingsAction.ui:79 ui/SettingsAction.ui:112
+msgid "Do nothing"
+msgstr "无操作"
+
+#: ui/SettingsAction.ui:80
+msgid "Switch workspace"
+msgstr "切换工作区"
+
+#: ui/SettingsAction.ui:81 ui/SettingsAction.ui:113
+msgid "Cycle windows"
+msgstr "循环窗口"
+
+#: ui/SettingsAction.ui:82
+msgid "Change volume"
+msgstr "调节音量"
+
+#: ui/SettingsAction.ui:90
+msgid "Behavior when mouse scrolling over an application icon."
+msgstr "鼠标在应用图标上滚动时的行为。"
+
+#: ui/SettingsAction.ui:91
+msgid "Scroll icon action"
+msgstr "图标滚动操作"
+
+#: ui/SettingsAction.ui:114
+msgid "Same as panel"
+msgstr "与面板相同"
+
+#: ui/SettingsAction.ui:124
+msgid "Hotkey overlay"
+msgstr "热键覆盖层"
+
+#: ui/SettingsAction.ui:127
+msgid ""
+"Enable Super+(0-9) as shortcuts to activate apps. It can also be used "
+"together with Shift and Ctrl."
+msgstr "启用Super+(0-9)作为激活应用的快捷键。也可与Shift和Ctrl组合使用。"
+
+#: ui/SettingsAction.ui:128
+msgid "Use hotkeys to activate apps"
+msgstr "使用热键激活应用"
+
+#: ui/SettingsAction.ui:154
+msgid "Application icons context menu"
+msgstr "应用图标右键菜单"
+
+#: ui/SettingsAction.ui:157
+msgid "(right-click menu)"
+msgstr "（右键菜单）"
+
+#: ui/SettingsAction.ui:158
+msgid "Secondary menu"
+msgstr "右键菜单"
+
+#: ui/SettingsAction.ui:179
+msgid "Panel context menu entries"
+msgstr "面板右键菜单项"
+
+#: ui/SettingsAction.ui:190
+msgid "Add entry"
+msgstr "添加条目"
+
+#: ui/SettingsBehavior.ui:7
+msgid "Behavior"
+msgstr "行为"
+
+#: ui/SettingsBehavior.ui:10
+msgid "Applications"
+msgstr "应用程序"
+
+#: ui/SettingsBehavior.ui:13
+msgid "Show favorite applications"
+msgstr "显示收藏应用"
+
+#: ui/SettingsBehavior.ui:23
+msgid "Show favorite applications on secondary panels"
+msgstr "在副面板上显示收藏应用"
+
+#: ui/SettingsBehavior.ui:33
+msgid "Show running applications"
+msgstr "显示运行中的应用"
+
+#: ui/SettingsBehavior.ui:43
+msgid "Ungroup applications"
+msgstr "取消应用分组"
+
+#: ui/SettingsBehavior.ui:67
+msgid "Show notification counter badge"
+msgstr "显示通知计数角标"
+
+#: ui/SettingsBehavior.ui:81
+msgid "Hover"
+msgstr "悬停"
+
+#: ui/SettingsBehavior.ui:84
+msgid "Show window previews on hover"
+msgstr "悬停时显示窗口预览"
+
+#: ui/SettingsBehavior.ui:108
+msgid "Show tooltip on hover"
+msgstr "悬停时显示工具提示"
+
+#: ui/SettingsBehavior.ui:120
+msgid "Isolate"
+msgstr "隔离"
+
+#: ui/SettingsBehavior.ui:123
+msgid "Isolate Workspaces"
+msgstr "工作区隔离"
+
+#: ui/SettingsBehavior.ui:147
+msgid "Isolate monitors"
+msgstr "显示器隔离"
+
+#: ui/SettingsBehavior.ui:173
+msgid "Overview"
+msgstr "概览"
+
+#: ui/SettingsBehavior.ui:176
+msgid "Click empty space to close overview"
+msgstr "点击空白区域关闭概览"
+
+#: ui/SettingsBehavior.ui:186
+msgid "Disable show overview on startup"
+msgstr "禁用启动时显示概览"
+
+#: ui/SettingsFineTune.ui:38
+msgid "Fine-Tune"
+msgstr "微调"
+
+#: ui/SettingsFineTune.ui:41
+msgid "Font size"
+msgstr "字体大小"
+
+#: ui/SettingsFineTune.ui:44 ui/SettingsFineTune.ui:60
+msgid "(0 = theme default)"
+msgstr "（0 = 主题默认）"
+
+#: ui/SettingsFineTune.ui:45
+msgid "Tray Font Size"
+msgstr "托盘字体大小"
+
+#: ui/SettingsFineTune.ui:61
+msgid "LeftBox Font Size"
+msgstr "左侧框字体大小"
+
+#: ui/SettingsFineTune.ui:78
+msgid "Padding"
+msgstr "内边距"
+
+#: ui/SettingsFineTune.ui:81 ui/SettingsFineTune.ui:97 ui/SettingsFineTune.ui:113
+msgid "(-1 = theme default)"
+msgstr "（-1 = 主题默认）"
+
+#: ui/SettingsFineTune.ui:82
+msgid "Tray Item Padding"
+msgstr "托盘项内边距"
+
+#: ui/SettingsFineTune.ui:98
+msgid "Status Icon Padding"
+msgstr "状态图标内边距"
+
+#: ui/SettingsFineTune.ui:114
+msgid "LeftBox Padding"
+msgstr "左侧框内边距"
+
+#: ui/SettingsFineTune.ui:131
+msgid "Animate"
+msgstr "动画"
+
+#: ui/SettingsFineTune.ui:134
+msgid "Animate switching applications"
+msgstr "切换应用时使用动画"
+
+#: ui/SettingsFineTune.ui:144
+msgid "Animate launching new windows"
+msgstr "启动新窗口时使用动画"
+
+#: ui/SettingsFineTune.ui:156
+msgid "Gnome functionality"
+msgstr "GNOME功能"
+
+#: ui/SettingsFineTune.ui:159
+msgid "(overview)"
+msgstr "（概览）"
+
+#: ui/SettingsFineTune.ui:160
+msgid "Keep original gnome-shell dash"
+msgstr "保留原始GNOME Shell Dash"
+
+#: ui/SettingsFineTune.ui:170
+msgid "Keep original gnome-shell top panel"
+msgstr "保留原始GNOME Shell顶部面板"
+
+#: ui/SettingsFineTune.ui:180
+msgid "(e.g. date menu)"
+msgstr "（例如日期菜单）"
+
+#: ui/SettingsFineTune.ui:181
+msgid "Activate panel menu buttons on click only"
+msgstr "仅点击时激活面板菜单按钮"
+
+#: ui/SettingsFineTune.ui:191
+msgid "Force Activities hot corner on primary monitor"
+msgstr "在主显示器上强制启用“活动”热角"
+
+#: ui/SettingsPosition.ui:19
+msgid "Position"
+msgstr "位置"
+
+#: ui/SettingsPosition.ui:22
+msgid "Panel"
+msgstr "面板"
+
+#: ui/SettingsPosition.ui:25
+msgid "Display the main panel on"
+msgstr "显示主面板在"
+
+#: ui/SettingsPosition.ui:49
+msgid "Hide and reveal the panel according to preferences"
+msgstr "根据首选项隐藏和显示面板"
+
+#: ui/SettingsPosition.ui:50
 msgid "Panel Intellihide"
 msgstr "面板智能隐藏"
 
-#: ui/SettingsPosition.ui.h:5
-msgid "Hide and reveal the panel according to preferences"
-msgstr "按照配置隐藏和显示面板"
-
-#: ui/SettingsPosition.ui.h:6
-#, fuzzy
+#: ui/SettingsPosition.ui:76
 msgid "Order and Position on monitors"
-msgstr "显示次序和位置"
+msgstr "显示器上的顺序和位置"
 
-#: ui/SettingsPosition.ui.h:7
-#, fuzzy
+#: src/prefs.js:782 ui/SettingsPosition.ui:79
 msgid "Monitor"
-msgstr "显示器 "
+msgstr "显示器"
 
-#: ui/SettingsPosition.ui.h:8
+#: ui/SettingsPosition.ui:90
 msgid "Apply changes to all monitors"
-msgstr "应用修改到所有显示器"
+msgstr "将更改应用到所有显示器"
 
-#: ui/SettingsPosition.ui.h:9
-msgid "Panel screen position"
-msgstr "面板屏幕位置"
+#: ui/SettingsPosition.ui:111
+msgid "Panel monitor position"
+msgstr "面板在显示器上的位置"
 
-#: ui/SettingsPosition.ui.h:14
-#, fuzzy
-msgid "Panel thickness"
-msgstr "面板智能隐藏"
-
-#: ui/SettingsPosition.ui.h:15
-#, fuzzy
+#: ui/SettingsPosition.ui:152
 msgid "(default is 48)"
-msgstr "面板厚度&#10;（默认为 48）"
+msgstr "（默认为48）"
 
-#: ui/SettingsPosition.ui.h:17
-#, fuzzy, no-c-format
-msgid "Panel length (%)"
-msgstr "面板长度（%）&#10;（默认为 100）"
+#: ui/SettingsPosition.ui:153
+msgid "Panel thickness"
+msgstr "面板高度"
 
-#: ui/SettingsPosition.ui.h:18
-#, fuzzy
+#: ui/SettingsPosition.ui:168
 msgid "(default is 100)"
-msgstr "面板长度（%）&#10;（默认为 100）"
+msgstr "（默认为100）"
 
-#: ui/SettingsPosition.ui.h:19
+#: ui/SettingsPosition.ui:169
+msgid "Panel length"
+msgstr "面板宽度"
+
+#: ui/SettingsPosition.ui:174
+msgid "Dynamic"
+msgstr "动态"
+
+#: ui/SettingsPosition.ui:192
 msgid "Anchor"
 msgstr "锚点"
 
-#: ui/SettingsPosition.ui.h:23
-#, fuzzy
+#: ui/SettingsPosition.ui:211
 msgid "Taskbar Display"
-msgstr "任务栏"
+msgstr "任务栏显示"
 
-#: ui/SettingsStyle.ui.h:1
+#: ui/SettingsStyle.ui:73
+msgid "Style"
+msgstr "样式"
+
+#: ui/SettingsStyle.ui:76
+msgid "Global style"
+msgstr "全局样式"
+
+#: ui/SettingsStyle.ui:79
+msgid "Border radius"
+msgstr "圆角半径"
+
+#: ui/SettingsStyle.ui:96
 msgid "AppIcon style"
-msgstr ""
+msgstr "应用图标样式"
 
-#: ui/SettingsStyle.ui.h:2
-#, fuzzy
-msgid "App Icon Margin"
-msgstr "应用图标边缘空白&#10;（默认为 8）"
-
-#: ui/SettingsStyle.ui.h:3
+#: ui/SettingsStyle.ui:99
 msgid "(default is 8)"
-msgstr ""
+msgstr "（默认为8）"
 
-#: ui/SettingsStyle.ui.h:4
-#, fuzzy
-msgid "App Icon Padding"
-msgstr "应用图标边缘空白&#10;（默认为 4）"
+#: ui/SettingsStyle.ui:100
+msgid "App Icon Margin"
+msgstr "应用图标外边距"
 
-#: ui/SettingsStyle.ui.h:5
+#: ui/SettingsStyle.ui:115
 msgid "(default is 4)"
-msgstr ""
+msgstr "（默认为4）"
 
-#: ui/SettingsStyle.ui.h:6
+#: ui/SettingsStyle.ui:116
+msgid "App Icon Padding"
+msgstr "应用图标内边距"
+
+#: ui/SettingsStyle.ui:131
 msgid "Animate hovering app icons"
-msgstr "动画悬停应用图标"
+msgstr "悬停应用图标时使用动画"
 
-#: ui/SettingsStyle.ui.h:7
-#, fuzzy
+#: ui/SettingsStyle.ui:155
+msgid "Highlight hovering app icons"
+msgstr "悬停应用图标时高亮"
+
+#: ui/SettingsStyle.ui:179
+msgid "Icon style"
+msgstr "图标样式"
+
+#: ui/SettingsStyle.ui:184
+msgid "Normal"
+msgstr "正常"
+
+#: ui/SettingsStyle.ui:185
+msgid "Symbolic"
+msgstr "符号化"
+
+#: ui/SettingsStyle.ui:186
+msgid "Grayscale"
+msgstr "灰度"
+
+#: ui/SettingsStyle.ui:196
 msgid "Running indicator"
-msgstr "运行指示器位置"
+msgstr "运行指示器"
 
-#: ui/SettingsStyle.ui.h:8
+#: ui/SettingsStyle.ui:199
 msgid "Running indicator position"
 msgstr "运行指示器位置"
 
-#: ui/SettingsStyle.ui.h:13
+#: ui/SettingsStyle.ui:235
 msgid "Running indicator style (Focused app)"
-msgstr "运行指示器风格（取得焦点的应用）"
+msgstr "运行指示器样式（聚焦应用）"
 
-#: ui/SettingsStyle.ui.h:14
+#: ui/SettingsStyle.ui:253 ui/SettingsStyle.ui:272
 msgid "Dots"
 msgstr "点"
 
-#: ui/SettingsStyle.ui.h:15
+#: ui/SettingsStyle.ui:254 ui/SettingsStyle.ui:273
 msgid "Squares"
 msgstr "方块"
 
-#: ui/SettingsStyle.ui.h:16
+#: ui/SettingsStyle.ui:255 ui/SettingsStyle.ui:274
 msgid "Dashes"
-msgstr "横线"
+msgstr "短横线"
 
-#: ui/SettingsStyle.ui.h:17
+#: ui/SettingsStyle.ui:256 ui/SettingsStyle.ui:275
 msgid "Segmented"
-msgstr "间断线"
+msgstr "分段"
 
-#: ui/SettingsStyle.ui.h:18
+#: ui/SettingsStyle.ui:257 ui/SettingsStyle.ui:276
 msgid "Solid"
 msgstr "实心"
 
-#: ui/SettingsStyle.ui.h:19
+#: ui/SettingsStyle.ui:258 ui/SettingsStyle.ui:277
 msgid "Ciliora"
-msgstr "Ciliora"
+msgstr "睫毛"
 
-#: ui/SettingsStyle.ui.h:20
+#: ui/SettingsStyle.ui:259 ui/SettingsStyle.ui:278
 msgid "Metro"
-msgstr "Metro"
+msgstr "地铁风格"
 
-#: ui/SettingsStyle.ui.h:21
+#: ui/SettingsStyle.ui:267
 msgid "Running indicator style (Unfocused apps)"
-msgstr "运行指示器风格（未取得焦点的应用）"
+msgstr "运行指示器样式（未聚焦应用）"
 
-#: ui/SettingsStyle.ui.h:22
-#, fuzzy
+#: ui/SettingsStyle.ui:288
 msgid "Panel style"
-msgstr "面板智能隐藏"
+msgstr "面板样式"
 
-#: ui/SettingsStyle.ui.h:23
-#, fuzzy
+#: ui/SettingsStyle.ui:291 ui/SettingsStyle.ui:307 ui/SettingsStyle.ui:323
+#: ui/SettingsStyle.ui:339
+msgid "(default is 0)"
+msgstr "（默认为0）"
+
+#: ui/SettingsStyle.ui:292
+msgid "Side margins"
+msgstr "左右边距"
+
+#: ui/SettingsStyle.ui:308
+msgid "Top and bottom margins"
+msgstr "上下边距"
+
+#: ui/SettingsStyle.ui:324
+msgid "Side padding"
+msgstr "左右内边距"
+
+#: ui/SettingsStyle.ui:340
+msgid "Top and bottom padding"
+msgstr "上下内边距"
+
+#: ui/SettingsStyle.ui:359
 msgid "Override panel theme background color"
-msgstr "覆盖面板主题背景颜色 "
+msgstr "覆盖面板主题背景色"
 
-#: ui/SettingsStyle.ui.h:24
+#: ui/SettingsStyle.ui:374
 msgid "Override panel theme background opacity"
-msgstr "覆盖面板主题背景不透明度"
+msgstr "覆盖面板主题背景透明度"
 
-#: ui/SettingsStyle.ui.h:26
-#, no-c-format
+#: ui/SettingsStyle.ui:384
 msgid "Panel background opacity (%)"
-msgstr "面板背景不透明度（%）"
+msgstr "面板背景透明度（%）"
 
-#: ui/SettingsStyle.ui.h:28
-msgid "Dynamic background opacity"
-msgstr "动态背景不透明度"
-
-#: ui/SettingsStyle.ui.h:29
+#: ui/SettingsStyle.ui:396
 msgid "Change opacity when a window gets close to the panel"
-msgstr "在有窗口接近面板时修改不透明度"
+msgstr "窗口靠近面板时改变透明度"
 
-#: ui/SettingsStyle.ui.h:30
-#, fuzzy
+#: ui/SettingsStyle.ui:397
+msgid "Dynamic background opacity"
+msgstr "动态背景透明度"
+
+#: ui/SettingsStyle.ui:425
 msgid "Override panel theme gradient"
-msgstr "覆盖面板主题渐变 "
+msgstr "覆盖面板主题渐变"
 
-#: ui/SettingsStyle.ui.h:32
-#, no-c-format
+#: ui/SettingsStyle.ui:435
 msgid "Gradient top color and opacity (%)"
-msgstr "渐变顶部颜色和不透明度（%）"
+msgstr "渐变顶部颜色和透明度（%）"
 
-#: ui/SettingsStyle.ui.h:34
-#, no-c-format
+#: ui/SettingsStyle.ui:453
 msgid "Gradient bottom color and opacity (%)"
-msgstr "渐变底部颜色和不透明度（%）"
-
-#, javascript-format
-#~ msgid "%d ."
-#~ msgstr "%d ."
-
-#~ msgid "Show Details"
-#~ msgstr "显示细节"
-
-#~ msgid "New Window"
-#~ msgstr "新建窗口"
-
-#~ msgid "Current Show Applications icon"
-#~ msgstr "当前“显示应用程序”图标"
-
-#~ msgid "Custom Show Applications image icon"
-#~ msgstr "自定义“显示应用程序”图标图像"
-
-#~ msgid "Position"
-#~ msgstr "位置"
-
-#~ msgid "Style"
-#~ msgstr "风格"
-
-#~ msgid "Top Bar > Show App Menu must be enabled in Tweak Tool"
-#~ msgstr "必须在优化工具中启用顶栏 > 显示应用菜单"
-
-#~ msgid "Behavior"
-#~ msgstr "习惯"
-
-#~ msgid "Action"
-#~ msgstr "行为"
-
-#~ msgid "LeftBox Font Size&#10;(0 = theme default)"
-#~ msgstr "LeftBox 字体大小&#10;（0 = 主题默认）"
-
-#~ msgid "Tray Item Padding&#10;(-1 = theme default)"
-#~ msgstr "托盘项边缘空白&#10;（-1 = 主题默认）"
-
-#~ msgid "Fine-Tune"
-#~ msgstr "微调"
-
-#~ msgid "About"
-#~ msgstr "关于"
-
-#~ msgid "Top, with plugin icons collapsed to bottom"
-#~ msgstr "顶部，并且插件图标收缩到底部"
-
-#~ msgid "Left, with plugin icons collapsed to right"
-#~ msgstr "左侧，并且插件图标收缩到右侧"
-
-#~ msgid "Top, with fixed center plugin icons"
-#~ msgstr "顶部，并且固定居中插件图标"
-
-#~ msgid "Left, with fixed center plugin icons"
-#~ msgstr "左侧，并且固定居中插件图标"
-
-#~ msgid "Top, with floating center plugin icons"
-#~ msgstr "顶部，并且浮动居中插件图标"
-
-#~ msgid "Left, with floating center plugin icons"
-#~ msgstr "左侧，并且浮动居中插件图标"
-
-#~ msgid "Center, fixed in middle of monitor"
-#~ msgstr "中间，固定在显示屏中间"
-
-#~ msgid "Center, floating between top and bottom elements"
-#~ msgstr "中间，在顶部元素和底部元素之间浮动"
-
-#~ msgid "Center, floating between left and right elements"
-#~ msgstr "中间，在左侧元素和右侧元素之间浮动"
-
-#~ msgid "Top of plugin icons"
-#~ msgstr "插件图标上侧"
-
-#~ msgid "Left of plugin icons"
-#~ msgstr "插件图标左侧"
-
-#~ msgid "Bottom of plugin icons"
-#~ msgstr "插件图标下侧"
-
-#~ msgid "Right of plugin icons"
-#~ msgstr "插件图标右侧"
-
-#~ msgid "Top of system indicators"
-#~ msgstr "系统指示器上侧"
-
-#~ msgid "Left of system indicators"
-#~ msgstr "系统指示器左侧"
-
-#~ msgid "Bottom of system indicators"
-#~ msgstr "系统指示器下侧"
-
-#~ msgid "Right of system indicators"
-#~ msgstr "系统指示器右侧"
-
-#~ msgid "Left of taskbar"
-#~ msgstr "任务栏左侧"
-
-#~ msgid "Bottom of taskbar"
-#~ msgstr "任务栏下侧"
-
-#~ msgid "Right of taskbar"
-#~ msgstr "任务栏右侧"
-
-#, javascript-format
-#~ msgid "Version %s (%s) is available"
-#~ msgstr "版本 %s（%s）已经可用"
-
-#~ msgid "Details"
-#~ msgstr "详细信息"
-
-#~ msgid "Update"
-#~ msgstr "更新"
-
-#~ msgid "Already up to date"
-#~ msgstr "已经处于最新状态"
-
-#~ msgid "Update successful, please log out/in"
-#~ msgstr "更新成功，请注销并重新登录"
-
-#~ msgid "Log out"
-#~ msgstr "注销"
-
-#~ msgid "Update successful, please restart GNOME Shell"
-#~ msgstr "更新成功，请重新启动 GNOME Shell"
-
-#~ msgid "Restart GNOME Shell"
-#~ msgstr "重新启动 GNOME Shell"
-
-#~ msgid "Restarting GNOME Shell..."
-#~ msgstr "正在重新启动 GNOME Shell……"
-
-#~ msgid "Error: "
-#~ msgstr "错误："
-
-#~ msgid "Display favorite applications on all monitors"
-#~ msgstr "在所有显示器上显示收藏的应用程序"
-
-#~ msgid "Display the clock on all monitors"
-#~ msgstr "在所有显示器上显示时钟"
-
-#~ msgid "Display the status menu on all monitors"
-#~ msgstr "在所有显示器上显示状态菜单"
-
-#~ msgid "Select a Show Applications image icon"
-#~ msgstr "选择一个“显示应用程序”图标图像"
-
-#~ msgid "Taskbar position"
-#~ msgstr "任务栏位置"
-
-#~ msgid "Clock location"
-#~ msgstr "时钟位置"
-
-#~ msgid "Show <i>Applications</i> icon"
-#~ msgstr "显示<b>应用</b>图标"
-
-#~ msgid "Animate <i>Show Applications</i>."
-#~ msgstr "动画化<b>显示应用程序</b>。"
-
-#~ msgid ""
-#~ "This allows you to update the extension directly from the GitHub "
-#~ "repository."
-#~ msgstr "这样可以帮助您直接从 GitHub 仓库更新本扩展。"
-
-#~ msgid "Updates"
-#~ msgstr "更新"
-
-#~ msgid "Periodically check for updates"
-#~ msgstr "定期检查更新"
-
-#~ msgid "Check now"
-#~ msgstr "立刻检查"
-
-#~ msgid ""
-#~ "<span weight=\"bold\" color=\"#B42B30\">Be aware, these official Dash to "
-#~ "Panel releases might not be reviewed yet on extensions.gnome.org!</span>  "
-#~ "<a href=\"https://extensions.gnome.org/about/\">Read more</a>"
-#~ msgstr ""
-#~ "<span weight=\"bold\" color=\"#B42B30\">请注意，这些官方发布的 Dash to "
-#~ "Panel 版本可能还没有通过 extensions.gnome.org 的审查！</span>  <a "
-#~ "href=\"https://extensions.gnome.org/about/\">详细了解</a>"
-
-#~ msgid "Highlight color"
-#~ msgstr "高亮颜色"
-
-#~ msgid "Preview timeout on icon leave (ms)"
-#~ msgstr "离开图标时的预览延时（毫秒）"
-
-#~ msgid ""
-#~ "If set too low, the window preview of running applications may seem to "
-#~ "close too quickly when trying to enter the popup. If set too high, the "
-#~ "preview may linger too long when moving to an adjacent icon."
-#~ msgstr ""
-#~ "如果设置过低，在尝试进入弹出菜单时正在运行程序的窗口预览可能会关闭得过快。"
-#~ "如果设置过高，在移动至临接图标时预览可能滞留过长时间。"
-
-#~ msgid "Middle click to close window"
-#~ msgstr "中键点击以关闭窗口"
-
-#~ msgid "Width of the window previews (px)"
-#~ msgstr "窗口预览宽度（像素）"
-
-#~ msgid "Height of the window previews (px)"
-#~ msgstr "窗口预览高度（像素）"
-
-#~ msgid "Padding of the window previews (px)"
-#~ msgstr "窗口预览边缘宽度（像素）"
-
-#~ msgid "Natural"
-#~ msgstr "自然"
-
-#~ msgid "Left side of panel"
-#~ msgstr "面板左侧"
-
-#~ msgid "Centered in content"
-#~ msgstr "内容居中"
-
-#~ msgid "Github"
-#~ msgstr "Github"
+msgstr "渐变底部颜色和透明度（%）"
+
+#: ui/SettingsStyle.ui:477
+msgid "Panel border"
+msgstr "面板边框"
+
+#: ui/SettingsStyle.ui:487
+msgid "Override border color"
+msgstr "覆盖边框颜色"
+
+#: ui/SettingsStyle.ui:504
+msgid "Border thickness"
+msgstr "边框厚度"
+
+#: src/prefs.js:2627
+msgid "Isolate monitors options"
+msgstr "显示器隔离选项"
+
+#: ui/BoxIsolateMonitorsOptions.ui:21
+msgid "Isolate monitors even when using a single panel"
+msgstr "即使只使用一个面板，也隔离显示器"
