@@ -156,6 +156,7 @@
 
 #dashtopanelScrollview .notification-badge {
 	background-color: rgba(214, 0, 0, 0.8);
+	border-width: 0;
 }
 
 #dashtopanelScrollview .progress-bar {

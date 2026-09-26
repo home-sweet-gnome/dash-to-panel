@@ -76,8 +76,6 @@ const T7 = 'waitPanelBoxAllocation'
 
 const MIN_PANEL_SIZE = 22
 
-export const GS_PANEL_SIZE = 32
-
 export const Panel = GObject.registerClass(
   {},
   class Panel extends St.Widget {
@@ -806,7 +804,7 @@ export const Panel = GObject.registerClass(
         SETTINGS.get_boolean('stockgs-keep-top-panel') &&
         Main.layoutManager.primaryMonitor == this.monitor
       ) {
-        gsTopPanelHeight = GS_PANEL_SIZE
+        gsTopPanelHeight = this.panelManager.gsTopPanelHeight
         topOffset = position == St.Side.TOP ? gsTopPanelHeight : 0
       }
 

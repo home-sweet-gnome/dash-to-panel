@@ -73,6 +73,7 @@ export const PanelManager = class {
       Main.layoutManager.monitors[dtpPrimaryIndex] ||
       Main.layoutManager.primaryMonitor
     this.proximityManager = new Proximity.ProximityManager()
+    this.gsTopPanelHeight = Main.layoutManager.panelBox.height
 
     // g-s version 49 switched to clutter gestures
     if (!AppDisplay.AppIcon.prototype._removeMenuTimeout)
@@ -1005,9 +1006,11 @@ function newUpdateHotCorners() {
       corner.setBarrierSize = (size) =>
         Object.getPrototypeOf(corner).setBarrierSize.call(
           corner,
-          Math.min(size, Panel.GS_PANEL_SIZE),
+          Math.min(size, panel.geom.gsTopPanelHeight),
         )
-      corner.setBarrierSize(panel ? panel.geom.innerSize : Panel.GS_PANEL_SIZE)
+      corner.setBarrierSize(
+        panel ? panel.geom.innerSize : panel.geom.gsTopPanelHeight,
+      )
       this.hotCorners.push(corner)
     } else {
       this.hotCorners.push(null)
@@ -1117,7 +1120,7 @@ function _newLookingGlassResize() {
           ? Main.layoutManager.panelBox.height
           : 0) +
         8
-      : Panel.GS_PANEL_SIZE
+      : primaryMonitorPanel.geom.gsTopPanelHeight
 
   this._oldResize()
 
