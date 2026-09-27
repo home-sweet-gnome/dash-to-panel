@@ -48,6 +48,7 @@ export const PanelStyle = class {
       'tray-padding',
       'leftbox-padding',
       'status-icon-padding',
+      'status-group-icon-padding',
     ]
 
     this._dtpSettingsSignalIds = []
@@ -108,18 +109,55 @@ export const PanelStyle = class {
       this._rightBoxOperations.push(operation)
     }
 
+    // The quick settings group is ONE panel button that happens to contain
+    // several icons, so padding them spreads that button's contents apart
+    // rather than spacing buttons. Every SystemIndicator inside it carries
+    // 'panel-status-indicators-box', so an ancestor with that class means the
+    // icon lives in the group.
+    let isInStatusGroup = function (actor) {
+      for (let a = actor.get_parent(); a; a = a.get_parent()) {
+        if (
+          a.has_style_class_name &&
+          a.has_style_class_name('panel-status-indicators-box')
+        )
+          return true
+      }
+      return false
+    }
+    let isStatusIcon = function (actor) {
+      return (
+        actor.has_style_class_name &&
+        actor.has_style_class_name('system-status-icon')
+      )
+    }
+
     let statusIconPadding = SETTINGS.get_int('status-icon-padding')
     if (statusIconPadding >= 0) {
       let statusIconPaddingStyleLine = paddingStyle.format(statusIconPadding)
       let operation = {}
       operation.compareFn = function (actor) {
-        return (
-          actor.has_style_class_name &&
-          actor.has_style_class_name('system-status-icon')
-        )
+        return isStatusIcon(actor) && !isInStatusGroup(actor)
       }
       operation.applyFn = (actor, operationIdx) => {
         this._overrideStyle(actor, statusIconPaddingStyleLine, operationIdx)
+      }
+      this._rightBoxOperations.push(operation)
+    }
+
+    // -1 means "whatever the icons outside the group use", which is what the
+    // single setting did before this key existed.
+    let statusGroupIconPadding = SETTINGS.get_int('status-group-icon-padding')
+    if (statusGroupIconPadding < 0) statusGroupIconPadding = statusIconPadding
+    if (statusGroupIconPadding >= 0) {
+      let statusGroupIconPaddingStyleLine = paddingStyle.format(
+        statusGroupIconPadding,
+      )
+      let operation = {}
+      operation.compareFn = function (actor) {
+        return isStatusIcon(actor) && isInStatusGroup(actor)
+      }
+      operation.applyFn = (actor, operationIdx) => {
+        this._overrideStyle(actor, statusGroupIconPaddingStyleLine, operationIdx)
       }
       this._rightBoxOperations.push(operation)
     }
