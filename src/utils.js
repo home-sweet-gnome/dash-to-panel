@@ -342,6 +342,22 @@ export const getTrackedActorData = (actor) => {
   if (trackedIndex >= 0) return Main.layoutManager._trackedActors[trackedIndex]
 }
 
+// Whether a Clutter actor's underlying GObject is still alive. Actors owned by
+// other extensions (e.g. ubuntu-appindicators) live in the shared panel and can
+// be finalized before dash-to-panel's own disable() runs — when extensions are
+// disabled in an order we don't control. Touching a finalized GObject throws
+// ("has been already disposed"); probing it here lets callers skip such actors.
+export const isValidActor = function (actor) {
+  if (!actor) return false
+
+  try {
+    // accessing any property on a finalized GObject throws
+    return actor.get_parent !== undefined
+  } catch {
+    return false
+  }
+}
+
 export const getTransformedAllocation = function (actor) {
   let extents = actor.get_transformed_extents()
   let topLeft = extents.get_top_left()
