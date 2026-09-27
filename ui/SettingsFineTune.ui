@@ -198,5 +198,29 @@
         </child>
       </object>
     </child>
+    <child>
+      <object class="AdwPreferencesGroup" id="hide_apps_group">
+        <property name="title" translatable="yes">Hide apps from the panel</property>
+        <property name="description" translatable="yes">Windows of these apps never appear in the taskbar. A pinned favourite still appears and still launches.</property>
+        <child>
+          <object class="GtkButton" id="hide_apps_add_button">
+            <property name="halign">center</property>
+            <property name="margin-top">10</property>
+            <property name="receives-default">True</property>
+            <property name="valign">center</property>
+            <property name="width-request">100</property>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">list-add-symbolic</property>
+                <property name="tooltip-text" translatable="yes">Add app</property>
+              </object>
+            </child>
+            <style>
+              <class name="circular"/>
+            </style>
+          </object>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>
