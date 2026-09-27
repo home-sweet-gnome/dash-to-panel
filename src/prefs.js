@@ -2654,8 +2654,12 @@ const Preferences = class {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
-    let dragToOverviewSwitch = this._builder.get_object('drag_to_overview_switch')
-    let dragToOverviewDelayRow = this._builder.get_object('drag_to_overview_delay_row')
+    let dragToOverviewSwitch = this._builder.get_object(
+      'drag_to_overview_switch',
+    )
+    let dragToOverviewDelayRow = this._builder.get_object(
+      'drag_to_overview_delay_row',
+    )
     let dragToOverviewDelaySpin = this._builder.get_object(
       'drag_to_overview_delay_spinbutton',
     )
@@ -2678,12 +2682,14 @@ const Preferences = class {
 
     dragToOverviewSwitch.connect('notify::active', () => {
       if (dragToOverviewSwitch.get_active()) {
-        // Restore last positive delay (or default 300ms)
+        // Disabling stores -1, so restore the last delay from the spin button,
+        // which keeps its value while the switch is off
         let current = this._settings.get_int('drag-to-overview-delay')
-        this._settings.set_int(
-          'drag-to-overview-delay',
-          current >= 0 ? current : 300,
-        )
+        if (current < 0)
+          this._settings.set_int(
+            'drag-to-overview-delay',
+            dragToOverviewDelaySpin.get_value_as_int(),
+          )
       } else {
         this._settings.set_int('drag-to-overview-delay', -1)
       }

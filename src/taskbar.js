@@ -710,7 +710,7 @@ export const Taskbar = class extends EventEmitter {
 
   cancelXdndDragTimeouts(exceptIcon) {
     this._getAppIcons().forEach((icon) => {
-      if (icon && icon !== exceptIcon && !icon._disposed) {
+      if (icon && icon !== exceptIcon) {
         icon.cancelXdndDragTimeout()
       }
     })

@@ -1719,12 +1719,24 @@ export const TaskbarAppIcon = GObject.registerClass(
     }
 
     cancelXdndDragTimeout() {
-      if (this._disposed) return
+      if (
+        this._disposed ||
+        !(
+          this._inXdndDrag ||
+          this._xdndActionFired ||
+          this._timeoutsHandler.getId(T7)
+        )
+      )
+        return
 
       this._timeoutsHandler.remove(T7)
       this._xdndActionFired = false
-      this._inXdndDrag = false
+      // Clear the hover while _inXdndDrag is still set, so that
+      // _onAppIconHoverChanged doesn't requestClose() a drag-mode preview the
+      // cursor may be heading to. Drag-mode previews are closed by the panel's
+      // xdnd drag monitor instead.
       this.set_hover(false)
+      this._inXdndDrag = false
     }
 
     handleDragOver(source) {
@@ -1740,7 +1752,7 @@ export const TaskbarAppIcon = GObject.registerClass(
         // (XDnD grabs the pointer so Clutter never sets hover automatically).
         // Set _inXdndDrag before set_hover so that _onAppIconHoverChanged
         // doesn't call requestOpen — preview opening is managed by T7 below.
-        if (!this.hover) {
+        if (!this._inXdndDrag) {
           // Cancel any pending panel-level xdnd timeout since the cursor is now
           // over this icon
           this.dtpPanel.cancelXdndOverviewTimeout()
@@ -1766,7 +1778,9 @@ export const TaskbarAppIcon = GObject.registerClass(
 
               if (!this._nWindows && !this.window) return
 
-              const usePreview = SETTINGS.get_boolean('drag-to-overview-preview')
+              const usePreview = SETTINGS.get_boolean(
+                'drag-to-overview-preview',
+              )
 
               if (usePreview) {
                 // If the preview is already open for a different icon, close it
@@ -1803,20 +1817,8 @@ export const TaskbarAppIcon = GObject.registerClass(
         return DND.DragMotionResult.MOVE_DROP
       }
 
-      this._timeoutsHandler.remove(T7)
-      this._xdndActionFired = false
-      this._inXdndDrag = false
-      this.set_hover(false)
+      this.cancelXdndDragTimeout()
       return DND.DragMotionResult.CONTINUE
-    }
-
-    acceptDrop() {
-      // Cancel any pending xdnd drag timeout when a drop occurs on the icon
-      this._timeoutsHandler.remove(T7)
-      this._xdndActionFired = false
-      this._inXdndDrag = false
-      this.set_hover(false)
-      return false
     }
 
     getAppIconInterestingWindows(isolateMonitors) {

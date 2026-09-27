@@ -340,6 +340,11 @@ export const Panel = GObject.registerClass(
           Main.overview,
           'hidden',
           () => {
+            // XDnD has no reliable "new drag" signal (drag-begin/drag-end fire
+            // on every enter/leave), so allow the drag-to-overview action to
+            // trigger again once the overview it opened is closed.
+            this._xdndPanelActionFired = false
+
             if (this.isPrimary) {
               //reset the primary monitor when exiting the overview
               this.panelManager.setFocusedMonitor(this.monitor)
@@ -375,7 +380,10 @@ export const Panel = GObject.registerClass(
           Main.xdndHandler,
           'drag-begin',
           () => {
-            if (!this._xdndDragMonitor) {
+            if (
+              !this._xdndDragMonitor &&
+              SETTINGS.get_int('drag-to-overview-delay') >= 0
+            ) {
               this._xdndDragMonitor = {
                 dragMotion: (dragEvent) => {
                   this._onXdndDragMotion(dragEvent)
@@ -566,12 +574,17 @@ export const Panel = GObject.registerClass(
         // Only react when the cursor is over the taskbar area itself.
         // Dragging over other panel elements (clock, system tray, activities
         // button, padding, etc.) should not trigger the overview or previews.
-        const [x, y] = global.get_pointer()
-        const pickedActor = global.stage.get_actor_at_pos(
-          Clutter.PickMode.REACTIVE,
-          x,
-          y,
-        )
+        // Reuse the actor xdndHandler picked for our drag monitor, which runs
+        // before handleDragOver on the same motion event.
+        let pickedActor = this._xdndTargetActor
+        if (pickedActor === undefined) {
+          const [x, y] = global.get_pointer()
+          pickedActor = global.stage.get_actor_at_pos(
+            Clutter.PickMode.REACTIVE,
+            x,
+            y,
+          )
+        }
         if (!this.taskbar.actor.contains(pickedActor)) {
           // We're outside the taskbar (clock, system tray, etc.); cancel any
           // pending T8 and icon-level timeouts but keep _xdndPanelActionFired
@@ -604,20 +617,10 @@ export const Panel = GObject.registerClass(
       return DND.DragMotionResult.CONTINUE
     }
 
-    acceptDrop() {
-      // Cancel any pending drag-to-overview timeout when a drop occurs on the panel
-      this._timeoutsHandler.remove(T8)
-      this._xdndPanelActionFired = false
-      return false
-    }
-
     _onXdndDragMotion(dragEvent) {
       let previewMenu = this.taskbar.previewMenu
-      let pickedActor = global.stage.get_actor_at_pos(
-        Clutter.PickMode.REACTIVE,
-        dragEvent.x,
-        dragEvent.y,
-      )
+      let pickedActor = dragEvent.targetActor
+      this._xdndTargetActor = pickedActor
 
       // Check if the cursor is over any of our managed areas:
       // the taskbar (which contains app icons), or the preview popup menu.
@@ -647,6 +650,7 @@ export const Panel = GObject.registerClass(
         DND.removeDragMonitor(this._xdndDragMonitor)
         this._xdndDragMonitor = null
       }
+      delete this._xdndTargetActor
     }
 
     getPosition() {
