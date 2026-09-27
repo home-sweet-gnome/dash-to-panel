@@ -40,6 +40,7 @@ import {
 
 const SCALE_UPDATE_TIMEOUT = 500
 const DEFAULT_PANEL_SIZES = [128, 96, 64, 48, 32, 22]
+const DEFAULT_ICON_SIZES = [128, 96, 64, 48, 32, 24, 16, 0]
 const DEFAULT_FONT_SIZES = [96, 64, 48, 32, 24, 16, 0]
 const DEFAULT_MARGIN_SIZES = [32, 24, 16, 12, 8, 4, 0]
 const DEFAULT_PADDING_SIZES = [32, 24, 16, 12, 8, 4, 0, -1]
@@ -3393,6 +3394,11 @@ const Preferences = class {
         range: DEFAULT_MARGIN_SIZES,
       },
       {
+        objectName: 'appicon_size_scale',
+        valueName: 'appicon-size',
+        range: DEFAULT_ICON_SIZES,
+      },
+      {
         objectName: 'tray_padding_scale',
         valueName: 'tray-padding',
         range: DEFAULT_PADDING_SIZES,
@@ -3483,6 +3489,12 @@ const Preferences = class {
     )
 
     // animate hovering app icons dialog
+    this._builder
+      .get_object('appicon_size_scale')
+      .set_format_value_func((scale, value) => {
+        return value === 0 ? _('auto') : `${value} px`
+      })
+
     this._builder
       .get_object('animate_appicon_hover_options_duration_scale')
       .set_format_value_func((scale, value) => {

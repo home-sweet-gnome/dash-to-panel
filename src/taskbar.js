@@ -951,6 +951,11 @@ export const Taskbar = class extends EventEmitter {
     let panelSize = this.dtpPanel.geom.iconSize / Utils.getScaleFactor()
     let availSize = panelSize - SETTINGS.get_int('appicon-padding') * 2
     let minIconSize = MIN_ICON_SIZE + (panelSize % 2)
+    let customIconSize = SETTINGS.get_int('appicon-size')
+
+    if (customIconSize > 0 && customIconSize < availSize) {
+      availSize = customIconSize
+    }
 
     if (availSize == this.iconSize) return
 
