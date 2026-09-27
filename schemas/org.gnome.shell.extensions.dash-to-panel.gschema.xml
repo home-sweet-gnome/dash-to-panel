@@ -240,6 +240,11 @@
       <summary>Force hot corner</summary>
       <description>Wheter to force having an Activities hot corner on the primary monitor</description>
     </key>
+    <key type="b" name="overview-on-panel-drag">
+      <default>true</default>
+      <summary>Open the overview when an external drag passes over the panel</summary>
+      <description>Dragging an XDND source, such as a browser tab or a file, over the panel opens the overview so it can be dropped onto a window. Turn this off when the panel sits on a screen edge you want to use for tiling instead.</description>
+    </key>
     <key type="b" name="taskbar-locked">
       <default>false</default>
       <summary>Lock the taskbar</summary>
