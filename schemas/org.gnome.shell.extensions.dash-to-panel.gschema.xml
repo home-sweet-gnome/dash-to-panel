@@ -110,6 +110,11 @@
       <summary>Panel size (Deprecated)</summary>
       <description>Set the size of the panel.</description>
     </key>
+    <key type="i" name="panel-vertical-width">
+      <default>0</default>
+      <summary>Vertical panel width override</summary>
+      <description>Override total panel width when in vertical (left/right) mode. 0 = automatic (panel-size + label width).</description>
+    </key>
     <key type="b" name="desktop-line-use-custom-color">
       <default>false</default>
       <summary>Override Show Desktop line color</summary>
