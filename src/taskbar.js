@@ -794,17 +794,31 @@ export const Taskbar = class extends EventEmitter {
     item.setChild(appIcon)
     appIcon._dashItemContainer = item
 
+    // T1 is shared across icons, so it must be cancelled when the icon that
+    // scheduled it is destroyed - otherwise it fires up to 100ms later on a
+    // disposed actor. Ownership is tracked so one icon cannot cancel another's.
+    appIcon.connect('destroy', () => {
+      if (this._hoverScrollIcon == appIcon) {
+        this._timeoutsHandler.remove(T1)
+        this._hoverScrollIcon = null
+      }
+    })
+
     appIcon.connect('notify::hover', () => {
       if (appIcon.hover) {
+        this._hoverScrollIcon = appIcon
         this._timeoutsHandler.add([
           T1,
           100,
-          () =>
+          () => {
+            if (this._hoverScrollIcon != appIcon) return
+            this._hoverScrollIcon = null
             Utils.ensureActorVisibleInScrollView(
               this._scrollView,
               appIcon,
               this._scrollView._dtpFadeSize,
-            ),
+            )
+          },
         ])
 
         if (!appIcon.isDragged && iconAnimationSettings.type == 'SIMPLE')
@@ -1562,6 +1576,16 @@ export const TaskbarItemContainer = GObject.registerClass(
     _init() {
       super._init()
       this.x_expand = this.y_expand = false
+
+      // The raised clone's adjustment and taskbarBox handlers are disconnected
+      // only from the clone's own destroy handler (see _createRaisedClone).
+      // animateOutAndDestroy() destroys the clone, but plain destroy() does not,
+      // and resetAppIcons() and the pre-_shownInitially path both use destroy().
+      // The clone lives in Main.uiGroup, so it would survive its container and
+      // keep dereferencing a disposed actor on every panel allocation.
+      this.connect('destroy', () => {
+        if (this._raisedClone) this._raisedClone.destroy()
+      })
     }
 
     vfunc_allocate(box) {
