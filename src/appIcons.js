@@ -1619,8 +1619,6 @@ export const TaskbarAppIcon = GObject.registerClass(
     }
 
     _handleNotifications() {
-      if (!this._nWindows && !this.window) return
-
       let monitor = this.dtpPanel.panelManager.notificationsMonitor
       let state = monitor.getState(this.app)
       let count = 0
