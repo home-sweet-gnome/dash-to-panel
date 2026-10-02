@@ -1385,6 +1385,20 @@
         Keybinding to either show or launch the 10th application in the dash.
       </description>
     </key>
+    <key name="switch-to-next-window" type="as">
+      <default><![CDATA[[]]]></default>
+      <summary>Switch to next window in taskbar order</summary>
+      <description>
+        Keybinding to switch to the next window based on the taskbar order.
+      </description>
+    </key>
+    <key name="switch-to-previous-window" type="as">
+      <default><![CDATA[[]]]></default>
+      <summary>Switch to previous window in taskbar order</summary>
+      <description>
+        Keybinding to switch to the previous window based on the taskbar order.
+      </description>
+    </key>
      <key type="b" name="progress-show-bar">
       <default>true</default>
       <summary>Show progress bar on app icon</summary>
