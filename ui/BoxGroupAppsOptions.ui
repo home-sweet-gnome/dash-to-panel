@@ -74,9 +74,33 @@
 
         <child>
           <object class="AdwActionRow">
+            <property name="title" translatable="yes">Font color of the application titles on light color scheme</property>
+            <child>
+              <object class="GtkColorButton" id="group_apps_label_font_color_on_light_colorbutton">
+                <property name="receives_default">True</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
             <property name="title" translatable="yes">Font color of the minimized application titles</property>
             <child>
               <object class="GtkColorButton" id="group_apps_label_font_color_minimized_colorbutton">
+                <property name="receives_default">True</property>
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Font color of the minimized application titles on light color scheme</property>
+            <child>
+              <object class="GtkColorButton" id="group_apps_label_font_color_minimized_on_light_colorbutton">
                 <property name="receives_default">True</property>
                 <property name="valign">center</property>
               </object>
