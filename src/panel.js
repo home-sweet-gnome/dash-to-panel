@@ -1483,7 +1483,7 @@ export const Panel = GObject.registerClass(
           )
         }
 
-        attempt(() => c.clone.destroy())
+        attempt(() => c.actor.destroy())
       })
     }
 
@@ -1506,7 +1506,8 @@ export const Panel = GObject.registerClass(
       if (!source) return
 
       let [width, height] = c.source.get_size()
-      let ratio = this.geom.innerSize / source.geom.innerSize
+      // keep the native text size of this monitor; only shrink for smaller panels
+      let ratio = Math.min(1, this.geom.innerSize / source.geom.innerSize)
 
       c.clone.set_size(Math.round(width * ratio), Math.round(height * ratio))
     }
@@ -1576,7 +1577,7 @@ export const Panel = GObject.registerClass(
           }
 
           c.visibleId = child.connect('notify::visible', () => {
-            clone.visible = child.visible
+            c.actor.visible = clone.visible = child.visible
           })
           c.allocationId = child.connect('notify::allocation', () =>
             this._updateCloneSize(c),
@@ -1586,15 +1587,6 @@ export const Panel = GObject.registerClass(
             this._queueMainPanelClonesSync()
           })
 
-          // mirror the hover state onto the original so the clone shows it too
-          let button = child.child ?? child
-          clone.connect('enter-event', () =>
-            button.add_style_pseudo_class('hover'),
-          )
-          clone.connect('leave-event', () =>
-            button.remove_style_pseudo_class('hover'),
-          )
-
           clone.connect('button-press-event', () => {
             if (!c.menu) return Clutter.EVENT_PROPAGATE
 
@@ -1602,7 +1594,19 @@ export const Panel = GObject.registerClass(
             return Clutter.EVENT_STOP
           })
 
-          this[b].add_child(clone)
+          // the wrapper draws the hover effect, so it is independent for every panel
+          c.actor = new St.Bin({
+            style_class: 'panel-button',
+            style: 'padding: 0; margin: 0; border-width: 0;',
+            reactive: true,
+            track_hover: true,
+            visible: child.visible,
+            y_align: Clutter.ActorAlign.FILL,
+            child: clone,
+          })
+          clone.reactive = true
+
+          this[b].add_child(c.actor)
           this._mainPanelClones.push(c)
           this._updateCloneSize(c)
         })
