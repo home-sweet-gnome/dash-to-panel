@@ -1441,7 +1441,6 @@ export const Panel = GObject.registerClass(
           let clone = new Clutter.Clone({
             source: child,
             reactive: true,
-            track_hover: true,
             visible: child.visible,
             y_align: Clutter.ActorAlign.CENTER,
           })
@@ -1609,7 +1608,6 @@ export const Panel = GObject.registerClass(
           can_focus: true,
           // x_fill: true,
           // y_fill: true,
-          track_hover: true,
         })
 
         this._setShowDesktopButtonStyle()
