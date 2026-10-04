@@ -1308,6 +1308,14 @@ msgstr "Mostrar o panel principal en"
 msgid "Display panels on all monitors"
 msgstr "Mostrar os paneles en todos os espazos de traballo"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Clonar o panel principal nos paneis secundarios"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Mostrar os indicadores de extensións do panel principal en todos os paneis"
+
 #: ui/SettingsPosition.ui.h:4
 msgid "Panel Intellihide"
 msgstr "Ocultación intelixente do panel"

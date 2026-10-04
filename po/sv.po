@@ -1307,6 +1307,14 @@ msgstr "Visa huvudpanelen på"
 msgid "Display panels on all monitors"
 msgstr "Visa paneler på alla bildskärmar"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Klona huvudpanelen på sekundära paneler"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Visa huvudpanelens tilläggsindikatorer på alla paneler"
+
 #: ui/SettingsPosition.ui.h:4
 msgid "Panel Intellihide"
 msgstr "Automatisk gömmande av panelen"

@@ -411,6 +411,14 @@ msgstr "Διαχείριση δίσκων"
 msgid "Display panels on all monitors"
 msgstr "Εμφάνιση πάνελ σε όλες τις οθόνες"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Κλωνοποίηση του κύριου πίνακα στους δευτερεύοντες πίνακες"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Εμφάνιση των ενδείξεων επεκτάσεων του κύριου πίνακα σε όλους τους πίνακες"
+
 #: ui/BoxGroupAppsOptions.ui.h:14
 msgid "Display running indicators on unfocused applications"
 msgstr "Εμφάνιση ένδειξης λειτουργίας σε μη ενεργές εφαρμογές"

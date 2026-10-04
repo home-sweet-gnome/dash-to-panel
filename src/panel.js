@@ -1360,6 +1360,7 @@ export const Panel = GObject.registerClass(
         c.source.disconnect(c.visibleId)
         c.source.disconnect(c.allocationId)
         this._restoreCloneMenu(c)
+        ;(c.source.child ?? c.source).remove_style_pseudo_class('hover')
         c.clone.destroy()
       })
       this._mainPanelClones = []
@@ -1455,6 +1456,15 @@ export const Panel = GObject.registerClass(
           })
           c.allocationId = child.connect('notify::allocation', () =>
             this._updateCloneSize(c),
+          )
+
+          // mirror the hover state onto the original so the clone shows it too
+          let button = child.child ?? child
+          clone.connect('enter-event', () =>
+            button.add_style_pseudo_class('hover'),
+          )
+          clone.connect('leave-event', () =>
+            button.remove_style_pseudo_class('hover'),
           )
 
           clone.connect('button-press-event', () => {

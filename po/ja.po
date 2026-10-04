@@ -1069,6 +1069,14 @@ msgstr "プライマリモニターの ID を指定する。"
 msgid "Display panels on all monitors"
 msgstr "すべてのモニターにパネルを表示"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "メインパネルをセカンダリパネルに複製"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "メインパネルの拡張機能のインジケーターをすべてのパネルに表示します"
+
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:671
 msgid "Specifies if a panel is shown on every monitors"
 msgstr "すべてのモニターにパネルを表示するかどうかを指定する"

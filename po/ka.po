@@ -1381,6 +1381,14 @@ msgstr "მთავარის პანელის ჩვენება რ
 msgid "Display panels on all monitors"
 msgstr "პანელების ჩვენება ყველა ეკრანზე"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "მთავარი პანელის კლონირება მეორად პანელებზე"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "მთავარი პანელის გაფართოებების ინდიკატორების ყველა პანელზე ჩვენება"
+
 #: ui/SettingsPosition.ui.h:5
 msgid "Hide and reveal the panel according to preferences"
 msgstr "პანელის დამალვა და გამოჩენა პარამეტრების მიხედვით"
