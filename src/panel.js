@@ -369,10 +369,16 @@ export const Panel = GObject.registerClass(
           () => this._onBoxActorAdded(this._rightBox),
         ],
         [this.panel, 'scroll-event', this._onPanelMouseScroll.bind(this)],
+        [
+          SETTINGS,
+          'changed::clone-main-panel',
+          () => this._syncMainPanelClones(),
+        ],
         [Main.layoutManager, 'startup-complete', () => this._resetGeometry()],
       )
 
       this._bindSettingsChanges()
+      this._connectMainPanelClones()
 
       this.panelStyle.enable(this)
 
@@ -413,6 +419,12 @@ export const Panel = GObject.registerClass(
     }
 
     disable() {
+      this._clearMainPanelClones()
+      if (this._cloneSyncId) {
+        GLib.source_remove(this._cloneSyncId)
+        this._cloneSyncId = 0
+      }
+
       this.panelStyle.disable()
 
       this._timeoutsHandler.destroy()
@@ -1308,6 +1320,94 @@ export const Panel = GObject.registerClass(
           stageCoord > rect[coord] &&
           stageCoord < rect[coord] + rect[dimension]
         )
+      })
+    }
+
+    _getCloneSourcePanel() {
+      let source = this.panelManager.primaryPanel
+
+      return this.isStandalone && source && source != this ? source : null
+    }
+
+    _connectMainPanelClones() {
+      let source = this._getCloneSourcePanel()
+
+      if (source) {
+        panelBoxes.forEach((b) => {
+          this._signalsHandler.add([
+            source[b],
+            ['child-added', 'child-removed'],
+            () => this._queueMainPanelClonesSync(),
+          ])
+        })
+      }
+
+      this._syncMainPanelClones()
+    }
+
+    _queueMainPanelClonesSync() {
+      if (this._cloneSyncId) return
+
+      this._cloneSyncId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+        this._cloneSyncId = 0
+        this._syncMainPanelClones()
+        return GLib.SOURCE_REMOVE
+      })
+    }
+
+    _clearMainPanelClones() {
+      ;(this._mainPanelClones || []).forEach(({ clone, visibleId, source }) => {
+        source.disconnect(visibleId)
+        clone.destroy()
+      })
+      this._mainPanelClones = []
+    }
+
+    // Mirrors the extension indicators of the main panel (e.g. app menu, system
+    // monitors) as non-interactive visual copies; clicks are forwarded to the original.
+    _syncMainPanelClones() {
+      this._clearMainPanelClones()
+
+      let source = this._getCloneSourcePanel()
+
+      if (!source || !SETTINGS.get_boolean('clone-main-panel')) return
+
+      let ownContainers = [
+        'activities',
+        'dateMenu',
+        Utils.getSystemMenuInfo().name,
+      ]
+        .map((n) => source.statusArea[n]?.container)
+        .filter((c) => c)
+
+      panelBoxes.forEach((b) => {
+        source[b].get_children().forEach((child) => {
+          if (ownContainers.includes(child)) return
+
+          let clone = new Clutter.Clone({
+            source: child,
+            reactive: true,
+            visible: child.visible,
+            y_align: Clutter.ActorAlign.FILL,
+          })
+          let visibleId = child.connect('notify::visible', () => {
+            clone.visible = child.visible
+          })
+
+          clone.connect('button-press-event', () => {
+            let indicator = child._delegate ?? child
+
+            if (indicator.menu) {
+              indicator.menu.toggle()
+              return Clutter.EVENT_STOP
+            }
+
+            return Clutter.EVENT_PROPAGATE
+          })
+
+          this[b].add_child(clone)
+          this._mainPanelClones.push({ clone, visibleId, source: child })
+        })
       })
     }
 

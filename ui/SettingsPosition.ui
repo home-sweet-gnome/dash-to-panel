@@ -40,6 +40,17 @@
             </child>
           </object>
         </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="title" translatable="yes">Clone the main panel on secondary panels</property>
+            <property name="subtitle" translatable="yes">Show the main panel's extension indicators on all panels</property>
+            <child>
+              <object class="GtkSwitch" id="multimon_clone_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
     <child>
