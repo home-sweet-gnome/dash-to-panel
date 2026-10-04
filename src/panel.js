@@ -1356,15 +1356,69 @@ export const Panel = GObject.registerClass(
     }
 
     _clearMainPanelClones() {
-      ;(this._mainPanelClones || []).forEach(({ clone, visibleId, source }) => {
-        source.disconnect(visibleId)
-        clone.destroy()
+      ;(this._mainPanelClones || []).forEach((c) => {
+        c.source.disconnect(c.visibleId)
+        c.source.disconnect(c.allocationId)
+        this._restoreCloneMenu(c)
+        c.clone.destroy()
       })
       this._mainPanelClones = []
     }
 
+    _restoreCloneMenu(c) {
+      let menu = c.menu
+
+      if (!menu || menu.sourceActor != c.clone) return
+
+      if (c.menuStateId) menu.disconnect(c.menuStateId)
+      c.menuStateId = 0
+      menu.sourceActor = menu.focusActor = c.source
+      menu._arrowSide = c.arrowSide
+      menu._boxPointer._userArrowSide = c.arrowSide
+      menu.close()
+    }
+
+    _updateCloneSize(c) {
+      let [width, height] = c.source.get_size()
+      let sourceSize = this.panelManager.primaryPanel.geom.innerSize
+      let ratio = this.geom.innerSize / sourceSize
+
+      c.clone.set_size(Math.round(width * ratio), Math.round(height * ratio))
+    }
+
+    _openCloneMenu(c) {
+      let menu = c.menu
+
+      if (menu.isOpen && menu.sourceActor == c.clone) {
+        menu.close()
+        return
+      }
+
+      // anchor the original menu to the clone so it opens on this monitor
+      menu.close(false)
+      c.arrowSide = menu._arrowSide
+      menu.sourceActor = menu.focusActor = c.clone
+      menu._arrowSide = this.geom.position
+      menu._boxPointer._userArrowSide = this.geom.position
+
+      if (!c.menuStateId) {
+        c.menuStateId = menu.connect('open-state-changed', (m, open) => {
+          if (!open) {
+            m.disconnect(c.menuStateId)
+            c.menuStateId = 0
+            m.sourceActor = m.focusActor = c.source
+            m._arrowSide = c.arrowSide
+            m._boxPointer._userArrowSide = c.arrowSide
+          }
+        })
+      }
+
+      menu.open()
+    }
+
     // Mirrors the extension indicators of the main panel (e.g. app menu, system
-    // monitors) as non-interactive visual copies; clicks are forwarded to the original.
+    // monitors) scaled to this panel's size. Menus of the originals are opened
+    // anchored to the clone, so they appear on this monitor.
     _syncMainPanelClones() {
       this._clearMainPanelClones()
 
@@ -1387,26 +1441,33 @@ export const Panel = GObject.registerClass(
           let clone = new Clutter.Clone({
             source: child,
             reactive: true,
+            track_hover: true,
             visible: child.visible,
-            y_align: Clutter.ActorAlign.FILL,
+            y_align: Clutter.ActorAlign.CENTER,
           })
-          let visibleId = child.connect('notify::visible', () => {
+          let c = {
+            clone,
+            source: child,
+            menu: (child.child ?? child).menu,
+          }
+
+          c.visibleId = child.connect('notify::visible', () => {
             clone.visible = child.visible
           })
+          c.allocationId = child.connect('notify::allocation', () =>
+            this._updateCloneSize(c),
+          )
 
           clone.connect('button-press-event', () => {
-            let indicator = child._delegate ?? child
+            if (!c.menu) return Clutter.EVENT_PROPAGATE
 
-            if (indicator.menu) {
-              indicator.menu.toggle()
-              return Clutter.EVENT_STOP
-            }
-
-            return Clutter.EVENT_PROPAGATE
+            this._openCloneMenu(c)
+            return Clutter.EVENT_STOP
           })
 
           this[b].add_child(clone)
-          this._mainPanelClones.push({ clone, visibleId, source: child })
+          this._mainPanelClones.push(c)
+          this._updateCloneSize(c)
         })
       })
     }
