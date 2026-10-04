@@ -1475,12 +1475,9 @@ export const Panel = GObject.registerClass(
 
         if (!c.sourceDestroyed) {
           attempt(() => this._restoreCloneMenu(c))
-          attempt(() => c.source.disconnect(c.visibleId))
-          attempt(() => c.source.disconnect(c.allocationId))
+          c.visibleIds.forEach(([a, id]) => attempt(() => a.disconnect(id)))
+          c.srcIds.forEach(([a, id]) => attempt(() => a.disconnect(id)))
           attempt(() => c.source.disconnect(c.destroyId))
-          attempt(() =>
-            (c.source.child ?? c.source).remove_style_pseudo_class('hover'),
-          )
         }
 
         attempt(() => c.actor.destroy())
@@ -1498,18 +1495,6 @@ export const Panel = GObject.registerClass(
       menu._arrowSide = c.arrowSide
       menu._boxPointer._userArrowSide = c.arrowSide
       menu.close()
-    }
-
-    _updateCloneSize(c) {
-      let source = this._getCloneSourcePanel()
-
-      if (!source) return
-
-      let [width, height] = c.source.get_size()
-      // keep the native text size of this monitor; only shrink for smaller panels
-      let ratio = Math.min(1, this.geom.innerSize / source.geom.innerSize)
-
-      c.clone.set_size(Math.round(width * ratio), Math.round(height * ratio))
     }
 
     _openCloneMenu(c) {
@@ -1535,11 +1520,13 @@ export const Panel = GObject.registerClass(
             m.sourceActor = m.focusActor = c.source
             m._arrowSide = c.arrowSide
             m._boxPointer._userArrowSide = c.arrowSide
+            c.actor.remove_style_pseudo_class('active')
           }
         })
       }
 
       menu.open()
+      c.actor.add_style_pseudo_class('active')
     }
 
     // Mirrors the extension indicators of the main panel (e.g. app menu, system
@@ -1564,51 +1551,78 @@ export const Panel = GObject.registerClass(
         source[b].get_children().forEach((child) => {
           if (ownContainers.includes(child)) return
 
-          let clone = new Clutter.Clone({
-            source: child,
+          let button = child.child ?? child
+          let isButton = button instanceof PanelMenu.Button
+          // clone only the content of a panel button, the button itself (and so its
+          // hover and active effects) is recreated here, independent for every panel
+          let sources = isButton ? button.get_children() : [child]
+          let actor = new St.BoxLayout({
+            style_class: isButton ? 'panel-button' : '',
             reactive: true,
-            visible: child.visible,
-            y_align: Clutter.ActorAlign.CENTER,
+            track_hover: true,
+            y_align: Clutter.ActorAlign.FILL,
           })
-          let c = {
-            clone,
-            source: child,
-            menu: (child.child ?? child).menu,
+          let c = { clone: actor, actor, source: child, menu: button.menu }
+
+          if (isButton) {
+            // the shell pads buttons through its layout manager, not through css
+            let content = sources.reduce((w, src) => w + src.get_width(), 0)
+            let padding = Math.max(
+              0,
+              Math.round((button.get_width() - content) / 2),
+            )
+
+            actor.style = `padding: 0 ${padding}px; border-width: 0; margin: 0;`
           }
 
-          c.visibleId = child.connect('notify::visible', () => {
-            c.actor.visible = clone.visible = child.visible
+          c.srcIds = []
+
+          // a clone is stretched to its own size, so keep it equal to the source's
+          sources.forEach((src) => {
+            let clone = new Clutter.Clone({
+              source: src,
+              x_align: Clutter.ActorAlign.START,
+              y_align: Clutter.ActorAlign.START,
+            })
+            let resize = () => clone.set_size(src.get_width(), src.get_height())
+
+            resize()
+            c.srcIds.push([src, src.connect('notify::allocation', resize)])
+            actor.add_child(clone)
           })
-          c.allocationId = child.connect('notify::allocation', () =>
-            this._updateCloneSize(c),
-          )
+
+          let syncVisible = () => {
+            actor.visible = child.visible && button.visible
+          }
+
+          c.visibleIds = [child, button].map((a) => [
+            a,
+            a.connect('notify::visible', syncVisible),
+          ])
+          syncVisible()
+          if (isButton) {
+            ;['child-added', 'child-removed'].forEach((sig) =>
+              c.srcIds.push([
+                button,
+                button.connect(sig, () => this._queueMainPanelClonesSync()),
+              ]),
+            )
+          }
+
           c.destroyId = child.connect('destroy', () => {
             c.sourceDestroyed = true
             this._queueMainPanelClonesSync()
           })
 
-          clone.connect('button-press-event', () => {
+          actor.connect('button-press-event', () => {
             if (!c.menu) return Clutter.EVENT_PROPAGATE
 
             this._openCloneMenu(c)
             return Clutter.EVENT_STOP
           })
 
-          // the wrapper draws the hover effect, so it is independent for every panel
-          c.actor = new St.Bin({
-            style_class: 'panel-button',
-            style: 'padding: 0; margin: 0; border-width: 0;',
-            reactive: true,
-            track_hover: true,
-            visible: child.visible,
-            y_align: Clutter.ActorAlign.FILL,
-            child: clone,
-          })
-          clone.reactive = true
-
-          this[b].add_child(c.actor)
+          this[b].add_child(actor)
           this._mainPanelClones.push(c)
-          this._updateCloneSize(c)
         })
       })
 
