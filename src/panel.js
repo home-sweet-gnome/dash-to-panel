@@ -108,6 +108,8 @@ export const Panel = GObject.registerClass(
 
       this._sessionStyle = null
       this._unmappedButtons = []
+      this._mainPanelClones = []
+      this._cloneMenuEventIds = []
       this._elementGroups = []
 
       let systemMenuInfo = Utils.getSystemMenuInfo()
@@ -1325,71 +1327,111 @@ export const Panel = GObject.registerClass(
     }
 
     _getCloneSourcePanel() {
-      let source = this.panelManager.primaryPanel
+      let source = this.panelManager.allPanels[0]
 
-      return this.isStandalone && source && source != this ? source : null
+      // only the main panel (the original gnome-shell panel) holds the extensions
+      return this.isStandalone && source && !source.isStandalone ? source : null
     }
 
     _connectMainPanelClones() {
-      let source = this._getCloneSourcePanel()
+      try {
+        let source = this._getCloneSourcePanel()
 
-      if (source) {
-        panelBoxes.forEach((b) => {
-          this._signalsHandler.add([
-            source[b],
-            ['child-added', 'child-removed'],
-            () => this._queueMainPanelClonesSync(),
-          ])
-        })
+        if (source) {
+          panelBoxes.forEach((b) => {
+            this._signalsHandler.add([
+              source[b],
+              ['child-added', 'child-removed'],
+              () => this._queueMainPanelClonesSync(),
+            ])
+          })
+        }
+
+        this._syncMainPanelClones()
+      } catch (e) {
+        console.error(`dash-to-panel: unable to clone the main panel: ${e}`)
       }
-
-      this._signalsHandler.add([
-        global.stage,
-        'captured-event',
-        (stage, event) => this._onStageEventForClones(event),
-      ])
-
-      this._syncMainPanelClones()
     }
 
-    // While a menu holds the grab, hovering another indicator must switch menus.
-    // The popup menu managers only know the original actors, so handle the clones
-    // (and the secondary panel's own menus when a cloned menu is open) here.
-    _onStageEventForClones(event) {
+    // While a menu holds the grab, the shell only delivers pointer events to that menu,
+    // so hovering another indicator has to be handled from the open menu's actor.
+    _connectCloneMenuEvents(menus) {
+      menus.forEach((menu) => {
+        if (
+          !menu.actor ||
+          this._cloneMenuEventIds.some((i) => i.actor == menu.actor)
+        )
+          return
+
+        this._cloneMenuEventIds.push({
+          actor: menu.actor,
+          id: menu.actor.connect('captured-event', (actor, event) =>
+            this._onGrabbedMenuEvent(event),
+          ),
+        })
+      })
+    }
+
+    _disconnectCloneMenuEvents() {
+      this._cloneMenuEventIds.forEach(({ actor, id }) => {
+        try {
+          actor.disconnect(id)
+        } catch {
+          // the actor is already gone
+        }
+      })
+      this._cloneMenuEventIds = []
+    }
+
+    _getHoverTargetForClones(target, source) {
+      let findMenu = (menus) => {
+        for (let src = target; src; src = src.get_parent()) {
+          let menu = menus.find((m) => m.sourceActor === src)
+
+          if (menu) return menu
+        }
+      }
+      let clone = this._mainPanelClones.find((c) => c.menu && c.clone == target)
+
+      if (clone) {
+        return { menu: clone.menu, open: () => this._openCloneMenu(clone) }
+      }
+
+      let menu =
+        findMenu(this.menuManager._menus) || findMenu(source.menuManager._menus)
+
+      return (
+        menu && { menu, open: () => menu.open(BoxPointer.PopupAnimation.FADE) }
+      )
+    }
+
+    _onGrabbedMenuEvent(event) {
+      let source = this._getCloneSourcePanel()
+
       if (
+        !source ||
+        !this._mainPanelClones.length ||
         event.type() != Clutter.EventType.ENTER ||
-        event.get_flags() & Clutter.EventFlags.FLAG_GRAB_NOTIFY ||
-        !this._mainPanelClones?.length
+        event.get_flags() & Clutter.EventFlags.FLAG_GRAB_NOTIFY
       ) {
         return Clutter.EVENT_PROPAGATE
       }
 
-      let target = global.stage.get_event_actor(event)
-      let openClone = this._mainPanelClones.find(
-        (c) => c.menu?.isOpen && c.menu.sourceActor == c.clone,
-      )
-      let hoveredClone = this._mainPanelClones.find((c) => c.clone == target)
-
       try {
-        if (hoveredClone?.menu && hoveredClone != openClone) {
-          let managers = this.panelManager.allPanels.map((p) => p.menuManager)
-          let active = managers.find(
-            (m) => m.activeMenu && m.activeMenu != hoveredClone.menu,
-          )?.activeMenu
+        let hovered = this._getHoverTargetForClones(
+          global.stage.get_event_actor(event),
+          source,
+        )
+        let menus = [
+          ...this.menuManager._menus,
+          ...source.menuManager._menus,
+          ...this._mainPanelClones.map((c) => c.menu),
+        ].filter((m) => m)
+        let opened = menus.filter((m) => m.isOpen && m != hovered?.menu)
 
-          if (active) {
-            active.close(BoxPointer.PopupAnimation.FADE)
-            this._openCloneMenu(hoveredClone)
-          }
-        } else if (openClone && !hoveredClone) {
-          let own = ['dateMenu', Utils.getSystemMenuInfo().name]
-            .map((n) => this.statusArea[n]?.menu)
-            .find((m) => m && !m.isOpen && m.sourceActor?.contains(target))
-
-          if (own) {
-            openClone.menu.close(BoxPointer.PopupAnimation.FADE)
-            own.open(BoxPointer.PopupAnimation.FADE)
-          }
+        if (hovered && !hovered.menu.isOpen && opened.length) {
+          opened.forEach((m) => m.close(BoxPointer.PopupAnimation.FADE))
+          hovered.open()
         }
       } catch (e) {
         console.error(e)
@@ -1403,7 +1445,13 @@ export const Panel = GObject.registerClass(
 
       this._cloneSyncId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
         this._cloneSyncId = 0
-        this._syncMainPanelClones()
+
+        try {
+          this._syncMainPanelClones()
+        } catch (e) {
+          console.error(`dash-to-panel: unable to clone the main panel: ${e}`)
+        }
+
         return GLib.SOURCE_REMOVE
       })
     }
@@ -1414,6 +1462,7 @@ export const Panel = GObject.registerClass(
       let clones = this._mainPanelClones || []
 
       this._mainPanelClones = []
+      this._disconnectCloneMenuEvents()
 
       clones.forEach((c) => {
         let attempt = (fn) => {
@@ -1452,9 +1501,12 @@ export const Panel = GObject.registerClass(
     }
 
     _updateCloneSize(c) {
+      let source = this._getCloneSourcePanel()
+
+      if (!source) return
+
       let [width, height] = c.source.get_size()
-      let sourceSize = this.panelManager.primaryPanel.geom.innerSize
-      let ratio = this.geom.innerSize / sourceSize
+      let ratio = this.geom.innerSize / source.geom.innerSize
 
       c.clone.set_size(Math.round(width * ratio), Math.round(height * ratio))
     }
@@ -1555,6 +1607,12 @@ export const Panel = GObject.registerClass(
           this._updateCloneSize(c)
         })
       })
+
+      this._connectCloneMenuEvents([
+        ...this.menuManager._menus,
+        ...source.menuManager._menus,
+        ...this._mainPanelClones.map((c) => c.menu).filter((m) => m),
+      ])
     }
 
     _onBoxActorAdded(box) {

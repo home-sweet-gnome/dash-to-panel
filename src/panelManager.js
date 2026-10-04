@@ -325,6 +325,9 @@ export const PanelManager = class {
       delete AppDisplay.AppIcon.prototype._removeMenuTimeout
     }
 
+    // the clones depend on the main panel, so drop them before any panel is torn down
+    this.allPanels.forEach((p) => p._clearMainPanelClones())
+
     this.allPanels.forEach((p) => {
       p.taskbar.iconAnimator.pause()
 
@@ -763,7 +766,8 @@ export const PanelManager = class {
         global.dashToPanel.panels,
         (p) => p.monitor == monitor,
       )
-      let excess = alloc.natural_size + panel.outerSize + 10 - monitor.height // 10 is arbitrary
+      let excess =
+        alloc.natural_size + (panel ? panel.outerSize : 0) + 10 - monitor.height // 10 is arbitrary
 
       if (excess > 0) {
         alloc.natural_size -= excess
@@ -1003,14 +1007,14 @@ function newUpdateHotCorners() {
     if (haveTopLeftCorner) {
       let corner = new Layout.HotCorner(this, monitor, cornerX, cornerY)
 
+      // monitors without a dtp panel (e.g. when panels are only shown on one monitor)
+      // don't have any geometry to rely on
       corner.setBarrierSize = (size) =>
         Object.getPrototypeOf(corner).setBarrierSize.call(
           corner,
-          Math.min(size, panel.geom.gsTopPanelHeight),
+          panel ? Math.min(size, panel.geom.gsTopPanelHeight) : size,
         )
-      corner.setBarrierSize(
-        panel ? panel.geom.innerSize : panel.geom.gsTopPanelHeight,
-      )
+      corner.setBarrierSize(panel ? panel.geom.innerSize : this.panelBox.height)
       this.hotCorners.push(corner)
     } else {
       this.hotCorners.push(null)
