@@ -1591,6 +1591,10 @@ export const Panel = GObject.registerClass(
             )
 
             actor.style = `padding: 0 ${padding}px; margin: 0;`
+            // the fixed layout places the content at 0 and ignores padding and border
+            // (they only widen the button), so shift it into the content box. A
+            // translation doesn't feed back into the preferred width like a position.
+            content.translation_x = border + padding
           }
 
           c.srcIds = []
