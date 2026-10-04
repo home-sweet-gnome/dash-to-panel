@@ -1431,6 +1431,14 @@ msgstr "Ana paneli şurada göster"
 msgid "Display panels on all monitors"
 msgstr "Paneli tüm ekranlarda göster"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Ana paneli ikincil panellere kopyala"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Ana panelin eklenti göstergelerini tüm panellerde göster"
+
 #: ui/SettingsPosition.ui:5
 msgid "Hide and reveal the panel according to preferences"
 msgstr "Paneli tercihlere göre gizle ve göster"

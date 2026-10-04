@@ -278,6 +278,8 @@ export const PanelStyle = class {
   }
 
   _recursiveApply(actor, operations, restore) {
+    if (actor._dtpIgnoreStyleOverrides) return
+
     for (let i in operations) {
       let o = operations[i]
       if (o.compareFn(actor))

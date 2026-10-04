@@ -1362,6 +1362,14 @@ msgstr "Головна панель присутня на"
 msgid "Display panels on all monitors"
 msgstr "Показувати панелі на всіх моніторах"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Клонувати головну панель на додаткових панелях"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Показувати індикатори розширень головної панелі на всіх панелях"
+
 #: ui/SettingsPosition.ui:49
 msgid "Hide and reveal the panel according to preferences"
 msgstr "Приховувати та показувати панель залежно від налаштувань"

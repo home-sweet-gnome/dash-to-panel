@@ -1301,6 +1301,14 @@ msgstr "A főpanel megjelenítése ezen"
 msgid "Display panels on all monitors"
 msgstr "Panelek megjelenítése az összes kijelzőn"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "A fő panel klónozása a másodlagos paneleken"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "A fő panel kiterjesztésjelzőinek megjelenítése minden panelen"
+
 #: ui/SettingsPosition.ui.h:4
 msgid "Panel Intellihide"
 msgstr "Panel intelligens elrejtése"

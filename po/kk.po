@@ -1318,6 +1318,14 @@ msgstr ""
 msgid "Display panels on all monitors"
 msgstr ""
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Негізгі панельді қосымша панельдерде клондау"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Негізгі панельдің кеңейтім индикаторларын барлық панельдерде көрсету"
+
 #: ui/SettingsPosition.ui.h:4
 msgid "Panel Intellihide"
 msgstr ""
