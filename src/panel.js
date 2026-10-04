@@ -109,7 +109,7 @@ export const Panel = GObject.registerClass(
       this._sessionStyle = null
       this._unmappedButtons = []
       this._mainPanelClones = []
-      this._cloneMenuEventIds = []
+      this._cloneMenuActors = []
       this._elementGroups = []
 
       let systemMenuInfo = Utils.getSystemMenuInfo()
@@ -766,6 +766,8 @@ export const Panel = GObject.registerClass(
 
       if (this.intellihide?.enabled) this.intellihide.reset()
 
+      this._mainPanelClones.forEach((c) => c.syncLayout())
+
       if (this.geom.vertical) {
         this.showAppsIconWrapper.realShowAppsIcon.toggleButton.set_width(
           this.geom.innerSize,
@@ -1353,58 +1355,45 @@ export const Panel = GObject.registerClass(
       }
     }
 
+    // the menus the pointer can switch between while one of them is open
+    _getCloneMenus(source) {
+      return [
+        ...new Set([
+          ...this.menuManager._menus,
+          ...source.menuManager._menus,
+          ...this._mainPanelClones.map((c) => c.menu),
+        ]),
+      ].filter((m) => m instanceof PopupMenu.PopupMenu)
+    }
+
     // While a menu holds the grab, the shell only delivers pointer events to that menu,
     // so hovering another indicator has to be handled from the open menu's actor.
-    _connectCloneMenuEvents(menus) {
-      menus.forEach((menu) => {
-        if (
-          !menu.actor ||
-          this._cloneMenuEventIds.some((i) => i.actor == menu.actor)
-        )
-          return
+    _connectCloneMenuEvents(source) {
+      let actors = this._getCloneMenus(source).map((m) => m.actor)
 
-        this._cloneMenuEventIds.push({
-          actor: menu.actor,
-          id: menu.actor.connect('captured-event', (actor, event) =>
-            this._onGrabbedMenuEvent(event),
+      this._cloneMenuActors
+        .filter((a) => !actors.includes(a))
+        .forEach((a) => a.disconnectObject(this))
+      actors
+        .filter((a) => !this._cloneMenuActors.includes(a))
+        .forEach((a) =>
+          a.connectObject(
+            'captured-event',
+            (actor, event) => this._onGrabbedMenuEvent(event),
+            this,
           ),
-        })
-      })
+        )
+      this._cloneMenuActors = actors
     }
 
     _disconnectCloneMenuEvents() {
-      this._cloneMenuEventIds.forEach(({ actor, id }) => {
-        try {
-          actor.disconnect(id)
-        } catch {
-          // the actor is already gone
-        }
-      })
-      this._cloneMenuEventIds = []
+      this._cloneMenuActors.forEach((a) => a.disconnectObject(this))
+      this._cloneMenuActors = []
     }
 
-    _getHoverTargetForClones(target, source) {
-      let findMenu = (menus) => {
-        for (let src = target; src; src = src.get_parent()) {
-          let menu = menus.find((m) => m.sourceActor === src)
-
-          if (menu) return menu
-        }
-      }
-      let clone = this._mainPanelClones.find((c) => c.menu && c.clone == target)
-
-      if (clone) {
-        return { menu: clone.menu, open: () => this._openCloneMenu(clone) }
-      }
-
-      let menu =
-        findMenu(this.menuManager._menus) || findMenu(source.menuManager._menus)
-
-      return (
-        menu && { menu, open: () => menu.open(BoxPointer.PopupAnimation.FADE) }
-      )
-    }
-
+    // The menu managers only switch between their own menus, and can't find the menus
+    // of clones, which are only anchored to their clone while open. So switch to the
+    // hovered menu here in those cases, through its manager like the stock switch.
     _onGrabbedMenuEvent(event) {
       let source = this._getCloneSourcePanel()
 
@@ -1418,21 +1407,42 @@ export const Panel = GObject.registerClass(
       }
 
       try {
-        let hovered = this._getHoverTargetForClones(
-          global.stage.get_event_actor(event),
-          source,
+        let target = global.stage.get_event_actor(event)
+        let clone = this._mainPanelClones.find(
+          (c) => c.menu && c.actor.contains(target),
         )
-        let menus = [
-          ...this.menuManager._menus,
-          ...source.menuManager._menus,
-          ...this._mainPanelClones.map((c) => c.menu),
-        ].filter((m) => m)
-        let opened = menus.filter((m) => m.isOpen && m != hovered?.menu)
+        let managers = [this.menuManager, source.menuManager]
+        let menu =
+          clone?.menu ??
+          managers
+            .map((m) => m._findMenuForSource(target))
+            .find((m) => m instanceof PopupMenu.PopupMenu)
+        let manager = managers.find((m) => m._menus.includes(menu))
+        let opened = this._getCloneMenus(source).filter(
+          (m) => m.isOpen && m != menu,
+        )
 
-        if (hovered && !hovered.menu.isOpen && opened.length) {
-          opened.forEach((m) => m.close(BoxPointer.PopupAnimation.FADE))
-          hovered.open()
+        if (
+          !manager ||
+          menu.isOpen ||
+          !opened.length ||
+          // the stock manager of the open menu switches to its own menus
+          (!clone && opened.every((m) => manager._menus.includes(m)))
+        ) {
+          return Clutter.EVENT_PROPAGATE
         }
+
+        // the manager doesn't open menus on hover when buttons only react to clicks
+        let change = () => manager._changeMenu(menu)
+
+        if (clone) this._openCloneMenu(clone, change)
+        else change()
+
+        // like the managers, close the previous menu once the new one holds the grab
+        if (menu.isOpen)
+          opened
+            .filter((m) => m.isOpen)
+            .forEach((m) => m.close(BoxPointer.PopupAnimation.FADE))
       } catch (e) {
         console.error(e)
       }
@@ -1456,90 +1466,208 @@ export const Panel = GObject.registerClass(
       })
     }
 
-    // never throws: this runs while the extension is being disabled and the sources
-    // may already have been destroyed by their extensions
     _clearMainPanelClones() {
       let clones = this._mainPanelClones || []
 
       this._mainPanelClones = []
       this._disconnectCloneMenuEvents()
-
-      clones.forEach((c) => {
-        let attempt = (fn) => {
-          try {
-            fn()
-          } catch (e) {
-            console.warn(`dash-to-panel: clone cleanup failed: ${e}`)
-          }
-        }
-
-        if (!c.sourceDestroyed) {
-          attempt(() => this._restoreCloneMenu(c))
-          c.visibleIds.forEach(([a, id]) => attempt(() => a.disconnect(id)))
-          c.srcIds.forEach(([a, id]) => attempt(() => a.disconnect(id)))
-          attempt(() => c.source.disconnect(c.destroyId))
-        }
-
-        attempt(() => c.actor.destroy())
-      })
+      clones.forEach((c) => this._destroyMainPanelClone(c))
     }
 
-    _restoreCloneMenu(c) {
-      let menu = c.menu
+    // never throws: this runs while the extension is being disabled and the sources
+    // may already have been destroyed by their extensions
+    _destroyMainPanelClone(c) {
+      try {
+        if (c.menu?._dtpCloneAnchor?.clone == c) {
+          c.menu.close()
+          releaseCloneMenu(c.menu)
+        }
 
-      if (!menu || menu.sourceActor != c.clone) return
-
-      if (c.menuStateId) menu.disconnect(c.menuStateId)
-      c.menuStateId = 0
-      menu.sourceActor = menu.focusActor = c.source
-      menu._arrowSide = c.arrowSide
-      menu._boxPointer._userArrowSide = c.arrowSide
-      menu.close()
-    }
-
-    _openCloneMenu(c) {
-      let menu = c.menu
-
-      if (menu.isOpen && menu.sourceActor == c.clone) {
-        menu.close()
-        return
+        // the signals of the sources are connected with the clone as owner, so this
+        // also disconnects them
+        c.actor.destroy()
+      } catch (e) {
+        console.warn(`dash-to-panel: clone cleanup failed: ${e}`)
       }
+    }
 
-      // anchor the original menu to the clone so it opens on this monitor
-      menu.close(false)
-      c.arrowSide = menu._arrowSide
-      menu.sourceActor = menu.focusActor = c.clone
-      menu._arrowSide = this.geom.position
+    // Opens the original menu of an indicator anchored to its clone, so it appears on
+    // this monitor. The menu is given back to the indicator as soon as it closes.
+    _openCloneMenu(c, open) {
+      let menu = c.menu
+
+      // a menu that is open on the main panel or another clone moves here
+      if (menu.isOpen) menu.close()
+      releaseCloneMenu(menu)
+
+      menu._dtpCloneAnchor = {
+        clone: c,
+        sourceActor: menu.sourceActor,
+        focusActor: menu.focusActor,
+        arrowSide: menu._boxPointer._userArrowSide,
+        stateId: menu.connect('open-state-changed', (m, isOpen) => {
+          if (!isOpen) return releaseCloneMenu(m)
+
+          // the menu belongs to this clone, so only the clone shows the pressed state
+          c.indicator.remove_style_pseudo_class('active')
+          c.actor.add_style_pseudo_class('active')
+        }),
+      }
+      menu.sourceActor = menu.focusActor = c.actor
       menu._boxPointer._userArrowSide = this.geom.position
 
-      if (!c.menuStateId) {
-        c.menuStateId = menu.connect('open-state-changed', (m, open) => {
-          if (!open) {
-            m.disconnect(c.menuStateId)
-            c.menuStateId = 0
-            m.sourceActor = m.focusActor = c.source
-            m._arrowSide = c.arrowSide
-            m._boxPointer._userArrowSide = c.arrowSide
-            c.actor.remove_style_pseudo_class('active')
-          }
-        })
+      open()
+
+      // e.g. an empty menu doesn't open
+      if (!menu.isOpen) releaseCloneMenu(menu)
+    }
+
+    _toggleCloneMenu(c) {
+      if (c.menu.isOpen && c.menu._dtpCloneAnchor?.clone == c)
+        c.menu.close(BoxPointer.PopupAnimation.FULL)
+      else
+        this._openCloneMenu(c, () =>
+          c.menu.open(BoxPointer.PopupAnimation.FULL),
+        )
+    }
+
+    _createMainPanelClone(child, box) {
+      let indicator = child.child ?? child
+      let isButton = indicator instanceof PanelMenu.Button
+      // clone only the content of a panel button, the button itself (and so its
+      // hover and active effects) is recreated here, independent for every panel
+      let sources = isButton ? indicator.get_children() : [child]
+      let clones = sources.map(
+        (src) =>
+          new Clutter.Clone({
+            source: src,
+            y_align: Clutter.ActorAlign.CENTER,
+          }),
+      )
+      // not a St.BoxLayout, which a vertical panel would turn vertical
+      let content = new St.Widget({ layout_manager: new Clutter.BoxLayout() })
+      let actor = new MainPanelCloneButton({
+        style_class: isButton ? 'panel-button' : '',
+        reactive: true,
+        track_hover: true,
+        y_align: Clutter.ActorAlign.FILL,
+      })
+      let c = {
+        source: child,
+        indicator,
+        box,
+        actor,
+        // indicators that only react to clicks have a dummy menu, it can't be anchored
+        menu:
+          indicator.menu instanceof PopupMenu.PopupMenu ? indicator.menu : null,
       }
 
-      menu.open()
-      // the menu belongs to this clone, so only the clone shows the pressed state
-      ;(c.source.child ?? c.source).remove_style_pseudo_class('active')
-      c.actor.add_style_pseudo_class('active')
+      clones.forEach((clone) => content.add_child(clone))
+      actor.add_child(content)
+
+      // a clone is stretched to its own size, so keep it at the size of its source,
+      // shrunk to fit a panel that is thinner than the main panel
+      c.syncLayout = () => {
+        let { innerSize, vertical } = this.geom
+        // the allocations, as get_width() gives the preferred width while a
+        // relayout is pending, e.g. when the button is allocated before its content
+        let sizes = sources.map((src) => src.get_allocation_box().get_size())
+        let width = sizes.reduce((w, [srcWidth]) => w + srcWidth, 0)
+        let height = Math.max(0, ...sizes.map(([, srcHeight]) => srcHeight))
+        let scale = Math.min(
+          1,
+          innerSize / ((vertical ? width : height) || innerSize),
+        )
+
+        sizes.forEach(([srcWidth, srcHeight], i) =>
+          clones[i].set_size(
+            Math.round(srcWidth * scale),
+            Math.round(srcHeight * scale),
+          ),
+        )
+
+        if (isButton) {
+          // the shell pads buttons through its layout manager, not through css
+          let buttonWidth = indicator.get_allocation_box().get_width()
+          let hpadding = (Math.max(0, buttonWidth - width) / 2) * scale
+
+          if (vertical)
+            hpadding = Math.min(
+              hpadding,
+              Math.max(0, (innerSize - width * scale) / 2),
+            )
+
+          actor.setHPadding(Math.round(hpadding))
+        }
+      }
+
+      let markStale = () => {
+        c.stale = true
+        this._queueMainPanelClonesSync()
+      }
+      let syncVisible = () => {
+        actor.visible = child.visible && indicator.visible
+      }
+
+      // connected with the clone as owner, so they're disconnected when it's destroyed
+      child.connectObject(
+        'notify::visible',
+        syncVisible,
+        'destroy',
+        markStale,
+        actor,
+      )
+      sources.forEach((src) =>
+        src.connectObject('notify::allocation', c.syncLayout, actor),
+      )
+
+      if (indicator != child)
+        indicator.connectObject('notify::visible', syncVisible, actor)
+
+      if (isButton)
+        indicator.connectObject(
+          'notify::allocation',
+          c.syncLayout,
+          'child-added',
+          markStale,
+          'child-removed',
+          markStale,
+          'menu-set',
+          markStale,
+          actor,
+        )
+
+      let onPress = () => {
+        if (!c.menu) return Clutter.EVENT_PROPAGATE
+
+        this._toggleCloneMenu(c)
+        return Clutter.EVENT_STOP
+      }
+
+      actor.connect('button-press-event', onPress)
+      actor.connect('touch-event', (a, event) =>
+        event.type() == Clutter.EventType.TOUCH_BEGIN
+          ? onPress()
+          : Clutter.EVENT_PROPAGATE,
+      )
+
+      syncVisible()
+      c.syncLayout()
+      this[box].add_child(actor)
+
+      return c
     }
 
     // Mirrors the extension indicators of the main panel (e.g. app menu, system
-    // monitors) scaled to this panel's size. Menus of the originals are opened
+    // monitors), shrunk to fit this panel. Menus of the originals are opened
     // anchored to the clone, so they appear on this monitor.
     _syncMainPanelClones() {
-      this._clearMainPanelClones()
-
       let source = this._getCloneSourcePanel()
 
-      if (!source || !SETTINGS.get_boolean('clone-main-panel')) return
+      if (!source || !SETTINGS.get_boolean('clone-main-panel')) {
+        this._clearMainPanelClones()
+        return
+      }
 
       let ownContainers = [
         'activities',
@@ -1548,111 +1676,34 @@ export const Panel = GObject.registerClass(
       ]
         .map((n) => source.statusArea[n]?.container)
         .filter((c) => c)
+      let clones = []
 
       panelBoxes.forEach((b) => {
+        let previous = null
+
         source[b].get_children().forEach((child) => {
           if (ownContainers.includes(child)) return
 
-          let button = child.child ?? child
-          let isButton = button instanceof PanelMenu.Button
-          // clone only the content of a panel button, the button itself (and so its
-          // hover and active effects) is recreated here, independent for every panel
-          let sources = isButton ? button.get_children() : [child]
-          // the content is centered vertically without being resized to the panel
-          let actor = new St.Widget({
-            style_class: isButton ? 'panel-button' : '',
-            layout_manager: new Clutter.FixedLayout(),
-            reactive: true,
-            track_hover: true,
-            y_align: Clutter.ActorAlign.FILL,
-          })
-          let content = new St.BoxLayout()
+          // only rebuild what changed, so e.g. an open menu of a clone stays open
+          let c =
+            this._mainPanelClones.find(
+              (c) => c.source == child && c.box == b && !c.stale,
+            ) ?? this._createMainPanelClone(child, b)
 
-          content.add_constraint(
-            new Clutter.AlignConstraint({
-              source: actor,
-              align_axis: Clutter.AlignAxis.Y_AXIS,
-              factor: 0.5,
-            }),
-          )
-          actor.add_child(content)
-          let c = { clone: actor, actor, source: child, menu: button.menu }
+          // keep the order of the main panel
+          if (previous && c.actor.get_previous_sibling() != previous.actor)
+            this[b].set_child_above_sibling(c.actor, previous.actor)
 
-          if (isButton) {
-            // the shell pads buttons through its layout manager, not through css
-            let contentWidth = sources.reduce(
-              (w, src) => w + src.get_width(),
-              0,
-            )
-            let border = button.get_theme_node().get_border_width(St.Side.LEFT)
-            let padding = Math.max(
-              0,
-              Math.round((button.get_width() - contentWidth) / 2) - border,
-            )
-
-            actor.style = `padding: 0 ${padding}px; margin: 0;`
-            // the fixed layout places the content at 0 and ignores padding and border
-            // (they only widen the button), so shift it into the content box. A
-            // translation doesn't feed back into the preferred width like a position.
-            content.translation_x = border + padding
-          }
-
-          c.srcIds = []
-
-          // a clone is stretched to its own size, so keep it equal to the source's
-          sources.forEach((src) => {
-            let clone = new Clutter.Clone({
-              source: src,
-              x_align: Clutter.ActorAlign.START,
-              y_align: Clutter.ActorAlign.CENTER,
-            })
-            let resize = () => clone.set_size(src.get_width(), src.get_height())
-
-            resize()
-            c.srcIds.push([src, src.connect('notify::allocation', resize)])
-            content.add_child(clone)
-          })
-
-          let syncVisible = () => {
-            actor.visible = child.visible && button.visible
-          }
-
-          c.visibleIds = [child, button].map((a) => [
-            a,
-            a.connect('notify::visible', syncVisible),
-          ])
-          syncVisible()
-          if (isButton) {
-            ;['child-added', 'child-removed'].forEach((sig) =>
-              c.srcIds.push([
-                button,
-                button.connect(sig, () => this._queueMainPanelClonesSync()),
-              ]),
-            )
-          }
-
-          c.destroyId = child.connect('destroy', () => {
-            c.sourceDestroyed = true
-            this._queueMainPanelClonesSync()
-          })
-
-          actor.connect('button-press-event', () => {
-            if (!c.menu) return Clutter.EVENT_PROPAGATE
-
-            this._openCloneMenu(c)
-            return Clutter.EVENT_STOP
-          })
-
-          this[b].add_child(actor)
-          this._mainPanelClones.push(c)
+          previous = c
+          clones.push(c)
         })
       })
 
-      this._connectCloneMenuEvents([
-        ...this.menuManager._menus,
-        ...source.menuManager._menus,
-        ...this._mainPanelClones.map((c) => c.menu).filter((m) => m),
-      ])
+      this._mainPanelClones
+        .filter((c) => !clones.includes(c))
+        .forEach((c) => this._destroyMainPanelClone(c))
+      this._mainPanelClones = clones
+      this._connectCloneMenuEvents(source)
     }
 
     _onBoxActorAdded(box) {
@@ -1792,6 +1843,7 @@ export const Panel = GObject.registerClass(
           can_focus: true,
           // x_fill: true,
           // y_fill: true,
+          track_hover: true,
         })
 
         this._setShowDesktopButtonStyle()
@@ -2035,3 +2087,66 @@ export const SecondaryPanel = GObject.registerClass(
     }
   },
 )
+
+// Button holding the clone of a main panel indicator. Like the panel buttons of the
+// shell, it pads its content through its layout. The content keeps its size and is
+// centered, so it can't be squeezed (and distorted) by a panel that is too small.
+export const MainPanelCloneButton = GObject.registerClass(
+  {},
+  class MainPanelCloneButton extends St.Widget {
+    _init(params) {
+      super._init(params)
+
+      // the clone shows the indicator as already styled on the main panel
+      this._dtpIgnoreStyleOverrides = true
+      this._hpadding = 0
+    }
+
+    setHPadding(hpadding) {
+      if (hpadding == this._hpadding) return
+
+      this._hpadding = hpadding
+      this.queue_relayout()
+    }
+
+    vfunc_get_preferred_width() {
+      let [min, nat] = this.get_first_child()?.get_preferred_width(-1) ?? [0, 0]
+
+      return [min + 2 * this._hpadding, nat + 2 * this._hpadding]
+    }
+
+    vfunc_get_preferred_height() {
+      return this.get_first_child()?.get_preferred_height(-1) ?? [0, 0]
+    }
+
+    vfunc_allocate(box) {
+      this.set_allocation(box)
+
+      let child = this.get_first_child()
+
+      if (!child) return
+
+      let [, , width, height] = child.get_preferred_size()
+      let x = Math.round((box.get_width() - width) / 2)
+      let y = Math.round((box.get_height() - height) / 2)
+
+      child.allocate(
+        new Clutter.ActorBox({ x1: x, y1: y, x2: x + width, y2: y + height }),
+      )
+    }
+  },
+)
+
+// gives a menu that was anchored to the clone of its indicator back to the indicator
+function releaseCloneMenu(menu) {
+  let anchor = menu._dtpCloneAnchor
+
+  if (!anchor) return
+
+  delete menu._dtpCloneAnchor
+  menu.disconnect(anchor.stateId)
+  menu.sourceActor = anchor.sourceActor
+  menu.focusActor = anchor.focusActor
+  menu._boxPointer._userArrowSide = anchor.arrowSide
+  anchor.clone.actor.remove_style_pseudo_class('active')
+}

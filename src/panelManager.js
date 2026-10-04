@@ -137,6 +137,7 @@ export const PanelManager = class {
     this._oldUpdateHotCorners = Main.layoutManager._updateHotCorners
     Main.layoutManager._updateHotCorners = newUpdateHotCorners.bind(
       Main.layoutManager,
+      this,
     )
     Main.layoutManager._updateHotCorners()
 
@@ -759,15 +760,19 @@ export const PanelManager = class {
       boxPointer.sourceActor &&
       SETTINGS.get_boolean('intellihide')
     ) {
+      // the menu is positioned on the monitor of the actor it's anchored to, which
+      // can be a clone of its button on another monitor
       monitor =
         monitor ||
-        Main.layoutManager.findMonitorForActor(boxPointer.sourceActor)
+        Main.layoutManager.findMonitorForActor(
+          boxPointer._sourceActor ?? boxPointer.sourceActor,
+        )
       let panel = Utils.find(
         global.dashToPanel.panels,
         (p) => p.monitor == monitor,
       )
-      let excess =
-        alloc.natural_size + (panel ? panel.outerSize : 0) + 10 - monitor.height // 10 is arbitrary
+      let outerSize = panel ? panel.geom.outerSize : 0
+      let excess = alloc.natural_size + outerSize + 10 - monitor.height // 10 is arbitrary
 
       if (excess > 0) {
         alloc.natural_size -= excess
@@ -931,7 +936,7 @@ export const IconAnimator = class {
   }
 }
 
-function newUpdateHotCorners() {
+function newUpdateHotCorners(panelManager) {
   // destroy old hot corners
   this.hotCorners.forEach(function (corner) {
     if (corner) corner.destroy()
@@ -1008,13 +1013,16 @@ function newUpdateHotCorners() {
       let corner = new Layout.HotCorner(this, monitor, cornerX, cornerY)
 
       // monitors without a dtp panel (e.g. when panels are only shown on one monitor)
-      // don't have any geometry to rely on
+      // don't have any geometry to rely on, so they get the size of the stock top panel
+      let getMaxBarrierSize = () =>
+        panel ? panel.geom.gsTopPanelHeight : panelManager.gsTopPanelHeight
+
       corner.setBarrierSize = (size) =>
         Object.getPrototypeOf(corner).setBarrierSize.call(
           corner,
-          panel ? Math.min(size, panel.geom.gsTopPanelHeight) : size,
+          Math.min(size, getMaxBarrierSize()),
         )
-      corner.setBarrierSize(panel ? panel.geom.innerSize : this.panelBox.height)
+      corner.setBarrierSize(panel ? panel.geom.innerSize : getMaxBarrierSize())
       this.hotCorners.push(corner)
     } else {
       this.hotCorners.push(null)
