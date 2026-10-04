@@ -1526,6 +1526,8 @@ export const Panel = GObject.registerClass(
       }
 
       menu.open()
+      // the menu belongs to this clone, so only the clone shows the pressed state
+      ;(c.source.child ?? c.source).remove_style_pseudo_class('active')
       c.actor.add_style_pseudo_class('active')
     }
 
@@ -1556,23 +1558,39 @@ export const Panel = GObject.registerClass(
           // clone only the content of a panel button, the button itself (and so its
           // hover and active effects) is recreated here, independent for every panel
           let sources = isButton ? button.get_children() : [child]
-          let actor = new St.BoxLayout({
+          // the content is centered vertically without being resized to the panel
+          let actor = new St.Widget({
             style_class: isButton ? 'panel-button' : '',
+            layout_manager: new Clutter.FixedLayout(),
             reactive: true,
             track_hover: true,
             y_align: Clutter.ActorAlign.FILL,
           })
+          let content = new St.BoxLayout()
+
+          content.add_constraint(
+            new Clutter.AlignConstraint({
+              source: actor,
+              align_axis: Clutter.AlignAxis.Y_AXIS,
+              factor: 0.5,
+            }),
+          )
+          actor.add_child(content)
           let c = { clone: actor, actor, source: child, menu: button.menu }
 
           if (isButton) {
             // the shell pads buttons through its layout manager, not through css
-            let content = sources.reduce((w, src) => w + src.get_width(), 0)
+            let contentWidth = sources.reduce(
+              (w, src) => w + src.get_width(),
+              0,
+            )
+            let border = button.get_theme_node().get_border_width(St.Side.LEFT)
             let padding = Math.max(
               0,
-              Math.round((button.get_width() - content) / 2),
+              Math.round((button.get_width() - contentWidth) / 2) - border,
             )
 
-            actor.style = `padding: 0 ${padding}px; border-width: 0; margin: 0;`
+            actor.style = `padding: 0 ${padding}px; margin: 0;`
           }
 
           c.srcIds = []
@@ -1582,13 +1600,13 @@ export const Panel = GObject.registerClass(
             let clone = new Clutter.Clone({
               source: src,
               x_align: Clutter.ActorAlign.START,
-              y_align: Clutter.ActorAlign.START,
+              y_align: Clutter.ActorAlign.CENTER,
             })
             let resize = () => clone.set_size(src.get_width(), src.get_height())
 
             resize()
             c.srcIds.push([src, src.connect('notify::allocation', resize)])
-            actor.add_child(clone)
+            content.add_child(clone)
           })
 
           let syncVisible = () => {
