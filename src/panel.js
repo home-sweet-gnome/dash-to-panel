@@ -49,6 +49,7 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js'
 import St from 'gi://St'
 import Meta from 'gi://Meta'
 import Pango from 'gi://Pango'
+import * as BoxPointer from 'resource:///org/gnome/shell/ui/boxpointer.js'
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js'
 import * as DateMenu from 'resource:///org/gnome/shell/ui/dateMenu.js'
 import * as Volume from 'resource:///org/gnome/shell/ui/status/volume.js'
@@ -1342,7 +1343,59 @@ export const Panel = GObject.registerClass(
         })
       }
 
+      this._signalsHandler.add([
+        global.stage,
+        'captured-event',
+        (stage, event) => this._onStageEventForClones(event),
+      ])
+
       this._syncMainPanelClones()
+    }
+
+    // While a menu holds the grab, hovering another indicator must switch menus.
+    // The popup menu managers only know the original actors, so handle the clones
+    // (and the secondary panel's own menus when a cloned menu is open) here.
+    _onStageEventForClones(event) {
+      if (
+        event.type() != Clutter.EventType.ENTER ||
+        event.get_flags() & Clutter.EventFlags.FLAG_GRAB_NOTIFY ||
+        !this._mainPanelClones?.length
+      ) {
+        return Clutter.EVENT_PROPAGATE
+      }
+
+      let target = global.stage.get_event_actor(event)
+      let openClone = this._mainPanelClones.find(
+        (c) => c.menu?.isOpen && c.menu.sourceActor == c.clone,
+      )
+      let hoveredClone = this._mainPanelClones.find((c) => c.clone == target)
+
+      try {
+        if (hoveredClone?.menu && hoveredClone != openClone) {
+          let managers = this.panelManager.allPanels.map((p) => p.menuManager)
+          let active = managers.find(
+            (m) => m.activeMenu && m.activeMenu != hoveredClone.menu,
+          )?.activeMenu
+
+          if (active) {
+            active.close(BoxPointer.PopupAnimation.FADE)
+            this._openCloneMenu(hoveredClone)
+          }
+        } else if (openClone && !hoveredClone) {
+          let own = ['dateMenu', Utils.getSystemMenuInfo().name]
+            .map((n) => this.statusArea[n]?.menu)
+            .find((m) => m && !m.isOpen && m.sourceActor?.contains(target))
+
+          if (own) {
+            openClone.menu.close(BoxPointer.PopupAnimation.FADE)
+            own.open(BoxPointer.PopupAnimation.FADE)
+          }
+        }
+      } catch (e) {
+        console.error(e)
+      }
+
+      return Clutter.EVENT_PROPAGATE
     }
 
     _queueMainPanelClonesSync() {
@@ -1355,15 +1408,34 @@ export const Panel = GObject.registerClass(
       })
     }
 
+    // never throws: this runs while the extension is being disabled and the sources
+    // may already have been destroyed by their extensions
     _clearMainPanelClones() {
-      ;(this._mainPanelClones || []).forEach((c) => {
-        c.source.disconnect(c.visibleId)
-        c.source.disconnect(c.allocationId)
-        this._restoreCloneMenu(c)
-        ;(c.source.child ?? c.source).remove_style_pseudo_class('hover')
-        c.clone.destroy()
-      })
+      let clones = this._mainPanelClones || []
+
       this._mainPanelClones = []
+
+      clones.forEach((c) => {
+        let attempt = (fn) => {
+          try {
+            fn()
+          } catch (e) {
+            console.warn(`dash-to-panel: clone cleanup failed: ${e}`)
+          }
+        }
+
+        if (!c.sourceDestroyed) {
+          attempt(() => this._restoreCloneMenu(c))
+          attempt(() => c.source.disconnect(c.visibleId))
+          attempt(() => c.source.disconnect(c.allocationId))
+          attempt(() => c.source.disconnect(c.destroyId))
+          attempt(() =>
+            (c.source.child ?? c.source).remove_style_pseudo_class('hover'),
+          )
+        }
+
+        attempt(() => c.clone.destroy())
+      })
     }
 
     _restoreCloneMenu(c) {
@@ -1457,6 +1529,10 @@ export const Panel = GObject.registerClass(
           c.allocationId = child.connect('notify::allocation', () =>
             this._updateCloneSize(c),
           )
+          c.destroyId = child.connect('destroy', () => {
+            c.sourceDestroyed = true
+            this._queueMainPanelClonesSync()
+          })
 
           // mirror the hover state onto the original so the clone shows it too
           let button = child.child ?? child
