@@ -88,6 +88,7 @@ export const Panel = GObject.registerClass(
       this._timeoutsHandler = new Utils.TimeoutsHandler()
       this._signalsHandler = new Utils.GlobalSignalsHandler()
       this._injectionManager = new InjectionManager()
+      this._panelAllocBox = new Clutter.ActorBox()
 
       this.panelManager = panelManager
       this.panelStyle = new PanelStyle.PanelStyle()
@@ -922,7 +923,7 @@ export const Panel = GObject.registerClass(
       let centeredMonitorGroup
       let varSize = box[this.varCoord.c2] - box[this.varCoord.c1]
       let fixedSize = box[this.fixedCoord.c2] - box[this.fixedCoord.c1]
-      let panelAlloc = new Clutter.ActorBox()
+      let panelAlloc = this._panelAllocBox
       let assignGroupSize = (group, update) => {
         group.size = 0
         group.tlOffset = 0

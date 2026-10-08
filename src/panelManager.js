@@ -270,7 +270,9 @@ export const PanelManager = class {
         SETTINGS,
         'changed::panel-sizes',
         () => {
-          GLib.idle_add(GLib.PRIORITY_LOW, () => {
+          if (this._setMarginsIdleId) GLib.source_remove(this._setMarginsIdleId)
+          this._setMarginsIdleId = GLib.idle_add(GLib.PRIORITY_LOW, () => {
+            this._setMarginsIdleId = 0
             this._setDesktopIconsMargins()
             return GLib.SOURCE_REMOVE
           })
@@ -317,6 +319,7 @@ export const PanelManager = class {
   }
 
   disable(reset) {
+    if (this._setMarginsIdleId) GLib.source_remove(this._setMarginsIdleId)
     this.primaryPanel && this.overview.disable()
     this.proximityManager.destroy()
 
