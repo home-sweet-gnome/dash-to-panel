@@ -129,6 +129,7 @@ export const TaskbarActor = GObject.registerClass(
     _init(delegate) {
       this._delegate = delegate
       this._currentBackgroundColor = 0
+      this._childBox = new Clutter.ActorBox()
       super._init({
         name: 'dashtopanelTaskbar',
         layout_manager: new Clutter.BoxLayout({
@@ -149,9 +150,10 @@ export const TaskbarActor = GObject.registerClass(
       let availVarSize = box[panel.varCoord.c2] - box[panel.varCoord.c1]
       let [dummy, scrollview, leftFade, rightFade] = this.get_children()
       let [, natSize] = this[panel.sizeFunc](availFixedSize)
-      let childBox = new Clutter.ActorBox()
+      let childBox = this._childBox
       let orientation = panel.getOrientation()
 
+      childBox.init_rect(0, 0, 0, 0)
       dummy.allocate(childBox)
 
       childBox[panel.varCoord.c1] = box[panel.varCoord.c1]
@@ -522,22 +524,27 @@ export const Taskbar = class extends EventEmitter {
   }
 
   _onMotionEvent(actor_, event) {
+    let timestamp = Date.now()
+
     if (
       iconAnimationSettings.type == 'RIPPLE' ||
       iconAnimationSettings.type == 'PLANK'
     ) {
-      let timestamp = Date.now()
+      let minInterval = Math.max(iconAnimationSettings.duration / 2, 16)
       if (
         !this._iconAnimationTimestamp ||
-        timestamp - this._iconAnimationTimestamp >=
-          iconAnimationSettings.duration / 2
+        timestamp - this._iconAnimationTimestamp >= minInterval
       ) {
         let [pointerX, pointerY] = event.get_coords()
         this._updateIconAnimations(pointerX, pointerY)
       }
     }
 
-    this._maybeUpdateScrollviewFade()
+    if (this._scrollView._dtpFadeSize &&
+        (!this._fadeTimestamp || timestamp - this._fadeTimestamp >= 32)) {
+      this._fadeTimestamp = timestamp
+      this._maybeUpdateScrollviewFade()
+    }
 
     return Clutter.EVENT_PROPAGATE
   }
@@ -1561,6 +1568,7 @@ export const TaskbarItemContainer = GObject.registerClass(
   class TaskbarItemContainer extends Dash.DashItemContainer {
     _init() {
       super._init()
+      this._allocChildBox = new Clutter.ActorBox()
       this.x_expand = this.y_expand = false
     }
 
@@ -1576,7 +1584,7 @@ export const TaskbarItemContainer = GObject.registerClass(
 
       let childWidth = Math.min(natChildWidth * childScaleX, availWidth)
       let childHeight = Math.min(natChildHeight * childScaleY, availHeight)
-      let childBox = new Clutter.ActorBox()
+      let childBox = this._allocChildBox
 
       childBox.x1 = (availWidth - childWidth) / 2
       childBox.y1 = (availHeight - childHeight) / 2
@@ -1589,6 +1597,7 @@ export const TaskbarItemContainer = GObject.registerClass(
     // In case appIcon is removed from the taskbar while it is hovered,
     // restore opacity before dashItemContainer.animateOutAndDestroy does the destroy animation.
     animateOutAndDestroy() {
+      if (this._cloneDestroyIdleId) GLib.source_remove(this._cloneDestroyIdleId)
       if (this._raisedClone) {
         this._raisedClone.source.opacity = 255
         this._raisedClone.destroy()
@@ -1637,7 +1646,7 @@ export const TaskbarItemContainer = GObject.registerClass(
       let boundProperty = this._dtpPanel.geom.vertical
         ? 'translation_y'
         : 'translation_x'
-      this.bind_property(
+      this._cloneBinding = this.bind_property(
         boundProperty,
         cloneContainer,
         boundProperty,
@@ -1663,10 +1672,12 @@ export const TaskbarItemContainer = GObject.registerClass(
       // The clone itself
       this._raisedClone = cloneButton.child
       this._raisedClone.connect('destroy', () => {
+        this._cloneBinding?.unbind()
         adjustment.disconnect(adjustmentChangedId)
         taskbarBox.disconnect(taskbarBoxAllocationChangedId)
-        GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
-          cloneContainer.destroy()
+        this._cloneDestroyIdleId = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+          this._cloneDestroyIdleId = 0
+          if (cloneContainer.get_parent()) cloneContainer.destroy()
           return GLib.SOURCE_REMOVE
         })
         delete this._raisedClone

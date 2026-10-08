@@ -934,6 +934,11 @@ export const DominantColorExtractor = class {
   }
 }
 
+export function clearDominantColorCache() {
+  iconCacheMap.clear()
+  themeLoader = null
+}
+
 export const drawRoundedLine = function (
   cr,
   x,

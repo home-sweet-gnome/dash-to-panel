@@ -719,6 +719,7 @@ export const PreviewMenu = GObject.registerClass(
 
       this._peekedWindow = window
 
+      this._signalsHandler.removeWithLabel(WINDOW_WS_CHANGED)
       this._signalsHandler.addWithLabel(WINDOW_WS_CHANGED, [
         this._peekedWindow,
         'workspace-changed',
@@ -996,7 +997,8 @@ export const Preview = GObject.registerClass(
             this._resizeClone(cloneBin, window)
             this._addClone(cloneBin, animateSize)
             this._previewMenu.updatePosition()
-          } else if (!this._waitWindowId) {
+          } else {
+            if (this._waitWindowId) GLib.source_remove(this._waitWindowId)
             this._waitWindowId = GLib.idle_add(
               GLib.PRIORITY_DEFAULT_IDLE,
               () => {
@@ -1150,8 +1152,9 @@ export const Preview = GObject.registerClass(
 
       let menu = Main.wm._windowMenuManager._manager._menus[0]
 
-      menu.connect('open-state-changed', (menu, opened) => {
+      let menuSignalId = menu.connect('open-state-changed', (menu, opened) => {
         if (!opened) {
+          menu.disconnect(menuSignalId)
           delete this._previewMenu.hasGrab
 
           if (!this._previewMenu.menu.hover) this._previewMenu.close()
