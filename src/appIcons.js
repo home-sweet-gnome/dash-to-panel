@@ -453,6 +453,10 @@ export const TaskbarAppIcon = GObject.registerClass(
         this._updateIconIdleId = 0
       }
 
+      if (this._iconIconBinActorAddedId) this.icon._iconBin.disconnect(this._iconIconBinActorAddedId)
+      if (this._unmappedSignalId) this.disconnect(this._unmappedSignalId)
+      this._menu?.destroy()
+
       this._timeoutsHandler.destroy()
       this._signalsHandler.destroy()
 
@@ -462,6 +466,7 @@ export const TaskbarAppIcon = GObject.registerClass(
     onWindowsChanged() {
       this._updateWindows()
       this.updateIcon()
+      delete this._cachedPalette
 
       if (this._isGroupApps) this._setIconStyle()
     }
@@ -637,9 +642,10 @@ export const TaskbarAppIcon = GObject.registerClass(
           visible: false,
         })
 
-        let mappedId = this.connect('notify::mapped', () => {
+        this._unmappedSignalId = this.connect('notify::mapped', () => {
           this._displayProperIndicator()
-          this.disconnect(mappedId)
+          this.disconnect(this._unmappedSignalId)
+          this._unmappedSignalId = 0
         })
       } else {
         ;(this._focusedDots = new St.DrawingArea()),
@@ -707,6 +713,8 @@ export const TaskbarAppIcon = GObject.registerClass(
     }
 
     _settingsChangeRefresh() {
+      delete this._cachedPalette
+
       if (this._isGroupApps) {
         this._updateWindows()
         this._resetDots()
@@ -1357,8 +1365,11 @@ export const TaskbarAppIcon = GObject.registerClass(
       })
 
       if (SETTINGS.get_boolean('dot-color-dominant')) {
-        let dce = new Utils.DominantColorExtractor(this.app)
-        let palette = dce._getColorPalette()
+        if (this._cachedPalette === undefined) {
+          let dce = new Utils.DominantColorExtractor(this.app)
+          this._cachedPalette = dce._getColorPalette() || null
+        }
+        let palette = this._cachedPalette
         if (palette) {
           color = Utils.ColorUtils.color_from_string(palette.original)[1]
         } else {
@@ -1395,9 +1406,11 @@ export const TaskbarAppIcon = GObject.registerClass(
 
     _getFocusHighlightColor() {
       if (SETTINGS.get_boolean('focus-highlight-dominant')) {
-        let dce = new Utils.DominantColorExtractor(this.app)
-        let palette = dce._getColorPalette()
-        if (palette) return palette.original
+        if (this._cachedPalette === undefined) {
+          let dce = new Utils.DominantColorExtractor(this.app)
+          this._cachedPalette = dce._getColorPalette() || null
+        }
+        if (this._cachedPalette) return this._cachedPalette.original
       }
       return SETTINGS.get_string('focus-highlight-color')
     }

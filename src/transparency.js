@@ -274,6 +274,7 @@ export const DynamicTransparency = class {
         this._getBackgroundImageColor(fakeTheme) ||
         fakeTheme.get_background_color()
       Main.uiGroup.remove_child(fakePanel)
+      fakePanel.destroy()
     }
 
     return this._themeBackground
