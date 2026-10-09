@@ -846,6 +846,14 @@ export const Taskbar = class extends EventEmitter {
       }
     })
 
+    // The hover timeouts are shared by all the taskbar items, so a pending one
+    // would otherwise fire on this icon after it is destroyed (e.g. when the
+    // taskbar is rebuilt under the pointer at login)
+    appIcon.connect('destroy', () => {
+      this._timeoutsHandler.remove(T1)
+      this._timeoutsHandler.remove(T2)
+    })
+
     // Override default AppIcon label_actor, now the
     // accessible_name is set at DashItemContainer.setLabelText
     appIcon.label_actor = null
