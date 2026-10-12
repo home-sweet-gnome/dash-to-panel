@@ -230,6 +230,19 @@ export const PanelManager = class {
 
     this._signalsHandler = new Utils.GlobalSignalsHandler()
 
+    // Stay enabled while locked, so the stock top panel and its strut don't
+    // come back and shift windows down. Hide the panels on the lock screen
+    // (hidden chrome keeps its strut), and rebuild them on unlock since
+    // Main.panel._updatePanel puts the stock items back in their original boxes.
+    this._signalsHandler.add([
+      Main.sessionMode,
+      'updated',
+      () =>
+        Main.sessionMode.isLocked
+          ? this.allPanels.forEach((p) => (p.clipContainer.visible = false))
+          : this._reset(),
+    ])
+
     //listen settings
     this._signalsHandler.add(
       [
