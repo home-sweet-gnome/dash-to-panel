@@ -435,6 +435,30 @@ export const getMouseScrollDirection = function (event) {
   return direction
 }
 
+export const getMouseScrollDelta = function (event, increment) {
+  let delta = increment
+
+  switch (event.get_scroll_direction()) {
+    case Clutter.ScrollDirection.UP:
+    case Clutter.ScrollDirection.LEFT:
+      delta = -increment
+      break
+    case Clutter.ScrollDirection.SMOOTH: {
+      let [dx, dy] = event.get_scroll_delta()
+
+      delta = dy * increment
+      delta += dx * increment
+
+      // Match physical direction
+      if (event.get_scroll_flags() & Clutter.ScrollFlags.INVERTED) delta *= -1
+
+      break
+    }
+  }
+
+  return delta
+}
+
 export function getAllMetaWindows() {
   return global.get_window_actors().map((w) => w.meta_window)
 }

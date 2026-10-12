@@ -1647,11 +1647,14 @@ export const Panel = GObject.registerClass(
         ) {
           let proto = Volume.OutputIndicator.prototype
           let func =
+            proto._handleScroll ||
             proto._handleScrollEvent ||
             proto.vfunc_scroll_event ||
             proto._onScrollEvent
           let indicator =
             Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volumeOutput
+
+          if (proto._handleScroll) event = Utils.getMouseScrollDelta(event, 1)
 
           if (indicator.quickSettingsItems)
             // new quick settings menu in gnome-shell > 42
