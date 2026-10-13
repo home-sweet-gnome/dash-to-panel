@@ -1090,6 +1090,14 @@ msgstr "Określa identyfikator monitora głównego."
 msgid "Display panels on all monitors"
 msgstr "Wyświetl panel na wszystkich monitorach"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Klonuj główny panel na panelach dodatkowych"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Pokaż wskaźniki rozszerzeń głównego panelu na wszystkich panelach"
+
 #: schemas/org.gnome.shell.extensions.dash-to-panel.gschema.xml:691
 msgid "Specifies if a panel is shown on every monitors"
 msgstr "Określa, czy panel jest wyświetlany na każdym monitorze"

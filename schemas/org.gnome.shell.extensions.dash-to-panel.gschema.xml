@@ -690,6 +690,11 @@
       <summary>Display panels on all monitors</summary>
       <description>Specifies if a panel is shown on every monitors</description>
     </key>
+    <key type="b" name="clone-main-panel">
+      <default>false</default>
+      <summary>Clone the main panel on secondary panels</summary>
+      <description>Mirror the extension indicators of the main panel on the panels of the other monitors</description>
+    </key>
     <key type="b" name="isolate-monitors">
       <default>false</default>
       <summary>Provide monitor isolation</summary>

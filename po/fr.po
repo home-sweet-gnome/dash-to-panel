@@ -1374,6 +1374,14 @@ msgstr "Afficher le panneau principal sur"
 msgid "Display panels on all monitors"
 msgstr "Afficher le panneau principal sur tous les écrans"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Cloner le panneau principal sur les panneaux secondaires"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Afficher les indicateurs d'extensions du panneau principal sur tous les panneaux"
+
 #: ui/SettingsPosition.ui.h:5
 msgid "Hide and reveal the panel according to preferences"
 msgstr "Afficher/Cacher le panneau selon les préférences"

@@ -1277,6 +1277,14 @@ msgstr "기본 패널 위치 화면표시"
 msgid "Display panels on all monitors"
 msgstr "모든 모니터의 패널화면표시"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "보조 패널에 주 패널 복제"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "주 패널의 확장 기능 표시기를 모든 패널에 표시합니다"
+
 #: ui/SettingsPosition.ui.h:4
 msgid "Panel Intellihide"
 msgstr "패널 지능적 숨김"

@@ -704,6 +704,14 @@ msgstr "Hlavný panel zobraziť na"
 msgid "Display panels on all monitors"
 msgstr "Zobraziť panel na všetkých monitoroch"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Klonovať hlavný panel na sekundárne panely"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Zobraziť indikátory rozšírení hlavného panela na všetkých paneloch"
+
 #: ui/SettingsPosition.ui:49
 msgid "Hide and reveal the panel according to preferences"
 msgstr "Zobraziť/skryť panel podľa nastavení"

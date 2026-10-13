@@ -1258,6 +1258,14 @@ msgstr "将主面板显示于"
 msgid "Display panels on all monitors"
 msgstr "在所有显示器上显示面板"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "在辅助面板上克隆主面板"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "在所有面板上显示主面板的扩展指示器"
+
 #: ui/SettingsPosition.ui.h:4
 msgid "Panel Intellihide"
 msgstr "面板智能隐藏"

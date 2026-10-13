@@ -1314,6 +1314,14 @@ msgstr "Hoofdpaneel tonen op"
 msgid "Display panels on all monitors"
 msgstr "Panelen op alle beeldschermen tonen"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Hoofdpaneel klonen op secundaire panelen"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Toon de extensie-indicatoren van het hoofdpaneel op alle panelen"
+
 #: ui/SettingsPosition.ui.h:4
 msgid "Panel Intellihide"
 msgstr "Intelligent verbergen"

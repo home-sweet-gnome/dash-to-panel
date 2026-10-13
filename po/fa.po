@@ -1274,6 +1274,14 @@ msgstr "نمایش تابلو اصلی روی"
 msgid "Display panels on all monitors"
 msgstr "نمایش تابلوها روی همه نمایشگرها"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "همسان‌سازی پنل اصلی در پنل‌های ثانویه"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "نمایش نشانگرهای افزونه‌های پنل اصلی در همه پنل‌ها"
+
 #: ui/SettingsPosition.ui.h:4
 msgid "Panel Intellihide"
 msgstr "پنهان‌کردن هوشمند تابلو"

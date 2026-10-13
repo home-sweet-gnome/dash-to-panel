@@ -1332,6 +1332,14 @@ msgstr "Əsas paneli bunun üzərində göstər"
 msgid "Display panels on all monitors"
 msgstr "Panelləri bütün monitorlarda göstər"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Əsas paneli ikinci dərəcəli panellərdə klonla"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Əsas panelin genişləndirmə göstəricilərini bütün panellərdə göstər"
+
 #: ui/SettingsPosition.ui:49
 msgid "Hide and reveal the panel according to preferences"
 msgstr "Paneli seçimlərə uyğun gizlət və aşkar et"

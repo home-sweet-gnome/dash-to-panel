@@ -1289,6 +1289,14 @@ msgstr "Hauptleiste anzeigen auf"
 msgid "Display panels on all monitors"
 msgstr "Leisten auf allen Bildschirmen anzeigen"
 
+#: ui/SettingsPosition.ui.h:6
+msgid "Clone the main panel on secondary panels"
+msgstr "Hauptleiste auf sekundären Leisten klonen"
+
+#: ui/SettingsPosition.ui.h:7
+msgid "Show the main panel's extension indicators on all panels"
+msgstr "Die Erweiterungsanzeigen der Hauptleiste auf allen Leisten anzeigen"
+
 #: ui/SettingsPosition.ui.h:5
 msgid "Panel Intellihide"
 msgstr "Automatisches Ausblenden"

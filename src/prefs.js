@@ -1179,8 +1179,23 @@ const Preferences = class {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
+    this._settings.bind(
+      'clone-main-panel',
+      this._builder.get_object('multimon_clone_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'multi-monitors',
+      this._builder.get_object('multimon_clone_switch'),
+      'sensitive',
+      Gio.SettingsBindFlags.GET,
+    )
+
     if (this.monitors.length === 1) {
       this._builder.get_object('multimon_multi_switch').set_sensitive(false)
+      this._builder.get_object('multimon_clone_switch').set_sensitive(false)
     }
 
     let panelLengthScale = {
