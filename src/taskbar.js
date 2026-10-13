@@ -563,28 +563,9 @@ export const Taskbar = class extends EventEmitter {
     // Skip to avoid double events mouse
     if (event.is_pointer_emulated()) return Clutter.EVENT_STOP
 
-    let adjustment, delta
-
-    adjustment = this._scrollView[orientation[0] + 'adjustment']
-
+    let adjustment = this._scrollView[orientation[0] + 'adjustment']
     let increment = adjustment.step_increment
-
-    switch (event.get_scroll_direction()) {
-      case Clutter.ScrollDirection.UP:
-      case Clutter.ScrollDirection.LEFT:
-        delta = -increment
-        break
-      case Clutter.ScrollDirection.DOWN:
-      case Clutter.ScrollDirection.RIGHT:
-        delta = +increment
-        break
-      case Clutter.ScrollDirection.SMOOTH: {
-        let [dx, dy] = event.get_scroll_delta()
-        delta = dy * increment
-        delta += dx * increment
-        break
-      }
-    }
+    let delta = Utils.getMouseScrollDelta(event, increment)
 
     adjustment.set_value(adjustment.get_value() + delta)
 

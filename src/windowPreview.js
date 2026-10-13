@@ -430,19 +430,7 @@ export const PreviewMenu = GObject.registerClass(
         let vOrh = this.panel.geom.vertical ? 'v' : 'h'
         let adjustment = this._scrollView[`${vOrh}adjustment`]
         let increment = adjustment.step_increment
-        let delta = increment
-
-        switch (event.get_scroll_direction()) {
-          case Clutter.ScrollDirection.UP:
-            delta = -increment
-            break
-          case Clutter.ScrollDirection.SMOOTH: {
-            let [dx, dy] = event.get_scroll_delta()
-            delta = dy * increment
-            delta += dx * increment
-            break
-          }
-        }
+        let delta = Utils.getMouseScrollDelta(event, increment)
 
         adjustment.set_value(adjustment.get_value() + delta)
         this._updateScrollFade()
