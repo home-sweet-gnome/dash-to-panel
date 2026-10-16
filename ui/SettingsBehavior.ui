@@ -144,9 +144,10 @@
         </child>
         <child>
           <object class="AdwActionRow">
-            <property name="title" translatable="yes">Auto-rearrange apps by workspace</property>
+            <property name="title" translatable="yes">Sort apps by window position</property>
+            <property name="subtitle" translatable="yes">Order icons by where their windows are on screen, prioritizing the current workspace</property>
             <child>
-              <object class="GtkSwitch" id="reorder_by_workspace_switch">
+              <object class="GtkSwitch" id="sort_apps_by_window_position_switch">
                 <property name="valign">center</property>
               </object>
             </child>

@@ -625,10 +625,10 @@
       <summary>Provide workspace isolation</summary>
       <description>Dash shows only windows from the current workspace</description>
     </key>
-    <key type="b" name="reorder-by-workspace">
+    <key type="b" name="sort-apps-by-window-position">
       <default>false</default>
-      <summary>Auto-rearrange apps by workspace</summary>
-      <description>Automatically prioritize application icons from the current workspace in the taskbar</description>
+      <summary>Sort apps by window position</summary>
+      <description>Order taskbar icons by the on-screen position of their windows, prioritizing windows of the current workspace</description>
     </key>
      <key type="b" name="overview-click-to-exit">
       <default>false</default>

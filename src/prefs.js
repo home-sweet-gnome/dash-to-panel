@@ -2570,8 +2570,8 @@ const Preferences = class {
     )
 
     this._settings.bind(
-      'reorder-by-workspace',
-      this._builder.get_object('reorder_by_workspace_switch'),
+      'sort-apps-by-window-position',
+      this._builder.get_object('sort_apps_by_window_position_switch'),
       'active',
       Gio.SettingsBindFlags.DEFAULT,
     )

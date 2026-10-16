@@ -55,6 +55,15 @@ const T1 = 'ensureAppIconVisibilityTimeout'
 const T2 = 'showLabelTimeout'
 const T3 = 'resetHoverTimeout'
 
+// Meta.Window signals that may change the on-screen position ordering of an app
+const WINDOW_GEOM_SIGNALS = [
+  'position-changed',
+  'size-changed',
+  'workspace-changed',
+  'notify::minimized',
+  'notify::mapped',
+]
+
 /**
  * Extend DashItemContainer
  *
@@ -240,7 +249,10 @@ export const Taskbar = class extends EventEmitter {
 
     this._shownInitially = false
 
-    this._workspacePositions = {}
+    // per-redisplay cache of the on-screen position of each running app
+    this._appPositionsCache = new Map()
+    // window geometry signals, used to dynamically reorder apps by position
+    this._windowGeomSignals = new Map()
 
     this._signalsHandler = new Utils.GlobalSignalsHandler()
     this._timeoutsHandler = new Utils.TimeoutsHandler()
@@ -367,13 +379,12 @@ export const Taskbar = class extends EventEmitter {
         () => this._connectWorkspaceSignals(),
       ],
       [
-        global.window_manager,
-        'window-entered-monitor',
+        Utils.DisplayWrapper.getWorkspaceManager(),
+        'active-workspace-changed',
         () => {
-          if (
-            SETTINGS.get_boolean('isolate-monitors') ||
-            SETTINGS.get_boolean('reorder-by-workspace')
-          ) {
+          // re-sort by window position on workspace change so that the apps of
+          // the newly active workspace are brought to the front
+          if (SETTINGS.get_boolean('sort-apps-by-window-position')) {
             this._queueRedisplay()
           }
         },
@@ -382,7 +393,10 @@ export const Taskbar = class extends EventEmitter {
         Utils.DisplayWrapper.getScreen(),
         ['window-entered-monitor', 'window-left-monitor'],
         () => {
-          if (SETTINGS.get_boolean('isolate-monitors')) {
+          if (
+            SETTINGS.get_boolean('isolate-monitors') ||
+            SETTINGS.get_boolean('sort-apps-by-window-position')
+          ) {
             this._queueRedisplay()
           }
         },
@@ -417,7 +431,14 @@ export const Taskbar = class extends EventEmitter {
           this._connectWorkspaceSignals()
         },
       ],
-      [SETTINGS, 'changed::reorder-by-workspace', () => this.resetAppIcons()],
+      [
+        SETTINGS,
+        'changed::sort-apps-by-window-position',
+        () => {
+          this._syncWindowGeomSignals()
+          this.resetAppIcons()
+        },
+      ],
       [
         SETTINGS,
         [
@@ -462,7 +483,8 @@ export const Taskbar = class extends EventEmitter {
       this._waitIdleId = 0
     }
 
-    this._workspacePositions = null
+    this._appPositionsCache = null
+    this._disconnectWindowGeomSignals()
 
     this._timeoutsHandler.destroy()
     this.iconAnimator.destroy()
@@ -580,28 +602,9 @@ export const Taskbar = class extends EventEmitter {
     // Skip to avoid double events mouse
     if (event.is_pointer_emulated()) return Clutter.EVENT_STOP
 
-    let adjustment, delta
-
-    adjustment = this._scrollView[orientation[0] + 'adjustment']
-
+    let adjustment = this._scrollView[orientation[0] + 'adjustment']
     let increment = adjustment.step_increment
-
-    switch (event.get_scroll_direction()) {
-      case Clutter.ScrollDirection.UP:
-      case Clutter.ScrollDirection.LEFT:
-        delta = -increment
-        break
-      case Clutter.ScrollDirection.DOWN:
-      case Clutter.ScrollDirection.RIGHT:
-        delta = +increment
-        break
-      case Clutter.ScrollDirection.SMOOTH: {
-        let [dx, dy] = event.get_scroll_delta()
-        delta = dy * increment
-        delta += dx * increment
-        break
-      }
-    }
+    let delta = Utils.getMouseScrollDelta(event, increment)
 
     adjustment.set_value(adjustment.get_value() + delta)
 
@@ -757,6 +760,55 @@ export const Taskbar = class extends EventEmitter {
 
   _queueRedisplay() {
     Main.queueDeferredWork(this._workId)
+  }
+
+  // Keeps geometry signals connected to the interesting windows so that moving,
+  // resizing, minimizing or moving a window across workspaces reorders the icons
+  _syncWindowGeomSignals() {
+    if (!SETTINGS.get_boolean('sort-apps-by-window-position')) {
+      this._disconnectWindowGeomSignals()
+      return
+    }
+
+    let windows = Utils.getAllMetaWindows().filter((w) => !w.skip_taskbar)
+    let present = new Set(windows)
+
+    for (let [window, ids] of this._windowGeomSignals) {
+      if (!present.has(window)) {
+        this._disconnectWindowSignals(window, ids)
+        this._windowGeomSignals.delete(window)
+      }
+    }
+
+    for (let window of windows) {
+      if (this._windowGeomSignals.has(window)) continue
+
+      let ids = WINDOW_GEOM_SIGNALS.map((signal) =>
+        window.connect(signal, () => this._queueRedisplay()),
+      )
+
+      this._windowGeomSignals.set(window, ids)
+    }
+  }
+
+  _disconnectWindowSignals(window, ids) {
+    for (let id of ids) {
+      try {
+        window.disconnect(id)
+      } catch {
+        // the window may already be destroyed
+      }
+    }
+  }
+
+  _disconnectWindowGeomSignals() {
+    if (!this._windowGeomSignals) return
+
+    for (let [window, ids] of this._windowGeomSignals) {
+      this._disconnectWindowSignals(window, ids)
+    }
+
+    this._windowGeomSignals.clear()
   }
 
   _hookUpLabel(item, syncHandler) {
@@ -1022,54 +1074,95 @@ export const Taskbar = class extends EventEmitter {
     if (favIndexA >= 0) return -1
     if (favIndexB >= 0) return 1
 
-    if (SETTINGS.get_boolean('reorder-by-workspace')) {
-      let mutterSettings = new Gio.Settings({ schema_id: 'org.gnome.mutter' })
-      let workspacesOnlyOnPrimary = mutterSettings.get_boolean('workspaces-only-on-primary')
-      if (!workspacesOnlyOnPrimary || this.dtpPanel.isPrimary) {
-        const getAppWorkspaceIndex = (app) => {
-          let windows = AppIcons.getInterestingWindows(app, this.dtpPanel.monitor)
-          if (!windows || windows.length === 0) return -1
+    let sortByPosition = SETTINGS.get_boolean('sort-apps-by-window-position')
 
-          let minIdx = Infinity
-          for (let w of windows) {
-            if (w.is_on_all_workspaces()) {
-              return 0
-            }
-            let ws = w.get_workspace()
-            if (!ws) continue
-            let idx = ws.index()
-            if (idx < minIdx) minIdx = idx
-          }
-          return minIdx === Infinity ? -1 : minIdx
+    if (sortByPosition) {
+      let infoA = this._appPositionsCache.get(appA)
+      let infoB = this._appPositionsCache.get(appB)
+
+      if (infoA && infoB) {
+        // apps of the current workspace first, then the remaining workspaces in order
+        if (infoA.workspace !== infoB.workspace) {
+          return infoA.workspace - infoB.workspace
         }
-
-        let wsA = getAppWorkspaceIndex(appA)
-        let wsB = getAppWorkspaceIndex(appB)
-
-        if (wsA !== wsB) {
-          return wsA - wsB
-        }
-
-        let wsIndex = wsA
-        if (wsIndex !== -1) {
-          let positions = this._workspacePositions ? this._workspacePositions[wsIndex] : null
-          if (positions) {
-            let posA = positions.get(appA.get_id())
-            let posB = positions.get(appB.get_id())
-            if (posA !== undefined || posB !== undefined) {
-              let pA = posA !== undefined ? posA : Infinity
-              let pB = posB !== undefined ? posB : Infinity
-              if (pA !== pB) return pA - pB
-            }
-          }
+        // within the same workspace, follow the window's on-screen position
+        if (infoA.position !== infoB.position) {
+          return infoA.position - infoB.position
         }
       }
     }
 
+    // when sorting by position ignore any manual (drag) position so that icons
+    // really follow their windows, otherwise fall back to the launch order
     return (
-      getAppStableSequence(appA, this.dtpPanel.monitor) -
-      getAppStableSequence(appB, this.dtpPanel.monitor)
+      getAppStableSequence(appA, this.dtpPanel.monitor, sortByPosition) -
+      getAppStableSequence(appB, this.dtpPanel.monitor, sortByPosition)
     )
+  }
+
+  // Builds a per-redisplay map of the on-screen position of each running app.
+  // Only non-minimized windows that pass the current isolation settings count.
+  _buildAppPositionsCache(apps) {
+    let cache = new Map()
+    let currentWorkspaceIndex = Utils.getCurrentWorkspace().index()
+    let vertical = this.dtpPanel.geom.vertical
+    let rtl = Clutter.get_default_text_direction() === Clutter.TextDirection.RTL
+
+    for (let app of apps) {
+      let windows = AppIcons.getInterestingWindows(app, this.dtpPanel.monitor)
+        // minimized windows have no meaningful on-screen position
+        .filter((w) => !w.minimized)
+
+      let currentPosition = Infinity
+      let otherPosition = Infinity
+      let otherWorkspaceIndex = Infinity
+
+      for (let window of windows) {
+        let rect = window.get_frame_rect()
+        let position = vertical ? rect.y : rect.x
+        // on RTL horizontal panels the icon order is mirrored
+        if (!vertical && rtl) position = -position
+
+        let workspace = window.get_workspace()
+        let workspaceIndex = workspace ? workspace.index() : Infinity
+
+        if (
+          window.is_on_all_workspaces() ||
+          workspaceIndex === currentWorkspaceIndex
+        ) {
+          currentPosition = Math.min(currentPosition, position)
+          continue
+        }
+
+        if (workspaceIndex < otherWorkspaceIndex) {
+          otherWorkspaceIndex = workspaceIndex
+          otherPosition = position
+        } else if (workspaceIndex === otherWorkspaceIndex) {
+          otherPosition = Math.min(otherPosition, position)
+        }
+      }
+
+      let workspace
+      let position
+
+      if (currentPosition !== Infinity) {
+        // apps with windows on the active workspace come first
+        workspace = 0
+        position = currentPosition
+      } else if (otherWorkspaceIndex !== Infinity) {
+        // then apps of the remaining workspaces, in workspace order
+        workspace = 1 + otherWorkspaceIndex
+        position = otherPosition
+      } else {
+        // apps without any (non-minimized) window go last
+        workspace = Infinity
+        position = Infinity
+      }
+
+      cache.set(app, { workspace, position })
+    }
+
+    return cache
   }
 
   getAppInfos() {
@@ -1081,9 +1174,16 @@ export const Taskbar = class extends EventEmitter {
     //find the apps that should be in the taskbar: the favorites first, then add the running apps
     // When using isolation, we filter out apps that have no windows in
     // the current workspace (this check is done in AppIcons.getInterestingWindows)
-    let runningApps = this.showRunningApps
-      ? this._getRunningApps().sort(this.sortAppsCompareFunction.bind(this))
-      : []
+    let runningApps = this.showRunningApps ? this._getRunningApps() : []
+
+    // build a per-redisplay cache of the on-screen position of each running app
+    this._appPositionsCache = SETTINGS.get_boolean(
+      'sort-apps-by-window-position',
+    )
+      ? this._buildAppPositionsCache(runningApps)
+      : new Map()
+
+    runningApps.sort(this.sortAppsCompareFunction.bind(this))
     let appInfos
 
     if (this.allowSplitApps) {
@@ -1215,6 +1315,8 @@ export const Taskbar = class extends EventEmitter {
     this._updateHotkeysNumberOverlay()
 
     this._shownInitially = true
+
+    this._syncWindowGeomSignals()
   }
 
   _getRunningApps() {
@@ -1522,17 +1624,6 @@ export const Taskbar = class extends EventEmitter {
     }
 
     appFavorites.emit('changed')
-
-    if (SETTINGS.get_boolean('reorder-by-workspace')) {
-      if (!this._workspacePositions)
-        this._workspacePositions = {}
-      let wsIndex = Utils.getCurrentWorkspace().index()
-      if (!this._workspacePositions[wsIndex])
-        this._workspacePositions[wsIndex] = new Map()
-      for (let i = 0; i < appIcons.length; i++) {
-        this._workspacePositions[wsIndex].set(appIcons[i].app.get_id(), i)
-      }
-    }
 
     return true
   }
@@ -1888,11 +1979,14 @@ const DragPlaceholderItem = GObject.registerClass(
   },
 )
 
-export function getAppStableSequence(app, monitor) {
+export function getAppStableSequence(app, monitor, ignoreDtpPosition) {
   let windows = AppIcons.getInterestingWindows(app, monitor)
 
   return windows.reduce((prevWindow, window) => {
-    return Math.min(prevWindow, getWindowStableSequence(window))
+    return Math.min(
+      prevWindow,
+      getWindowStableSequence(window, ignoreDtpPosition),
+    )
   }, Infinity)
 }
 
@@ -1900,8 +1994,8 @@ export function sortWindowsCompareFunction(windowA, windowB) {
   return getWindowStableSequence(windowA) - getWindowStableSequence(windowB)
 }
 
-export function getWindowStableSequence(window) {
-  return '_dtpPosition' in window
+export function getWindowStableSequence(window, ignoreDtpPosition) {
+  return !ignoreDtpPosition && '_dtpPosition' in window
     ? window._dtpPosition
     : window.get_stable_sequence()
 }
