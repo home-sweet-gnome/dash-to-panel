@@ -2569,6 +2569,13 @@ const Preferences = class {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
+    this._settings.bind(
+      'sort-apps-by-window-position',
+      this._builder.get_object('sort_apps_by_window_position_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
     let appSwitcherSettings = new Gio.Settings({
       schema_id: 'org.gnome.shell.app-switcher',
     })

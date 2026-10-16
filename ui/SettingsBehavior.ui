@@ -144,6 +144,17 @@
         </child>
         <child>
           <object class="AdwActionRow">
+            <property name="title" translatable="yes">Sort apps by window position</property>
+            <property name="subtitle" translatable="yes">Order icons by where their windows are on screen, prioritizing the current workspace</property>
+            <child>
+              <object class="GtkSwitch" id="sort_apps_by_window_position_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="AdwActionRow">
             <property name="title" translatable="yes">Isolate monitors</property>
             <child>
               <object class="GtkButton" id="isolate_monitors_button">
