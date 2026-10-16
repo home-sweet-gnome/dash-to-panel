@@ -32,6 +32,7 @@ import St from 'gi://St'
 
 import * as AppDisplay from 'resource:///org/gnome/shell/ui/appDisplay.js'
 import * as AppMenu from 'resource:///org/gnome/shell/ui/appMenu.js'
+import * as Config from 'resource:///org/gnome/shell/misc/config.js'
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js'
 import * as DND from 'resource:///org/gnome/shell/ui/dnd.js'
 import * as Main from 'resource:///org/gnome/shell/ui/main.js'
@@ -1290,7 +1291,11 @@ export const TaskbarAppIcon = GObject.registerClass(
         this._launchNewInstance()
       }
 
-      global.display.emit('grab-op-begin', null, null)
+      let args = ['grab-op-begin', null, null]
+
+      if (Config.PACKAGE_VERSION >= '51') args.push(null)
+
+      global.display.emit.apply(global.display, args)
       Main.overview.hide()
     }
 

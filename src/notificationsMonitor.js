@@ -127,7 +127,9 @@ export const NotificationsMonitor = class extends EventEmitter {
 
     this._state[appId].total =
       ((this._state[appId]['count-visible'] || 0) &&
-        (this._state[appId].count || 0)) + (this._state[appId].trayCount || 0)
+        (this._state[appId].count || 0)) ||
+      this._state[appId].trayCount ||
+      0
 
     return currenState != JSON.stringify(this._state[appId])
   }

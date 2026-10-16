@@ -76,8 +76,6 @@ const T7 = 'waitPanelBoxAllocation'
 
 const MIN_PANEL_SIZE = 22
 
-export const GS_PANEL_SIZE = 32
-
 export const Panel = GObject.registerClass(
   {},
   class Panel extends St.Widget {
@@ -806,7 +804,7 @@ export const Panel = GObject.registerClass(
         SETTINGS.get_boolean('stockgs-keep-top-panel') &&
         Main.layoutManager.primaryMonitor == this.monitor
       ) {
-        gsTopPanelHeight = GS_PANEL_SIZE
+        gsTopPanelHeight = this.panelManager.gsTopPanelHeight
         topOffset = position == St.Side.TOP ? gsTopPanelHeight : 0
       }
 
@@ -1443,7 +1441,9 @@ export const Panel = GObject.registerClass(
         if (this._showDesktopButton) return
 
         this._showDesktopButton = new St.Bin({
-          style_class: 'showdesktop-button',
+          style_class: this.geom.vertical
+            ? 'showdesktop-button-vertical'
+            : 'showdesktop-button',
           reactive: true,
           can_focus: true,
           // x_fill: true,
@@ -1647,11 +1647,14 @@ export const Panel = GObject.registerClass(
         ) {
           let proto = Volume.OutputIndicator.prototype
           let func =
+            proto._handleScroll ||
             proto._handleScrollEvent ||
             proto.vfunc_scroll_event ||
             proto._onScrollEvent
           let indicator =
             Main.panel.statusArea[Utils.getSystemMenuInfo().name]._volumeOutput
+
+          if (proto._handleScroll) event = Utils.getMouseScrollDelta(event, 1)
 
           if (indicator.quickSettingsItems)
             // new quick settings menu in gnome-shell > 42
