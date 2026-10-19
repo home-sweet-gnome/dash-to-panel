@@ -176,6 +176,7 @@ export default class DashToPanelExtension extends Extension {
     this.disableGlobalStyles()
 
     AppIcons.resetRecentlyClickedApp()
+    Utils.clearDominantColorCache()
 
     if (startupCompleteHandler) {
       Main.layoutManager.disconnect(startupCompleteHandler)

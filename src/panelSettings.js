@@ -56,7 +56,14 @@ export async function init(settings) {
 }
 
 export async function disable(settings) {
-  settings.disconnect(prefsOpenedId)
+  if (prefsOpenedId) {
+    settings.disconnect(prefsOpenedId)
+    prefsOpenedId = null
+  }
+  useCache = false
+  cache = {}
+  monitorIdToIndex = {}
+  monitorIndexToId = {}
 }
 
 export function clearCache(setting) {

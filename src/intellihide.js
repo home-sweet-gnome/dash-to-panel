@@ -161,6 +161,7 @@ export const Intellihide = class {
   }
 
   destroy() {
+    this._destroyed = true
     SETTINGS.disconnect(this._intellihideChangedId)
     SETTINGS.disconnect(this._intellihideOnlySecondaryChangedId)
 
@@ -308,12 +309,12 @@ export const Intellihide = class {
       ])
     }
 
-    PointerWatcher.getPointerWatcher().then(
-      (w) =>
-        (this._pointerWatch = w.addWatch(CHECK_POINTER_MS, (x, y) =>
-          this._checkMousePointer(x, y),
-        )),
-    )
+    this._pointerWatchPromise = PointerWatcher.getPointerWatcher().then((w) => {
+      if (this._destroyed) return
+      this._pointerWatch = w.addWatch(CHECK_POINTER_MS, (x, y) =>
+        this._checkMousePointer(x, y),
+      )
+    })
   }
 
   _removeRevealMechanism() {
@@ -322,6 +323,16 @@ export const Intellihide = class {
         w._removeWatch(this._pointerWatch)
         this._pointerWatch = 0
       })
+    } else if (this._pointerWatchPromise) {
+      this._pointerWatchPromise.then(() => {
+        if (this._pointerWatch) {
+          PointerWatcher.getPointerWatcher().then((w) => {
+            w._removeWatch(this._pointerWatch)
+            this._pointerWatch = 0
+          })
+        }
+      })
+      this._pointerWatchPromise = null
     }
 
     if (this._pressureBarrier) {
