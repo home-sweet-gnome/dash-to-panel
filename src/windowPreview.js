@@ -403,7 +403,7 @@ export const PreviewMenu = GObject.registerClass(
         [Utils.getCurrentWorkspace().index()]: 1,
       }
 
-      windows.forEach((w) => (workspaces[w.get_workspace().index()] = 1))
+      windows.forEach((w) => w.get_workspace() && (workspaces[w.get_workspace().index()] = 1))
 
       this._displayWorkspaces = Object.keys(workspaces).length > 1
     }
@@ -1146,7 +1146,7 @@ export const Preview = GObject.registerClass(
         }
       })
 
-      if (this.window.get_workspace() != currentWorkspace) {
+      if (this.window?.get_workspace() != currentWorkspace) {
         let menuItem = new PopupMenu.PopupMenuItem(
           _('Move to current Workspace') +
             ' [' +
@@ -1202,7 +1202,7 @@ export const Preview = GObject.registerClass(
         this._iconBin.add_child(icon)
 
         if (this._previewMenu.shouldDisplayWorkspaceNumbers()) {
-          workspaceIndex = (this.window.get_workspace().index() + 1).toString()
+          workspaceIndex = ((this.window.get_workspace()?.index() ?? -1) + 1).toString()
           workspaceStyle =
             'margin: 0 4px 0 ' +
             (isLeftButtons

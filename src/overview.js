@@ -178,7 +178,7 @@ export const Overview = class {
       let activeWorkspace =
         Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace()
       let windows = this.get_windows().filter(
-        (w) => w.get_workspace().index() == activeWorkspace.index(),
+        (w) => w.get_workspace()?.index() == activeWorkspace.index(),
       )
 
       if (
