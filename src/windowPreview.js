@@ -1202,7 +1202,8 @@ export const Preview = GObject.registerClass(
         this._iconBin.add_child(icon)
 
         if (this._previewMenu.shouldDisplayWorkspaceNumbers()) {
-          workspaceIndex = ((this.window.get_workspace()?.index() ?? -1) + 1).toString()
+          let workspace = this.window.get_workspace()
+          workspaceIndex = workspace ? (workspace.index() + 1).toString() : ''
           workspaceStyle =
             'margin: 0 4px 0 ' +
             (isLeftButtons
