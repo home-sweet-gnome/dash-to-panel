@@ -1319,7 +1319,7 @@ export const TaskbarAppIcon = GObject.registerClass(
         let windows =
           this.window && this.window.get_workspace()
             ? [this.window]
-            : this.app.get_windows()
+            : this.app.get_windows().filter((w) => w.get_workspace())
 
         if (windows.length) {
           Main.activateWindow(windows[0])
@@ -1787,14 +1787,13 @@ export function activateAllWindows(app, monitor) {
   if (windows.length <= 0) return
 
   let w = windows[0]
-  if (w.get_workspace()) Main.activateWindow(w)
+  Main.activateWindow(w)
 
   let activeWorkspace =
     Utils.DisplayWrapper.getWorkspaceManager().get_active_workspace_index()
 
   for (let i = windows.length - 1; i >= 0; i--) {
-    let workspace = windows[i].get_workspace()
-    if (workspace && workspace.index() == activeWorkspace) {
+    if (windows[i].get_workspace().index() == activeWorkspace) {
       Main.activateWindow(windows[i])
     }
   }
@@ -1827,8 +1826,9 @@ export function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
   if (
     !recentlyClickedApp ||
     recentlyClickedApp.get_id() != app.get_id() ||
+    recentlyClickedAppMonitorIndex != monitor.index ||
     recentlyClickedAppWindows.length != app_windows.length ||
-    recentlyClickedAppMonitorIndex != monitor.index
+    !recentlyClickedAppWindows.every((w) => app_windows.includes(w))
   ) {
     recentlyClickedApp = app
     recentlyClickedAppWindows = app_windows
@@ -1848,7 +1848,7 @@ export function cycleThroughWindows(app, reversed, shouldMinimize, monitor) {
   let target = recentlyClickedAppWindows[index]
 
   if (target === 'MINIMIZE') minimizeWindow(app, true, monitor)
-  else if (target && target.get_workspace()) Main.activateWindow(target)
+  else if (target) Main.activateWindow(target)
 }
 
 export function resetRecentlyClickedApp() {
@@ -1873,16 +1873,14 @@ export function closeAllWindows(app, monitor) {
 // nautilus desktop window.
 export function getInterestingWindows(app, monitor, isolateMonitors) {
   let windows = (app ? app.get_windows() : Utils.getAllMetaWindows()).filter(
-    (w) => !w.skip_taskbar,
+    (w) => !w.skip_taskbar && w.get_workspace(),
   )
 
   // When using workspace or monitor isolation, we filter out windows
   // that are not in the current workspace or on the same monitor as the appicon
   if (SETTINGS.get_boolean('isolate-workspaces'))
     windows = windows.filter(function (w) {
-      return (
-        w.get_workspace() && w.get_workspace() == Utils.getCurrentWorkspace()
-      )
+      return w.get_workspace() == Utils.getCurrentWorkspace()
     })
 
   if (
