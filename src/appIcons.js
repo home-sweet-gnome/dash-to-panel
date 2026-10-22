@@ -1337,6 +1337,8 @@ export const TaskbarAppIcon = GObject.registerClass(
       }
 
       this._previewMenu.update(this, windows)
+
+      if (this._numberOverlayBin) this._handleNotifications()
     }
 
     _getRunningIndicatorCount() {
@@ -1619,27 +1621,34 @@ export const TaskbarAppIcon = GObject.registerClass(
     }
 
     _handleNotifications() {
-      if (!this._nWindows && !this.window) return
-
       let monitor = this.dtpPanel.panelManager.notificationsMonitor
       let state = monitor.getState(this.app)
       let count = 0
 
-      if (!state) return
-
-      if (SETTINGS.get_boolean('progress-show-count')) {
+      if (
+        state &&
+        (this._nWindows || this.window) &&
+        SETTINGS.get_boolean('progress-show-count')
+      ) {
         this.iconAnimator[`${state.urgent ? 'add' : 'remove'}Animation`](
           this.icon._iconBin,
           'dance',
         )
 
-        if (state.total) {
-          count = state.total > 9 ? '9+' : state.total
-          this.dtpPanel.intellihide.revealAndHold(Hold.NOTIFY)
-        } else this.dtpPanel.intellihide.release(Hold.NOTIFY)
+        if (state.total) count = state.total > 9 ? '9+' : state.total
+      } else {
+        this.iconAnimator.removeAnimation(this.icon._iconBin, 'dance')
       }
 
       this._notificationsCount = count
+
+      if (count) this.dtpPanel.intellihide.revealAndHold(Hold.NOTIFY)
+      else if (
+        !this.dtpPanel.taskbar
+          ._getAppIcons()
+          .some((icon) => icon._notificationsCount)
+      )
+        this.dtpPanel.intellihide.release(Hold.NOTIFY)
 
       this._maybeUpdateNumberOverlay()
     }

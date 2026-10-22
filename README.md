@@ -19,6 +19,14 @@ Dash to Panel is an icon taskbar for Gnome Shell. This extension moves the dash 
 
 Beyond that, just about every aspect of the panel is fully customizable. From positioning and scaling panel elements to running indicators to multi-monitor display, to window previews and even intellihide, Dash to Panel has everything you need to make your workspace feel like home.
 
+### Notification badges
+
+Applications that publish a launcher unread count control their badge, including zero and hidden counts. Focusing a window clears notification-tray counts, not the application's unread count. Applications without a launcher count continue to use notification-tray counts.
+
+Badges are hidden when an icon has no corresponding windows. Reopening a window restores the application's last published count while its publisher is still connected. Counts above nine are displayed as `9+`.
+
+Run `npm test` to check badge count and window lifecycle behavior without a running GNOME Shell. Rendering and panel layout still require verification in a GNOME session.
+
 ### Features
 
 |Customizable appearance|
