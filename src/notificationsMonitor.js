@@ -35,7 +35,6 @@ export const NotificationsMonitor = class extends EventEmitter {
     this._state = {}
     this._signalsHandler = new Utils.GlobalSignalsHandler()
 
-    // pretty much useless, but might as well keep it for now
     this._launcherEntryId = Gio.DBus.session.signal_subscribe(
       null, // sender
       'com.canonical.Unity.LauncherEntry', // iface
@@ -53,6 +52,23 @@ export const NotificationsMonitor = class extends EventEmitter {
       ) => this._handleLauncherUpdate(senderName, parameters),
     )
 
+    this._nameOwnerChangedId = Gio.DBus.session.signal_subscribe(
+      'org.freedesktop.DBus',
+      'org.freedesktop.DBus',
+      'NameOwnerChanged',
+      '/org/freedesktop/DBus',
+      null,
+      Gio.DBusSignalFlags.NONE,
+      (
+        connection,
+        senderName,
+        objectPath,
+        interfaceName,
+        signalName,
+        parameters,
+      ) => this._handleNameOwnerChanged(parameters),
+    )
+
     this._signalsHandler.add([
       tracker,
       'notify::focus-app',
@@ -61,7 +77,7 @@ export const NotificationsMonitor = class extends EventEmitter {
 
         // reset notifications from message tray on app focus
         if (tracker.focus_app && this._state[appId])
-          this._updateState(tracker.focus_app.id, this._getDefaultState(), true)
+          this._updateState(appId, { trayCount: 0, trayUrgent: false }, true)
       },
     ])
     this._acquireUnityDBus()
@@ -72,12 +88,14 @@ export const NotificationsMonitor = class extends EventEmitter {
   destroy() {
     if (this._launcherEntryId)
       Gio.DBus.session.signal_unsubscribe(this._launcherEntryId)
+    if (this._nameOwnerChangedId)
+      Gio.DBus.session.signal_unsubscribe(this._nameOwnerChangedId)
 
     this._releaseUnityDBus()
     this._signalsHandler.destroy()
   }
 
-  _updateState(appId, state, ignoreMapping) {
+  _normalizeAppId(appId, ignoreMapping) {
     // depending of the notification source, some app id end
     // with ".desktop" and some don't ¯\_(ツ)_/¯
     appId = appId.replace('.desktop', '')
@@ -90,7 +108,11 @@ export const NotificationsMonitor = class extends EventEmitter {
           knownIdMappings[k].some((regex) => appId.match(regex)),
         ) || appId
 
-    appId = `${appId}.desktop`
+    return `${appId}.desktop`
+  }
+
+  _updateState(appId, state, ignoreMapping) {
+    appId = this._normalizeAppId(appId, ignoreMapping)
     this._state[appId] = this._state[appId] || this._getDefaultState()
 
     if (this._mergeState(appId, state)) this.emit(`update-${appId}`)
@@ -99,6 +121,8 @@ export const NotificationsMonitor = class extends EventEmitter {
   _getDefaultState() {
     return {
       count: 0, // Unity
+      'count-visible': undefined,
+      launcherSender: null,
       trayCount: 0, // MessageTray
       trayUrgent: false, // MessageTray
       urgent: false, // Unity add MessageTray combined
@@ -115,21 +139,20 @@ export const NotificationsMonitor = class extends EventEmitter {
 
     this._state[appId] = Object.assign(this._state[appId], state)
 
-    if (tracker.focus_app?.id == appId) {
-      this._state[appId].count = 0
-      this._state[appId].trayCount = 0
-    }
+    if (tracker.focus_app?.id == appId) this._state[appId].trayCount = 0
 
     this._state[appId].urgent =
       state.urgent ||
       (this._state[appId].trayUrgent && this._state[appId].trayCount) ||
       false
 
+    let countVisible = this._state[appId]['count-visible']
     this._state[appId].total =
-      ((this._state[appId]['count-visible'] || 0) &&
-        (this._state[appId].count || 0)) ||
-      this._state[appId].trayCount ||
-      0
+      countVisible === undefined
+        ? this._state[appId].trayCount || 0
+        : countVisible
+          ? this._state[appId].count || 0
+          : 0
 
     return currenState != JSON.stringify(this._state[appId])
   }
@@ -163,15 +186,32 @@ export const NotificationsMonitor = class extends EventEmitter {
     for (let property in properties)
       updates[property] = properties[property].unpack()
 
+    if ('count' in updates || 'count-visible' in updates)
+      updates.launcherSender = senderName
+
     this._updateState(appId, updates)
   }
 
+  _handleNameOwnerChanged(parameters) {
+    let [name, , owner] = parameters.deep_unpack()
+
+    if (owner) return
+
+    for (let appId in this._state)
+      if (this._state[appId].launcherSender == name)
+        this._updateState(appId, this._getDefaultState(), true)
+  }
+
   _checkNotifications() {
-    let getSourceId = (source) =>
-      source?._appId ||
-      source?.app?.id ||
-      (source?.policy instanceof MessageTray.NotificationApplicationPolicy &&
-        source.policy.id)
+    let getSourceId = (source) => {
+      let appId =
+        source?._appId ||
+        source?.app?.id ||
+        (source?.policy instanceof MessageTray.NotificationApplicationPolicy &&
+          source.policy.id)
+
+      return appId ? this._normalizeAppId(appId) : null
+    }
     let addSource = (tray, source) => {
       let appId = getSourceId(source)
       let updateTray = () => {
@@ -205,7 +245,15 @@ export const NotificationsMonitor = class extends EventEmitter {
         (tray, source) => {
           let appId = getSourceId(source)
 
-          if (appId) this._signalsHandler.removeWithLabel(appId)
+          if (appId) {
+            this._signalsHandler.removeWithLabel(appId)
+            let remaining = Main.messageTray
+              .getSources()
+              .filter((s) => s !== source && getSourceId(s) == appId)
+
+            if (remaining.length) remaining.forEach((s) => addSource(null, s))
+            else this._updateState(appId, { trayCount: 0, trayUrgent: false })
+          }
         },
       ],
     )
