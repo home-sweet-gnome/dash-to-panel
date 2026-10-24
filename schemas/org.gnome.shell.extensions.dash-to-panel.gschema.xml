@@ -754,6 +754,10 @@
             "cmd": "gnome-system-monitor"
           },
           {
+            "title": "Resources",
+            "cmd": "resources"
+          },
+          {
             "title": "Files",
             "cmd": "nautilus"
           },
