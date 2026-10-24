@@ -955,6 +955,8 @@ export const Panel = GObject.registerClass(
       let allocateGroup = (group, tlLimit, brLimit) => {
         let startPosition = tlLimit
         let currentPosition = 0
+        let monitorCenterExpandLeftOffset = 0
+        let monitorCenterExpandRightOffset = 0
 
         if (group.expandableIndex >= 0) {
           let availableSize = brLimit - tlLimit
@@ -967,7 +969,8 @@ export const Panel = GObject.registerClass(
           if (
             centeredMonitorGroup &&
             (centeredMonitorGroup != group ||
-              expandable.position != Pos.CENTERED_MONITOR)
+              (expandable.position != Pos.CENTERED_MONITOR &&
+                expandable.position != Pos.CENTERED_MONITOR_EXPAND))
           ) {
             if (
               centeredMonitorGroup.index < group.index ||
@@ -996,7 +999,14 @@ export const Panel = GObject.registerClass(
             }
           }
 
-          if (group.isCentered) {
+          if (group.position == Pos.CENTERED_MONITOR_EXPAND) {
+            // Unlike normal centered groups, this mode expands into the free
+            // space on either side. Once it reaches the right-side elements,
+            // its right edge stays there and further growth shifts it left.
+            monitorCenterExpandLeftOffset = tlSize
+            monitorCenterExpandRightOffset = brSize
+            availableSize -= tlSize + brSize
+          } else if (group.isCentered) {
             availableSize -= Math.max(tlSize, brSize) * 2
           } else {
             availableSize -= tlSize + brSize
@@ -1012,7 +1022,19 @@ export const Panel = GObject.registerClass(
           }
         }
 
-        if (group.isCentered) {
+        if (group.position == Pos.CENTERED_MONITOR_EXPAND) {
+          // Keep the group centered while it fits. Once the right edge would
+          // overlap right-side panel elements, clamp it to their left edge;
+          // as it grows further, the whole group moves progressively left.
+          let centeredStart = tlLimit + (brLimit - tlLimit - group.size) * 0.5
+          let leftLimit = tlLimit + monitorCenterExpandLeftOffset
+          let rightLimit =
+            brLimit - monitorCenterExpandRightOffset - group.size
+          startPosition = Math.max(
+            leftLimit,
+            Math.min(centeredStart, rightLimit),
+          )
+        } else if (group.isCentered) {
           startPosition = tlLimit + (brLimit - tlLimit - group.size) * 0.5
         } else if (group.position == Pos.STACKED_BR) {
           startPosition = brLimit - group.size
@@ -1043,7 +1065,10 @@ export const Panel = GObject.registerClass(
 
         assignGroupSize(group)
 
-        if (group.position == Pos.CENTERED_MONITOR) {
+        if (
+          group.position == Pos.CENTERED_MONITOR ||
+          group.position == Pos.CENTERED_MONITOR_EXPAND
+        ) {
           centeredMonitorGroup = group
         }
       })

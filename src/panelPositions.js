@@ -29,6 +29,7 @@ export const STACKED_TL = 'stackedTL'
 export const STACKED_BR = 'stackedBR'
 export const CENTERED = 'centered'
 export const CENTERED_MONITOR = 'centerMonitor'
+export const CENTERED_MONITOR_EXPAND = 'centerMonitorExpand'
 
 export const TOP = 'TOP'
 export const BOTTOM = 'BOTTOM'
@@ -63,5 +64,9 @@ optionDialogFunctions[SHOW_APPS_BTN] = '_showShowAppsButtonOptions'
 optionDialogFunctions[DESKTOP_BTN] = '_showDesktopButtonOptions'
 
 export function checkIfCentered(position) {
-  return position == CENTERED || position == CENTERED_MONITOR
+  return (
+    position == CENTERED ||
+    position == CENTERED_MONITOR ||
+    position == CENTERED_MONITOR_EXPAND
+  )
 }

@@ -523,6 +523,10 @@ const Preferences = class {
       )
       positionCombo.append(Pos.CENTERED, _('Centered'))
       positionCombo.append(Pos.CENTERED_MONITOR, _('Monitor Center'))
+      positionCombo.append(
+        Pos.CENTERED_MONITOR_EXPAND,
+        _('Monitor Center with Expansion'),
+      )
       positionCombo.set_active_id(el.position)
 
       upBtn.connect('clicked', () => upDownClickHandler(0))
