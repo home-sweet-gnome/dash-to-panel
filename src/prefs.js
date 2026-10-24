@@ -3408,6 +3408,11 @@ const Preferences = class {
         range: DEFAULT_PADDING_SIZES,
       },
       {
+        objectName: 'statusgroup_padding_scale',
+        valueName: 'status-group-padding',
+        range: DEFAULT_PADDING_SIZES,
+      },
+      {
         objectName: 'highlight_appicon_borderradius',
         valueName: 'highlight-appicon-hover-border-radius',
         range: [16, 12, 8, 4, 2, 0],
