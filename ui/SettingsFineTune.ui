@@ -196,6 +196,17 @@
             </child>
           </object>
         </child>
+        <child>
+          <object class="AdwActionRow">
+            <property name="subtitle" translatable="yes">(e.g. a browser tab or a file)</property>
+            <property name="title" translatable="yes">Open the overview when a drag passes over the panel</property>
+            <child>
+              <object class="GtkSwitch" id="overview_on_panel_drag_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
   </object>
