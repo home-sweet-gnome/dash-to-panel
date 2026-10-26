@@ -1358,7 +1358,9 @@ export const Panel = GObject.registerClass(
 
             child.x_align = Clutter.ActorAlign[isVertical ? 'CENTER' : 'START']
             actor.set_width(isVertical ? this.geom.innerSize : -1)
-            isVertical = isVertical && natWidth > this.geom.innerSize
+            isVertical = isVertical &&
+            (actor == this.statusArea.quickSettings ||
+            natWidth > this.geom.innerSize)
             actor[(isVertical ? 'add' : 'remove') + '_style_class_name'](
               'vertical',
             )
