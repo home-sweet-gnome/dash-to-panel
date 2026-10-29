@@ -680,6 +680,11 @@
       <summary>Use favorite icons as application launchers</summary>
       <description>When the applications are ungrouped, this defines if running applications stay separate from the favorite icons.</description>
     </key>
+    <key type="b" name="group-apps-launchers-hide-running">
+      <default>false</default>
+      <summary>Hide the launchers of running applications</summary>
+      <description>When the favorite icons are used as application launchers, this defines if the launcher of an application is hidden while it has windows on the panel's monitor.</description>
+    </key>
     <key type="s" name="primary-monitor">
       <default>''</default>
       <summary>Primary monitor index</summary>

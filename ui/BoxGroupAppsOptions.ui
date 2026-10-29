@@ -146,6 +146,17 @@
           </object>
         </child>
 
+        <child>
+          <object class="AdwActionRow" id="group_apps_launchers_hide_running_row">
+            <property name="title" translatable="yes">Hide the launchers of running applications</property>
+            <child>
+              <object class="GtkSwitch" id="group_apps_launchers_hide_running_switch">
+                <property name="valign">center</property>
+              </object>
+            </child>
+          </object>
+        </child>
+
       </object>
     </child>
   </object>

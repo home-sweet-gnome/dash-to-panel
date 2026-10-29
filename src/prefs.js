@@ -2717,6 +2717,20 @@ const Preferences = class {
       Gio.SettingsBindFlags.DEFAULT,
     )
 
+    this._settings.bind(
+      'group-apps-launchers-hide-running',
+      this._builder.get_object('group_apps_launchers_hide_running_switch'),
+      'active',
+      Gio.SettingsBindFlags.DEFAULT,
+    )
+
+    this._settings.bind(
+      'group-apps-use-launchers',
+      this._builder.get_object('group_apps_launchers_hide_running_row'),
+      'sensitive',
+      Gio.SettingsBindFlags.GET,
+    )
+
     this._builder
       .get_object('show_group_apps_options_button')
       .connect('clicked', () => {
@@ -2792,6 +2806,12 @@ const Preferences = class {
             this._settings.set_value(
               'group-apps-use-launchers',
               this._settings.get_default_value('group-apps-use-launchers'),
+            )
+            this._settings.set_value(
+              'group-apps-launchers-hide-running',
+              this._settings.get_default_value(
+                'group-apps-launchers-hide-running',
+              ),
             )
           },
         )

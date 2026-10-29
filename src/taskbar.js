@@ -408,6 +408,7 @@ export const Taskbar = class extends EventEmitter {
         [
           'changed::appicon-style',
           'changed::group-apps-use-launchers',
+          'changed::group-apps-launchers-hide-running',
           'changed::taskbar-locked',
         ],
         () => {
@@ -426,6 +427,9 @@ export const Taskbar = class extends EventEmitter {
       this.isGroupApps = SETTINGS.get_boolean('group-apps')
       this.usingLaunchers =
         !this.isGroupApps && SETTINGS.get_boolean('group-apps-use-launchers')
+      this.hideRunningLaunchers =
+        this.usingLaunchers &&
+        SETTINGS.get_boolean('group-apps-launchers-hide-running')
       this.showFavorites =
         SETTINGS.get_boolean('show-favorites') &&
         (this.dtpPanel.isPrimary ||
@@ -996,6 +1000,12 @@ export const Taskbar = class extends EventEmitter {
     let appInfos
 
     if (this.allowSplitApps) {
+      if (this.hideRunningLaunchers)
+        favoriteApps = favoriteApps.filter(
+          (app) =>
+            !AppIcons.getInterestingWindows(app, this.dtpPanel.monitor).length,
+        )
+
       appInfos = this._createAppInfos(favoriteApps, [], true).concat(
         this._createAppInfos(runningApps).filter(
           (appInfo) => appInfo.windows.length,
