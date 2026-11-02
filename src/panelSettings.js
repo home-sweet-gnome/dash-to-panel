@@ -97,16 +97,36 @@ export function setSettingsJson(settings, setting, value) {
 // settings. Since these indexes are unreliable AF, switch to use the monitor
 // serial as its id while keeping it backward compatible.
 function getMonitorSetting(settings, settingName, monitorIndex, fallback) {
-  let monitorId = monitorIndexToId[monitorIndex]
-
-  settings = getSettingsJson(settings, settingName)
+  let monitorSettings = getSettingsJson(settings, settingName)
 
   return (
-    settings[monitorId] ||
-    settings[monitorIndex] ||
-    settings[availableMonitors[monitorIndex]?.id] ||
+    getSavedMonitorValue(monitorSettings, monitorIndex) ||
+    getInheritedMonitorValue(settings, monitorSettings, monitorIndex) ||
     fallback
   )
+}
+
+function getSavedMonitorValue(monitorSettings, monitorIndex) {
+  return (
+    monitorSettings[monitorIndexToId[monitorIndex]] ||
+    monitorSettings[monitorIndex] ||
+    monitorSettings[availableMonitors[monitorIndex]?.id]
+  )
+}
+
+// A monitor connected for the first time has no saved settings. Instead of
+// the defaults, use the settings of the primary monitor, or else of another
+// connected monitor, so the new panel matches the ones already configured.
+function getInheritedMonitorValue(settings, monitorSettings, monitorIndex) {
+  let primaryIndex = +getPrimaryIndex(settings.get_string('primary-monitor'))
+
+  for (let i of [primaryIndex, ...availableMonitors.keys()]) {
+    if (i == monitorIndex || !availableMonitors[i]) continue
+
+    let value = getSavedMonitorValue(monitorSettings, i)
+
+    if (value) return value
+  }
 }
 
 function setMonitorSetting(settings, settingName, monitorIndex, value) {
