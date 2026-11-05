@@ -763,6 +763,7 @@ export const PanelManager = class {
         global.dashToPanel.panels,
         (p) => p.monitor == monitor,
       )
+      if (!panel) return [alloc.min_size, alloc.natural_size]
       let excess = alloc.natural_size + panel.outerSize + 10 - monitor.height // 10 is arbitrary
 
       if (excess > 0) {
