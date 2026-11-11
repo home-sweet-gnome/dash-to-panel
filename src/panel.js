@@ -1177,6 +1177,13 @@ export const Panel = GObject.registerClass(
     }
 
     _setPanelPosition() {
+      // Main.layoutManager._updateBoxes() writes the primary monitor's origin
+      // (and width) into the adopted panelBox whenever monitors change, which
+      // would shift the panel by monitor.x a second time. panelBox always
+      // lives inside clipContainer, which already carries the monitor offset.
+      this.panelBox.set_position(0, 0)
+      this.panelBox.set_width(-1)
+
       this.set_size(this.geom.w, this.geom.h)
       this.clipContainer.set_position(this.geom.x, this.geom.y)
 
