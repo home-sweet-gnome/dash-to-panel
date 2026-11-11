@@ -1003,14 +1003,16 @@ function newUpdateHotCorners() {
     if (haveTopLeftCorner) {
       let corner = new Layout.HotCorner(this, monitor, cornerX, cornerY)
 
-      corner.setBarrierSize = (size) =>
-        Object.getPrototypeOf(corner).setBarrierSize.call(
-          corner,
-          Math.min(size, panel.geom.gsTopPanelHeight),
-        )
-      corner.setBarrierSize(
-        panel ? panel.geom.innerSize : panel.geom.gsTopPanelHeight,
-      )
+      // with multi-monitors disabled, monitors without a panel have no geom
+      // to limit the barrier to, so fall back to the stock implementation
+      if (panel) {
+        corner.setBarrierSize = (size) =>
+          Object.getPrototypeOf(corner).setBarrierSize.call(
+            corner,
+            Math.min(size, panel.geom.gsTopPanelHeight),
+          )
+        corner.setBarrierSize(panel.geom.innerSize)
+      }
       this.hotCorners.push(corner)
     } else {
       this.hotCorners.push(null)
