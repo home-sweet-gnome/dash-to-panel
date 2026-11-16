@@ -295,7 +295,9 @@ export const PanelManager = class {
         Main.panel[c],
         'child-added',
         (parent, child) => {
+          // when the gnome-shell top panel is kept, its boxes aren't part of a dtp panel
           this.primaryPanel &&
+            !this.primaryPanel.isStandalone &&
             child instanceof St.Bin &&
             this._adjustPanelMenuButton(
               this._getPanelMenuButton(child.get_first_child()),
