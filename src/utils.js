@@ -562,6 +562,25 @@ export const stopAnimations = function (actor) {
   actor.remove_all_transitions()
 }
 
+// The workspace dots in the activities button grow in and shrink out with
+// transitions (WorkspaceDot.scaleIn and scaleOutAndDestroy). Taking the button
+// off the stage drops those transitions, so moving it while one runs leaves a
+// dot stuck at a partial scale, or never destroyed. At login, this happens when
+// the button is moved into the panel while the second workspace's dot is
+// growing in. Complete any such animation after moving the button.
+export const completeWorkspaceDotAnimations = function (activitiesButton) {
+  let indicators = activitiesButton?.get_first_child()
+
+  if (indicators?.constructor.name != 'WorkspaceIndicators') return
+
+  indicators.get_children().forEach((dot) => {
+    if (dot.get_transition('scale-x')) return
+
+    if (dot.destroying) dot.destroy()
+    else dot.set({ scale_x: 1, scale_y: 1 })
+  })
+}
+
 export const getIndicators = function (delegate) {
   if (delegate instanceof St.BoxLayout) {
     return delegate
