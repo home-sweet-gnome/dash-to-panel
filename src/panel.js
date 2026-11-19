@@ -192,6 +192,8 @@ export const Panel = GObject.registerClass(
           parent ? parent.remove_child(container) : null
           this.panel.add_child(container)
         })
+
+        Utils.completeWorkspaceDotAnimations(this.statusArea.activities)
       }
 
       this.geom = this.getGeometry()
@@ -490,6 +492,8 @@ export const Panel = GObject.registerClass(
             delete container._dtpOriginalParent
             delete container._dtpOriginalIndex
           })
+
+          Utils.completeWorkspaceDotAnimations(this.statusArea.activities)
         }
 
         if (this.statusArea.quickSettings?.menu) {
@@ -692,6 +696,7 @@ export const Panel = GObject.registerClass(
         this.statusArea[propName] = this._getPanelMenu(propName, constr)
         this.menuManager.addMenu(this.statusArea[propName].menu)
         container.insert_child_at_index(this.statusArea[propName].container, 0)
+        Utils.completeWorkspaceDotAnimations(this.statusArea[propName])
       }
     }
 
