@@ -30,6 +30,7 @@ import Gtk from 'gi://Gtk'
 import Gdk from 'gi://Gdk'
 
 import * as PanelSettings from './panelSettings.js'
+import { addSystemTrayPreferences } from './systemTrayPrefs.js'
 import * as Pos from './panelPositions.js'
 
 import {
@@ -198,6 +199,8 @@ const Preferences = class {
     this._builder.add_from_file(this._path + '/ui/SettingsBehavior.ui')
     let pageBehavior = this._builder.get_object('behavior')
     window.add(pageBehavior)
+
+    addSystemTrayPreferences(window, settings, _)
 
     this._builder.add_from_file(this._path + '/ui/SettingsAction.ui')
     let pageAction = this._builder.get_object('action')

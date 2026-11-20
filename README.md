@@ -110,7 +110,11 @@ To install a development version from source, please see the [Installation wiki 
 
 How do I customize the panel? [See the Wiki](https://github.com/home-sweet-gnome/dash-to-panel/wiki/Enable-and-Customize#customize-it)
 
-How do I embed my bottom left notification drawer into the panel like a system tray? [Top Icons Plus](https://extensions.gnome.org/extension/2311/topicons-plus) or [(K)StatusNotifierItem/AppIndicator Support](https://extensions.gnome.org/extension/615/appindicator-support)
+How do I show tray icons? In Dash to Panel settings, open **System Tray** and turn on **Use the built-in system tray**. Icons and their menus appear on the primary panel. The tray supports StatusNotifierItem and AppIndicator. If another extension already runs the tray, turn it off to use this one. You can also leave the built-in tray off and keep using an extension such as [(K)StatusNotifierItem/AppIndicator Support](https://extensions.gnome.org/extension/615/appindicator-support).
+
+How do I change which icons I see? Use **Icon order** to move apps up or down. Turn on **Collapse extra icons** and choose how many stay on the panel. Click the arrow to see the rest. Each app also has settings to hide its icon or change its appearance.
+
+Can I use older tray icons? Enable **Wine/Proton compatibility (experimental)** in **System Tray**. This option uses X11 or XWayland for XEmbed icons. They stay on the panel so Wine can show its own balloon messages beside them.
 
 How do I add a traditional start menu? [Arc Menu](https://extensions.gnome.org/extension/3628/arcmenu/)
 
