@@ -33,6 +33,7 @@ import * as PanelSettings from './panelSettings.js'
 import * as Proximity from './proximity.js'
 import * as Utils from './utils.js'
 import * as DesktopIconsIntegration from './desktopIconsIntegration.js'
+import { SystemTray } from './systemTray.js'
 import { DTP_EXTENSION, SETTINGS, tracker } from './extension.js'
 
 import GLib from 'gi://GLib'
@@ -63,6 +64,8 @@ export const PanelManager = class {
   }
 
   enable(reset) {
+    if (!reset) this._systemTray = new SystemTray(SETTINGS)
+
     let keepGsTopPanel = SETTINGS.get_boolean('stockgs-keep-top-panel')
     let dtpPrimaryIndex = PanelSettings.getPrimaryIndex(
       SETTINGS.get_string('primary-monitor'),
@@ -106,6 +109,8 @@ export const PanelManager = class {
           this.allPanels.push(this._createPanel(m, true))
         })
     }
+
+    this._systemTray.setPanel(this.primaryPanel)
 
     global.dashToPanel.panels = this.allPanels
     global.dashToPanel.emit('panels-created')
@@ -317,6 +322,12 @@ export const PanelManager = class {
   }
 
   disable(reset) {
+    this._systemTray.setPanel(null)
+    if (!reset) {
+      this._systemTray.destroy()
+      this._systemTray = null
+    }
+
     this.primaryPanel && this.overview.disable()
     this.proximityManager.destroy()
 

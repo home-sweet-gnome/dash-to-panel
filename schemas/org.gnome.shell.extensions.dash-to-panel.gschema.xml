@@ -70,6 +70,58 @@
     <value value='2' nick='PLANK'/>
   </enum>
   <schema path="/org/gnome/shell/extensions/dash-to-panel/" id="org.gnome.shell.extensions.dash-to-panel">
+    <key name="native-tray-enabled" type="b">
+      <default>false</default>
+      <summary>Built-in application system tray</summary>
+      <description>Display StatusNotifierItem and AppIndicator icons without a separate tray extension. Another watcher retains priority while active.</description>
+    </key>
+    <key name="native-tray-legacy-enabled" type="b">
+      <default>false</default>
+      <summary>Experimental Wine and legacy application tray</summary>
+      <description>Host Wine/Proton and other XEmbed tray icons using X11 or XWayland. Legacy icons stay on the panel so Wine can anchor its own balloon notices beside them. This beta is separate from the modern tray and is disabled by default.</description>
+    </key>
+    <key name="native-tray-icon-style" type="s">
+      <choices>
+        <choice value="original"/>
+        <choice value="symbolic"/>
+      </choices>
+      <default>'symbolic'</default>
+      <summary>Default tray icon appearance</summary>
+    </key>
+    <key name="native-tray-customizations" type="s">
+      <default>'{}'</default>
+      <summary>Per-application tray appearance</summary>
+      <description>JSON object keyed by application ID with visibility, icon, style, saturation, brightness, contrast and tint overrides.</description>
+    </key>
+    <key name="native-tray-order" type="as">
+      <default>[]</default>
+      <summary>Application tray icon order</summary>
+    </key>
+    <key name="native-tray-icon-spacing" type="i">
+      <range min="0" max="24"/>
+      <default>4</default>
+      <summary>Gap between native tray icons</summary>
+      <description>Spacing in logical pixels between application tray icons.</description>
+    </key>
+    <key name="native-tray-overflow-enabled" type="b">
+      <default>false</default>
+      <summary>Collapse extra application tray icons</summary>
+    </key>
+    <key name="native-tray-visible-count" type="i">
+      <range min="0" max="32"/>
+      <default>4</default>
+      <summary>Maximum visible application tray icons</summary>
+      <description>The first eligible icons in the configured order stay on the panel. Zero puts all icons in the popup.</description>
+    </key>
+    <key name="native-tray-known-apps" type="s">
+      <default>'{}'</default>
+      <summary>Known application tray icons</summary>
+      <description>JSON map of application identifiers to display names for per-application preferences.</description>
+    </key>
+    <key name="native-tray-migrated" type="b">
+      <default>false</default>
+      <summary>Existing tray preferences have been imported</summary>
+    </key>
     <key name="panel-position" enum="org.gnome.shell.extensions.dash-to-panel.position">
       <default>'BOTTOM'</default>
       <summary>Panel position (Deprecated)</summary>
