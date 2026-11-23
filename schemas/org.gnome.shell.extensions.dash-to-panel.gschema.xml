@@ -853,6 +853,11 @@
         <summary>Status icon padding</summary>
         <description>Set the size of the aggregate (status) menu icon padding. (-1 for default)</description>
     </key>
+    <key type="i" name="status-group-icon-padding">
+      <default>-1</default>
+      <summary>Padding of the icons inside the status indicators group</summary>
+      <description>Horizontal padding applied to each icon inside the quick settings group, in pixels. -1 uses the same value as status-icon-padding, which is how a single setting behaved before this key existed.</description>
+    </key>
     <key type="b" name="animate-app-switch">
       <default>true</default>
       <summary>Animate running indicator when open/closing/switching applications</summary>
