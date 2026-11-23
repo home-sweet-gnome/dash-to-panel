@@ -64,6 +64,7 @@ export const Overview = class {
     this._optionalHotKeys()
     this._optionalNumberOverlay()
     this._optionalClickToExit()
+    this._enableWindowSwitchingKeybindings()
 
     this.toggleDash()
     this._adaptAlloc()
@@ -87,6 +88,7 @@ export const Overview = class {
     this._disableHotKeys()
     this._disableExtraShortcut()
     this._disableClickToExit()
+    this._disableWindowSwitchingKeybindings()
   }
 
   toggleDash(visible) {
@@ -300,6 +302,47 @@ export const Overview = class {
       delete this._hotkeyPreviewCycleInfo.appIcon._hotkeysCycle
       this._hotkeyPreviewCycleInfo = 0
     }
+  }
+
+  _switchToWindow(direction) {
+    // Get all windows from taskbar in order
+    let windows = []
+    this.taskbar._getAppIcons().forEach((appIcon) => {
+      if (appIcon.window) {
+        windows.push(appIcon.window)
+      } else if (appIcon._nWindows > 0) {
+        windows.push(...appIcon.getInterestingWindows())
+      }
+    })
+
+    if (windows.length === 0) return
+
+    // Find current window index
+    let currentIndex = global.display.focus_window
+      ? windows.indexOf(global.display.focus_window)
+      : -1
+
+    // Calculate next index with wrapping
+
+    // Calculate the next window index
+    let nextIndex
+    if (currentIndex === -1) {
+      // No window focused or focused window not in taskbar - go to first/last
+      nextIndex = direction === 1 ? 0 : windows.length - 1
+    } else {
+      nextIndex = (currentIndex + direction + windows.length) % windows.length
+    }
+
+    // Activate the next window
+    Main.activateWindow(windows[nextIndex])
+  }
+
+  _switchToNextWindow() {
+    this._switchToWindow(1)
+  }
+
+  _switchToPreviousWindow() {
+    this._switchToWindow(-1)
   }
 
   _optionalHotKeys() {
@@ -565,6 +608,24 @@ export const Overview = class {
     this._signalsHandler.removeWithLabel('click-to-exit')
 
     this._clickToExitEnabled = false
+  }
+
+  _enableWindowSwitchingKeybindings() {
+    Utils.addKeybinding(
+      'switch-to-next-window',
+      SETTINGS,
+      this._switchToNextWindow.bind(this),
+    )
+    Utils.addKeybinding(
+      'switch-to-previous-window',
+      SETTINGS,
+      this._switchToPreviousWindow.bind(this),
+    )
+  }
+
+  _disableWindowSwitchingKeybindings() {
+    Utils.removeKeybinding('switch-to-next-window')
+    Utils.removeKeybinding('switch-to-previous-window')
   }
 
   _onSwipeBegin() {
