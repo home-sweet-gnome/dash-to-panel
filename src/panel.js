@@ -736,7 +736,7 @@ export const Panel = GObject.registerClass(
       let actorData = Utils.getTrackedActorData(this.panelBox)
 
       // prevent the "chrome" to update the panelbox visibility while in overview
-      actorData.trackFullscreen = !isOverview
+      actorData.trackFullscreen = !isOverview && !this.intellihide?.enabled
 
       this.panelBox[isShown ? 'show' : 'hide']()
     }
